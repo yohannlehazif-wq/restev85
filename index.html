@@ -3,63 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <title>Prévention Mobile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-job { background: #2563eb; color: white; }
+    .btn-risk { background: #f97316; color: white; }
+    .btn-back { background: #e5e7eb; color: black; }
+  </style>
 </head>
 <body>
 
-<h1>Prévention Mobile</h1>
+<h1>🛡️ Prévention Mobile</h1>
 
-<button onclick="afficherRisques()">Technicien maintenance</button>
+<div id="jobs">
+  <p>Sélectionne ton métier :</p>
+  <button class="btn-job" onclick="showRisks('maintenance')">Technicien maintenance</button>
+  <button class="btn-job" onclick="showRisks('commercial')">Commercial itinérant</button>
+  <button class="btn-job" onclick="showRisks('boucher')">Boucher</button>
+  <button class="btn-job" onclick="showRisks('coiffeur')">Coiffeur / Coiffeuse</button>
+</div>
 
-<div id="resultat"></div>
+<div id="content" style="display:none;"></div>
 
 <script>
-  const risksByJob = {
-    "Technicien maintenance": ["Chute de hauteur", "CMR", "Électrique", "TMS"],
-    "Commercial itinérant": ["Risque routier", "Stress"],
-    "Boucher": ["Coupures", "Manutention", "CMR nettoyants"],
-    "Coiffeur / Coiffeuse": ["Produits chimiques", "Postures prolongées"]
-  };
+const data = {
+  maintenance: {
+    label: "Technicien maintenance",
+    risks: {
+      chute: "Chute de hauteur : harnais, protections collectives.",
+      cmr: "CMR : substitution, EPI, suivi médical.",
+      electrique: "Risque électrique : consignation, habilitation.",
+      tms: "TMS : ergonomie, pauses, adaptation du poste."
+    }
+  },
+  commercial: {
+    label: "Commercial itinérant",
+    risks: {
+      routier: "Risque routier : fatigue, vitesse, téléphone.",
+      stress: "Stress : charge mentale, organisation."
+    }
+  },
+  boucher: {
+    label: "Boucher",
+    risks: {
+      coupure: "Coupures : gants, couteaux adaptés.",
+      manutention: "Manutention : gestes et postures.",
+      cmr: "CMR nettoyants : FDS, EPI."
+    }
+  },
+  coiffeur: {
+    label: "Coiffeur / Coiffeuse",
+    risks: {
+      chimique: "Produits chimiques : gants, ventilation.",
+      posture: "Postures prolongées : pauses, réglages."
+    }
+  }
+};
 
-  const riskDetails = {
-    "CMR": "Substances cancérogènes, mutagènes ou toxiques pour la reproduction. Priorité à la substitution, port d’EPI et suivi médical.",
-    "Chute de hauteur": "Utiliser protections collectives, harnais et respecter les procédures.",
-    "Électrique": "Consignation, habilitation électrique et EPI adaptés.",
-    "TMS": "Adapter le poste, limiter les gestes répétitifs et faire des pauses.",
-    "Risque routier": "Fatigue, téléphone, vitesse : principale cause d’accident du travail.",
-    "Stress": "Charge de travail, organisation et prévention des RPS.",
-    "Coupures": "Utilisation de couteaux bien entretenus et gants anti‑coupure.",
-    "Manutention": "Gestes et postures, aides mécaniques.",
-    "Produits chimiques": "Lire les FDS, ventilation, gants et protections adaptées."
-  };
+function showRisks(jobKey) {
+  document.getElementById("jobs").style.display = "none";
+  const content = document.getElementById("content");
+  content.style.display = "block";
 
-  function showRisks(job) {
-    document.getElementById("menu-jobs").style.display = "none";
-    const menu = document.getElementById("menu-risks");
-    menu.style.display = "block";
+  let html = `<button class="btn-back" onclick="goBack()">← Retour</button>`;
+  html += `<h2>Risques – ${data[jobKey].label}</h2>`;
 
-    let html = `
-      <button class="btn-back" onclick="goBack()">← Retour</button>
-      <h2>Risques – ${job}</h2>
-    `;
-
-    risksByJob[job].forEach(risk => {
-      html += `<button class="btn-risk" onclick="showRiskDetail('${risk}')">${risk}</button>`;
-    });
-
-    menu.innerHTML = html;
+  for (let risk in data[jobKey].risks) {
+    html += `<button class="btn-risk" onclick="showDetail('${jobKey}','${risk}')">${risk.toUpperCase()}</button>`;
   }
 
-  function showRiskDetail(risk) {
-    const menu = document.getElementById("menu-risks");
-    menu.innerHTML = `
-      <button class="btn-back" onclick="goBack()">← Retour</button>
-      <h2>${risk}</h2>
-      <p>${riskDetails[risk] || "Fiche prévention à compléter."}</p>
-    `;
-  }
+  content.innerHTML = html;
+}
 
-  function goBack() {
-    document.getElementById("menu-risks").style.display = "none";
-    document.getElementById("menu-jobs").style.display = "block";
-  }
+function showDetail(jobKey, riskKey) {
+  const content = document.getElementById("content");
+  content.innerHTML = `
+    <button class="btn-back" onclick="showRisks('${jobKey}')">← Retour</button>
+    <h2>Détail du risque</h2>
+    <p>${data[jobKey].risks[riskKey]}</p>
+  `;
+}
+
+function goBack() {
+  document.getElementById("content").style.display = "none";
+  document.getElementById("jobs").style.display = "block";
+}
 </script>
+
+</body>
+</html>
+``
