@@ -90,7 +90,54 @@
 <div id="content"></div>
 
 <script>
-const data = {
+const data =
+  batiment: {
+    label: "Ouvrier du bâtiment",
+    risks: {
+      chute: { nom: "Chute de hauteur", detail: "Travail en hauteur : harnais, garde-corps, échafaudages sécurisés." },
+      manutention: { nom: "Manutention lourde", detail: "Port de charges : techniques de levage, aides mécaniques." },
+      bruit: { nom: "Bruit", detail: "Utilisation d'EPI auditifs, isolement source de bruit." },
+      poussiere: { nom: "Poussières (silice)", detail: "Aspiration, masques adaptés, arrosage zones de coupe." }
+    }
+  },
+
+  livreur: {
+    label: "Conducteur / Livreur",
+    risks: {
+      routier: { nom: "Risque routier", detail: "Fatigue, téléphone, vitesse : plan de prévention et pauses régulières." },
+      manutention: { nom: "Manutention", detail: "Gestes et postures adaptées, diable, transpalette." },
+      chute: { nom: "Chutes au même niveau", detail: "Chaussures antidérapantes, surveillance du sol." }
+    }
+  },
+
+  production: {
+    label: "Opérateur de production",
+    risks: {
+      machine: { nom: "Machines en mouvement", detail: "Carter, consignation, interdiction de contournement." },
+      bruit: { nom: "Bruit", detail: "Port de protections auditives." },
+      chimique: { nom: "Produits chimiques", detail: "FDS, ventilation, EPI adaptés." },
+      tms: { nom: "TMS", detail: "Adapter poste, limiter gestes répétitifs." }
+    }
+  },
+
+  entretien: {
+    label: "Agent d'entretien",
+    risks: {
+      chimique: { nom: "Produits chimiques", detail: "Gants, lunettes, ventilation, respect des dilutions." },
+      chute: { nom: "Chutes", detail: "Sol mouillé : signalisation, chaussures antidérapantes." },
+      tms: { nom: "TMS", detail: "Adapter matériel, manches télescopiques, pauses." }
+    }
+  },
+
+  commerce: {
+    label: "Employé de commerce",
+    risks: {
+      manutention: { nom: "Manutention", detail: "Déballage, stockage, charges légères répétées." },
+      chute: { nom: "Chutes", detail: "Sol encombré, vigilance permanente." },
+      incivilite: { nom: "Incivilités", detail: "Gestion des conflits, consignes internes." },
+      tms: { nom: "TMS", detail: "Réglage de poste, alternance des tâches." }
+    }
+  },{
   maintenance: {
     label: "Technicien maintenance",
     risks: {
