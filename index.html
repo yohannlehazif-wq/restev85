@@ -12,18 +12,21 @@
       padding: 20px;
       background: #f3f4f6;
     }
-    h1
-  <div style="text-align:center; margin-bottom:20px;">
-  public/LOGO-RESTEV-DIGITAL-RVB.png
-</div>
-    {
+
+    .logo {
+      width: 180px;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    h1 {
       text-align: center;
       background: #2563eb;
       color: white;
       padding: 15px;
       border-radius: 12px;
       margin-bottom: 20px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
 
     .card {
@@ -51,10 +54,7 @@
     .btn-risk { background: #f97316; color: white; }
     .btn-risk:hover { background: #ea580c; }
 
-    .btn-back {
-      background: #d1d5db;
-      color: black;
-    }
+    .btn-back { background: #d1d5db; color: black; }
 
     .detail-box {
       background: #fff7ed;
@@ -67,100 +67,63 @@
       margin-bottom: 10px;
       color: #111827;
     }
-
-    ul {
-      padding-left: 20px;
-    }
   </style>
 </head>
 
 <body>
 
+<!-- ✅ LOGO RESTEV -->
+<img src="public/LOGO-RESTEV-DIGITAL-RVB.png" alt="Logo RESTEV" class="logo">
+
 <h1>🛡️ Prévention Mobile</h1>
 
-<!-- MENU METIERS -->
+<!-- ✅ MENU MÉTIERS -->
 <div id="jobs" class="card">
   <h2>Choisis ton métier :</h2>
-
   <button class="btn btn-job" onclick="showRisks('maintenance')">🛠️ Technicien maintenance</button>
   <button class="btn btn-job" onclick="showRisks('commercial')">🚗 Commercial itinérant</button>
   <button class="btn btn-job" onclick="showRisks('boucher')">🔪 Boucher</button>
   <button class="btn btn-job" onclick="showRisks('coiffeur')">✂️ Coiffeur / Coiffeuse</button>
 </div>
 
-<!-- ZONE RISQUES + DETAILS -->
+<!-- ✅ ZONE RISQUES + DÉTAILS -->
 <div id="content"></div>
 
 <script>
-/* ✅ Base de données risques */
 const data = {
   maintenance: {
     label: "Technicien maintenance",
     risks: {
-      chute: {
-        nom: "Chute de hauteur",
-        detail: "Utiliser harnais, protections collectives, plateformes sécurisées."
-      },
-      cmr: {
-        nom: "CMR",
-        detail: "Substances cancérogènes : substitution, EPI, ventilation, suivi médical."
-      },
-      electrique: {
-        nom: "Risque électrique",
-        detail: "Consignation, habilitation électrique, outils isolés."
-      },
-      tms: {
-        nom: "TMS",
-        detail: "Ergonomie, alternance des tâches, limiter postures contraignantes."
-      }
+      chute: { nom: "Chute de hauteur", detail: "Utiliser harnais, protections collectives, plateformes sécurisées." },
+      cmr: { nom: "CMR", detail: "Substances cancérogènes : substitution, EPI, ventilation, suivi médical." },
+      electrique: { nom: "Risque électrique", detail: "Consignation, habilitation électrique, outils isolés." },
+      tms: { nom: "TMS", detail: "Ergonomie, alternance des tâches, limiter postures contraignantes." }
     }
   },
   commercial: {
     label: "Commercial itinérant",
     risks: {
-      routier: {
-        nom: "Risque routier",
-        detail: "Fatigue, téléphone, vitesse : première cause d’accident du travail."
-      },
-      stress: {
-        nom: "Stress",
-        detail: "Organisation, charge mentale, RPS."
-      }
+      routier: { nom: "Risque routier", detail: "Fatigue, téléphone, vitesse : première cause d’accident du travail." },
+      stress: { nom: "Stress", detail: "Organisation, charge mentale, RPS." }
     }
   },
   boucher: {
     label: "Boucher",
     risks: {
-      coupure: {
-        nom: "Coupures",
-        detail: "Couteaux adaptés, gants anti-coupure."
-      },
-      manutention: {
-        nom: "Manutention",
-        detail: "Gestes et postures, aides mécaniques."
-      },
-      cmr: {
-        nom: "CMR nettoyants",
-        detail: "FDS, ventilation, EPI chimiques."
-      }
+      coupure: { nom: "Coupures", detail: "Couteaux adaptés, gants anti-coupure." },
+      manutention: { nom: "Manutention", detail: "Gestes et postures, aides mécaniques." },
+      cmr: { nom: "CMR nettoyants", detail: "FDS, ventilation, EPI chimiques." }
     }
   },
   coiffeur: {
     label: "Coiffeur / Coiffeuse",
     risks: {
-      chimique: {
-        nom: "Produits chimiques",
-        detail: "Gants, lunettes, aération du salon."
-      },
-      posture: {
-        nom: "Postures prolongées",
-        detail: "Pauses régulières, réglage du siège et du bac."
-      }
+      chimique: { nom: "Produits chimiques", detail: "Gants, lunettes, aération du salon." },
+      posture: { nom: "Postures prolongées", detail: "Pauses régulières, réglage du siège et du bac." }
     }
   }
 };
 
-/* ✅ Affichage des risques */
 function showRisks(jobKey) {
   const job = data[jobKey];
   let html = `
@@ -168,7 +131,6 @@ function showRisks(jobKey) {
       <button class="btn btn-back" onclick="goBack()">← Retour</button>
       <h2>Risques – ${job.label}</h2>
   `;
-
   for (let riskKey in job.risks) {
     html += `
       <button class="btn btn-risk" onclick="showDetail('${jobKey}', '${riskKey}')">
@@ -176,16 +138,13 @@ function showRisks(jobKey) {
       </button>
     `;
   }
-
   html += "</div>";
   document.getElementById("jobs").style.display = "none";
   document.getElementById("content").innerHTML = html;
 }
 
-/* ✅ Détail du risque */
 function showDetail(jobKey, riskKey) {
   const risk = data[jobKey].risks[riskKey];
-
   document.getElementById("content").innerHTML = `
     <div class="card detail-box">
       <button class="btn btn-back" onclick="showRisks('${jobKey}')">← Retour</button>
@@ -195,7 +154,6 @@ function showDetail(jobKey, riskKey) {
   `;
 }
 
-/* ✅ Retour */
 function goBack() {
   document.getElementById("jobs").style.display = "block";
   document.getElementById("content").innerHTML = "";
