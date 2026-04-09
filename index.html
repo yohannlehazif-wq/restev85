@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>RESTEV – Prévention Mobile</title>
 
   <style>
@@ -9,8 +9,8 @@
       font-family: Arial, sans-serif;
       max-width: 480px;
       margin: auto;
-      background: #f3f4f6;
       padding: 0;
+      background: #f3f4f6;
     }
 
     /* ---- ÉCRAN D’ACCUEIL ---- */
@@ -31,15 +31,8 @@
       margin-bottom: 30px;
     }
 
-    #accueil h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    #accueil p {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
+    #accueil h1 { font-size: 28px; margin-bottom: 10px; }
+    #accueil p  { font-size: 18px; margin-bottom: 30px; }
 
     .btn {
       width: 100%;
@@ -57,7 +50,6 @@
     .btn-risk  { background: #f97316; color: white; }
     .btn-back  { background: #d1d5db; color: black; }
 
-    /* ---- CARTES ---- */
     .card {
       background: white;
       padding: 20px;
@@ -73,13 +65,13 @@
 
 <!-- ✅ ÉCRAN D’ACCUEIL -->
 <div id="accueil">
-  <img src="https://i.ibb.co/rf4MxsC/LOGO-RESTEV-DIGITAL-RVB.png" class="logo" alt="logo RESTEV">
+  https://i.ibb.co/rf4MxsC/LOGO-RESTEV-DIGITAL-RVB.png
   <h1>Prévention Mobile</h1>
   <p>Application officielle RESTEV</p>
   <button class="btn btn-start" onclick="entrer()">Entrer</button>
 </div>
 
-<!-- ✅ MÉTIERS -->
+<!-- ✅ LISTE DES MÉTIERS -->
 <div id="menu-metiers" class="card" style="display:none;">
   <h2>Choisis ton métier :</h2>
 
@@ -93,19 +85,19 @@
   <button class="btn btn-back" onclick="retourAccueil()">← Retour accueil</button>
 </div>
 
-<!-- ✅ RISQUES -->
+<!-- ✅ LISTE DES RISQUES -->
 <div id="menu-risks" class="card" style="display:none;"></div>
 
 <script>
-/* ✅ BDD RISQUES — VERSION PROPRE (aucun doublon) */
+/* ✅ BASE RISQUES (simple et stable) */
 const data = {
   maintenance: {
     label: "Technicien maintenance",
     risques: {
-      chute: "Chute de hauteur : harnais, protections collectives.",
-      cmr: "CMR : produits dangereux.",
+      chute: "Chute de hauteur : protections collectives, harnais.",
+      cmr: "CMR : substitution, EPI adaptés.",
       electrique: "Risque électrique : consignation.",
-      tms: "TMS : ergonomie, alternance."
+      tms: "TMS : ergonomie, alternance des tâches."
     }
   },
 
@@ -121,8 +113,8 @@ const data = {
     label: "Boucher",
     risques: {
       coupure: "Coupures : gants anticoupure.",
-      manutention: "Gestes sûrs pour éviter les douleurs.",
-      cmr: "Produits CMR : ventilation, gants adaptés."
+      manutention: "Charges lourdes : gestes sûrs.",
+      cmr: "CMR nettoyants : ventilation, gants."
     }
   },
 
@@ -130,7 +122,7 @@ const data = {
     label: "Coiffeur / Coiffeuse",
     risques: {
       chimique: "Produits chimiques : gants, lunettes.",
-      posture: "Postures prolongées : pauses régulières."
+      posture: "Postures prolongées : pauses."
     }
   },
 
@@ -138,61 +130,11 @@ const data = {
     label: "Ouvrier du bâtiment",
     risques: {
       chute: "Harnais, échafaudages sécurisés.",
-      manutention: "Charges lourdes : techniques adaptées.",
-      bruit: "Casque anti-bruit.",
+      manutention: "Manutention lourde.",
+      bruit: "Casques anti-bruit.",
       poussiere: "Masques adaptés."
     }
   },
 
   livreur: {
     label: "Conducteur / Livreur",
-    risques: {
-      routier: "Planification, pauses régulières.",
-      manutention: "Colis lourds : diable, transpalette.",
-      chute: "Attention aux sols glissants."
-    }
-  }
-};
-
-/* ✅ BOUTON ENTRER — FONCTIONNEL */
-function entrer() {
-  document.getElementById("accueil").style.display = "none";
-  document.getElementById("menu-metiers").style.display = "block";
-}
-
-/* ✅ AFFICHAGE DES RISQUES */
-function showRisks(job) {
-  document.getElementById("menu-metiers").style.display = "none";
-
-  let zone = document.getElementById("menu-risks");
-  zone.style.display = "block";
-
-  let html = `
-    <button class="btn btn-back" onclick="goBack()">← Retour métiers</button>
-    <h2>Risques – ${data[job].label}</h2>
-  `;
-
-  for (let r in data[job].risques) {
-    html += `<button class="btn btn-risk" onclick="showDetail('${job}','${r}')">${r}</button>`;
-  }
-
-  zone.innerHTML = html;
-}
-
-/* ✅ FICHE DÉTAIL */
-function showDetail(job, risque) {
-  document.getElementById("menu-risks").innerHTML = `
-    <button class="btn btn-back" onclick="showRisks('${job}')">← Retour risques</button>
-    <h2>${risque}</h2>
-    <p>${data[job].risques[risque]}</p>
-  `;
-}
-
-/* ✅ RETOUR */
-function goBack() {
-  document.getElementById("menu-risks").style.display = "none";
-  document.getElementById("menu-metiers").style.display = "block";
-}
-
-function retourAccueil() {
-  document.getElementById("menu-risks").style.display = "none";
