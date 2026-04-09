@@ -1,114 +1,119 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Prévention Mobile</title>
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 400px;
+      max-width: 450px;
       margin: auto;
       padding: 20px;
       background: #f3f4f6;
     }
+
     h1 {
       text-align: center;
       background: #2563eb;
       color: white;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
     }
+
     .card {
       background: white;
-      padding: 15px;
-      border-radius: 10px;
+      border-radius: 12px;
+      padding: 20px;
       margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
+
     .btn {
       width: 100%;
-      padding: 12px;
-      margin: 6px 0;
+      padding: 14px;
+      margin-top: 10px;
       border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
+      border-radius: 10px;
       cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
     }
-    .btn-back {
-      background: #d1d5db;
-      color: black;
-    }
-    .btn-risk {
-      background: #f97316;
-    }
+
+    .btn-job { background: #2563eb; color: white; }
+    .btn-risk { background: #f97316; color: white; }
+    .btn-back { background: #d1d5db; color: black; }
   </style>
 </head>
 
 <body>
-
 <h1>Prévention Mobile</h1>
 
 <!-- MÉTIERS -->
 <div id="menu-metiers" class="card">
   <h2>Choisis ton métier :</h2>
-  <button class="btn" onclick="afficherRisques('maintenance')">Technicien maintenance</button>
-  <button class="btn" onclick="afficherRisques('commercial')">Commercial itinérant</button>
+
+  <!-- métiers de base -->
+  <button class="btn btn-job" onclick="afficherRisques('maintenance')">Technicien maintenance</button>
+  <button class="btn btn-job" onclick="afficherRisques('commercial')">Commercial itinérant</button>
+
+  <!-- nouveaux métiers -->
+  <button class="btn btn-job" onclick="afficherRisques('boucher')">Boucher</button>
+  <button class="btn btn-job" onclick="afficherRisques('coiffeur')">Coiffeur / Coiffeuse</button>
+  <button class="btn btn-job" onclick="afficherRisques('batiment')">Ouvrier du bâtiment</button>
+  <button class="btn btn-job" onclick="afficherRisques('livreur')">Conducteur / Livreur</button>
+  <button class="btn btn-job" onclick="afficherRisques('production')">Opérateur de production</button>
+  <button class="btn btn-job" onclick="afficherRisques('entretien')">Agent d'entretien</button>
+  <button class="btn btn-job" onclick="afficherRisques('commerce')">Employé de commerce</button>
 </div>
 
-<!-- RISQUES -->
+<!-- RISQUES ET DÉTAILS -->
 <div id="menu-risques" class="card" style="display:none;"></div>
 
 <script>
 const data = {
+
   maintenance: {
     label: "Technicien maintenance",
     risques: {
-      chute: "Chute de hauteur : Harnais, protections collectives.",
-      electrique: "Risque électrique : Consignation, habilitation.",
-      tms: "TMS : Ergonomie, pauses régulières."
+      "Chute de hauteur": "Harnais, protections collectives.",
+      "CMR": "Substances dangereuses : EPI, substitution.",
+      "Risque électrique": "Consignation, habilitation.",
+      "TMS": "Gestes adaptés, ergonomie."
     }
   },
 
   commercial: {
     label: "Commercial itinérant",
     risques: {
-      routier: "Risque routier : Planification, pauses, pas de téléphone.",
-      stress: "Stress : Organisation, prévention RPS."
+      "Risque routier": "Pauses régulières, pas de téléphone.",
+      "Stress": "Organisation, gestion du temps."
     }
-  }
-};
+  },
 
-function afficherRisques(metier) {
-  document.getElementById("menu-metiers").style.display = "none";
+  boucher: {
+    label: "Boucher",
+    risques: {
+      "Coupures": "Gants anticoupure, bonnes pratiques.",
+      "Manutention": "Postures adaptées.",
+      "CMR nettoyants": "Gants, ventilation, FDS."
+    }
+  },
 
-  const zone = document.getElementById("menu-risques");
-  zone.style.display = "block";
+  coiffeur: {
+    label: "Coiffeur / Coiffeuse",
+    risques: {
+      "Produits chimiques": "Gants, lunettes.",
+      "Postures prolongées": "Pauses, réglage poste."
+    }
+  },
 
-  let html = `<button class="btn-back btn" onclick="retour()">← Retour</button>`;
-  html += `<h2>Risques – ${data[metier].label}</h2>`;
-
-  for (let r in data[metier].risques) {
-    html += `<button class="btn-risk btn" onclick="afficherDetail('${metier}','${r}')">${r}</button>`;
-  }
-
-  zone.innerHTML = html;
-}
-
-function afficherDetail(metier, risque) {
-  const zone = document.getElementById("menu-risques");
-  zone.innerHTML = `
-    <button class="btn-back btn" onclick="afficherRisques('${metier}')">← Retour</button>
-    <h2>${risque}</h2>
-    <p>${data[metier].risques[risque]}</p>
-  `;
-}
-
-function retour() {
-  document.getElementById("menu-risques").style.display = "none";
-  document.getElementById("menu-metiers").style.display = "block";
-}
-</script>
-
-</body>
-</html>
+  batiment: {
+    label: "Ouvrier du bâtiment",
+    risques: {
+      "Chute de hauteur": "Ligne de vie, harnais.",
+      "Manutention lourde": "Techniques de levage.",
+      "Bruit": "Protection auditive.",
+      "Poussières": "Masques adaptés."
+    }
