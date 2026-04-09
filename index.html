@@ -3,109 +3,201 @@
 <head>
   <meta charset="UTF-8">
   <title>Prévention Mobile</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 420px;
+      max-width: 450px;
       margin: auto;
       padding: 20px;
+      background: #f3f4f6;
     }
+
     h1 {
       text-align: center;
+      background: #2563eb;
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
-    button {
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .btn {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      font-size: 16px;
-      border-radius: 8px;
+      padding: 14px;
+      margin-top: 10px;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
     }
+
     .btn-job { background: #2563eb; color: white; }
+    .btn-job:hover { background: #1e40af; }
+
     .btn-risk { background: #f97316; color: white; }
-    .btn-back { background: #e5e7eb; color: black; }
+    .btn-risk:hover { background: #ea580c; }
+
+    .btn-back {
+      background: #d1d5db;
+      color: black;
+    }
+
+    .detail-box {
+      background: #fff7ed;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #111827;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
   </style>
 </head>
+
 <body>
 
 <h1>🛡️ Prévention Mobile</h1>
 
-<div id="jobs">
-  <p>Sélectionne ton métier :</p>
-  <button class="btn-job" onclick="showRisks('maintenance')">Technicien maintenance</button>
-  <button class="btn-job" onclick="showRisks('commercial')">Commercial itinérant</button>
-  <button class="btn-job" onclick="showRisks('boucher')">Boucher</button>
-  <button class="btn-job" onclick="showRisks('coiffeur')">Coiffeur / Coiffeuse</button>
+<!-- MENU METIERS -->
+<div id="jobs" class="card">
+  <h2>Choisis ton métier :</h2>
+
+  <button class="btn btn-job" onclick="showRisks('maintenance')">🛠️ Technicien maintenance</button>
+  <button class="btn btn-job" onclick="showRisks('commercial')">🚗 Commercial itinérant</button>
+  <button class="btn btn-job" onclick="showRisks('boucher')">🔪 Boucher</button>
+  <button class="btn btn-job" onclick="showRisks('coiffeur')">✂️ Coiffeur / Coiffeuse</button>
 </div>
 
-<div id="content" style="display:none;"></div>
+<!-- ZONE RISQUES + DETAILS -->
+<div id="content"></div>
 
 <script>
+/* ✅ Base de données risques */
 const data = {
   maintenance: {
     label: "Technicien maintenance",
     risks: {
-      chute: "Chute de hauteur : harnais, protections collectives.",
-      cmr: "CMR : substitution, EPI, suivi médical.",
-      electrique: "Risque électrique : consignation, habilitation.",
-      tms: "TMS : ergonomie, pauses, adaptation du poste."
+      chute: {
+        nom: "Chute de hauteur",
+        detail: "Utiliser harnais, protections collectives, plateformes sécurisées."
+      },
+      cmr: {
+        nom: "CMR",
+        detail: "Substances cancérogènes : substitution, EPI, ventilation, suivi médical."
+      },
+      electrique: {
+        nom: "Risque électrique",
+        detail: "Consignation, habilitation électrique, outils isolés."
+      },
+      tms: {
+        nom: "TMS",
+        detail: "Ergonomie, alternance des tâches, limiter postures contraignantes."
+      }
     }
   },
   commercial: {
     label: "Commercial itinérant",
     risks: {
-      routier: "Risque routier : fatigue, vitesse, téléphone.",
-      stress: "Stress : charge mentale, organisation."
+      routier: {
+        nom: "Risque routier",
+        detail: "Fatigue, téléphone, vitesse : première cause d’accident du travail."
+      },
+      stress: {
+        nom: "Stress",
+        detail: "Organisation, charge mentale, RPS."
+      }
     }
   },
   boucher: {
     label: "Boucher",
     risks: {
-      coupure: "Coupures : gants, couteaux adaptés.",
-      manutention: "Manutention : gestes et postures.",
-      cmr: "CMR nettoyants : FDS, EPI."
+      coupure: {
+        nom: "Coupures",
+        detail: "Couteaux adaptés, gants anti-coupure."
+      },
+      manutention: {
+        nom: "Manutention",
+        detail: "Gestes et postures, aides mécaniques."
+      },
+      cmr: {
+        nom: "CMR nettoyants",
+        detail: "FDS, ventilation, EPI chimiques."
+      }
     }
   },
   coiffeur: {
     label: "Coiffeur / Coiffeuse",
     risks: {
-      chimique: "Produits chimiques : gants, ventilation.",
-      posture: "Postures prolongées : pauses, réglages."
+      chimique: {
+        nom: "Produits chimiques",
+        detail: "Gants, lunettes, aération du salon."
+      },
+      posture: {
+        nom: "Postures prolongées",
+        detail: "Pauses régulières, réglage du siège et du bac."
+      }
     }
   }
 };
 
+/* ✅ Affichage des risques */
 function showRisks(jobKey) {
-  document.getElementById("jobs").style.display = "none";
-  const content = document.getElementById("content");
-  content.style.display = "block";
+  const job = data[jobKey];
+  let html = `
+    <div class="card">
+      <button class="btn btn-back" onclick="goBack()">← Retour</button>
+      <h2>Risques – ${job.label}</h2>
+  `;
 
-  let html = `<button class="btn-back" onclick="goBack()">← Retour</button>`;
-  html += `<h2>Risques – ${data[jobKey].label}</h2>`;
-
-  for (let risk in data[jobKey].risks) {
-    html += `<button class="btn-risk" onclick="showDetail('${jobKey}','${risk}')">${risk.toUpperCase()}</button>`;
+  for (let riskKey in job.risks) {
+    html += `
+      <button class="btn btn-risk" onclick="showDetail('${jobKey}', '${riskKey}')">
+        ⚠️ ${job.risks[riskKey].nom}
+      </button>
+    `;
   }
 
-  content.innerHTML = html;
+  html += "</div>";
+  document.getElementById("jobs").style.display = "none";
+  document.getElementById("content").innerHTML = html;
 }
 
+/* ✅ Détail du risque */
 function showDetail(jobKey, riskKey) {
-  const content = document.getElementById("content");
-  content.innerHTML = `
-    <button class="btn-back" onclick="showRisks('${jobKey}')">← Retour</button>
-    <h2>Détail du risque</h2>
-    <p>${data[jobKey].risks[riskKey]}</p>
+  const risk = data[jobKey].risks[riskKey];
+
+  document.getElementById("content").innerHTML = `
+    <div class="card detail-box">
+      <button class="btn btn-back" onclick="showRisks('${jobKey}')">← Retour</button>
+      <h2>${risk.nom}</h2>
+      <p>${risk.detail}</p>
+    </div>
   `;
 }
 
+/* ✅ Retour */
 function goBack() {
-  document.getElementById("content").style.display = "none";
   document.getElementById("jobs").style.display = "block";
+  document.getElementById("content").innerHTML = "";
 }
 </script>
 
 </body>
 </html>
-``
