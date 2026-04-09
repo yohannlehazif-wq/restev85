@@ -69,16 +69,19 @@
 </div>
 
 <!-- ✅ ✅ MÉTIERS -->
-<select id="select-metier" class="btn btn-job" style="width:100%;font-size:18px;padding:12px;border-radius:10px;">
+<div id="menu-metiers" class="card" style="display:none;">
+  <h2>Choisis ton métier :</h2>
 
-    <option value=""></option> <!-- ✅ ligne vierge -->
+  <select id="select-metier" 
+          style="width:100%;font-size:18px;padding:12px;border-radius:10px;margin-bottom:15px;">
+    
+    <option value=""> </option> <!-- ✅ ligne totalement vide -->
 
     <!-- A -->
     <option value="agent_entretien">Agent d'entretien</option>
     <option value="agent_logistique">Agent de logistique</option>
 
     <!-- B -->
-    <option value="barman">Barman</option>
     <option value="boucher">Boucher</option>
     <option value="boulanger">Boulanger</option>
     <option value="briqueteur">Briqueteur</option>
@@ -97,11 +100,14 @@
 
     <!-- M -->
     <option value="maintenance">Technicien maintenance</option>
-</select>
+  </select>
 
-  <button class="btn btn-start" style="margin-top:15px;" onclick="validerMetier()">Valider</button>
-  
-  <button class="btn btn-back" onclick="retourAccueil()" style="margin-top:20px;">← Retour accueil</button>
+  <!-- ✅ VRAI BOUTON -->
+  <button class="btn btn-job" onclick="validerMetier()">VALIDER ✅</button>
+
+  <button class="btn btn-back" onclick="retourAccueil()" style="margin-top:20px;">
+    ← Retour accueil
+  </button>
 </div>
 ``
 
