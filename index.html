@@ -88,15 +88,90 @@
 <script>
 /* ✅ BASE RISQUES FIABLE */
 const data = {
-  maintenance: {
-    label: "Technicien maintenance",
-    risques: {
-      chute: "Chute de hauteur : protections collectives, harnais.",
-      cmr: "CMR : substitution, EPI adaptés.",
-      electrique: "Risque électrique : consignation.",
-      tms: "TMS : ergonomie, alternance."
-    }
-  },
+ maintenance: {
+  label: "Technicien maintenance",
+  risques: {
+
+    "Chute de hauteur": `
+      <b>SITUATIONS DANGEREUSES :</b><br>
+      • Travail en hauteur sur machine / toiture<br>
+      • Plateforme instable ou improvisée<br>
+      • Garde-corps absents<br><br>
+
+      <b>PRÉVENTION (HIÉRARCHIE INRS/CARSAT) :</b><br>
+      • Plateformes sécurisées / garde-corps<br>
+      • Harnais + ligne de vie<br>
+      • Travail en binôme<br>
+      • Formation port du harnais<br><br>
+
+      <b>RÉFÉRENCES :</b><br>
+      INRS ED 6109 – Maintenance et sécurité
+    `,
+
+    "Risque électrique": `
+      <b>SITUATIONS DANGEREUSES :</b><br>
+      • Armoire sous tension<br>
+      • Consignation non effectuée<br>
+      • Mauvaise VAT<br><br>
+
+      <b>PRÉVENTION :</b><br>
+      • Procédure LOTO (consignation)<br>
+      • Habilitation BR / B2V<br>
+      • Vérification absence de tension (VAT)<br>
+      • Outils isolés 1000V<br><br>
+
+      <b>RÉFÉRENCES :</b><br>
+      INRS ED 912 – Consignation
+    `,
+
+    "CMR": `
+      <b>SITUATIONS DANGEREUSES :</b><br>
+      • Aérosols dégraissants<br>
+      • Solvants en atelier<br>
+      • Nettoyants agressifs<br><br>
+
+      <b>PRÉVENTION :</b><br>
+      • Substitution obligatoire<br>
+      • Ventilation locale aspirante<br>
+      • Port gants nitrile / masque FFP2<br>
+      • Respect strict FDS<br><br>
+
+      <b>RÉFÉRENCES :</b><br>
+      INRS ED 984 – CMR
+    `,
+
+    "TMS": `
+      <b>SITUATIONS DANGEREUSES :</b><br>
+      • Travail en zone exiguë<br>
+      • Postures accroupies / bras levés<br>
+      • Port de charges répétées<br><br>
+
+      <b>PRÉVENTION :</b><br>
+      • Pauses régulières<br>
+      • Outils ergonomiques<br>
+      • Alternance des tâches<br>
+      • Éclairage adapté<br><br>
+
+      <b>RÉFÉRENCES :</b><br>
+      INRS – TMS (ED 917)
+    `,
+
+    "Mécanique / Écrasement": `
+      <b>SITUATIONS DANGEREUSES :</b><br>
+      • Carter enlevé<br>
+      • Machine en mouvement<br>
+      • Réarmement intempestif<br><br>
+
+      <b>PRÉVENTION :</b><br>
+      • Consignation obligatoire<br>
+      • Carter verrouillable<br>
+      • Procédures travaux dangereux<br><br>
+
+      <b>RÉFÉRENCES :</b><br>
+      INRS ND 2234 – Risques mécaniques
+    `
+  }
+},
 
   commercial: {
     label: "Commercial itinérant",
