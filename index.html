@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>RESTEV – Prévention Mobile</title>
@@ -13,7 +14,7 @@
             background: #f3f4f6;
         }
 
-        /* ACCUEIL */
+        /* ---- ÉCRAN D’ACCUEIL ---- */
         #accueil {
             height: 100vh;
             background: linear-gradient(135deg, #2563eb, #9333ea);
@@ -69,10 +70,11 @@
 
 <!-- ✅ ACCUEIL -->
 <div id="accueil">
-    logo.png
+    <img src="logo.png" class="logo">
     <h1>Prévention Mobile</h1>
     <p>Application officielle RESTEV</p>
 
+    <!-- ✅ BOUTON ENTRER -->
     <button class="btn btn-start" onclick="ouvrirMenuPrincipal()">ENTRER</button>
 
     <button class="btn btn-start" style="margin-top:20px;background:#9333ea;">À propos</button>
@@ -111,103 +113,52 @@
 
 /* ✅ BASE DES MÉTIERS / RISQUES */
 const data = {
-briqueteur: {
-  label: "Briqueteur",
-  risques: {
 
-    "Chute de hauteur": `
-      <h3 style='color:#2563eb;'>⬆️ Chute de hauteur</h3>
-      <b>Situations dangereuses :</b><br>
-      • Travail sur échafaudages<br>
-      • Pose de briques en hauteur<br>
-      • Circulation sur planchers non protégés<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Garde-corps obligatoires<br>
-      ✅ Échafaudages conformes + vérification journalière<br>
-      ✅ Chaussures sécurité S3<br>
-      ✅ Filets / Planchers provisoires<br><br>
-
-      <b>Documents utiles :</b><br>
-      <a target="_blank" href="https://www.oppbtp.fr">OPPBTP – Travail en hauteur</a>
-    `,
-
-    "Manutention / TMS": `
-      <h3 style='color:#f97316;'>📦 TMS / Manutention</h3>
-      <b>Situations dangereuses :</b><br>
-      • Port de sacs de ciment<br>
-      • Manutention répétée de briques lourdes<br>
-      • Travail penché / accroupi<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Répartition des charges<br>
-      ✅ Utilisation de palonniers / chariots<br>
-      ✅ Alternance des tâches<br>
-      ✅ Formation gestes & postures<br><br>
-
-      <b>Documents utiles :</b><br>
-      <a target="_blank" href="https://www.inrs.fr/dms/inrs/CataloguePapier/ED/TI-ED-917/ed917.pdf">INRS ED 917 – TMS</a>
-    `,
-
-    "Poussières / Silice": `
-      <h3 style='color:#9333ea;'>🌫️ Poussières / Silice</h3>
-      <b>Situations dangereuses :</b><br>
-      • Coupe de briques<br>
-      • Mélange ciment / mortier<br>
-      • Nettoyage à sec<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Masque FFP3 obligatoire<br>
-      ✅ Arrosage / coupe à l’eau<br>
-      ✅ Aspiration à la source<br>
-      ✅ Interdiction nettoyage à l’air comprimé<br><br>
-
-      <b>Documents utiles :</b><br>
-      <a target="_blank" href="https://www.inrs.fr/media.html?refINRS=ED%206180">INRS ED 6180 – Risque Silice</a>
-    `,
-
-    "Bruit": `
-      <h3 style='color:#0ea5e9;'>🔊 Bruit</h3>
-      <b>Situations dangereuses :</b><br>
-      • Marteaux pneumatiques<br>
-      • Disqueuses<br>
-      • Chantiers BTP<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Casque antibruit SNR 30+<br>
-      ✅ Limiter l’exposition<br>
-      ✅ Matériel silencieux<br><br>
-
-      <b>Documents utiles :</b><br>
-      <a target="_blank" href="https://www.inrs.fr/media.html?refINRS=ED%206064">INRS ED 6064 – Bruit</a>
-    `    
-  }
-}
     maintenance: {
         label: "Technicien maintenance",
         risques: {
-            "Chute": "Travail en hauteur.",
-            "Électrique": "Risque de contact indirect."
+            "Chute de hauteur": `
+<h3>⬆️ Chute de hauteur</h3>
+• Travail en hauteur<br><br>
+<b>Prévention :</b><br>
+✅ Harnais<br>
+✅ Plateformes sécurisées<br>
+`,
+            "Risque électrique": `
+<h3>⚡ Risque électrique</h3>
+✅ Habilitation électrique<br>
+✅ Vérification d’absence de tension<br>
+`
         }
     },
 
     boucher: {
         label: "Boucher",
         risques: {
-            "Coupures": "Lames, couteaux, scies.",
+            "Coupures": `
+<h3>🔪 Coupures</h3>
+✅ Gants anticoupures<br>
+✅ Couteaux affûtés<br>
+`
         }
     },
 
     boulanger: {
         label: "Boulanger",
         risques: {
-            "Brûlures": "Fours chauds.",
+            "Brûlures": `
+<h3>🔥 Brûlures</h3>
+✅ Gants thermiques<br>
+✅ Manipulation sécurisée du four<br>
+`
         }
     }
+
 };
 
 
-/* ✅ ✅ NAVIGATION – 100% fonctionnel */
+/* ✅✅ NAVIGATION — FONCTIONNELLE */
+
 function ouvrirMenuPrincipal() {
     document.getElementById("accueil").style.display = 'none';
     document.getElementById("menuPrincipal").style.display = 'block';
@@ -228,7 +179,7 @@ function retourAccueil() {
 }
 
 
-/* ✅ ✅ VALIDATION – 100% fonctionnel */
+/* ✅✅ VALIDATION MÉTIER */
 function validerMetier() {
     const metier = document.getElementById("select-metier").value;
 
@@ -241,7 +192,7 @@ function validerMetier() {
 }
 
 
-/* ✅ ✅ AFFICHAGE RISQUES – fonctionnel */
+/* ✅✅ AFFICHAGE RISQUES */
 function afficherRisques(job) {
 
     document.getElementById("menuMetiers").style.display = "none";
@@ -261,14 +212,14 @@ function afficherRisques(job) {
 }
 
 
-/* ✅ ✅ DETAILS – fonctionne */
+/* ✅✅ FICHE DÉTAIL */
 function showDetail(job, risque) {
 
     document.getElementById("menuRisks").innerHTML = `
 <button class='btn btn-back' onclick="afficherRisques('${job}')">← Retour</button>
 
 <h2>${risque}</h2>
-<p>${data[job].risques[risque]}</p>
+${data[job].risques[risque]}
 `;
 }
 
