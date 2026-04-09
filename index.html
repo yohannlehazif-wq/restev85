@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>RESTEV – Prévention Mobile</title>
 
   <style>
@@ -13,7 +13,7 @@
       background: #f3f4f6;
     }
 
-    /* ---- ÉCRAN D’ACCUEIL ---- */
+    /* ÉCRAN D'ACCUEIL */
     #accueil {
       height: 100vh;
       background: linear-gradient(135deg, #2563eb, #9333ea);
@@ -22,8 +22,8 @@
       justify-content: center;
       align-items: center;
       color: white;
-      padding: 20px;
       text-align: center;
+      padding: 20px;
     }
 
     .logo {
@@ -52,32 +52,26 @@
       margin-top: 10px;
     }
 
-    .btn-start {
-      background: white;
-      color: #2563eb;
-      width: 240px;
-    }
+    .btn-start { background: white; color: #2563eb; width: 240px; }
+    .btn-job { background: #2563eb; color: white; }
+    .btn-risk { background: #f97316; color: white; }
+    .btn-back { background: #d1d5db; color: black; }
 
-    /* ---- CARTES ---- */
+    /* CARTES */
     .card {
       background: white;
       padding: 20px;
       border-radius: 12px;
       margin: 20px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       text-align: left;
     }
-
-    .btn-job { background: #2563eb; color: white; }
-    .btn-risk { background: #f97316; color: white; }
-    .btn-back { background: #d1d5db; color: black; }
-
   </style>
 </head>
 
 <body>
 
-<!-- ✅ ÉCRAN D’ACCUEIL MODERNE AVEC LOGO -->
+<!-- ✅ LOGO RESTEV SUR ACCUEIL -->
 <div id="accueil">
   <img src="https://i.ibb.co/rf4MxsC/LOGO-RESTEV-DIGITAL-RVB.png" class="logo">
   <h1>Prévention Mobile</h1>
@@ -103,21 +97,21 @@
 <div id="menu-risks" class="card" style="display:none;"></div>
 
 <script>
-/* ✅ BASE DES RISQUES */
+/* ✅ BDD SIMPLIFIÉE ET FONCTIONNELLE */
 const data = {
   maintenance: {
     label: "Technicien maintenance",
     risques: {
       chute: "Chute de hauteur : harnais, protections collectives.",
-      cmr: "CMR : produits dangereux, EPI adaptés.",
-      electrique: "Risque électrique : consignation, habilitation.",
+      cmr: "CMR : produits dangereux.",
+      electrique: "Risque électrique : consignation.",
       tms: "TMS : ergonomie, alternance."
     }
   },
   commercial: {
     label: "Commercial itinérant",
     risques: {
-      routier: "Accident routier : pauses, vigilance.",
+      routier: "Risque routier : pauses, vigilance.",
       stress: "Stress : gestion du temps."
     }
   },
@@ -126,7 +120,7 @@ const data = {
     risques: {
       coupure: "Coupures : gants anticoupure.",
       manutention: "Manutention : gestes sûrs.",
-      cmr: "Nettoyants CMR : ventilation, gants."
+      cmr: "CMR : ventilation, gants."
     }
   },
   coiffeur: {
@@ -139,37 +133,6 @@ const data = {
   batiment: {
     label: "Ouvrier du bâtiment",
     risques: {
-      chute: "Chutes : harnais, échafaudages.",
+      chute: "Chute : harnais, échafaudages.",
       manutention: "Charges lourdes : techniques adaptées.",
-      bruit: "Bruit : casque antibruit.",
-      poussiere: "Poussières : masques adaptés."
-    }
-  },
-  livreur: {
-    label: "Conducteur / Livreur",
-    risques: {
-      routier: "Risque routier : planification, pauses.",
-      manutention: "Colis : diable, transpalette.",
-      chute: "Chutes : sols glissants."
-    }
-  }
-};
-
-/* ✅ ✅ BOUTON ENTRER */
-function entrer() {
-  document.getElementById("accueil").style.display = "none";
-  document.getElementById("menu-metiers").style.display = "block";
-}
-
-/* ✅ RISQUES */
-function showRisks(job) {
-  document.getElementById("menu-metiers").style.display = "none";
-  const zone = document.getElementById("menu-risks");
-  zone.style.display = "block";
-
-  let html = `
-    <button class="btn btn-back" onclick="goBack()">← Retour métiers</button>
-    <h2>Risques – ${data[job].label}</h2>
-  `;
-
-  for (let r in data[job].risques) {
+      bruit: "Bruit : protections auditives.",
