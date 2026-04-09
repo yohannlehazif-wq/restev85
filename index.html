@@ -412,6 +412,21 @@ function retourAccueil() {
   document.getElementById("accueil").style.display = "flex";
 }
 </script>
+const data = {
+   maintenance: {...},
+   boulanger: {...},
+   boucher: {...},
+   // etc.
+};
+ function validerMetier() {
+  const metier = document.getElementById("select-metier").value;
 
+  if (metier === "") {
+    alert("Merci de sélectionner un métier.");
+    return;
+  }
+
+  afficherRisques(metier);  
+} 
 </body>
 </html>
