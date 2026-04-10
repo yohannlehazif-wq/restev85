@@ -1,65 +1,136 @@
-<!-- ✅ PAGE CMR (VERSION COMPLETE) -->
-<div id="pageCMR" class="card fade" style="display:none;">
-    <h2>☣️ Substances CMR (Version détaillée)</h2>
+<!DOCTYPE html>
+<html lang="fr">
 
-    <div class="block">
-        <h3>📌 Définition (CLP)</h3>
-        CMR = Cancérigène, Mutagène, Reprotoxique.<br>
-        • C1A : avéré – C1B : présumé<br>
-        • M1A / M1B : modifie l’ADN<br>
-        • R1A / R1B : toxique reproduction<br>
-    </div>
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Prévention Mobile</title>
 
-    <div class="block">
-        <h3>🧪 Exemples d'entreprises</h3>
-        <b>Maintenance :</b> solvants, huiles minérales, fumées soudage<br>
-        <b>BTP :</b> silice, fibres minérales<br>
-        <b>Coiffure :</b> PPD, ammoniaque<br>
-        <b>Entretien :</b> détergents corrosifs<br>
-    </div>
+<style>
 
-    <div class="block">
-        <h3>⚠️ Effets santé</h3>
-        • Cancers (poumon, peau)<br>
-        • Mutations génétiques<br>
-        • Infertilité, fausse couche<br>
-        • Neurotoxicité<br>
-    </div>
+/* === STYLE GLOBAL MODERNE PREMIUM === */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    max-width: 480px;
+    margin: auto;
+    background: #f2f4f8;
+    padding: 0;
+}
 
-    <div class="block">
-        <h3>🛠 Situations d'exposition</h3>
-        • Coupe de briques = silice<br>
-        • Dégraissage moteurs<br>
-        • Coloration cheveux (PPD)<br>
-        • Vaporisation produits entretien<br>
-    </div>
+.fade { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { 
+    from {opacity:0; transform:translateY(10px);} 
+    to {opacity:1; transform:translateY(0);} 
+}
 
-    <div class="block">
-        <h3>📜 Obligations employeur</h3>
-        ✅ Substitution obligatoire<br>
-        ✅ Registre d'exposition<br>
-        ✅ Suivi médical renforcé<br>
-        ✅ FDS mises à jour<br>
-        ✅ Quantités minimales<br>
-        ✅ Formation obligatoire<br>
-    </div>
+/* ACCUEIL */
+#accueil {
+    height: 100vh;
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
 
-    <div class="block">
-        <h3>🛡️ Prévention (INRS)</h3>
-        ✅ Ventilation / aspiration<br>
-        ✅ Masque FFP3 / filtres ABEK<br>
-        ✅ Gants nitrile/butyle<br>
-        ✅ Armoires ventilées<br>
-        ✅ Rotation des tâches<br>
-    </div>
+.logo { width: 180px; margin-bottom: 30px; }
 
-    <div class="block">
-        <h3>📘 Documents utiles</h3>
-        • INRS ED 984 – CMR<br>
-        • INRS ED 6180 – Silice<br>
-        • INRS ED 6002 – Allergies<br>
-        • Fiches FDS<br>
-    </div>
+/* BOUTONS */
+.btn {
+    width: 90%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: 0.2s;
+}
+.btn-start {
+    background: white;
+    color: #2563eb;
+}
+.btn-menu {
+    background: linear-gradient(135deg,#2563eb,#9333ea);
+    color: white;
+}
+.btn-back {
+    background: #e5e7eb;
+    color: #111;
+}
+.btn:hover { transform: scale(1.05); }
 
+/* CARTES */
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 16px;
+    margin: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+/* MENU DÉROULANT */
+select {
+    width: 100%;
+    font-size: 18px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #d1d5db;
+    margin-bottom: 15px;
+}
+
+.block {
+    background: #f8fafc;
+    border-left: 5px solid #2563eb;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ✅ ACCUEIL -->
+<div id="accueil" class="fade">
+    logo.png
+    <h1 style="font-size:30px;font-weight:700;">Prévention Mobile</h1>
+    <p style="font-size:18px;opacity:0.9;">Application officielle RESTEV</p>
+
+    <button class="btn btn-start" onclick="ouvrirMenuPrincipal()">ENTRER</button>
+</div>
+
+<!-- ✅ MENU PRINCIPAL -->
+<div id="menuPrincipal" class="card fade" style="display:none;">
+    <h2>Menu principal</h2>
+
+    <button class="btn btn-menu" onclick="ouvrirMetiers()">Métiers</button>
+    <button class="btn btn-menu" onclick="ouvrirCMR()">CMR</button>
+    <button class="btn btn-menu" onclick="ouvrirDUERP()">DUERP</button>
+
+    <button class="btn btn-back" onclick="retourAccueil()">← Retour accueil</button>
+</div>
+
+<!-- ✅ MENU MÉTIERS -->
+<div id="menuMetiers" class="card fade" style="display:none;">
+    <h2>Choisis ton métier :</h2>
+
+    <select id="select-metier">
+        <option value=""></option>
+        <option value="agent_entretien">Agent d'entretien</option>
+        <option value="agent_logistique">Agent logistique</option>
+        <option value="boulanger">Boulanger</option>
+        <option value="maintenance">Technicien maintenance</option>
+        <option value="briqueteur">Briqueteur</option>
+    </select>
+
+    <button class="btn btn-menu" onclick="validerMetier()">VALIDER ✅</button>
     <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
+
+<!-- ✅ RISQUES (BLOCS) -->
+<div id="menuRisks" class="card fade" style="display:none;"></div>
