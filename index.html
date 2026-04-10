@@ -6,267 +6,303 @@
 <title>RESTEV – Prévention Mobile</title>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        max-width: 480px;
-        margin: auto;
-        padding: 0;
-        background: #f3f4f6;
-    }
 
-    /* ACCUEIL SIMPLE */
-    #accueil {
-        height: 100vh;
-        background: linear-gradient(135deg, #2563eb, #9333ea);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-        padding: 20px;
-    }
+/* === STYLE GLOBAL (MODERNE PREMIUM) === */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    max-width: 480px;
+    margin: auto;
+    background: #f2f4f8;
+    padding: 0;
+}
 
-    .logo {
-        width: 160px;
-        margin-bottom: 25px;
-    }
+/* --- EFFET FADE (TRANSITION) --- */
+.fade {
+    animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(10px); }
+    to { opacity:1; transform:translateY(0); }
+}
 
-    .btn {
-        width: 90%;
-        padding: 15px;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
+/* --- ACCUEIL MODERNE --- */
+#accueil {
+    height: 100vh;
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
 
-    .btn-start {
-        background: white;
-        color: #2563eb;
-    }
+.logo {
+    width: 180px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
 
-    .btn-menu {
-        background: #2563eb;
-        color: white;
-        font-size: 18px;
-    }
+/* --- BOUTONS MODERNES --- */
+.btn {
+    width: 90%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: 0.2s;
+}
 
-    .btn-back {
-        background: #d1d5db;
-        color: black;
-    }
+.btn-start {
+    background: white;
+    color: #2563eb;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+}
+.btn-start:hover {
+    transform: scale(1.05);
+}
 
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        margin: 20px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        text-align: left;
-    }
+.btn-menu {
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.btn-menu:hover {
+    transform: scale(1.03);
+}
 
-    select {
-        width: 100%;
-        font-size: 18px;
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 15px;
-    }
+.btn-back {
+    background: #e5e7eb;
+    color: #111;
+}
+.btn-back:hover {
+    transform: scale(1.03);
+}
+
+/* --- CARTES --- */
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 16px;
+    margin: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+/* --- MENU DÉROULANT --- */
+select {
+    width: 100%;
+    font-size: 18px;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #d1d5db;
+}
+
+h2 {
+    font-size: 24px;
+    color: #1f2937;
+    margin-bottom: 15px;
+}
+
+h3 {
+    margin-top: 12px;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- ✅ ACCUEIL SIMPLE -->
-<div id="accueil">
-    logo.png class="logo">
-    <h1>Prévention RESTEV</h1>
+<!-- ✅ ✅ ACCUEIL (STYLE A – PREMIUM) -->
+<div id="accueil" class="fade">
+    logo.png
+    <h1 style="font-size:30px;margin-bottom:10px;font-weight:700;">Prévention Mobile</h1>
+    <p style="font-size:18px;opacity:0.9;">Application officielle RESTEV</p>
+
     <button class="btn btn-start" onclick="ouvrirMetiers()">ENTRER</button>
 </div>
 
-<!-- ✅ MENU MÉTIERS -->
-<div id="menuMetiers" class="card" style="display:none;">
+
+<!-- ✅ ✅ MENU METIERS (DÉROULANT) -->
+<div id="menuMetiers" class="card fade" style="display:none;">
     <h2>Choisis ton métier :</h2>
 
     <select id="select-metier">
         <option value=""></option>
+
         <option value="agent_entretien">Agent d'entretien</option>
         <option value="agent_logistique">Agent logistique</option>
         <option value="boulanger">Boulanger</option>
         <option value="maintenance">Technicien maintenance</option>
+        <option value="briqueteur">Briqueteur</option>
     </select>
 
     <button class="btn btn-menu" onclick="validerMetier()">VALIDER ✅</button>
     <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
-<!-- ✅ RISQUES -->
-<div id="menuRisks" class="card" style="display:none;"></div>
+
+<!-- ✅ ✅ RISQUES -->
+<div id="menuRisks" class="card fade" style="display:none;"></div>
+
 
 <script>
 
-/* ✅ MÉTIERS + FICHES (Niveau B) */
+/* ✅✅ BASE DE DONNÉES MÉTIERS – NIVEAU B */
 const data = {
 
-    agent_entretien: {
-      label: "Agent d’entretien",
-      risques: {
-        "Produits chimiques": `
-          <h3 style='color:#9333ea;'>🧴 Produits chimiques</h3>
-          • Aérosols, irritants<br><br>
-          ✅ Gants nitrile<br>
-          ✅ Jamais de mélanges<br>
-        `,
-        "TMS": `
-          <h3 style='color:#2563eb;'>📦 TMS</h3>
-          • Lavage, vitres répétitives<br><br>
-          ✅ Alternance tâches<br>
-          ✅ Manche télescopique<br>
-        `,
-        "Chutes": `
-          <h3 style='color:#0ea5e9;'>🦶 Chutes</h3>
-          ✅ Signalisation sol<br>
-          ✅ Chaussures antidérapantes<br>
-        `
-      }
-    },
+/* ===== AGENT D’ENTRETIEN ===== */
+agent_entretien: {
+  label: "Agent d’entretien",
+  risques: {
 
-    agent_logistique: {
-      label: "Agent logistique",
-      risques: {
-        "Manutention lourde": `
-          <h3 style='color:#2563eb;'>📦 Manutention</h3>
-          ✅ Transpalette<br>
-          ✅ Rotation tâches<br>
-        `,
-        "Chocs": `
-          <h3 style='color:#dc2626;'>🚧 Heurts engins</h3>
-          ✅ Chemins piétons<br>
-          ✅ Gilet HV<br>
-        `
-      }
-    },
+    "Produits chimiques": `
+      <h3 style='color:#9333ea;'>🧴 Produits chimiques</h3>
+      <b>Situations :</b><br>
+      • Mélanges dangereux<br>
+      • Aérosols irritants<br><br>
+      <b>Prévention :</b><br>
+      ✅ Substitution produits neutres<br>
+      ✅ Gants nitrile<br>
+      ✅ Jamais de mélanges<br>
+    `,
 
-    boulanger: {
-      label: "Boulanger",
-      risques: {
-        "Brûlures": `
-          <h3 style='color:#f97316;'>🔥 Brûlures</h3>
-          ✅ Gants thermiques<br>
-          ✅ Manipulation sécurisée<br>
-        `,
-        "Farine": `
-          <h3 style='color:#9333ea;'>🌾 Poussières</h3>
-          ✅ FFP2<br>
-          ✅ Aspiration<br>
-        `
-      }
-    },
+    "TMS": `
+      <h3 style='color:#2563eb;'>📦 TMS</h3>
+      ✅ Alternance tâches<br>
+      ✅ Manche télescopique<br>
+      ✅ Chariot ergonomique<br>
+    `,
 
-    maintenance: {
-      label: "Technicien maintenance",
-      risques: {
-        "Chute hauteur": `
-          <h3 style='color:#2563eb;'>⬆️ Chute</h3>
-          ✅ Garde-corps<br>
-          ✅ Harnais<br>
-        `,
-        "Électrique": `
-          <h3 style='color:#f97316;'>⚡ Électrique</h3>
-          ✅ BR / B2V<br>
-          ✅ Consignation LOTO<br>
-        `,
-        "Mécanique": `
-          <h3 style='color:#dc2626;'>⚙️ Mécanique</h3>
-          ✅ Carter verrouillé<br>
-          ✅ Procédure<br>
-        `
-      }
-    },
-};briqueteur: {
+    "Chutes": `
+      <h3 style='color:#0ea5e9;'>🦶 Chutes</h3>
+      ✅ Chaussures antidérapantes<br>
+      ✅ Sol mouillé balisé<br>
+    `
+  }
+},
+
+
+/* ===== AGENT LOGISTIQUE ===== */
+agent_logistique: {
+  label: "Agent logistique",
+  risques: {
+
+    "Manutention lourde": `
+      <h3 style='color:#2563eb;'>📦 Charges lourdes</h3>
+      ✅ Transpalettes / gerbeurs<br>
+      ✅ Rotation tâches<br>
+    `,
+
+    "Chocs / Engins": `
+      <h3 style='color:#dc2626;'>🚧 Heurts engins</h3>
+      ✅ Gilet HV<br>
+      ✅ Zones piétons séparées<br>
+    `,
+
+    "Chutes": `
+      <h3 style='color:#0ea5e9;'>🦶 Chutes</h3>
+      ✅ Rangement<br>
+      ✅ Nettoyage rapide<br>
+    `
+  }
+},
+
+
+/* ===== BOULANGER ===== */
+boulanger: {
+  label: "Boulanger",
+  risques: {
+
+    "Brûlures": `
+      <h3 style='color:#f97316;'>🔥 Brûlures</h3>
+      ✅ Gants thermiques<br>
+      ✅ Manipulation sécurisée<br>
+    `,
+
+    "Farine": `
+      <h3 style='color:#9333ea;'>🌾 Poussières de farine</h3>
+      ✅ FFP2<br>
+      ✅ Aspiration<br>
+    `
+  }
+},
+
+
+/* ===== TECHNICIEN MAINTENANCE ===== */
+maintenance: {
+  label: "Technicien maintenance",
+  risques: {
+
+    "Chute hauteur": `
+      <h3 style='color:#2563eb;'>⬆️ Chute de hauteur</h3>
+      ✅ Harnais<br>
+      ✅ Garde-corps<br>
+      ✅ Travail en binôme<br>
+    `,
+
+    "Électrique": `
+      <h3 style='color:#f97316;'>⚡ Risque électrique</h3>
+      ✅ Habilitation BR<br>
+      ✅ Consignation LOTO<br>
+    `,
+
+    "Mécanique": `
+      <h3 style='color:#dc2626;'>⚙️ Mécanique</h3>
+      ✅ Carter verrouillé<br>
+      ✅ Procédure de consignation<br>
+    `,
+
+    "CMR": `
+      <h3 style='color:#9333ea;'>☣️ Produits CMR</h3>
+      ✅ Substitution<br>
+      ✅ Ventilation<br>
+      ✅ Gants nitrile<br>
+    `
+  }
+},
+
+
+/* ===== BRIQUETEUR ===== */
+briqueteur: {
   label: "Briqueteur",
   risques: {
 
     "Chute de hauteur": `
       <h3 style='color:#2563eb;'>⬆️ Chute de hauteur</h3>
-      <b>Situations dangereuses :</b><br>
-      • Travail sur échafaudages<br>
-      • Passerelles non protégées<br>
-      • Échafaudage instable<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Garde-corps obligatoires<br>
-      ✅ Filets anti-chute<br>
-      ✅ Vérification quotidienne échafaudage<br>
-      ✅ Chaussures S3<br><br>
-
-      <b>Documents utiles :</b><br>
-      INRS ED 820 – Travail en hauteur
+      ✅ Échafaudages conformes<br>
+      ✅ Filets / garde-corps<br>
     `,
 
-    "Manutention et TMS": `
-      <h3 style='color:#f97316;'>📦 Manutentions & TMS</h3>
-      <b>Situations dangereuses :</b><br>
-      • Port briques/sacs de mortier<br>
-      • Maçonnerie bras tendus<br>
-      • Postures prolongées<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Palan / grue pour palettes<br>
+    "TMS / Charges": `
+      <h3 style='color:#f97316;'>📦 Charges lourdes</h3>
+      ✅ Palan / grue<br>
       ✅ Alternance tâches<br>
-      ✅ Outils ergonomiques<br>
-      ✅ Échauffement musculaire<br><br>
-
-      <b>Documents utiles :</b><br>
-      INRS ED 917 – TMS
     `,
 
-    "Poussières / Silice": `
-      <h3 style='color:#9333ea;'>🌫️ Poussières / Silice</h3>
-      <b>Situations dangereuses :</b><br>
-      • Coupe de briques (disqueuse)<br>
-      • Mélange ciment<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Masque FFP3 obligatoire<br>
-      ✅ Coupe à l’eau (limite poussières)<br>
-      ✅ Aspiration localisée<br>
-      ✅ Zone coupe dédiée<br><br>
-
-      <b>Documents utiles :</b><br>
-      INRS ED 6180 – Risque silice
-    `,
-
-    "Bruit": `
-      <h3 style='color:#0ea5e9;'>🔊 Bruit</h3>
-      <b>Situations dangereuses :</b><br>
-      • Coupe briques<br>
-      • Marteaux / scies<br><br>
-
-      <b>Prévention :</b><br>
-      ✅ Casque antibruit SNR 30+<br>
-      ✅ Outillage silencieux<br><br>
+    "Silice": `
+      <h3 style='color:#9333ea;'>🌫️ Silice (cancer)</h3>
+      ✅ Masque FFP3<br>
+      ✅ Coupe à l’eau<br>
+      ✅ Zone dédiée<br>
     `,
 
     "Coupures / projections": `
-      <h3 style='color:#dc2626;'>🧩 Coupures / projections</h3>
-      <b>Situations :</b><br>
-      • Coupe disqueuse<br>
-      • Éclats briques<br><br>
-
-      <b>Prévention :</b><br>
+      <h3 style='color:#dc2626;'>🧩 Projections / coupures</h3>
       ✅ Lunettes enveloppantes<br>
-      ✅ Gants anti-coupure<br>
-      ✅ Habillage jambes/bras<br><br>
-    `,
+      ✅ Gants<br>
+    `
   }
 },
 
+};
 
-/* ✅ NAVIGATION SIMPLE */
+/* ✅✅ NAVIGATION MODERNE */
+
 function ouvrirMetiers() {
     document.getElementById("accueil").style.display = "none";
     document.getElementById("menuMetiers").style.display = "block";
@@ -279,26 +315,21 @@ function retourAccueil() {
     document.getElementById("menuRisks").style.display = "none";
 }
 
-
-/* ✅ VALIDATION MÉTIER */
+/* ✅ VALIDATION METIER */
 function validerMetier() {
-
     const metier = document.getElementById("select-metier").value;
 
     if (metier === "") {
         alert("Merci de sélectionner un métier.");
         return;
     }
-
     afficherRisques(metier);
 }
 
-
-/* ✅ AFFICHAGE DES RISQUES */
+/* ✅ AFFICHAGE RISQUES */
 function afficherRisques(job) {
 
     document.getElementById("menuMetiers").style.display = "none";
-
     const zone = document.getElementById("menuRisks");
     zone.style.display = "block";
 
@@ -314,8 +345,7 @@ function afficherRisques(job) {
     zone.innerHTML = html;
 }
 
-
-/* ✅ AFFICHAGE DU DÉTAIL */
+/* ✅ DETAILS */
 function showDetail(job, risque) {
 
     document.getElementById("menuRisks").innerHTML = `
@@ -324,6 +354,7 @@ function showDetail(job, risque) {
 ${data[job].risques[risque]}
 `;
 }
+
 </script>
 
 </body>
