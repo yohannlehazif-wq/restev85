@@ -472,21 +472,22 @@ docs:`• INRS Coiffure`
 }
 
 };
+<script>
 /* ✅ PRODUITS POUR SCANNER */
 const produitsCMR = {
  "3254567890123": {
-   nom:"Dégraissant industriel",
-   categorie:"Solvant chloré",
-   cmr:"Cancérigène 1B – H350",
-   epi:"Masque ABEK, gants nitrile, ventilation",
-   fds:"FDS_degraissant.pdf"
+   nom: "Dégraissant industriel",
+   categorie: "Solvant chloré",
+   cmr: "Cancérigène 1B – H350",
+   epi: "Masque ABEK, gants nitrile, ventilation",
+   fds: "FDS_degraissant.pdf"
  },
  "3017624010701": {
-   nom:"Acétone technique",
-   categorie:"Solvant",
-   cmr:"Inflammable H225",
-   epi:"Gants nitrile",
-   fds:"FDS_acetone.pdf"
+   nom: "Acétone technique",
+   categorie: "Solvant",
+   cmr: "Inflammable H225",
+   epi: "Gants nitrile",
+   fds: "FDS_acetone.pdf"
  }
 };
 
@@ -506,44 +507,53 @@ function ouvrirMetiers(){ cacherTout(); menuMetiers.style.display="block"; }
 function ouvrirCMR(){ cacherTout(); pageCMR.style.display="block"; }
 function ouvrirDUERP(){ cacherTout(); pageDUERP.style.display="block"; }
 
-/* ✅ AFFICHAGE MÉTIER */
+/* ✅ AFFICHAGE DES MÉTIERS */
 function validerMetier(){
- let m=document.getElementById("select-metier").value;
- if(m===""){ alert("Merci de choisir un métier."); return; }
+ let m = document.getElementById("select-metier").value;
+ if(m === ""){ alert("Merci de choisir un métier."); return; }
  afficherRisques(m);
 }
+
 function afficherRisques(m){
  cacherTout();
  menuRisks.style.display="block";
+
  menuRisks.innerHTML = `
- <button class='btn btn-back' onclick='ouvrirMetiers()'>← Retour</button>
+ <button class="btn btn-back" onclick="ouvrirMetiers()">← Retour</button>
  <h2>${data[m].label}</h2>
- <div class='block'><h3>Risques métier</h3>${data[m].risques_metier.join("<br>")}</div>
- <div class='block'><h3>CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
- <div class='block'><h3>TMS</h3>${data[m].risques_tms.join("<br>")}</div>
- <div class='block'><h3>RPS</h3>${data[m].risques_rps.join("<br>")}</div>
- <div class='block'><h3>Prévention</h3>${data[m].prevention}</div>
- <div class='block'><h3>Obligations</h3>${data[m].obligations}</div>
- <div class='block'><h3>Documents utiles</h3>${data[m].docs}</div>
+
+ <div class="block"><h3>Risques métier</h3>${data[m].risques_metier.join("<br>")}</div>
+ <div class="block"><h3>CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
+ <div class="block"><h3>TMS</h3>${data[m].risques_tms.join("<br>")}</div>
+ <div class="block"><h3>RPS</h3>${data[m].risques_rps.join("<br>")}</div>
+ <div class="block"><h3>Prévention</h3>${data[m].prevention}</div>
+ <div class="block"><h3>Obligations</h3>${data[m].obligations}</div>
+ <div class="block"><h3>Documents utiles</h3>${data[m].docs}</div>
  `;
 }
 
 /* ✅ SCANNER CAMÉRA */
-let codeReader=null;
+let codeReader = null;
+
 function ouvrirScanner(){
  cacherTout();
  pageScanner.style.display="block";
- codeReader=new ZXing.BrowserMultiFormatReader();
- codeReader.decodeFromVideoDevice(null,"video",(result,err)=>{
-   if(result){ afficherProduit(result.text); }
+
+ codeReader = new ZXing.BrowserMultiFormatReader();
+ codeReader.decodeFromVideoDevice(null, "video", (result, err) => {
+   if(result){
+     afficherProduit(result.text);
+   }
  });
 }
+
 function afficherProduit(ean){
- let zone=document.getElementById("scanResult");
+ let zone = document.getElementById("scanResult");
  zone.style.display="block";
+
  if(produitsCMR[ean]){
-   let p=produitsCMR[ean];
-   zone.innerHTML=`
+   let p = produitsCMR[ean];
+   zone.innerHTML = `
    <h3>✅ Produit identifié</h3>
    <b>${p.nom}</b><br>
    Catégorie : ${p.categorie}<br><br>
@@ -552,11 +562,15 @@ function afficherProduit(ean){
    FDS : ${p.fds}
    `;
  } else {
-   zone.innerHTML=`<h3>❓ Produit non trouvé</h3>Code : ${ean}`;
+   zone.innerHTML = `
+   <h3>❓ Produit non trouvé</h3>
+   Code : ${ean}
+   `;
  }
 }
+
 function arreterScanner(){
- try{ codeReader.reset(); }catch(e){}
+ try { codeReader.reset(); } catch(e){}
 }
 </script>
 </body>
