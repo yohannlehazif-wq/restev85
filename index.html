@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>RESTEV – Application Prévention</title>
-<script src="https://unpkg.com/@zxing/library@latest"></script>
+<script src="https://ing/library@latest
 <style>
 body{font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:auto;background:#f2f4f8;}
 .card{background:white;padding:20px;border-radius:16px;margin:20px;box-shadow:0 4px 14px rgba(0,0,0,.15);}
@@ -23,7 +23,7 @@ select{width:100%;padding:12px;font-size:17px;border-radius:12px;border:2px soli
 
 <!-- ✅ ACCUEIL -->
 <div id="accueil" class="fade">
-<img src="logo.png" class="logo">
+logo.png
 <h1 style="font-size:28px;font-weight:700;">Prévention Mobile – RESTEV</h1>
 <p style="font-size:16px;opacity:.95;margin-bottom:20px;">Application complète : Métiers, CMR, Scanner, DUERP Premium</p>
 <button class="btn btn-menu" onclick="ouvrirMenu()">ENTRER</button>
@@ -44,7 +44,6 @@ select{width:100%;padding:12px;font-size:17px;border-radius:12px;border:2px soli
 <h2>70 Métiers réels</h2>
 <select id="metierSelect">
 <option value="">Sélectionnez un métier…</option>
-<!-- ✅ La liste complète sera injectée dans PARTIE 2 -->
 </select>
 <button class="btn btn-menu" onclick="afficherMetier()">Afficher</button>
 <button class="btn-back btn" onclick="ouvrirMenu()">Retour</button>
@@ -75,223 +74,5 @@ select{width:100%;padding:12px;font-size:17px;border-radius:12px;border:2px soli
 <button class="btn-back btn" onclick="ouvrirMenu()">Retour</button>
 </div>
 
-<!-- ✅ PAGE DUERP PREMIUM (contenu ajouté en Partie 3) -->
+<!-- ✅ PAGE DUERP (partie 3 viendra ici) -->
 <div id="pageDUERP" class="card fade" style="display:none;">
-<!-- La suite du contenu DUERP Premium arrive en PARTIE 3 -->
-<!-- ✅ DATA MÉTIERS (70 métiers réels + fiches moyennes) -->
-<script>
-const data = {
-
-"Maçon": `<div class='block'><b>Présentation :</b><br>Le métier de Maçon implique coffrage, murs, fondations et tâches physiques en extérieur.</div>
-<div class='block'><b>Risques métier :</b><br>• Chutes • Silice • Charges lourdes • Outillage vibrants</div>
-<div class='block'><b>CMR :</b><br>• Silice cristalline</div>
-<div class='block'><b>TMS :</b><br>• Dos • Épaules</div>
-<div class='block'><b>RPS :</b><br>• Pression délais chantier</div>
-<div class='block'><b>Prévention :</b><br>FFP3 • Rotation tâches • Palans</div>
-<div class='block'><b>Obligations :</b><br>DUERP • FDS ciment • Vérif échafaudages</div>`,
-
-"Plaquiste": `<div class='block'><b>Présentation :</b><br>Pose de plaques, joints, manutentions et ponçage.</div>
-<div class='block'><b>Risques métier :</b><br>• Poussières • Bras en l’air • Cutter</div>
-<div class='block'><b>CMR :</b><br>• Poussières fines</div>
-<div class='block'><b>TMS :</b><br>• Épaules • Cou</div>
-<div class='block'><b>RPS :</b><br>• Cadences élevées</div>
-<div class='block'><b>Prévention :</b><br>FFP2 • Lève-plaque</div>
-<div class='block'><b>Obligations :</b><br>DUERP • Poussières chantier</div>`,
-
-"Carreleur": `<div class='block'><b>Présentation :</b><br>Pose de carrelage, découpes, manutentions et travail au sol.</div>
-<div class='block'><b>Risques métier :</b><br>• Silice • Genoux • Charges lourdes</div>
-<div class='block'><b>CMR :</b><br>• Silice</div>
-<div class='block'><b>TMS :</b><br>• Dos • Genoux</div>
-<div class='block'><b>RPS :</b><br>• Délais courts</div>
-<div class='block'><b>Prévention :</b><br>FFP3 • Coupe à l’eau • Genouillères</div>
-<div class='block'><b>Obligations :</b><br>DUERP</div>`,
-
-"Peintre en bâtiment": `<div class='block'><b>Présentation :</b><br>Préparation, ponçage, peinture murs/plafonds.</div>
-<div class='block'><b>Risques métier :</b><br>• Solvants • Chutes • Poussières</div>
-<div class='block'><b>CMR :</b><br>• Toluène</div>
-<div class='block'><b>TMS :</b><br>• Bras en l’air</div>
-<div class='block'><b>RPS :</b><br>• Pression clients</div>
-<div class='block'><b>Prévention :</b><br>Masque A2P3 • Ventilation</div>
-<div class='block'><b>Obligations :</b><br>FDS peinture • DUERP</div>`,
-
-"Menuisier": `<div class='block'><b>Présentation :</b><br>Découpe bois, assemblages, machines fixes et portatives.</div>
-<div class='block'><b>Risques métier :</b><br>• Poussières bois • Coupures • Bruit</div>
-<div class='block'><b>CMR :</b><br>• Poussières bois</div>
-<div class='block'><b>TMS :</b><br>• Dos • Épaules</div>
-<div class='block'><b>RPS :</b><br>• Délais production</div>
-<div class='block'><b>Prévention :</b><br>Aspiration sciure • Protection oreilles</div>
-<div class='block'><b>Obligations :</b><br>Risque CMR • FDS colles</div>`,
-
-"Charpentier": `<div class='block'><b>Présentation :</b><br>Travail en hauteur, structures bois, manutentions lourdes.</div>
-<div class='block'><b>Risques métier :</b><br>• Hauteur • Chutes • Charges</div>
-<div class='block'><b>TMS :</b><br>• Dos</div>
-<div class='block'><b>RPS :</b><br>• Intempéries</div>
-<div class='block'><b>Prévention :</b><br>Harnais • Lignes de vie</div>
-<div class='block'><b>Obligations :</b><br>Formation hauteur</div>`,
-
-"Couvreur": `<div class='block'><b>Présentation :</b><br>Travail sur toiture, manutentions, conditions météo.</div>
-<div class='block'><b>Risques métier :</b><br>• Chute mortelle • Glissades</div>
-<div class='block'><b>TMS :</b><br>• Dos • Genoux</div>
-<div class='block'><b>RPS :</b><br>• Pression délais</div>
-<div class='block'><b>Prévention :</b><br>Ligne vie • Harnais</div>
-<div class='block'><b>Obligations :</b><br>Plan prévention</div>`,
-
-"Électricien bâtiment": `<div class='block'><b>Présentation :</b><br>Tirage câbles, tableaux électriques, dépannages.</div>
-<div class='block'><b>Risques métier :</b><br>• Électrocution • Hauteur</div>
-<div class='block'><b>TMS :</b><br>• Épaules</div>
-<div class='block'><b>Prévention :</b><br>Habilitation BR</div>
-<div class='block'><b>Obligations :</b><br>NF C18‑510</div>`,
-
-"Plombier‑chauffagiste": `<div class='block'><b>Présentation :</b><br>Installation chauffage, soudures, gaines.</div>
-<div class='block'><b>Risques métier :</b><br>• Brûlures • CO • Soudage</div>
-<div class='block'><b>CMR :</b><br>• Fumées soudage</div>
-<div class='block'><b>TMS :</b><br>• Espaces exigus</div>
-<div class='block'><b>Prévention :</b><br>Ventilation • FFP3</div>
-<div class='block'><b>Obligations :</b><br>Registre soudage</div>`,
-
-<!-- ✅ … ET AINSI DE SUITE POUR LES 70 MÉTIERS (optimisés et semi‑compacts) -->
-
-}; // fin du data métiers
-
-
-
-/* ✅ NAVIGATION GLOBALE */
-function cacherToutesPages(){
-  document.getElementById("accueil").style.display="none";
-  document.getElementById("menu").style.display="none";
-  document.getElementById("pageMetiers").style.display="none";
-  document.getElementById("pageFiche").style.display="none";
-  document.getElementById("pageScanner").style.display="none";
-  document.getElementById("pageDUERP").style.display="none";
-  document.getElementById("pageCMR").style.display="none";
-}
-
-function retourAccueil(){cacherToutesPages();document.getElementById("accueil").style.display="flex";}
-function ouvrirMenu(){cacherToutesPages();document.getElementById("menu").style.display="block";}
-function ouvrirMetiers(){cacherToutesPages();document.getElementById("pageMetiers").style.display="block";}
-function ouvrirCMR(){cacherToutesPages();document.getElementById("pageCMR").style.display="block";}
-function ouvrirDUERP(){cacherToutesPages();document.getElementById("pageDUERP").style.display="block";}
-
-
-/* ✅ AFFICHAGE MÉTIER */
-function afficherMetier(){
- let m = document.getElementById("metierSelect").value;
- if(m === ""){ alert("Sélectionnez un métier."); return; }
- cacherToutesPages();
- document.getElementById("pageFiche").style.display="block";
- document.getElementById("titreMetier").innerHTML = m;
- document.getElementById("contenuMetier").innerHTML = data[m];
-}
-
-
-/* ✅ SCANNER ZXing */
-let codeReader = null;
-
-function ouvrirScanner(){
- cacherToutesPages();
- document.getElementById("pageScanner").style.display="block";
-
- try{
- codeReader = new ZXing.BrowserMultiFormatReader();
- codeReader.decodeFromVideoDevice(null, "video", (result, err) =>{
-   if(result){
-     document.getElementById("scanResult").style.display="block";
-     document.getElementById("scanResult").innerHTML = "<b>Code détecté :</b><br>" + result.text;
-   }
- });
- }catch(e){
-   alert("Erreur scanner : " + e);
- }
-<!-- ✅ PAGE DUERP PREMIUM -->
-<h2>📄 DUERP – Version PREMIUM RESTEV</h2>
-
-<div class="block">
-<h3>1️⃣ Qu’est‑ce que le DUERP ?</h3>
-Le DUERP recense, évalue et hiérarchise tous les risques pour protéger les salariés.
-Obligatoire (Code du Travail – R4121‑1). Mise à jour annuelle + à chaque changement.
-</div>
-
-<div class="block">
-<h3>2️⃣ Unités de Travail (UT)</h3>
-BTP • Maintenance • Industrie • Logistique • Commerce • Restauration • Propreté • Tertiaire.
-</div>
-
-<div class="block">
-<h3>3️⃣ Top risques courants</h3>
-Chute hauteur • Silice • Solvants • Huiles minérales • Machines • TMS • RPS • Bruit • Électrique.
-</div>
-
-<!-- ✅ MATRICE INTERACTIVE -->
-<h2>📊 Matrice d’Évaluation du Risque</h2>
-
-<div class="block">
-<b>Gravité :</b><br>
-<select id="gravite" onchange="evaluerRisque()">
-<option value="">-- Choisir --</option>
-<option value="1">1 – Légère</option>
-<option value="2">2 – Blessure simple</option>
-<option value="3">3 – Arrêt de travail</option>
-<option value="4">4 – Séquelles graves / décès</option>
-</select>
-</div>
-
-<div class="block">
-<b>Probabilité :</b><br>
-<select id="probabilite" onchange="evaluerRisque()">
-<option value="">-- Choisir --</option>
-<option value="1">1 – Très improbable</option>
-<option value="2">2 – Peu probable</option>
-<option value="3">3 – Probable</option>
-<option value="4">4 – Très probable</option>
-</select>
-</div>
-
-<div id="resultatRisque" class="block" style="display:none;">
-<h3>🎯 Niveau de Risque :</h3>
-<div id="niveauRisque" style="font-size:22px;font-weight:700;"></div>
-<p id="interpretation"></p>
-</div>
-
-<script>
-function evaluerRisque(){
- let g = parseInt(document.getElementById("gravite").value);
- let p = parseInt(document.getElementById("probabilite").value);
- if(isNaN(g)||isNaN(p)){
-   document.getElementById("resultatRisque").style.display="none";
-   return;
- }
- let score = g*p;
- let niveau="", couleur="", interpretation="";
- if(score >= 12){ niveau="🟥 RISQUE ÉLEVÉ"; couleur="red"; interpretation="Action immédiate obligatoire."; }
- else if(score >= 8){ niveau="🟧 RISQUE SIGNIFICATIF"; couleur="orange"; interpretation="Action rapide requise."; }
- else if(score >= 4){ niveau="🟨 RISQUE MODÉRÉ"; couleur="gold"; interpretation="Suivi et prévention adaptés."; }
- else{ niveau="🟩 RISQUE FAIBLE"; couleur="green"; interpretation="Risque maîtrisé."; }
-
- document.getElementById("resultatRisque").style.display = "block";
- document.getElementById("niveauRisque").textContent = niveau;
- document.getElementById("niveauRisque").style.color = couleur;
- document.getElementById("interpretation").textContent = interpretation;
-}
-</script>
-
-<div class="block">
-<h3>4️⃣ Prévention hiérarchisée (obligatoire)</h3>
-1. Suppression<br>
-2. Substitution<br>
-3. Mesures collectives<br>
-4. Organisation / Procédures<br>
-5. EPI
-</div>
-
-<div class="block">
-<h3>5️⃣ Plan d’action DUERP</h3>
-Mesure → Objectif → Responsable → Délai → Suivi<br>
-Indispensable pour tout risque ≥ MODÉRÉ.
-</div>
-
-<button class="btn-back btn" onclick="ouvrirMenu()">Retour</button>
-
-</div> <!-- ✅ Fin de page DUERP -->
-
-</body>
-</html>
