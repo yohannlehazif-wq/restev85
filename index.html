@@ -3,29 +3,27 @@
 <html lang='fr'>
 <head>
 <meta charset='UTF-8'/>
-<title>RESTEV – Application Prévention (70 Métiers + Logo + Scanner)</title>
+<title>RESTEV – 70 métiers réels</title>
 <script src='https://unpkg.com/@zxing/library@latest'></script>
 <style>
 body{font-family:Arial;max-width:480px;margin:auto;background:#f2f4f8;padding:0;}
 .card{background:white;padding:20px;border-radius:12px;margin:20px;box-shadow:0 4px 12px rgba(0,0,0,0.2);} 
 .btn{width:90%;padding:14px;border:none;border-radius:12px;background:#2563eb;color:white;font-size:18px;font-weight:600;margin-top:12px;cursor:pointer;} 
 #accueil{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#2563eb,#9333ea);color:white;} 
+img.logo{width:280px;margin-bottom:20px;} 
 video{width:100%;border-radius:12px;margin-top:15px;} 
 .block{background:#f8fafc;padding:10px;border-radius:8px;margin-top:10px;border-left:5px solid #2563eb;} 
-img.logo{width:260px;margin-bottom:20px;} 
 </style>
 </head>
 <body>
 
-<!-- ACCUEIL -->
 <div id='accueil'>
 <img src='logo.png' class='logo'>
 <h1>Prévention Mobile – RESTEV</h1>
-<p>Version 70 métiers + Scanner</p>
+<p>70 métiers réels + Scanner</p>
 <button class='btn' onclick='ouvrirMenu()'>ENTRER</button>
 </div>
 
-<!-- MENU PRINCIPAL -->
 <div id='menu' class='card' style='display:none;'>
 <h2>Menu principal</h2>
 <button class='btn' onclick='ouvrirMetiers()'>Métiers (70)</button>
@@ -35,95 +33,96 @@ img.logo{width:260px;margin-bottom:20px;}
 <button class='btn' onclick='retourAccueil()'>Retour accueil</button>
 </div>
 
-<!-- LISTE METIERS -->
 <div id='pageMetiers' class='card' style='display:none;'>
-<h2>Liste des 70 métiers</h2>
+<h2>Liste des 70 métiers réels</h2>
 <select id='metierSelect'>
 <option value=''>Sélectionnez…</option>
-<option value='Metier_1'>Métier 1</option>
-<option value='Metier_2'>Métier 2</option>
-<option value='Metier_3'>Métier 3</option>
-<option value='Metier_4'>Métier 4</option>
-<option value='Metier_5'>Métier 5</option>
-<option value='Metier_6'>Métier 6</option>
-<option value='Metier_7'>Métier 7</option>
-<option value='Metier_8'>Métier 8</option>
-<option value='Metier_9'>Métier 9</option>
-<option value='Metier_10'>Métier 10</option>
-<option value='Metier_11'>Métier 11</option>
-<option value='Metier_12'>Métier 12</option>
-<option value='Metier_13'>Métier 13</option>
-<option value='Metier_14'>Métier 14</option>
-<option value='Metier_15'>Métier 15</option>
-<option value='Metier_16'>Métier 16</option>
-<option value='Metier_17'>Métier 17</option>
-<option value='Metier_18'>Métier 18</option>
-<option value='Metier_19'>Métier 19</option>
-<option value='Metier_20'>Métier 20</option>
-<option value='Metier_21'>Métier 21</option>
-<option value='Metier_22'>Métier 22</option>
-<option value='Metier_23'>Métier 23</option>
-<option value='Metier_24'>Métier 24</option>
-<option value='Metier_25'>Métier 25</option>
-<option value='Metier_26'>Métier 26</option>
-<option value='Metier_27'>Métier 27</option>
-<option value='Metier_28'>Métier 28</option>
-<option value='Metier_29'>Métier 29</option>
-<option value='Metier_30'>Métier 30</option>
-<option value='Metier_31'>Métier 31</option>
-<option value='Metier_32'>Métier 32</option>
-<option value='Metier_33'>Métier 33</option>
-<option value='Metier_34'>Métier 34</option>
-<option value='Metier_35'>Métier 35</option>
-<option value='Metier_36'>Métier 36</option>
-<option value='Metier_37'>Métier 37</option>
-<option value='Metier_38'>Métier 38</option>
-<option value='Metier_39'>Métier 39</option>
-<option value='Metier_40'>Métier 40</option>
-<option value='Metier_41'>Métier 41</option>
-<option value='Metier_42'>Métier 42</option>
-<option value='Metier_43'>Métier 43</option>
-<option value='Metier_44'>Métier 44</option>
-<option value='Metier_45'>Métier 45</option>
-<option value='Metier_46'>Métier 46</option>
-<option value='Metier_47'>Métier 47</option>
-<option value='Metier_48'>Métier 48</option>
-<option value='Metier_49'>Métier 49</option>
-<option value='Metier_50'>Métier 50</option>
-<option value='Metier_51'>Métier 51</option>
-<option value='Metier_52'>Métier 52</option>
-<option value='Metier_53'>Métier 53</option>
-<option value='Metier_54'>Métier 54</option>
-<option value='Metier_55'>Métier 55</option>
-<option value='Metier_56'>Métier 56</option>
-<option value='Metier_57'>Métier 57</option>
-<option value='Metier_58'>Métier 58</option>
-<option value='Metier_59'>Métier 59</option>
-<option value='Metier_60'>Métier 60</option>
-<option value='Metier_61'>Métier 61</option>
-<option value='Metier_62'>Métier 62</option>
-<option value='Metier_63'>Métier 63</option>
-<option value='Metier_64'>Métier 64</option>
-<option value='Metier_65'>Métier 65</option>
-<option value='Metier_66'>Métier 66</option>
-<option value='Metier_67'>Métier 67</option>
-<option value='Metier_68'>Métier 68</option>
-<option value='Metier_69'>Métier 69</option>
-<option value='Metier_70'>Métier 70</option>
+<option value='Maçon'>Maçon</option>
+<option value='Plaquiste'>Plaquiste</option>
+<option value='Carreleur'>Carreleur</option>
+<option value='Peintre en bâtiment'>Peintre en bâtiment</option>
+<option value='Menuisier'>Menuisier</option>
+<option value='Charpentier'>Charpentier</option>
+<option value='Couvreur'>Couvreur</option>
+<option value='Électricien bâtiment'>Électricien bâtiment</option>
+<option value='Plombier‑chauffagiste'>Plombier‑chauffagiste</option>
+<option value='Chef de chantier'>Chef de chantier</option>
+<option value='Manoeuvre BTP'>Manoeuvre BTP</option>
+<option value='Conducteur d’engins'>Conducteur d’engins</option>
+<option value='Monteur échafaudeur'>Monteur échafaudeur</option>
+<option value='Façadier'>Façadier</option>
+<option value='Serrurier‑métallier'>Serrurier‑métallier</option>
+<option value='Technicien de maintenance'>Technicien de maintenance</option>
+<option value='Technicien maintenance industrielle'>Technicien maintenance industrielle</option>
+<option value='Opérateur de production'>Opérateur de production</option>
+<option value='Conducteur de ligne'>Conducteur de ligne</option>
+<option value='Soudeur'>Soudeur</option>
+<option value='Chaudronnier'>Chaudronnier</option>
+<option value='Mécanicien automobile'>Mécanicien automobile</option>
+<option value='Mécanicien PL'>Mécanicien PL</option>
+<option value='Électromécanicien'>Électromécanicien</option>
+<option value='Technicien qualité'>Technicien qualité</option>
+<option value='Technicien méthodes'>Technicien méthodes</option>
+<option value='Technicien atelier'>Technicien atelier</option>
+<option value='Opérateur CN'>Opérateur CN</option>
+<option value='Monteur‑assembleur'>Monteur‑assembleur</option>
+<option value='Peintre industriel'>Peintre industriel</option>
+<option value='Cariste'>Cariste</option>
+<option value='Préparateur de commandes'>Préparateur de commandes</option>
+<option value='Magasinier'>Magasinier</option>
+<option value='Agent de quai'>Agent de quai</option>
+<option value='Chauffeur‑livreur'>Chauffeur‑livreur</option>
+<option value='Chauffeur PL'>Chauffeur PL</option>
+<option value='Conducteur SPL'>Conducteur SPL</option>
+<option value='Gestionnaire de stock'>Gestionnaire de stock</option>
+<option value='Agent de tri'>Agent de tri</option>
+<option value='Coordinateur logistique'>Coordinateur logistique</option>
+<option value='Employé polyvalent'>Employé polyvalent</option>
+<option value='Hôte / hôtesse de caisse'>Hôte / hôtesse de caisse</option>
+<option value='Vendeur'>Vendeur</option>
+<option value='Responsable de rayon'>Responsable de rayon</option>
+<option value='Réceptionnaire'>Réceptionnaire</option>
+<option value='Boucher'>Boucher</option>
+<option value='Boulanger'>Boulanger</option>
+<option value='Poissonnier'>Poissonnier</option>
+<option value='Fromager'>Fromager</option>
+<option value='Préparateur drive'>Préparateur drive</option>
+<option value='Cuisinier'>Cuisinier</option>
+<option value='Commis de cuisine'>Commis de cuisine</option>
+<option value='Plongeur'>Plongeur</option>
+<option value='Serveur'>Serveur</option>
+<option value='Chef de rang'>Chef de rang</option>
+<option value='Barman'>Barman</option>
+<option value='Réceptionniste hôtel'>Réceptionniste hôtel</option>
+<option value='Gouvernante / agent d’étage'>Gouvernante / agent d’étage</option>
+<option value='Agent d’entretien'>Agent d’entretien</option>
+<option value='Agent de propreté industrielle'>Agent de propreté industrielle</option>
+<option value='Laveur de vitres'>Laveur de vitres</option>
+<option value='Agent de désinfection'>Agent de désinfection</option>
+<option value='ASH'>ASH</option>
+<option value='Lingère / pressing'>Lingère / pressing</option>
+<option value='Agent multi‑services'>Agent multi‑services</option>
+<option value='Assistant administratif'>Assistant administratif</option>
+<option value='Secrétaire'>Secrétaire</option>
+<option value='Assistant RH'>Assistant RH</option>
+<option value='Assistant comptable'>Assistant comptable</option>
+<option value='Technicien informatique'>Technicien informatique</option>
+<option value='Téléconseiller'>Téléconseiller</option>
+<option value='Chargé de clientèle'>Chargé de clientèle</option>
+<option value='Agent d’accueil'>Agent d’accueil</option>
+<option value='Gestionnaire administratif'>Gestionnaire administratif</option>
 
 </select>
 <button class='btn' onclick='afficherMetier()'>Afficher fiche métier</button>
 <button class='btn' onclick='ouvrirMenu()'>Retour</button>
 </div>
 
-<!-- PAGE FICHE METIER -->
 <div id='pageFiche' class='card' style='display:none;'>
 <h2 id='titreMetier'></h2>
-<div class='block' id='contenuMetier'>Chargement…</div>
+<div class='block' id='contenuMetier'></div>
 <button class='btn' onclick='ouvrirMetiers()'>Retour métiers</button>
 </div>
 
-<!-- PAGE SCANNER -->
 <div id='pageScanner' class='card' style='display:none;'>
 <h2>Scanner un produit</h2>
 <video id='video' playsinline></video>
@@ -132,86 +131,107 @@ img.logo{width:260px;margin-bottom:20px;}
 <button class='btn' onclick='ouvrirMenu()'>Retour menu</button>
 </div>
 
-<!-- PAGE CMR -->
 <div id='pageCMR' class='card' style='display:none;'>
-<h2>CMR</h2>
-<div class='block'>Substances CMR : Cancérigènes, Mutagènes, Reprotoxiques.</div>
+<h2>CMR</h2><div class='block'>Substances CMR : C1A, C1B, M1B, R1B.</div>
 <button class='btn' onclick='ouvrirMenu()'>Retour</button>
 </div>
 
-<!-- PAGE DUERP -->
 <div id='pageDUERP' class='card' style='display:none;'>
-<h2>DUERP</h2>
-<div class='block'>Méthode d'évaluation + prévention hiérarchisée.</div>
+<h2>DUERP</h2><div class='block'>Méthode d'évaluation + prévention hiérarchisée.</div>
 <button class='btn' onclick='ouvrirMenu()'>Retour</button>
 </div>
 
 <script>
-/* === PRODUITS POUR SCAN === */
-const produitsCMR = {
- "3254567890123":{nom:"Dégraissant X",cmr:"H350",epi:"Gants nitrile"}
-};
+const metiersData = {};
+metiersData['Maçon'] = {label:'Maçon', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Plaquiste'] = {label:'Plaquiste', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Carreleur'] = {label:'Carreleur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Peintre en bâtiment'] = {label:'Peintre en bâtiment', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Menuisier'] = {label:'Menuisier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Charpentier'] = {label:'Charpentier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Couvreur'] = {label:'Couvreur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Électricien bâtiment'] = {label:'Électricien bâtiment', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Plombier‑chauffagiste'] = {label:'Plombier‑chauffagiste', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Chef de chantier'] = {label:'Chef de chantier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Manoeuvre BTP'] = {label:'Manoeuvre BTP', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Conducteur d’engins'] = {label:'Conducteur d’engins', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Monteur échafaudeur'] = {label:'Monteur échafaudeur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Façadier'] = {label:'Façadier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Serrurier‑métallier'] = {label:'Serrurier‑métallier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Technicien de maintenance'] = {label:'Technicien de maintenance', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Technicien maintenance industrielle'] = {label:'Technicien maintenance industrielle', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Opérateur de production'] = {label:'Opérateur de production', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Conducteur de ligne'] = {label:'Conducteur de ligne', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Soudeur'] = {label:'Soudeur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Chaudronnier'] = {label:'Chaudronnier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Mécanicien automobile'] = {label:'Mécanicien automobile', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Mécanicien PL'] = {label:'Mécanicien PL', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Électromécanicien'] = {label:'Électromécanicien', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Technicien qualité'] = {label:'Technicien qualité', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Technicien méthodes'] = {label:'Technicien méthodes', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Technicien atelier'] = {label:'Technicien atelier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Opérateur CN'] = {label:'Opérateur CN', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Monteur‑assembleur'] = {label:'Monteur‑assembleur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Peintre industriel'] = {label:'Peintre industriel', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Cariste'] = {label:'Cariste', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Préparateur de commandes'] = {label:'Préparateur de commandes', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Magasinier'] = {label:'Magasinier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent de quai'] = {label:'Agent de quai', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Chauffeur‑livreur'] = {label:'Chauffeur‑livreur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Chauffeur PL'] = {label:'Chauffeur PL', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Conducteur SPL'] = {label:'Conducteur SPL', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Gestionnaire de stock'] = {label:'Gestionnaire de stock', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent de tri'] = {label:'Agent de tri', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Coordinateur logistique'] = {label:'Coordinateur logistique', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Employé polyvalent'] = {label:'Employé polyvalent', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Hôte / hôtesse de caisse'] = {label:'Hôte / hôtesse de caisse', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Vendeur'] = {label:'Vendeur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Responsable de rayon'] = {label:'Responsable de rayon', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Réceptionnaire'] = {label:'Réceptionnaire', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Boucher'] = {label:'Boucher', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Boulanger'] = {label:'Boulanger', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Poissonnier'] = {label:'Poissonnier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Fromager'] = {label:'Fromager', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Préparateur drive'] = {label:'Préparateur drive', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Cuisinier'] = {label:'Cuisinier', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Commis de cuisine'] = {label:'Commis de cuisine', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Plongeur'] = {label:'Plongeur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Serveur'] = {label:'Serveur', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Chef de rang'] = {label:'Chef de rang', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Barman'] = {label:'Barman', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Réceptionniste hôtel'] = {label:'Réceptionniste hôtel', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Gouvernante / agent d’étage'] = {label:'Gouvernante / agent d’étage', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent d’entretien'] = {label:'Agent d’entretien', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent de propreté industrielle'] = {label:'Agent de propreté industrielle', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Laveur de vitres'] = {label:'Laveur de vitres', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent de désinfection'] = {label:'Agent de désinfection', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['ASH'] = {label:'ASH', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Lingère / pressing'] = {label:'Lingère / pressing', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent multi‑services'] = {label:'Agent multi‑services', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Assistant administratif'] = {label:'Assistant administratif', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Secrétaire'] = {label:'Secrétaire', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Assistant RH'] = {label:'Assistant RH', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Assistant comptable'] = {label:'Assistant comptable', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Technicien informatique'] = {label:'Technicien informatique', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Téléconseiller'] = {label:'Téléconseiller', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Chargé de clientèle'] = {label:'Chargé de clientèle', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Agent d’accueil'] = {label:'Agent d’accueil', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
+metiersData['Gestionnaire administratif'] = {label:'Gestionnaire administratif', risques_metier:['Risques liés au métier'], risques_cmr:['Selon produits utilisés'], risques_tms:['Postures'], risques_rps:['Charge mentale'], prevention:'✅ Prévention conforme RESTEV', obligations:'DUERP obligatoire', docs:'Fiches INRS disponibles'};
 
-/* === BASE 70 METIERS === */
-const data = {};
-for(let i=1;i<=70;i++){
-  data["Metier_"+i] = {
-    label: "Métier " + i,
-    risques_metier: ["Risques professionnels niveau B"],
-    risques_cmr: ["Selon exposition"],
-    risques_tms: ["Postures"],
-    risques_rps: ["Charge mentale"],
-    prevention: "✅ Prévention disponible version finale",
-    obligations: "DUERP obligatoire",
-    docs: "Fiches INRS disponibles"
-  };
-}
-
-/* === NAVIGATION === */
-function cacher(){
- ['accueil','menu','pageMetiers','pageFiche','pageScanner','pageCMR','pageDUERP'].forEach(id=>document.getElementById(id).style.display='none');
-}
+function cacher(){['accueil','menu','pageMetiers','pageFiche','pageScanner','pageCMR','pageDUERP'].forEach(id=>document.getElementById(id).style.display='none');}
 function retourAccueil(){cacher();document.getElementById('accueil').style.display='flex';}
 function ouvrirMenu(){cacher();document.getElementById('menu').style.display='block';}
 function ouvrirMetiers(){cacher();document.getElementById('pageMetiers').style.display='block';}
 function ouvrirCMR(){cacher();document.getElementById('pageCMR').style.display='block';}
 function ouvrirDUERP(){cacher();document.getElementById('pageDUERP').style.display='block';}
 
-/* === FICHE METIER === */
-function afficherMetier(){
- let m=document.getElementById('metierSelect').value;
- if(!m){alert('Sélectionnez un métier');return;}
- cacher();
- document.getElementById('pageFiche').style.display='block';
- document.getElementById('titreMetier').innerText = data[m].label;
- document.getElementById('contenuMetier').innerHTML =
-   `<b>Risques métier :</b><br>${data[m].risques_metier.join('<br>')}<br><br>`+
-   `<b>CMR :</b><br>${data[m].risques_cmr.join('<br>')}<br><br>`+
-   `<b>TMS :</b><br>${data[m].risques_tms.join('<br>')}<br><br>`+
-   `<b>RPS :</b><br>${data[m].risques_rps.join('<br>')}<br><br>`+
-   `<b>Prévention :</b><br>${data[m].prevention}<br><br>`+
-   `<b>Obligations :</b><br>${data[m].obligations}<br><br>`+
-   `<b>Documents :</b><br>${data[m].docs}`;
-}
+function afficherMetier(){let m=document.getElementById('metierSelect').value;if(!m){alert('Sélectionnez un métier');return;}cacher();document.getElementById('pageFiche').style.display='block';let d=metiersData[m];document.getElementById('titreMetier').innerText=d.label;document.getElementById('contenuMetier').innerHTML=`<b>Risques métier:</b><br>${d.risques_metier.join('<br>')}<br><br><b>CMR:</b><br>${d.risques_cmr.join('<br>')}<br><br><b>TMS:</b><br>${d.risques_tms.join('<br>')}<br><br><b>RPS:</b><br>${d.risques_rps.join('<br>')}<br><br><b>Prévention:</b><br>${d.prevention}<br><br><b>Obligations:</b><br>${d.obligations}<br><br><b>Docs:</b><br>${d.docs}`;}
 
-/* === SCANNING === */
 let codeReader=null;
-function ouvrirScanner(){
- cacher();
- document.getElementById('pageScanner').style.display='block';
- codeReader = new ZXing.BrowserMultiFormatReader();
- codeReader.decodeFromVideoDevice(null,'video',(r,e)=>{if(r)afficherProduit(r.text);});
-}
-function afficherProduit(ean){
- let zone=document.getElementById('scanResult');
- zone.style.display='block';
- if(produitsCMR[ean]){
-   let p=produitsCMR[ean]; zone.innerHTML = `<b>${p.nom}</b><br>CMR : ${p.cmr}<br>EPI : ${p.epi}`;
- }
- else zone.innerHTML = `Produit non trouvé : ${ean}`;
-}
+const produitsCMR={"3254567890123":{nom:'Dégraissant X',cmr:'H350',epi:'Gants'}};
+function ouvrirScanner(){cacher();document.getElementById('pageScanner').style.display='block';codeReader=new ZXing.BrowserMultiFormatReader();codeReader.decodeFromVideoDevice(null,'video',(r,e)=>{if(r)afficherProduit(r.text);});}
+function afficherProduit(ean){let z=document.getElementById('scanResult');z.style.display='block';if(produitsCMR[ean]){let p=produitsCMR[ean];z.innerHTML=`<b>${p.nom}</b><br>CMR:${p.cmr}<br>EPI:${p.epi}`;}else z.innerHTML='Produit non trouvé: '+ean;}
 function arreterScanner(){try{codeReader.reset();}catch(e){}ouvrirMenu();}
 </script>
-
 </body>
 </html>
