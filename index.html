@@ -3,7 +3,7 @@
 <html lang='fr'>
 <head>
 <meta charset='UTF-8'/>
-<title>RESTEV – Application Prévention (70 Métiers)</title>
+<title>RESTEV – Application Prévention (70 Métiers + Logo + Scanner)</title>
 <script src='https://unpkg.com/@zxing/library@latest'></script>
 <style>
 body{font-family:Arial;max-width:480px;margin:auto;background:#f2f4f8;padding:0;}
@@ -12,14 +12,16 @@ body{font-family:Arial;max-width:480px;margin:auto;background:#f2f4f8;padding:0;
 #accueil{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#2563eb,#9333ea);color:white;} 
 video{width:100%;border-radius:12px;margin-top:15px;} 
 .block{background:#f8fafc;padding:10px;border-radius:8px;margin-top:10px;border-left:5px solid #2563eb;} 
+img.logo{width:260px;margin-bottom:20px;} 
 </style>
 </head>
 <body>
 
 <!-- ACCUEIL -->
 <div id='accueil'>
+<img src='logo.png' class='logo'>
 <h1>Prévention Mobile – RESTEV</h1>
-<p>Version 70 métiers</p>
+<p>Version 70 métiers + Scanner</p>
 <button class='btn' onclick='ouvrirMenu()'>ENTRER</button>
 </div>
 
@@ -38,76 +40,76 @@ video{width:100%;border-radius:12px;margin-top:15px;}
 <h2>Liste des 70 métiers</h2>
 <select id='metierSelect'>
 <option value=''>Sélectionnez…</option>
-<option value='Metier_1'>Metier_1</option>
-<option value='Metier_2'>Metier_2</option>
-<option value='Metier_3'>Metier_3</option>
-<option value='Metier_4'>Metier_4</option>
-<option value='Metier_5'>Metier_5</option>
-<option value='Metier_6'>Metier_6</option>
-<option value='Metier_7'>Metier_7</option>
-<option value='Metier_8'>Metier_8</option>
-<option value='Metier_9'>Metier_9</option>
-<option value='Metier_10'>Metier_10</option>
-<option value='Metier_11'>Metier_11</option>
-<option value='Metier_12'>Metier_12</option>
-<option value='Metier_13'>Metier_13</option>
-<option value='Metier_14'>Metier_14</option>
-<option value='Metier_15'>Metier_15</option>
-<option value='Metier_16'>Metier_16</option>
-<option value='Metier_17'>Metier_17</option>
-<option value='Metier_18'>Metier_18</option>
-<option value='Metier_19'>Metier_19</option>
-<option value='Metier_20'>Metier_20</option>
-<option value='Metier_21'>Metier_21</option>
-<option value='Metier_22'>Metier_22</option>
-<option value='Metier_23'>Metier_23</option>
-<option value='Metier_24'>Metier_24</option>
-<option value='Metier_25'>Metier_25</option>
-<option value='Metier_26'>Metier_26</option>
-<option value='Metier_27'>Metier_27</option>
-<option value='Metier_28'>Metier_28</option>
-<option value='Metier_29'>Metier_29</option>
-<option value='Metier_30'>Metier_30</option>
-<option value='Metier_31'>Metier_31</option>
-<option value='Metier_32'>Metier_32</option>
-<option value='Metier_33'>Metier_33</option>
-<option value='Metier_34'>Metier_34</option>
-<option value='Metier_35'>Metier_35</option>
-<option value='Metier_36'>Metier_36</option>
-<option value='Metier_37'>Metier_37</option>
-<option value='Metier_38'>Metier_38</option>
-<option value='Metier_39'>Metier_39</option>
-<option value='Metier_40'>Metier_40</option>
-<option value='Metier_41'>Metier_41</option>
-<option value='Metier_42'>Metier_42</option>
-<option value='Metier_43'>Metier_43</option>
-<option value='Metier_44'>Metier_44</option>
-<option value='Metier_45'>Metier_45</option>
-<option value='Metier_46'>Metier_46</option>
-<option value='Metier_47'>Metier_47</option>
-<option value='Metier_48'>Metier_48</option>
-<option value='Metier_49'>Metier_49</option>
-<option value='Metier_50'>Metier_50</option>
-<option value='Metier_51'>Metier_51</option>
-<option value='Metier_52'>Metier_52</option>
-<option value='Metier_53'>Metier_53</option>
-<option value='Metier_54'>Metier_54</option>
-<option value='Metier_55'>Metier_55</option>
-<option value='Metier_56'>Metier_56</option>
-<option value='Metier_57'>Metier_57</option>
-<option value='Metier_58'>Metier_58</option>
-<option value='Metier_59'>Metier_59</option>
-<option value='Metier_60'>Metier_60</option>
-<option value='Metier_61'>Metier_61</option>
-<option value='Metier_62'>Metier_62</option>
-<option value='Metier_63'>Metier_63</option>
-<option value='Metier_64'>Metier_64</option>
-<option value='Metier_65'>Metier_65</option>
-<option value='Metier_66'>Metier_66</option>
-<option value='Metier_67'>Metier_67</option>
-<option value='Metier_68'>Metier_68</option>
-<option value='Metier_69'>Metier_69</option>
-<option value='Metier_70'>Metier_70</option>
+<option value='Metier_1'>Métier 1</option>
+<option value='Metier_2'>Métier 2</option>
+<option value='Metier_3'>Métier 3</option>
+<option value='Metier_4'>Métier 4</option>
+<option value='Metier_5'>Métier 5</option>
+<option value='Metier_6'>Métier 6</option>
+<option value='Metier_7'>Métier 7</option>
+<option value='Metier_8'>Métier 8</option>
+<option value='Metier_9'>Métier 9</option>
+<option value='Metier_10'>Métier 10</option>
+<option value='Metier_11'>Métier 11</option>
+<option value='Metier_12'>Métier 12</option>
+<option value='Metier_13'>Métier 13</option>
+<option value='Metier_14'>Métier 14</option>
+<option value='Metier_15'>Métier 15</option>
+<option value='Metier_16'>Métier 16</option>
+<option value='Metier_17'>Métier 17</option>
+<option value='Metier_18'>Métier 18</option>
+<option value='Metier_19'>Métier 19</option>
+<option value='Metier_20'>Métier 20</option>
+<option value='Metier_21'>Métier 21</option>
+<option value='Metier_22'>Métier 22</option>
+<option value='Metier_23'>Métier 23</option>
+<option value='Metier_24'>Métier 24</option>
+<option value='Metier_25'>Métier 25</option>
+<option value='Metier_26'>Métier 26</option>
+<option value='Metier_27'>Métier 27</option>
+<option value='Metier_28'>Métier 28</option>
+<option value='Metier_29'>Métier 29</option>
+<option value='Metier_30'>Métier 30</option>
+<option value='Metier_31'>Métier 31</option>
+<option value='Metier_32'>Métier 32</option>
+<option value='Metier_33'>Métier 33</option>
+<option value='Metier_34'>Métier 34</option>
+<option value='Metier_35'>Métier 35</option>
+<option value='Metier_36'>Métier 36</option>
+<option value='Metier_37'>Métier 37</option>
+<option value='Metier_38'>Métier 38</option>
+<option value='Metier_39'>Métier 39</option>
+<option value='Metier_40'>Métier 40</option>
+<option value='Metier_41'>Métier 41</option>
+<option value='Metier_42'>Métier 42</option>
+<option value='Metier_43'>Métier 43</option>
+<option value='Metier_44'>Métier 44</option>
+<option value='Metier_45'>Métier 45</option>
+<option value='Metier_46'>Métier 46</option>
+<option value='Metier_47'>Métier 47</option>
+<option value='Metier_48'>Métier 48</option>
+<option value='Metier_49'>Métier 49</option>
+<option value='Metier_50'>Métier 50</option>
+<option value='Metier_51'>Métier 51</option>
+<option value='Metier_52'>Métier 52</option>
+<option value='Metier_53'>Métier 53</option>
+<option value='Metier_54'>Métier 54</option>
+<option value='Metier_55'>Métier 55</option>
+<option value='Metier_56'>Métier 56</option>
+<option value='Metier_57'>Métier 57</option>
+<option value='Metier_58'>Métier 58</option>
+<option value='Metier_59'>Métier 59</option>
+<option value='Metier_60'>Métier 60</option>
+<option value='Metier_61'>Métier 61</option>
+<option value='Metier_62'>Métier 62</option>
+<option value='Metier_63'>Métier 63</option>
+<option value='Metier_64'>Métier 64</option>
+<option value='Metier_65'>Métier 65</option>
+<option value='Metier_66'>Métier 66</option>
+<option value='Metier_67'>Métier 67</option>
+<option value='Metier_68'>Métier 68</option>
+<option value='Metier_69'>Métier 69</option>
+<option value='Metier_70'>Métier 70</option>
 
 </select>
 <button class='btn' onclick='afficherMetier()'>Afficher fiche métier</button>
@@ -145,35 +147,29 @@ video{width:100%;border-radius:12px;margin-top:15px;}
 </div>
 
 <script>
-/* === PRODUITS POUR SCANNER === */
-const produitsCMR={
- "3254567890123":{nom:"Degraissant X",categorie:"Solvant",cmr:"H350",epi:"Gants nitrile",fds:"FDS.pdf"}
+/* === PRODUITS POUR SCAN === */
+const produitsCMR = {
+ "3254567890123":{nom:"Dégraissant X",cmr:"H350",epi:"Gants nitrile"}
 };
 
-/* === METIERS (placeholder complet 70 métiers) === */
-const data={};
+/* === BASE 70 METIERS === */
+const data = {};
 for(let i=1;i<=70;i++){
- data["Metier_"+i]={
-   label:"Metier_"+i,
-   risques_metier:["Risque professionnel niveau B"],
-   risques_cmr:["Selon exposition"],
-   risques_tms:["Postures"],
-   risques_rps:["Charge mentale"],
-   prevention:"✅ Prévention adaptée disponible dans la version finale",
-   obligations:"DUERP obligatoire",
-   docs:"Fiches INRS disponibles"
- };
+  data["Metier_"+i] = {
+    label: "Métier " + i,
+    risques_metier: ["Risques professionnels niveau B"],
+    risques_cmr: ["Selon exposition"],
+    risques_tms: ["Postures"],
+    risques_rps: ["Charge mentale"],
+    prevention: "✅ Prévention disponible version finale",
+    obligations: "DUERP obligatoire",
+    docs: "Fiches INRS disponibles"
+  };
 }
 
 /* === NAVIGATION === */
 function cacher(){
- document.getElementById('accueil').style.display='none';
- document.getElementById('menu').style.display='none';
- document.getElementById('pageMetiers').style.display='none';
- document.getElementById('pageFiche').style.display='none';
- document.getElementById('pageScanner').style.display='none';
- document.getElementById('pageCMR').style.display='none';
- document.getElementById('pageDUERP').style.display='none';
+ ['accueil','menu','pageMetiers','pageFiche','pageScanner','pageCMR','pageDUERP'].forEach(id=>document.getElementById(id).style.display='none');
 }
 function retourAccueil(){cacher();document.getElementById('accueil').style.display='flex';}
 function ouvrirMenu(){cacher();document.getElementById('menu').style.display='block';}
@@ -187,8 +183,8 @@ function afficherMetier(){
  if(!m){alert('Sélectionnez un métier');return;}
  cacher();
  document.getElementById('pageFiche').style.display='block';
- document.getElementById('titreMetier').innerText=data[m].label;
- document.getElementById('contenuMetier').innerHTML=
+ document.getElementById('titreMetier').innerText = data[m].label;
+ document.getElementById('contenuMetier').innerHTML =
    `<b>Risques métier :</b><br>${data[m].risques_metier.join('<br>')}<br><br>`+
    `<b>CMR :</b><br>${data[m].risques_cmr.join('<br>')}<br><br>`+
    `<b>TMS :</b><br>${data[m].risques_tms.join('<br>')}<br><br>`+
@@ -198,21 +194,21 @@ function afficherMetier(){
    `<b>Documents :</b><br>${data[m].docs}`;
 }
 
-/* === SCANNER === */
+/* === SCANNING === */
 let codeReader=null;
 function ouvrirScanner(){
  cacher();
  document.getElementById('pageScanner').style.display='block';
- codeReader=new ZXing.BrowserMultiFormatReader();
+ codeReader = new ZXing.BrowserMultiFormatReader();
  codeReader.decodeFromVideoDevice(null,'video',(r,e)=>{if(r)afficherProduit(r.text);});
 }
 function afficherProduit(ean){
  let zone=document.getElementById('scanResult');
  zone.style.display='block';
  if(produitsCMR[ean]){
-   let p=produitsCMR[ean];
-   zone.innerHTML=`<b>${p.nom}</b><br>CMR : ${p.cmr}<br>EPI : ${p.epi}`;
- }else zone.innerHTML=`Produit non trouvé : ${ean}`;
+   let p=produitsCMR[ean]; zone.innerHTML = `<b>${p.nom}</b><br>CMR : ${p.cmr}<br>EPI : ${p.epi}`;
+ }
+ else zone.innerHTML = `Produit non trouvé : ${ean}`;
 }
 function arreterScanner(){try{codeReader.reset();}catch(e){}ouvrirMenu();}
 </script>
