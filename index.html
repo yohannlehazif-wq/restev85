@@ -1,502 +1,90 @@
+
 <!DOCTYPE html>
-<html lang="fr">
-
+<html lang='fr'>
 <head>
-<meta charset="UTF-8">
+<meta charset='UTF-8'>
 <title>RESTEV – Prévention Mobile</title>
-
 <style>
-
-/* === STYLE GLOBAL MODERNE PREMIUM === */
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    max-width: 480px;
-    margin: auto;
-    background: #f2f4f8;
-    padding: 0;
-}
-.fade { animation: fadeIn 0.4s ease; }
-@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
-
-/* ACCUEIL */
-#accueil {
-    height: 100vh;
-    background: linear-gradient(135deg, #2563eb, #9333ea);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-.logo { width: 180px; margin-bottom: 30px; }
-
-/* BOUTONS */
-.btn {
-    width: 90%;
-    padding: 15px;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 12px;
-    transition: 0.2s;
-}
-.btn-start {
-    background: white;
-    color: #2563eb;
-}
-.btn-menu {
-    background: linear-gradient(135deg,#2563eb,#9333ea);
-    color: white;
-}
-.btn-back {
-    background: #e5e7eb;
-    color: #111;
-}
-.btn:hover { transform: scale(1.05); }
-
-/* CARTES */
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 16px;
-    margin: 20px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-}
-
-/* SELECT */
-select {
-    width: 100%;
-    font-size: 18px;
-    padding: 14px;
-    border-radius: 12px;
-    border: 2px solid #d1d5db;
-    margin-bottom: 15px;
-}
-
-.block {
-    background: #f8fafc;
-    border-left: 5px solid #2563eb;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-}
-
-</style>
-</head>
-
+body {font-family:'Segoe UI',Arial,sans-serif;max-width:480px;margin:auto;background:#f2f4f8;padding:0;}
+.fade{animation:fadeIn 0.4s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+#accueil{height:100vh;background:linear-gradient(135deg,#2563eb,#9333ea);display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-align:center;padding:20px;}
+.btn{width:90%;padding:15px;border:none;border-radius:14px;cursor:pointer;font-size:20px;font-weight:600;margin-top:12px;transition:0.2s;}
+.btn-start{background:white;color:#2563eb;}
+.btn-menu{background:linear-gradient(135deg,#2563eb,#9333ea);color:white;}
+.btn-back{background:#e5e7eb;color:#111;}
+.btn:hover{transform:scale(1.05);}
+.card{background:white;padding:22px;border-radius:16px;margin:20px;box-shadow:0 4px 14px rgba(0,0,0,0.15);}
+select{width:100%;font-size:18px;padding:14px;border-radius:12px;border:2px solid #d1d5db;margin-bottom:15px;}
+.block{background:#f8fafc;border-left:5px solid #2563eb;padding:12px;border-radius:10px;margin-bottom:12px;}
+</style></head>
 <body>
-
-<!-- ✅ ACCUEIL -->
-<div id="accueil" class="fade">
-    logo.png
-    <h1 style="font-size:30px;font-weight:700;">Prévention Mobile</h1>
-    <p style="font-size:18px;opacity:0.9;">Application officielle RESTEV</p>
-    <button class="btn btn-start" onclick="ouvrirMenuPrincipal()">ENTRER</button>
+<div id='accueil' class='fade'>
+<h1 style='font-size:30px;font-weight:700;'>Prévention Mobile</h1>
+<p style='font-size:18px;opacity:0.9;'>Application officielle RESTEV</p>
+<button class='btn btn-start' onclick='ouvrirMenuPrincipal()'>ENTRER</button>
 </div>
-
-<!-- ✅ MENU PRINCIPAL -->
-<div id="menuPrincipal" class="card fade" style="display:none;">
-    <h2>Menu principal</h2>
-
-    <button class="btn btn-menu" onclick="ouvrirMetiers()">Métiers</button>
-    <button class="btn btn-menu" onclick="ouvrirCMR()">CMR</button>
-
-    <button class="btn btn-back" onclick="retourAccueil()">← Retour accueil</button>
+<div id='menuPrincipal' class='card fade' style='display:none;'>
+<h2>Menu principal</h2>
+<button class='btn btn-menu' onclick='ouvrirMetiers()'>Métiers</button>
+<button class='btn btn-menu' onclick='ouvrirCMR()'>CMR</button>
+<button class='btn btn-menu' onclick='ouvrirDUERP()'>DUERP</button>
+<button class='btn btn-back' onclick='retourAccueil()'>← Retour accueil</button>
 </div>
-
-<!-- ✅ MENU MÉTIERS -->
-<div id="menuMetiers" class="card fade" style="display:none;">
-    <h2>Choisis ton métier :</h2>
-
-    <select id="select-metier">
-        <option value=""></option>
-        <option value="agent_entretien">Agent d'entretien</option>
-        <option value="agent_logistique">Agent logistique</option>
-        <option value="boulanger">Boulanger</option>
-        <option value="maintenance">Technicien maintenance</option>
-        <option value="briqueteur">Briqueteur</option>
-    </select>
-
-    <button class="btn btn-menu" onclick="validerMetier()">VALIDER ✅</button>
-    <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
+<div id='menuMetiers' class='card fade' style='display:none;'>
+<h2>Choisis ton métier :</h2>
+<select id='select-metier'>
+<option value=''></option>
+<option value='agent_entretien'>Agent d'entretien</option>
+<option value='agent_logistique'>Agent logistique</option>
+<option value='boulanger'>Boulanger</option>
+<option value='maintenance'>Technicien maintenance</option>
+<option value='briqueteur'>Briqueteur</option>
+</select>
+<button class='btn btn-menu' onclick='validerMetier()'>VALIDER ✅</button>
+<button class='btn btn-back' onclick='ouvrirMenuPrincipal()'>← Retour</button>
 </div>
-
-<!-- ✅ RISQUES (AFFICHAGE PAR BLOCS) -->
-<div id="menuRisks" class="card fade" style="display:none;"></div>
-
-<!-- ✅ PAGE CMR (VERSION COMPLETE) -->
-<div id="pageCMR" class="card fade" style="display:none;">
-    <h2>☣️ Substances CMR (Version détaillée)</h2>
-
-    <div class="block">
-        <h3>📌 Définition (CLP)</h3>
-        CMR = Cancérigène, Mutagène, Reprotoxique.<br>
-        • C1A : avéré – C1B : présumé<br>
-        • M1A / M1B : modifie l’ADN<br>
-        • R1A / R1B : toxique reproduction<br>
-    </div>
-
-    <div class="block">
-        <h3>🧪 Exemples d'entreprises</h3>
-        <b>Maintenance :</b> solvants, huiles minérales, fumées soudage<br>
-        <b>BTP :</b> silice, fibres minérales<br>
-        <b>Coiffure :</b> PPD, ammoniaque<br>
-        <b>Entretien :</b> détergents corrosifs<br>
-    </div>
-
-    <div class="block">
-        <h3>⚠️ Effets santé</h3>
-        • Cancers (poumon, peau)<br>
-        • Mutations génétiques<br>
-        • Infertilité, fausse couche<br>
-        • Neurotoxicité<br>
-    </div>
-
-    <div class="block">
-        <h3>🛠 Situations d'exposition</h3>
-        • Coupe de briques = silice<br>
-        • Dégraissage moteurs<br>
-        • Coloration cheveux (PPD)<br>
-        • Vaporisation produits entretien<br>
-    </div>
-
-    <div class="block">
-        <h3>📜 Obligations employeur</h3>
-        ✅ Substitution obligatoire<br>
-        ✅ Registre d'exposition<br>
-        ✅ Suivi médical renforcé<br>
-        ✅ FDS mises à jour<br>
-        ✅ Quantités minimales<br>
-        ✅ Formation obligatoire<br>
-    </div>
-
-    <div class="block">
-        <h3>🛡️ Prévention (INRS)</h3>
-        ✅ Ventilation / aspiration<br>
-        ✅ Masque FFP3 / filtres ABEK<br>
-        ✅ Gants nitrile/butyle<br>
-        ✅ Armoires ventilées<br>
-        ✅ Rotation des tâches<br>
-    </div>
-
-    <div class="block">
-        <h3>📘 Documents utiles</h3>
-        • INRS ED 984 – CMR<br>
-        • INRS ED 6180 – Silice<br>
-        • INRS ED 6002 – Allergies<br>
-        • Fiches FDS<br>
-    </div>
-
-    <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
+<div id='menuRisks' class='card fade' style='display:none;'></div>
+<div id='pageCMR' class='card fade' style='display:none;'>
+<h2>☣️ Substances CMR</h2>
+<div class='block'><h3>Définition</h3>CMR = Cancérigène, Mutagène, Reprotoxique.</div>
+<div class='block'><h3>Exemples</h3>Solvants, Silice, Huiles minérales.</div>
+<div class='block'><h3>Effets santé</h3>Cancers, mutations ADN, fertilité.</div>
+<div class='block'><h3>Obligations</h3>Substitution, FDS, registre exposition.</div>
+<button class='btn btn-back' onclick='ouvrirMenuPrincipal()'>← Retour</button>
 </div>
-
+<div id='pageDUERP' class='card fade' style='display:none;'>
+<h2>📄 DUERP</h2>
+<div class='block'><h3>1. Unités</h3>Atelier, logistique, commerce.</div>
+<div class='block'><h3>2. Dangers</h3>Chimiques, TMS, RPS.</div>
+<div class='block'><h3>3. Évaluation</h3>Gravité × probabilité.</div>
+<div class='block'><h3>4. Prévention</h3>Suppression → EPI.</div>
+<button class='btn btn-back' onclick='ouvrirMenuPrincipal()'>← Retour</button>
+</div>
 <script>
+function cacherTout(){accueil.style.display='none';menuPrincipal.style.display='none';menuMetiers.style.display='none';menuRisks.style.display='none';pageCMR.style.display='none';pageDUERP.style.display='none';}
+function retourAccueil(){cacherTout();accueil.style.display='flex';}
+function ouvrirMenuPrincipal(){cacherTout();menuPrincipal.style.display='block';}
+function ouvrirMetiers(){cacherTout();menuMetiers.style.display='block';}
+function ouvrirCMR(){cacherTout();pageCMR.style.display='block';}
+function ouvrirDUERP(){cacherTout();pageDUERP.style.display='block';}
 
-/* ✅ BASE MÉTIERS - VERSION PAR BLOCS */
-const data = {
-
-agent_entretien: {
-    label: "Agent d’entretien",
-
-    risques_metier: [
-        "Produits chimiques irritants",
-        "Risque biologique (sanitaires)",
-        "TMS : vitres, lavage, port charges",
-        "Chutes sur sol mouillé"
-    ],
-
-    risques_cmr: [
-        "Certains détergents corrosifs",
-        "Dégraissants irritants"
-    ],
-
-    risques_tms: [
-        "Travail répétitif",
-        "Épaules sollicitées",
-        "Poignets / dos"
-    ],
-
-    risques_rps: [
-        "Isolement tôt le matin",
-        "Pression de rendement",
-        "Charge mentale lors de multi-sites"
-    ],
-
-    prevention: `
-        ✅ Jamais de mélange chimique<br>
-        ✅ Manche télescopique<br>
-        ✅ Chaussures antidérapantes<br>
-        ✅ Ventilation + lecture FDS<br>
-    `,
-
-    obligations: `
-        • Mise à disposition FDS<br>
-        • Respect des dilutions<br>
-        • DUERP obligatoire<br>
-    `,
-
-    docs: `
-        • INRS ED 984 (CMR)<br>
-        • INRS ED 824 (Nettoyage)<br>
-    `
-},
-
-
-agent_logistique: {
-    label: "Agent logistique",
-
-    risques_metier: [
-        "Manutention lourde",
-        "Heurts engins",
-        "Chutes de plain-pied",
-        "Effondrement rayonnages"
-    ],
-
-    risques_cmr: [
-        "Poussières fines des palettes / emballages"
-    ],
-
-    risques_tms: [
-        "Port charges répétées",
-        "Torsions dos"
-    ],
-
-    risques_rps: [
-        "Pression préparations",
-        "Travail en horaires décalés"
-    ],
-
-    prevention: `
-        ✅ Transpalettes / gerbeurs<br>
-        ✅ Cheminements piétons<br>
-        ✅ Gilet HV + S3<br>
-    `,
-
-    obligations: `
-        • Vérification racks<br>
-        • Formation gestes & postures<br>
-    `,
-
-    docs: `
-        • INRS – Manutention<br>
-        • CARSAT – Logistique<br>
-    `
-},
-
-
-boulanger: {
-    label: "Boulanger",
-
-    risques_metier: [
-        "Brûlures aux fours",
-        "Poussières farine (asthme)",
-        "TMS (pétrissage, façonnage)",
-        "Chutes sols farinés"
-    ],
-
-    risques_cmr: [
-        "Farine classée allergène professionnelle"
-    ],
-
-    risques_tms: [
-        "Bras levés",
-        "Poignets en torsion",
-        "Postures prolongées"
-    ],
-
-    risques_rps: [
-        "Travail de nuit",
-        "Pression horaires"
-    ],
-
-    prevention: `
-        ✅ Gants thermiques<br>
-        ✅ Aspiration farine<br>
-        ✅ Rotation tâches<br>
-    `,
-
-    obligations: `
-        • Ventilation fournil<br>
-        • FDS farine disponible<br>
-    `,
-
-    docs: `
-        • INRS ED 6002 (Allergies)<br>
-        • INRS ED 6106 (Brûlures)<br>
-    `
-},
-
-
-maintenance: {
-    label: "Technicien maintenance",
-
-    risques_metier: [
-        "Électrique",
-        "Chute hauteur",
-        "Mécanique (écrasement)",
-        "CMR solvants / huiles",
-        "TMS zones exiguës",
-        "Travail isolé"
-    ],
-
-    risques_cmr: [
-        "Solvants dégraissants",
-        "Lubrifiants"
-    ],
-
-    risques_tms: [
-        "Accroupi prolongé",
-        "Bras levés",
-        "Port moteurs"
-    ],
-
-    risques_rps: [
-        "Urgence dépannages",
-        "Travail seul",
-        "Bruit"
-    ],
-
-    prevention: `
-        ✅ Consignation LOTO<br>
-        ✅ Travail en binôme<br>
-        ✅ Harnais + plateformes<br>
-        ✅ Substitution solvants<br>
-    `,
-
-    obligations: `
-        • Habilitation BR / B2V<br>
-        • Registre exposition CMR<br>
-        • Analyse pré-intervention<br>
-    `,
-
-    docs: `
-        • INRS ED 912 (consignation)<br>
-        • ED 984 (CMR)<br>
-    `
-},
-
-
-briqueteur: {
-    label: "Briqueteur",
-
-    risques_metier: [
-        "Chute échafaudage",
-        "Silice (cancer)",
-        "TMS maçonnage",
-        "Bruit disqueuse"
-    ],
-
-    risques_cmr: [
-        "Silice cristalline"
-    ],
-
-    risques_tms: [
-        "Charges lourdes",
-        "Postures répétées"
-    ],
-
-    risques_rps: [
-        "Exposition intempéries",
-        "Pression délais chantiers"
-    ],
-
-    prevention: `
-        ✅ FFP3<br>
-        ✅ Coupe à l’eau<br>
-        ✅ Échafaudages conformes<br>
-    `,
-
-    obligations: `
-        • Formation montage échafaudage<br>
-        • Prévention silice obligatoire<br>
-    `,
-
-    docs: `
-        • INRS ED 6180 (Silice)<br>
-        • OPPBTP – Maçonnerie<br>
-    `
-}
-
+const data={
+agent_entretien:{label:"Agent d'entretien",risques_metier:["Produits chimiques","Biologique","Chutes sol"],risques_cmr:["Dégraissants"],risques_tms:["Vitres","Lavage"],risques_rps:["Isolement"],prevention:`✅ Substitution`,obligations:`FDS`,docs:`ED984`},
+agent_logistique:{label:"Agent logistique",risques_metier:["Manutention","Engins"],risques_cmr:["Poussières"],risques_tms:["Dos"],risques_rps:["Stress"],prevention:`✅ Transpalette`,obligations:`Gestes`,docs:`CARSAT`},
+boulanger:{label:"Boulanger",risques_metier:["Brûlures","Farine"],risques_cmr:["Farine"],risques_tms:["Bras"],risques_rps:["Nuit"],prevention:`✅ FFP2`,obligations:`Ventilation`,docs:`ED6002`},
+maintenance:{label:"Technicien maintenance",risques_metier:["Électrique","Hauteur","CMR"],risques_cmr:["Solvants"],risques_tms:["Exigu"],risques_rps:["Urgences"],prevention:`✅ LOTO`,obligations:`BR/B2V`,docs:`ED912`},
+briqueteur:{label:"Briqueteur",risques_metier:["Échafaudage","Silice"],risques_cmr:["Silice"],risques_tms:["Charges"],risques_rps:["Délais"],prevention:`✅ FFP3`,obligations:`Silice`,docs:`ED6180`}
 };
 
-
-/* ✅ NAVIGATION */
-function cacherTout(){
-    accueil.style.display = "none";
-    menuPrincipal.style.display = "none";
-    menuMetiers.style.display = "none";
-    menuRisks.style.display = "none";
-    pageCMR.style.display = "none";
-}
-
-function retourAccueil(){ cacherTout(); accueil.style.display = "flex"; }
-
-function ouvrirMenuPrincipal(){ cacherTout(); menuPrincipal.style.display="block"; }
-
-function ouvrirMetiers(){ cacherTout(); menuMetiers.style.display="block"; }
-
-function ouvrirCMR(){ cacherTout(); pageCMR.style.display="block"; }
-
-
-/* ✅ MÉTIERS */
-function validerMetier(){
-    const m = document.getElementById("select-metier").value;
-    if(m===""){ alert("Merci de sélectionner un métier."); return; }
-    afficherRisques(m);
-}
-
-function afficherRisques(m){
-    cacherTout();
-    let html = `
-    <button class='btn btn-back' onclick='ouvrirMetiers()'>← Retour métiers</button>
-    <h2>${data[m].label}</h2>
-
-    <div class='block'>
-        <h3>🔵 Risques principaux</h3>
-        ${data[m].risques_metier.map(r=> "• "+r).join("<br>")}
-    </div>
-
-    <div class='block'>
-        <h3>🟣 Risques CMR liés au métier</h3>
-        ${data[m].risques_cmr.map(r=> "• "+r).join("<br>")}
-    </div>
-
-    <div class='block'>
-        <h3>🟠 Risques TMS</h3>
-        ${data[m].risques_tms.map(r=> "• "+r).join("<br>")}
-    </div>
-
-    <div class='block'>
-        <h3>🟡 Risques RPS</h3>
-        ${data[m].risques_rps.map(r=> "• "+r).join("<br>")}
-    </div>
-
-    <div class='block'>
-        <h3>🛡️ Prévention (INRS)</h3>
-        ${data[m].prevention}
-    </div>
-
-    <div class='block'>
-        <h3>📜 Obligations réglementaires</h3>
-        ${data[m].obligations}
-    </div>
-
-    <div class='block'>
-        <h3>📘 Documents utiles</h3>
-        ${data[m].docs}
-    </div>
-    `;
-
-    menuRisks.innerHTML = html;
-    menuRisks.style.display="block";
-}
-
+function validerMetier(){let m=document.getElementById('select-metier').value;if(m===''){alert('Merci de sélectionner un métier.');return;}afficherRisques(m);} 
+function afficherRisques(m){cacherTout();menuRisks.style.display='block';menuRisks.innerHTML=`<button class='btn btn-back' onclick='ouvrirMetiers()'>← Retour</button>
+<h2>${data[m].label}</h2>
+<div class='block'><h3>Risques métier</h3>${data[m].risques_metier.join('<br>')}</div>
+<div class='block'><h3>Risques CMR</h3>${data[m].risques_cmr.join('<br>')}</div>
+<div class='block'><h3>TMS</h3>${data[m].risques_tms.join('<br>')}</div>
+<div class='block'><h3>RPS</h3>${data[m].risques_rps.join('<br>')}</div>
+<div class='block'><h3>Prévention</h3>${data[m].prevention}</div>
+<div class='block'><h3>Obligations</h3>${data[m].obligations}</div>
+<div class='block'><h3>Documents</h3>${data[m].docs}</div>`;}
 </script>
-
-</body>
-</html>
+</body></html>
