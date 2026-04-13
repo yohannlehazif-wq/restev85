@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>RESTEV – Prévention Mobile</title>
 
-<!-- ZXING pour la caméra (SCAN code-barres) -->
+<!-- ZXing pour SCAN CAMERA -->
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 
 <style>
@@ -53,7 +53,15 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 <option value="boulanger">Boulanger</option>
 <option value="maintenance">Technicien maintenance</option>
 <option value="briqueteur">Briqueteur</option>
+<option value="macon">Maçon</option>
+<option value="plaquiste">Plaquiste</option>
+<option value="peintre">Peintre</option>
+<option value="carreleur">Carreleur</option>
+<option value="menuisier">Menuisier</option>
+<option value="cariste">Cariste</option>
+<option value="coiffeur">Coiffeur</option>
 </select>
+
 <button class="btn btn-menu" onclick="validerMetier()">VALIDER ✅</button>
 <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
@@ -75,95 +83,177 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 <!-- ✅ PAGE CMR -->
 <div id="pageCMR" class="card fade" style="display:none;">
 <h2>☣️ Substances CMR</h2>
-<div class="block"><h3>Définition</h3>CMR = Cancérigène, Mutagène, Reprotoxique.</div>
-<div class="block"><h3>Exemples</h3>Solvants moteurs, Silice, Huiles minérales, Fumées de soudage.</div>
-<div class="block"><h3>Effets santé</h3>Cancers, mutations ADN, fertilité.</div>
-<div class="block"><h3>Obligations</h3>Substitution, FDS, registre exposition, SMR.</div>
+<div class="block"><h3>Définition</h3>Cancérogènes, Mutagènes, Reprotoxiques (C1A/C1B – M1B – R1B).</div>
+<div class="block"><h3>Exemples</h3>Silice, solvants, huiles minérales, colorants PPD, fumées soudage.</div>
+<div class="block"><h3>Effets santé</h3>Cancers, anomalies génétiques, infertilité, allergies respiratoires.</div>
+<div class="block"><h3>Obligations</h3>Substitution, FDS, registre d’exposition, SMR, ventilation obligatoire.</div>
 <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
 
 <!-- ✅ PAGE DUERP -->
 <div id="pageDUERP" class="card fade" style="display:none;">
 <h2>📄 DUERP – Document Unique</h2>
-<div class="block"><h3>1. Unités</h3>Atelier, Logistique, Entretien.</div>
-<div class="block"><h3>2. Dangers</h3>Chimiques, TMS, RPS, Chutes, Électrique.</div>
-<div class="block"><h3>3. Évaluation</h3>Gravité × Probabilité = criticité.</div>
+<div class="block"><h3>1. Unités</h3>BTP, Logistique, Entretien, Boulangerie, Maintenance.</div>
+<div class="block"><h3>2. Dangers</h3>Chimiques, TMS, RPS, Électrique, Chutes, CMR.</div>
+<div class="block"><h3>3. Évaluation</h3>Matrice Gravité × Probabilité.</div>
 <div class="block"><h3>4. Prévention</h3>Suppression → Substitution → Collectif → Organisation → EPI.</div>
 <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
 
 <script>
-/* ✅ BASE PRODUITS CMR POUR LE SCANNER */
+/* ✅ BASE PRODUITS CMR — pour le SCAN */
 const produitsCMR = {
  "3254567890123": {
-   nom:"Dégraissant Industriel X",
-   catégorie:"Solvant",
-   cmr:"Cancérigène 1B (H350)",
-   epi:"Gants nitrile, masque ABEK, ventilation",
-   fds:"FDS_deg.pdf"
- },
- "3760051234567": {
-   nom:"Nettoyant moteur",
-   catégorie:"Hydrocarbures",
-   cmr:"Reprotoxique 1B (H360)",
-   epi:"Gants butyle, lunettes",
-   fds:"FDS_moteur.pdf"
+   nom:"Dégraissant industriel",
+   categorie:"Solvant chloré",
+   cmr:"Cancérigène 1B – H350",
+   epi:"Masque ABEK, gants nitrile, ventilation",
+   fds:"FDS_degraissant.pdf"
  },
  "3017624010701": {
    nom:"Acétone technique",
-   catégorie:"Solvant",
-   cmr:"Non CMR mais très inflammable",
-   epi:"Ventilation, gants nitrile",
+   categorie:"Solvant",
+   cmr:"Non CMR mais inflammable (H225)",
+   epi:"Gants nitrile, ventilation",
    fds:"FDS_acetone.pdf"
  }
 };
 
-/* ✅ DATA METIERS */
+/* ✅ MÉTIERS LES PLUS COURANTS */
 const data = {
-agent_entretien:{label:"Agent d'entretien",
-risques_metier:["Produits chimiques","Risque biologique","Chutes","TMS"],
-risques_cmr:["Dégraissants"],
-risques_tms:["Vitres","Sol","Bras"],
-risques_rps:["Isolement","Pression temps"],
-prevention:`✅ Substitution<br>✅ Ventilation<br>✅ S3`,
-obligations:`• FDS<br>• DUERP`,
-docs:`• INRS ED984<br>• ED824`},
 
-agent_logistique:{label:"Agent logistique",
-risques_metier:["Manutention","Engins","Rayonnages"],
-risques_cmr:["Poussières"],
-risques_tms:["Dos","Épaules"],
-risques_rps:["Délais"],
-prevention:`✅ Transpalette<br>✅ HV`,
-obligations:`• Gestes & postures`,
-docs:`• CARSAT Logistique`},
+agent_entretien:{
+ label:"Agent d'entretien",
+ risques_metier:["Produits chimiques","Chutes sols humides","Risque biologique"],
+ risques_cmr:["Dégraissants chlorés"],
+ risques_tms:["Vitres","Sol","Épaules"],
+ risques_rps:["Pression temps"],
+ prevention:`✅ Substitution<br>✅ Ventilation<br>✅ S3`,
+ obligations:`• FDS<br>• DUERP`,
+ docs:`• INRS ED984`
+},
 
-boulanger:{label:"Boulanger",
-risques_metier:["Brûlures","Farine","TMS"],
-risques_cmr:["Farine allergène"],
-risques_tms:["Bras","Poignets"],
-risques_rps:["Travail de nuit"],
-prevention:`✅ Aspiration<br>✅ FFP2<br>✅ Gants`,
-obligations:`• Ventilation`,
-docs:`• INRS ED6002`},
+agent_logistique:{
+ label:"Agent logistique",
+ risques_metier:["Manutention","Engins","Rayonnages"],
+ risques_cmr:["Fumées diesel"],
+ risques_tms:["Dos","Postures"],
+ risques_rps:["Délais"],
+ prevention:`✅ Transpalette<br>✅ HV`,
+ obligations:`• Gestes & postures`,
+ docs:`• CARSAT Logistique`
+},
 
-maintenance:{label:"Technicien maintenance",
-risques_metier:["Électrique","Hauteur","Mécanique","Solvants"],
-risques_cmr:["Solvants","Huiles minérales"],
-risques_tms:["Exiguïté"],
-risques_rps:["Urgences","Travail isolé"],
-prevention:`✅ LOTO<br>✅ Harnais<br>✅ Masque solvants`,
-obligations:`• Habilitation BR/B2V<br>• Registre CMR`,
-docs:`• INRS ED912<br>• INRS ED984`},
+boulanger:{
+ label:"Boulanger",
+ risques_metier:["Brûlures","Farine","TMS"],
+ risques_cmr:["Allergènes farine"],
+ risques_tms:["Postures répétées"],
+ risques_rps:["Travail de nuit"],
+ prevention:`✅ Aspiration<br>✅ FFP2`,
+ obligations:`• Ventilation`,
+ docs:`• INRS ED6002`
+},
 
-briqueteur:{label:"Briqueteur",
-risques_metier:["Échafaudage","Silice","Bruit"],
-risques_cmr:["Silice"],
-risques_tms:["Charges lourdes"],
-risques_rps:["Délais chantier"],
-prevention:`✅ FFP3<br>✅ Coupe à l’eau<br>✅ Échafaudage conforme`,
-obligations:`• Prévention silice obligatoire`,
-docs:`• INRS ED6180`}
+maintenance:{
+ label:"Technicien maintenance",
+ risques_metier:["Électrique","Hauteur","Mécanique"],
+ risques_cmr:["Solvants","Huiles minérales"],
+ risques_tms:["Exiguïté"],
+ risques_rps:["Urgences"],
+ prevention:`✅ LOTO<br>✅ Harnais<br>✅ Masque solvants`,
+ obligations:`• BR/B2V<br>• Registre CMR`,
+ docs:`• INRS ED912`
+},
+
+briqueteur:{
+ label:"Briqueteur",
+ risques_metier:["Échafaudage","Silice","Bruit"],
+ risques_cmr:["Silice"],
+ risques_tms:["Charges lourdes"],
+ risques_rps:["Délais chantier"],
+ prevention:`✅ FFP3<br>✅ Coupe à l’eau`,
+ obligations:`• Prévention silice`,
+ docs:`• INRS ED6180`
+},
+
+macon:{
+ label:"Maçon",
+ risques_metier:["Tranchées","Silice","Manutentions lourdes","Hauteur"],
+ risques_cmr:["Silice cristalline"],
+ risques_tms:["Dos","Sol"],
+ risques_rps:["Intempéries"],
+ prevention:`✅ Blindage tranchées<br>✅ FFP3<br>✅ Palan`,
+ obligations:`• Prévention silice`,
+ docs:`• OPPBTP Maçonnerie`
+},
+
+plaquiste:{
+ label:"Plaquiste",
+ risques_metier:["Poussières placo","Cutter","Hauteur"],
+ risques_cmr:["Poussières fines"],
+ risques_tms:["Bras levés"],
+ risques_rps:["Délais chantiers"],
+ prevention:`✅ FFP2<br>✅ Échafaudage`,
+ obligations:`• Poussières chantier`,
+ docs:`• INRS Placoplâtre`
+},
+
+peintre:{
+ label:"Peintre",
+ risques_metier:["Solvants","Chutes","Bruit"],
+ risques_cmr:["Toluène","Hydrocarbures"],
+ risques_tms:["Bras levés"],
+ risques_rps:["Délais"],
+ prevention:`✅ A2P3<br>✅ Ventilation`,
+ obligations:`• FDS peinture`,
+ docs:`• INRS Peinture`
+},
+
+carreleur:{
+ label:"Carreleur",
+ risques_metier:["Coupe carrelage","Silice","TMS sol"],
+ risques_cmr:["Silice"],
+ risques_tms:["Sol","Charges"],
+ risques_rps:["Délais"],
+ prevention:`✅ FFP3<br>✅ Coupe à l’eau`,
+ obligations:`• Prévention silice`,
+ docs:`• INRS Carrelage`
+},
+
+menuisier:{
+ label:"Menuisier",
+ risques_metier:["Poussières bois","Coupures","Bruit"],
+ risques_cmr:["Poussières bois"],
+ risques_tms:["Postures répétées"],
+ risques_rps:["Production"],
+ prevention:`✅ Aspiration sciure<br>✅ Anti‑bruit`,
+ obligations:`• Prévention poussières bois`,
+ docs:`• INRS Bois`
+},
+
+cariste:{
+ label:"Cariste",
+ risques_metier:["Engins","Chutes charges","Collision"],
+ risques_cmr:["Fumées diesel"],
+ risques_tms:["Postures statiques"],
+ risques_rps:["Stress flux"],
+ prevention:`✅ CACES<br>✅ Circulation séparée`,
+ obligations:`• CACES obligatoire`,
+ docs:`• INRS Chariots`
+},
+
+coiffeur:{
+ label:"Coiffeur",
+ risques_metier:["Produits chimiques","Allergies","Debout prolongé"],
+ risques_cmr:["PPD","Persulfates"],
+ risques_tms:["Station debout"],
+ risques_rps:["Relation clientèle"],
+ prevention:`✅ Gants nitrile<br>✅ Ventilation`,
+ obligations:`• FDS coiffure`,
+ docs:`• INRS Coiffure`
+}
+
 };
 
 /* ✅ NAVIGATION */
@@ -198,7 +288,7 @@ function afficherRisques(m){
 <h2>${data[m].label}</h2>
 
 <div class='block'><h3>🔵 Risques métier</h3>${data[m].risques_metier.join("<br>")}</div>
-<div class='block'><h3>🟣 Risques CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
+<div class='block'><h3>🟣 CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
 <div class='block'><h3>🟠 TMS</h3>${data[m].risques_tms.join("<br>")}</div>
 <div class='block'><h3>🟡 RPS</h3>${data[m].risques_rps.join("<br>")}</div>
 <div class='block'><h3>🛡 Prévention</h3>${data[m].prevention}</div>
@@ -232,7 +322,7 @@ function afficherProduit(ean){
    zone.innerHTML = `
    <h3>✅ Produit identifié</h3>
    <b>${p.nom}</b><br>
-   Catégorie : ${p.catégorie}<br><br>
+   Catégorie : ${p.categorie}<br><br>
    <b>Risques CMR :</b><br>${p.cmr}<br><br>
    <b>EPI recommandés :</b><br>${p.epi}<br><br>
    Document : ${p.fds}
