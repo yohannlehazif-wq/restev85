@@ -260,3 +260,117 @@ function arreterScanner(){
 }
 </script>
   
+<!-- ✅ PAGE DUERP PREMIUM -->
+<h2>📄 DUERP – Version PREMIUM RESTEV</h2>
+
+<div class="block">
+    <h3>1️⃣ Qu’est‑ce que le DUERP ?</h3>
+    Le DUERP recense, évalue et hiérarchise tous les risques pour protéger les salariés.
+    Obligatoire (Code du Travail – R4121‑1). Mise à jour annuelle + lors de tout changement important.
+</div>
+
+<div class="block">
+    <h3>2️⃣ Unités de Travail (UT)</h3>
+    BTP • Maintenance • Industrie • Logistique • Commerce • Restauration • Propreté • Tertiaire.
+</div>
+
+<div class="block">
+    <h3>3️⃣ Top risques courants</h3>
+    Chute hauteur • Silice • Solvants • Huiles minérales • Machines • TMS • RPS • Bruit • Électrique.
+</div>
+
+<!-- ✅ MATRICE INTERACTIVE -->
+<h2>📊 Matrice d’Évaluation du Risque</h2>
+
+<div class="block">
+    <b>Gravité :</b><br>
+    <select id="gravite" onchange="evaluerRisque()">
+        <option value="">-- Choisir --</option>
+        <option value="1">1 – Légère</option>
+        <option value="2">2 – Blessure simple</option>
+        <option value="3">3 – Arrêt de travail</option>
+        <option value="4">4 – Séquelles graves / décès</option>
+    </select>
+</div>
+
+<div class="block">
+    <b>Probabilité :</b><br>
+    <select id="probabilite" onchange="evaluerRisque()">
+        <option value="">-- Choisir --</option>
+        <option value="1">1 – Très improbable</option>
+        <option value="2">2 – Peu probable</option>
+        <option value="3">3 – Probable</option>
+        <option value="4">4 – Très probable</option>
+    </select>
+</div>
+
+<div id="resultatRisque" class="block" style="display:none;">
+    <h3>🎯 Niveau de Risque :</h3>
+    <div id="niveauRisque" style="font-size:22px;font-weight:700;"></div>
+    <p id="interpretation"></p>
+</div>
+
+<script>
+function evaluerRisque(){
+    let g = parseInt(document.getElementById("gravite").value);
+    let p = parseInt(document.getElementById("probabilite").value);
+
+    if(isNaN(g) || isNaN(p)){
+        document.getElementById("resultatRisque").style.display = "none";
+        return;
+    }
+
+    let score = g * p;
+    let niveau = "";
+    let couleur = "";
+    let interpretation = "";
+
+    if(score >= 12){
+        niveau = "🟥 RISQUE ÉLEVÉ";
+        couleur = "red";
+        interpretation = "Action immédiate obligatoire.";
+    }
+    else if(score >= 8){
+        niveau = "🟧 RISQUE SIGNIFICATIF";
+        couleur = "orange";
+        interpretation = "Action rapide requise.";
+    }
+    else if(score >= 4){
+        niveau = "🟨 RISQUE MODÉRÉ";
+        couleur = "gold";
+        interpretation = "Suivi et prévention nécessaires.";
+    }
+    else {
+        niveau = "🟩 RISQUE FAIBLE";
+        couleur = "green";
+        interpretation = "Risque maîtrisé.";
+    }
+
+    document.getElementById("resultatRisque").style.display = "block";
+    document.getElementById("niveauRisque").textContent = niveau;
+    document.getElementById("niveauRisque").style.color = couleur;
+    document.getElementById("interpretation").textContent = interpretation;
+}
+</script>
+
+<div class="block">
+    <h3>4️⃣ Prévention hiérarchisée</h3>
+    1. Suppression<br>
+    2. Substitution<br>
+    3. Mesures collectives<br>
+    4. Organisation du travail<br>
+    5. EPI
+</div>
+
+<div class="block">
+    <h3>5️⃣ Plan d’action DUERP</h3>
+    Mesure → Objectif → Responsable → Délai → Suivi<br>
+    Indispensable pour tous risques ≥ MODÉRÉ.
+</div>
+
+<button class="btn-back btn" onclick="ouvrirMenu()">Retour</button>
+
+</div> <!-- ✅ Fin page DUERP -->
+
+</body>
+</html>
