@@ -1,1629 +1,1922 @@
-<html><body><h1>Fiches métiers moyennes RESTEV</h1><h2>Maçon</h2><div>
-<b>Présentation :</b><br>
-Métier : Maçon. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
-<b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
-<b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
-<b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
-<b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
-<b>Prévention :</b><br>
-✅ Organisation des tâches<br>
-✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
-<b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
-<b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Plaquiste</h2><div>
-<b>Présentation :</b><br>
-Métier : Plaquiste. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
-<b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
-<b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+
+<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'>
+<title>RESTEV – Application complète</title>
+<script src='https://unpkg.com/@zxing/library@latest'></script>
+<style>
+body{font-family:Arial;max-width:480px;margin:auto;background:#f2f4f8;}
+.card{background:white;padding:22px;border-radius:16px;margin:20px;box-shadow:0 4px 14px rgba(0,0,0,0.15);} 
+.btn{width:90%;padding:15px;border:none;border-radius:14px;font-size:20px;font-weight:600;margin-top:12px;cursor:pointer;transition:.2s;} 
+.btn-menu{background:linear-gradient(135deg,#2563eb,#9333ea);color:white;} 
+#accueil{height:100vh;background:linear-gradient(135deg,#2563eb,#9333ea);display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-align:center;} 
+.block{background:#f8fafc;border-left:5px solid #2563eb;padding:12px;border-radius:10px;margin-bottom:12px;} 
+img.logo{width:260px;margin-bottom:20px;} 
+video{width:100%;border-radius:14px;margin-top:20px;}
+</style></head><body>
+
+<div id='accueil'>
+<img src='logo.png' class='logo'>
+<h1>Prévention Mobile – RESTEV</h1>
+<p>70 métiers – Scanner – CMR – DUERP</p>
+<button class='btn btn-menu' onclick='ouvrirMenu()'>ENTRER</button>
+</div>
+
+<div id='menu' class='card' style='display:none;'>
+<h2>Menu principal</h2>
+<button class='btn btn-menu' onclick='ouvrirMetiers()'>Métiers</button>
+<button class='btn btn-menu' onclick='ouvrirScanner()'>Scanner</button>
+<button class='btn btn-menu' onclick='ouvrirCMR()'>CMR</button>
+<button class='btn btn-menu' onclick='ouvrirDUERP()'>DUERP</button>
+<button class='btn' onclick='retourAccueil()'>Retour</button></div>
+
+<div id='pageMetiers' class='card' style='display:none;'>
+<h2>70 métiers réels</h2><select id='metierSelect'><option value=''>Choisir…</option>
+<option value='Maçon'>Maçon</option><option value='Plaquiste'>Plaquiste</option><option value='Carreleur'>Carreleur</option><option value='Peintre en bâtiment'>Peintre en bâtiment</option><option value='Menuisier'>Menuisier</option><option value='Charpentier'>Charpentier</option><option value='Couvreur'>Couvreur</option><option value='Électricien bâtiment'>Électricien bâtiment</option><option value='Plombier‑chauffagiste'>Plombier‑chauffagiste</option><option value='Chef de chantier'>Chef de chantier</option><option value='Manoeuvre BTP'>Manoeuvre BTP</option><option value='Conducteur d’engins'>Conducteur d’engins</option><option value='Monteur échafaudeur'>Monteur échafaudeur</option><option value='Façadier'>Façadier</option><option value='Serrurier‑métallier'>Serrurier‑métallier</option><option value='Technicien de maintenance'>Technicien de maintenance</option><option value='Technicien maintenance industrielle'>Technicien maintenance industrielle</option><option value='Opérateur de production'>Opérateur de production</option><option value='Conducteur de ligne'>Conducteur de ligne</option><option value='Soudeur'>Soudeur</option><option value='Chaudronnier'>Chaudronnier</option><option value='Mécanicien automobile'>Mécanicien automobile</option><option value='Mécanicien PL'>Mécanicien PL</option><option value='Électromécanicien'>Électromécanicien</option><option value='Technicien qualité'>Technicien qualité</option><option value='Technicien méthodes'>Technicien méthodes</option><option value='Technicien atelier'>Technicien atelier</option><option value='Opérateur CN'>Opérateur CN</option><option value='Monteur‑assembleur'>Monteur‑assembleur</option><option value='Peintre industriel'>Peintre industriel</option><option value='Cariste'>Cariste</option><option value='Préparateur de commandes'>Préparateur de commandes</option><option value='Magasinier'>Magasinier</option><option value='Agent de quai'>Agent de quai</option><option value='Chauffeur‑livreur'>Chauffeur‑livreur</option><option value='Chauffeur PL'>Chauffeur PL</option><option value='Conducteur SPL'>Conducteur SPL</option><option value='Gestionnaire de stock'>Gestionnaire de stock</option><option value='Agent de tri'>Agent de tri</option><option value='Coordinateur logistique'>Coordinateur logistique</option><option value='Employé polyvalent'>Employé polyvalent</option><option value='Hôte / hôtesse de caisse'>Hôte / hôtesse de caisse</option><option value='Vendeur'>Vendeur</option><option value='Responsable de rayon'>Responsable de rayon</option><option value='Réceptionnaire'>Réceptionnaire</option><option value='Boucher'>Boucher</option><option value='Boulanger'>Boulanger</option><option value='Poissonnier'>Poissonnier</option><option value='Fromager'>Fromager</option><option value='Préparateur drive'>Préparateur drive</option><option value='Cuisinier'>Cuisinier</option><option value='Commis de cuisine'>Commis de cuisine</option><option value='Plongeur'>Plongeur</option><option value='Serveur'>Serveur</option><option value='Chef de rang'>Chef de rang</option><option value='Barman'>Barman</option><option value='Réceptionniste hôtel'>Réceptionniste hôtel</option><option value='Gouvernante / agent d’étage'>Gouvernante / agent d’étage</option><option value='Agent d’entretien'>Agent d’entretien</option><option value='Agent de propreté industrielle'>Agent de propreté industrielle</option><option value='Laveur de vitres'>Laveur de vitres</option><option value='Agent de désinfection'>Agent de désinfection</option><option value='ASH'>ASH</option><option value='Lingère / pressing'>Lingère / pressing</option><option value='Agent multi‑services'>Agent multi‑services</option><option value='Assistant administratif'>Assistant administratif</option><option value='Secrétaire'>Secrétaire</option><option value='Assistant RH'>Assistant RH</option><option value='Assistant comptable'>Assistant comptable</option><option value='Technicien informatique'>Technicien informatique</option><option value='Téléconseiller'>Téléconseiller</option><option value='Chargé de clientèle'>Chargé de clientèle</option><option value='Agent d’accueil'>Agent d’accueil</option><option value='Gestionnaire administratif'>Gestionnaire administratif</option>
+</select><button class='btn btn-menu' onclick='afficherMetier()'>Afficher</button>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
+
+<div id='pageFiche' class='card' style='display:none;'>
+<h2 id='titreMetier'></h2>
+<div id='contenuMetier'></div>
+<button class='btn' onclick='ouvrirMetiers()'>Retour métiers</button></div>
+
+<div id='pageScanner' class='card' style='display:none;'>
+<h2>Scanner</h2><video id='video' playsinline></video>
+<div id='scanResult' class='block' style='display:none;'></div>
+<button class='btn' onclick='arreterScanner()'>Arrêter</button>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
+
+<div id='pageCMR' class='card' style='display:none;'><h2>CMR</h2>
+<div class='block'>Substances CMR : C1A – C1B – M1B – R1B.</div>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
+
+<div id='pageDUERP' class='card' style='display:none;'><h2>DUERP</h2>
+<div class='block'>Méthode officielle d’évaluation : Gravité × Probabilité.</div>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
+
+<script>
+const data={};
+data['Maçon'] = `
+<div class='block'>
+<b>Présentation :</b><br>
+Le métier de Maçon implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
+<b>Risques métier :</b><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
+<b>Risques CMR :</b><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
+<b>TMS :</b><br>
+• Épaules, dos, poignets sollicités<br><br>
+<b>RPS :</b><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
+<b>Prévention :</b><br>
+✅ Organisation du travail<br>
+✅ Aides à la manutention<br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
+<b>Obligations :</b><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
+<b>Documents utiles :</b><br>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Plaquiste'] = `
+<div class='block'>
+<b>Présentation :</b><br>
+Le métier de Plaquiste implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
+<b>Risques métier :</b><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
+<b>Risques CMR :</b><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Carreleur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Carreleur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Carreleur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Carreleur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Peintre en bâtiment</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Peintre en bâtiment'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Peintre en bâtiment. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Peintre en bâtiment implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Menuisier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Menuisier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Menuisier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Menuisier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Charpentier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Charpentier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Charpentier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Charpentier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Couvreur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Couvreur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Couvreur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Couvreur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Électricien bâtiment</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Électricien bâtiment'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Électricien bâtiment. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Électricien bâtiment implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Plombier‑chauffagiste</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Plombier‑chauffagiste'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Plombier‑chauffagiste. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Plombier‑chauffagiste implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Chef de chantier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Chef de chantier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Chef de chantier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Chef de chantier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Manoeuvre BTP</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Manoeuvre BTP'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Manoeuvre BTP. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Manoeuvre BTP implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Conducteur d’engins</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Conducteur d’engins'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Conducteur d’engins. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Conducteur d’engins implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Monteur échafaudeur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Monteur échafaudeur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Monteur échafaudeur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Monteur échafaudeur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Façadier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Façadier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Façadier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Façadier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Serrurier‑métallier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Serrurier‑métallier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Serrurier‑métallier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Serrurier‑métallier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Technicien de maintenance</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Technicien de maintenance'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Technicien de maintenance. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Technicien de maintenance implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Technicien maintenance industrielle</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Technicien maintenance industrielle'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Technicien maintenance industrielle. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Technicien maintenance industrielle implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Opérateur de production</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Opérateur de production'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Opérateur de production. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Opérateur de production implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Conducteur de ligne</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Conducteur de ligne'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Conducteur de ligne. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Conducteur de ligne implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Soudeur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Soudeur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Soudeur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Soudeur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Chaudronnier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Chaudronnier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Chaudronnier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Chaudronnier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Mécanicien automobile</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Mécanicien automobile'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Mécanicien automobile. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Mécanicien automobile implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Mécanicien PL</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Mécanicien PL'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Mécanicien PL. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Mécanicien PL implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Électromécanicien</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Électromécanicien'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Électromécanicien. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Électromécanicien implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Technicien qualité</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Technicien qualité'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Technicien qualité. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Technicien qualité implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Technicien méthodes</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Technicien méthodes'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Technicien méthodes. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Technicien méthodes implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Technicien atelier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Technicien atelier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Technicien atelier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Technicien atelier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Opérateur CN</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Opérateur CN'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Opérateur CN. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Opérateur CN implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Monteur‑assembleur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Monteur‑assembleur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Monteur‑assembleur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Monteur‑assembleur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Peintre industriel</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Peintre industriel'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Peintre industriel. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Peintre industriel implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Cariste</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Cariste'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Cariste. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Cariste implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Préparateur de commandes</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Préparateur de commandes'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Préparateur de commandes. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Préparateur de commandes implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Magasinier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Magasinier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Magasinier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Magasinier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent de quai</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent de quai'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent de quai. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent de quai implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Chauffeur‑livreur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Chauffeur‑livreur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Chauffeur‑livreur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Chauffeur‑livreur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Chauffeur PL</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Chauffeur PL'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Chauffeur PL. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Chauffeur PL implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Conducteur SPL</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Conducteur SPL'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Conducteur SPL. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Conducteur SPL implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Gestionnaire de stock</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Gestionnaire de stock'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Gestionnaire de stock. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Gestionnaire de stock implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent de tri</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent de tri'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent de tri. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent de tri implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Coordinateur logistique</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Coordinateur logistique'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Coordinateur logistique. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Coordinateur logistique implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Employé polyvalent</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Employé polyvalent'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Employé polyvalent. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Employé polyvalent implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Hôte / hôtesse de caisse</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Hôte / hôtesse de caisse'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Hôte / hôtesse de caisse. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Hôte / hôtesse de caisse implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Vendeur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Vendeur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Vendeur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Vendeur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Responsable de rayon</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Responsable de rayon'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Responsable de rayon. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Responsable de rayon implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Réceptionnaire</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Réceptionnaire'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Réceptionnaire. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Réceptionnaire implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Boucher</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Boucher'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Boucher. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Boucher implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Boulanger</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Boulanger'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Boulanger. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Boulanger implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Poissonnier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Poissonnier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Poissonnier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Poissonnier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Fromager</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Fromager'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Fromager. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Fromager implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Préparateur drive</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Préparateur drive'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Préparateur drive. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Préparateur drive implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Cuisinier</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Cuisinier'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Cuisinier. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Cuisinier implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Commis de cuisine</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Commis de cuisine'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Commis de cuisine. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Commis de cuisine implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Plongeur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Plongeur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Plongeur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Plongeur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Serveur</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Serveur'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Serveur. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Serveur implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Chef de rang</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Chef de rang'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Chef de rang. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Chef de rang implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Barman</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Barman'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Barman. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Barman implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Réceptionniste hôtel</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Réceptionniste hôtel'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Réceptionniste hôtel. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Réceptionniste hôtel implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Gouvernante / agent d’étage</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Gouvernante / agent d’étage'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Gouvernante / agent d’étage. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Gouvernante / agent d’étage implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent d’entretien</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent d’entretien'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent d’entretien. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent d’entretien implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent de propreté industrielle</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent de propreté industrielle'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent de propreté industrielle. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent de propreté industrielle implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Laveur de vitres</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Laveur de vitres'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Laveur de vitres. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Laveur de vitres implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent de désinfection</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent de désinfection'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent de désinfection. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent de désinfection implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>ASH</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['ASH'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : ASH. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de ASH implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Lingère / pressing</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Lingère / pressing'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Lingère / pressing. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Lingère / pressing implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent multi‑services</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent multi‑services'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent multi‑services. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent multi‑services implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Assistant administratif</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Assistant administratif'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Assistant administratif. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Assistant administratif implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Secrétaire</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Secrétaire'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Secrétaire. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Secrétaire implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Assistant RH</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Assistant RH'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Assistant RH. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Assistant RH implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Assistant comptable</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Assistant comptable'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Assistant comptable. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Assistant comptable implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Technicien informatique</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Technicien informatique'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Technicien informatique. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Technicien informatique implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Téléconseiller</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Téléconseiller'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Téléconseiller. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Téléconseiller implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Chargé de clientèle</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Chargé de clientèle'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Chargé de clientèle. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Chargé de clientèle implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Agent d’accueil</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Agent d’accueil'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Agent d’accueil. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Agent d’accueil implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr><h2>Gestionnaire administratif</h2><div>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+data['Gestionnaire administratif'] = `
+<div class='block'>
 <b>Présentation :</b><br>
-Métier : Gestionnaire administratif. Activités principales impliquant gestes répétitifs, coordination, sécurité et contact avec l’environnement de travail.<br><br>
+Le métier de Gestionnaire administratif implique des activités variées nécessitant rigueur, organisation et respect strict des règles de sécurité.<br><br>
 <b>Risques métier :</b><br>
-- Manutentions et postures sollicitantes<br>
-- Utilisation d’outils/machines selon activité<br>
-- Exposition possible à bruit, poussières, produits ou public<br><br>
+• Manutentions et postures contraignantes<br>
+• Machines / outils selon le poste<br>
+• Bruit, poussières, contraintes thermiques<br><br>
 <b>Risques CMR :</b><br>
-- Dépend du poste : solvants, poussières fines, fumées, huiles, silice…<br><br>
+• Expositions possibles : solvants, silice, huiles, fumées<br><br>
 <b>TMS :</b><br>
-- Dos, épaules, poignets sollicités<br><br>
+• Épaules, dos, poignets sollicités<br><br>
 <b>RPS :</b><br>
-- Pression délais, attention soutenue, relation clientèle<br><br>
+• Pression temps, relation clientèle, activité soutenue<br><br>
 <b>Prévention :</b><br>
-✅ Organisation des tâches<br>
+✅ Organisation du travail<br>
 ✅ Aides à la manutention<br>
-✅ Ventilation / aspiration si nécessaire<br>
-✅ EPI adaptés suivant poste<br><br>
+✅ Ventilation / aspiration<br>
+✅ EPI adaptés<br><br>
 <b>Obligations :</b><br>
-- DUERP à jour, FDS si produits, formations adaptées<br><br>
+• DUERP à jour, FDS, formations sécurité<br><br>
 <b>Documents utiles :</b><br>
-- INRS / OPPBTP / CARSAT selon secteur
-</div><hr></body></html>
+• INRS / OPPBTP / CARSAT
+</div>
+`;
+
+function cacher(){['accueil','menu','pageMetiers','pageFiche','pageScanner','pageCMR','pageDUERP'].forEach(id=>document.getElementById(id).style.display='none');}
+function retourAccueil(){cacher();document.getElementById('accueil').style.display='flex';}
+function ouvrirMenu(){cacher();document.getElementById('menu').style.display='block';}
+function ouvrirMetiers(){cacher();document.getElementById('pageMetiers').style.display='block';}
+function ouvrirCMR(){cacher();document.getElementById('pageCMR').style.display='block';}
+function ouvrirDUERP(){cacher();document.getElementById('pageDUERP').style.display='block';}
+
+function afficherMetier(){let m=document.getElementById('metierSelect').value;if(!m){alert('Choisir un métier');return;}cacher();document.getElementById('pageFiche').style.display='block';document.getElementById('titreMetier').innerHTML=m;document.getElementById('contenuMetier').innerHTML=data[m];}
+
+let codeReader=null;
+function ouvrirScanner(){cacher();document.getElementById('pageScanner').style.display='block';codeReader=new ZXing.BrowserMultiFormatReader();codeReader.decodeFromVideoDevice(null,'video',(r,e)=>{if(r)afficherProduit(r.text);});}
+function afficherProduit(ean){let z=document.getElementById('scanResult');z.style.display='block';z.innerHTML='Produit non trouvé : '+ean;}
+function arreterScanner(){try{codeReader.reset();}catch(e){}ouvrirMenu();}
+</script></body></html>
