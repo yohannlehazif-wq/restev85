@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>RESTEV – Prévention Mobile</title>
 
-<!-- ZXING pour SCAN CAMERA -->
+<!-- ZXING pour la caméra (SCAN code-barres) -->
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 
 <style>
@@ -43,7 +43,7 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
-<!-- ✅ MENU MÉTIERS -->
+<!-- ✅ MENU METIERS -->
 <div id="menuMetiers" class="card fade" style="display:none;">
 <h2>Choisis ton métier :</h2>
 <select id="select-metier">
@@ -67,7 +67,6 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 <p>Scanne un code‑barres (EAN13) avec la caméra :</p>
 
 <video id="video" playsinline></video>
-
 <div id="scanResult" class="block" style="display:none;margin-top:20px;"></div>
 
 <button class="btn btn-back" onclick="arreterScanner();ouvrirMenuPrincipal()">← Retour</button>
@@ -94,32 +93,164 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 </div>
 
 <script>
-/* ✅ BASE DE DONNÉES CMR — Produits identifiables par code‑barres */
+/* ✅ BASE PRODUITS CMR POUR LE SCANNER */
 const produitsCMR = {
  "3254567890123": {
    nom:"Dégraissant Industriel X",
    catégorie:"Solvant",
    cmr:"Cancérigène 1B (H350)",
    epi:"Gants nitrile, masque ABEK, ventilation",
-   fds:"FDS_dégraissant.pdf"
+   fds:"FDS_deg.pdf"
  },
  "3760051234567": {
-   nom:"Nettoyant moteur pro",
-   catégorie:"Solvants hydrocarbures",
-   cmr:"Toxique reproduction 1B (H360)",
-   epi:"Gants butyle, lunettes, ventilation",
+   nom:"Nettoyant moteur",
+   catégorie:"Hydrocarbures",
+   cmr:"Reprotoxique 1B (H360)",
+   epi:"Gants butyle, lunettes",
    fds:"FDS_moteur.pdf"
  },
  "3017624010701": {
    nom:"Acétone technique",
    catégorie:"Solvant",
-   cmr:"Non CMR mais très inflammable (H225)",
-   epi:"Gants nitrile, ventilation",
+   cmr:"Non CMR mais très inflammable",
+   epi:"Ventilation, gants nitrile",
    fds:"FDS_acetone.pdf"
  }
 };
 
-/* ✅ BASE MÉTIERS */
+/* ✅ DATA METIERS */
 const data = {
 agent_entretien:{label:"Agent d'entretien",
-risques_metier:["Produits chimiques","Biologique","Chutes sol","TMS bras"],
+risques_metier:["Produits chimiques","Risque biologique","Chutes","TMS"],
+risques_cmr:["Dégraissants"],
+risques_tms:["Vitres","Sol","Bras"],
+risques_rps:["Isolement","Pression temps"],
+prevention:`✅ Substitution<br>✅ Ventilation<br>✅ S3`,
+obligations:`• FDS<br>• DUERP`,
+docs:`• INRS ED984<br>• ED824`},
+
+agent_logistique:{label:"Agent logistique",
+risques_metier:["Manutention","Engins","Rayonnages"],
+risques_cmr:["Poussières"],
+risques_tms:["Dos","Épaules"],
+risques_rps:["Délais"],
+prevention:`✅ Transpalette<br>✅ HV`,
+obligations:`• Gestes & postures`,
+docs:`• CARSAT Logistique`},
+
+boulanger:{label:"Boulanger",
+risques_metier:["Brûlures","Farine","TMS"],
+risques_cmr:["Farine allergène"],
+risques_tms:["Bras","Poignets"],
+risques_rps:["Travail de nuit"],
+prevention:`✅ Aspiration<br>✅ FFP2<br>✅ Gants`,
+obligations:`• Ventilation`,
+docs:`• INRS ED6002`},
+
+maintenance:{label:"Technicien maintenance",
+risques_metier:["Électrique","Hauteur","Mécanique","Solvants"],
+risques_cmr:["Solvants","Huiles minérales"],
+risques_tms:["Exiguïté"],
+risques_rps:["Urgences","Travail isolé"],
+prevention:`✅ LOTO<br>✅ Harnais<br>✅ Masque solvants`,
+obligations:`• Habilitation BR/B2V<br>• Registre CMR`,
+docs:`• INRS ED912<br>• INRS ED984`},
+
+briqueteur:{label:"Briqueteur",
+risques_metier:["Échafaudage","Silice","Bruit"],
+risques_cmr:["Silice"],
+risques_tms:["Charges lourdes"],
+risques_rps:["Délais chantier"],
+prevention:`✅ FFP3<br>✅ Coupe à l’eau<br>✅ Échafaudage conforme`,
+obligations:`• Prévention silice obligatoire`,
+docs:`• INRS ED6180`}
+};
+
+/* ✅ NAVIGATION */
+function cacherTout(){
+  accueil.style.display="none";
+  menuPrincipal.style.display="none";
+  menuMetiers.style.display="none";
+  menuRisks.style.display="none";
+  pageCMR.style.display="none";
+  pageDUERP.style.display="none";
+  pageScanner.style.display="none";
+}
+function retourAccueil(){ cacherTout(); accueil.style.display="flex"; }
+function ouvrirMenuPrincipal(){ cacherTout(); menuPrincipal.style.display="block"; }
+function ouvrirMetiers(){ cacherTout(); menuMetiers.style.display="block"; }
+function ouvrirCMR(){ cacherTout(); pageCMR.style.display="block"; }
+function ouvrirDUERP(){ cacherTout(); pageDUERP.style.display="block"; }
+
+/* ✅ MÉTIERS */
+function validerMetier(){
+ let m=document.getElementById("select-metier").value;
+ if(m===""){ alert("Merci de sélectionner un métier."); return; }
+ afficherRisques(m);
+}
+
+function afficherRisques(m){
+ cacherTout();
+ menuRisks.style.display="block";
+
+ menuRisks.innerHTML = `
+<button class='btn btn-back' onclick='ouvrirMetiers()'>← Retour</button>
+<h2>${data[m].label}</h2>
+
+<div class='block'><h3>🔵 Risques métier</h3>${data[m].risques_metier.join("<br>")}</div>
+<div class='block'><h3>🟣 Risques CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
+<div class='block'><h3>🟠 TMS</h3>${data[m].risques_tms.join("<br>")}</div>
+<div class='block'><h3>🟡 RPS</h3>${data[m].risques_rps.join("<br>")}</div>
+<div class='block'><h3>🛡 Prévention</h3>${data[m].prevention}</div>
+<div class='block'><h3>📜 Obligations</h3>${data[m].obligations}</div>
+<div class='block'><h3>📘 Documents utiles</h3>${data[m].docs}</div>
+`;
+}
+
+/* ✅ SCANNER CAMERA */
+let codeReader = null;
+
+function ouvrirScanner(){
+ cacherTout();
+ pageScanner.style.display="block";
+
+ codeReader = new ZXing.BrowserMultiFormatReader();
+
+ codeReader.decodeFromVideoDevice(null, "video", (result, err) => {
+   if(result){
+     afficherProduit(result.text);
+   }
+ });
+}
+
+function afficherProduit(ean){
+ let zone=document.getElementById("scanResult");
+ zone.style.display="block";
+
+ if(produitsCMR[ean]){
+   let p=produitsCMR[ean];
+   zone.innerHTML = `
+   <h3>✅ Produit identifié</h3>
+   <b>${p.nom}</b><br>
+   Catégorie : ${p.catégorie}<br><br>
+   <b>Risques CMR :</b><br>${p.cmr}<br><br>
+   <b>EPI recommandés :</b><br>${p.epi}<br><br>
+   Document : ${p.fds}
+   `;
+ } else {
+   zone.innerHTML = `
+   <h3>❓ Produit non répertorié</h3>
+   Code : ${ean}<br><br>
+   Ce produit n'est pas encore dans la base RESTEV.
+   `;
+ }
+}
+
+function arreterScanner(){
+ try{ codeReader.reset(); }catch(e){}
+}
+
+</script>
+
+</body>
+</html>
