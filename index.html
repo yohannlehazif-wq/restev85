@@ -49,9 +49,75 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 <div class='block'>Substances CMR : C1A – C1B – M1B – R1B.</div>
 <button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
 
-<div id='pageDUERP' class='card' style='display:none;'><h2>DUERP</h2>
-<div class='block'>Méthode officielle d’évaluation : Gravité × Probabilité.</div>
-<button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
+<h2>📊 Matrice d’Évaluation du Risque – Interactif</h2>
+
+<div class="block">
+    <label><b>Gravité :</b></label><br>
+    <select id="gravite" onchange="evaluerRisque()">
+        <option value="">-- Choisir --</option>
+        <option value="1">1 – Légère</option>
+        <option value="2">2 – Blessure simple</option>
+        <option value="3">3 – Arrêt de travail</option>
+        <option value="4">4 – Séquelles graves / décès</option>
+    </select>
+</div>
+
+<div class="block">
+    <label><b>Probabilité :</b></label><br>
+    <select id="probabilite" onchange="evaluerRisque()">
+        <option value="">-- Choisir --</option>
+        <option value="1">1 – Très improbable</option>
+        <option value="2">2 – Peu probable</option>
+        <option value="3">3 – Probable</option>
+        <option value="4">4 – Très probable</option>
+    </select>
+</div>
+
+<div id="resultatRisque" class="block" style="display:none;">
+    <h3>🎯 Niveau de Risque :</h3>
+    <div id="niveauRisque" style="font-size:22px;font-weight:700;"></div>
+    <p id="interpretation"></p>
+</div>
+
+<script>
+function evaluerRisque(){
+    let g = parseInt(document.getElementById("gravite").value);
+    let p = parseInt(document.getElementById("probabilite").value);
+
+    if(isNaN(g) || isNaN(p)){
+        document.getElementById("resultatRisque").style.display = "none";
+        return;
+    }
+
+    let score = g * p;
+    let niveau = "";
+    let couleur = "";
+    let interpretation = "";
+
+    if(score >= 12){
+        niveau = "🟥 RISQUE ÉLEVÉ";
+        couleur = "red";
+        interpretation = "Action immédiate obligatoire. Le risque doit être supprimé ou fortement réduit.";
+    } else if(score >= 8){
+        niveau = "🟧 RISQUE SIGNIFICATIF";
+        couleur = "orange";
+        interpretation = "Action nécessaire rapidement. Mettre en place des mesures correctives.";
+    } else if(score >= 4){
+        niveau = "🟨 RISQUE MODÉRÉ";
+        couleur = "gold";
+        interpretation = "Risque acceptable mais nécessite un suivi et des mesures préventives.";
+    } else {
+        niveau = "🟩 RISQUE FAIBLE";
+        couleur = "green";
+        interpretation = "Risque maîtrisé. Continuer le suivi.";
+    }
+
+    document.getElementById("resultatRisque").style.display = "block";
+    document.getElementById("niveauRisque").textContent = niveau;
+    document.getElementById("niveauRisque").style.color = couleur;
+    document.getElementById("interpretation").textContent = interpretation;
+}
+</script>
 
 <script>
 const data={};
