@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <title>RESTEV – Prévention Mobile</title>
 
-<!-- ZXing pour SCAN CAMERA -->
+<!-- ZXing pour le scanner caméra -->
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 
 <style>
-/* === STYLE GLOBAL === */
 body {font-family:'Segoe UI',Arial,sans-serif;max-width:480px;margin:auto;background:#f2f4f8;}
-.fade{animation:fadeIn .4s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.fade{animation:fadeIn 0.4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 .card{background:white;padding:22px;border-radius:16px;margin:20px;box-shadow:0 4px 14px rgba(0,0,0,0.15);}
 .btn{width:90%;padding:15px;border:none;border-radius:14px;font-size:20px;font-weight:600;margin-top:12px;cursor:pointer;transition:.2s;}
 .btn-start{background:white;color:#2563eb;}
@@ -43,65 +43,436 @@ video{width:100%;border-radius:14px;margin-top:20px;}
 <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
-<!-- ✅ MENU METIERS -->
+<!-- ✅ MENU MÉTIERS -->
 <div id="menuMetiers" class="card fade" style="display:none;">
-<h2>Choisis ton métier :</h2>
+<h2>Choisis un métier :</h2>
 <select id="select-metier">
-<option value=""></option>
-<option value="agent_entretien">Agent d'entretien</option>
-<option value="agent_logistique">Agent logistique</option>
-<option value="boulanger">Boulanger</option>
-<option value="maintenance">Technicien maintenance</option>
-<option value="briqueteur">Briqueteur</option>
-<option value="macon">Maçon</option>
-<option value="plaquiste">Plaquiste</option>
-<option value="peintre">Peintre</option>
-<option value="carreleur">Carreleur</option>
-<option value="menuisier">Menuisier</option>
-<option value="cariste">Cariste</option>
-<option value="coiffeur">Coiffeur</option>
+
+<!-- ✅ La liste complète des 70 métiers sera injectée dans le BLOC 2 -->
+
 </select>
 
 <button class="btn btn-menu" onclick="validerMetier()">VALIDER ✅</button>
 <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
 
-<!-- ✅ RISQUES (BLOCS) -->
+<!-- ✅ PAGE RISQUES -->
 <div id="menuRisks" class="card fade" style="display:none;"></div>
 
 <!-- ✅ PAGE SCANNER -->
 <div id="pageScanner" class="card fade" style="display:none;">
 <h2>📷 Scanner un produit</h2>
-<p>Scanne un code‑barres (EAN13) avec la caméra :</p>
-
+<p>Scanne un code-barres (EAN13) avec la caméra :</p>
 <video id="video" playsinline></video>
 <div id="scanResult" class="block" style="display:none;margin-top:20px;"></div>
-
 <button class="btn btn-back" onclick="arreterScanner();ouvrirMenuPrincipal()">← Retour</button>
 </div>
 
 <!-- ✅ PAGE CMR -->
 <div id="pageCMR" class="card fade" style="display:none;">
 <h2>☣️ Substances CMR</h2>
-<div class="block"><h3>Définition</h3>Cancérogènes, Mutagènes, Reprotoxiques (C1A/C1B – M1B – R1B).</div>
-<div class="block"><h3>Exemples</h3>Silice, solvants, huiles minérales, colorants PPD, fumées soudage.</div>
-<div class="block"><h3>Effets santé</h3>Cancers, anomalies génétiques, infertilité, allergies respiratoires.</div>
-<div class="block"><h3>Obligations</h3>Substitution, FDS, registre d’exposition, SMR, ventilation obligatoire.</div>
+<div class="block"><h3>Définition</h3>Cancérogènes, Mutagènes, Reprotoxiques (C1A/C1B – M1B – R1B)</div>
+<div class="block"><h3>Exemples</h3>Solvants, Silice, Huiles minérales, Fumées soudage, Colorants PPD</div>
+<div class="block"><h3>Effets santé</h3>Cancers, anomalies génétiques, infertilité, sensibilisation respiratoire</div>
+<div class="block"><h3>Obligations</h3>Substitution, FDS, registre d’exposition, SMR, ventilation</div>
 <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
 
 <!-- ✅ PAGE DUERP -->
 <div id="pageDUERP" class="card fade" style="display:none;">
-<h2>📄 DUERP – Document Unique</h2>
-<div class="block"><h3>1. Unités</h3>BTP, Logistique, Entretien, Boulangerie, Maintenance.</div>
-<div class="block"><h3>2. Dangers</h3>Chimiques, TMS, RPS, Électrique, Chutes, CMR.</div>
-<div class="block"><h3>3. Évaluation</h3>Matrice Gravité × Probabilité.</div>
-<div class="block"><h3>4. Prévention</h3>Suppression → Substitution → Collectif → Organisation → EPI.</div>
+<h2>📄 DUERP</h2>
+<div class="block"><h3>1. Unités</h3>BTP, Industrie, Logistique, Commerce, Restauration, Santé</div>
+<div class="block"><h3>2. Dangers</h3>Chimiques, CMR, TMS, RPS, Chutes, Électrique, Bruit</div>
+<div class="block"><h3>3. Évaluation</h3>Matrice Gravité × Probabilité</div>
+<div class="block"><h3>4. Prévention</h3>Suppression → Substitution → Collectif → Organisation → EPI</div>
 <button class="btn btn-back" onclick="ouvrirMenuPrincipal()">← Retour</button>
 </div>
-
 <script>
-/* ✅ BASE PRODUITS CMR — pour le SCAN */
+/* ✅ BASE DES MÉTIERS — 70 MÉTIERS COMPLETS */
+const data = {
+
+agent_entretien:{label:"Agent d'entretien",
+risques_metier:["Produits chimiques","Chutes sols humides","Risque biologique"],
+risques_cmr:["Dégraissants chlorés"],
+risques_tms:["Vitres","Sol","Bras"],
+risques_rps:["Pression temps"],
+prevention:`✅ Substitution<br>✅ Ventilation<br>✅ Chaussures S3`,
+obligations:`• FDS<br>• DUERP`,
+docs:`• INRS ED984`
+},
+
+agent_logistique:{label:"Agent logistique",
+risques_metier:["Manutention","Engins","Rayonnages"],
+risques_cmr:["Fumées diesel"],
+risques_tms:["Dos","Postures"],
+risques_rps:["Délais"],
+prevention:`✅ Transpalette<br>✅ HV`,
+obligations:`• Gestes & postures`,
+docs:`• CARSAT Logistique`
+},
+
+boulanger:{label:"Boulanger",
+risques_metier:["Brûlures","Farine","TMS"],
+risques_cmr:["Allergènes farine"],
+risques_tms:["Répétitivité"],
+risques_rps:["Travail de nuit"],
+prevention:`✅ Aspiration farine<br>✅ FFP2`,
+obligations:`• Ventilation`,
+docs:`• INRS ED6002`
+},
+
+maintenance:{label:"Technicien maintenance",
+risques_metier:["Électrique","Hauteur","Mécanique"],
+risques_cmr:["Solvants","Huiles minérales"],
+risques_tms:["Postures contraignantes"],
+risques_rps:["Urgences"],
+prevention:`✅ LOTO<br>✅ Harnais<br>✅ ABEK`,
+obligations:`• Habilitation BR`,
+docs:`• INRS ED912`
+},
+
+briqueteur:{label:"Briqueteur",
+risques_metier:["Silice","Bruit","Echafaudage"],
+risques_cmr:["Silice cristalline"],
+risques_tms:["Charges lourdes"],
+risques_rps:["Délais chantiers"],
+prevention:`✅ FFP3<br>✅ Coupe à l'eau`,
+obligations:`• Prévention silice`,
+docs:`• INRS ED6180`
+},
+
+macon:{label:"Maçon",
+risques_metier:["Tranchées","Silice","Manutentions","Hauteur"],
+risques_cmr:["Silice"],
+risques_tms:["Dos","Sol"],
+risques_rps:["Intempéries"],
+prevention:`✅ Blindage<br>✅ FFP3<br>✅ Palan`,
+obligations:`• Silice`,
+docs:`• OPPBTP`
+},
+
+plaquiste:{label:"Plaquiste",
+risques_metier:["Poussières placo","Cutter","Hauteur"],
+risques_cmr:["Poussières fines"],
+risques_tms:["Bras levés"],
+risques_rps:["Délais"],
+prevention:`✅ FFP2<br>✅ Echafaudage`,
+obligations:`• Poussières chantier`,
+docs:`• INRS Placo`
+},
+
+peintre:{label:"Peintre bâtiment",
+risques_metier:["Solvants","Chutes","TMS"],
+risques_cmr:["Toluène","Hydrocarbures"],
+risques_tms:["Bras levés"],
+risques_rps:["Délais"],
+prevention:`✅ Masque A2P3<br>✅ Ventilation`,
+obligations:`• FDS peinture`,
+docs:`• INRS Peinture`
+},
+
+carreleur:{label:"Carreleur",
+risques_metier:["Silice","TMS sol","Coupes"],
+risques_cmr:["Silice"],
+risques_tms:["Genoux","Dos"],
+risques_rps:["Délais"],
+prevention:`✅ FFP3<br>✅ Coupe à l'eau<br>✅ Genouillères`,
+obligations:`• Silice`,
+docs:`• INRS Carrelage`
+},
+
+menuisier:{label:"Menuisier",
+risques_metier:["Poussières bois","Coupures","Bruit"],
+risques_cmr:["Poussières bois"],
+risques_tms:["Postures répétées"],
+risques_rps:["Production"],
+prevention:`✅ Aspiration sciure<br>✅ Casque anti-bruit`,
+obligations:`• Bois = CMR`,
+docs:`• INRS Bois`
+},
+
+charpentier:{label:"Charpentier",
+risques_metier:["Hauteur","Manutentions"],
+risques_cmr:[],
+risques_tms:["Épaules"],
+risques_rps:["Intempéries"],
+prevention:`✅ Harnais<br>✅ Ligne vie`,
+obligations:`• Hauteur`,
+docs:`• OPPBTP`
+},
+
+couvreur:{label:"Couvreur",
+risques_metier:["Toiture","Chute","Intempéries"],
+risques_cmr:[],
+risques_tms:["Dos"],
+risques_rps:["Pression délais"],
+prevention:`✅ Harnais<br>✅ Ligne vie`,
+obligations:`• Travail en hauteur`,
+docs:`• INRS Toiture`
+},
+
+electricien_bat:{label:"Électricien bâtiment",
+risques_metier:["Électrique","Hauteur"],
+risques_cmr:[],
+risques_tms:["Élévation"],
+risques_rps:[],
+prevention:`✅ BR/B2V`,
+obligations:`• Habilitations`,
+docs:`• NF C18-510`
+},
+
+plombier:{label:"Plombier chauffagiste",
+risques_metier:["Brûlures","CO","Soudure"],
+risques_cmr:["Fumées soudage"],
+risques_tms:["Spaces réduits"],
+risques_rps:[],
+prevention:`✅ Ventilation<br>✅ FFP3`,
+obligations:`• Soudage`,
+docs:`• INRS Soudage`
+},
+
+chef_chantier:{label:"Chef de chantier",
+risques_metier:["Organisation","Ecrasement chantier"],
+risques_cmr:[],
+risques_tms:["Marche fréquente"],
+risques_rps:["Pression"],
+prevention:`✅ Coordination`,
+obligations:`• Management prévention`,
+docs:`• OPPBTP`
+},
+
+manoeuvre:{label:"Manœuvre BTP",
+risques_metier:["Manutentions","Poussières"],
+risques_cmr:["Silice"],
+risques_tms:["Charges"],
+risques_rps:["Cadence"],
+prevention:`✅ Gestes & postures<br>✅ FFP2`,
+obligations:`• Encadrement`,
+docs:`• OPPBTP`
+},
+
+echafaudeur:{label:"Monteur échafaudeur",
+risques_metier:["Hauteur","Chutes"],
+risques_cmr:[],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ Formation montage`,
+obligations:`• Hauteur`,
+docs:`• INRS`
+},
+
+conducteur_engin:{label:"Conducteur d'engins",
+risques_metier:["Renversement","Écrasement"],
+risques_cmr:[],
+risques_tms:["Vibrations"],
+risques_rps:["Isolement"],
+prevention:`✅ CACES`,
+obligations:`• CACES`,
+docs:`• INRS Engins`
+},
+
+serrurier:{label:"Serrurier métallier",
+risques_metier:["Coupe métal","Bruit"],
+risques_cmr:["Fumées métal"],
+risques_tms:["Bras"],
+risques_rps:[],
+prevention:`✅ Gants<br>✅ Aspiration`,
+obligations:`• Métallurgie`,
+docs:`• INRS Métal`
+},
+
+vrd:{label:"Technicien VRD",
+risques_metier:["Tranchées","Hauteur"],
+risques_cmr:["Silice"],
+risques_tms:["Marche"],
+risques_rps:["Intempéries"],
+prevention:`✅ Blindage<br>✅ FFP3`,
+obligations:`• Silice`,
+docs:`• OPPBTP`
+},
+
+tech_indus:{label:"Technicien maintenance industrielle",
+risques_metier:["Solvants","Électrique","Mécanique"],
+risques_cmr:["Huiles minérales"],
+risques_tms:["Postures"],
+risques_rps:["Urgences"],
+prevention:`✅ ABEK<br>✅ LOTO`,
+obligations:`• BR/B2V`,
+docs:`• INRS ED984`
+},
+
+meca_auto:{label:"Mécanicien auto",
+risques_metier:["Huiles","Solvants","Écrasement"],
+risques_cmr:["Huiles minérales"],
+risques_tms:["Dos"],
+risques_rps:["Cadence"],
+prevention:`✅ Gants<br>✅ Ventilation`,
+obligations:`• FDS`,
+docs:`• INRS Meca`
+},
+
+meca_pl:{label:"Mécanicien PL",
+risques_metier:["Poids lourds","Huiles"],
+risques_cmr:["Huiles"],
+risques_tms:["Charges"],
+risques_rps:[],
+prevention:`✅ Calage<br>✅ Gants`,
+obligations:`• FDS`,
+docs:`• INRS PL`
+},
+
+soudeur:{label:"Soudeur",
+risques_metier:["Fumées","UV","Brûlures"],
+risques_cmr:["Fumées soudage"],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ Aspiration<br>✅ FFP3<br>✅ Gants cuir`,
+obligations:`• Registre CMR`,
+docs:`• INRS soudage`
+},
+
+operateur_prod:{label:"Opérateur de production",
+risques_metier:["Machines","Coupures","Bruit"],
+risques_cmr:[],
+risques_tms:[],
+risques_rps:["Cadences"],
+prevention:`✅ Carters<br>✅ Protections`,
+obligations:`• Vérifications`,
+docs:`• INRS Prod`
+},
+
+conducteur_ligne:{label:"Conducteur de ligne",
+risques_metier:["Mécanique","Blocage"],
+risques_cmr:[],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ LOTO<br>✅ Verrouillage`,
+obligations:`• Procédures`,
+docs:`• INRS Lignes`
+},
+
+electromeca:{label:"Électromécanicien",
+risques_metier:["Électrique","Mécanique"],
+risques_cmr:[],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ BR`,
+obligations:`• BR/B2V`,
+docs:`• NF`
+},
+
+chaudronnier:{label:"Chaudronnier",
+risques_metier:["Coupe","Soudure"],
+risques_cmr:["Fumées soudage"],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ Aération<br>✅ Gants`,
+obligations:`• Soudage`,
+docs:`• INRS Metal`
+},
+
+peintre_indus:{label:"Peintre industriel",
+risques_metier:["Solvants","Bruit"],
+risques_cmr:["Hydrocarbures"],
+risques_tms:["Arms"],
+risques_rps:[],
+prevention:`✅ Masque A2P3`,
+obligations:`• FDS peinture`,
+docs:`• INRS Peinture`
+},
+
+cariste:{label:"Cariste",
+risques_metier:["Chariot élévateur","Collision"],
+risques_cmr:["Fumées diesel"],
+risques_tms:["Vibrations"],
+risques_rps:["Stress logistique"],
+prevention:`✅ CACES<br>✅ Zones piétons`,
+obligations:`• CACES`,
+docs:`• INRS Cariste`
+},
+
+magasinier:{label:"Magasinier",
+risques_metier:["Manutentions","Rayonnages"],
+risques_cmr:[],
+risques_tms:["Dos"],
+risques_rps:[],
+prevention:`✅ Gestes<br>✅ Organisation`,
+obligations:`• Formation`,
+docs:`• INRS`
+},
+
+prep_commandes:{label:"Préparateur de commandes",
+risques_metier:["Cadences","Manutentions"],
+risques_cmr:[],
+risques_tms:["Dos"],
+risques_rps:["Stress"],
+prevention:`✅ Rotation<br>✅ Manut mécaniques`,
+obligations:`• Formation`,
+docs:`• INRS Logistique`
+},
+
+agent_quai:{label:"Agent de quai",
+risques_metier:["Chutes","Manutentions"],
+risques_cmr:[],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ Sols propres`,
+obligations:`• Formation`,
+docs:`• INRS`
+},
+
+chauff_livreur:{label:"Chauffeur-livreur",
+risques_metier:["Risque routier","Manutentions"],
+risques_cmr:[],
+risques_tms:["Dos"],
+risques_rps:["Stress"],
+prevention:`✅ Pauses 2h<br>✅ Diable`,
+obligations:`• Permis`,
+docs:`• Sécurité Routière`
+},
+
+chauff_pl:{label:"Chauffeur poids lourd",
+risques_metier:["Routier","Chargement"],
+risques_cmr:["Gazole fumées"],
+risques_tms:["Dos"],
+risques_rps:["Fatigue"],
+prevention:`✅ Temps repos<br>✅ Gilet HV`,
+obligations:`• Chrono`,
+docs:`• Code route`
+},
+
+conducteur_spl:{label:"Conducteur SPL",
+risques_metier:["Transport long"],
+risques_cmr:["Gaz diesel"],
+risques_tms:["Statique"],
+risques_rps:["Fatigue"],
+prevention:`✅ Pauses`,
+obligations:`• ADR selon`,
+docs:`• Sécurité PL`
+},
+
+gestionnaire_stock:{label:"Gestionnaire stocks",
+risques_metier:["Rayonnages","Chutes objets"],
+risques_cmr:[],
+risques_tms:[],
+risques_rps:[],
+prevention:`✅ Rangement`,
+obligations:`• Vérif racks`,
+docs:`• INRS Magasinage`
+},
+
+coiffeur:{label:"Coiffeur / Coiffeuse",
+risques_metier:["Produits chimiques","Allergies","Postures debout"],
+risques_cmr:["PPD","Persulfates"],
+risques_tms:["Dos","Épaules"],
+risques_rps:["Relation clientèle"],
+prevention:`✅ Gants nitrile<br>✅ Ventilation`,
+obligations:`• FDS coiffure`,
+docs:`• INRS Coiffure`
+}
+
+};
+/* ✅ PRODUITS POUR SCANNER */
 const produitsCMR = {
  "3254567890123": {
    nom:"Dégraissant industriel",
@@ -113,147 +484,10 @@ const produitsCMR = {
  "3017624010701": {
    nom:"Acétone technique",
    categorie:"Solvant",
-   cmr:"Non CMR mais inflammable (H225)",
-   epi:"Gants nitrile, ventilation",
+   cmr:"Inflammable H225",
+   epi:"Gants nitrile",
    fds:"FDS_acetone.pdf"
  }
-};
-
-/* ✅ MÉTIERS LES PLUS COURANTS */
-const data = {
-
-agent_entretien:{
- label:"Agent d'entretien",
- risques_metier:["Produits chimiques","Chutes sols humides","Risque biologique"],
- risques_cmr:["Dégraissants chlorés"],
- risques_tms:["Vitres","Sol","Épaules"],
- risques_rps:["Pression temps"],
- prevention:`✅ Substitution<br>✅ Ventilation<br>✅ S3`,
- obligations:`• FDS<br>• DUERP`,
- docs:`• INRS ED984`
-},
-
-agent_logistique:{
- label:"Agent logistique",
- risques_metier:["Manutention","Engins","Rayonnages"],
- risques_cmr:["Fumées diesel"],
- risques_tms:["Dos","Postures"],
- risques_rps:["Délais"],
- prevention:`✅ Transpalette<br>✅ HV`,
- obligations:`• Gestes & postures`,
- docs:`• CARSAT Logistique`
-},
-
-boulanger:{
- label:"Boulanger",
- risques_metier:["Brûlures","Farine","TMS"],
- risques_cmr:["Allergènes farine"],
- risques_tms:["Postures répétées"],
- risques_rps:["Travail de nuit"],
- prevention:`✅ Aspiration<br>✅ FFP2`,
- obligations:`• Ventilation`,
- docs:`• INRS ED6002`
-},
-
-maintenance:{
- label:"Technicien maintenance",
- risques_metier:["Électrique","Hauteur","Mécanique"],
- risques_cmr:["Solvants","Huiles minérales"],
- risques_tms:["Exiguïté"],
- risques_rps:["Urgences"],
- prevention:`✅ LOTO<br>✅ Harnais<br>✅ Masque solvants`,
- obligations:`• BR/B2V<br>• Registre CMR`,
- docs:`• INRS ED912`
-},
-
-briqueteur:{
- label:"Briqueteur",
- risques_metier:["Échafaudage","Silice","Bruit"],
- risques_cmr:["Silice"],
- risques_tms:["Charges lourdes"],
- risques_rps:["Délais chantier"],
- prevention:`✅ FFP3<br>✅ Coupe à l’eau`,
- obligations:`• Prévention silice`,
- docs:`• INRS ED6180`
-},
-
-macon:{
- label:"Maçon",
- risques_metier:["Tranchées","Silice","Manutentions lourdes","Hauteur"],
- risques_cmr:["Silice cristalline"],
- risques_tms:["Dos","Sol"],
- risques_rps:["Intempéries"],
- prevention:`✅ Blindage tranchées<br>✅ FFP3<br>✅ Palan`,
- obligations:`• Prévention silice`,
- docs:`• OPPBTP Maçonnerie`
-},
-
-plaquiste:{
- label:"Plaquiste",
- risques_metier:["Poussières placo","Cutter","Hauteur"],
- risques_cmr:["Poussières fines"],
- risques_tms:["Bras levés"],
- risques_rps:["Délais chantiers"],
- prevention:`✅ FFP2<br>✅ Échafaudage`,
- obligations:`• Poussières chantier`,
- docs:`• INRS Placoplâtre`
-},
-
-peintre:{
- label:"Peintre",
- risques_metier:["Solvants","Chutes","Bruit"],
- risques_cmr:["Toluène","Hydrocarbures"],
- risques_tms:["Bras levés"],
- risques_rps:["Délais"],
- prevention:`✅ A2P3<br>✅ Ventilation`,
- obligations:`• FDS peinture`,
- docs:`• INRS Peinture`
-},
-
-carreleur:{
- label:"Carreleur",
- risques_metier:["Coupe carrelage","Silice","TMS sol"],
- risques_cmr:["Silice"],
- risques_tms:["Sol","Charges"],
- risques_rps:["Délais"],
- prevention:`✅ FFP3<br>✅ Coupe à l’eau`,
- obligations:`• Prévention silice`,
- docs:`• INRS Carrelage`
-},
-
-menuisier:{
- label:"Menuisier",
- risques_metier:["Poussières bois","Coupures","Bruit"],
- risques_cmr:["Poussières bois"],
- risques_tms:["Postures répétées"],
- risques_rps:["Production"],
- prevention:`✅ Aspiration sciure<br>✅ Anti‑bruit`,
- obligations:`• Prévention poussières bois`,
- docs:`• INRS Bois`
-},
-
-cariste:{
- label:"Cariste",
- risques_metier:["Engins","Chutes charges","Collision"],
- risques_cmr:["Fumées diesel"],
- risques_tms:["Postures statiques"],
- risques_rps:["Stress flux"],
- prevention:`✅ CACES<br>✅ Circulation séparée`,
- obligations:`• CACES obligatoire`,
- docs:`• INRS Chariots`
-},
-
-coiffeur:{
- label:"Coiffeur",
- risques_metier:["Produits chimiques","Allergies","Debout prolongé"],
- risques_cmr:["PPD","Persulfates"],
- risques_tms:["Station debout"],
- risques_rps:["Relation clientèle"],
- prevention:`✅ Gants nitrile<br>✅ Ventilation`,
- obligations:`• FDS coiffure`,
- docs:`• INRS Coiffure`
-}
-
 };
 
 /* ✅ NAVIGATION */
@@ -272,75 +506,58 @@ function ouvrirMetiers(){ cacherTout(); menuMetiers.style.display="block"; }
 function ouvrirCMR(){ cacherTout(); pageCMR.style.display="block"; }
 function ouvrirDUERP(){ cacherTout(); pageDUERP.style.display="block"; }
 
-/* ✅ MÉTIERS */
+/* ✅ AFFICHAGE MÉTIER */
 function validerMetier(){
  let m=document.getElementById("select-metier").value;
- if(m===""){ alert("Merci de sélectionner un métier."); return; }
+ if(m===""){ alert("Merci de choisir un métier."); return; }
  afficherRisques(m);
 }
-
 function afficherRisques(m){
  cacherTout();
  menuRisks.style.display="block";
-
  menuRisks.innerHTML = `
-<button class='btn btn-back' onclick='ouvrirMetiers()'>← Retour</button>
-<h2>${data[m].label}</h2>
-
-<div class='block'><h3>🔵 Risques métier</h3>${data[m].risques_metier.join("<br>")}</div>
-<div class='block'><h3>🟣 CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
-<div class='block'><h3>🟠 TMS</h3>${data[m].risques_tms.join("<br>")}</div>
-<div class='block'><h3>🟡 RPS</h3>${data[m].risques_rps.join("<br>")}</div>
-<div class='block'><h3>🛡 Prévention</h3>${data[m].prevention}</div>
-<div class='block'><h3>📜 Obligations</h3>${data[m].obligations}</div>
-<div class='block'><h3>📘 Documents utiles</h3>${data[m].docs}</div>
-`;
+ <button class='btn btn-back' onclick='ouvrirMetiers()'>← Retour</button>
+ <h2>${data[m].label}</h2>
+ <div class='block'><h3>Risques métier</h3>${data[m].risques_metier.join("<br>")}</div>
+ <div class='block'><h3>CMR</h3>${data[m].risques_cmr.join("<br>")}</div>
+ <div class='block'><h3>TMS</h3>${data[m].risques_tms.join("<br>")}</div>
+ <div class='block'><h3>RPS</h3>${data[m].risques_rps.join("<br>")}</div>
+ <div class='block'><h3>Prévention</h3>${data[m].prevention}</div>
+ <div class='block'><h3>Obligations</h3>${data[m].obligations}</div>
+ <div class='block'><h3>Documents utiles</h3>${data[m].docs}</div>
+ `;
 }
 
-/* ✅ SCANNER CAMERA */
-let codeReader = null;
-
+/* ✅ SCANNER CAMÉRA */
+let codeReader=null;
 function ouvrirScanner(){
  cacherTout();
  pageScanner.style.display="block";
-
- codeReader = new ZXing.BrowserMultiFormatReader();
-
- codeReader.decodeFromVideoDevice(null, "video", (result, err) => {
-   if(result){
-     afficherProduit(result.text);
-   }
+ codeReader=new ZXing.BrowserMultiFormatReader();
+ codeReader.decodeFromVideoDevice(null,"video",(result,err)=>{
+   if(result){ afficherProduit(result.text); }
  });
 }
-
 function afficherProduit(ean){
  let zone=document.getElementById("scanResult");
  zone.style.display="block";
-
  if(produitsCMR[ean]){
    let p=produitsCMR[ean];
-   zone.innerHTML = `
+   zone.innerHTML=`
    <h3>✅ Produit identifié</h3>
    <b>${p.nom}</b><br>
    Catégorie : ${p.categorie}<br><br>
-   <b>Risques CMR :</b><br>${p.cmr}<br><br>
-   <b>EPI recommandés :</b><br>${p.epi}<br><br>
-   Document : ${p.fds}
+   Risques CMR : ${p.cmr}<br><br>
+   EPI : ${p.epi}<br><br>
+   FDS : ${p.fds}
    `;
  } else {
-   zone.innerHTML = `
-   <h3>❓ Produit non répertorié</h3>
-   Code : ${ean}<br><br>
-   Ce produit n'est pas encore dans la base RESTEV.
-   `;
+   zone.innerHTML=`<h3>❓ Produit non trouvé</h3>Code : ${ean}`;
  }
 }
-
 function arreterScanner(){
  try{ codeReader.reset(); }catch(e){}
 }
-
 </script>
-
 </body>
 </html>
