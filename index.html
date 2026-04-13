@@ -3,20 +3,41 @@
 <html lang='fr'>
 <head>
 <meta charset='UTF-8'/>
-<title>RESTEV – Version 70 Métiers + Scanner</title>
+<title>RESTEV – Application Prévention (70 Métiers)</title>
 <script src='https://unpkg.com/@zxing/library@latest'></script>
 <style>
-body{font-family:Arial;margin:auto;max-width:480px;background:#f2f4f8;padding:20px;}
-.card{background:#fff;padding:18px;border-radius:12px;margin:15px;}
-.btn{padding:12px;border:none;border-radius:10px;background:#2563eb;color:#fff;width:100%;font-size:18px;margin-top:10px;cursor:pointer;}
-video{width:100%;border-radius:10px;margin-top:20px;}
+body{font-family:Arial;max-width:480px;margin:auto;background:#f2f4f8;padding:0;}
+.card{background:white;padding:20px;border-radius:12px;margin:20px;box-shadow:0 4px 12px rgba(0,0,0,0.2);} 
+.btn{width:90%;padding:14px;border:none;border-radius:12px;background:#2563eb;color:white;font-size:18px;font-weight:600;margin-top:12px;cursor:pointer;} 
+#accueil{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#2563eb,#9333ea);color:white;} 
+video{width:100%;border-radius:12px;margin-top:15px;} 
+.block{background:#f8fafc;padding:10px;border-radius:8px;margin-top:10px;border-left:5px solid #2563eb;} 
 </style>
 </head>
 <body>
-<h1>RESTEV – 70 Métiers (Version compacte)</h1>
-<div class='card'>
+
+<!-- ACCUEIL -->
+<div id='accueil'>
+<h1>Prévention Mobile – RESTEV</h1>
+<p>Version 70 métiers</p>
+<button class='btn' onclick='ouvrirMenu()'>ENTRER</button>
+</div>
+
+<!-- MENU PRINCIPAL -->
+<div id='menu' class='card' style='display:none;'>
+<h2>Menu principal</h2>
+<button class='btn' onclick='ouvrirMetiers()'>Métiers (70)</button>
+<button class='btn' onclick='ouvrirScanner()'>Scanner un produit</button>
+<button class='btn' onclick='ouvrirCMR()'>CMR</button>
+<button class='btn' onclick='ouvrirDUERP()'>DUERP</button>
+<button class='btn' onclick='retourAccueil()'>Retour accueil</button>
+</div>
+
+<!-- LISTE METIERS -->
+<div id='pageMetiers' class='card' style='display:none;'>
+<h2>Liste des 70 métiers</h2>
 <select id='metierSelect'>
-<option value=''>Sélectionne un métier</option>
+<option value=''>Sélectionnez…</option>
 <option value='Metier_1'>Metier_1</option>
 <option value='Metier_2'>Metier_2</option>
 <option value='Metier_3'>Metier_3</option>
@@ -89,42 +110,112 @@ video{width:100%;border-radius:10px;margin-top:20px;}
 <option value='Metier_70'>Metier_70</option>
 
 </select>
-<button class='btn' onclick='afficherMetier()'>Afficher métier</button>
+<button class='btn' onclick='afficherMetier()'>Afficher fiche métier</button>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button>
 </div>
-<div id='result' class='card' style='display:none;'></div>
 
-<div class='card'>
-<button class='btn' onclick='ouvrirScanner()'>Scanner un produit</button>
+<!-- PAGE FICHE METIER -->
+<div id='pageFiche' class='card' style='display:none;'>
+<h2 id='titreMetier'></h2>
+<div class='block' id='contenuMetier'>Chargement…</div>
+<button class='btn' onclick='ouvrirMetiers()'>Retour métiers</button>
 </div>
-<div id='scanPage' class='card' style='display:none;'>
-<h2>Scanner</h2>
+
+<!-- PAGE SCANNER -->
+<div id='pageScanner' class='card' style='display:none;'>
+<h2>Scanner un produit</h2>
 <video id='video' playsinline></video>
-<div id='scanResult' style='margin-top:15px;'></div>
-<button class='btn' onclick='arreterScanner()'>Retour</button>
+<div id='scanResult' class='block' style='display:none;'></div>
+<button class='btn' onclick='arreterScanner()'>Arrêter</button>
+<button class='btn' onclick='ouvrirMenu()'>Retour menu</button>
+</div>
+
+<!-- PAGE CMR -->
+<div id='pageCMR' class='card' style='display:none;'>
+<h2>CMR</h2>
+<div class='block'>Substances CMR : Cancérigènes, Mutagènes, Reprotoxiques.</div>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button>
+</div>
+
+<!-- PAGE DUERP -->
+<div id='pageDUERP' class='card' style='display:none;'>
+<h2>DUERP</h2>
+<div class='block'>Méthode d'évaluation + prévention hiérarchisée.</div>
+<button class='btn' onclick='ouvrirMenu()'>Retour</button>
 </div>
 
 <script>
-let codeReader=null;
-const produitsCMR={"3254567890123":{nom:"Degraissant X",cmr:"H350",epi:"Gants"}};
+/* === PRODUITS POUR SCANNER === */
+const produitsCMR={
+ "3254567890123":{nom:"Degraissant X",categorie:"Solvant",cmr:"H350",epi:"Gants nitrile",fds:"FDS.pdf"}
+};
 
-function afficherMetier(){
- let m=document.getElementById('metierSelect').value;
- let box=document.getElementById('result');
- if(!m){alert('Choisis un métier');return;}
- box.style.display='block';
- box.innerHTML='<h3>'+m+'</h3><p>Données métier complètes intégrées côté serveur final.</p>';
+/* === METIERS (placeholder complet 70 métiers) === */
+const data={};
+for(let i=1;i<=70;i++){
+ data["Metier_"+i]={
+   label:"Metier_"+i,
+   risques_metier:["Risque professionnel niveau B"],
+   risques_cmr:["Selon exposition"],
+   risques_tms:["Postures"],
+   risques_rps:["Charge mentale"],
+   prevention:"✅ Prévention adaptée disponible dans la version finale",
+   obligations:"DUERP obligatoire",
+   docs:"Fiches INRS disponibles"
+ };
 }
 
+/* === NAVIGATION === */
+function cacher(){
+ document.getElementById('accueil').style.display='none';
+ document.getElementById('menu').style.display='none';
+ document.getElementById('pageMetiers').style.display='none';
+ document.getElementById('pageFiche').style.display='none';
+ document.getElementById('pageScanner').style.display='none';
+ document.getElementById('pageCMR').style.display='none';
+ document.getElementById('pageDUERP').style.display='none';
+}
+function retourAccueil(){cacher();document.getElementById('accueil').style.display='flex';}
+function ouvrirMenu(){cacher();document.getElementById('menu').style.display='block';}
+function ouvrirMetiers(){cacher();document.getElementById('pageMetiers').style.display='block';}
+function ouvrirCMR(){cacher();document.getElementById('pageCMR').style.display='block';}
+function ouvrirDUERP(){cacher();document.getElementById('pageDUERP').style.display='block';}
+
+/* === FICHE METIER === */
+function afficherMetier(){
+ let m=document.getElementById('metierSelect').value;
+ if(!m){alert('Sélectionnez un métier');return;}
+ cacher();
+ document.getElementById('pageFiche').style.display='block';
+ document.getElementById('titreMetier').innerText=data[m].label;
+ document.getElementById('contenuMetier').innerHTML=
+   `<b>Risques métier :</b><br>${data[m].risques_metier.join('<br>')}<br><br>`+
+   `<b>CMR :</b><br>${data[m].risques_cmr.join('<br>')}<br><br>`+
+   `<b>TMS :</b><br>${data[m].risques_tms.join('<br>')}<br><br>`+
+   `<b>RPS :</b><br>${data[m].risques_rps.join('<br>')}<br><br>`+
+   `<b>Prévention :</b><br>${data[m].prevention}<br><br>`+
+   `<b>Obligations :</b><br>${data[m].obligations}<br><br>`+
+   `<b>Documents :</b><br>${data[m].docs}`;
+}
+
+/* === SCANNER === */
+let codeReader=null;
 function ouvrirScanner(){
- document.getElementById('scanPage').style.display='block';
+ cacher();
+ document.getElementById('pageScanner').style.display='block';
  codeReader=new ZXing.BrowserMultiFormatReader();
- codeReader.decodeFromVideoDevice(null,'video',(res,err)=>{
-   if(res){afficherProduit(res.text);}  }); }
-
-function afficherProduit(ean){ let r=document.getElementById('scanResult');
- if(produitsCMR[ean]){ let p=produitsCMR[ean]; r.innerHTML='<b>'+p.nom+'</b><br>CMR:'+p.cmr;} else { r.innerHTML='Non trouvé: '+ean; } }
-
-function arreterScanner(){ try{codeReader.reset();}catch(e){} document.getElementById('scanPage').style.display='none'; }
+ codeReader.decodeFromVideoDevice(null,'video',(r,e)=>{if(r)afficherProduit(r.text);});
+}
+function afficherProduit(ean){
+ let zone=document.getElementById('scanResult');
+ zone.style.display='block';
+ if(produitsCMR[ean]){
+   let p=produitsCMR[ean];
+   zone.innerHTML=`<b>${p.nom}</b><br>CMR : ${p.cmr}<br>EPI : ${p.epi}`;
+ }else zone.innerHTML=`Produit non trouvé : ${ean}`;
+}
+function arreterScanner(){try{codeReader.reset();}catch(e){}ouvrirMenu();}
 </script>
+
 </body>
 </html>
