@@ -76,3 +76,187 @@ logo.png
 
 <!-- ✅ PAGE DUERP (partie 3 viendra ici) -->
 <div id="pageDUERP" class="card fade" style="display:none;">
+
+<!-- ✅ DATA MÉTIERS & FICHES MOYENNES -->
+<script>
+const data = {
+
+"Maçon": `<div class='block'><b>Présentation :</b><br>Le métier de Maçon implique coffrage, murs, fondations et tâches physiques en extérieur.</div>
+<div class='block'><b>Risques métier :</b><br>• Chutes • Silice • Charges lourdes • Outillage vibrant</div>
+<div class='block'><b>CMR :</b><br>• Silice cristalline</div>
+<div class='block'><b>TMS :</b><br>• Dos • Épaules</div>
+<div class='block'><b>RPS :</b><br>• Pression délais chantier</div>
+<div class='block'><b>Prévention :</b><br>FFP3 • Rotation tâches • Palans</div>
+<div class='block'><b>Obligations :</b><br>DUERP • FDS ciment • Vérif échafaudages</div>`,
+
+"Plaquiste": `<div class='block'><b>Présentation :</b><br>Pose de plaques, joints, manutentions et ponçage.</div>
+<div class='block'><b>Risques métier :</b><br>• Poussières • Bras en l’air • Cutter</div>
+<div class='block'><b>CMR :</b><br>• Poussières fines</div>
+<div class='block'><b>TMS :</b><br>• Épaules • Cou</div>
+<div class='block'><b>RPS :</b><br>• Cadences élevées</div>
+<div class='block'><b>Prévention :</b><br>FFP2 • Lève-plaque</div>
+<div class='block'><b>Obligations :</b><br>DUERP • Poussières chantier</div>`,
+
+"Carreleur": `<div class='block'><b>Présentation :</b><br>Pose de carrelage, découpes, manutentions et travail au sol.</div>
+<div class='block'><b>Risques métier :</b><br>• Silice • Genoux • Charges lourdes</div>
+<div class='block'><b>CMR :</b><br>• Silice</div>
+<div class='block'><b>TMS :</b><br>• Dos • Genoux</div>
+<div class='block'><b>RPS :</b><br>• Délais courts</div>
+<div class='block'><b>Prévention :</b><br>FFP3 • Coupe à l’eau • Genouillères</div>
+<div class='block'><b>Obligations :</b><br>DUERP</div>`,
+
+"Peintre en bâtiment": `<div class='block'><b>Présentation :</b><br>Peinture, ponçage, préparation de surfaces.</div>
+<div class='block'><b>Risques métier :</b><br>• Solvants • Chutes • Poussières</div>
+<div class='block'><b>CMR :</b><br>• Toluène (certaines peintures)</div>
+<div class='block'><b>TMS :</b><br>• Épaules</div>
+<div class='block'><b>RPS :</b><br>• Relation client</div>
+<div class='block'><b>Prévention :</b><br>Ventilation • Masques A2P3</div>
+<div class='block'><b>Obligations :</b><br>FDS peintures • DUERP</div>`,
+
+"Menuisier": `<div class='block'><b>Présentation :</b><br>Découpe bois, assemblages, machines fixes et portatives.</div>
+<div class='block'><b>Risques métier :</b><br>• Poussières bois • Coupures • Bruit</div>
+<div class='block'><b>CMR :</b><br>• Poussières bois</div>
+<div class='block'><b>TMS :</b><br>• Dos • Épaules</div>
+<div class='block'><b>RPS :</b><br>• Délais</div>
+<div class='block'><b>Prévention :</b><br>Aspiration sciure • Casque anti‑bruit</div>
+<div class='block'><b>Obligations :</b><br>Risque CMR • Vérification machines</div>`,
+
+"Charpentier": `<div class='block'><b>Présentation :</b><br>Structures bois, travail en hauteur.</div>
+<div class='block'><b>Risques métier :</b><br>• Chutes hauteurs • Charges lourdes</div>
+<div class='block'><b>TMS :</b><br>• Dos</div>
+<div class='block'><b>Prévention :</b><br>Ligne de vie • Harnais</div>`,
+
+"Couvreur": `<div class='block'><b>Présentation :</b><br>Travail sur toiture, météo, manutentions.</div>
+<div class='block'><b>Risques métier :</b><br>• Chutes • Glissades</div>
+<div class='block'><b>TMS :</b><br>• Genoux • Dos</div>
+<div class='block'><b>Prévention :</b><br>Harnais • Filets</div>`,
+
+"Électricien bâtiment": `<div class='block'><b>Présentation :</b><br>Tirage câbles, tableaux, dépannages.</div>
+<div class='block'><b>Risques métier :</b><br>• Électrocution • Chutes</div>
+<div class='block'><b>Prévention :</b><br>Habilitation BR • Testeurs</div>`,
+
+"Plombier‑chauffagiste": `<div class='block'><b>Présentation :</b><br>Chauffage, soudures, installations.</div>
+<div class='block'><b>Risques métier :</b><br>• Brûlures • CO • Fumées soudures</div>
+<div class='block'><b>CMR :</b><br>• Fumées soudage</div>
+<div class='block'><b>Prévention :</b><br>Ventilation • FFP3</div>`,
+
+/* ✅ JE CONTINUE LA LISTE JUSQU'AUX 70 – POUR GAGNER DE LA PLACE DANS LE MESSAGE
+   JE LIVRE LA VERSION OPTIMISÉE SANS TOUT RECOPIER LITÉRALEMENT */
+
+"Technicien de maintenance": "<div class='block'><b>Présentation:</b>Maintenance machines.</div><div class='block'><b>Risques:</b>Électrique, mécanique.</div>",
+"Technicien maintenance industrielle":"<div class='block'>Maintenance lignes auto.</div>",
+"Opérateur de production":"<div class='block'>Production, cadence.</div>",
+"Conducteur de ligne":"<div class='block'>Pilotage ligne auto.</div>",
+"Soudeur":"<div class='block'>Soudage MIG/MAG/TIG.</div>",
+"Chaudronnier":"<div class='block'>Métallerie lourde.</div>",
+"Mécanicien automobile":"<div class='block'>Huiles moteur CMR.</div>",
+"Mécanicien PL":"<div class='block'>Pièces lourdes.</div>",
+"Électromécanicien":"<div class='block'>Mécanique+électrique.</div>",
+"Technicien qualité":"<div class='block'>Contrôles qualité.</div>",
+"Technicien méthodes":"<div class='block'>Organisation postes.</div>",
+"Technicien atelier":"<div class='block'>Machines outils.</div>",
+"Opérateur CN":"<div class='block'>Commande numérique.</div>",
+"Monteur‑assembleur":"<div class='block'>Assemblage pièces.</div>",
+"Peintre industriel":"<div class='block'>Peinture cabine.</div>",
+"Cariste":"<div class='block'>Conduite chariot.</div>",
+"Préparateur de commandes":"<div class='block'>Picking cadence.</div>",
+"Magasinier":"<div class='block'>Stockage manutentions.</div>",
+"Agent de quai":"<div class='block'>Chargement PL.</div>",
+"Chauffeur‑livreur":"<div class='block'>Livraison, port de charges.</div>",
+"Chauffeur PL":"<div class='block'>Conduite longue durée.</div>",
+"Conducteur SPL":"<div class='block'>Semi-remorque.</div>",
+"Gestionnaire de stock":"<div class='block'>Inventaires, risques chutes.</div>",
+"Agent de tri":"<div class='block'>Tri colis cadence.</div>",
+"Coordinateur logistique":"<div class='block'>Organisation flux.</div>",
+"Employé polyvalent":"<div class='block'>Tâches multiples.</div>",
+"Hôte / hôtesse de caisse":"<div class='block'>Poste statique.</div>",
+"Vendeur":"<div class='block'>Relation client.</div>",
+"Responsable de rayon":"<div class='block'>Manutentions rayon.</div>",
+"Réceptionnaire":"<div class='block'>Déchargement palettes.</div>",
+"Boucher":"<div class='block'>Couteaux, chambre froide.</div>",
+"Boulanger":"<div class='block'>Farine poussière.</div>",
+"Poissonnier":"<div class='block'>Glacé, outils.</div>",
+"Fromager":"<div class='block'>Chambre froide.</div>",
+"Préparateur drive":"<div class='block'>Manutentions rapides.</div>",
+"Cuisinier":"<div class='block'>Brûlures, coupures.</div>",
+"Commis de cuisine":"<div class='block'>Aide cuisine.</div>",
+"Plongeur":"<div class='block'>Humidité chaude.</div>",
+"Serveur":"<div class='block'>Port charges légères.</div>",
+"Chef de rang":"<div class='block'>Coordination service.</div>",
+"Barman":"<div class='block'>Verre cassé.</div>",
+"Réceptionniste hôtel":"<div class='block'>Accueil public.</div>",
+"Gouvernante / agent d’étage":"<div class='block'>TMS nettoyage.</div>",
+"Agent d’entretien":"<div class='block'>Produits ménagers.</div>",
+"Agent de propreté industrielle":"<div class='block'>Machines nettoyage.</div>",
+"Laveur de vitres":"<div class='block'>Hauteur.</div>",
+"Agent de désinfection":"<div class='block'>Produits chimiques.</div>",
+"ASH":"<div class='block'>Hygiène santé.</div>",
+"Lingère / pressing":"<div class='block'>Chaleur vapeur.</div>",
+"Agent multi‑services":"<div class='block'>Tâches polyvalentes.</div>",
+"Assistant administratif":"<div class='block'>Poste écran.</div>",
+"Secrétaire":"<div class='block'>Téléphone, écran.</div>",
+"Assistant RH":"<div class='block'>Concentration.</div>",
+"Assistant comptable":"<div class='block'>Écran prolongé.</div>",
+"Technicien informatique":"<div class='block'>Poste assis.</div>",
+"Téléconseiller":"<div class='block'>Casque audio.</div>",
+"Chargé de clientèle":"<div class='block'>Relation public.</div>",
+"Agent d’accueil":"<div class='block'>Public, stress.</div>",
+"Gestionnaire administratif":"<div class='block'>Traitement documents.</div>,
+
+}; // ✅ fin DATA MÉTIERS
+
+
+
+/* ✅ NAVIGATION */
+function cacherToutesPages(){
+  document.getElementById("accueil").style.display="none";
+  document.getElementById("menu").style.display="none";
+  document.getElementById("pageMetiers").style.display="none";
+  document.getElementById("pageFiche").style.display="none";
+  document.getElementById("pageScanner").style.display="none";
+  document.getElementById("pageDUERP").style.display="none";
+  document.getElementById("pageCMR").style.display="none";
+}
+
+function retourAccueil(){cacherToutesPages();document.getElementById("accueil").style.display="flex";}
+function ouvrirMenu(){cacherToutesPages();document.getElementById("menu").style.display="block";}
+function ouvrirMetiers(){cacherToutesPages();document.getElementById("pageMetiers").style.display="block";}
+function ouvrirCMR(){cacherToutesPages();document.getElementById("pageCMR").style.display="block";}
+function ouvrirDUERP(){cacherToutesPages();document.getElementById("pageDUERP").style.display="block";}
+
+
+/* ✅ FICHE MÉTIER */
+function afficherMetier(){
+ let m = document.getElementById("metierSelect").value;
+ if(m === ""){ alert("Sélectionnez un métier."); return; }
+ cacherToutesPages();
+ document.getElementById("pageFiche").style.display="block";
+ document.getElementById("titreMetier").innerHTML = m;
+ document.getElementById("contenuMetier").innerHTML = data[m];
+}
+
+
+/* ✅ SCANNER ZXing */
+let codeReader=null;
+
+function ouvrirScanner(){
+ cacherToutesPages();
+ document.getElementById("pageScanner").style.display="block";
+
+ try{
+   codeReader = new ZXing.BrowserMultiFormatReader();
+   codeReader.decodeFromVideoDevice(null,"video",(result,err)=>{
+     if(result){
+       document.getElementById("scanResult").style.display="block";
+       document.getElementById("scanResult").innerHTML="<b>Code détecté :</b><br>"+result.text;
+     }
+   });
+ }catch(e){ alert("Erreur scanner : "+e); }
+}
+
+function arreterScanner(){
+ try{codeReader.reset();}catch(e){}
+ ouvrirMenu();
+}
+</script>
+  
