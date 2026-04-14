@@ -20,15 +20,9 @@ body{
   text-align:center;
   margin-bottom:24px;
 }
-.logo{
-  width:220px;
-}
-.subtitle{
-  font-size:14px;
-  color:#475569;
-}
+.logo{width:220px;}
+.subtitle{font-size:14px;color:#475569;}
 
-/* Cartes */
 .card{
   background:#ffffff;
   border-radius:20px;
@@ -36,13 +30,8 @@ body{
   box-shadow:0 8px 28px rgba(0,0,0,0.12);
 }
 
-/* Titres */
-h2,h3{
-  color:#1e3a8a;
-  margin-top:0;
-}
+h2,h3{color:#1e3a8a;margin-top:0;}
 
-/* Info */
 .info{
   background:#eef2ff;
   padding:14px;
@@ -51,7 +40,6 @@ h2,h3{
   margin-bottom:22px;
 }
 
-/* Boutons */
 .btn{
   width:100%;
   padding:18px;
@@ -62,18 +50,10 @@ h2,h3{
   cursor:pointer;
   margin-bottom:12px;
 }
-.btn-main{
-  background:#2563eb;
-  color:white;
-}
-.btn-back{
-  background:#e5e7eb;
-}
+.btn-main{background:#2563eb;color:white;}
+.btn-back{background:#e5e7eb;}
 
-/* Risques */
-.risque{
-  margin-bottom:30px;
-}
+.risque{margin-bottom:30px;}
 .action{
   width:100%;
   padding:16px;
@@ -91,7 +71,6 @@ h2,h3{
   font-weight:600;
 }
 
-/* CMR */
 .cmr{
   background:#fff7ed;
   border:2px solid #f97316;
@@ -99,7 +78,6 @@ h2,h3{
   padding:18px;
 }
 
-/* Résultat */
 .result{
   padding:18px;
   border-radius:18px;
@@ -118,39 +96,32 @@ h2,h3{
 
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
   <img src="logo.png" class="logo" alt="RESTEV">
   <div class="subtitle">Prévention santé au travail – Accompagnement entreprise</div>
 </div>
 
-<!-- ACCUEIL -->
 <div id="accueil" class="card">
   <div class="info">
-    Cette application est un <strong>outil d’accompagnement prévention</strong>.<br><br>
-    Elle permet de voir <strong>ce qui est déjà en place</strong> et
-    d’identifier <strong>des axes d’amélioration</strong>, sans audit ni jugement.
+    Outil d’accompagnement prévention basé sur les métiers,
+    pour faire un état des lieux simple et progresser sans jugement.
   </div>
   <button class="btn btn-main" onclick="showMetiers()">Démarrer</button>
 </div>
 
-<!-- METIERS -->
 <div id="metiers" class="card hidden">
   <h2>Choisir un métier</h2>
   <button class="btn btn-main" onclick="chargerMetier('macon')">Maçon</button>
   <button class="btn btn-main" onclick="chargerMetier('couvreur')">Couvreur</button>
   <button class="btn btn-main" onclick="chargerMetier('menuisier')">Menuisier</button>
   <button class="btn btn-back" onclick="showAccueil()">← Retour</button>
-  
 </div>
 
-<!-- CHECKLIST -->
 <div id="checklist" class="card hidden"></div>
 
 </div>
 
 <script>
-/* ===== DONNÉES MÉTIERS ===== */
 const metiers = {
   macon: {
     nom:"Maçon",
@@ -166,18 +137,9 @@ const metiers = {
         ]
       },
       {
-        titre:"Manutentions / TMS",
-        actions:[
-          "Aides à la manutention",
-          "Organisation limitant les ports",
-          "Formation gestes et postures",
-          "Rotation des tâches"
-        ]
-      },
-      {
         titre:"Silice cristalline (CMR)",
         cmr:true,
-        message:"Les CMR nécessitent une vigilance renforcée. Même quelques actions en place sont positives.",
+        message:"Risque CMR nécessitant une vigilance renforcée.",
         actions:[
           "Découpe à l’eau ou aspiration",
           "Aspiration à la source",
@@ -195,133 +157,26 @@ const metiers = {
         titre:"Chute de hauteur",
         actions:[
           "Protections collectives",
-          "Accès sécurisés à la toiture",
+          "Accès sécurisés",
           "Formation travail en hauteur",
-          "EPI antichute utilisés"
+          "EPI antichute"
         ]
       }
     ]
-  }
-};
-menuisier: {
-  nom: "Menuisier",
-  risques: [
-    {
-      titre: "Machines et outils coupants",
-      actions: [
-        "Protections des machines en place",
-        "Arrêts d’urgence fonctionnels",
-        "Formation à l’utilisation des machines",
-        "Consignes de sécurité affichées",
-        "Utilisation des EPI adaptés"
-      ]
-    },
-    {
-      titre: "Manutentions / TMS",
-      actions: [
-        "Aides à la manutention disponibles",
-        "Organisation limitant les ports manuels",
-        "Formation gestes et postures",
-        "Aménagement des postes de travail"
-      ]
-    },
-    {
-      titre: "Poussières de bois (CMR)",
-      cmr: true,
-      message: "Les poussières de bois sont classées CMR. Ce risque nécessite une vigilance renforcée, même si certaines mesures sont déjà en place.",
-      actions: [
-        "Aspiration des poussières à la source",
-        "Systèmes d’aspiration entretenus",
-        "Nettoyage adapté (aspirateur, pas de balayage à sec)",
-        "Information / sensibilisation des salariés",
-        "Protections respiratoires adaptées"
-      ]
-    },
-    {
-      titre: "Bruit",
-      actions: [
-        "Évaluation des niveaux sonores",
-        "Limitation de l’exposition",
-        "Organisation des temps de travail",
-        "Protection auditive mise à disposition"
-      ]
-    }
-  ]
-}
-``
-/* ===== NAVIGATION ===== */
-function showAccueil(){
-  document.getElementById("accueil").classList.remove("hidden");
-  document.getElementById("metiers").classList.add("hidden");
-  document.getElementById("checklist").classList.add("hidden");
-}
-function showMetiers(){
-  document.getElementById("accueil").classList.add("hidden");
-  document.getElementById("metiers").classList.remove("hidden");
-}
+  },
 
-/* ===== CHECKLIST ===== */
-function chargerMetier(id){
-  const bloc=document.getElementById("checklist");
-  const metier=metiers[id];
+  menuisier: {
+    nom:"Menuisier",
+    risques:[
+      {
+        titre:"Machines et outils coupants",
+        actions:[
+          "Protections machines",
+          "Arrêts d’urgence",
+          "Formation machines",
+          "Consignes affichées",
+          "EPI adaptés"
+        ]
+      },
+      {
 
-  let html=`<h2>Métier : ${metier.nom}</h2>
-  <div class="info">
-    Appuyez sur les boutons correspondant à ce qui est <strong>déjà en place</strong>.
-  </div>`;
-
-  metier.risques.forEach(r=>{
-    html+=`<div class="risque ${r.cmr?'cmr':''}">
-      <h3>${r.cmr?'🔴':'🟠'} ${r.titre}</h3>`;
-    if(r.cmr){
-      html+=`<div class="info">${r.message}</div>`;
-    }
-    r.actions.forEach(a=>{
-      html+=`<button class="action">${a}</button>`;
-    });
-    html+=`</div>`;
-  });
-
-  html+=`
-    <button class="btn btn-main" onclick="evaluer()">Voir la synthèse</button>
-    <div id="result"></div>
-    <button class="btn btn-back" onclick="showMetiers()">← Retour</button>
-  `;
-
-  bloc.innerHTML=html;
-  document.querySelectorAll(".action").forEach(b=>{
-    b.onclick=()=>b.classList.toggle("active");
-  });
-
-  document.getElementById("metiers").classList.add("hidden");
-  bloc.classList.remove("hidden");
-}
-
-/* ===== EVALUATION ===== */
-function evaluer(){
-  const total=document.querySelectorAll(".action").length;
-  const actifs=document.querySelectorAll(".action.active").length;
-  const ratio=actifs/total;
-  const res=document.getElementById("result");
-
-  if(ratio>=0.7){
-    res.innerHTML=`<div class="result good">
-      ✅ Prévention globalement en place<br>
-      La démarche va dans le bon sens.
-    </div>`;
-  } else if(ratio>=0.4){
-    res.innerHTML=`<div class="result medium">
-      🟡 Prévention partiellement en place<br>
-      Des améliorations sont possibles.
-    </div>`;
-  } else{
-    res.innerHTML=`<div class="result bad">
-      🔴 Prévention à renforcer<br>
-      Un accompagnement peut aider à avancer sereinement.
-    </div>`;
-  }
-}
-</script>
-
-</body>
-</html>
