@@ -18,21 +18,35 @@ body {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+h1, h2 {
+  color: #2563eb;
+  text-align: center;
 }
 
 .btn {
   width: 100%;
   padding: 14px;
+  margin-top: 10px;
   border: none;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
-  margin-top: 10px;
   cursor: pointer;
 }
 
-.btn-main { background:#2563eb; color:white; }
-.btn-back { background:#d1d5db; }
+.btn-main { background: #2563eb; color: white; }
+.btn-risk { background: #f97316; color: white; }
+.btn-back { background: #d1d5db; }
+.info {
+  background: #e0f2fe;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
 </style>
 </head>
 
@@ -41,69 +55,16 @@ body {
 <!-- ✅ ACCUEIL -->
 <div id="accueil" class="card">
   <h1>RESTEV</h1>
-  <p>Application d’aide à la prévention</p>
+  <p style="text-align:center;">Application d’aide à la prévention des risques</p>
   <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
 <!-- ✅ ACTIVITÉS -->
 <div id="activites" class="card" style="display:none;">
-  <h2>Votre activité :</h2>
-  
-  <!-- ✅ MÉTIERS -->
-<div id="metiers" class="card" style="display:none;"></div>
-``
+  <h2>Votre activité</h2>
+  <div class="info">
+    Identifier les risques permet d’agir progressivement et en sécurité.
+  </div>
 
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
-<button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
-<button class="btn btn-main" onclick="afficherMetiers('logistique')">Logistique / Transport</button
-                                                                                             
-  <button class="btn btn-back" onclick="retour()">← Retour</button>
-</div>
-
-<script>
-const activites = {
-  btp: ["Ouvrier du bâtiment", "Maçon", "Couvreur"],
-  services: ["Commercial itinérant", "Coiffeur / Coiffeuse", "Boucher"],
-  logistique: ["Conducteur / Livreur", "Cariste"]
-};
-
-function entrer() {
-  document.getElementById("accueil").style.display = "none";
-  document.getElementById("activites").style.display = "block";
-}
-
-/* ✅ afficher les métiers */
-function afficherMetiers(secteur) {
-  document.getElementById("activites").style.display = "none";
-  const zone = document.getElementById("metiers");
-  zone.style.display = "block";
-
-  let html = `<h2>Vos métiers</h2>`;
-  activites[secteur].forEach(m => {
-    html += `<button class="btn btn-main" onclick="choixMetier('${m}')">${m}</button>`;
-  });
-
-  html += `<button class="btn btn-back" onclick="retourActivites()">← Retour activités</button>`;
-  zone.innerHTML = html;
-}
-
-/* ✅ clic métier */
-function choixMetier(metier) {
-  alert("Métier sélectionné : " + metier);
-}
-
-/* ✅ retours */
-function retourActivites() {
-  document.getElementById("metiers").style.display = "none";
-  document.getElementById("activites").style.display = "block";
-}
-
-function retour() {
-  document.getElementById("activites").style.display = "none";
-  document.getElementById("accueil").style.display = "block";
-}
-</script>
-
-</body>
-</html>
-``
+  <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
