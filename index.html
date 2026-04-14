@@ -1,28 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Prévention Mobile - RESTEV</title>
 
-<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'><title>RESTEV – Final</title>
-<script src='https://unpkg.com/@zxing/library@latest'></script>
-<style>body{font-family:Arial;max-width:480px;margin:auto;background:#f2f4f8;} .card{background:white;padding:20px;border-radius:12px;margin:20px;} .btn{width:90%;padding:14px;border:none;border-radius:12px;background:#2563eb;color:white;font-size:18px;margin-top:12px;} #accueil{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#2563eb,#9333ea);color:white;} .block{background:#f8fafc;padding:10px;border-radius:8px;margin-top:10px;border-left:5px solid #2563eb;} video{width:100%;border-radius:12px;margin-top:15px;}</style></head>
-<body>
-<div id='accueil'>
-<img src='logo.png' style='width:220px;margin-bottom:20px;'>
-<h1>Prévention RESTEV</h1><button class='btn' onclick='ouvrirMenu()'>ENTRER</button></div>
-<div id='menu' class='card' style='display:none;'>
-<h2>Menu</h2><button class='btn' onclick='ouvrirDUERP()'>DUERP Premium</button><button class='btn' onclick='ouvrirScanner()'>Scanner</button></div>
-<div id='pageDUERP' class='card' style='display:none;'>
-<h2>DUERP Premium</h2>
-<div class='block'>Document Unique – Analyse des risques</div>
-<h3>Matrice interactive</h3>
-<select id='grav' onchange='evaluer()'><option value=''>Gravité</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>
-<select id='prob' onchange='evaluer()'><option value=''>Probabilité</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>
-<div id='res' class='block' style='display:none;'></div>
-<button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
-<div id='pageScanner' class='card' style='display:none;'>
-<h2>Scanner</h2><video id='video' playsinline></video><div id='scanR' class='block' style='display:none;'></div><button class='btn' onclick='ouvrirMenu()'>Retour</button></div>
-<script>
-function cacher(){['accueil','menu','pageDUERP','pageScanner'].forEach(i=>document.getElementById(i).style.display='none');}
-function ouvrirMenu(){cacher();document.getElementById('menu').style.display='block';}
-function ouvrirDUERP(){cacher();document.getElementById('pageDUERP').style.display='block';}
-function evaluer(){let g=parseInt(document.getElementById('grav').value);let p=parseInt(document.getElementById('prob').value);if(!g||!p){document.getElementById('res').style.display='none';return;}let s=g*p;let t='';if(s>=12)t='🟥 Risque ÉLEVÉ';else if(s>=8)t='🟧 Risque SIGNIFICATIF';else if(s>=4)t='🟨 Risque MODÉRÉ';else t='🟩 Risque FAIBLE';let r=document.getElementById('res');r.innerHTML=t;r.style.display='block';}
-let reader=null;function ouvrirScanner(){cacher();document.getElementById('pageScanner').style.display='block';reader=new ZXing.BrowserMultiFormatReader();reader.decodeFromVideoDevice(null,'video',(r,e)=>{if(r){let z=document.getElementById('scanR');z.innerHTML='Code : '+r.text;z.style.display='block';}});}
-</script>
-</body></html>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 450px;
+      margin: auto;
+      padding: 20px;
+      background: #f3f4f6;
+    }
+
+    h1, h2 {
+      color: #2563eb;
+    }
+
+    #accueil {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    #accueil h1 {
+      font-size: 28px;
+      background: #2563eb;
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    #accueil p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .btn-start { background: #2563eb; color: white; }
+    .btn-job { background: #2563eb; color: white; }
+    .btn-risk { background: #f97316; color: white; }
+    .btn-back { background: #d1d5db; color: black; }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .info {
+      background: #e0f2fe;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      font-size: 14px;
