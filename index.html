@@ -179,4 +179,81 @@ const metiers = {
         ]
       },
       {
+        titre:"Poussières de bois (CMR)",
+        cmr:true,
+        message:"Poussières bois classées CMR – vigilance renforcée.",
+        actions:[
+          "Aspiration à la source",
+          "Entretien aspiration",
+          "Nettoyage adapté",
+          "Information salariés",
+          "Protections respiratoires"
+        ]
+      }
+    ]
+  }
+};
 
+function showAccueil(){
+  accueil.classList.remove("hidden");
+  metiersDiv.classList.add("hidden");
+  checklist.classList.add("hidden");
+}
+
+function showMetiers(){
+  accueil.classList.add("hidden");
+  metiersDiv.classList.remove("hidden");
+}
+
+const metiersDiv = document.getElementById("metiers");
+const checklist = document.getElementById("checklist");
+const accueil = document.getElementById("accueil");
+
+function chargerMetier(id){
+  const m = metiers[id];
+  let html = `<h2>Métier : ${m.nom}</h2>
+  <div class="info">Appuyez sur ce qui est déjà en place.</div>`;
+
+  m.risques.forEach(r=>{
+    html += `<div class="risque ${r.cmr?'cmr':''}">
+      <h3>${r.cmr?'🔴':'🟠'} ${r.titre}</h3>`;
+    if(r.cmr) html+=`<div class="info">${r.message}</div>`;
+    r.actions.forEach(a=>{
+      html+=`<button class="action">${a}</button>`;
+    });
+    html+=`</div>`;
+  });
+
+  html+=`
+    <button class="btn btn-main" onclick="evaluer()">Voir la synthèse</button>
+    <div id="result"></div>
+    <button class="btn btn-back" onclick="showMetiers()">← Retour</button>
+  `;
+
+  checklist.innerHTML = html;
+  metiersDiv.classList.add("hidden");
+  checklist.classList.remove("hidden");
+
+  document.querySelectorAll(".action").forEach(b=>{
+    b.onclick=()=>b.classList.toggle("active");
+  });
+}
+
+function evaluer(){
+  const total = document.querySelectorAll(".action").length;
+  const actifs = document.querySelectorAll(".action.active").length;
+  const ratio = actifs / total;
+  const res = document.getElementById("result");
+
+  if(ratio>=0.7){
+    res.innerHTML=`<div class="result good">✅ Prévention globalement en place</div>`;
+  }else if(ratio>=0.4){
+    res.innerHTML=`<div class="result medium">🟡 Prévention partielle</div>`;
+  }else{
+    res.innerHTML=`<div class="result bad">🔴 Prévention à renforcer</div>`;
+  }
+}
+</script>
+
+</body>
+</html>
