@@ -3,332 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Prévention santé au travail</title>
+<title>RESTEV – Checklist Maçon</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:linear-gradient(180deg,#ffffff 0%,#eef2ff 100%);
-  display:flex;
-  justify-content:center;
-}
-.app{
-  width:100%;
-  max-width:420px;
-  padding:16px;
-}
-.header{
-  text-align:center;
-  padding:24px 12px 12px;
-}
-.logo{
-  width:240px;
-  max-width:100%;
-  margin-bottom:6px;
-}
-.subtitle{
-  font-size:14px;
-  color:#475569;
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-.bandeau{
-  background:linear-gradient(135deg,#dbeafe,#eef2ff);
-  color:#1e3a8a;
-  padding:10px 14px;
-  border-radius:14px;
-  font-size:13px;
-  margin:10px 0 16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.bandeau span{color:#475569;font-weight:400}
-.btn-quit{
-  background:none;
-  border:none;
-  color:#1e40af;
-  font-size:12px;
-  text-decoration:underline;
-  cursor:pointer;
+.card {
+  background: white;
+  max-width: 440px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.06);
-  margin-bottom:16px;
+h2 {
+  text-align: center;
+  color: #1e3a8a;
 }
 
-h2{text-align:center;color:#1e3a8a;margin-top:0}
-
-.info{
-  background:#eef2ff;
-  color:#1e3a8a;
-  padding:12px;
-  border-radius:12px;
-  font-size:14px;
-  margin:14px 0;
+.info {
+  background: #eef2ff;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 
-.btn{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:10px;
-}
-.btn-primary{background:linear-gradient(135deg,#2563eb,#1e40af);color:white}
-.btn-secondary{background:#e5e7eb;color:#111827}
-.btn-action{background:linear-gradient(135deg,#f97316,#ea580c);color:white}
-.btn-good{background:linear-gradient(135deg,#22c55e,#15803d);color:white}
-.btn-back{background:#e5e7eb}
-
-.priority{
-  padding:10px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
-  margin:12px 0;
-}
-.low{background:#dcfce7;color:#166534}
-.mid{background:#fef9c3;color:#854d0e}
-.high{background:#ffedd5;color:#9a3412}
-.critical{background:#fee2e2;color:#991b1b}
-
-.step{
-  background:#f8fafc;
-  border-left:4px solid #2563eb;
-  padding:10px;
-  border-radius:8px;
-  margin-top:6px;
-  font-size:14px;
+.risque {
+  margin-bottom: 20px;
 }
 
-.hidden{display:none}
+.risque h3 {
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.check-item {
+  margin: 6px 0;
+}
+
+.resultat {
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.bon { background: #dcfce7; color: #166534; }
+.moyen { background: #fef9c3; color: #854d0e; }
+.faible { background: #fee2e2; color: #991b1b; }
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+}
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="card">
 
-<!-- HEADER -->
-<div class="header">
-  <img src="logo.png" class="logo" alt="Logo RESTEV">
-  <div class="subtitle">Prévention santé au travail</div>
-</div>
-
-<!-- BANDEAU ENTRETIEN -->
-<div id="bandeau" class="bandeau hidden">
-  🗣️ Échange prévention 
-  <span>– accompagnement, pas contrôle</span>
-  <button class="btn-quit" onclick="quitterEntretien()">Quitter</button>
-</div>
-
-<!-- ACCUEIL -->
-<div id="accueil" class="card">
-  <div class="info">
-    <strong>Outil d’aide à la prévention</strong><br><br>
-    Identifier les risques, définir des priorités
-    et agir progressivement.<br>
-    <em>Ce n’est pas un audit, ni un outil de contrôle.</em>
-  </div>
+  <h2>Métier : Maçon</h2>
 
   <div class="info">
-    Parcours conseillé :<br>
-    Activité → Métier → Risques → Priorités → Actions → Synthèse
+    Cochez ce qui est <strong>déjà en place</strong> dans votre entreprise.<br>
+    Il ne s’agit pas d’être parfait, mais de voir où vous en êtes.
   </div>
 
-  <button class="btn btn-primary" onclick="demarrer(false)">
-    🚀 Utiliser l’application librement
+  <!-- RISQUE 1 -->
+  <div class="risque">
+    <h3>🟠 Chute de hauteur</h3>
+
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Échafaudages conformes et vérifiés
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Garde-corps installés
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Accès sécurisés aux zones en hauteur
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Formation / sensibilisation travail en hauteur
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Utilisation des EPI antichute si besoin
+    </div>
+  </div>
+
+  <!-- RISQUE 2 -->
+  <div class="risque">
+    <h3>🟠 Silice cristalline</h3>
+
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Découpe à l’eau ou avec aspiration
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Aspiration des poussières à la source
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Limitation du temps d’exposition
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Information des salariés
+    </div>
+    <div class="check-item">
+      <input type="checkbox" class="check" /> Port de protections respiratoires adaptées
+    </div>
+  </div>
+
+  <button class="btn" onclick="evaluerPrevention()">
+    ✅ Voir la synthèse
   </button>
 
-  <button class="btn btn-secondary" onclick="demarrer(true)">
-    🗣️ Utiliser l’application en entretien prévention
-  </button>
-</div>
-
-<!-- ACTIVITES -->
-<div id="activites" class="card hidden"></div>
-
-<!-- METIERS -->
-<div id="metiers" class="card hidden"></div>
-
-<!-- RISQUES -->
-<div id="risques" class="card hidden"></div>
-
-<!-- DETAIL / ACTIONS / SYNTHESES -->
-<div id="detail" class="card hidden"></div>
+  <div id="resultat"></div>
 
 </div>
 
 <script>
-/* ================= DONNÉES ================= */
-const data = {
-  btp:{
-    "Maçon":{
-      chute:{
-        titre:"Chute de hauteur",
-        description:"Travail sur échafaudages, toitures ou planchers.",
-        gravite:4, probabilite:3,
-        prevention:{
-          suppression:"Éviter le travail en hauteur.",
-          substitution:"Techniques limitant l’élévation.",
-          collectif:"Garde-corps, échafaudages conformes.",
-          organisation:"Formation et planification.",
-          epi:"Harnais si nécessaire."
-        }
-      },
-      silice:{
-        titre:"Silice cristalline",
-        description:"Poussières lors des découpes de béton.",
-        gravite:4, probabilite:4,
-        prevention:{
-          suppression:"Supprimer les découpes à sec.",
-          substitution:"Découpe à l’eau.",
-          collectif:"Aspiration à la source.",
-          organisation:"Temps d’exposition limité.",
-          epi:"Masque FFP3."
-        }
-      }
-    }
-  },
+function evaluerPrevention() {
+  const checks = document.querySelectorAll(".check");
+  let coches = 0;
 
-  services:{
-    "Employé administratif":{
-      rps:{
-        titre:"Risque psychosocial",
-        description:"Charge mentale et stress.",
-        gravite:3, probabilite:2,
-        prevention:{
-          suppression:"Limiter les surcharges.",
-          substitution:"Réorganisation des tâches.",
-          collectif:"Espaces d’échange.",
-          organisation:"Charge équilibrée.",
-          epi:"Non applicable."
-        }
-      }
-    }
-  },
+  checks.forEach(c => {
+    if (c.checked) coches++;
+  });
 
-  logistique:{
-    "Conducteur / Livreur":{
-      routier:{
-        titre:"Risque routier",
-        description:"Déplacements professionnels.",
-        gravite:4, probabilite:2,
-        prevention:{
-          suppression:"Trajets inutiles.",
-          substitution:"Visio si possible.",
-          collectif:"Véhicules entretenus.",
-          organisation:"Temps de pause.",
-          epi:"Gilet haute visibilité."
-        }
-      }
-    }
+  const total = checks.length;
+  const ratio = coches / total;
+  const resultat = document.getElementById("resultat");
+
+  if (ratio >= 0.7) {
+    resultat.innerHTML = `
+      <div class="resultat bon">
+        ✅ Prévention globalement en place<br>
+        La démarche va dans le bon sens.
+      </div>`;
+  } else if (ratio >= 0.4) {
+    resultat.innerHTML = `
+      <div class="resultat moyen">
+        🟡 Prévention partiellement en place<br>
+        Des axes d’amélioration existent.
+      </div>`;
+  } else {
+    resultat.innerHTML = `
+      <div class="resultat faible">
+        🔴 Prévention à renforcer<br>
+        Des actions simples peuvent être mises en place progressivement.
+      </div>`;
   }
-};
-
-/* ================= ETAT ================= */
-let modeEntretien=false;
-let secteurActuel="";
-let metierActuel="";
-
-/* ================= OUTILS ================= */
-function show(id){
-  ["accueil","activites","metiers","risques","detail"]
-  .forEach(e=>document.getElementById(e).classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
-}
-
-function priorite(r){
-  const s=r.gravite*r.probabilite;
-  if(s>=10) return ["🔴 Priorité élevée","critical"];
-  if(s>=7)  return ["🟠 Priorité significative","high"];
-  if(s>=4)  return ["🟡 Priorité modérée","mid"];
-  return ["🟢 Priorité faible","low"];
-}
-
-function guide(txt){
-  if(!modeEntretien) return "";
-  return `<div class="info">🗣️ <strong>Échange prévention</strong><br>${txt}</div>`;
-}
-
-/* ================= FLUX ================= */
-function demarrer(entretien){
-  modeEntretien=entretien;
-  document.getElementById("bandeau").classList.toggle("hidden",!entretien);
-  afficherActivites();
-}
-
-function quitterEntretien(){
-  modeEntretien=false;
-  document.getElementById("bandeau").classList.add("hidden");
-  show("accueil");
-}
-
-/* ================= SCREENS ================= */
-function afficherActivites(){
-  show("activites");
-  let h = `<h2>Activité</h2>
-  ${guide("Situer l’activité réelle de l’entreprise.")}`;
-
-  for(const s in data){
-    h+=`<button class="btn btn-primary" onclick="afficherMetiers('${s}')">${s.toUpperCase()}</button>`;
-  }
-  h+=`<button class="btn btn-back" onclick="show('accueil')">← Retour</button>`;
-  activites.innerHTML=h;
-}
-
-function afficherMetiers(sec){
-  secteurActuel=sec;
-  show("metiers");
-  let h=`<h2>Métiers</h2>
-  ${guide("Identifier les postes réellement concernés.")}`;
-
-  for(const m in data[sec]){
-    h+=`<button class="btn btn-primary" onclick="afficherRisques('${m}')">${m}</button>`;
-  }
-  h+=`<button class="btn btn-back" onclick="afficherActivites()">← Retour</button>`;
-  metiers.innerHTML=h;
-}
-
-function afficherRisques(m){
-  metierActuel=m;
-  show("risques");
-  let h=`<h2>Risques – ${m}</h2>
-  ${guide("Échanger sur les risques fréquents, sans jugement.")}`;
-
-  for(const r in data[secteurActuel][m]){
-    h+=`<button class="btn btn-action" onclick="detailRisque('${r}')">${data[secteurActuel][m][r].titre}</button>`;
-  }
-  h+=`<button class="btn btn-back" onclick="afficherMetiers(secteurActuel)">← Retour</button>`;
-  risques.innerHTML=h;
-}
-
-function detailRisque(r){
-  show("detail");
-  const d=data[secteurActuel][metierActuel][r];
-  const[p,c]=priorite(d);
-
-  let h=`<h2>${d.titre}</h2>
-  <div class="priority ${c}">${p}</div>
-  ${guide("Identifier des actions concrètes et adaptées.")}`;
-
-  for(const k in d.prevention){
-    h+=`<div class="step">${d.prevention[k]}</div>`;
-  }
-
-  h+=`<button class="btn btn-back" onclick="afficherRisques('${metierActuel}')">← Retour</button>`;
-  detail.innerHTML=h;
 }
 </script>
 
 </body>
 </html>
+``
