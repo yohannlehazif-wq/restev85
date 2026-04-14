@@ -6,8 +6,8 @@
 
 <style>
 body{
-  font-family: Arial, sans-serif;
-  max-width: 480px;
+  font-family:Arial,sans-serif;
+  max-width:480px;
   margin:auto;
   padding:20px;
   background:#f3f4f6;
@@ -19,7 +19,7 @@ body{
   margin-top:20px;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
-h1,h2{color:#2563eb;text-align:center}
+h1,h2{text-align:center;color:#2563eb}
 .btn{
   width:100%;
   padding:14px;
@@ -42,31 +42,39 @@ h1,h2{color:#2563eb;text-align:center}
 }
 .block{margin-top:10px}
 .block strong{display:block;margin-bottom:4px}
+.priority{
+  padding:10px;
+  border-radius:8px;
+  margin:12px 0;
+  font-weight:bold;
+  text-align:center;
+}
+.low{background:#dcfce7;color:#166534}
+.mid{background:#fef9c3;color:#854d0e}
+.high{background:#ffedd5;color:#9a3412}
+.critical{background:#fee2e2;color:#991b1b}
 .step{
   background:#f8fafc;
   border-left:4px solid #2563eb;
   padding:10px;
   border-radius:8px;
   margin-top:8px;
-  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ACCUEIL -->
 <div id="accueil" class="card">
   <h1>RESTEV</h1>
   <p style="text-align:center">Prévention des risques professionnels</p>
   <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
-<!-- ACTIVITÉS -->
 <div id="activites" class="card" style="display:none">
   <h2>Votre activité</h2>
   <div class="info">
-    Identifier les risques permet d’agir progressivement, sans jugement.
+    La priorité aide à savoir par quoi commencer, sans tout faire d’un coup.
   </div>
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
   <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
@@ -74,95 +82,75 @@ h1,h2{color:#2563eb;text-align:center}
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
-<!-- METIERS -->
 <div id="metiers" class="card" style="display:none"></div>
-
-<!-- RISQUES -->
 <div id="risques" class="card" style="display:none"></div>
-
-<!-- DETAIL -->
 <div id="detail" class="card" style="display:none"></div>
 
 <script>
-// ================= DONNÉES =================
 const data = {
-
-  btp: {
-    "Ouvrier du bâtiment": {
-      chute: {
-        titre: "Chute de hauteur",
-        description: "Travaux sur échafaudages, toitures ou plateformes.",
+  btp:{
+    "Ouvrier du bâtiment":{
+      chute:{
+        titre:"Chute de hauteur",
+        description:"Travaux sur échafaudages ou en toiture.",
+        gravite:4,
+        probabilite:3,
         obligations:{
           employeur:"Évaluer le risque et mettre en place des protections collectives.",
           salarie:"Respecter les consignes et utiliser les équipements."
         },
         prevention:{
-          suppression:"Éviter le travail en hauteur si possible.",
-          substitution:"Méthodes réduisant l’accès en hauteur.",
-          collectif:"Garde‑corps, échafaudages conformes.",
-          organisation:"Formation et planification.",
+          suppression:"Éviter le travail en hauteur.",
+          substitution:"Méthodes limitant l’accès.",
+          collectif:"Garde-corps, échafaudages.",
+          organisation:"Formation, planification.",
           epi:"Harnais si nécessaire."
         },
-        restev:"RESTEV accompagne l’analyse et la priorisation des actions."
-      }
-    },
-
-    "Maçon": {
-      silice: {
-        titre: "Silice cristalline",
-        description: "Poussières lors des découpes de béton ou matériaux.",
-        obligations:{
-          employeur:"Limiter l’exposition et fournir des protections adaptées.",
-          salarie:"Porter les protections respiratoires."
-        },
-        prevention:{
-          suppression:"Éviter les découpes à sec.",
-          substitution:"Matériaux moins émissifs.",
-          collectif:"Aspiration à la source.",
-          organisation:"Limitation du temps d’exposition.",
-          epi:"Masques FFP3."
-        },
-        restev:"RESTEV aide à structurer la prévention du risque chimique."
+        restev:"RESTEV aide à prioriser et planifier les actions."
       }
     }
   },
 
-  services: {
-    "Employé administratif": {
-      rps: {
-        titre: "Risque psychosocial",
-        description: "Charge mentale, stress, pression des délais.",
+  services:{
+    "Employé administratif":{
+      rps:{
+        titre:"Risque psychosocial",
+        description:"Charge mentale et stress.",
+        gravite:3,
+        probabilite:2,
         obligations:{
           employeur:"Évaluer les RPS et adapter l’organisation.",
-          salarie:"Signaler les situations de difficulté."
+          salarie:"Exprimer les difficultés."
         },
         prevention:{
-          suppression:"Supprimer les sources inutiles de pression.",
-          substitution:"Réorganisation des tâches.",
+          suppression:"Supprimer les surcharges inutiles.",
+          substitution:"Réorganisation.",
           collectif:"Temps d’échange.",
-          organisation:"Répartition équilibrée de la charge.",
+          organisation:"Charge équilibrée.",
           epi:"Non applicable."
         },
-        restev:"RESTEV accompagne la prévention des RPS."
+        restev:"RESTEV accompagne la démarche RPS."
       }
     }
   },
 
-  logistique: {
-    "Conducteur / Livreur": {
-      routier: {
-        titre: "Risque routier",
-        description: "Conduite prolongée et contraintes de livraison.",
+  logistique:{
+    "Conducteur / Livreur":{
+      routier:{
+        titre:"Risque routier",
+        description:"Déplacements professionnels fréquents.",
+        gravite:4,
+        probabilite:2,
         obligations:{
-          employeur:"Organiser les tournées et limiter la fatigue.",
+          employeur:"Organiser les tournées.",
           salarie:"Respecter le code de la route."
         },
         prevention:{
-          suppression:"Éviter les déplacements inutiles.",
-          substitution:"Choisir des véhicules adaptés.",
-          collectif:"Entretien régulier.",
-          organisation:"Temps de pause.",
-          epi:"Gilet haute visibilité."
+          suppression:"Supprimer trajets inutiles.",
+          substitution:"Visio si possible.",
+          collectif:"Véhicules entretenus.",
+          organisation:"Pauses.",
+          epi:"Gilet HV."
         },
         restev:"RESTEV structure la prévention du risque routier."
       }
@@ -170,77 +158,72 @@ const data = {
   }
 };
 
-// ================= NAVIGATION =================
+function priorite(gravite,prob){
+  const score=gravite*prob;
+  if(score>=10) return {txt:"🔴 Priorité ÉLEVÉE",cls:"critical"};
+  if(score>=7) return {txt:"🟠 Priorité SIGNIFICATIVE",cls:"high"};
+  if(score>=4) return {txt:"🟡 Priorité MODÉRÉE",cls:"mid"};
+  return {txt:"🟢 Priorité FAIBLE",cls:"low"};
+}
+
 function cacherTout(){
   ["accueil","activites","metiers","risques","detail"].forEach(id=>{
     document.getElementById(id).style.display="none";
   });
 }
 
-function entrer(){
-  cacherTout();
-  document.getElementById("activites").style.display="block";
-}
-
-function retourAccueil(){
-  cacherTout();
-  document.getElementById("accueil").style.display="block";
-}
+function entrer(){cacherTout();activites.style.display="block";}
+function retourAccueil(){cacherTout();accueil.style.display="block";}
 
 function afficherMetiers(secteur){
-  cacherTout();
-  const zone=document.getElementById("metiers");
-  zone.style.display="block";
-
+  cacherTout();metiers.style.display="block";
   let html="<h2>Métiers</h2>";
   for(const m in data[secteur]){
     html+=`<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
   }
-  html+=`<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
-  zone.innerHTML=html;
+  html+=`<button class="btn btn-back" onclick="entrer()">← Retour</button>`;
+  metiers.innerHTML=html;
 }
 
 function afficherRisques(secteur,metier){
-  cacherTout();
-  const zone=document.getElementById("risques");
-  zone.style.display="block";
-
+  cacherTout();risques.style.display="block";
   let html=`<h2>Risques – ${metier}</h2>`;
   for(const r in data[secteur][metier]){
-    html+=`<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">${data[secteur][metier][r].titre}</button>`;
+    html+=`<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
+      ${data[secteur][metier][r].titre}</button>`;
   }
-  html+=`<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
-  zone.innerHTML=html;
+  html+=`<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour</button>`;
+  risques.innerHTML=html;
 }
 
 function afficherDetail(secteur,metier,risque){
-  cacherTout();
+  cacherTout();detail.style.display="block";
   const d=data[secteur][metier][risque];
-  const zone=document.getElementById("detail");
-  zone.style.display="block";
+  const p=priorite(d.gravite,d.probabilite);
 
-  zone.innerHTML=`
+  detail.innerHTML=`
     <h2>${d.titre}</h2>
-
     <div class="block"><strong>Description</strong>${d.description}</div>
+
+    <div class="priority ${p.cls}">${p.txt}</div>
+
     <div class="block"><strong>Obligations employeur</strong>${d.obligations.employeur}</div>
     <div class="block"><strong>Obligations salarié</strong>${d.obligations.salarie}</div>
 
     <div class="block"><strong>Prévention hiérarchisée</strong>
-      <div class="step"><strong>1. Suppression</strong>${d.prevention.suppression}</div>
-      <div class="step"><strong>2. Substitution</strong>${d.prevention.substitution}</div>
-      <div class="step"><strong>3. Protection collective</strong>${d.prevention.collectif}</div>
-      <div class="step"><strong>4. Organisation</strong>${d.prevention.organisation}</div>
-      <div class="step"><strong>5. EPI</strong>${d.prevention.epi}</div>
+      <div class="step">1️⃣ ${d.prevention.suppression}</div>
+      <div class="step">2️⃣ ${d.prevention.substitution}</div>
+      <div class="step">3️⃣ ${d.prevention.collectif}</div>
+      <div class="step">4️⃣ ${d.prevention.organisation}</div>
+      <div class="step">5️⃣ ${d.prevention.epi}</div>
     </div>
 
     <div class="info"><strong>RESTEV</strong><br>${d.restev}</div>
 
-    <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour risques</button>
+    <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour</button>
   `;
 }
 </script>
 
 </body>
 </html>
-``
