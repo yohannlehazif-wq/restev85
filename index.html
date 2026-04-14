@@ -12,7 +12,7 @@ body{
   background:linear-gradient(180deg,#ffffff,#eef2ff);
 }
 .app{
-  max-width:440px;
+  max-width:460px;
   margin:auto;
   padding:16px;
 }
@@ -88,6 +88,7 @@ h2,h3{
   font-weight:700;
   text-align:center;
 }
+
 .good{background:#dcfce7;color:#166534;}
 .medium{background:#fef9c3;color:#854d0e;}
 .bad{background:#fee2e2;color:#991b1b;}
@@ -102,26 +103,28 @@ h2,h3{
 
 <!-- HEADER -->
 <div class="header">
-  <img src="logo.png" class="logo" alt="RESTEV">
-  <div class="subtitle">Prévention santé au travail – Accompagnement entreprise</div>
+  logo.png
+  <div class="subtitle">Prévention santé au travail – Accompagnement EPST RESTEV</div>
 </div>
 
 <!-- ACCUEIL -->
 <div id="accueil" class="card">
   <div class="info">
-    Outil d’accompagnement prévention basé sur les métiers.<br>
-    État des lieux simple, sans audit ni jugement.
+    Cette application est un <strong>outil d’accompagnement prévention</strong>.<br><br>
+    Elle permet de faire un état des lieux simple par métier et
+    d’orienter l’entreprise vers <strong>le bon accompagnement EPST</strong>,
+    sans audit ni jugement.
   </div>
-  <button class="btn btn-main" id="btn-demarrer">Démarrer</button>
+  <button class="btn btn-main" id="start">Démarrer</button>
 </div>
 
-<!-- METIERS -->
+<!-- MÉTIERS -->
 <div id="metiers" class="card hidden">
   <h2>Choisir un métier</h2>
   <button class="btn btn-main" data-metier="macon">Maçon</button>
   <button class="btn btn-main" data-metier="couvreur">Couvreur</button>
   <button class="btn btn-main" data-metier="menuisier">Menuisier</button>
-  <button class="btn btn-back" id="btn-retour-accueil">← Retour</button>
+  <button class="btn btn-back" id="backAccueil">← Retour</button>
 </div>
 
 <!-- CHECKLIST -->
@@ -130,36 +133,25 @@ h2,h3{
 </div>
 
 <script>
-// ===== RÉFÉRENCES DOM =====
 const accueil = document.getElementById("accueil");
 const metiersDiv = document.getElementById("metiers");
 const checklist = document.getElementById("checklist");
 
-// ===== DONNÉES =====
 const metiers = {
   macon:{
     nom:"Maçon",
     risques:[
       {
         titre:"Chute de hauteur",
-        actions:[
-          "Échafaudages conformes",
-          "Garde‑corps installés",
-          "Accès sécurisés",
-          "Formation travail en hauteur",
-          "EPI antichute utilisés"
-        ]
+        actions:["Échafaudages conformes","Garde‑corps","Accès sécurisés","Formation","EPI antichute"],
+        niveau:"standard"
       },
       {
         titre:"Silice cristalline (CMR)",
         cmr:true,
-        message:"Risque CMR nécessitant une vigilance renforcée.",
-        actions:[
-          "Découpe à l’eau / aspiration",
-          "Aspiration à la source",
-          "Information des salariés",
-          "Protections respiratoires adaptées"
-        ]
+        message:"Risque CMR nécessitant une vigilance renforcée et un accompagnement EPST.",
+        actions:["Découpe à l’eau","Aspiration","Information salariés","Protection respiratoire"],
+        niveau:"cmr"
       }
     ]
   },
@@ -169,12 +161,8 @@ const metiers = {
     risques:[
       {
         titre:"Chute de hauteur",
-        actions:[
-          "Protections collectives",
-          "Accès sécurisés",
-          "Formation travail en hauteur",
-          "EPI antichute"
-        ]
+        actions:["Protections collectives","Accès toiture","Formation","EPI antichute"],
+        niveau:"standard"
       }
     ]
   },
@@ -184,106 +172,95 @@ const metiers = {
     risques:[
       {
         titre:"Machines et outils coupants",
-        actions:[
-          "Protections machines",
-          "Arrêts d’urgence",
-          "Formation machines",
-          "Consignes affichées",
-          "EPI adaptés"
-        ]
+        actions:["Protections machines","Arrêts d’urgence","Formation","Consignes","EPI"],
+        niveau:"structure"
       },
       {
         titre:"Poussières de bois (CMR)",
         cmr:true,
-        message:"Les poussières de bois sont classées CMR – vigilance renforcée.",
-        actions:[
-          "Aspiration à la source",
-          "Entretien de l’aspiration",
-          "Nettoyage adapté",
-          "Information salariés",
-          "Protection respiratoire"
-        ]
+        message:"Poussières de bois classées CMR – accompagnement EPST recommandé.",
+        actions:["Aspiration","Entretien aspiration","Nettoyage adapté","Information","Protection respiratoire"],
+        niveau:"cmr"
       }
     ]
   }
 };
 
-// ===== NAVIGATION =====
-document.getElementById("btn-demarrer").onclick = () => {
+// NAVIGATION
+document.getElementById("start").onclick=()=>{
   accueil.classList.add("hidden");
   metiersDiv.classList.remove("hidden");
 };
-
-document.getElementById("btn-retour-accueil").onclick = () => {
+document.getElementById("backAccueil").onclick=()=>{
   metiersDiv.classList.add("hidden");
   accueil.classList.remove("hidden");
 };
 
-document.querySelectorAll("[data-metier]").forEach(btn=>{
-  btn.onclick = () => chargerMetier(btn.dataset.metier);
+document.querySelectorAll("[data-metier]").forEach(b=>{
+  b.onclick=()=>ouvrirMetier(b.dataset.metier);
 });
 
-// ===== AFFICHER CHECKLIST =====
-function chargerMetier(id){
-  const m = metiers[id];
-  let html = `<h2>Métier : ${m.nom}</h2>
+function ouvrirMetier(id){
+  const m=metiers[id];
+  let html=`<h2>Métier : ${m.nom}</h2>
   <div class="info">Appuyez sur ce qui est déjà en place.</div>`;
 
   m.risques.forEach(r=>{
-    html += `<div class="risque ${r.cmr?'cmr':''}">
-      <h3>${r.cmr?'🔴':'🟠'} ${r.titre}</h3>`;
-    if(r.cmr){
-      html += `<div class="info">${r.message}</div>`;
-    }
-    r.actions.forEach(a=>{
-      html += `<button class="action">${a}</button>`;
-    });
-    html += `</div>`;
+    html+=`<div class="risque ${r.cmr?'cmr':''}">
+    <h3>${r.cmr?'🔴':'🟠'} ${r.titre}</h3>`;
+    if(r.cmr){html+=`<div class="info">${r.message}</div>`;}
+    r.actions.forEach(a=>{html+=`<button class="action">${a}</button>`;});
+    html+=`</div>`;
   });
 
-  html += `
-    <button class="btn btn-main" id="btn-synthese">Voir la synthèse</button>
+  html+=`
+    <button class="btn btn-main" id="synthese">Voir la synthèse</button>
     <div id="result"></div>
-    <button class="btn btn-back" id="btn-retour-metiers">← Retour</button>
-  `;
+    <button class="btn btn-back" id="backMetiers">← Retour</button>`;
 
-  checklist.innerHTML = html;
+  checklist.innerHTML=html;
   metiersDiv.classList.add("hidden");
   checklist.classList.remove("hidden");
 
-  // Activation boutons prévention
-  checklist.querySelectorAll(".action").forEach(b=>{
-    b.onclick = () => b.classList.toggle("active");
-  });
-
-  // Bouton synthèse
-  document.getElementById("btn-synthese").onclick = evaluer;
-
-  // Bouton retour métiers ✅ FIXÉ
-  document.getElementById("btn-retour-metiers").onclick = () => {
+  checklist.querySelectorAll(".action").forEach(b=>b.onclick=()=>b.classList.toggle("active"));
+  document.getElementById("synthese").onclick=evaluer;
+  document.getElementById("backMetiers").onclick=()=>{
     checklist.classList.add("hidden");
     metiersDiv.classList.remove("hidden");
   };
 }
 
-// ===== SYNTHÈSE =====
 function evaluer(){
-  const actions = checklist.querySelectorAll(".action");
-  const actifs = checklist.querySelectorAll(".action.active").length;
-  const ratio = actifs / actions.length;
-  const res = document.getElementById("result");
+  const actions=checklist.querySelectorAll(".action");
+  const actifs=checklist.querySelectorAll(".action.active").length;
+  const ratio=actifs/actions.length;
+  const res=document.getElementById("result");
 
-  if(ratio >= 0.7){
-    res.innerHTML = `<div class="result good">
-      ✅ Prévention globalement en place
+  if(ratio>=0.7){
+    res.innerHTML=`<div class="result good">
+      ✅ Prévention globalement en place<br><br>
+      <strong>Accompagnement RESTEV possible :</strong><br>
+      Technicien prévention / Infirmier
     </div>`;
-  }else if(ratio >= 0.4){
-    res.innerHTML = `<div class="result medium">
-      🟡 Prévention partiellement en place
+  }else if(ratio>=0.4){
+    res.innerHTML=`<div class="result medium">
+      🟡 Prévention partiellement en place<br><br>
+      <strong>Accompagnement RESTEV recommandé :</strong><br>
+      Technicien prévention / Ergonome
     </div>`;
   }else{
-    res.innerHTML = `<div class="result bad">
-      🔴 Prévention à renforcer
+    res.innerHTML=`<div class="result bad">
+      🔴 Prévention à renforcer<br><br>
+      <strong>Accompagnement RESTEV conseillé :</strong><br>
+      Technicien prévention / Ingénieur / Médecin
+    </div>`;
+  }
+
+  if(checklist.querySelector(".cmr")){
+    res.innerHTML+=`<div class="info">
+      🔴 <strong>CMR identifié</strong><br>
+      Intervention EPST recommandée :
+      Médecin du travail + Prévention
     </div>`;
   }
 }
