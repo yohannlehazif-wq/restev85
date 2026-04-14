@@ -49,13 +49,18 @@ h1, h2 {
   margin: 15px 0;
 }
 
-.block {
-  margin-top: 10px;
+.block { margin-top: 10px; }
+.block strong { display:block; margin-bottom:4px; }
+
+.step {
+  background: #f8fafc;
+  border-left: 4px solid #2563eb;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-size: 14px;
 }
-.block strong {
-  display:block;
-  margin-bottom:4px;
-}
+.step small { color:#555; }
 </style>
 </head>
 
@@ -72,7 +77,7 @@ h1, h2 {
 <div id="activites" class="card" style="display:none;">
   <h2>Votre activité</h2>
   <div class="info">
-    Comprendre les risques permet de respecter ses obligations tout en protégeant les salariés.
+    Comprendre les risques permet de respecter les obligations et d’agir progressivement, sans jugement.
   </div>
 
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
@@ -92,17 +97,25 @@ h1, h2 {
 <div id="detail" class="card" style="display:none;"></div>
 
 <script>
+// === DONNÉES ===
 const data = {
   btp: {
     "Ouvrier du bâtiment": {
       chute: {
         titre: "Chute de hauteur",
-        description: "Travaux en hauteur sur échafaudage, toiture ou structure.",
-        employeur: "Mettre en place des protections collectives et organiser le travail en sécurité.",
-        salarie: "Utiliser les équipements fournis et respecter les consignes.",
-        obligationEmployeur: "Évaluer le risque de chute, intégrer au DUERP et mettre en œuvre des mesures de prévention adaptées.",
-        obligationSalarie: "Respecter les consignes de sécurité et utiliser les équipements mis à disposition.",
-        restev: "RESTEV accompagne l’analyse du risque et la mise en place des actions adaptées."
+        description: "Travaux en hauteur sur échafaudage, toiture ou plateforme.",
+        obligations: {
+          employeur: "Évaluer le risque, l’intégrer au DUERP et mettre en œuvre des mesures adaptées.",
+          salarie: "Respecter les consignes et utiliser les équipements fournis."
+        },
+        prevention: {
+          suppression: "Éviter le travail en hauteur quand c’est possible.",
+          substitution: "Utiliser des méthodes ou matériels limitant l’accès en hauteur.",
+          collectif: "Garde-corps, échafaudages conformes.",
+          organisation: "Planification, formation travail en hauteur.",
+          epi: "Harnais, lignes de vie si nécessaire."
+        },
+        restev: "RESTEV accompagne l’analyse et la hiérarchisation des mesures."
       }
     }
   },
@@ -112,16 +125,45 @@ const data = {
       routier: {
         titre: "Risque routier",
         description: "Déplacements professionnels fréquents en véhicule.",
-        employeur: "Organiser les déplacements et sensibiliser aux règles de conduite.",
-        salarie: "Adopter une conduite prudente et signaler toute situation à risque.",
-        obligationEmployeur: "Prendre en compte le risque routier dans le DUERP et organiser le travail pour le limiter.",
-        obligationSalarie: "Respecter le code de la route et les consignes de l’entreprise.",
-        restev: "RESTEV aide à structurer la prévention du risque routier professionnel."
+        obligations: {
+          employeur: "Prendre en compte le risque routier dans le DUERP et organiser le travail.",
+          salarie: "Respecter le code de la route et les consignes internes."
+        },
+        prevention: {
+          suppression: "Remplacer un déplacement par une visio si possible.",
+          substitution: "Choisir des moyens de transport plus sûrs.",
+          collectif: "Politique déplacements, véhicules entretenus.",
+          organisation: "Plannings réalistes, pauses, charte conduite.",
+          epi: "Gilet haute visibilité selon contextes."
+        },
+        restev: "RESTEV aide à structurer la démarche de prévention du risque routier."
+      }
+    }
+  },
+
+  logistique: {
+    "Conducteur / Livreur": {
+      manutention: {
+        titre: "Manutention de colis",
+        description: "Port de charges et gestes répétitifs.",
+        obligations: {
+          employeur: "Évaluer les charges et fournir des aides à la manutention.",
+          salarie: "Utiliser les aides et adopter les bonnes postures."
+        },
+        prevention: {
+          suppression: "Supprimer le port manuel quand c’est possible.",
+          substitution: "Réduire le poids unitaire des colis.",
+          collectif: "Diables, transpalettes, quais adaptés.",
+          organisation: "Formation gestes et postures.",
+          epi: "Gants, chaussures de sécurité."
+        },
+        restev: "RESTEV accompagne l’adaptation des postes et l’organisation."
       }
     }
   }
 };
 
+// === NAVIGATION ===
 function cacherTout() {
   ["accueil","activites","metiers","risques","detail"].forEach(id=>{
     document.getElementById(id).style.display="none";
@@ -159,7 +201,8 @@ function afficherRisques(secteur, metier) {
   let html = `<h2>Risques – ${metier}</h2>`;
   for (let r in data[secteur][metier]) {
     html += `<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
-      ${data[secteur][metier][r].titre}</button>`;
+      ${data[secteur][metier][r].titre}
+    </button>`;
   }
   html += `<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
   zone.innerHTML = html;
@@ -175,11 +218,17 @@ function afficherDetail(secteur, metier, risque) {
     <h2>${d.titre}</h2>
 
     <div class="block"><strong>Description</strong>${d.description}</div>
-    <div class="block"><strong>Ce que l’employeur fait</strong>${d.employeur}</div>
-    <div class="block"><strong>Ce que le salarié fait</strong>${d.salarie}</div>
 
-    <div class="block"><strong>Obligations employeur</strong>${d.obligationEmployeur}</div>
-    <div class="block"><strong>Obligations salarié</strong>${d.obligationSalarie}</div>
+    <div class="block"><strong>Obligations – Employeur</strong>${d.obligations.employeur}</div>
+    <div class="block"><strong>Obligations – Salarié</strong>${d.obligations.salarie}</div>
+
+    <div class="block"><strong>Prévention hiérarchisée</strong>
+      <div class="step"><strong>1. Suppression</strong>${d.prevention.suppression}<br><small>Priorité absolue</small></div>
+      <div class="step"><strong>2. Substitution</strong>${d.prevention.substitution}</div>
+      <div class="step"><strong>3. Protection collective</strong>${d.prevention.collectif}</div>
+      <div class="step"><strong>4. Organisation</strong>${d.prevention.organisation}</div>
+      <div class="step"><strong>5. EPI</strong>${d.prevention.epi}<br><small>En complément</small></div>
+    </div>
 
     <div class="info">
       <strong>Rôle de RESTEV</strong><br>
@@ -193,4 +242,3 @@ function afficherDetail(secteur, metier, risque) {
 
 </body>
 </html>
-``
