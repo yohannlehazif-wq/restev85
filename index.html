@@ -5,62 +5,51 @@
 <title>RESTEV – Prévention</title>
 
 <style>
-body {
+body{
   font-family: Arial, sans-serif;
-  max-width: 450px;
-  margin: auto;
-  padding: 20px;
-  background: #f3f4f6;
+  max-width: 480px;
+  margin:auto;
+  padding:20px;
+  background:#f3f4f6;
 }
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin-top: 20px;
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
-
-h1, h2 {
-  color: #2563eb;
-  text-align: center;
+h1,h2{color:#2563eb;text-align:center}
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-.btn {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+.btn-main{background:#2563eb;color:white}
+.btn-risk{background:#f97316;color:white}
+.btn-back{background:#d1d5db}
+.info{
+  background:#e0f2fe;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  margin:15px 0;
 }
-
-.btn-main { background: #2563eb; color: white; }
-.btn-risk { background: #f97316; color: white; }
-.btn-back { background: #d1d5db; }
-
-.info {
-  background: #e0f2fe;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin: 15px 0;
+.block{margin-top:10px}
+.block strong{display:block;margin-bottom:4px}
+.step{
+  background:#f8fafc;
+  border-left:4px solid #2563eb;
+  padding:10px;
+  border-radius:8px;
+  margin-top:8px;
+  font-size:14px;
 }
-
-.block { margin-top: 10px; }
-.block strong { display:block; margin-bottom:4px; }
-
-.step {
-  background: #f8fafc;
-  border-left: 4px solid #2563eb;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 8px;
-  font-size: 14px;
-}
-.step small { color:#555; }
 </style>
 </head>
 
@@ -69,91 +58,71 @@ h1, h2 {
 <!-- ACCUEIL -->
 <div id="accueil" class="card">
   <h1>RESTEV</h1>
-  <p style="text-align:center;">Aide à la prévention des risques professionnels</p>
+  <p style="text-align:center">Prévention des risques professionnels</p>
   <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
 <!-- ACTIVITÉS -->
-<div id="activites" class="card" style="display:none;">
+<div id="activites" class="card" style="display:none">
   <h2>Votre activité</h2>
   <div class="info">
-    Comprendre les risques permet de respecter les obligations et d’agir progressivement, sans jugement.
+    Identifier les risques permet d’agir progressivement, sans jugement.
   </div>
-
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
   <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
   <button class="btn btn-main" onclick="afficherMetiers('logistique')">Logistique / Transport</button>
-
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
 <!-- METIERS -->
-<div id="metiers" class="card" style="display:none;"></div>
+<div id="metiers" class="card" style="display:none"></div>
 
 <!-- RISQUES -->
-<div id="risques" class="card" style="display:none;"></div>
+<div id="risques" class="card" style="display:none"></div>
 
 <!-- DETAIL -->
-<div id="detail" class="card" style="display:none;"></div>
+<div id="detail" class="card" style="display:none"></div>
 
 <script>
-// === DONNÉES ===
+// ================= DONNÉES =================
 const data = {
+
   btp: {
     "Ouvrier du bâtiment": {
       chute: {
         titre: "Chute de hauteur",
-        description: "Travail en hauteur sur échafaudages, toitures ou plateformes.",
-        obligations: {
-          employeur: "Évaluer le risque et mettre en place des protections collectives.",
-          salarie: "Utiliser les protections et respecter les consignes."
+        description: "Travaux sur échafaudages, toitures ou plateformes.",
+        obligations:{
+          employeur:"Évaluer le risque et mettre en place des protections collectives.",
+          salarie:"Respecter les consignes et utiliser les équipements."
         },
-        prevention: {
-          suppression: "Éviter le travail en hauteur lorsque c’est possible.",
-          substitution: "Méthodes constructives limitant la hauteur.",
-          collectif: "Garde‑corps, échafaudages conformes.",
-          organisation: "Formation et planification.",
-          epi: "Harnais si nécessaire."
+        prevention:{
+          suppression:"Éviter le travail en hauteur si possible.",
+          substitution:"Méthodes réduisant l’accès en hauteur.",
+          collectif:"Garde‑corps, échafaudages conformes.",
+          organisation:"Formation et planification.",
+          epi:"Harnais si nécessaire."
         },
-        restev: "RESTEV accompagne l’analyse et la priorisation des actions."
+        restev:"RESTEV accompagne l’analyse et la priorisation des actions."
       }
     },
 
     "Maçon": {
       silice: {
         titre: "Silice cristalline",
-        description: "Poussières générées lors des découpes de matériaux.",
-        obligations: {
-          employeur: "Limiter l’exposition et fournir des protections adaptées.",
-          salarie: "Porter les protections respiratoires."
+        description: "Poussières lors des découpes de béton ou matériaux.",
+        obligations:{
+          employeur:"Limiter l’exposition et fournir des protections adaptées.",
+          salarie:"Porter les protections respiratoires."
         },
-        prevention: {
-          suppression: "Suppression des découpes à sec.",
-          substitution: "Matériaux moins émissifs.",
-          collectif: "Aspiration à la source.",
-          organisation: "Temps d’exposition limité.",
-          epi: "Masques FFP3."
+        prevention:{
+          suppression:"Éviter les découpes à sec.",
+          substitution:"Matériaux moins émissifs.",
+          collectif:"Aspiration à la source.",
+          organisation:"Limitation du temps d’exposition.",
+          epi:"Masques FFP3."
         },
-        restev: "RESTEV aide à la gestion du risque chimique."
-      }
-    },
-
-    "Couvreur": {
-      chute: {
-        titre: "Chute de hauteur",
-        description: "Travail en toiture et en conditions climatiques variables.",
-        obligations: {
-          employeur: "Sécuriser la toiture et fournir des systèmes antichute.",
-          salarie: "Respecter les dispositifs mis en place."
-        },
-        prevention: {
-          suppression: "Intervenir depuis le sol si possible.",
-          substitution: "Méthodes mécanisées.",
-          collectif: "Lignes de vie, filets.",
-          organisation: "Plan de prévention.",
-          epi: "Harnais."
-        },
-        restev: "RESTEV accompagne les chantiers à risque."
+        restev:"RESTEV aide à structurer la prévention du risque chimique."
       }
     }
   },
@@ -162,38 +131,19 @@ const data = {
     "Employé administratif": {
       rps: {
         titre: "Risque psychosocial",
-        description: "Charge mentale, délais, pression organisationnelle.",
-        obligations: {
-          employeur: "Évaluer les RPS et adapter l’organisation.",
-          salarie: "Signaler les situations de difficulté."
+        description: "Charge mentale, stress, pression des délais.",
+        obligations:{
+          employeur:"Évaluer les RPS et adapter l’organisation.",
+          salarie:"Signaler les situations de difficulté."
         },
-        prevention: {
-          suppression: "Supprimer les surcharges inutiles.",
-          substitution: "Réorganisation des tâches.",
-          collectif: "Temps d’échange.",
-          organisation: "Charge de travail équilibrée.",
-          epi: "Non applicable."
+        prevention:{
+          suppression:"Supprimer les sources inutiles de pression.",
+          substitution:"Réorganisation des tâches.",
+          collectif:"Temps d’échange.",
+          organisation:"Répartition équilibrée de la charge.",
+          epi:"Non applicable."
         },
-        restev: "RESTEV accompagne la prévention des RPS."
-      }
-    },
-
-    "Vendeur / Responsable de rayon": {
-      manutention: {
-        titre: "Manutentions légères répétées",
-        description: "Mise en rayon, port de charges moyennes.",
-        obligations: {
-          employeur: "Limiter les contraintes physiques.",
-          salarie: "Appliquer les bonnes postures."
-        },
-        prevention: {
-          suppression: "Supprimer les ports inutiles.",
-          substitution: "Conditionnements adaptés.",
-          collectif: "Chariots, aides de manutention.",
-          organisation: "Rotation des tâches.",
-          epi: "Chaussures adaptées."
-        },
-        restev: "RESTEV aide à l’ergonomie des postes."
+        restev:"RESTEV accompagne la prévention des RPS."
       }
     }
   },
@@ -203,156 +153,88 @@ const data = {
       routier: {
         titre: "Risque routier",
         description: "Conduite prolongée et contraintes de livraison.",
-        obligations: {
-          employeur: "Organiser les tournées et limiter la fatigue.",
-          salarie: "Respecter le code de la route."
+        obligations:{
+          employeur:"Organiser les tournées et limiter la fatigue.",
+          salarie:"Respecter le code de la route."
         },
-        prevention: {
-          suppression: "Éviter les déplacements inutiles.",
-          substitution: "Choix de véhicules adaptés.",
-          collectif: "Entretien des véhicules.",
-          organisation: "Temps de pause.",
-          epi: "Gilet haute visibilité."
+        prevention:{
+          suppression:"Éviter les déplacements inutiles.",
+          substitution:"Choisir des véhicules adaptés.",
+          collectif:"Entretien régulier.",
+          organisation:"Temps de pause.",
+          epi:"Gilet haute visibilité."
         },
-        restev: "RESTEV structure la prévention du risque routier."
-      }
-    },
-
-    "Cariste": {
-      circulation: {
-        titre: "Circulation d’engins",
-        description: "Utilisation de chariots de manutention.",
-        obligations: {
-          employeur: "Former et organiser la circulation.",
-          salarie: "Conduire selon les règles internes."
-        },
-        prevention: {
-          suppression: "Séparer flux piétons/engins.",
-          substitution: "Automatisation si possible.",
-          collectif: "Marquage au sol, protections.",
-          organisation: "Plan de circulation.",
-          epi: "Chaussures de sécurité."
-        },
-        restev: "RESTEV accompagne l’organisation des flux."
+        restev:"RESTEV structure la prévention du risque routier."
       }
     }
   }
 };
 
-  services: {
-    "Commercial itinérant": {
-      routier: {
-        titre: "Risque routier",
-        description: "Déplacements professionnels fréquents en véhicule.",
-        obligations: {
-          employeur: "Prendre en compte le risque routier dans le DUERP et organiser le travail.",
-          salarie: "Respecter le code de la route et les consignes internes."
-        },
-        prevention: {
-          suppression: "Remplacer un déplacement par une visio si possible.",
-          substitution: "Choisir des moyens de transport plus sûrs.",
-          collectif: "Politique déplacements, véhicules entretenus.",
-          organisation: "Plannings réalistes, pauses, charte conduite.",
-          epi: "Gilet haute visibilité selon contextes."
-        },
-        restev: "RESTEV aide à structurer la démarche de prévention du risque routier."
-      }
-    }
-  },
-
-  logistique: {
-    "Conducteur / Livreur": {
-      manutention: {
-        titre: "Manutention de colis",
-        description: "Port de charges et gestes répétitifs.",
-        obligations: {
-          employeur: "Évaluer les charges et fournir des aides à la manutention.",
-          salarie: "Utiliser les aides et adopter les bonnes postures."
-        },
-        prevention: {
-          suppression: "Supprimer le port manuel quand c’est possible.",
-          substitution: "Réduire le poids unitaire des colis.",
-          collectif: "Diables, transpalettes, quais adaptés.",
-          organisation: "Formation gestes et postures.",
-          epi: "Gants, chaussures de sécurité."
-        },
-        restev: "RESTEV accompagne l’adaptation des postes et l’organisation."
-      }
-    }
-  }
-};
-
-// === NAVIGATION ===
-function cacherTout() {
+// ================= NAVIGATION =================
+function cacherTout(){
   ["accueil","activites","metiers","risques","detail"].forEach(id=>{
     document.getElementById(id).style.display="none";
   });
 }
 
-function entrer() {
+function entrer(){
   cacherTout();
   document.getElementById("activites").style.display="block";
 }
 
-function retourAccueil() {
+function retourAccueil(){
   cacherTout();
   document.getElementById("accueil").style.display="block";
 }
 
-function afficherMetiers(secteur) {
+function afficherMetiers(secteur){
   cacherTout();
-  const zone = document.getElementById("metiers");
+  const zone=document.getElementById("metiers");
   zone.style.display="block";
 
-  let html = "<h2>Métiers</h2>";
-  for (let m in data[secteur]) {
-    html += `<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
+  let html="<h2>Métiers</h2>";
+  for(const m in data[secteur]){
+    html+=`<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
   }
-  html += `<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
-  zone.innerHTML = html;
+  html+=`<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
+  zone.innerHTML=html;
 }
 
-function afficherRisques(secteur, metier) {
+function afficherRisques(secteur,metier){
   cacherTout();
-  const zone = document.getElementById("risques");
+  const zone=document.getElementById("risques");
   zone.style.display="block";
 
-  let html = `<h2>Risques – ${metier}</h2>`;
-  for (let r in data[secteur][metier]) {
-    html += `<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
-      ${data[secteur][metier][r].titre}
-    </button>`;
+  let html=`<h2>Risques – ${metier}</h2>`;
+  for(const r in data[secteur][metier]){
+    html+=`<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">${data[secteur][metier][r].titre}</button>`;
   }
-  html += `<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
-  zone.innerHTML = html;
+  html+=`<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
+  zone.innerHTML=html;
 }
 
-function afficherDetail(secteur, metier, risque) {
+function afficherDetail(secteur,metier,risque){
   cacherTout();
-  const d = data[secteur][metier][risque];
-  const zone = document.getElementById("detail");
+  const d=data[secteur][metier][risque];
+  const zone=document.getElementById("detail");
   zone.style.display="block";
 
-  zone.innerHTML = `
+  zone.innerHTML=`
     <h2>${d.titre}</h2>
 
     <div class="block"><strong>Description</strong>${d.description}</div>
-
-    <div class="block"><strong>Obligations – Employeur</strong>${d.obligations.employeur}</div>
-    <div class="block"><strong>Obligations – Salarié</strong>${d.obligations.salarie}</div>
+    <div class="block"><strong>Obligations employeur</strong>${d.obligations.employeur}</div>
+    <div class="block"><strong>Obligations salarié</strong>${d.obligations.salarie}</div>
 
     <div class="block"><strong>Prévention hiérarchisée</strong>
-      <div class="step"><strong>1. Suppression</strong>${d.prevention.suppression}<br><small>Priorité absolue</small></div>
+      <div class="step"><strong>1. Suppression</strong>${d.prevention.suppression}</div>
       <div class="step"><strong>2. Substitution</strong>${d.prevention.substitution}</div>
       <div class="step"><strong>3. Protection collective</strong>${d.prevention.collectif}</div>
       <div class="step"><strong>4. Organisation</strong>${d.prevention.organisation}</div>
-      <div class="step"><strong>5. EPI</strong>${d.prevention.epi}<br><small>En complément</small></div>
+      <div class="step"><strong>5. EPI</strong>${d.prevention.epi}</div>
     </div>
 
-    <div class="info">
-      <strong>Rôle de RESTEV</strong><br>
-      ${d.restev}
-    </div>
+    <div class="info"><strong>RESTEV</strong><br>${d.restev}</div>
 
     <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour risques</button>
   `;
@@ -361,3 +243,4 @@ function afficherDetail(secteur, metier, risque) {
 
 </body>
 </html>
+``
