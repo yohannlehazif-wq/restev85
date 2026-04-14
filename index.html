@@ -46,7 +46,14 @@ h1, h2 {
   padding: 12px;
   border-radius: 10px;
   font-size: 14px;
-  margin-bottom: 15px;
+  margin: 15px 0;
+}
+.section {
+  margin-top: 10px;
+}
+.section strong {
+  display: block;
+  margin-bottom: 4px;
 }
 </style>
 </head>
@@ -63,9 +70,8 @@ h1, h2 {
 <!-- ACTIVITÉS -->
 <div id="activites" class="card" style="display:none;">
   <h2>Votre activité</h2>
-
   <div class="info">
-    Il ne s’agit pas de juger mais d’identifier les risques pour agir progressivement.
+    L’objectif est d’identifier les risques pour mieux les maîtriser, pas de juger.
   </div>
 
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
@@ -81,61 +87,82 @@ h1, h2 {
 <!-- RISQUES -->
 <div id="risques" class="card" style="display:none;"></div>
 
+<!-- DETAIL DU RISQUE -->
+<div id="detail" class="card" style="display:none;"></div>
+
 <script>
 const data = {
   btp: {
-    "Ouvrier du bâtiment": [
-      "Chutes de hauteur",
-      "Manutentions manuelles",
-      "Bruit",
-      "Poussières"
-    ]
+    "Ouvrier du bâtiment": {
+      chute: {
+        titre: "Chute de hauteur",
+        description: "Travail en hauteur sur échafaudage, toiture ou plateforme.",
+        employeur: "Mettre en place des protections collectives et former au travail en hauteur.",
+        salarie: "Utiliser les équipements fournis et respecter les consignes.",
+      },
+      poussiere: {
+        titre: "Poussières",
+        description: "Poussières de béton ou de matériaux.",
+        employeur: "Limiter l’émission de poussières et fournir des protections respiratoires.",
+        salarie: "Porter les masques et signaler toute gêne.",
+      }
+    }
   },
+
   services: {
-    "Commercial itinérant": [
-      "Risque routier",
-      "Stress / RPS"
-    ],
-    "Coiffeur / Coiffeuse": [
-      "Produits chimiques",
-      "Postures prolongées"
-    ]
+    "Commercial itinérant": {
+      routier: {
+        titre: "Risque routier",
+        description: "Déplacements fréquents en véhicule.",
+        employeur: "Organiser les tournées et rappeler les règles de sécurité routière.",
+        salarie: "Respecter le code de la route et faire des pauses.",
+      },
+      rps: {
+        titre: "Risque psychosocial",
+        description: "Stress lié à la charge de travail ou aux objectifs.",
+        employeur: "Adapter l’organisation et favoriser le dialogue.",
+        salarie: "Exprimer les difficultés rencontrées.",
+      }
+    }
   },
+
   logistique: {
-    "Conducteur / Livreur": [
-      "Risque routier",
-      "Manutention de colis",
-      "Chutes de plain-pied"
-    ]
+    "Conducteur / Livreur": {
+      manutention: {
+        titre: "Manutention de colis",
+        description: "Port de charges répétées.",
+        employeur: "Mettre à disposition des aides mécaniques.",
+        salarie: "Utiliser les aides et adopter les bonnes postures.",
+      }
+    }
   }
 };
 
 function cacherTout() {
-  ["accueil","activites","metiers","risques"].forEach(id => {
-    document.getElementById(id).style.display = "none";
+  ["accueil","activites","metiers","risques","detail"].forEach(id=>{
+    document.getElementById(id).style.display="none";
   });
 }
 
 function entrer() {
   cacherTout();
-  document.getElementById("activites").style.display = "block";
+  document.getElementById("activites").style.display="block";
 }
 
 function retourAccueil() {
   cacherTout();
-  document.getElementById("accueil").style.display = "block";
+  document.getElementById("accueil").style.display="block";
 }
 
 function afficherMetiers(secteur) {
   cacherTout();
   const zone = document.getElementById("metiers");
-  zone.style.display = "block";
+  zone.style.display="block";
 
   let html = "<h2>Métiers</h2>";
   for (let m in data[secteur]) {
     html += `<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
   }
-
   html += `<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
   zone.innerHTML = html;
 }
@@ -143,20 +170,37 @@ function afficherMetiers(secteur) {
 function afficherRisques(secteur, metier) {
   cacherTout();
   const zone = document.getElementById("risques");
-  zone.style.display = "block";
+  zone.style.display="block";
 
   let html = `<h2>Risques – ${metier}</h2>`;
-  data[secteur][metier].forEach(risque => {
-    html += `<div class="btn btn-risk">${risque}</div>`;
-  });
+  for (let r in data[secteur][metier]) {
+    html += `<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
+      ${data[secteur][metier][r].titre}</button>`;
+  }
 
-  html += `
-    <div class="info">
-      RESTEV accompagne les entreprises et les salariés dans une démarche de prévention progressive.
-    </div>
-    <button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>
-  `;
+  html += `<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
   zone.innerHTML = html;
+}
+
+function afficherDetail(secteur, metier, risque) {
+  cacherTout();
+  const d = data[secteur][metier][risque];
+  const zone = document.getElementById("detail");
+  zone.style.display="block";
+
+  zone.innerHTML = `
+    <h2>${d.titre}</h2>
+
+    <div class="section"><strong>Description</strong>${d.description}</div>
+    <div class="section"><strong>Employeur</strong>${d.employeur}</div>
+    <div class="section"><strong>Salarié</strong>${d.salarie}</div>
+
+    <div class="info">
+      RESTEV accompagne les entreprises pour progresser dans la prévention.
+    </div>
+
+    <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour risques</button>
+  `;
 }
 </script>
 
