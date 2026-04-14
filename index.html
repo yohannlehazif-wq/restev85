@@ -83,3 +83,66 @@ h1, h2 {
 
 <script>
 const data = {
+  btp: ["Ouvrier du bâtiment", "Maçon", "Couvreur"],
+  services: ["Commercial itinérant", "Coiffeur / Coiffeuse", "Boucher"],
+  logistique: ["Conducteur / Livreur", "Cariste"]
+};
+
+const risquesMetier = {
+  "Ouvrier du bâtiment": ["Chute de hauteur", "Manutentions", "Bruit", "Poussières"],
+  "Maçon": ["Silice", "Charges lourdes", "Postures pénibles"],
+  "Commercial itinérant": ["Risque routier", "Stress"],
+  "Coiffeur / Coiffeuse": ["Produits chimiques", "Postures prolongées"],
+  "Conducteur / Livreur": ["Risque routier", "Manutention de colis"]
+};
+
+/* Navigation */
+function cacherTout() {
+  ["accueil","activites","metiers","risques"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+}
+
+function entrer(){
+  cacherTout();
+  document.getElementById("activites").style.display="block";
+}
+
+function retourAccueil(){
+  cacherTout();
+  document.getElementById("accueil").style.display="block";
+}
+
+/* Métiers */
+function afficherMetiers(secteur){
+  cacherTout();
+  const zone = document.getElementById("metiers");
+  zone.style.display="block";
+
+  let html = "<h2>Métiers</h2>";
+  data[secteur].forEach(m=>{
+    html += `<button class="btn btn-main" onclick="afficherRisques('${m}')">${m}</button>`;
+  });
+
+  html += `<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
+  zone.innerHTML = html;
+}
+
+/* Risques */
+function afficherRisques(metier){
+  cacherTout();
+  const zone = document.getElementById("risques");
+  zone.style.display="block";
+
+  let html = `<h2>Risques – ${metier}</h2>`;
+  (risquesMetier[metier] || []).forEach(r=>{
+    html += `<button class="btn btn-risk">${r}</button>`;
+  });
+
+  html += `<button class="btn btn-back" onclick="retourAccueil()">← Accueil</button>`;
+  zone.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
