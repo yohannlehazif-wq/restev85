@@ -5,85 +5,44 @@
 <title>RESTEV – Prévention</title>
 
 <style>
-body{
-  font-family:Arial,sans-serif;
-  max-width:480px;
-  margin:auto;
-  padding:20px;
-  background:#f3f4f6;
-}
-.card{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  margin-top:20px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
+body{font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:20px;background:#f3f4f6}
+.card{background:white;padding:20px;border-radius:12px;margin-top:20px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
 h1,h2{text-align:center;color:#2563eb}
-.btn{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
+.btn{width:100%;padding:14px;margin-top:10px;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
 .btn-main{background:#2563eb;color:white}
 .btn-risk{background:#f97316;color:white}
 .btn-back{background:#d1d5db}
-.info{
-  background:#e0f2fe;
-  padding:12px;
-  border-radius:10px;
-  font-size:14px;
-  margin:15px 0;
-}
+.info{background:#e0f2fe;padding:12px;border-radius:10px;font-size:14px;margin:15px 0}
 .block{margin-top:10px}
 .block strong{display:block;margin-bottom:4px}
-.priority{
-  padding:10px;
-  border-radius:8px;
-  margin:12px 0;
-  font-weight:bold;
-  text-align:center;
-}
+.priority{padding:10px;border-radius:8px;margin:12px 0;font-weight:bold;text-align:center}
 .low{background:#dcfce7;color:#166534}
 .mid{background:#fef9c3;color:#854d0e}
 .high{background:#ffedd5;color:#9a3412}
 .critical{background:#fee2e2;color:#991b1b}
-.step{
-  background:#f8fafc;
-  border-left:4px solid #2563eb;
-  padding:10px;
-  border-radius:8px;
-  margin-top:8px;
-  font-size:14px;
-}
+.step{background:#f8fafc;border-left:4px solid #2563eb;padding:10px;border-radius:8px;margin-top:6px}
 ul{padding-left:20px}
 </style>
 </head>
 
 <body>
 
-<!-- ACCUEIL -->
 <div id="accueil" class="card">
   <h1>RESTEV</h1>
   <p style="text-align:center">Prévention des risques professionnels</p>
   <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
-<!-- ACTIVITÉS -->
 <div id="activites" class="card" style="display:none">
   <h2>Votre activité</h2>
   <div class="info">
-    Cette application aide à prioriser les actions de prévention.
+    Cet outil aide à prioriser les actions de prévention.  
     Il n’est pas nécessaire de tout faire en même temps.
   </div>
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
   <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
   <button class="btn btn-main" onclick="afficherMetiers('logistique')">Logistique / Transport</button>
+  <button class="btn btn-main" onclick="afficherSyntheseEntreprise()">🏢 Synthèse globale entreprise</button>
 </div>
 
 <div id="metiers" class="card" style="display:none"></div>
@@ -91,132 +50,75 @@ ul{padding-left:20px}
 <div id="detail" class="card" style="display:none"></div>
 
 <script>
-// ---------------- DONNÉES ----------------
-const data = {
+const data={
   btp:{
     "Maçon":{
       chute:{
         titre:"Chute de hauteur",
-        description:"Travaux sur échafaudages, planchers ou zones en élévation.",
-        gravite:4,
-        probabilite:3,
-        obligations:{
-          employeur:"Sécuriser les accès et les protections collectives.",
-          salarie:"Respecter les consignes et utiliser les équipements."
-        },
-        prevention:{
-          suppression:"Éviter le travail en hauteur lorsque c’est possible.",
-          substitution:"Méthodes limitant l’élévation.",
-          collectif:"Garde‑corps, échafaudages conformes.",
-          organisation:"Formation et planification.",
-          epi:"Harnais si nécessaire."
-        },
-        restev:"RESTEV accompagne la hiérarchisation et le suivi."
+        gravite:4,probabilite:3,
+        description:"Travaux sur échafaudages et planchers.",
+        obligations:{employeur:"Sécuriser les accès.",salarie:"Respecter les consignes."},
+        prevention:{suppression:"Éviter le travail en hauteur.",substitution:"Méthodes limitant l’élévation.",collectif:"Garde‑corps.",organisation:"Formation.",epi:"Harnais."},
       },
-
       silice:{
         titre:"Silice cristalline",
-        description:"Poussières générées lors des découpes de béton.",
-        gravite:4,
-        probabilite:4,
-        obligations:{
-          employeur:"Limiter l’exposition et fournir des protections adaptées.",
-          salarie:"Porter les protections respiratoires."
-        },
-        prevention:{
-          suppression:"Supprimer les découpes à sec.",
-          substitution:"Matériaux moins émissifs.",
-          collectif:"Aspiration à la source.",
-          organisation:"Limitation du temps d’exposition.",
-          epi:"Masques FFP3."
-        },
-        restev:"RESTEV aide à structurer la prévention du risque chimique."
+        gravite:4,probabilite:4,
+        description:"Poussières lors des découpes.",
+        obligations:{employeur:"Limiter l’exposition.",salarie:"Porter les masques."},
+        prevention:{suppression:"Découpes à l’eau.",substitution:"Matériaux moins émissifs.",collectif:"Aspiration.",organisation:"Temps limité.",epi:"FFP3."},
       }
     }
   },
-
   services:{
     "Employé administratif":{
       rps:{
         titre:"Risque psychosocial",
-        description:"Charge mentale, stress, pression organisationnelle.",
-        gravite:3,
-        probabilite:2,
-        obligations:{
-          employeur:"Évaluer les RPS et adapter l’organisation.",
-          salarie:"Signaler les difficultés."
-        },
-        prevention:{
-          suppression:"Supprimer les surcharges inutiles.",
-          substitution:"Réorganisation des tâches.",
-          collectif:"Temps d’échange.",
-          organisation:"Charge de travail équilibrée.",
-          epi:"Non applicable."
-        },
-        restev:"RESTEV accompagne la prévention des RPS."
+        gravite:3,probabilite:2,
+        description:"Stress, charge mentale.",
+        obligations:{employeur:"Évaluer les RPS.",salarie:"Signaler les difficultés."},
+        prevention:{suppression:"Supprimer surcharge.",substitution:"Réorganisation.",collectif:"Échanges.",organisation:"Charge équilibrée.",epi:"N/A."},
       }
     }
   },
-
   logistique:{
     "Conducteur / Livreur":{
       routier:{
         titre:"Risque routier",
-        description:"Déplacements professionnels fréquents.",
-        gravite:4,
-        probabilite:2,
-        obligations:{
-          employeur:"Organiser les tournées.",
-          salarie:"Respecter le code de la route."
-        },
-        prevention:{
-          suppression:"Éviter les déplacements inutiles.",
-          substitution:"Choisir des véhicules adaptés.",
-          collectif:"Entretien des véhicules.",
-          organisation:"Temps de pause.",
-          epi:"Gilet haute visibilité."
-        },
-        restev:"RESTEV structure la prévention du risque routier."
+        gravite:4,probabilite:2,
+        description:"Déplacements fréquents.",
+        obligations:{employeur:"Organiser les tournées.",salarie:"Respecter le code."},
+        prevention:{suppression:"Trajets inutiles.",substitution:"Visio.",collectif:"Véhicules entretenus.",organisation:"Pauses.",epi:"Gilet HV."},
       }
     }
   }
 };
 
-// ---------------- LOGIQUE ----------------
 function priorite(g,p){
   const s=g*p;
-  if(s>=10) return {t:"🔴 Priorité ÉLEVÉE",c:"critical"};
-  if(s>=7) return {t:"🟠 Priorité SIGNIFICATIVE",c:"high"};
-  if(s>=4) return {t:"🟡 Priorité MODÉRÉE",c:"mid"};
-  return {t:"🟢 Priorité FAIBLE",c:"low"};
+  if(s>=10) return["🔴 Priorité ÉLEVÉE","critical"];
+  if(s>=7) return["🟠 Priorité SIGNIFICATIVE","high"];
+  if(s>=4) return["🟡 Priorité MODÉRÉE","mid"];
+  return["🟢 Priorité FAIBLE","low"];
 }
 
-function cacherTout(){
-  ["accueil","activites","metiers","risques","detail"].forEach(id=>{
-    document.getElementById(id).style.display="none";
-  });
-}
-
-function entrer(){cacherTout();activites.style.display="block";}
+function cacherTout(){["accueil","activites","metiers","risques","detail"].forEach(id=>document.getElementById(id).style.display="none")}
+function entrer(){cacherTout();activites.style.display="block"}
 
 function afficherMetiers(sec){
   cacherTout();metiers.style.display="block";
   let h="<h2>Métiers</h2>";
-  for(const m in data[sec]){
-    h+=`<button class="btn btn-main" onclick="afficherRisques('${sec}','${m}')">${m}</button>`;
-  }
+  for(const m in data[sec])h+=`<button class="btn btn-main" onclick="afficherRisques('${sec}','${m}')">${m}</button>`;
   metiers.innerHTML=h;
 }
 
 function afficherRisques(sec,m){
   cacherTout();risques.style.display="block";
   let h=`<h2>Risques – ${m}</h2>
-    <button class="btn btn-main" onclick="afficherRisquesPrioritaires('${sec}','${m}')">🎯 Risques prioritaires</button>
-    <button class="btn btn-main" onclick="afficherPlanActions('${sec}','${m}')">✅ Plan d’actions prioritaires</button>`;
-  for(const r in data[sec][m]){
-    h+=`<button class="btn btn-risk" onclick="afficherDetail('${sec}','${m}','${r}')">${data[sec][m][r].titre}</button>`;
-  }
-  risques.innerHTML=h;
+  <button class="btn btn-main" onclick="afficherRisquesPrioritaires('${sec}','${m}')">🎯 Risques prioritaires</button>
+  <button class="btn btn-main" onclick="afficherPlanActions('${sec}','${m}')">✅ Plan d’actions prioritaires</button>
+  <button class="btn btn-main" onclick="afficherDejaFaitBien('${sec}','${m}')">👍 Déjà fait bien</button>`;
+  for(const r in data[sec][m])h+=`<button class="btn btn-risk" onclick="afficherDetail('${sec}','${m}','${r}')">${data[sec][m][r].titre}</button>`;
+  risques.innerHTML=h+synthesePositive(sec,m);
 }
 
 function afficherRisquesPrioritaires(sec,m){
@@ -225,46 +127,63 @@ function afficherRisquesPrioritaires(sec,m){
   let ok=false;
   for(const r in data[sec][m]){
     const d=data[sec][m][r];
-    if(d.gravite*d.probabilite>=7){
-      ok=true;
-      h+=`<button class="btn btn-risk" onclick="afficherDetail('${sec}','${m}','${r}')">${d.titre}</button>`;
-    }
+    if(d.gravite*d.probabilite>=7){ok=true;h+=`<button class="btn btn-risk" onclick="afficherDetail('${sec}','${m}','${r}')">${d.titre}</button>`}
   }
-  if(!ok) h+=`<div class="info">Aucun risque prioritaire identifié.</div>`;
-  risques.innerHTML=h;
-}
-
-function afficherPlanActions(sec,m){
-  cacherTout();detail.style.display="block";
-  let h=`<h2>Plan d’actions prioritaires</h2><div class="info">Actions concrètes réalisables immédiatement.</div>`;
-  for(const r in data[sec][m]){
-    const d=data[sec][m][r];
-    if(d.gravite*d.probabilite>=7){
-      h+=`<div class="block"><strong>${d.titre}</strong>
-      <ul>
-        <li>${d.prevention.suppression}</li>
-        <li>${d.prevention.substitution}</li>
-        <li>${d.prevention.collectif}</li>
-        <li>${d.prevention.organisation}</li>
-        <li>${d.prevention.epi}</li>
-      </ul></div>`;
-    }
-  }
-  h+=`<div class="info"><strong>RESTEV</strong><br>Accompagnement possible pour le suivi DUERP.</div>`;
-  detail.innerHTML=h;
+  risques.innerHTML=h+(ok?"":"<div class='info'>Aucun risque prioritaire identifié.</div>");
 }
 
 function afficherDetail(sec,m,r){
   cacherTout();detail.style.display="block";
-  const d=data[sec][m][r];
-  const p=priorite(d.gravite,d.probabilite);
-  detail.innerHTML=`
-    <h2>${d.titre}</h2>
-    <div class="block">${d.description}</div>
-    <div class="priority ${p.c}">${p.t}</div>
-    <div class="block"><strong>Employeur</strong>${d.obligations.employeur}</div>
-    <div class="block"><strong>Salarié</strong>${d.obligations.salarie}</div>
-    <div class="info">${d.restev}</div>`;
+  const d=data[sec][m][r];const[p,c]=priorite(d.gravite,d.probabilite);
+  detail.innerHTML=`<h2>${d.titre}</h2>
+  <div class="block">${d.description}</div>
+  <div class="priority ${c}">${p}</div>
+  <div class="block"><strong>Obligations employeur</strong>${d.obligations.employeur}</div>
+  <div class="block"><strong>Obligations salarié</strong>${d.obligations.salarie}</div>
+  <div class="block"><strong>Prévention hiérarchisée</strong>
+  ${Object.values(d.prevention).map(v=>`<div class="step">${v}</div>`).join("")}</div>
+  <button class="btn btn-back" onclick="afficherRisques('${sec}','${m}')">← Retour</button>`;
+}
+
+function afficherPlanActions(sec,m){
+  cacherTout();detail.style.display="block";
+  let h="<h2>Plan d’actions prioritaires</h2>";
+  for(const r in data[sec][m]){
+    const d=data[sec][m][r];
+    if(d.gravite*d.probabilite>=7){
+      h+=`<div class="block"><strong>${d.titre}</strong><ul>${Object.values(d.prevention).map(a=>`<li>${a}</li>`).join("")}</ul></div>`;
+    }
+  }
+  detail.innerHTML=h+synthesePositive(sec,m);
+}
+
+function afficherDejaFaitBien(sec,m){
+  cacherTout();detail.style.display="block";
+  let h="<h2>✅ Ce que vous faites déjà bien</h2><ul>";
+  for(const r in data[sec][m]){
+    if(data[sec][m][r].gravite*data[sec][m][r].probabilite<7){
+      h+=`<li><strong>${data[sec][m][r].titre}</strong> : risque maîtrisé ou en bonne voie</li>`;
+    }
+  }
+  detail.innerHTML=h+"</ul>"+synthesePositive(sec,m);
+}
+
+function synthesePositive(sec,m){
+  let tot=0,prio=0;
+  for(const r in data[sec][m]){tot++;if(data[sec][m][r].gravite*data[sec][m][r].probabilite>=7)prio++}
+  return `<div class="info"><strong>✅ Synthèse positive</strong><br>
+  ${prio==0?"Les risques sont globalement maîtrisés.":"Vous avez "+prio+" priorité(s) à traiter."}
+  <br>Vous pouvez avancer progressivement.</div>`;
+}
+
+function afficherSyntheseEntreprise(){
+  cacherTout();detail.style.display="block";
+  let tot=0,prio=0;
+  for(const s in data)for(const m in data[s])for(const r in data[s][m]){tot++;if(data[s][m][r].gravite*data[s][m][r].probabilite>=7)prio++}
+  detail.innerHTML=`<h2>🏢 Synthèse globale entreprise</h2>
+  <div class="info">Risques analysés : ${tot}<br>
+  Risques prioritaires : ${prio}<br>
+  Une grande partie des bases est déjà en place.</div>`;
 }
 </script>
 
