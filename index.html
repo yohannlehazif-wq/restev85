@@ -3,104 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Prévention</title>
+
+<title>RESTEV – Prévention santé au travail</title>
 
 <style>
-* { box-sizing:border-box; }
+/* ===== BASE ===== */
+* { box-sizing: border-box; }
 
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:linear-gradient(180deg,#ffffff 0%,#eef2ff 100%);
-  display:flex;
-  justify-content:center;
-  min-height:100vh;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-.app{
-  width:100%;
-  max-width:420px;
-  padding:16px;
+/* ===== APPLICATION ===== */
+.app {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
 }
 
-.header{
-  text-align:center;
-  padding:22px 16px 10px;
+/* ===== HEADER LOGO ===== */
+.header {
+  text-align: center;
+  padding: 24px 12px 12px;
 }
 
-.logo{
-  width:120px;
-  margin-bottom:10px;
+.logo {
+  width: 240px;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
 
-.app-title{
-  font-size:24px;
-  font-weight:700;
-  color:#1e3a8a;
-  margin:0;
+.subtitle {
+  font-size: 14px;
+  color: #475569;
+  font-weight: 500;
 }
 
-.app-subtitle{
-  font-size:14px;
-  color:#475569;
-  margin-top:4px;
+/* ===== CARDS ===== */
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
 }
 
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.06);
-  margin-bottom:16px;
+h2 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-top: 0;
 }
 
-h2{
-  margin-top:0;
-  text-align:center;
-  color:#1e3a8a;
+/* ===== INFO ===== */
+.info {
+  background: #eef2ff;
+  color: #1e3a8a;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin: 14px 0;
 }
 
-.info{
-  background:#eef2ff;
-  color:#1e3a8a;
-  padding:12px;
-  border-radius:12px;
-  font-size:14px;
-  margin:14px 0;
+/* ===== BOUTONS ===== */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-.btn{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:10px;
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
 }
 
-.btn-primary{
-  background:linear-gradient(135deg,#2563eb,#1e40af);
-  color:white;
+.btn-action {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: white;
 }
 
-.btn-action{
-  background:linear-gradient(135deg,#f97316,#ea580c);
-  color:white;
+.btn-good {
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  color: white;
 }
 
-.btn-good{
-  background:linear-gradient(135deg,#22c55e,#15803d);
-  color:white;
+.btn-back {
+  background: #e5e7eb;
+  color: #111827;
 }
 
-.btn-back{
-  background:#e5e7eb;
-  color:#111827;
+/* ===== AFFICHAGE ===== */
+.hidden {
+  display: none;
 }
-
-.hidden{ display:none; }
 </style>
 </head>
 
@@ -108,92 +113,15 @@ h2{
 
 <div class="app">
 
-  <!-- HEADER -->
+  <!-- ===== HEADER ===== -->
   <div class="header">
-    logo-restev.png
-    <h1 class="app-title">RESTEV</h1>
-    <div class="app-subtitle">Prévention des risques professionnels</div>
+    <img src="logo.png" alt="Logo RESTEV" class="logo">
+    <div class="subtitle">Prévention santé au travail</div>
   </div>
 
-  <!-- ACCUEIL -->
+  <!-- ===== ACCUEIL ===== -->
   <div id="accueil" class="card">
     <div class="info">
       Identifier, prioriser et agir en prévention,
       simplement et progressivement.
     </div>
-    <button class="btn btn-primary" onclick="show('activites')">
-      🚀 Entrer dans l’application
-    </button>
-  </div>
-
-  <!-- ACTIVITÉS -->
-  <div id="activites" class="card hidden">
-    <h2>Votre activité</h2>
-
-    <button class="btn btn-primary" onclick="show('metiers')">BTP / Chantier</button>
-    <button class="btn btn-primary" onclick="show('metiers')">Commerce & Services</button>
-    <button class="btn btn-primary" onclick="show('metiers')">Logistique / Transport</button>
-
-    <button class="btn btn-back" onclick="show('accueil')">
-      ← Retour accueil
-    </button>
-  </div>
-
-  <!-- MÉTIERS -->
-  <div id="metiers" class="card hidden">
-    <h2>Métiers</h2>
-
-    <button class="btn btn-primary" onclick="show('risques')">Maçon</button>
-    <button class="btn btn-primary" onclick="show('risques')">Conducteur / Livreur</button>
-
-    <button class="btn btn-back" onclick="show('activites')">
-      ← Retour activités
-    </button>
-  </div>
-
-  <!-- RISQUES -->
-  <div id="risques" class="card hidden">
-    <h2>Risques</h2>
-
-    <button class="btn btn-action" onclick="show('detail')">
-      Chute de hauteur
-    </button>
-    <button class="btn btn-action" onclick="show('detail')">
-      Risque routier
-    </button>
-
-    <button class="btn btn-good" onclick="show('detail')">
-      👍 Déjà fait bien
-    </button>
-
-    <button class="btn btn-back" onclick="show('metiers')">
-      ← Retour métiers
-    </button>
-  </div>
-
-  <!-- DÉTAIL / PLAN / SYNTHÈSE -->
-  <div id="detail" class="card hidden">
-    <h2>Détail & plan d’actions</h2>
-
-    <div class="info">
-      Synthèse positive, priorités et actions concrètes.
-    </div>
-
-    <button class="btn btn-back" onclick="show('risques')">
-      ← Retour risques
-    </button>
-  </div>
-
-</div>
-
-<script>
-function show(id){
-  ["accueil","activites","metiers","risques","detail"]
-  .forEach(x=>document.getElementById(x).classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
-}
-</script>
-
-</body>
-</html>
-``
