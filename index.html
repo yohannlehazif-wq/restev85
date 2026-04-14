@@ -2,32 +2,84 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV TEST</title>
+<title>RESTEV – Prévention</title>
+
 <style>
-body{font-family:Arial;max-width:400px;margin:auto;padding:20px}
-.btn{width:100%;padding:15px;font-size:18px}
+body {
+  font-family: Arial, sans-serif;
+  max-width: 450px;
+  margin: auto;
+  padding: 20px;
+  background: #f3f4f6;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+h1, h2 {
+  color: #2563eb;
+  text-align: center;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-main { background: #2563eb; color: white; }
+.btn-risk { background: #f97316; color: white; }
+.btn-back { background: #d1d5db; }
+
+.info {
+  background: #e0f2fe;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
 </style>
 </head>
 
 <body>
 
-<div id="accueil">
-  <h2>RESTEV</h2>
-  <button class="btn" onclick="entrer()">Entrer</button>
+<!-- ACCUEIL -->
+<div id="accueil" class="card">
+  <h1>RESTEV</h1>
+  <p style="text-align:center;">Application d’aide à la prévention des risques</p>
+  <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
-<div id="activites" style="display:none;">
-  <h3>Activités</h3>
-  <p>BTP – Services – Logistique</p>
+<!-- ACTIVITÉS -->
+<div id="activites" class="card" style="display:none;">
+  <h2>Votre activité</h2>
+
+  <div class="info">
+    Identifier les risques permet de mieux protéger les salariés et l’entreprise.
+  </div>
+
+  <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
+  <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
+  <button class="btn btn-main" onclick="afficherMetiers('logistique')">Logistique / Transport</button>
+
+  <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
+
+<!-- METIERS -->
+<div id="metiers" class="card" style="display:none;"></div>
+
+<!-- RISQUES -->
+<div id="risques" class="card" style="display:none;"></div>
 
 <script>
-function entrer() {
-  alert("La fonction entrer() fonctionne ✅");
-  document.getElementById("accueil").style.display="none";
-  document.getElementById("activites").style.display="block";
-}
-</script>
-
-</body>
-</html>
+const data = {
