@@ -103,22 +103,141 @@ const data = {
     "Ouvrier du bâtiment": {
       chute: {
         titre: "Chute de hauteur",
-        description: "Travaux en hauteur sur échafaudage, toiture ou plateforme.",
+        description: "Travail en hauteur sur échafaudages, toitures ou plateformes.",
         obligations: {
-          employeur: "Évaluer le risque, l’intégrer au DUERP et mettre en œuvre des mesures adaptées.",
-          salarie: "Respecter les consignes et utiliser les équipements fournis."
+          employeur: "Évaluer le risque et mettre en place des protections collectives.",
+          salarie: "Utiliser les protections et respecter les consignes."
         },
         prevention: {
-          suppression: "Éviter le travail en hauteur quand c’est possible.",
-          substitution: "Utiliser des méthodes ou matériels limitant l’accès en hauteur.",
-          collectif: "Garde-corps, échafaudages conformes.",
-          organisation: "Planification, formation travail en hauteur.",
-          epi: "Harnais, lignes de vie si nécessaire."
+          suppression: "Éviter le travail en hauteur lorsque c’est possible.",
+          substitution: "Méthodes constructives limitant la hauteur.",
+          collectif: "Garde‑corps, échafaudages conformes.",
+          organisation: "Formation et planification.",
+          epi: "Harnais si nécessaire."
         },
-        restev: "RESTEV accompagne l’analyse et la hiérarchisation des mesures."
+        restev: "RESTEV accompagne l’analyse et la priorisation des actions."
+      }
+    },
+
+    "Maçon": {
+      silice: {
+        titre: "Silice cristalline",
+        description: "Poussières générées lors des découpes de matériaux.",
+        obligations: {
+          employeur: "Limiter l’exposition et fournir des protections adaptées.",
+          salarie: "Porter les protections respiratoires."
+        },
+        prevention: {
+          suppression: "Suppression des découpes à sec.",
+          substitution: "Matériaux moins émissifs.",
+          collectif: "Aspiration à la source.",
+          organisation: "Temps d’exposition limité.",
+          epi: "Masques FFP3."
+        },
+        restev: "RESTEV aide à la gestion du risque chimique."
+      }
+    },
+
+    "Couvreur": {
+      chute: {
+        titre: "Chute de hauteur",
+        description: "Travail en toiture et en conditions climatiques variables.",
+        obligations: {
+          employeur: "Sécuriser la toiture et fournir des systèmes antichute.",
+          salarie: "Respecter les dispositifs mis en place."
+        },
+        prevention: {
+          suppression: "Intervenir depuis le sol si possible.",
+          substitution: "Méthodes mécanisées.",
+          collectif: "Lignes de vie, filets.",
+          organisation: "Plan de prévention.",
+          epi: "Harnais."
+        },
+        restev: "RESTEV accompagne les chantiers à risque."
       }
     }
   },
+
+  services: {
+    "Employé administratif": {
+      rps: {
+        titre: "Risque psychosocial",
+        description: "Charge mentale, délais, pression organisationnelle.",
+        obligations: {
+          employeur: "Évaluer les RPS et adapter l’organisation.",
+          salarie: "Signaler les situations de difficulté."
+        },
+        prevention: {
+          suppression: "Supprimer les surcharges inutiles.",
+          substitution: "Réorganisation des tâches.",
+          collectif: "Temps d’échange.",
+          organisation: "Charge de travail équilibrée.",
+          epi: "Non applicable."
+        },
+        restev: "RESTEV accompagne la prévention des RPS."
+      }
+    },
+
+    "Vendeur / Responsable de rayon": {
+      manutention: {
+        titre: "Manutentions légères répétées",
+        description: "Mise en rayon, port de charges moyennes.",
+        obligations: {
+          employeur: "Limiter les contraintes physiques.",
+          salarie: "Appliquer les bonnes postures."
+        },
+        prevention: {
+          suppression: "Supprimer les ports inutiles.",
+          substitution: "Conditionnements adaptés.",
+          collectif: "Chariots, aides de manutention.",
+          organisation: "Rotation des tâches.",
+          epi: "Chaussures adaptées."
+        },
+        restev: "RESTEV aide à l’ergonomie des postes."
+      }
+    }
+  },
+
+  logistique: {
+    "Conducteur / Livreur": {
+      routier: {
+        titre: "Risque routier",
+        description: "Conduite prolongée et contraintes de livraison.",
+        obligations: {
+          employeur: "Organiser les tournées et limiter la fatigue.",
+          salarie: "Respecter le code de la route."
+        },
+        prevention: {
+          suppression: "Éviter les déplacements inutiles.",
+          substitution: "Choix de véhicules adaptés.",
+          collectif: "Entretien des véhicules.",
+          organisation: "Temps de pause.",
+          epi: "Gilet haute visibilité."
+        },
+        restev: "RESTEV structure la prévention du risque routier."
+      }
+    },
+
+    "Cariste": {
+      circulation: {
+        titre: "Circulation d’engins",
+        description: "Utilisation de chariots de manutention.",
+        obligations: {
+          employeur: "Former et organiser la circulation.",
+          salarie: "Conduire selon les règles internes."
+        },
+        prevention: {
+          suppression: "Séparer flux piétons/engins.",
+          substitution: "Automatisation si possible.",
+          collectif: "Marquage au sol, protections.",
+          organisation: "Plan de circulation.",
+          epi: "Chaussures de sécurité."
+        },
+        restev: "RESTEV accompagne l’organisation des flux."
+      }
+    }
+  }
+};
 
   services: {
     "Commercial itinérant": {
