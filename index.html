@@ -1,110 +1,83 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>RESTEV – Prévention santé au travail</title>
 
 <style>
-/* ===== BASE ===== */
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,#ffffff 0%,#eef2ff 100%);
+  display:flex;
+  justify-content:center;
 }
-
-/* ===== APPLICATION ===== */
-.app {
-  width: 100%;
-  max-width: 420px;
-  padding: 16px;
+.app{
+  width:100%;
+  max-width:420px;
+  padding:16px;
 }
-
-/* ===== HEADER LOGO ===== */
-.header {
-  text-align: center;
-  padding: 24px 12px 12px;
+.header{
+  text-align:center;
+  padding:24px 12px 12px;
 }
-
-.logo {
-  width: 240px;
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+.logo{
+  width:240px;
+  margin-bottom:10px;
 }
-
-.subtitle {
-  font-size: 14px;
-  color: #475569;
-  font-weight: 500;
+.subtitle{
+  font-size:14px;
+  color:#475569;
 }
-
-/* ===== CARDS ===== */
-.card {
-  background: white;
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-  margin-bottom: 16px;
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+  margin-bottom:16px;
 }
-
-h2 {
-  text-align: center;
-  color: #1e3a8a;
-  margin-top: 0;
+h2{text-align:center;color:#1e3a8a}
+.info{
+  background:#eef2ff;
+  color:#1e3a8a;
+  padding:12px;
+  border-radius:12px;
+  font-size:14px;
+  margin:14px 0;
 }
-
-/* ===== INFO ===== */
-.info {
-  background: #eef2ff;
-  color: #1e3a8a;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  margin: 14px 0;
+.btn{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:10px;
 }
-
-/* ===== BOUTONS ===== */
-.btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
+.btn-primary{background:linear-gradient(135deg,#2563eb,#1e40af);color:white}
+.btn-action{background:linear-gradient(135deg,#f97316,#ea580c);color:white}
+.btn-good{background:linear-gradient(135deg,#22c55e,#15803d);color:white}
+.btn-back{background:#e5e7eb}
+.hidden{display:none}
+.priority{
+  padding:10px;
+  border-radius:12px;
+  text-align:center;
+  font-weight:bold;
 }
-
-.btn-primary {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  color: white;
-}
-
-.btn-action {
-  background: linear-gradient(135deg, #f97316, #ea580c);
-  color: white;
-}
-
-.btn-good {
-  background: linear-gradient(135deg, #22c55e, #15803d);
-  color: white;
-}
-
-.btn-back {
-  background: #e5e7eb;
-  color: #111827;
-}
-
-/* ===== AFFICHAGE ===== */
-.hidden {
-  display: none;
+.low{background:#dcfce7;color:#166534}
+.mid{background:#fef9c3;color:#854d0e}
+.high{background:#ffedd5;color:#9a3412}
+.critical{background:#fee2e2;color:#991b1b}
+.step{
+  background:#f8fafc;
+  border-left:4px solid #2563eb;
+  padding:10px;
+  border-radius:8px;
+  margin-top:6px;
+  font-size:14px;
 }
 </style>
 </head>
@@ -113,15 +86,134 @@ h2 {
 
 <div class="app">
 
-  <!-- ===== HEADER ===== -->
-  <div class="header">
-    <img src="logo.png" alt="Logo RESTEV" class="logo">
-    <div class="subtitle">Prévention santé au travail</div>
-  </div>
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.png" alt="RESTEV" class="logo">
+  <div class="subtitle">Prévention santé au travail</div>
+</div>
 
-  <!-- ===== ACCUEIL ===== -->
-  <div id="accueil" class="card">
-    <div class="info">
-      Identifier, prioriser et agir en prévention,
-      simplement et progressivement.
-    </div>
+<!-- ACCUEIL -->
+<div id="accueil" class="card">
+  <div class="info">
+    Identifier, prioriser et agir en prévention,
+    simplement et progressivement.
+  </div>
+  <button class="btn btn-primary" onclick="show('activites')">
+    🚀 Entrer dans l’application
+  </button>
+</div>
+
+<!-- ACTIVITÉS -->
+<div id="activites" class="card hidden">
+  <h2>Votre activité</h2>
+  <button class="btn btn-primary" onclick="chargerMetiers('btp')">BTP / Chantier</button>
+  <button class="btn btn-primary" onclick="chargerMetiers('services')">Commerce & Services</button>
+  <button class="btn btn-primary" onclick="chargerMetiers('logistique')">Logistique / Transport</button>
+  <button class="btn btn-primary" onclick="syntheseEntreprise()">🏢 Synthèse entreprise</button>
+  <button class="btn btn-back" onclick="show('accueil')">← Retour</button>
+</div>
+
+<!-- MÉTIERS -->
+<div id="metiers" class="card hidden"></div>
+
+<!-- RISQUES -->
+<div id="risques" class="card hidden"></div>
+
+<!-- DETAIL -->
+<div id="detail" class="card hidden"></div>
+
+</div>
+
+<script>
+const data={
+  btp:{
+    "Maçon":{
+      chute:{titre:"Chute de hauteur",gravite:4,probabilite:3,
+      description:"Travaux en hauteur.",
+      prevention:["Garde-corps","Formation","Harnais"]},
+      silice:{titre:"Silice cristalline",gravite:4,probabilite:4,
+      description:"Poussières de béton.",
+      prevention:["Découpe à l’eau","Aspiration","Masque FFP3"]}
+    }
+  },
+  services:{
+    "Employé administratif":{
+      rps:{titre:"RPS",gravite:3,probabilite:2,
+      description:"Charge mentale.",
+      prevention:["Organisation","Dialogue","Répartition charge"]}
+    }
+  },
+  logistique:{
+    "Conducteur / Livreur":{
+      routier:{titre:"Risque routier",gravite:4,probabilite:2,
+      description:"Déplacements.",
+      prevention:["Planning","Pauses","Véhicule suivi"]}
+    }
+  }
+};
+
+function show(id){
+  ["accueil","activites","metiers","risques","detail"]
+  .forEach(e=>document.getElementById(e).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function priorite(g,p){
+  const s=g*p;
+  if(s>=10)return["🔴 Priorité élevée","critical"];
+  if(s>=7)return["🟠 Priorité significative","high"];
+  if(s>=4)return["🟡 Priorité modérée","mid"];
+  return["🟢 Priorité faible","low"];
+}
+
+function chargerMetiers(sec){
+  show("metiers");
+  let h="<h2>Métiers</h2>";
+  for(let m in data[sec]){
+    h+=`<button class="btn btn-primary" onclick="chargerRisques('${sec}','${m}')">${m}</button>`;
+  }
+  h+=`<button class="btn btn-back" onclick="show('activites')">← Retour</button>`;
+  metiers.innerHTML=h;
+}
+
+function chargerRisques(sec,m){
+  show("risques");
+  let h=`<h2>Risques – ${m}</h2>`;
+  for(let r in data[sec][m]){
+    h+=`<button class="btn btn-action" onclick="detailRisque('${sec}','${m}','${r}')">${data[sec][m][r].titre}</button>`;
+  }
+  h+=`<button class="btn btn-back" onclick="chargerMetiers('${sec}')">← Retour</button>`;
+  risques.innerHTML=h;
+}
+
+function detailRisque(sec,m,r){
+  show("detail");
+  const d=data[sec][m][r];
+  const[p,c]=priorite(d.gravite,d.probabilite);
+  let list=d.prevention.map(x=>`<div class="step">${x}</div>`).join("");
+  detail.innerHTML=`
+    <h2>${d.titre}</h2>
+    <div class="priority ${c}">${p}</div>
+    <div class="info">${d.description}</div>
+    ${list}
+    <button class="btn btn-back" onclick="chargerRisques('${sec}','${m}')">← Retour</button>
+  `;
+}
+
+function syntheseEntreprise(){
+  show("detail");
+  detail.innerHTML=`
+  <h2>Synthèse globale entreprise</h2>
+  <div class="info">
+  ✅ Des bases solides existent.<br>
+  🔴 Certaines priorités sont identifiées.<br>
+  👉 Vous pouvez avancer progressivement.
+  </div>
+  <button class="btn btn-back" onclick="show('activites')">← Retour</button>
+  `;
+}
+</script>
+
+</body>
+</html>
+
