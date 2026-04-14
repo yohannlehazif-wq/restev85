@@ -95,3 +95,70 @@ const data = {
     "Commercial itinérant": [
       "Risque routier",
       "Stress / RPS"
+    ],
+    "Coiffeur / Coiffeuse": [
+      "Produits chimiques",
+      "Postures prolongées"
+    ]
+  },
+  logistique: {
+    "Conducteur / Livreur": [
+      "Risque routier",
+      "Manutention de colis",
+      "Chutes de plain-pied"
+    ]
+  }
+};
+
+function cacherTout() {
+  ["accueil","activites","metiers","risques"].forEach(id => {
+    document.getElementById(id).style.display = "none";
+  });
+}
+
+function entrer() {
+  cacherTout();
+  document.getElementById("activites").style.display = "block";
+}
+
+function retourAccueil() {
+  cacherTout();
+  document.getElementById("accueil").style.display = "block";
+}
+
+function afficherMetiers(secteur) {
+  cacherTout();
+  const zone = document.getElementById("metiers");
+  zone.style.display = "block";
+
+  let html = "<h2>Métiers</h2>";
+  for (let m in data[secteur]) {
+    html += `<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
+  }
+
+  html += `<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
+  zone.innerHTML = html;
+}
+
+function afficherRisques(secteur, metier) {
+  cacherTout();
+  const zone = document.getElementById("risques");
+  zone.style.display = "block";
+
+  let html = `<h2>Risques – ${metier}</h2>`;
+  data[secteur][metier].forEach(risque => {
+    html += `<div class="btn btn-risk">${risque}</div>`;
+  });
+
+  html += `
+    <div class="info">
+      RESTEV accompagne les entreprises et les salariés dans une démarche de prévention progressive.
+    </div>
+    <button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>
+  `;
+  zone.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
