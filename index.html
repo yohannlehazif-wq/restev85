@@ -124,3 +124,73 @@ const data = {
 
 function cacherTout() {
   ["accueil","activites","metiers","risques","detail"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+}
+
+function entrer() {
+  cacherTout();
+  document.getElementById("activites").style.display="block";
+}
+
+function retourAccueil() {
+  cacherTout();
+  document.getElementById("accueil").style.display="block";
+}
+
+function afficherMetiers(secteur) {
+  cacherTout();
+  const zone = document.getElementById("metiers");
+  zone.style.display="block";
+
+  let html = "<h2>Métiers</h2>";
+  for (let m in data[secteur]) {
+    html += `<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
+  }
+  html += `<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
+  zone.innerHTML = html;
+}
+
+function afficherRisques(secteur, metier) {
+  cacherTout();
+  const zone = document.getElementById("risques");
+  zone.style.display="block";
+
+  let html = `<h2>Risques – ${metier}</h2>`;
+  for (let r in data[secteur][metier]) {
+    html += `<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
+      ${data[secteur][metier][r].titre}</button>`;
+  }
+  html += `<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
+  zone.innerHTML = html;
+}
+
+function afficherDetail(secteur, metier, risque) {
+  cacherTout();
+  const d = data[secteur][metier][risque];
+  const zone = document.getElementById("detail");
+  zone.style.display="block";
+
+  zone.innerHTML = `
+    <h2>${d.titre}</h2>
+
+    <div class="block"><strong>Description</strong>${d.description}</div>
+    <div class="block"><strong>Ce que l’employeur fait</strong>${d.employeur}</div>
+    <div class="block"><strong>Ce que le salarié fait</strong>${d.salarie}</div>
+
+    <div class="block"><strong>Obligations employeur</strong>${d.obligationEmployeur}</div>
+    <div class="block"><strong>Obligations salarié</strong>${d.obligationSalarie}</div>
+
+    <div class="info">
+      <strong>Rôle de RESTEV</strong><br>
+      ${d.restev}
+    </div>
+
+    <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour risques</button>
+  `;
+}
+</script>
+
+</body>
+</html>
+``
