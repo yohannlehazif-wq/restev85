@@ -59,27 +59,31 @@ h1,h2{text-align:center;color:#2563eb}
   padding:10px;
   border-radius:8px;
   margin-top:8px;
+  font-size:14px;
 }
+ul{padding-left:20px}
 </style>
 </head>
 
 <body>
 
+<!-- ACCUEIL -->
 <div id="accueil" class="card">
   <h1>RESTEV</h1>
   <p style="text-align:center">Prévention des risques professionnels</p>
   <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
+<!-- ACTIVITÉS -->
 <div id="activites" class="card" style="display:none">
   <h2>Votre activité</h2>
   <div class="info">
-    La priorité aide à savoir par quoi commencer, sans tout faire d’un coup.
+    Cette application aide à prioriser les actions de prévention.
+    Il n’est pas nécessaire de tout faire en même temps.
   </div>
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
   <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
   <button class="btn btn-main" onclick="afficherMetiers('logistique')">Logistique / Transport</button>
-  <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
 <div id="metiers" class="card" style="display:none"></div>
@@ -87,26 +91,46 @@ h1,h2{text-align:center;color:#2563eb}
 <div id="detail" class="card" style="display:none"></div>
 
 <script>
+// ---------------- DONNÉES ----------------
 const data = {
   btp:{
-    "Ouvrier du bâtiment":{
+    "Maçon":{
       chute:{
         titre:"Chute de hauteur",
-        description:"Travaux sur échafaudages ou en toiture.",
+        description:"Travaux sur échafaudages, planchers ou zones en élévation.",
         gravite:4,
         probabilite:3,
         obligations:{
-          employeur:"Évaluer le risque et mettre en place des protections collectives.",
+          employeur:"Sécuriser les accès et les protections collectives.",
           salarie:"Respecter les consignes et utiliser les équipements."
         },
         prevention:{
-          suppression:"Éviter le travail en hauteur.",
-          substitution:"Méthodes limitant l’accès.",
-          collectif:"Garde-corps, échafaudages.",
-          organisation:"Formation, planification.",
+          suppression:"Éviter le travail en hauteur lorsque c’est possible.",
+          substitution:"Méthodes limitant l’élévation.",
+          collectif:"Garde‑corps, échafaudages conformes.",
+          organisation:"Formation et planification.",
           epi:"Harnais si nécessaire."
         },
-        restev:"RESTEV aide à prioriser et planifier les actions."
+        restev:"RESTEV accompagne la hiérarchisation et le suivi."
+      },
+
+      silice:{
+        titre:"Silice cristalline",
+        description:"Poussières générées lors des découpes de béton.",
+        gravite:4,
+        probabilite:4,
+        obligations:{
+          employeur:"Limiter l’exposition et fournir des protections adaptées.",
+          salarie:"Porter les protections respiratoires."
+        },
+        prevention:{
+          suppression:"Supprimer les découpes à sec.",
+          substitution:"Matériaux moins émissifs.",
+          collectif:"Aspiration à la source.",
+          organisation:"Limitation du temps d’exposition.",
+          epi:"Masques FFP3."
+        },
+        restev:"RESTEV aide à structurer la prévention du risque chimique."
       }
     }
   },
@@ -115,21 +139,21 @@ const data = {
     "Employé administratif":{
       rps:{
         titre:"Risque psychosocial",
-        description:"Charge mentale et stress.",
+        description:"Charge mentale, stress, pression organisationnelle.",
         gravite:3,
         probabilite:2,
         obligations:{
           employeur:"Évaluer les RPS et adapter l’organisation.",
-          salarie:"Exprimer les difficultés."
+          salarie:"Signaler les difficultés."
         },
         prevention:{
           suppression:"Supprimer les surcharges inutiles.",
-          substitution:"Réorganisation.",
+          substitution:"Réorganisation des tâches.",
           collectif:"Temps d’échange.",
-          organisation:"Charge équilibrée.",
+          organisation:"Charge de travail équilibrée.",
           epi:"Non applicable."
         },
-        restev:"RESTEV accompagne la démarche RPS."
+        restev:"RESTEV accompagne la prévention des RPS."
       }
     }
   },
@@ -146,11 +170,11 @@ const data = {
           salarie:"Respecter le code de la route."
         },
         prevention:{
-          suppression:"Supprimer trajets inutiles.",
-          substitution:"Visio si possible.",
-          collectif:"Véhicules entretenus.",
-          organisation:"Pauses.",
-          epi:"Gilet HV."
+          suppression:"Éviter les déplacements inutiles.",
+          substitution:"Choisir des véhicules adaptés.",
+          collectif:"Entretien des véhicules.",
+          organisation:"Temps de pause.",
+          epi:"Gilet haute visibilité."
         },
         restev:"RESTEV structure la prévention du risque routier."
       }
@@ -158,12 +182,13 @@ const data = {
   }
 };
 
-function priorite(gravite,prob){
-  const score=gravite*prob;
-  if(score>=10) return {txt:"🔴 Priorité ÉLEVÉE",cls:"critical"};
-  if(score>=7) return {txt:"🟠 Priorité SIGNIFICATIVE",cls:"high"};
-  if(score>=4) return {txt:"🟡 Priorité MODÉRÉE",cls:"mid"};
-  return {txt:"🟢 Priorité FAIBLE",cls:"low"};
+// ---------------- LOGIQUE ----------------
+function priorite(g,p){
+  const s=g*p;
+  if(s>=10) return {t:"🔴 Priorité ÉLEVÉE",c:"critical"};
+  if(s>=7) return {t:"🟠 Priorité SIGNIFICATIVE",c:"high"};
+  if(s>=4) return {t:"🟡 Priorité MODÉRÉE",c:"mid"};
+  return {t:"🟢 Priorité FAIBLE",c:"low"};
 }
 
 function cacherTout(){
@@ -173,55 +198,73 @@ function cacherTout(){
 }
 
 function entrer(){cacherTout();activites.style.display="block";}
-function retourAccueil(){cacherTout();accueil.style.display="block";}
 
-function afficherMetiers(secteur){
+function afficherMetiers(sec){
   cacherTout();metiers.style.display="block";
-  let html="<h2>Métiers</h2>";
-  for(const m in data[secteur]){
-    html+=`<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
+  let h="<h2>Métiers</h2>";
+  for(const m in data[sec]){
+    h+=`<button class="btn btn-main" onclick="afficherRisques('${sec}','${m}')">${m}</button>`;
   }
-  html+=`<button class="btn btn-back" onclick="entrer()">← Retour</button>`;
-  metiers.innerHTML=html;
+  metiers.innerHTML=h;
 }
 
-function afficherRisques(secteur,metier){
+function afficherRisques(sec,m){
   cacherTout();risques.style.display="block";
-  let html=`<h2>Risques – ${metier}</h2>`;
-  for(const r in data[secteur][metier]){
-    html+=`<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
-      ${data[secteur][metier][r].titre}</button>`;
+  let h=`<h2>Risques – ${m}</h2>
+    <button class="btn btn-main" onclick="afficherRisquesPrioritaires('${sec}','${m}')">🎯 Risques prioritaires</button>
+    <button class="btn btn-main" onclick="afficherPlanActions('${sec}','${m}')">✅ Plan d’actions prioritaires</button>`;
+  for(const r in data[sec][m]){
+    h+=`<button class="btn btn-risk" onclick="afficherDetail('${sec}','${m}','${r}')">${data[sec][m][r].titre}</button>`;
   }
-  html+=`<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour</button>`;
-  risques.innerHTML=html;
+  risques.innerHTML=h;
 }
 
-function afficherDetail(secteur,metier,risque){
-  cacherTout();detail.style.display="block";
-  const d=data[secteur][metier][risque];
-  const p=priorite(d.gravite,d.probabilite);
+function afficherRisquesPrioritaires(sec,m){
+  cacherTout();risques.style.display="block";
+  let h=`<h2>Risques prioritaires – ${m}</h2>`;
+  let ok=false;
+  for(const r in data[sec][m]){
+    const d=data[sec][m][r];
+    if(d.gravite*d.probabilite>=7){
+      ok=true;
+      h+=`<button class="btn btn-risk" onclick="afficherDetail('${sec}','${m}','${r}')">${d.titre}</button>`;
+    }
+  }
+  if(!ok) h+=`<div class="info">Aucun risque prioritaire identifié.</div>`;
+  risques.innerHTML=h;
+}
 
+function afficherPlanActions(sec,m){
+  cacherTout();detail.style.display="block";
+  let h=`<h2>Plan d’actions prioritaires</h2><div class="info">Actions concrètes réalisables immédiatement.</div>`;
+  for(const r in data[sec][m]){
+    const d=data[sec][m][r];
+    if(d.gravite*d.probabilite>=7){
+      h+=`<div class="block"><strong>${d.titre}</strong>
+      <ul>
+        <li>${d.prevention.suppression}</li>
+        <li>${d.prevention.substitution}</li>
+        <li>${d.prevention.collectif}</li>
+        <li>${d.prevention.organisation}</li>
+        <li>${d.prevention.epi}</li>
+      </ul></div>`;
+    }
+  }
+  h+=`<div class="info"><strong>RESTEV</strong><br>Accompagnement possible pour le suivi DUERP.</div>`;
+  detail.innerHTML=h;
+}
+
+function afficherDetail(sec,m,r){
+  cacherTout();detail.style.display="block";
+  const d=data[sec][m][r];
+  const p=priorite(d.gravite,d.probabilite);
   detail.innerHTML=`
     <h2>${d.titre}</h2>
-    <div class="block"><strong>Description</strong>${d.description}</div>
-
-    <div class="priority ${p.cls}">${p.txt}</div>
-
-    <div class="block"><strong>Obligations employeur</strong>${d.obligations.employeur}</div>
-    <div class="block"><strong>Obligations salarié</strong>${d.obligations.salarie}</div>
-
-    <div class="block"><strong>Prévention hiérarchisée</strong>
-      <div class="step">1️⃣ ${d.prevention.suppression}</div>
-      <div class="step">2️⃣ ${d.prevention.substitution}</div>
-      <div class="step">3️⃣ ${d.prevention.collectif}</div>
-      <div class="step">4️⃣ ${d.prevention.organisation}</div>
-      <div class="step">5️⃣ ${d.prevention.epi}</div>
-    </div>
-
-    <div class="info"><strong>RESTEV</strong><br>${d.restev}</div>
-
-    <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour</button>
-  `;
+    <div class="block">${d.description}</div>
+    <div class="priority ${p.c}">${p.t}</div>
+    <div class="block"><strong>Employeur</strong>${d.obligations.employeur}</div>
+    <div class="block"><strong>Salarié</strong>${d.obligations.salarie}</div>
+    <div class="info">${d.restev}</div>`;
 }
 </script>
 
