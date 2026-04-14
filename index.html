@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,12 +25,35 @@ body{
 }
 .logo{
   width:240px;
-  margin-bottom:10px;
+  max-width:100%;
+  margin-bottom:6px;
 }
 .subtitle{
   font-size:14px;
   color:#475569;
 }
+
+.bandeau{
+  background:linear-gradient(135deg,#dbeafe,#eef2ff);
+  color:#1e3a8a;
+  padding:10px 14px;
+  border-radius:14px;
+  font-size:13px;
+  margin:10px 0 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.bandeau span{color:#475569;font-weight:400}
+.btn-quit{
+  background:none;
+  border:none;
+  color:#1e40af;
+  font-size:12px;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
 .card{
   background:white;
   border-radius:18px;
@@ -37,7 +61,9 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,.06);
   margin-bottom:16px;
 }
-h2{text-align:center;color:#1e3a8a}
+
+h2{text-align:center;color:#1e3a8a;margin-top:0}
+
 .info{
   background:#eef2ff;
   color:#1e3a8a;
@@ -46,6 +72,7 @@ h2{text-align:center;color:#1e3a8a}
   font-size:14px;
   margin:14px 0;
 }
+
 .btn{
   width:100%;
   padding:14px;
@@ -57,28 +84,10 @@ h2{text-align:center;color:#1e3a8a}
   margin-top:10px;
 }
 .btn-primary{background:linear-gradient(135deg,#2563eb,#1e40af);color:white}
-.btn-action{background:linear-gradient(135deg,#f97316,#ea580c);color:white}
-.btn-good{background:linear-gradient(135deg,#22c55e,#15803d);color:white}
+.btn-secondary{background:#e5e7eb;color:#111827}
 .btn-back{background:#e5e7eb}
+
 .hidden{display:none}
-.priority{
-  padding:10px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
-}
-.low{background:#dcfce7;color:#166534}
-.mid{background:#fef9c3;color:#854d0e}
-.high{background:#ffedd5;color:#9a3412}
-.critical{background:#fee2e2;color:#991b1b}
-.step{
-  background:#f8fafc;
-  border-left:4px solid #2563eb;
-  padding:10px;
-  border-radius:8px;
-  margin-top:6px;
-  font-size:14px;
-}
 </style>
 </head>
 
@@ -88,170 +97,141 @@ h2{text-align:center;color:#1e3a8a}
 
 <!-- HEADER -->
 <div class="header">
-  <img src="logo.png" alt="RESTEV" class="logo">
+  <img src="logo.png" class="logo" alt="RESTEV">
   <div class="subtitle">Prévention santé au travail</div>
 </div>
 
+<!-- BANDEAU ENTRETIEN -->
+<div id="bandeau-entretien" class="bandeau hidden">
+  🗣️ Vous êtes dans un échange prévention
+  <span>– démarche d’accompagnement</span>
+  <button class="btn-quit" onclick="quitterEntretien()">Quitter</button>
+</div>
+
 <!-- ACCUEIL -->
-<!-- ===== ACCUEIL CLARIFIÉ ===== -->
 <div id="accueil" class="card">
-
   <div class="info">
-    <strong>À quoi sert cette application ?</strong><br><br>
-
-    Cette application est un <strong>outil d’aide à la prévention</strong>.<br>
-    Elle vous aide à <strong>comprendre les risques professionnels</strong>,
-    à <strong>définir des priorités</strong> et à
-    <strong>agir progressivement</strong>.
+    <strong>Outil d’aide à la prévention</strong><br><br>
+    Cette application aide à :
+    <ul>
+      <li>comprendre les risques professionnels</li>
+      <li>définir des priorités</li>
+      <li>identifier des actions réalistes</li>
+    </ul>
+    👉 <em>Ce n’est pas un audit, ni un contrôle.</em>
   </div>
 
   <div class="info">
-    <strong>Comment l’utiliser ?</strong><br><br>
-
-    1️⃣ Choisissez votre activité<br>
-    2️⃣ Sélectionnez un métier<br>
-    3️⃣ Consultez les risques et les priorités<br>
-    4️⃣ Identifiez des actions possibles<br>
-    5️⃣ Prenez du recul avec les synthèses<br><br>
-
-    ✅ <em>À ce stade, l’objectif est atteint.</em>
+    <strong>Parcours conseillé</strong><br>
+    Activité → Métier → Risques → Priorités → Actions → Synthèse
   </div>
 
-  <div class="info">
-    <strong>Ce qu’il faut savoir</strong><br><br>
-
-    🔹 Ce n’est <strong>pas</strong> un audit<br>
-    🔹 Ce n’est <strong>pas</strong> un outil de contrôle<br>
-    🔹 Il n’est <strong>pas</strong> demandé d’être parfait<br><br>
-
-    👉 L’objectif est d’<strong>aider à décider</strong>, pas de juger.
-  </div>
-
-  <div class="info">
-    <strong>RESTEV</strong><br><br>
-    RESTEV peut accompagner cette démarche
-    pour structurer, prioriser et suivre les actions,
-    <em>si vous le souhaitez</em>.
-  </div>
-
-  <button class="btn btn-primary" onclick="show('activites')">
-    🚀 Démarrer la démarche
+  <button class="btn btn-primary" onclick="demarrerLibre()">
+    🚀 Utiliser l’application librement
   </button>
 
+  <button class="btn btn-secondary" onclick="demarrerEntretien()">
+    🗣️ Utiliser l’application en entretien prévention
+  </button>
 </div>
-``
 
 <!-- ACTIVITÉS -->
 <div id="activites" class="card hidden">
-  <h2>Votre activité</h2>
-  <button class="btn btn-primary" onclick="chargerMetiers('btp')">BTP / Chantier</button>
-  <button class="btn btn-primary" onclick="chargerMetiers('services')">Commerce & Services</button>
-  <button class="btn btn-primary" onclick="chargerMetiers('logistique')">Logistique / Transport</button>
-  <button class="btn btn-primary" onclick="syntheseEntreprise()">🏢 Synthèse entreprise</button>
+  <h2>Activité</h2>
+  <div id="guide-activites"></div>
+
+  <button class="btn btn-primary" onclick="show('metiers')">BTP / Chantier</button>
+  <button class="btn btn-primary" onclick="show('metiers')">Commerce & Services</button>
+  <button class="btn btn-primary" onclick="show('metiers')">Logistique / Transport</button>
+
   <button class="btn btn-back" onclick="show('accueil')">← Retour</button>
 </div>
 
 <!-- MÉTIERS -->
-<div id="metiers" class="card hidden"></div>
+<div id="metiers" class="card hidden">
+  <h2>Métiers</h2>
+  <div id="guide-metiers"></div>
+
+  <button class="btn btn-primary" onclick="show('risques')">Maçon</button>
+  <button class="btn btn-primary" onclick="show('risques')">Conducteur / Livreur</button>
+
+  <button class="btn btn-back" onclick="show('activites')">← Retour</button>
+</div>
 
 <!-- RISQUES -->
-<div id="risques" class="card hidden"></div>
+<div id="risques" class="card hidden">
+  <h2>Risques</h2>
+  <div id="guide-risques"></div>
+
+  <button class="btn btn-primary" onclick="show('detail')">Chute de hauteur</button>
+  <button class="btn btn-primary" onclick="show('detail')">Risque routier</button>
+
+  <button class="btn btn-back" onclick="show('metiers')">← Retour</button>
+</div>
 
 <!-- DETAIL -->
-<div id="detail" class="card hidden"></div>
+<div id="detail" class="card hidden">
+  <h2>Synthèse & actions</h2>
+  <div id="guide-detail"></div>
+
+  <div class="info">
+    ✅ Des bases existent déjà<br>
+    🔴 Certaines priorités méritent une attention particulière<br>
+    👉 Vous pouvez avancer progressivement
+  </div>
+
+  <button class="btn btn-back" onclick="show('risques')">← Retour</button>
+</div>
 
 </div>
 
 <script>
-const data={
-  btp:{
-    "Maçon":{
-      chute:{titre:"Chute de hauteur",gravite:4,probabilite:3,
-      description:"Travaux en hauteur.",
-      prevention:["Garde-corps","Formation","Harnais"]},
-      silice:{titre:"Silice cristalline",gravite:4,probabilite:4,
-      description:"Poussières de béton.",
-      prevention:["Découpe à l’eau","Aspiration","Masque FFP3"]}
-    }
-  },
-  services:{
-    "Employé administratif":{
-      rps:{titre:"RPS",gravite:3,probabilite:2,
-      description:"Charge mentale.",
-      prevention:["Organisation","Dialogue","Répartition charge"]}
-    }
-  },
-  logistique:{
-    "Conducteur / Livreur":{
-      routier:{titre:"Risque routier",gravite:4,probabilite:2,
-      description:"Déplacements.",
-      prevention:["Planning","Pauses","Véhicule suivi"]}
-    }
-  }
-};
+let modeEntretien = false;
 
 function show(id){
   ["accueil","activites","metiers","risques","detail"]
   .forEach(e=>document.getElementById(e).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
+  afficherGuidage(id);
 }
 
-function priorite(g,p){
-  const s=g*p;
-  if(s>=10)return["🔴 Priorité élevée","critical"];
-  if(s>=7)return["🟠 Priorité significative","high"];
-  if(s>=4)return["🟡 Priorité modérée","mid"];
-  return["🟢 Priorité faible","low"];
+function demarrerLibre(){
+  modeEntretien=false;
+  document.getElementById("bandeau-entretien").classList.add("hidden");
+  show("activites");
 }
 
-function chargerMetiers(sec){
-  show("metiers");
-  let h="<h2>Métiers</h2>";
-  for(let m in data[sec]){
-    h+=`<button class="btn btn-primary" onclick="chargerRisques('${sec}','${m}')">${m}</button>`;
+function demarrerEntretien(){
+  modeEntretien=true;
+  document.getElementById("bandeau-entretien").classList.remove("hidden");
+  show("activites");
+}
+
+function quitterEntretien(){
+  modeEntretien=false;
+  document.getElementById("bandeau-entretien").classList.add("hidden");
+  show("accueil");
+}
+
+function afficherGuidage(page){
+  const guides={
+    activites:"Dans l’échange, commencez par situer l’activité réelle de l’entreprise.",
+    metiers:"Identifiez les métiers ou postes concernés par la discussion.",
+    risques:"Ces risques sont fréquemment rencontrés. L’objectif est d’échanger, pas de juger.",
+    detail:"Prenez du recul, valorisez l’existant et identifiez des actions possibles."
+  };
+
+  ["activites","metiers","risques","detail"].forEach(p=>{
+    const el=document.getElementById("guide-"+p);
+    if(el) el.innerHTML="";
+  });
+
+  if(modeEntretien && guides[page]){
+    document.getElementById("guide-"+page).innerHTML =
+      `<div class="info">🗣️ <strong>Échange prévention</strong><br>${guides[page]}</div>`;
   }
-  h+=`<button class="btn btn-back" onclick="show('activites')">← Retour</button>`;
-  metiers.innerHTML=h;
-}
-
-function chargerRisques(sec,m){
-  show("risques");
-  let h=`<h2>Risques – ${m}</h2>`;
-  for(let r in data[sec][m]){
-    h+=`<button class="btn btn-action" onclick="detailRisque('${sec}','${m}','${r}')">${data[sec][m][r].titre}</button>`;
-  }
-  h+=`<button class="btn btn-back" onclick="chargerMetiers('${sec}')">← Retour</button>`;
-  risques.innerHTML=h;
-}
-
-function detailRisque(sec,m,r){
-  show("detail");
-  const d=data[sec][m][r];
-  const[p,c]=priorite(d.gravite,d.probabilite);
-  let list=d.prevention.map(x=>`<div class="step">${x}</div>`).join("");
-  detail.innerHTML=`
-    <h2>${d.titre}</h2>
-    <div class="priority ${c}">${p}</div>
-    <div class="info">${d.description}</div>
-    ${list}
-    <button class="btn btn-back" onclick="chargerRisques('${sec}','${m}')">← Retour</button>
-  `;
-}
-
-function syntheseEntreprise(){
-  show("detail");
-  detail.innerHTML=`
-  <h2>Synthèse globale entreprise</h2>
-  <div class="info">
-  ✅ Des bases solides existent.<br>
-  🔴 Certaines priorités sont identifiées.<br>
-  👉 Vous pouvez avancer progressivement.
-  </div>
-  <button class="btn btn-back" onclick="show('activites')">← Retour</button>
-  `;
 }
 </script>
 
 </body>
 </html>
-
