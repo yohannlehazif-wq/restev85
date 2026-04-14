@@ -48,12 +48,13 @@ h1, h2 {
   font-size: 14px;
   margin: 15px 0;
 }
-.section {
+
+.block {
   margin-top: 10px;
 }
-.section strong {
-  display: block;
-  margin-bottom: 4px;
+.block strong {
+  display:block;
+  margin-bottom:4px;
 }
 </style>
 </head>
@@ -63,7 +64,7 @@ h1, h2 {
 <!-- ACCUEIL -->
 <div id="accueil" class="card">
   <h1>RESTEV</h1>
-  <p style="text-align:center;">Application d’aide à la prévention des risques professionnels</p>
+  <p style="text-align:center;">Aide à la prévention des risques professionnels</p>
   <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
 </div>
 
@@ -71,7 +72,7 @@ h1, h2 {
 <div id="activites" class="card" style="display:none;">
   <h2>Votre activité</h2>
   <div class="info">
-    L’objectif est d’identifier les risques pour mieux les maîtriser, pas de juger.
+    Comprendre les risques permet de respecter ses obligations tout en protégeant les salariés.
   </div>
 
   <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
@@ -81,13 +82,13 @@ h1, h2 {
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
-<!-- MÉTIERS -->
+<!-- METIERS -->
 <div id="metiers" class="card" style="display:none;"></div>
 
 <!-- RISQUES -->
 <div id="risques" class="card" style="display:none;"></div>
 
-<!-- DETAIL DU RISQUE -->
+<!-- DETAIL -->
 <div id="detail" class="card" style="display:none;"></div>
 
 <script>
@@ -96,15 +97,12 @@ const data = {
     "Ouvrier du bâtiment": {
       chute: {
         titre: "Chute de hauteur",
-        description: "Travail en hauteur sur échafaudage, toiture ou plateforme.",
-        employeur: "Mettre en place des protections collectives et former au travail en hauteur.",
+        description: "Travaux en hauteur sur échafaudage, toiture ou structure.",
+        employeur: "Mettre en place des protections collectives et organiser le travail en sécurité.",
         salarie: "Utiliser les équipements fournis et respecter les consignes.",
-      },
-      poussiere: {
-        titre: "Poussières",
-        description: "Poussières de béton ou de matériaux.",
-        employeur: "Limiter l’émission de poussières et fournir des protections respiratoires.",
-        salarie: "Porter les masques et signaler toute gêne.",
+        obligationEmployeur: "Évaluer le risque de chute, intégrer au DUERP et mettre en œuvre des mesures de prévention adaptées.",
+        obligationSalarie: "Respecter les consignes de sécurité et utiliser les équipements mis à disposition.",
+        restev: "RESTEV accompagne l’analyse du risque et la mise en place des actions adaptées."
       }
     }
   },
@@ -113,26 +111,12 @@ const data = {
     "Commercial itinérant": {
       routier: {
         titre: "Risque routier",
-        description: "Déplacements fréquents en véhicule.",
-        employeur: "Organiser les tournées et rappeler les règles de sécurité routière.",
-        salarie: "Respecter le code de la route et faire des pauses.",
-      },
-      rps: {
-        titre: "Risque psychosocial",
-        description: "Stress lié à la charge de travail ou aux objectifs.",
-        employeur: "Adapter l’organisation et favoriser le dialogue.",
-        salarie: "Exprimer les difficultés rencontrées.",
-      }
-    }
-  },
-
-  logistique: {
-    "Conducteur / Livreur": {
-      manutention: {
-        titre: "Manutention de colis",
-        description: "Port de charges répétées.",
-        employeur: "Mettre à disposition des aides mécaniques.",
-        salarie: "Utiliser les aides et adopter les bonnes postures.",
+        description: "Déplacements professionnels fréquents en véhicule.",
+        employeur: "Organiser les déplacements et sensibiliser aux règles de conduite.",
+        salarie: "Adopter une conduite prudente et signaler toute situation à risque.",
+        obligationEmployeur: "Prendre en compte le risque routier dans le DUERP et organiser le travail pour le limiter.",
+        obligationSalarie: "Respecter le code de la route et les consignes de l’entreprise.",
+        restev: "RESTEV aide à structurer la prévention du risque routier professionnel."
       }
     }
   }
@@ -140,69 +124,3 @@ const data = {
 
 function cacherTout() {
   ["accueil","activites","metiers","risques","detail"].forEach(id=>{
-    document.getElementById(id).style.display="none";
-  });
-}
-
-function entrer() {
-  cacherTout();
-  document.getElementById("activites").style.display="block";
-}
-
-function retourAccueil() {
-  cacherTout();
-  document.getElementById("accueil").style.display="block";
-}
-
-function afficherMetiers(secteur) {
-  cacherTout();
-  const zone = document.getElementById("metiers");
-  zone.style.display="block";
-
-  let html = "<h2>Métiers</h2>";
-  for (let m in data[secteur]) {
-    html += `<button class="btn btn-main" onclick="afficherRisques('${secteur}','${m}')">${m}</button>`;
-  }
-  html += `<button class="btn btn-back" onclick="entrer()">← Retour activités</button>`;
-  zone.innerHTML = html;
-}
-
-function afficherRisques(secteur, metier) {
-  cacherTout();
-  const zone = document.getElementById("risques");
-  zone.style.display="block";
-
-  let html = `<h2>Risques – ${metier}</h2>`;
-  for (let r in data[secteur][metier]) {
-    html += `<button class="btn btn-risk" onclick="afficherDetail('${secteur}','${metier}','${r}')">
-      ${data[secteur][metier][r].titre}</button>`;
-  }
-
-  html += `<button class="btn btn-back" onclick="afficherMetiers('${secteur}')">← Retour métiers</button>`;
-  zone.innerHTML = html;
-}
-
-function afficherDetail(secteur, metier, risque) {
-  cacherTout();
-  const d = data[secteur][metier][risque];
-  const zone = document.getElementById("detail");
-  zone.style.display="block";
-
-  zone.innerHTML = `
-    <h2>${d.titre}</h2>
-
-    <div class="section"><strong>Description</strong>${d.description}</div>
-    <div class="section"><strong>Employeur</strong>${d.employeur}</div>
-    <div class="section"><strong>Salarié</strong>${d.salarie}</div>
-
-    <div class="info">
-      RESTEV accompagne les entreprises pour progresser dans la prévention.
-    </div>
-
-    <button class="btn btn-back" onclick="afficherRisques('${secteur}','${metier}')">← Retour risques</button>
-  `;
-}
-</script>
-
-</body>
-</html>
