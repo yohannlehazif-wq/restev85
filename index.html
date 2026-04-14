@@ -11,15 +11,18 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff,#eef2ff);
 }
+
 .app{
   max-width:440px;
   margin:auto;
   padding:16px;
 }
+
 .header{
   text-align:center;
   margin-bottom:24px;
 }
+
 .logo{width:220px;}
 .subtitle{font-size:14px;color:#475569;}
 
@@ -30,7 +33,10 @@ body{
   box-shadow:0 8px 28px rgba(0,0,0,0.12);
 }
 
-h2,h3{color:#1e3a8a;margin-top:0;}
+h2,h3{
+  color:#1e3a8a;
+  margin-top:0;
+}
 
 .info{
   background:#eef2ff;
@@ -50,10 +56,12 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   cursor:pointer;
   margin-bottom:12px;
 }
+
 .btn-main{background:#2563eb;color:white;}
 .btn-back{background:#e5e7eb;}
 
 .risque{margin-bottom:30px;}
+
 .action{
   width:100%;
   padding:16px;
@@ -65,6 +73,7 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   text-align:left;
   cursor:pointer;
 }
+
 .action.active{
   background:#dcfce7;
   border-color:#22c55e;
@@ -84,6 +93,7 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   font-weight:700;
   text-align:center;
 }
+
 .good{background:#dcfce7;color:#166534;}
 .medium{background:#fef9c3;color:#854d0e;}
 .bad{background:#fee2e2;color:#991b1b;}
@@ -103,8 +113,7 @@ h2,h3{color:#1e3a8a;margin-top:0;}
 
 <div id="accueil" class="card">
   <div class="info">
-    Outil d’accompagnement prévention basé sur les métiers,
-    pour faire un état des lieux simple et progresser sans jugement.
+    Outil d’accompagnement prévention basé sur les métiers.
   </div>
   <button class="btn btn-main" onclick="showMetiers()">Démarrer</button>
 </div>
@@ -122,6 +131,10 @@ h2,h3{color:#1e3a8a;margin-top:0;}
 </div>
 
 <script>
+const accueil = document.getElementById("accueil");
+const metiersDiv = document.getElementById("metiers");
+const checklist = document.getElementById("checklist");
+
 const metiers = {
   macon: {
     nom:"Maçon",
@@ -135,59 +148,23 @@ const metiers = {
           "Formation travail en hauteur",
           "EPI antichute utilisés"
         ]
-      },
-      {
-        titre:"Silice cristalline (CMR)",
-        cmr:true,
-        message:"Risque CMR nécessitant une vigilance renforcée.",
-        actions:[
-          "Découpe à l’eau ou aspiration",
-          "Aspiration à la source",
-          "Information des salariés",
-          "Protections respiratoires adaptées"
-        ]
       }
     ]
   },
 
-  couvreur: {
-    nom:"Couvreur",
-    risques:[
-      {
-        titre:"Chute de hauteur",
-        actions:[
-          "Protections collectives",
-          "Accès sécurisés",
-          "Formation travail en hauteur",
-          "EPI antichute"
-        ]
-      }
-    ]
-  },
+  coureur:{}, // placeholder si besoin
 
-  menuisier: {
+  menuisier:{
     nom:"Menuisier",
     risques:[
       {
-        titre:"Machines et outils coupants",
-        actions:[
-          "Protections machines",
-          "Arrêts d’urgence",
-          "Formation machines",
-          "Consignes affichées",
-          "EPI adaptés"
-        ]
-      },
-      {
         titre:"Poussières de bois (CMR)",
         cmr:true,
-        message:"Poussières bois classées CMR – vigilance renforcée.",
+        message:"Risque CMR nécessitant une vigilance renforcée.",
         actions:[
           "Aspiration à la source",
           "Entretien aspiration",
-          "Nettoyage adapté",
-          "Information salariés",
-          "Protections respiratoires"
+          "Protection respiratoire"
         ]
       }
     ]
@@ -205,18 +182,14 @@ function showMetiers(){
   metiersDiv.classList.remove("hidden");
 }
 
-const metiersDiv = document.getElementById("metiers");
-const checklist = document.getElementById("checklist");
-const accueil = document.getElementById("accueil");
-
 function chargerMetier(id){
   const m = metiers[id];
   let html = `<h2>Métier : ${m.nom}</h2>
   <div class="info">Appuyez sur ce qui est déjà en place.</div>`;
 
   m.risques.forEach(r=>{
-    html += `<div class="risque ${r.cmr?'cmr':''}">
-      <h3>${r.cmr?'🔴':'🟠'} ${r.titre}</h3>`;
+    html+=`<div class="risque ${r.cmr?'cmr':''}">
+    <h3>${r.titre}</h3>`;
     if(r.cmr) html+=`<div class="info">${r.message}</div>`;
     r.actions.forEach(a=>{
       html+=`<button class="action">${a}</button>`;
@@ -234,23 +207,21 @@ function chargerMetier(id){
   metiersDiv.classList.add("hidden");
   checklist.classList.remove("hidden");
 
-  document.querySelectorAll(".action").forEach(b=>{
-    b.onclick=()=>b.classList.toggle("active");
-  });
+  document.querySelectorAll(".action")
+    .forEach(b=>b.onclick=()=>b.classList.toggle("active"));
 }
 
 function evaluer(){
-  const total = document.querySelectorAll(".action").length;
-  const actifs = document.querySelectorAll(".action.active").length;
-  const ratio = actifs / total;
-  const res = document.getElementById("result");
+  const total=document.querySelectorAll(".action").length;
+  const actifs=document.querySelectorAll(".action.active").length;
+  const res=document.getElementById("result");
 
-  if(ratio>=0.7){
-    res.innerHTML=`<div class="result good">✅ Prévention globalement en place</div>`;
-  }else if(ratio>=0.4){
-    res.innerHTML=`<div class="result medium">🟡 Prévention partielle</div>`;
+  if(actifs/total>=0.7){
+    res.innerHTML=`<div class="result good">Prévention en place</div>`;
+  }else if(actifs/total>=0.4){
+    res.innerHTML=`<div class="result medium">Prévention partielle</div>`;
   }else{
-    res.innerHTML=`<div class="result bad">🔴 Prévention à renforcer</div>`;
+    res.innerHTML=`<div class="result bad">Prévention à renforcer</div>`;
   }
 }
 </script>
