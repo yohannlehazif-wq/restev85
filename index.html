@@ -2,72 +2,32 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – Prévention</title>
-
+<title>RESTEV TEST</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  max-width: 450px;
-  margin: auto;
-  padding: 20px;
-  background: #f3f4f6;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin-top: 20px;
-}
-
-h1, h2 {
-  color: #2563eb;
-  text-align: center;
-}
-
-.btn {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-<button class="btn btn-main"
-onclick="console.log('clic'); entrer();">
-🚀 Entrer
-
-.btn-risk { background: #f97316; color: white; }
-.btn-back { background: #d1d5db; }
-.info {
-  background: #e0f2fe;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
+body{font-family:Arial;max-width:400px;margin:auto;padding:20px}
+.btn{width:100%;padding:15px;font-size:18px}
 </style>
 </head>
 
 <body>
 
-<!-- ✅ ACCUEIL -->
-<div id="accueil" class="card">
-  <h1>RESTEV</h1>
-  <p style="text-align:center;">Application d’aide à la prévention des risques</p>
-  <button class="btn btn-main" onclick="entrer()">🚀 Entrer</button>
+<div id="accueil">
+  <h2>RESTEV</h2>
+  <button class="btn" onclick="entrer()">Entrer</button>
 </div>
 
-<!-- ✅ ACTIVITÉS -->
-<div id="activites" class="card" style="display:none;">
-  <h2>Votre activité</h2>
-  <div class="info">
-    Identifier les risques permet d’agir progressivement et en sécurité.
-  </div>
+<div id="activites" style="display:none;">
+  <h3>Activités</h3>
+  <p>BTP – Services – Logistique</p>
+</div>
 
-  <button class="btn btn-main" onclick="afficherMetiers('btp')">BTP / Chantier</button>
-  <button class="btn btn-main" onclick="afficherMetiers('services')">Commerce & Services</button>
+<script>
+function entrer() {
+  alert("La fonction entrer() fonctionne ✅");
+  document.getElementById("accueil").style.display="none";
+  document.getElementById("activites").style.display="block";
+}
+</script>
+
+</body>
+</html>
