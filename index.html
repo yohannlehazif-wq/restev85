@@ -201,7 +201,52 @@ const metiers = {
     ]
   }
 };
-
+menuisier: {
+  nom: "Menuisier",
+  risques: [
+    {
+      titre: "Machines et outils coupants",
+      actions: [
+        "Protections des machines en place",
+        "Arrêts d’urgence fonctionnels",
+        "Formation à l’utilisation des machines",
+        "Consignes de sécurité affichées",
+        "Utilisation des EPI adaptés"
+      ]
+    },
+    {
+      titre: "Manutentions / TMS",
+      actions: [
+        "Aides à la manutention disponibles",
+        "Organisation limitant les ports manuels",
+        "Formation gestes et postures",
+        "Aménagement des postes de travail"
+      ]
+    },
+    {
+      titre: "Poussières de bois (CMR)",
+      cmr: true,
+      message: "Les poussières de bois sont classées CMR. Ce risque nécessite une vigilance renforcée, même si certaines mesures sont déjà en place.",
+      actions: [
+        "Aspiration des poussières à la source",
+        "Systèmes d’aspiration entretenus",
+        "Nettoyage adapté (aspirateur, pas de balayage à sec)",
+        "Information / sensibilisation des salariés",
+        "Protections respiratoires adaptées"
+      ]
+    },
+    {
+      titre: "Bruit",
+      actions: [
+        "Évaluation des niveaux sonores",
+        "Limitation de l’exposition",
+        "Organisation des temps de travail",
+        "Protection auditive mise à disposition"
+      ]
+    }
+  ]
+}
+``
 /* ===== NAVIGATION ===== */
 function showAccueil(){
   document.getElementById("accueil").classList.remove("hidden");
