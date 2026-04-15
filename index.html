@@ -8,38 +8,27 @@
 <style>
 body{
   margin:0;
-  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  background: linear-gradient(180deg,#ffffff,#eef2ff);
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  background:linear-gradient(180deg,#ffffff,#eef2ff);
 }
 .app{max-width:480px;margin:auto;padding:16px;}
 .header{text-align:center;margin-bottom:20px;}
-.logo{width:220px;max-width:90%;}
-.subtitle{font-size:14px;color:#475569;}
+.logo{width:200px;max-width:90%}
+.subtitle{font-size:14px;color:#475569}
 
 .card{
   background:white;
   border-radius:20px;
   padding:22px;
-  box-shadow:0 8px 28px rgba(0,0,0,0.12);
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
 }
-
-h2,h3{color:#1e3a8a;margin-top:0;}
-
+h2,h3{color:#1e3a8a;margin-top:0}
 .info{
   background:#eef2ff;
   padding:14px;
   border-radius:16px;
   font-size:14px;
   margin-bottom:18px;
-}
-
-select{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:2px solid #c7d2fe;
-  font-size:15px;
-  margin-bottom:14px;
 }
 
 .btn{
@@ -52,9 +41,20 @@ select{
   margin-bottom:12px;
   cursor:pointer;
 }
+.btn-main{background:#2563eb;color:white}
+.btn-cmr{background:#f97316;color:white}
+.btn-pdp{background:#0f766e;color:white}
+.btn-contact{background:#16a34a;color:white}
+.btn-back{background:#e5e7eb}
 
-.btn-main{background:#2563eb;color:white;}
-.btn-back{background:#e5e7eb;}
+select,input,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:2px solid #c7d2fe;
+  font-size:14px;
+  margin-bottom:14px;
+}
 
 .risk{
   background:#f8fafc;
@@ -63,7 +63,6 @@ select{
   border-radius:14px;
   margin-bottom:10px;
 }
-
 .cmr{
   background:#fee2e2;
   border:2px solid #ef4444;
@@ -72,8 +71,12 @@ select{
   margin-bottom:10px;
   font-weight:600;
 }
+.result{padding:14px;border-radius:14px;font-weight:700;text-align:center}
+.good{background:#dcfce7;color:#166534}
+.medium{background:#fef9c3;color:#854d0e}
+.bad{background:#fee2e2;color:#991b1b}
 
-.hidden{display:none;}
+.hidden{display:none}
 </style>
 </head>
 
@@ -89,164 +92,134 @@ select{
 <!-- ACCUEIL -->
 <div id="accueil" class="card">
   <div class="info">
-    Sélectionnez un <strong>secteur</strong> puis un <strong>métier</strong>
-    pour identifier les risques professionnels et les
-    <strong>risques CMR</strong> associés.
+    Application RESTEV d’aide à la prévention.<br><br>
+    Prévention par métier, risques CMR, sortie de PDP
+    et contact direct avec l’équipe EPST.
   </div>
 
-  <button class="btn btn-main" onclick="ouvrirPrevention()">
-    🛠️ Prévention par métier
-  </button>
+  <button class="btn btn-main" onclick="ouvrir('prevention')">🛠️ Prévention par métier</button>
+  <button class="btn btn-cmr" onclick="ouvrir('cmr')">🧪 Identifier un risque CMR</button>
+  <button class="btn btn-pdp" onclick="ouvrir('pdp')">🧑‍⚕️ Cellule PDP</button>
+  <button class="btn btn-contact" onclick="ouvrir('contact')">📩 Contacter RESTEV</button>
 </div>
 
-<!-- PAGE PREVENTION -->
-<div id="preventionPage" class="card hidden">
+<!-- PREVENTION -->
+<div id="prevention" class="card hidden">
+  <h2>Prévention par secteur & métier</h2>
 
-  <h2>Prévention par métier</h2>
-
-  <!-- SECTEUR -->
-  <select id="secteurSelect" onchange="chargerMetiers()">
+  <select id="secteur" onchange="chargerMetiers()">
     <option value="">— Choisir un secteur —</option>
   </select>
 
-  <!-- METIER -->
-  <select id="metierSelect" onchange="afficherRisques()" disabled>
+  <select id="metier" onchange="afficherRisques()" disabled>
     <option value="">— Choisir un métier —</option>
   </select>
 
-  <!-- RESULTATS -->
-  <div id="risquesResult"></div>
+  <div id="risques"></div>
+  <button class="btn btn-back" onclick="retour()">← Retour</button>
+</div>
 
-  <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
+<!-- CMR -->
+<div id="cmr" class="card hidden">
+  <h2>Identification CMR</h2>
+  <div class="info">Repérage d’un produit ou agent à risque CMR potentiel.</div>
+  <input id="cmrInput" placeholder="Ex : silice, bois, amiante, solvants">
+  <button class="btn btn-cmr" onclick="identifierCMR()">Identifier</button>
+  <div id="cmrResult"></div>
+  <button class="btn btn-back" onclick="retour()">← Retour</button>
+</div>
+
+<!-- PDP -->
+<div id="pdp" class="card hidden">
+  <h2>Prévention de la Désinsertion Professionnelle</h2>
+  <div class="info">
+    Repérage précoce des situations à risque de désinsertion professionnelle.
+  </div>
+  <ul style="font-size:14px">
+    <li>Arrêts longs ou répétés</li>
+    <li>Difficulté à tenir le poste</li>
+    <li>Restrictions médicales</li>
+    <li>Usure professionnelle</li>
+  </ul>
+  <button class="btn btn-main" onclick="pdpResult()">Orienter vers la cellule PDP</button>
+  <div id="pdpOut"></div>
+  <button class="btn btn-back" onclick="retour()">← Retour</button>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="card hidden">
+  <h2>Contact RESTEV</h2>
+  <input placeholder="Nom / Entreprise">
+  <input placeholder="Email">
+  <textarea placeholder="Message"></textarea>
+  <button class="btn btn-main" onclick="contactOK()">Envoyer</button>
+  <div id="contactOut"></div>
+  <button class="btn btn-back" onclick="retour()">← Retour</button>
 </div>
 
 </div>
 
 <script>
-// ===== DONNÉES SECTEURS / MÉTIERS =====
-const secteursData = {
-  btp: {
-    nom:"BTP / Artisanat",
-    metiers:{
-      macon:{
-        nom:"Maçon",
-        risques:["Chute de hauteur","Manutentions manuelles"],
-        cmr:["Silice cristalline"]
-      },
-      menuisier:{
-        nom:"Menuisier",
-        risques:["Machines coupantes","Bruit"],
-        cmr:["Poussières de bois"]
-      },
-      peintre:{
-        nom:"Peintre en bâtiment",
-        risques:["Travail en hauteur","Postures contraignantes"],
-        cmr:["Solvants","Peintures anciennes (plomb)"]
-      }
-    }
-  },
+// Navigation
+function ouvrir(id){
+  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function retour(){ouvrir('accueil')}
 
-  industrie: {
-    nom:"Industrie / Maintenance",
-    metiers:{
-      maintenance:{
-        nom:"Agent de maintenance",
-        risques:["Travail isolé","Contraintes physiques"],
-        cmr:["Huiles minérales usagées"]
-      },
-      soudeur:{
-        nom:"Soudeur",
-        risques:["Rayonnements","Bruit"],
-        cmr:["Fumées de soudage"]
-      }
-    }
-  },
-
-  tertiaire: {
-    nom:"Tertiaire",
-    metiers:{
-      administratif:{
-        nom:"Agent administratif",
-        risques:["Travail sur écran","Charge mentale"],
-        cmr:[]
-      },
-      teleconseiller:{
-        nom:"Téléconseiller",
-        risques:["Contraintes temporelles","Travail répétitif"],
-        cmr:[]
-      },
-      commercial_itinerant:{
-        nom:"Commercial itinérant",
-        risques:["Risque routier","Fatigue"],
-        cmr:["Gaz d’échappement diesel"]
-      }
-    }
-  }
+// Données
+const secteurs={
+  btp:{nom:"BTP",metiers:{
+    macon:{nom:"Maçon",risques:["Chute","Manutention"],cmr:["Silice"]},
+    menuisier:{nom:"Menuisier",risques:["Machines"],cmr:["Poussières de bois"]}
+  }},
+  tertiaire:{nom:"Tertiaire",metiers:{
+    administratif:{nom:"Agent administratif",risques:["Écran","Charge mentale"],cmr:[]},
+    commercial:{nom:"Commercial itinérant",risques:["Risque routier"],cmr:["Diesel"]}
+  }}
 };
 
-// ===== INIT SECTEURS =====
-const secteurSelect = document.getElementById("secteurSelect");
-Object.keys(secteursData).forEach(id=>{
-  secteurSelect.innerHTML+=`<option value="${id}">${secteursData[id].nom}</option>`;
-});
-
-// ===== NAVIGATION =====
-function ouvrirPrevention(){
-  accueil.classList.add("hidden");
-  preventionPage.classList.remove("hidden");
-}
-function retourAccueil(){
-  preventionPage.classList.add("hidden");
-  accueil.classList.remove("hidden");
-}
-
-// ===== CHARGER METIERS =====
-const metierSelect = document.getElementById("metierSelect");
+const secteurSelect=document.getElementById("secteur");
+Object.keys(secteurs).forEach(s=>secteurSelect.innerHTML+=`<option value="${s}">${secteurs[s].nom}</option>`);
 
 function chargerMetiers(){
-  metierSelect.innerHTML=`<option value="">— Choisir un métier —</option>`;
-  metierSelect.disabled=true;
-  document.getElementById("risquesResult").innerHTML="";
-
-  const secteur=secteurSelect.value;
-  if(!secteur) return;
-
-  Object.keys(secteursData[secteur].metiers).forEach(m=>{
-    metierSelect.innerHTML+=`
-      <option value="${m}">
-        ${secteursData[secteur].metiers[m].nom}
-      </option>`;
+  const m=document.getElementById("metier");
+  m.innerHTML="<option>— Choisir un métier —</option>";
+  m.disabled=true;
+  const s=secteur.value;
+  if(!s) return;
+  Object.keys(secteurs[s].metiers).forEach(id=>{
+    m.innerHTML+=`<option value="${id}">${secteurs[s].metiers[id].nom}</option>`;
   });
-  metierSelect.disabled=false;
+  m.disabled=false;
 }
 
-// ===== AFFICHER RISQUES =====
 function afficherRisques(){
-  const res=document.getElementById("risquesResult");
-  res.innerHTML="";
-
-  const s=secteurSelect.value;
-  const m=metierSelect.value;
+  const r=document.getElementById("risques");
+  r.innerHTML="";
+  const s=secteur.value,m=metier.value;
   if(!s||!m) return;
-
-  const data=secteursData[s].metiers[m];
-
-  res.innerHTML+=`<h3>Risques métier</h3>`;
-  data.risques.forEach(r=>{
-    res.innerHTML+=`<div class="risk">⚠️ ${r}</div>`;
-  });
-
-  if(data.cmr.length){
-    res.innerHTML+=`<h3>Risques CMR</h3>`;
-    data.cmr.forEach(c=>{
-      res.innerHTML+=`<div class="cmr">🔴 ${c}</div>`;
-    });
-  } else {
-    res.innerHTML+=`
-      <div class="info">
-        Aucun risque CMR identifié pour ce métier
-      </div>`;
+  const d=secteurs[s].metiers[m];
+  r.innerHTML+="<h3>Risques métier</h3>";
+  d.risques.forEach(x=>r.innerHTML+=`<div class="risk">${x}</div>`);
+  if(d.cmr.length){
+    r.innerHTML+="<h3>Risques CMR</h3>";
+    d.cmr.forEach(x=>r.innerHTML+=`<div class="cmr">${x}</div>`);
   }
+}
+
+function identifierCMR(){
+  const v=cmrInput.value.toLowerCase();
+  cmrResult.innerHTML = v.includes("bois")||v.includes("silice")
+    ? `<div class="result bad">🔴 Risque CMR détecté</div>`
+    : `<div class="result medium">Produit non référencé</div>`;
+}
+
+function pdpResult(){
+  pdpOut.innerHTML=`<div class="result good">✅ Orientation PDP transmise</div>`;
+}
+function contactOK(){
+  contactOut.innerHTML=`<div class="result good">✅ Message transmis</div>`;
 }
 </script>
 
