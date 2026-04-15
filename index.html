@@ -8,21 +8,23 @@
 <style>
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:linear-gradient(180deg,#ffffff,#eef2ff);
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background: linear-gradient(180deg,#ffffff,#eef2ff);
 }
 .app{max-width:480px;margin:auto;padding:16px;}
 .header{text-align:center;margin-bottom:20px;}
-.logo{width:220px;max-width:90%}
-.subtitle{font-size:14px;color:#475569}
+.logo{width:220px;max-width:90%;}
+.subtitle{font-size:14px;color:#475569;}
 
 .card{
   background:white;
   border-radius:20px;
   padding:22px;
-  box-shadow:0 8px 28px rgba(0,0,0,.12);
+  box-shadow:0 8px 28px rgba(0,0,0,0.12);
 }
+
 h2,h3{color:#1e3a8a;margin-top:0;}
+
 .info{
   background:#eef2ff;
   padding:14px;
@@ -50,6 +52,7 @@ select{
   margin-bottom:12px;
   cursor:pointer;
 }
+
 .btn-main{background:#2563eb;color:white;}
 .btn-back{background:#e5e7eb;}
 
@@ -60,6 +63,7 @@ select{
   border-radius:14px;
   margin-bottom:10px;
 }
+
 .cmr{
   background:#fee2e2;
   border:2px solid #ef4444;
@@ -68,6 +72,7 @@ select{
   margin-bottom:10px;
   font-weight:600;
 }
+
 .hidden{display:none;}
 </style>
 </head>
@@ -77,24 +82,24 @@ select{
 
 <!-- HEADER -->
 <div class="header">
-  logo.png
+  <!-- logo.png -->
   <div class="subtitle">Prévention santé au travail – EPST RESTEV</div>
 </div>
 
 <!-- ACCUEIL -->
 <div id="accueil" class="card">
   <div class="info">
-    Sélectionnez un secteur et un métier pour identifier
-    les <strong>risques professionnels</strong> et les
+    Sélectionnez un <strong>secteur</strong> puis un <strong>métier</strong>
+    pour identifier les risques professionnels et les
     <strong>risques CMR</strong> associés.
   </div>
 
   <button class="btn btn-main" onclick="ouvrirPrevention()">
-    🛠️ Prévention par secteur et métier
+    🛠️ Prévention par métier
   </button>
 </div>
 
-<!-- PREVENTION -->
+<!-- PAGE PREVENTION -->
 <div id="preventionPage" class="card hidden">
 
   <h2>Prévention par métier</h2>
@@ -140,7 +145,8 @@ const secteursData = {
       }
     }
   },
-  industrie:{
+
+  industrie: {
     nom:"Industrie / Maintenance",
     metiers:{
       maintenance:{
@@ -155,7 +161,8 @@ const secteursData = {
       }
     }
   },
-  tertiaire:{
+
+  tertiaire: {
     nom:"Tertiaire",
     metiers:{
       administratif:{
@@ -177,10 +184,10 @@ const secteursData = {
   }
 };
 
-// ===== INITIALISATION SECTEURS =====
-const secteurSelect=document.getElementById("secteurSelect");
-Object.keys(secteursData).forEach(s=>{
-  secteurSelect.innerHTML+=`<option value="${s}">${secteursData[s].nom}</option>`;
+// ===== INIT SECTEURS =====
+const secteurSelect = document.getElementById("secteurSelect");
+Object.keys(secteursData).forEach(id=>{
+  secteurSelect.innerHTML+=`<option value="${id}">${secteursData[id].nom}</option>`;
 });
 
 // ===== NAVIGATION =====
@@ -188,48 +195,57 @@ function ouvrirPrevention(){
   accueil.classList.add("hidden");
   preventionPage.classList.remove("hidden");
 }
-
 function retourAccueil(){
   preventionPage.classList.add("hidden");
   accueil.classList.remove("hidden");
 }
 
-// ===== MÉTIERS =====
-const metierSelect=document.getElementById("metierSelect");
+// ===== CHARGER METIERS =====
+const metierSelect = document.getElementById("metierSelect");
+
 function chargerMetiers(){
   metierSelect.innerHTML=`<option value="">— Choisir un métier —</option>`;
-  document.getElementById("risquesResult").innerHTML="";
   metierSelect.disabled=true;
+  document.getElementById("risquesResult").innerHTML="";
 
-  const sec=secteurSelect.value;
-  if(!sec) return;
+  const secteur=secteurSelect.value;
+  if(!secteur) return;
 
-  Object.keys(secteursData[sec].metiers).forEach(m=>{
+  Object.keys(secteursData[secteur].metiers).forEach(m=>{
     metierSelect.innerHTML+=`
-      <option value="${m}">${secteursData[sec].metiers[m].nom}</option>`;
+      <option value="${m}">
+        ${secteursData[secteur].metiers[m].nom}
+      </option>`;
   });
   metierSelect.disabled=false;
 }
 
-// ===== AFFICHAGE RISQUES =====
+// ===== AFFICHER RISQUES =====
 function afficherRisques(){
-  const r=document.getElementById("risquesResult");
-  r.innerHTML="";
+  const res=document.getElementById("risquesResult");
+  res.innerHTML="";
 
-  const sec=secteurSelect.value;
-  const met=metierSelect.value;
-  if(!sec||!met) return;
+  const s=secteurSelect.value;
+  const m=metierSelect.value;
+  if(!s||!m) return;
 
-  const data=secteursData[sec].metiers[met];
+  const data=secteursData[s].metiers[m];
 
-  r.innerHTML+=`<h3>Risques métier</h3>`;
-  data.risques.forEach(x=>r.innerHTML+=`<div class="risk">⚠️ ${x}</div>`);
+  res.innerHTML+=`<h3>Risques métier</h3>`;
+  data.risques.forEach(r=>{
+    res.innerHTML+=`<div class="risk">⚠️ ${r}</div>`;
+  });
 
   if(data.cmr.length){
-    r.innerHTML+=`<h3>Risques CMR</h3>`;
-    data.cmr.forEach(x=>r.innerHTML+=`<div class="cmr">🔴 ${x}</div>`);
-  }else{
-    r.innerHTML+=`<div class="info">Aucun risque CMR identifié pour ce métier</div>`;
+    res.innerHTML+=`<h3>Risques CMR</h3>`;
+    data.cmr.forEach(c=>{
+      res.innerHTML+=`<div class="cmr">🔴 ${c}</div>`;
+    });
+  } else {
+    res.innerHTML+=`
+      <div class="info">
+        Aucun risque CMR identifié pour ce métier
+      </div>`;
   }
 }
 </script>
