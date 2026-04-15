@@ -11,18 +11,36 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff,#eef2ff);
 }
-.app{max-width:480px;margin:auto;padding:16px;}
-.header{text-align:center;margin-bottom:20px;}
-.logo{width:200px;max-width:90%}
-.subtitle{font-size:14px;color:#475569}
+.app{
+  max-width:480px;
+  margin:auto;
+  padding:16px;
+}
 
-.card{
+/* STRUCTURE UNIQUE */
+.page{
   background:white;
   border-radius:20px;
-  padding:22px;
-  box-shadow:0 8px 28px rgba(0,0,0,.12);
+  box-shadow:0 8px 28px rgba(0,0,0,0.12);
+  display:flex;
+  flex-direction:column;
+  min-height:80vh;
 }
-h2,h3{color:#1e3a8a;margin-top:0}
+.page h2{
+  margin:0;
+  padding:20px 22px 10px;
+  color:#1e3a8a;
+}
+.page-content{
+  padding:0 22px 20px;
+  flex:1;
+}
+.page-actions{
+  padding:16px 22px;
+  border-top:1px solid #e5e7eb;
+}
+
+/* UI */
 .info{
   background:#eef2ff;
   padding:14px;
@@ -30,7 +48,6 @@ h2,h3{color:#1e3a8a;margin-top:0}
   font-size:14px;
   margin-bottom:18px;
 }
-
 .btn{
   width:100%;
   padding:16px;
@@ -41,11 +58,11 @@ h2,h3{color:#1e3a8a;margin-top:0}
   margin-bottom:12px;
   cursor:pointer;
 }
-.btn-main{background:#2563eb;color:white}
-.btn-cmr{background:#f97316;color:white}
-.btn-pdp{background:#0f766e;color:white}
-.btn-contact{background:#16a34a;color:white}
-.btn-back{background:#e5e7eb}
+.btn-main{background:#2563eb;color:white;}
+.btn-cmr{background:#f97316;color:white;}
+.btn-pdp{background:#0f766e;color:white;}
+.btn-contact{background:#16a34a;color:white;}
+.btn-back{background:#e5e7eb;}
 
 select,input,textarea{
   width:100%;
@@ -71,155 +88,185 @@ select,input,textarea{
   margin-bottom:10px;
   font-weight:600;
 }
-.result{padding:14px;border-radius:14px;font-weight:700;text-align:center}
-.good{background:#dcfce7;color:#166534}
-.medium{background:#fef9c3;color:#854d0e}
-.bad{background:#fee2e2;color:#991b1b}
 
-.hidden{display:none}
+.result{
+  padding:14px;
+  border-radius:14px;
+  font-weight:700;
+  text-align:center;
+}
+.good{background:#dcfce7;color:#166534;}
+.medium{background:#fef9c3;color:#854d0e;}
+.bad{background:#fee2e2;color:#991b1b;}
+
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
 <div class="app">
 
-<!-- HEADER -->
-<div class="header">
-  <!-- logo.png -->
-  <div class="subtitle">Prévention santé au travail – EPST RESTEV</div>
-</div>
-
 <!-- ACCUEIL -->
-<div id="accueil" class="card">
-  <div class="info">
-    Application RESTEV d’aide à la prévention.<br><br>
-    Prévention par métier, risques CMR, sortie de PDP
-    et contact direct avec l’équipe EPST.
+<div id="accueil" class="page">
+  <h2>RESTEV – Application prévention</h2>
+  <div class="page-content">
+    <div class="info">
+      Outil d’aide à la prévention et à la santé au travail.<br><br>
+      Il permet :
+      <ul>
+        <li>d’identifier les risques professionnels par métier</li>
+        <li>de repérer les expositions CMR</li>
+        <li>de prévenir la désinsertion professionnelle</li>
+        <li>de déclencher l’accompagnement EPST RESTEV</li>
+      </ul>
+    </div>
   </div>
-
-  <button class="btn btn-main" onclick="ouvrir('prevention')">🛠️ Prévention par métier</button>
-  <button class="btn btn-cmr" onclick="ouvrir('cmr')">🧪 Identifier un risque CMR</button>
-  <button class="btn btn-pdp" onclick="ouvrir('pdp')">🧑‍⚕️ Cellule PDP</button>
-  <button class="btn btn-contact" onclick="ouvrir('contact')">📩 Contacter RESTEV</button>
+  <div class="page-actions">
+    <button class="btn btn-main" onclick="ouvrir('prevention')">🛠️ Prévention par métier</button>
+    <button class="btn btn-cmr" onclick="ouvrir('cmr')">🧪 Identifier un risque CMR</button>
+    <button class="btn btn-pdp" onclick="ouvrir('pdp')">🧑‍⚕️ Cellule PDP</button>
+    <button class="btn btn-contact" onclick="ouvrir('contact')">📩 Contacter RESTEV</button>
+  </div>
 </div>
 
 <!-- PREVENTION -->
-<div id="prevention" class="card hidden">
-  <h2>Prévention par secteur & métier</h2>
+<div id="prevention" class="page hidden">
+  <h2>Prévention par métier</h2>
+  <div class="page-content">
+    <div class="info">
+      Sélectionnez un secteur et un métier pour identifier
+      les risques professionnels associés, y compris les risques CMR.
+    </div>
 
-  <select id="secteur" onchange="chargerMetiers()">
-    <option value="">— Choisir un secteur —</option>
-  </select>
+    <select id="secteur" onchange="chargerMetiers()">
+      <option value="">— Choisir un secteur —</option>
+      <option value="btp">BTP / Artisanat</option>
+      <option value="tertiaire">Tertiaire</option>
+    </select>
 
-  <select id="metier" onchange="afficherRisques()" disabled>
-    <option value="">— Choisir un métier —</option>
-  </select>
+    <select id="metier" onchange="afficherRisques()" disabled>
+      <option value="">— Choisir un métier —</option>
+    </select>
 
-  <div id="risques"></div>
-  <button class="btn btn-back" onclick="retour()">← Retour</button>
+    <div id="risques"></div>
+  </div>
+  <div class="page-actions">
+    <button class="btn btn-back" onclick="retour()">← Retour</button>
+  </div>
 </div>
 
 <!-- CMR -->
-<div id="cmr" class="card hidden">
+<div id="cmr" class="page hidden">
   <h2>Identification CMR</h2>
-  <div class="info">Repérage d’un produit ou agent à risque CMR potentiel.</div>
-  <input id="cmrInput" placeholder="Ex : silice, bois, amiante, solvants">
-  <button class="btn btn-cmr" onclick="identifierCMR()">Identifier</button>
-  <div id="cmrResult"></div>
-  <button class="btn btn-back" onclick="retour()">← Retour</button>
+  <div class="page-content">
+    <div class="info">
+      Repérage pédagogique d’un risque CMR potentiel.
+      Cet outil ne remplace pas l’analyse réglementaire,
+      il permet d’orienter vers l’EPST.
+    </div>
+
+    <input id="cmrInput" placeholder="Ex : silice, poussières de bois, solvants…">
+    <button class="btn btn-cmr" onclick="identifierCMR()">Identifier</button>
+
+    <div id="cmrResult"></div>
+  </div>
+  <div class="page-actions">
+    <button class="btn btn-back" onclick="retour()">← Retour</button>
+  </div>
 </div>
 
 <!-- PDP -->
-<div id="pdp" class="card hidden">
-  <h2>Prévention de la Désinsertion Professionnelle</h2>
-  <div class="info">
-    Repérage précoce des situations à risque de désinsertion professionnelle.
+<div id="pdp" class="page hidden">
+  <h2>Prévention de la désinsertion professionnelle</h2>
+  <div class="page-content">
+    <div class="info">
+      La PDP vise à prévenir les ruptures de parcours professionnel
+      avant toute situation d’inaptitude.
+    </div>
+    <ul>
+      <li>Arrêts de travail longs ou répétés</li>
+      <li>Difficulté à tenir le poste</li>
+      <li>Usure professionnelle</li>
+      <li>Restrictions médicales</li>
+    </ul>
+
+    <button class="btn btn-main" onclick="pdpResult()">Orienter vers la cellule PDP</button>
+    <div id="pdpOut"></div>
   </div>
-  <ul style="font-size:14px">
-    <li>Arrêts longs ou répétés</li>
-    <li>Difficulté à tenir le poste</li>
-    <li>Restrictions médicales</li>
-    <li>Usure professionnelle</li>
-  </ul>
-  <button class="btn btn-main" onclick="pdpResult()">Orienter vers la cellule PDP</button>
-  <div id="pdpOut"></div>
-  <button class="btn btn-back" onclick="retour()">← Retour</button>
+  <div class="page-actions">
+    <button class="btn btn-back" onclick="retour()">← Retour</button>
+  </div>
 </div>
 
 <!-- CONTACT -->
-<div id="contact" class="card hidden">
-  <h2>Contact RESTEV</h2>
-  <input placeholder="Nom / Entreprise">
-  <input placeholder="Email">
-  <textarea placeholder="Message"></textarea>
-  <button class="btn btn-main" onclick="contactOK()">Envoyer</button>
-  <div id="contactOut"></div>
-  <button class="btn btn-back" onclick="retour()">← Retour</button>
+<div id="contact" class="page hidden">
+  <h2>Contacter RESTEV</h2>
+  <div class="page-content">
+    <div class="info">
+      Pour toute question liée à la prévention,
+      aux risques CMR ou à la PDP, vous pouvez contacter RESTEV.
+    </div>
+
+    <input placeholder="Nom / Entreprise">
+    <input placeholder="Email">
+    <textarea placeholder="Votre message"></textarea>
+
+    <button class="btn btn-main" onclick="contactOK()">Envoyer la demande</button>
+    <div id="contactOut"></div>
+  </div>
+  <div class="page-actions">
+    <button class="btn btn-back" onclick="retour()">← Retour</button>
+  </div>
 </div>
 
 </div>
 
 <script>
-// Navigation
 function ouvrir(id){
-  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
 function retour(){ouvrir('accueil')}
 
-// Données
-const secteurs={
-  btp:{nom:"BTP",metiers:{
-    macon:{nom:"Maçon",risques:["Chute","Manutention"],cmr:["Silice"]},
-    menuisier:{nom:"Menuisier",risques:["Machines"],cmr:["Poussières de bois"]}
-  }},
-  tertiaire:{nom:"Tertiaire",metiers:{
-    administratif:{nom:"Agent administratif",risques:["Écran","Charge mentale"],cmr:[]},
-    commercial:{nom:"Commercial itinérant",risques:["Risque routier"],cmr:["Diesel"]}
-  }}
-};
-
-const secteurSelect=document.getElementById("secteur");
-Object.keys(secteurs).forEach(s=>secteurSelect.innerHTML+=`<option value="${s}">${secteurs[s].nom}</option>`);
-
 function chargerMetiers(){
-  const m=document.getElementById("metier");
-  m.innerHTML="<option>— Choisir un métier —</option>";
-  m.disabled=true;
-  const s=secteur.value;
-  if(!s) return;
-  Object.keys(secteurs[s].metiers).forEach(id=>{
-    m.innerHTML+=`<option value="${id}">${secteurs[s].metiers[id].nom}</option>`;
-  });
-  m.disabled=false;
+  metier.innerHTML="<option>— Choisir un métier —</option>";
+  metier.disabled=true;
+
+  if(secteur.value==="btp"){
+    metier.innerHTML+=`<option value="macon">Maçon</option>`;
+    metier.innerHTML+=`<option value="menuisier">Menuisier</option>`;
+  }
+  if(secteur.value==="tertiaire"){
+    metier.innerHTML+=`<option value="admin">Agent administratif</option>`;
+    metier.innerHTML+=`<option value="commercial">Commercial itinérant</option>`;
+  }
+  metier.disabled=false;
 }
 
 function afficherRisques(){
-  const r=document.getElementById("risques");
-  r.innerHTML="";
-  const s=secteur.value,m=metier.value;
-  if(!s||!m) return;
-  const d=secteurs[s].metiers[m];
-  r.innerHTML+="<h3>Risques métier</h3>";
-  d.risques.forEach(x=>r.innerHTML+=`<div class="risk">${x}</div>`);
-  if(d.cmr.length){
-    r.innerHTML+="<h3>Risques CMR</h3>";
-    d.cmr.forEach(x=>r.innerHTML+=`<div class="cmr">${x}</div>`);
+  risques.innerHTML="";
+  if(metier.value==="macon"){
+    risques.innerHTML+=`<div class="risk">Chute de hauteur</div>`;
+    risques.innerHTML+=`<div class="cmr">🔴 Silice cristalline</div>`;
+  }
+  if(metier.value==="admin"){
+    risques.innerHTML+=`<div class="risk">Travail sur écran</div>`;
+    risques.innerHTML+=`<div class="risk">Charge mentale</div>`;
   }
 }
 
 function identifierCMR(){
   const v=cmrInput.value.toLowerCase();
-  cmrResult.innerHTML = v.includes("bois")||v.includes("silice")
-    ? `<div class="result bad">🔴 Risque CMR détecté</div>`
-    : `<div class="result medium">Produit non référencé</div>`;
+  cmrResult.innerHTML = v.includes("silice")||v.includes("bois")
+    ? `<div class="result bad">🔴 Risque CMR potentiel identifié – EPST recommandé</div>`
+    : `<div class="result medium">Produit non référencé – vigilance recommandée</div>`;
 }
 
 function pdpResult(){
   pdpOut.innerHTML=`<div class="result good">✅ Orientation PDP transmise</div>`;
 }
 function contactOK(){
-  contactOut.innerHTML=`<div class="result good">✅ Message transmis</div>`;
+  contactOut.innerHTML=`<div class="result good">✅ Message transmis – RESTEV vous recontactera</div>`;
 }
 </script>
 
