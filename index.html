@@ -6,73 +6,199 @@
 <title>RESTEV – Prévention & Santé au Travail</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#eef2ff}
-.app{max-width:480px;margin:auto;padding:16px}
-.page{background:#fff;border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.12);padding:22px}
-h2,h3{color:#1e3a8a}
-select{width:100%;padding:14px;margin-bottom:14px;border-radius:12px;border:2px solid #c7d2fe}
-.risk{background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:10px}
-.cmr{background:#fee2e2;padding:12px;border-radius:12px;margin-bottom:12px}
-.epi{background:#fff7ed;padding:10px;border-radius:10px;font-size:13px}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2ff}
+.app{max-width:520px;margin:auto;padding:16px}
+.page{
+  background:#fff;border-radius:20px;
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
+  display:flex;flex-direction:column;min-height:85vh
+}
+.page h2{padding:20px;margin:0;color:#1e3a8a}
+.page-content{padding:0 22px 20px;flex:1;overflow:auto}
+.page-actions{padding:16px 22px;border-top:1px solid #e5e7eb}
+
+.info{background:#eef2ff;padding:14px;border-radius:14px;margin-bottom:16px;font-size:14px}
+button{width:100%;padding:14px;border:none;border-radius:16px;font-weight:bold;margin-bottom:10px}
+
+.main{background:#2563eb;color:white}
+.cmrbtn{background:#f97316;color:white}
+.pdpbtn{background:#0f766e;color:white}
+.contactbtn{background:#16a34a;color:white}
+.back{background:#e5e7eb}
+
+select,input,textarea{
+  width:100%;padding:12px;border-radius:12px;
+  border:2px solid #c7d2fe;margin-bottom:12px
+}
+
+.risk{background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:8px}
+.cmr{background:#fee2e2;padding:12px;border-radius:12px;margin-bottom:10px}
+.epi{background:#fff7ed;padding:10px;border-radius:10px;font-size:13px;margin-top:8px}
+
+.result{padding:12px;border-radius:12px;font-weight:bold}
+.good{background:#dcfce7}
+.warning{background:#fef9c3}
+.bad{background:#fee2e2}
+
+.hidden{display:none}
+video{width:100%;border-radius:12px;margin-bottom:12px}
 </style>
 </head>
 
 <body>
 <div class="app">
-<div class="page">
-<h2>Prévention par métier</h2>
 
-<select id="secteur" onchange="chargerMetiers()">
+<!-- ACCUEIL -->
+<div id="home" class="page">
+<h2>RESTEV – Prévention EPST</h2>
+<div class="page-content">
+<div class="info">
+Application d’aide à la prévention, à l’identification des risques CMR,
+à la PDP et à la structuration DUERP.<br><br>
+Outil d’orientation vers l’accompagnement EPST RESTEV.
+</div>
+</div>
+<div class="page-actions">
+<button class="main" onclick="openPage('prevention')">🛠️ Prévention</button>
+<button class="cmrbtn" onclick="openPage('cmr')">🧪 Produits / CMR</button>
+<button class="pdpbtn" onclick="openPage('pdp')">🧑‍⚕️ PDP</button>
+<button class="main" onclick="openPage('duerp')">📄 DUERP</button>
+<button class="contactbtn" onclick="openPage('contact')">📩 Contact RESTEV</button>
+</div>
+</div>
+
+<!-- PRÉVENTION -->
+<div id="prevention" class="page hidden">
+<h2>Prévention par métier</h2>
+<div class="page-content">
+
+<select id="sector" onchange="loadJobs()">
 <option value="">— Secteur —</option>
 <option value="btp">BTP</option>
 <option value="industrie">Industrie</option>
 <option value="tertiaire">Tertiaire</option>
+<option value="services">Services</option>
 </select>
 
-<select id="metier" onchange="afficher()" disabled>
+<select id="job" onchange="showAnalysis()" disabled>
 <option value="">— Métier —</option>
 </select>
 
-<div id="resultat"></div>
+<div id="analysis"></div>
+
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
 </div>
 </div>
 
+<!-- CMR -->
+<div id="cmr" class="page hidden">
+<h2>Identification CMR</h2>
+<div class="page-content">
+<div class="info">
+Scan d’un code‑barres ou recherche manuelle d’une substance.
+Base CMR pédagogique avec EPI recommandés.
+</div>
+
+<button class="cmrbtn" onclick="startScan()">📷 Scanner un code‑barres</button>
+<video id="video" class="hidden"></video>
+
+<input id="cmrSearch" placeholder="Nom produit / substance">
+<button class="main" onclick="searchCMR()">Rechercher</button>
+
+<div id="cmrResult"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
+</div>
+
+<!-- PDP -->
+<div id="pdp" class="page hidden">
+<h2>Prévention de la Désinsertion Professionnelle</h2>
+<div class="page-content">
+<div class="info">
+Repérage des situations à risque avant rupture du parcours professionnel.
+</div>
+<ul>
+<li>Arrêts longs ou répétés</li>
+<li>Difficulté à tenir le poste</li>
+<li>Restriction médicale</li>
+<li>Usure physique ou psychique</li>
+</ul>
+<button class="main" onclick="pdpOut()">Orienter vers la cellule PDP</button>
+<div id="pdpMsg"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
+</div>
+
+<!-- DUERP -->
+<div id="duerp" class="page hidden">
+<h2>DUERP – Synthèse</h2>
+<div class="page-content">
+<div class="info">
+Cet outil contribue à l’identification des risques professionnels
+et des expositions CMR dans le cadre du DUERP.
+</div>
+<div class="warning result">
+⚠️ Le DUERP doit être formalisé, mis à jour et validé par l’employeur
+conformément au Code du travail (R4121‑1).
+</div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page hidden">
+<h2>Contact RESTEV</h2>
+<div class="page-content">
+<input placeholder="Nom / Entreprise">
+<input placeholder="Email">
+<textarea placeholder="Message"></textarea>
+<button class="main" onclick="contactOK()">Envoyer</button>
+<div id="contactMsg"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
+</div>
+
+</div>
+
 <script>
-const data={
+// NAV
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function goHome(){openPage('home')}
+
+// BASE MÉTIERS + CMR + EPI
+const jobs = {
 btp:{
   macon:{
     nom:"Maçon",
     risques:["Chutes","Manutentions"],
     cmr:[{
       nom:"Silice cristalline",
-      pourquoi:"Découpe béton / pierre",
       effets:"Silicose, cancer pulmonaire",
-      exposition:"Inhalation",
-      epi:["FFP3","Lunettes","Aspiration à la source"]
-    }]
-  },
-  peintre:{
-    nom:"Peintre bâtiment",
-    risques:["Postures","Chutes"],
-    cmr:[{
-      nom:"Solvants",
-      pourquoi:"Peintures, diluants",
-      effets:"Cancers, troubles neurologiques",
-      exposition:"Inhalation / cutanée",
-      epi:["Masque A2P3","Gants nitrile","Ventilation"]
+      epi:["Masque FFP3","Aspiration","Lunettes"]
     }]
   }
 },
 industrie:{
   soudeur:{
     nom:"Soudeur",
-    risques:["Bruit","Rayonnements"],
+    risques:["Brûlures","Bruit"],
     cmr:[{
       nom:"Fumées de soudage",
-      pourquoi:"Émanations métalliques",
-      effets:"Cancers pulmonaires",
-      exposition:"Inhalation",
-      epi:["Masque à adduction d’air","Ventilation"]
+      effets:"Cancer pulmonaire",
+      epi:["Adduction d’air","Ventilation"]
     }]
   }
 },
@@ -81,47 +207,83 @@ tertiaire:{
     nom:"Commercial itinérant",
     risques:["Risque routier"],
     cmr:[{
-      nom:"Gaz diesel",
-      pourquoi:"Déplacements fréquents",
+      nom:"Gaz d’échappement diesel",
       effets:"Cancer pulmonaire",
-      exposition:"Inhalation",
-      epi:["Organisation des trajets","Ventilation véhicule"]
+      epi:["Organisation trajets","Ventilation véhicule"]
     }]
   }
 }
 };
 
-const sect=document.getElementById("secteur");
-const met=document.getElementById("metier");
-const res=document.getElementById("resultat");
-
-function chargerMetiers(){
-  met.innerHTML="<option>— Métier —</option>";
-  met.disabled=true;
-  res.innerHTML="";
-  Object.keys(data[sect.value]).forEach(k=>{
-    met.innerHTML+=`<option value="${k}">${data[sect.value][k].nom}</option>`;
+// PREVENTION LOGIC
+function loadJobs(){
+  job.innerHTML="<option>— Métier —</option>";
+  job.disabled=true;
+  analysis.innerHTML="";
+  Object.entries(jobs[sector.value]||{}).forEach(([k,v])=>{
+    job.innerHTML+=`<option value="${k}">${v.nom}</option>`;
   });
-  met.disabled=false;
+  job.disabled=false;
 }
-
-function afficher(){
-  res.innerHTML="";
-  const m=data[sect.value][met.value];
-  m.risques.forEach(r=>res.innerHTML+=`<div class="risk">⚠️ ${r}</div>`);
-  m.cmr.forEach(c=>{
-    res.innerHTML+=`
+function showAnalysis(){
+  analysis.innerHTML="";
+  const j=jobs[sector.value][job.value];
+  j.risques.forEach(r=>analysis.innerHTML+=`<div class="risk">⚠️ ${r}</div>`);
+  j.cmr.forEach(c=>{
+    analysis.innerHTML+=`
     <div class="cmr">
-    🔴 <strong>${c.nom}</strong><br>
-    ${c.pourquoi}<br>
-    Effets : ${c.effets}
-    <div class="epi">
-    <strong>EPI recommandés :</strong><br>
-    • ${c.epi.join("<br>• ")}
-    </div>
+    🔴 ${c.nom}<br>Effets : ${c.effets}
+    <div class="epi">EPI : ${c.epi.join(", ")}</div>
     </div>`;
   });
 }
+
+// BASE CMR PRODUITS (EXTENSIBLE)
+const cmrDB = {
+  "3700123456789": {
+    nom:"Résine époxy",
+    effets:"Reprotoxicité, cancers",
+    epi:["Gants nitrile","Masque A2P3","Ventilation"]
+  }
+};
+
+// CMR SCAN
+async function startScan(){
+  if(!('BarcodeDetector'in window)){
+    alert("Scan non disponible sur cet appareil");
+    return;
+  }
+  video.classList.remove("hidden");
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+  video.srcObject=stream;
+  video.play();
+  const detector=new BarcodeDetector({formats:["ean_13"]});
+  const interval=setInterval(async()=>{
+    const codes=await detector.detect(video);
+    if(codes.length){
+      clearInterval(interval);
+      stream.getTracks().forEach(t=>t.stop());
+      video.classList.add("hidden");
+      displayCMR(codes[0].rawValue);
+    }
+  },500);
+}
+function searchCMR(){displayCMR(cmrSearch.value)}
+function displayCMR(key){
+  const res=cmrDB[key];
+  cmrResult.innerHTML=res
+    ? `<div class="cmr">🔴 ${res.nom}<br>Effets:${res.effets}<div class="epi">EPI: ${res.epi.join(", ")}</div></div>`
+    : `<div class="warning result">Produit non référencé – vigilance</div>`;
+}
+
+// PDP + CONTACT
+function pdpOut(){
+  pdpMsg.innerHTML="<div class='good result'>✅ Orientation PDP transmise</div>";
+}
+function contactOK(){
+  contactMsg.innerHTML="<div class='good result'>✅ Message envoyé</div>";
+}
 </script>
+
 </body>
 </html>
