@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Accompagnement prévention</title>
+<title>RESTEV – Identification CMR</title>
 
 <style>
 body{
@@ -20,39 +20,28 @@ body{
 
 .header{
   text-align:center;
-  margin-bottom:24px;
+  margin-bottom:20px;
 }
 
 .logo{
-  width:220px;
+  width:200px;
   max-width:90%;
-  height:auto;
-  margin-bottom:8px;
-}
-
-.subtitle{
-  font-size:14px;
-  color:#475569;
 }
 
 .card{
-  background:white;
+  background:#ffffff;
   border-radius:20px;
-  padding:22px;
+  padding:20px;
   box-shadow:0 8px 28px rgba(0,0,0,0.12);
 }
 
-h2,h3{
-  color:#1e3a8a;
-  margin-top:0;
-}
-
 .info{
-  background:#eef2ff;
-  padding:14px;
+  background:#fff7ed;
+  border:2px solid #f97316;
   border-radius:16px;
+  padding:14px;
   font-size:14px;
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
 
 .btn{
@@ -66,48 +55,19 @@ h2,h3{
   margin-bottom:12px;
 }
 
-.btn-main{background:#2563eb;color:white;}
-.btn-back{background:#e5e7eb;}
-
-.risque{margin-bottom:30px;}
-
-.action{
-  width:100%;
-  padding:16px;
-  border-radius:16px;
-  border:2px solid #c7d2fe;
-  background:#f8fafc;
-  margin-bottom:10px;
-  font-size:15px;
-  text-align:left;
-  cursor:pointer;
-}
-
-.action.active{
-  background:#dcfce7;
-  border-color:#22c55e;
-  font-weight:600;
-}
-
-.cmr{
-  background:#fff7ed;
-  border:2px solid #f97316;
-  border-radius:18px;
-  padding:18px;
+.btn-main{
+  background:#2563eb;
+  color:white;
 }
 
 .result{
+  margin-top:20px;
   padding:18px;
   border-radius:18px;
   font-weight:700;
-  text-align:center;
+  background:#fee2e2;
+  color:#991b1b;
 }
-
-.good{background:#dcfce7;color:#166534;}
-.medium{background:#fef9c3;color:#854d0e;}
-.bad{background:#fee2e2;color:#991b1b;}
-
-.hidden{display:none;}
 </style>
 </head>
 
@@ -117,127 +77,79 @@ h2,h3{
 
 <div class="header">
   <img src="logo.png" class="logo" alt="RESTEV">
-  <div class="subtitle">
-    Prévention santé au travail – Accompagnement EPST RESTEV
-  </div>
 </div>
 
-<!-- ACCUEIL -->
-<div id="accueil" class="card">
-  <div class="info">
-    Cette application aide les entreprises à :
-    <ul>
-      <li>faire un <strong>état des lieux prévention</strong> par métier</li>
-      <li>identifier les <strong>risques prioritaires</strong></li>
-      <li>être orientées vers le <strong>bon accompagnement RESTEV</strong></li>
-    </ul>
-    Sans audit, sans jugement.
-  </div>
-  <button class="btn btn-main" id="btnStart">Démarrer</button>
+<div class="card">
+
+<h2>Identification produit CMR</h2>
+
+<div class="info">
+  Cette page permet d’identifier un produit ou un matériau
+  contenant potentiellement des substances <strong>CMR</strong>.<br><br>
+  Le scan sert à <strong>alerter et orienter</strong>,
+  et ne remplace pas une analyse EPST.
 </div>
 
-<!-- MÉTIERS -->
-<div id="metiers" class="card hidden">
-  <h2>Choisir un métier</h2>
-  <button class="btn btn-main" data-metier="macon">Maçon</button>
-  <button class="btn btn-main" data-metier="couvreur">Couvreur</button>
-  <button class="btn btn-main" data-metier="menuisier">Menuisier</button>
-  <button class="btn btn-back" id="backAccueil">← Retour</button>
+<button class="btn btn-main" onclick="scannerCode()">
+  📷 Scanner un code‑barres
+</button>
+
+<div id="scanResult"></div>
+
 </div>
-
-<!-- CHECKLIST -->
-<div id="checklist" class="card hidden"></div>
-
 </div>
 
 <script>
-const accueil = document.getElementById("accueil");
-const metiersDiv = document.getElementById("metiers");
-const checklist = document.getElementById("checklist");
+async function scannerCode(){
+  const resultDiv = document.getElementById("scanResult");
 
-const metiers = {
-  macon:{
-    nom:"Maçon",
-    risques:[
-      {titre:"Chute de hauteur",actions:["Échafaudages","Garde‑corps","Accès sécurisés","Formation","EPI"]},
-      {titre:"Silice cristalline (CMR)",cmr:true,message:"Risque CMR – vigilance renforcée.",actions:["Découpe à l’eau","Aspiration","Information","Protection respiratoire"]}
-    ]
-  },
-  couvreur:{
-    nom:"Couvreur",
-    risques:[
-      {titre:"Chute de hauteur",actions:["Protections collectives","Accès toiture","Formation","EPI antichute"]}
-    ]
-  },
-  menuisier:{
-    nom:"Menuisier",
-    risques:[
-      {titre:"Machines coupantes",actions:["Protections","Arrêts d’urgence","Formation","Consignes","EPI"]},
-      {titre:"Poussières de bois (CMR)",cmr:true,message:"Poussières bois classées CMR.",actions:["Aspiration","Entretien","Nettoyage adapté","Information","Protection respiratoire"]}
-    ]
+  if(!('BarcodeDetector' in window)){
+    resultDiv.innerHTML = `
+      <div class="result">
+        📱 Le scan automatique n’est pas disponible sur ce navigateur.<br><br>
+        ➜ Utilisez un appareil Android/Chrome<br>
+        ➜ Ou contactez RESTEV pour un accompagnement EPST.
+      </div>`;
+    return;
   }
-};
 
-document.getElementById("btnStart").onclick=()=>{
-  accueil.classList.add("hidden");
-  metiersDiv.classList.remove("hidden");
-};
+  try{
+    const detector = new BarcodeDetector();
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    const video = document.createElement("video");
+    video.srcObject = stream;
+    await video.play();
 
-document.getElementById("backAccueil").onclick=()=>{
-  metiersDiv.classList.add("hidden");
-  accueil.classList.remove("hidden");
-};
+    const codes = await detector.detect(video);
 
-document.querySelectorAll("[data-metier]").forEach(b=>{
-  b.onclick=()=>ouvrirMetier(b.dataset.metier);
-});
+    stream.getTracks().forEach(track => track.stop());
 
-function ouvrirMetier(id){
-  const m = metiers[id];
-  let html=`<h2>Métier : ${m.nom}</h2><div class="info">Appuyez sur ce qui est déjà en place.</div>`;
+    if(codes.length > 0){
+      resultDiv.innerHTML = `
+        <div class="result">
+          🔴 Produit détecté – vigilance CMR<br><br>
+          Code : <strong>${codes[0].rawValue}</strong><br><br>
 
-  m.risques.forEach(r=>{
-    html+=`<div class="risque ${r.cmr?'cmr':''}">
-    <h3>${r.titre}</h3>`;
-    if(r.cmr) html+=`<div class="info">${r.message}</div>`;
-    r.actions.forEach(a=>html+=`<button class="action">${a}</button>`);
-    html+=`</div>`;
-  });
+          ⚕️ <strong>Accompagnement recommandé :</strong><br>
+          Médecin du travail + Prévention RESTEV
+        </div>`;
+    } else {
+      resultDiv.innerHTML = `
+        <div class="result">
+          Aucun code détecté.<br>
+          Réessayez ou contactez RESTEV.
+        </div>`;
+    }
 
-  html+=`
-    <button class="btn btn-main" id="btnSynthese">Voir la synthèse</button>
-    <div id="result"></div>
-    <button class="btn btn-back" id="backMetiers">← Retour</button>
-  `;
-
-  checklist.innerHTML=html;
-  metiersDiv.classList.add("hidden");
-  checklist.classList.remove("hidden");
-
-  checklist.querySelectorAll(".action").forEach(b=>b.onclick=()=>b.classList.toggle("active"));
-  document.getElementById("btnSynthese").onclick=evaluation;
-  document.getElementById("backMetiers").onclick=()=>{
-    checklist.classList.add("hidden");
-    metiersDiv.classList.remove("hidden");
-  };
-}
-
-function evaluation(){
-  const actions=checklist.querySelectorAll(".action").length;
-  const actifs=checklist.querySelectorAll(".action.active").length;
-  const ratio=actifs/actions;
-  const r=document.getElementById("result");
-
-  if(ratio>=0.7){
-    r.innerHTML=`<div class="result good">Prévention globalement en place<br><br>Appui : technicien / infirmier</div>`;
-  }else if(ratio>=0.4){
-    r.innerHTML=`<div class="result medium">Prévention partielle<br><br>Appui recommandé : technicien / ergonome</div>`;
-  }else{
-    r.innerHTML=`<div class="result bad">Prévention à renforcer<br><br>Accompagnement conseillé : médecin / ingénieur / prévention</div>`;
+  } catch(e){
+    resultDiv.innerHTML = `
+      <div class="result">
+        Erreur lors du scan caméra.<br>
+        Contactez RESTEV.
+      </div>`;
   }
 }
 </script>
 
 </body>
 </html>
-``
