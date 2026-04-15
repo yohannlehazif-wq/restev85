@@ -261,7 +261,184 @@ const produitsCMR=[
   {barcode:"3700123456789",nom:"Colle à bois",orientation:"Médecin + Prévention"},
   {barcode:"3228881234567",nom:"Résine époxy",orientation:"Médecin + Ingénieur"}
 ];
+const baseCMR = [
 
+/* =========================
+   POUSSIÈRES & PROCÉDÉS
+========================= */
+
+{
+  id: "poussieres_bois",
+  ean: [],
+  nom: "Poussières de bois",
+  famille: "Poussières – Procédés",
+  cmr: true,
+  justification: "Cancérogène avéré (cancers naso-sinusiens)",
+  epst: ["Médecin du travail", "Ingénieur prévention"]
+},
+
+{
+  id: "silice_cristalline",
+  ean: [],
+  nom: "Silice cristalline (quartz)",
+  famille: "Poussières – Minéraux",
+  cmr: true,
+  justification: "Cancérogène – silicose et cancers pulmonaires",
+  epst: ["Médecin du travail", "Ingénieur prévention"]
+},
+
+{
+  id: "amiante",
+  ean: [],
+  nom: "Amiante",
+  famille: "Fibres minérales",
+  cmr: true,
+  justification: "Cancérogène avéré (mésothéliome, cancers)",
+  epst: ["Médecin du travail", "Ingénieur prévention"]
+},
+
+/* =========================
+   SOLVANTS & PRODUITS CHIMIQUES
+========================= */
+
+{
+  id: "benzene",
+  ean: [],
+  nom: "Benzène",
+  famille: "Solvants aromatiques",
+  cmr: true,
+  justification: "Cancérogène – leucémies",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+{
+  id: "formaldehyde",
+  ean: [],
+  nom: "Formaldéhyde",
+  famille: "Aldéhydes",
+  cmr: true,
+  justification: "Cancérogène – voies respiratoires",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+{
+  id: "dichloromethane",
+  ean: [],
+  nom: "Dichlorométhane",
+  famille: "Solvants chlorés",
+  cmr: true,
+  justification: "Cancérogène suspecté / confirmé",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+/* =========================
+   RÉNINES – COLLES – PEINTURES
+========================= */
+
+{
+  id: "resine_epoxy",
+  ean: ["3228881234567"],
+  nom: "Résine époxy",
+  famille: "Résines / colles",
+  cmr: true,
+  justification: "Substances reprotoxiques / sensibilisantes",
+  epst: ["Médecin du travail", "Ingénieur prévention"]
+},
+
+{
+  id: "colle_bois",
+  ean: ["3700123456789"],
+  nom: "Colle à bois industrielle",
+  famille: "Colles",
+  cmr: true,
+  justification: "Présence possible de solvants et formaldéhydes",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+{
+  id: "peinture_ancienne",
+  ean: [],
+  nom: "Peintures anciennes (plomb)",
+  famille: "Peintures",
+  cmr: true,
+  justification: "Présence de plomb – reprotoxique",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+/* =========================
+   MÉTAUX & TRAITEMENTS
+========================= */
+
+{
+  id: "plomb",
+  ean: [],
+  nom: "Plomb et composés du plomb",
+  famille: "Métaux",
+  cmr: true,
+  justification: "Reprotoxique – neurotoxique",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+{
+  id: "chrome_vi",
+  ean: [],
+  nom: "Chrome hexavalent (Chrome VI)",
+  famille: "Traitement de surface",
+  cmr: true,
+  justification: "Cancérogène avéré (poumon)",
+  epst: ["Médecin du travail", "Ingénieur prévention"]
+},
+
+{
+  id: "nickel",
+  ean: [],
+  nom: "Nickel (formes solubles)",
+  famille: "Métaux",
+  cmr: true,
+  justification: "Cancérogène par inhalation",
+  epst: ["Médecin du travail", "Ingénieur prévention"]
+},
+
+/* =========================
+   HUILES – MOTEURS – ÉMISSIONS
+========================= */
+
+{
+  id: "huiles_minerales_usagees",
+  ean: [],
+  nom: "Huiles minérales usagées",
+  famille: "Maintenance / mécanique",
+  cmr: true,
+  justification: "Cancérogène cutané",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+{
+  id: "diesel",
+  ean: [],
+  nom: "Gaz d’échappement diesel",
+  famille: "Émissions",
+  cmr: true,
+  justification: "Cancérogène reconnu (CIRC)",
+  epst: ["Médecin du travail", "Technicien prévention"]
+},
+
+/* =========================
+   PRODUITS NON CMR (EXEMPLE)
+========================= */
+
+{
+  id: "nettoyant_standard",
+  ean: ["3012345678901"],
+  nom: "Nettoyant multi-usage standard",
+  famille: "Produits d’entretien",
+  cmr: false,
+  justification: "Aucune classification CMR identifiée",
+  epst: []
+}
+
+];
+``
 // ---------- CMR ----------
 async function scannerCMR(){
   const res=document.getElementById("cmrResult");
