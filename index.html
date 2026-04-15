@@ -89,7 +89,7 @@ textarea{min-height:90px}
 
 <!-- HEADER -->
 <div class="header">
-  <img src="logo.png" class="logo" alt="RESTEV">
+  logo.png
   <div class="subtitle">Prévention santé au travail – EPST RESTEV</div>
 </div>
 
@@ -97,34 +97,33 @@ textarea{min-height:90px}
 <div id="accueil" class="card">
   <div class="info">
     Application RESTEV d’aide à la prévention.<br><br>
-    Prévention par métier, identification CMR,
+    Prévention par secteur et métier, CMR,
     prévention de la désinsertion professionnelle (PDP)
     et accompagnement EPST.
   </div>
   <button class="btn btn-main" onclick="ouvrirMetiers()">🛠️ Prévention par métier</button>
-  <button class="btn btn-cmr" onclick="ouvrirCMR()">🧪 Identifier un produit CMR</button>
+  <button class="btn btn-cmr" onclick="ouvrirCMR()">🧪 Identifier un risque CMR</button>
   <button class="btn btn-pdp" onclick="ouvrirPDP()">🧑‍⚕️ Cellule PDP</button>
   <button class="btn btn-contact" onclick="ouvrirContact()">📩 Contacter RESTEV</button>
 </div>
 
-<!-- METIERS -->
+<!-- METIERS / SECTEURS -->
 <div id="metiers" class="card hidden"></div>
 
-<!-- CHECKLIST -->
+<!-- CHECKLIST METIER -->
 <div id="checklist" class="card hidden"></div>
 
 <!-- CMR -->
 <div id="cmrPage" class="card hidden">
-  <h2>Identification produit CMR</h2>
+  <h2>Identification risque CMR</h2>
   <div class="info">
-    Identification d’un produit ou matériau
-    présentant un <strong>risque CMR potentiel</strong>.
+    Repérage d’un produit ou matériau à <strong>risque CMR potentiel</strong>.
   </div>
 
-  <input id="inputProduit" placeholder="Nom du produit (ex : colle à bois, silice)">
+  <input id="inputProduit" placeholder="Produit ou agent (ex : silice, colle, bois)">
   <button class="btn btn-cmr" onclick="identifierCMR()">Identifier</button>
-  <div id="cmrResult"></div>
 
+  <div id="cmrResult"></div>
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
@@ -133,14 +132,12 @@ textarea{min-height:90px}
   <h2>Prévention de la Désinsertion Professionnelle (PDP)</h2>
 
   <div class="info">
-    La PDP vise à <strong>prévenir les ruptures de parcours professionnel</strong>
-    liées à l’état de santé, aux contraintes de travail
-    ou à une situation de fragilité.
+    La PDP vise à prévenir les ruptures de parcours professionnel liées à l’état
+    de santé, aux contraintes de travail ou à une situation de fragilité.
     <br><br>
     Démarche <strong>préventive, volontaire et confidentielle</strong>.
   </div>
 
-  <h3>Situations de vigilance PDP</h3>
   <ul style="font-size:14px;margin-bottom:18px;">
     <li>Arrêts de travail longs ou répétés</li>
     <li>Difficulté à tenir le poste</li>
@@ -151,7 +148,6 @@ textarea{min-height:90px}
 
   <button class="btn btn-main" onclick="demandePDP()">Orienter vers la cellule PDP</button>
   <div id="pdpResult"></div>
-
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
@@ -180,7 +176,6 @@ textarea{min-height:90px}
 
   <button class="btn btn-main" onclick="envoyerContact()">Envoyer</button>
   <div id="contactResult"></div>
-
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
@@ -204,35 +199,82 @@ function cacherTout(){
   contactPage.classList.add("hidden");
 }
 function retourAccueil(){cacherTout();accueil.classList.remove("hidden")}
-function ouvrirMetiers(){cacherTout();afficherMetiers()}
+function ouvrirMetiers(){cacherTout();afficherSecteurs()}
 function ouvrirCMR(){cacherTout();cmrPage.classList.remove("hidden")}
 function ouvrirPDP(){cacherTout();pdpPage.classList.remove("hidden")}
 function ouvrirContact(){cacherTout();contactPage.classList.remove("hidden")}
 
-// ===== METIERS =====
-const metiersData={
-  macon:{nom:"Maçon",actions:["Chute de hauteur","Silice (CMR)"]},
-  menuisier:{nom:"Menuisier",actions:["Machines","Poussières de bois (CMR)"]},
-  couvreur:{nom:"Couvreur",actions:["Chute de hauteur"]}
+// ===== SECTEURS & METIERS (V2) =====
+const secteursData={
+  btp:{
+    nom:"🏗️ BTP / Artisanat",
+    metiers:{
+      macon:{nom:"Maçon",actions:["Chute de hauteur","Silice cristalline (CMR)","Manutentions"]},
+      couvreur:{nom:"Couvreur",actions:["Chute de hauteur","Postures contraignantes"]},
+      menuisier:{nom:"Menuisier",actions:["Machines","Poussières de bois (CMR)","Bruit"]},
+      peintre:{nom:"Peintre en bâtiment",actions:["Produits chimiques (CMR)","Travail en hauteur"]},
+      electricien:{nom:"Électricien",actions:["Risque électrique","Travail en hauteur"]}
+    }
+  },
+  industrie:{
+    nom:"🏭 Industrie / Maintenance",
+    metiers:{
+      maintenance:{nom:"Agent de maintenance",actions:["Produits chimiques","Travail isolé","Contraintes physiques"]},
+      soudeur:{nom:"Soudeur",actions:["Fumées de soudage (CMR)","Rayonnements","Bruit"]},
+      production:{nom:"Opérateur de production",actions:["Gestes répétitifs","Bruit","Postures"]}
+    }
+  },
+  tertiaire:{
+    nom:"🏢 Tertiaire",
+    metiers:{
+      administratif:{nom:"Agent administratif",actions:["Travail sur écran","Postures statiques","Charge mentale"]},
+      comptable:{nom:"Comptable / Gestionnaire",actions:["Travail sur écran","Surcharge périodique","RPS"]},
+      informatique:{nom:"Technicien informatique",actions:["Travail sur écran","Contraintes posturales","Charge mentale"]},
+      teleconseiller:{nom:"Téléconseiller",actions:["Contraintes temporelles","Travail répétitif","RPS"]},
+      commercial_itinerant:{nom:"Commercial itinérant",actions:["Risque routier","Fatigue","Isolement"]}
+    }
+  },
+  services:{
+    nom:"🧹 Services & Logistique",
+    metiers:{
+      nettoyage:{nom:"Agent d’entretien",actions:["Produits chimiques","Gestes répétitifs","Horaires décalés"]},
+      logistique:{nom:"Agent logistique / Cariste",actions:["Manutention","Circulation","Contraintes temporelles"]}
+    }
+  },
+  aide:{
+    nom:"🧑‍⚕️ Services à la personne",
+    metiers:{
+      aide_domicile:{nom:"Aide à domicile",actions:["Manutention de personnes","Charge psychique","Risque routier"]},
+      ash:{nom:"Agent de service (ASH)",actions:["Contraintes physiques","Charge émotionnelle","Horaires"]}
+    }
+  }
 };
 
-function afficherMetiers(){
-  let html="<h2>Choisir un métier</h2>";
-  Object.keys(metiersData).forEach(id=>{
-    html+=`<button class="btn btn-main" onclick="chargerMetier('${id}')">${metiersData[id].nom}</button>`;
+function afficherSecteurs(){
+  let html="<h2>Choisir un secteur</h2>";
+  Object.keys(secteursData).forEach(sec=>{
+    html+=`<div class="info"><strong>${secteursData[sec].nom}</strong></div>`;
+    Object.keys(secteursData[sec].metiers).forEach(m=>{
+      html+=`<button class="btn btn-main"
+        onclick="chargerMetier('${sec}','${m}')">
+        ${secteursData[sec].metiers[m].nom}
+      </button>`;
+    });
   });
   html+=`<button class="btn btn-back" onclick="retourAccueil()">← Retour</button>`;
   metiers.innerHTML=html;
   metiers.classList.remove("hidden");
 }
 
-function chargerMetier(id){
-  const m=metiersData[id];
-  let html=`<h2>${m.nom}</h2><div class="info">Cliquer sur ce qui est en place</div>`;
-  m.actions.forEach(a=>html+=`<button class="action">${a}</button>`);
-  html+=`<button class="btn btn-main" onclick="evaluer()">Synthèse</button>
-          <div id="result"></div>
-          <button class="btn btn-back" onclick="ouvrirMetiers()">← Retour</button>`;
+function chargerMetier(sec,m){
+  const met=secteursData[sec].metiers[m];
+  let html=`<h2>${met.nom}</h2>
+            <div class="info">Cliquez sur ce qui est en place</div>`;
+  met.actions.forEach(a=>html+=`<button class="action">${a}</button>`);
+  html+=`
+    <button class="btn btn-main" onclick="evaluer()">Synthèse</button>
+    <div id="result"></div>
+    <button class="btn btn-back" onclick="ouvrirMetiers()">← Retour</button>`;
   checklist.innerHTML=html;
   metiers.classList.add("hidden");
   checklist.classList.remove("hidden");
@@ -276,7 +318,7 @@ function envoyerContact(){
     r.innerHTML=`<div class="result medium">Merci de compléter les champs obligatoires</div>`;
     return;
   }
-  r.innerHTML=`<div class="result good">✅ Message envoyé<br>RESTEV vous recontactera</div>`;
+  r.innerHTML=`<div class="result good">✅ Message transmis<br>RESTEV vous recontactera</div>`;
 }
 </script>
 </body>
