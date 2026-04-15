@@ -28,16 +28,12 @@ body{
   font-size:14px;
   color:#475569;
 }
-
-/* Cartes */
 .card{
   background:white;
   border-radius:20px;
   padding:22px;
   box-shadow:0 8px 28px rgba(0,0,0,0.12);
 }
-
-/* Textes */
 h2,h3{color:#1e3a8a;margin-top:0;}
 .info{
   background:#eef2ff;
@@ -46,8 +42,6 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   font-size:14px;
   margin-bottom:18px;
 }
-
-/* Boutons */
 .btn{
   width:100%;
   padding:18px;
@@ -59,10 +53,9 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   cursor:pointer;
 }
 .btn-main{background:#2563eb;color:white;}
-.btn-back{background:#e5e7eb;}
 .btn-cmr{background:#f97316;color:white;}
+.btn-back{background:#e5e7eb;}
 
-/* Checklist */
 .action{
   width:100%;
   padding:16px;
@@ -78,15 +71,6 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   font-weight:600;
 }
 
-/* CMR */
-.cmr{
-  background:#fff7ed;
-  border:2px solid #f97316;
-  border-radius:18px;
-  padding:18px;
-}
-
-/* Résultats */
 .result{
   padding:18px;
   border-radius:18px;
@@ -100,15 +84,14 @@ h2,h3{color:#1e3a8a;margin-top:0;}
 .hidden{display:none;}
 video{
   width:100%;
-  max-height:300px;
+  max-height:280px;
   border-radius:12px;
-  margin-top:10px;
+  margin:10px 0;
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <!-- HEADER -->
@@ -121,48 +104,42 @@ video{
 <div id="accueil" class="card">
   <div class="info">
     Application RESTEV d’aide à la prévention.<br><br>
-    État des lieux par métier, identification des risques,
-    et orientation vers l’accompagnement EPST adapté.
+    Prévention par métier et identification des produits CMR
+    avec orientation vers l’accompagnement EPST.
   </div>
-
   <button class="btn btn-main" onclick="ouvrirMetiers()">🛠️ Prévention par métier</button>
-  <button class="btn btn-cmr" onclick="ouvrirCMR()">🧪 CMR – Identifier un produit</button>
+  <button class="btn btn-cmr" onclick="ouvrirCMR()">🧪 Identifier un produit CMR</button>
 </div>
 
-<!-- MÉTIERS -->
-<div id="metiers" class="card hidden">
-  <h2>Choisir un métier</h2>
-  <button class="btn btn-main" onclick="chargerMetier('macon')">Maçon</button>
-  <button class="btn btn-main" onclick="chargerMetier('couvreur')">Couvreur</button>
-  <button class="btn btn-main" onclick="chargerMetier('menuisier')">Menuisier</button>
-  <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
-</div>
+<!-- METIERS -->
+<div id="metiers" class="card hidden"></div>
 
-<!-- CHECKLIST MÉTIER -->
+<!-- CHECKLIST -->
 <div id="checklist" class="card hidden"></div>
 
-<!-- PAGE CMR -->
+<!-- CMR -->
 <div id="cmrPage" class="card hidden">
   <h2>Identification produit CMR</h2>
 
   <div class="info">
-    Identification d’un produit ou matériau présentant un risque
-    <strong>CMR potentiel</strong> afin d’orienter vers
-    l’accompagnement EPST RESTEV adapté.
+    Le scan identifie le produit et indique
+    <strong>un risque CMR potentiel</strong>.
+    L’application ne remplace pas l’analyse réglementaire,
+    elle déclenche l’accompagnement EPST.
   </div>
 
-  <button class="btn btn-cmr" onclick="scannerCMR()">📷 Scanner un code-barres</button>
+  <button class="btn btn-cmr" onclick="scannerCMR()">📷 Scanner un code‑barres</button>
   <video id="video" playsinline autoplay hidden></video>
 
   <div class="info">
-    Si le scan n’est pas disponible, saisissez le code ou le nom du produit :
+    Si le scan n’est pas disponible, saisir le nom ou le code du produit :
   </div>
 
   <input id="inputProduit"
-    placeholder="Code-barres ou nom du produit"
+    placeholder="Nom ou code-barres du produit"
     style="width:100%;padding:16px;border-radius:12px;border:2px solid #c7d2fe;font-size:15px;margin-bottom:12px">
 
-  <button class="btn btn-main" onclick="rechercheManuelle()">Identifier le produit</button>
+  <button class="btn btn-main" onclick="rechercheManuelle()">Identifier</button>
 
   <div id="cmrResult"></div>
 
@@ -172,17 +149,24 @@ video{
 </div>
 
 <script>
-// ---------- NAVIGATION ----------
+// ===== NAVIGATION =====
+const accueil=document.getElementById("accueil");
+const metiers=document.getElementById("metiers");
+const checklist=document.getElementById("checklist");
+const cmrPage=document.getElementById("cmrPage");
+
 function ouvrirMetiers(){
   accueil.classList.add("hidden");
+  cmrPage.classList.add("hidden");
   metiers.classList.remove("hidden");
+  afficherMetiers();
 }
-
 function ouvrirCMR(){
   accueil.classList.add("hidden");
+  metiers.classList.add("hidden");
+  checklist.classList.add("hidden");
   cmrPage.classList.remove("hidden");
 }
-
 function retourAccueil(){
   accueil.classList.remove("hidden");
   metiers.classList.add("hidden");
@@ -190,17 +174,16 @@ function retourAccueil(){
   cmrPage.classList.add("hidden");
 }
 
-// ---------- BASE METIERS ----------
+// ===== METIERS =====
 const metiersData={
   macon:{
     nom:"Maçon",
     risques:[
-      {titre:"Chute de hauteur",actions:["Échafaudages","Garde-corps","Accès sécurisés","Formation","EPI"]},
-      {titre:"Silice (CMR)",cmr:true,message:"Risque CMR – vigilance renforcée.",
-       actions:["Découpe à l’eau","Aspiration","Information","Protection respiratoire"]}
+      {titre:"Chute de hauteur",actions:["Échafaudages","Garde‑corps","Formation","EPI"]},
+      {titre:"Silice cristalline (CMR)",cmr:true,actions:["Découpe à l’eau","Aspiration","Protection respiratoire"]}
     ]
   },
-  couvreur:{
+  coureur:{
     nom:"Couvreur",
     risques:[
       {titre:"Chute de hauteur",actions:["Protections collectives","Accès","Formation","EPI"]}
@@ -209,253 +192,76 @@ const metiersData={
   menuisier:{
     nom:"Menuisier",
     risques:[
-      {titre:"Machines coupantes",actions:["Protections","Arrêts d’urgence","Formation","EPI"]},
-      {titre:"Poussières de bois (CMR)",cmr:true,message:"CMR – accompagnement EPST recommandé.",
-       actions:["Aspiration","Entretien","Nettoyage","Protection respiratoire"]}
+      {titre:"Machines coupantes",actions:["Protections","Arrêts d’urgence","Formation"]},
+      {titre:"Poussières de bois (CMR)",cmr:true,actions:["Aspiration","Nettoyage","Protection respiratoire"]}
     ]
   }
 };
 
-// ---------- CHECKLIST ----------
+function afficherMetiers(){
+  let html="<h2>Choisir un métier</h2>";
+  Object.keys(metiersData).forEach(id=>{
+    html+=`<button class="btn btn-main" onclick="chargerMetier('${id}')">${metiersData[id].nom}</button>`;
+  });
+  html+=`<button class="btn btn-back" onclick="retourAccueil()">← Retour</button>`;
+  metiers.innerHTML=html;
+}
+
 function chargerMetier(id){
   const m=metiersData[id];
-  let html=`<h2>${m.nom}</h2><div class="info">Cliquez sur ce qui est déjà en place.</div>`;
-
+  let html=`<h2>${m.nom}</h2><div class="info">Cliquez sur ce qui est en place.</div>`;
   m.risques.forEach(r=>{
-    html+=`<div class="${r.cmr?'cmr':''}">
-      <h3>${r.titre}</h3>`;
-    if(r.cmr) html+=`<div class="info">${r.message}</div>`;
+    html+=`<div class="${r.cmr?'bad':''}"><h3>${r.titre}</h3>`;
     r.actions.forEach(a=>html+=`<button class="action">${a}</button>`);
-    html+=`</div><br>`;
+    html+="</div><br>";
   });
-
   html+=`<button class="btn btn-main" onclick="evaluer()">Voir la synthèse</button>
           <div id="result"></div>
           <button class="btn btn-back" onclick="ouvrirMetiers()">← Retour</button>`;
-
   checklist.innerHTML=html;
   metiers.classList.add("hidden");
   checklist.classList.remove("hidden");
-
-  checklist.querySelectorAll(".action")
-    .forEach(b=>b.onclick=()=>b.classList.toggle("active"));
+  checklist.querySelectorAll(".action").forEach(b=>b.onclick=()=>b.classList.toggle("active"));
 }
 
 function evaluer(){
-  const total=checklist.querySelectorAll(".action").length;
-  const actifs=checklist.querySelectorAll(".action.active").length;
-  const ratio=actifs/total;
+  const t=checklist.querySelectorAll(".action").length;
+  const a=checklist.querySelectorAll(".action.active").length;
   const r=document.getElementById("result");
-
-  if(ratio>=0.7){
-    r.innerHTML=`<div class="result good">Prévention globalement en place<br>Appui : Technicien / Infirmier</div>`;
-  }else if(ratio>=0.4){
-    r.innerHTML=`<div class="result medium">Prévention partielle<br>Appui recommandé : Technicien / Ergonome</div>`;
-  }else{
-    r.innerHTML=`<div class="result bad">Prévention à renforcer<br>Accompagnement conseillé : Médecin / Ingénieur</div>`;
-  }
+  const ratio=a/t;
+  if(ratio>=0.7) r.innerHTML=`<div class="result good">Prévention en place<br>Appui : technicien / infirmier</div>`;
+  else if(ratio>=0.4) r.innerHTML=`<div class="result medium">Prévention partielle<br>Appui : technicien / ergonome</div>`;
+  else r.innerHTML=`<div class="result bad">Prévention à renforcer<br>EPST : médecin / ingénieur</div>`;
 }
 
-// ---------- BASE PRODUITS CMR ----------
-const produitsCMR=[
-  {barcode:"3700123456789",nom:"Colle à bois",orientation:"Médecin + Prévention"},
-  {barcode:"3228881234567",nom:"Résine époxy",orientation:"Médecin + Ingénieur"}
+// ===== BASE CMR =====
+const baseCMR=[
+  {nom:"Poussières de bois",cmr:true,justification:"Cancérogène avéré",epst:["Médecin","Ingénieur"]},
+  {nom:"Silice cristalline",cmr:true,justification:"Cancérogène – silicose",epst:["Médecin","Ingénieur"]},
+  {nom:"Amiante",cmr:true,justification:"Cancérogène avéré",epst:["Médecin","Ingénieur"]},
+  {nom:"Benzène",cmr:true,justification:"Leucémies",epst:["Médecin","Prévention"]},
+  {nom:"Formaldéhyde",cmr:true,justification:"Cancer des voies aériennes",epst:["Médecin","Prévention"]},
+  {nom:"Résine époxy",cmr:true,justification:"Reprotoxique",epst:["Médecin","Ingénieur"]},
+  {nom:"Colle à bois",cmr:true,justification:"Solvants / formaldéhyde",epst:["Médecin","Prévention"]},
+  {nom:"Gaz d’échappement diesel",cmr:true,justification:"Cancérogène",epst:["Médecin","Prévention"]}
 ];
-const baseCMR = [
 
-/* =========================
-   POUSSIÈRES & PROCÉDÉS
-========================= */
-
-{
-  id: "poussieres_bois",
-  ean: [],
-  nom: "Poussières de bois",
-  famille: "Poussières – Procédés",
-  cmr: true,
-  justification: "Cancérogène avéré (cancers naso-sinusiens)",
-  epst: ["Médecin du travail", "Ingénieur prévention"]
-},
-
-{
-  id: "silice_cristalline",
-  ean: [],
-  nom: "Silice cristalline (quartz)",
-  famille: "Poussières – Minéraux",
-  cmr: true,
-  justification: "Cancérogène – silicose et cancers pulmonaires",
-  epst: ["Médecin du travail", "Ingénieur prévention"]
-},
-
-{
-  id: "amiante",
-  ean: [],
-  nom: "Amiante",
-  famille: "Fibres minérales",
-  cmr: true,
-  justification: "Cancérogène avéré (mésothéliome, cancers)",
-  epst: ["Médecin du travail", "Ingénieur prévention"]
-},
-
-/* =========================
-   SOLVANTS & PRODUITS CHIMIQUES
-========================= */
-
-{
-  id: "benzene",
-  ean: [],
-  nom: "Benzène",
-  famille: "Solvants aromatiques",
-  cmr: true,
-  justification: "Cancérogène – leucémies",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-{
-  id: "formaldehyde",
-  ean: [],
-  nom: "Formaldéhyde",
-  famille: "Aldéhydes",
-  cmr: true,
-  justification: "Cancérogène – voies respiratoires",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-{
-  id: "dichloromethane",
-  ean: [],
-  nom: "Dichlorométhane",
-  famille: "Solvants chlorés",
-  cmr: true,
-  justification: "Cancérogène suspecté / confirmé",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-/* =========================
-   RÉNINES – COLLES – PEINTURES
-========================= */
-
-{
-  id: "resine_epoxy",
-  ean: ["3228881234567"],
-  nom: "Résine époxy",
-  famille: "Résines / colles",
-  cmr: true,
-  justification: "Substances reprotoxiques / sensibilisantes",
-  epst: ["Médecin du travail", "Ingénieur prévention"]
-},
-
-{
-  id: "colle_bois",
-  ean: ["3700123456789"],
-  nom: "Colle à bois industrielle",
-  famille: "Colles",
-  cmr: true,
-  justification: "Présence possible de solvants et formaldéhydes",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-{
-  id: "peinture_ancienne",
-  ean: [],
-  nom: "Peintures anciennes (plomb)",
-  famille: "Peintures",
-  cmr: true,
-  justification: "Présence de plomb – reprotoxique",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-/* =========================
-   MÉTAUX & TRAITEMENTS
-========================= */
-
-{
-  id: "plomb",
-  ean: [],
-  nom: "Plomb et composés du plomb",
-  famille: "Métaux",
-  cmr: true,
-  justification: "Reprotoxique – neurotoxique",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-{
-  id: "chrome_vi",
-  ean: [],
-  nom: "Chrome hexavalent (Chrome VI)",
-  famille: "Traitement de surface",
-  cmr: true,
-  justification: "Cancérogène avéré (poumon)",
-  epst: ["Médecin du travail", "Ingénieur prévention"]
-},
-
-{
-  id: "nickel",
-  ean: [],
-  nom: "Nickel (formes solubles)",
-  famille: "Métaux",
-  cmr: true,
-  justification: "Cancérogène par inhalation",
-  epst: ["Médecin du travail", "Ingénieur prévention"]
-},
-
-/* =========================
-   HUILES – MOTEURS – ÉMISSIONS
-========================= */
-
-{
-  id: "huiles_minerales_usagees",
-  ean: [],
-  nom: "Huiles minérales usagées",
-  famille: "Maintenance / mécanique",
-  cmr: true,
-  justification: "Cancérogène cutané",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-{
-  id: "diesel",
-  ean: [],
-  nom: "Gaz d’échappement diesel",
-  famille: "Émissions",
-  cmr: true,
-  justification: "Cancérogène reconnu (CIRC)",
-  epst: ["Médecin du travail", "Technicien prévention"]
-},
-
-/* =========================
-   PRODUITS NON CMR (EXEMPLE)
-========================= */
-
-{
-  id: "nettoyant_standard",
-  ean: ["3012345678901"],
-  nom: "Nettoyant multi-usage standard",
-  famille: "Produits d’entretien",
-  cmr: false,
-  justification: "Aucune classification CMR identifiée",
-  epst: []
-}
-
-];
-``
-// ---------- CMR ----------
+// ===== CMR =====
 async function scannerCMR(){
   const res=document.getElementById("cmrResult");
   if(!("BarcodeDetector" in window)){
-    res.innerHTML=`<div class="result bad">Scan automatique non disponible sur cet appareil.</div>`;
+    res.innerHTML=`<div class="result medium">Scan non disponible.<br>Utilisez la saisie.</div>`;
     return;
   }
   const video=document.getElementById("video");
   const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
   video.srcObject=stream;
   video.hidden=false;
-
   const detector=new BarcodeDetector();
-  const interval=setInterval(async()=>{
+  const loop=setInterval(async()=>{
     const codes=await detector.detect(video);
     if(codes.length){
-      clearInterval(interval);
+      clearInterval(loop);
       stream.getTracks().forEach(t=>t.stop());
       video.hidden=true;
       analyserProduit(codes[0].rawValue);
@@ -464,18 +270,18 @@ async function scannerCMR(){
 }
 
 function rechercheManuelle(){
-  const v=document.getElementById("inputProduit").value.toLowerCase();
-  const p=produitsCMR.find(x=>x.barcode===v||x.nom.toLowerCase().includes(v));
-  analyserProduit(p? p.barcode : null);
+  analyserProduit(document.getElementById("inputProduit").value.toLowerCase());
 }
 
-function analyserProduit(code){
-  const p=produitsCMR.find(x=>x.barcode===code);
-  document.getElementById("cmrResult").innerHTML=
-    p ? `<div class="result bad">Produit CMR identifié : ${p.nom}<br>EPST : ${p.orientation}</div>`
-      : `<div class="result medium">Produit non référencé – accompagnement RESTEV recommandé</div>`;
+function analyserProduit(val){
+  const res=document.getElementById("cmrResult");
+  const p=baseCMR.find(x=>x.nom.toLowerCase().includes(val));
+  if(!p){
+    res.innerHTML=`<div class="result medium">Produit non référencé<br>Vigilance recommandée</div>`;
+    return;
+  }
+  res.innerHTML=`<div class="result bad">🔴 CMR identifié<br><strong>${p.nom}</strong><br>${p.justification}<br><br>EPST : ${p.epst.join(", ")}</div>`;
 }
 </script>
-
 </body>
 </html>
