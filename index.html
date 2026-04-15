@@ -31,6 +31,15 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   margin-bottom:18px;
 }
 
+select{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:2px solid #c7d2fe;
+  font-size:15px;
+  margin-bottom:14px;
+}
+
 .btn{
   width:100%;
   padding:16px;
@@ -41,46 +50,25 @@ h2,h3{color:#1e3a8a;margin-top:0;}
   margin-bottom:12px;
   cursor:pointer;
 }
-.btn-main{background:#2563eb;color:white}
-.btn-cmr{background:#f97316;color:white}
-.btn-pdp{background:#0f766e;color:white}
-.btn-contact{background:#16a34a;color:white}
-.btn-back{background:#e5e7eb}
+.btn-main{background:#2563eb;color:white;}
+.btn-back{background:#e5e7eb;}
 
-.action{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:2px solid #c7d2fe;
+.risk{
   background:#f8fafc;
+  border:2px solid #c7d2fe;
+  padding:12px;
+  border-radius:14px;
   margin-bottom:10px;
 }
-.action.active{
-  background:#dcfce7;
-  border-color:#22c55e;
+.cmr{
+  background:#fee2e2;
+  border:2px solid #ef4444;
+  padding:12px;
+  border-radius:14px;
+  margin-bottom:10px;
   font-weight:600;
 }
-
-.result{
-  padding:16px;
-  border-radius:16px;
-  font-weight:700;
-  text-align:center;
-}
-.good{background:#dcfce7;color:#166534}
-.medium{background:#fef9c3;color:#854d0e}
-.bad{background:#fee2e2;color:#991b1b}
-
 .hidden{display:none;}
-input,select,textarea{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:2px solid #c7d2fe;
-  font-size:14px;
-  margin-bottom:12px;
-}
-textarea{min-height:90px}
 </style>
 </head>
 
@@ -89,237 +77,163 @@ textarea{min-height:90px}
 
 <!-- HEADER -->
 <div class="header">
-  logo.png
+  <img src="logo.png" class="logo" alt="RESTEV">
   <div class="subtitle">Prévention santé au travail – EPST RESTEV</div>
 </div>
 
 <!-- ACCUEIL -->
 <div id="accueil" class="card">
   <div class="info">
-    Application RESTEV d’aide à la prévention.<br><br>
-    Prévention par secteur et métier, CMR,
-    prévention de la désinsertion professionnelle (PDP)
-    et accompagnement EPST.
+    Sélectionnez un secteur et un métier pour identifier
+    les <strong>risques professionnels</strong> et les
+    <strong>risques CMR</strong> associés.
   </div>
-  <button class="btn btn-main" onclick="ouvrirMetiers()">🛠️ Prévention par métier</button>
-  <button class="btn btn-cmr" onclick="ouvrirCMR()">🧪 Identifier un risque CMR</button>
-  <button class="btn btn-pdp" onclick="ouvrirPDP()">🧑‍⚕️ Cellule PDP</button>
-  <button class="btn btn-contact" onclick="ouvrirContact()">📩 Contacter RESTEV</button>
+
+  <button class="btn btn-main" onclick="ouvrirPrevention()">
+    🛠️ Prévention par secteur et métier
+  </button>
 </div>
 
-<!-- METIERS / SECTEURS -->
-<div id="metiers" class="card hidden"></div>
+<!-- PREVENTION -->
+<div id="preventionPage" class="card hidden">
 
-<!-- CHECKLIST METIER -->
-<div id="checklist" class="card hidden"></div>
+  <h2>Prévention par métier</h2>
 
-<!-- CMR -->
-<div id="cmrPage" class="card hidden">
-  <h2>Identification risque CMR</h2>
-  <div class="info">
-    Repérage d’un produit ou matériau à <strong>risque CMR potentiel</strong>.
-  </div>
-
-  <input id="inputProduit" placeholder="Produit ou agent (ex : silice, colle, bois)">
-  <button class="btn btn-cmr" onclick="identifierCMR()">Identifier</button>
-
-  <div id="cmrResult"></div>
-  <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
-</div>
-
-<!-- PDP -->
-<div id="pdpPage" class="card hidden">
-  <h2>Prévention de la Désinsertion Professionnelle (PDP)</h2>
-
-  <div class="info">
-    La PDP vise à prévenir les ruptures de parcours professionnel liées à l’état
-    de santé, aux contraintes de travail ou à une situation de fragilité.
-    <br><br>
-    Démarche <strong>préventive, volontaire et confidentielle</strong>.
-  </div>
-
-  <ul style="font-size:14px;margin-bottom:18px;">
-    <li>Arrêts de travail longs ou répétés</li>
-    <li>Difficulté à tenir le poste</li>
-    <li>Usure professionnelle</li>
-    <li>Restriction médicale</li>
-    <li>Risque d’inaptitude</li>
-  </ul>
-
-  <button class="btn btn-main" onclick="demandePDP()">Orienter vers la cellule PDP</button>
-  <div id="pdpResult"></div>
-  <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
-</div>
-
-<!-- CONTACT -->
-<div id="contactPage" class="card hidden">
-  <h2>Contacter RESTEV</h2>
-
-  <div class="info">
-    Contactez l’équipe RESTEV pour un accompagnement
-    en prévention et santé au travail.
-  </div>
-
-  <input id="nom" placeholder="Nom / Entreprise">
-  <input id="email" placeholder="Email">
-  <input id="tel" placeholder="Téléphone (facultatif)">
-
-  <select id="motif">
-    <option value="">Motif de la demande</option>
-    <option>Prévention par métier</option>
-    <option>Exposition CMR</option>
-    <option>PDP / Maintien en emploi</option>
-    <option>Autre</option>
+  <!-- SECTEUR -->
+  <select id="secteurSelect" onchange="chargerMetiers()">
+    <option value="">— Choisir un secteur —</option>
   </select>
 
-  <textarea id="message" placeholder="Votre message"></textarea>
+  <!-- METIER -->
+  <select id="metierSelect" onchange="afficherRisques()" disabled>
+    <option value="">— Choisir un métier —</option>
+  </select>
 
-  <button class="btn btn-main" onclick="envoyerContact()">Envoyer</button>
-  <div id="contactResult"></div>
+  <!-- RESULTATS -->
+  <div id="risquesResult"></div>
+
   <button class="btn btn-back" onclick="retourAccueil()">← Retour</button>
 </div>
 
 </div>
 
 <script>
-// ===== NAVIGATION =====
-const accueil=document.getElementById("accueil");
-const metiers=document.getElementById("metiers");
-const checklist=document.getElementById("checklist");
-const cmrPage=document.getElementById("cmrPage");
-const pdpPage=document.getElementById("pdpPage");
-const contactPage=document.getElementById("contactPage");
-
-function cacherTout(){
-  accueil.classList.add("hidden");
-  metiers.classList.add("hidden");
-  checklist.classList.add("hidden");
-  cmrPage.classList.add("hidden");
-  pdpPage.classList.add("hidden");
-  contactPage.classList.add("hidden");
-}
-function retourAccueil(){cacherTout();accueil.classList.remove("hidden")}
-function ouvrirMetiers(){cacherTout();afficherSecteurs()}
-function ouvrirCMR(){cacherTout();cmrPage.classList.remove("hidden")}
-function ouvrirPDP(){cacherTout();pdpPage.classList.remove("hidden")}
-function ouvrirContact(){cacherTout();contactPage.classList.remove("hidden")}
-
-// ===== SECTEURS & METIERS (V2) =====
-const secteursData={
-  btp:{
-    nom:"🏗️ BTP / Artisanat",
+// ===== DONNÉES SECTEURS / MÉTIERS =====
+const secteursData = {
+  btp: {
+    nom:"BTP / Artisanat",
     metiers:{
-      macon:{nom:"Maçon",actions:["Chute de hauteur","Silice cristalline (CMR)","Manutentions"]},
-      couvreur:{nom:"Couvreur",actions:["Chute de hauteur","Postures contraignantes"]},
-      menuisier:{nom:"Menuisier",actions:["Machines","Poussières de bois (CMR)","Bruit"]},
-      peintre:{nom:"Peintre en bâtiment",actions:["Produits chimiques (CMR)","Travail en hauteur"]},
-      electricien:{nom:"Électricien",actions:["Risque électrique","Travail en hauteur"]}
+      macon:{
+        nom:"Maçon",
+        risques:["Chute de hauteur","Manutentions manuelles"],
+        cmr:["Silice cristalline"]
+      },
+      menuisier:{
+        nom:"Menuisier",
+        risques:["Machines coupantes","Bruit"],
+        cmr:["Poussières de bois"]
+      },
+      peintre:{
+        nom:"Peintre en bâtiment",
+        risques:["Travail en hauteur","Postures contraignantes"],
+        cmr:["Solvants","Peintures anciennes (plomb)"]
+      }
     }
   },
   industrie:{
-    nom:"🏭 Industrie / Maintenance",
+    nom:"Industrie / Maintenance",
     metiers:{
-      maintenance:{nom:"Agent de maintenance",actions:["Produits chimiques","Travail isolé","Contraintes physiques"]},
-      soudeur:{nom:"Soudeur",actions:["Fumées de soudage (CMR)","Rayonnements","Bruit"]},
-      production:{nom:"Opérateur de production",actions:["Gestes répétitifs","Bruit","Postures"]}
+      maintenance:{
+        nom:"Agent de maintenance",
+        risques:["Travail isolé","Contraintes physiques"],
+        cmr:["Huiles minérales usagées"]
+      },
+      soudeur:{
+        nom:"Soudeur",
+        risques:["Rayonnements","Bruit"],
+        cmr:["Fumées de soudage"]
+      }
     }
   },
   tertiaire:{
-    nom:"🏢 Tertiaire",
+    nom:"Tertiaire",
     metiers:{
-      administratif:{nom:"Agent administratif",actions:["Travail sur écran","Postures statiques","Charge mentale"]},
-      comptable:{nom:"Comptable / Gestionnaire",actions:["Travail sur écran","Surcharge périodique","RPS"]},
-      informatique:{nom:"Technicien informatique",actions:["Travail sur écran","Contraintes posturales","Charge mentale"]},
-      teleconseiller:{nom:"Téléconseiller",actions:["Contraintes temporelles","Travail répétitif","RPS"]},
-      commercial_itinerant:{nom:"Commercial itinérant",actions:["Risque routier","Fatigue","Isolement"]}
-    }
-  },
-  services:{
-    nom:"🧹 Services & Logistique",
-    metiers:{
-      nettoyage:{nom:"Agent d’entretien",actions:["Produits chimiques","Gestes répétitifs","Horaires décalés"]},
-      logistique:{nom:"Agent logistique / Cariste",actions:["Manutention","Circulation","Contraintes temporelles"]}
-    }
-  },
-  aide:{
-    nom:"🧑‍⚕️ Services à la personne",
-    metiers:{
-      aide_domicile:{nom:"Aide à domicile",actions:["Manutention de personnes","Charge psychique","Risque routier"]},
-      ash:{nom:"Agent de service (ASH)",actions:["Contraintes physiques","Charge émotionnelle","Horaires"]}
+      administratif:{
+        nom:"Agent administratif",
+        risques:["Travail sur écran","Charge mentale"],
+        cmr:[]
+      },
+      teleconseiller:{
+        nom:"Téléconseiller",
+        risques:["Contraintes temporelles","Travail répétitif"],
+        cmr:[]
+      },
+      commercial_itinerant:{
+        nom:"Commercial itinérant",
+        risques:["Risque routier","Fatigue"],
+        cmr:["Gaz d’échappement diesel"]
+      }
     }
   }
 };
 
-function afficherSecteurs(){
-  let html="<h2>Choisir un secteur</h2>";
-  Object.keys(secteursData).forEach(sec=>{
-    html+=`<div class="info"><strong>${secteursData[sec].nom}</strong></div>`;
-    Object.keys(secteursData[sec].metiers).forEach(m=>{
-      html+=`<button class="btn btn-main"
-        onclick="chargerMetier('${sec}','${m}')">
-        ${secteursData[sec].metiers[m].nom}
-      </button>`;
-    });
+// ===== INITIALISATION SECTEURS =====
+const secteurSelect=document.getElementById("secteurSelect");
+Object.keys(secteursData).forEach(s=>{
+  secteurSelect.innerHTML+=`<option value="${s}">${secteursData[s].nom}</option>`;
+});
+
+// ===== NAVIGATION =====
+function ouvrirPrevention(){
+  accueil.classList.add("hidden");
+  preventionPage.classList.remove("hidden");
+}
+
+function retourAccueil(){
+  preventionPage.classList.add("hidden");
+  accueil.classList.remove("hidden");
+}
+
+// ===== MÉTIERS =====
+const metierSelect=document.getElementById("metierSelect");
+function chargerMetiers(){
+  metierSelect.innerHTML=`<option value="">— Choisir un métier —</option>`;
+  document.getElementById("risquesResult").innerHTML="";
+  metierSelect.disabled=true;
+
+  const sec=secteurSelect.value;
+  if(!sec) return;
+
+  Object.keys(secteursData[sec].metiers).forEach(m=>{
+    metierSelect.innerHTML+=`
+      <option value="${m}">${secteursData[sec].metiers[m].nom}</option>`;
   });
-  html+=`<button class="btn btn-back" onclick="retourAccueil()">← Retour</button>`;
-  metiers.innerHTML=html;
-  metiers.classList.remove("hidden");
+  metierSelect.disabled=false;
 }
 
-function chargerMetier(sec,m){
-  const met=secteursData[sec].metiers[m];
-  let html=`<h2>${met.nom}</h2>
-            <div class="info">Cliquez sur ce qui est en place</div>`;
-  met.actions.forEach(a=>html+=`<button class="action">${a}</button>`);
-  html+=`
-    <button class="btn btn-main" onclick="evaluer()">Synthèse</button>
-    <div id="result"></div>
-    <button class="btn btn-back" onclick="ouvrirMetiers()">← Retour</button>`;
-  checklist.innerHTML=html;
-  metiers.classList.add("hidden");
-  checklist.classList.remove("hidden");
-  checklist.querySelectorAll(".action").forEach(b=>b.onclick=()=>b.classList.toggle("active"));
-}
+// ===== AFFICHAGE RISQUES =====
+function afficherRisques(){
+  const r=document.getElementById("risquesResult");
+  r.innerHTML="";
 
-function evaluer(){
-  const total=checklist.querySelectorAll(".action").length;
-  const actifs=checklist.querySelectorAll(".action.active").length;
-  const r=document.getElementById("result");
-  const ratio=actifs/total;
-  if(ratio>=0.7) r.innerHTML=`<div class="result good">Prévention globalement en place</div>`;
-  else if(ratio>=0.4) r.innerHTML=`<div class="result medium">Prévention partielle</div>`;
-  else r.innerHTML=`<div class="result bad">Prévention à renforcer – EPST conseillé</div>`;
-}
+  const sec=secteurSelect.value;
+  const met=metierSelect.value;
+  if(!sec||!met) return;
 
-// ===== CMR =====
-function identifierCMR(){
-  const v=document.getElementById("inputProduit").value.toLowerCase();
-  const r=document.getElementById("cmrResult");
-  if(v.includes("bois")||v.includes("silice")||v.includes("amiante")||v.includes("résine")){
-    r.innerHTML=`<div class="result bad">🔴 Risque CMR potentiel identifié<br>Orientation EPST recommandée</div>`;
+  const data=secteursData[sec].metiers[met];
+
+  r.innerHTML+=`<h3>Risques métier</h3>`;
+  data.risques.forEach(x=>r.innerHTML+=`<div class="risk">⚠️ ${x}</div>`);
+
+  if(data.cmr.length){
+    r.innerHTML+=`<h3>Risques CMR</h3>`;
+    data.cmr.forEach(x=>r.innerHTML+=`<div class="cmr">🔴 ${x}</div>`);
   }else{
-    r.innerHTML=`<div class="result medium">Produit non référencé<br>Vigilance recommandée</div>`;
+    r.innerHTML+=`<div class="info">Aucun risque CMR identifié pour ce métier</div>`;
   }
-}
-
-// ===== PDP =====
-function demandePDP(){
-  document.getElementById("pdpResult").innerHTML=
-    `<div class="result good">✅ Orientation vers la cellule PDP engagée<br>L’équipe RESTEV vous recontactera</div>`;
-}
-
-// ===== CONTACT =====
-function envoyerContact(){
-  const nom=document.getElementById("nom").value;
-  const email=document.getElementById("email").value;
-  const message=document.getElementById("message").value;
-  const r=document.getElementById("contactResult");
-  if(!nom||!email||!message){
-    r.innerHTML=`<div class="result medium">Merci de compléter les champs obligatoires</div>`;
-    return;
-  }
-  r.innerHTML=`<div class="result good">✅ Message transmis<br>RESTEV vous recontactera</div>`;
 }
 </script>
+
 </body>
 </html>
+``
