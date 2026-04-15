@@ -65,8 +65,16 @@ body{
   padding:18px;
   border-radius:18px;
   font-weight:700;
+}
+
+.cmr{
   background:#fee2e2;
   color:#991b1b;
+}
+
+.ok{
+  background:#dcfce7;
+  color:#166534;
 }
 </style>
 </head>
@@ -84,70 +92,106 @@ body{
 <h2>Identification produit CMR</h2>
 
 <div class="info">
-  Cette page permet d’identifier un produit ou un matériau
-  contenant potentiellement des substances <strong>CMR</strong>.<br><br>
-  Le scan sert à <strong>alerter et orienter</strong>,
-  et ne remplace pas une analyse EPST.
+  Cette page permet d’identifier un produit scanné
+  et de <strong>détecter un risque CMR potentiel</strong>.<br><br>
+  L’objectif est d’alerter et d’orienter vers
+  l’accompagnement EPST RESTEV.
 </div>
 
-<button class="btn btn-main" onclick="scannerCode()">
+<button class="btn btn-main" onclick="scanner()">
   📷 Scanner un code‑barres
 </button>
 
-<div id="scanResult"></div>
+<div id="result"></div>
 
 </div>
 </div>
 
 <script>
-async function scannerCode(){
-  const resultDiv = document.getElementById("scanResult");
+/* ===== BASE PRODUITS DEMO RESTEV ===== */
+const produitsCMR = [
+  {
+    barcode: "3700123456789",
+    nom: "Colle à bois vinylique",
+    risque: "Solvants / substances chimiques",
+    cmr: true,
+    orientation: "Médecin du travail + Technicien prévention"
+  },
+  {
+    barcode: "3228881234567",
+    nom: "Résine époxy",
+    risque: "Produits chimiques CMR",
+    cmr: true,
+    orientation: "Médecin + Ingénieur prévention"
+  },
+  {
+    barcode: "3012345678901",
+    nom: "Nettoyant industriel",
+    risque: "Solvants",
+    cmr: false,
+    orientation: "Technicien prévention"
+  }
+];
 
-  if(!('BarcodeDetector' in window)){
-    resultDiv.innerHTML = `
-      <div class="result">
-        📱 Le scan automatique n’est pas disponible sur ce navigateur.<br><br>
-        ➜ Utilisez un appareil Android/Chrome<br>
-        ➜ Ou contactez RESTEV pour un accompagnement EPST.
-      </div>`;
+async function scanner(){
+  const resultDiv = document.getElementById("result");
+
+  if(!("BarcodeDetector" in window)){
+    afficherResultat("Scan non disponible sur ce navigateur.", false);
     return;
   }
 
   try{
     const detector = new BarcodeDetector();
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    const stream = await navigator.mediaDevices.getUserMedia({ video:{facingMode:"environment"} });
     const video = document.createElement("video");
     video.srcObject = stream;
     await video.play();
 
     const codes = await detector.detect(video);
-
     stream.getTracks().forEach(track => track.stop());
 
-    if(codes.length > 0){
-      resultDiv.innerHTML = `
-        <div class="result">
-          🔴 Produit détecté – vigilance CMR<br><br>
-          Code : <strong>${codes[0].rawValue}</strong><br><br>
-
-          ⚕️ <strong>Accompagnement recommandé :</strong><br>
-          Médecin du travail + Prévention RESTEV
-        </div>`;
-    } else {
-      resultDiv.innerHTML = `
-        <div class="result">
-          Aucun code détecté.<br>
-          Réessayez ou contactez RESTEV.
-        </div>`;
+    if(codes.length === 0){
+      afficherResultat("Aucun code détecté.", false);
+      return;
     }
 
-  } catch(e){
-    resultDiv.innerHTML = `
-      <div class="result">
-        Erreur lors du scan caméra.<br>
-        Contactez RESTEV.
-      </div>`;
+    const code = codes[0].rawValue;
+    const produit = produitsCMR.find(p => p.barcode === code);
+
+    if(produit){
+      afficherProduit(produit);
+    }else{
+      afficherResultat("Produit non référencé dans la base RESTEV (démo).", false);
+    }
+
+  }catch(e){
+    afficherResultat("Erreur caméra. Contactez RESTEV.", false);
   }
+}
+
+function afficherProduit(produit){
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `
+    <div class="result cmr">
+      🔴 <strong>Produit identifié</strong><br><br>
+
+      Nom : <strong>${produit.nom}</strong><br>
+      Type de risque : ${produit.risque}<br><br>
+
+      🧑‍⚕️ <strong>Accompagnement EPST recommandé :</strong><br>
+      ${produit.orientation}
+    </div>
+  `;
+}
+
+function afficherResultat(message, ok){
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `
+    <div class="result ${ok?'ok':'cmr'}">
+      ${message}
+    </div>
+  `;
 }
 </script>
 
