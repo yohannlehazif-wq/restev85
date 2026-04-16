@@ -180,17 +180,114 @@ function goHome(){openPage('home')}
 
 // BASE MÉTIERS + CMR + EPI
 const jobs = {
-btp:{
-  macon:{
-    nom:"Maçon",
-    risques:["Chutes","Manutentions"],
-    cmr:[{
-      nom:"Silice cristalline",
-      effets:"Silicose, cancer pulmonaire",
-      epi:["Masque FFP3","Aspiration","Lunettes"]
-    }]
+btp: {
+
+  macon: {
+    nom: "Maçon",
+    risques: ["Chutes de hauteur","Manutentions","Vibrations","Bruit"],
+    cmr: [
+      {
+        nom: "Silice cristalline",
+        pourquoi: "Découpe, perçage, meulage de béton, parpaings, carrelage",
+        effets: "Silicose, cancer pulmonaire",
+        exposition: "Inhalation",
+        epi: ["Masque FFP3","Aspiration à la source","Lunettes étanches","Vêtements dédiés"]
+      }
+    ]
+  },
+
+  couvreur: {
+    nom: "Couvreur",
+    risques: ["Chutes de hauteur","Postures contraignantes","Conditions climatiques"],
+    cmr: [
+      {
+        nom: "Bitumes et fumées de bitume",
+        pourquoi: "Travaux d’étanchéité, membranes",
+        effets: "Cancers cutanés et respiratoires",
+        exposition: "Inhalation / cutanée",
+        epi: ["Masque A2P3","Gants","Vêtements manches longues"]
+      }
+    ]
+  },
+
+  menuisier: {
+    nom: "Menuisier",
+    risques: ["Machines coupantes","Bruit","Manutentions","Poussières"],
+    cmr: [
+      {
+        nom: "Poussières de bois",
+        pourquoi: "Sciage, rabotage, ponçage",
+        effets: "Cancer naso‑sinusien",
+        exposition: "Inhalation",
+        epi: ["Masque FFP2/FFP3","Aspiration","Lunettes"]
+      }
+    ]
+  },
+
+  peintre: {
+    nom: "Peintre en bâtiment",
+    risques: ["Travail en hauteur","Postures","Efforts répétitifs"],
+    cmr: [
+      {
+        nom: "Solvants organiques",
+        pourquoi: "Peintures, vernis, diluants",
+        effets: "Cancers, atteintes neurologiques",
+        exposition: "Inhalation / cutanée",
+        epi: ["Masque A2P3","Gants nitrile","Ventilation"]
+      },
+      {
+        nom: "Plomb",
+        pourquoi: "Rénovation de peintures anciennes",
+        effets: "Saturnisme, atteintes neurologiques",
+        exposition: "Inhalation / ingestion",
+        epi: ["Masque FFP3","Combinaison","Hygiène renforcée"]
+      }
+    ]
+  },
+
+  plaquiste: {
+    nom: "Plaquiste",
+    risques: ["Manutentions","Postures prolongées","Chutes de plain‑pied"],
+    cmr: [
+      {
+        nom: "Poussières fines (silice)",
+        pourquoi: "Découpe plaques et supports",
+        effets: "Silicose, cancers pulmonaires",
+        exposition: "Inhalation",
+        epi: ["Masque FFP3","Aspiration","Lunettes"]
+      }
+    ]
+  },
+
+  electricien: {
+    nom: "Électricien",
+    risques: ["Risque électrique","Chutes","Travail en hauteur"],
+    cmr: [
+      {
+        nom: "Amiante (interventions sur bâtiments anciens)",
+        pourquoi: "Percements, perçage murs, dalles",
+        effets: "Mésothéliome, cancers",
+        exposition: "Inhalation",
+        epi: ["Formation amiante","Masque P3","Procédure spécifique"]
+      }
+    ]
+  },
+
+  plombier: {
+    nom: "Plombier / Chauffagiste",
+    risques: ["Manutentions","Brûlures","Postures"],
+    cmr: [
+      {
+        nom: "Produits de brasage",
+        pourquoi: "Soudure, décapants",
+        effets: "Cancers, irritations respiratoires",
+        exposition: "Inhalation",
+        epi: ["Masque A2P3","Ventilation","Gants"]
+      }
+    ]
   }
-},
+}
+
 industrie:{
   soudeur:{
     nom:"Soudeur",
