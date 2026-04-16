@@ -50,150 +50,152 @@ video{width:100%;border-radius:12px;margin-bottom:12px}
 
 <!-- ACCUEIL -->
 <div id="home" class="page">
-  <h2>RESTEV – Prévention EPST</h2>
-  <div class="page-content">
-    <div class="info">
-      Application d’aide à la prévention, à l’identification des risques CMR,
-      à la PDP et à la structuration DUERP.<br><br>
-      Outil d’orientation vers l’accompagnement EPST RESTEV.
-    </div>
-  </div>
-  <div class="page-actions">
-    <button class="main" onclick="openPage('prevention')">🛠️ Prévention</button>
-    <button class="cmrbtn" onclick="openPage('cmr')">🧪 Produits / CMR</button>
-    <button class="pdpbtn" onclick="openPage('pdp')">🧑‍⚕️ PDP</button>
-    <button class="main" onclick="openPage('duerp')">📄 DUERP</button>
-    <button class="contactbtn" onclick="openPage('contact')">📩 Contact RESTEV</button>
-  </div>
+<h2>RESTEV – Prévention EPST</h2>
+<div class="page-content">
+<div class="info">
+Application d’aide à la prévention, à l’identification des risques professionnels,
+des expositions CMR, de la PDP et du DUERP.
+</div>
+</div>
+<div class="page-actions">
+<button class="main" onclick="openPage('prevention')">🛠️ Prévention</button>
+<button class="cmrbtn" onclick="openPage('cmr')">🧪 Produits / CMR</button>
+<button class="pdpbtn" onclick="openPage('pdp')">🧑‍⚕️ PDP</button>
+<button class="main" onclick="openPage('duerp')">📄 DUERP</button>
+<button class="contactbtn" onclick="openPage('contact')">📩 Contact RESTEV</button>
+</div>
 </div>
 
 <!-- PRÉVENTION -->
 <div id="prevention" class="page hidden">
-  <h2>Prévention par métier</h2>
-  <div class="page-content">
+<h2>Prévention par secteur et métier</h2>
+<div class="page-content">
 
-    <select id="sector" onchange="loadJobs()">
-      <option value="">— Secteur —</option>
-      <option value="btp">BTP</option>
-      <option value="industrie">Industrie</option>
-      <option value="tertiaire">Tertiaire</option>
-      <option value="services">Services</option>
-    </select>
+<select id="sector" onchange="loadJobs()">
+<option value="">— Secteur —</option>
+<option value="btp">BTP</option>
+<option value="industrie">Industrie</option>
+<option value="services">Services / Logistique</option>
+<option value="tertiaire">Tertiaire</option>
+<option value="sante">Santé / Médico-social</option>
+</select>
 
-    <select id="job" onchange="showAnalysis()" disabled>
-      <option value="">— Métier —</option>
-    </select>
+<select id="job" onchange="showAnalysis()" disabled>
+<option value="">— Métier —</option>
+</select>
 
-    <div id="analysis"></div>
-  </div>
-  <div class="page-actions">
-    <button class="back" onclick="goHome()">← Retour</button>
-  </div>
+<div id="analysis"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
 </div>
 
 <!-- CMR -->
 <div id="cmr" class="page hidden">
-  <h2>Identification CMR</h2>
-  <div class="page-content">
-    <div class="info">
-      Scan d’un code‑barres ou recherche manuelle d’une substance.
-      Base CMR pédagogique avec EPI recommandés.
-    </div>
-
-    <button class="cmrbtn" onclick="startScan()">📷 Scanner un code‑barres</button>
-    <video id="video" class="hidden"></video>
-
-    <input id="cmrSearch" placeholder="Nom produit / substance">
-    <button class="main" onclick="searchCMR()">Rechercher</button>
-
-    <div id="cmrResult"></div>
-  </div>
-  <div class="page-actions">
-    <button class="back" onclick="goHome()">← Retour</button>
-  </div>
+<h2>Identification CMR</h2>
+<div class="page-content">
+<div class="info">
+Scan ou recherche d’une substance ou d’un produit à risque CMR.
+</div>
+<input id="cmrSearch" placeholder="Ex : silice, époxy, formol">
+<button class="main" onclick="searchCMR()">Rechercher</button>
+<div id="cmrResult"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
 </div>
 
 <!-- PDP -->
 <div id="pdp" class="page hidden">
-  <h2>Prévention de la Désinsertion Professionnelle</h2>
-  <div class="page-content">
-    <div class="info">
-      Repérage des situations à risque avant rupture du parcours professionnel.
-    </div>
-    <ul>
-      <li>Arrêts longs ou répétés</li>
-      <li>Difficulté à tenir le poste</li>
-      <li>Restriction médicale</li>
-      <li>Usure physique ou psychique</li>
-    </ul>
-    <button class="main" onclick="pdpOut()">Orienter vers la cellule PDP</button>
-    <div id="pdpMsg"></div>
-  </div>
-  <div class="page-actions">
-    <button class="back" onclick="goHome()">← Retour</button>
-  </div>
+<h2>Prévention de la Désinsertion Professionnelle</h2>
+<div class="page-content">
+<ul>
+<li>Arrêts longs ou répétés</li>
+<li>Difficulté à tenir le poste</li>
+<li>Usure professionnelle</li>
+<li>Restriction médicale</li>
+</ul>
+<button class="main" onclick="pdpOut()">Orienter vers la cellule PDP</button>
+<div id="pdpMsg"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
 </div>
 
 <!-- DUERP -->
 <div id="duerp" class="page hidden">
-  <h2>DUERP – Synthèse</h2>
-  <div class="page-content">
-    <div class="info">
-      Contribution à l’identification des risques professionnels et CMR.
-    </div>
-    <div class="warning result">
-      ⚠️ Le DUERP doit être formalisé et validé par l’employeur (R4121‑1).
-    </div>
-  </div>
-  <div class="page-actions">
-    <button class="back" onclick="goHome()">← Retour</button>
-  </div>
+<h2>DUERP – Synthèse</h2>
+<div class="page-content">
+<div class="warning result">
+⚠️ Document à finaliser et valider par l’employeur (Code du travail R4121‑1).
+</div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
 </div>
 
 <!-- CONTACT -->
 <div id="contact" class="page hidden">
-  <h2>Contact RESTEV</h2>
-  <div class="page-content">
-    <input placeholder="Nom / Entreprise">
-    <input placeholder="Email">
-    <textarea placeholder="Message"></textarea>
-    <button class="main" onclick="contactOK()">Envoyer</button>
-    <div id="contactMsg"></div>
-  </div>
-  <div class="page-actions">
-    <button class="back" onclick="goHome()">← Retour</button>
-  </div>
+<h2>Contact RESTEV</h2>
+<div class="page-content">
+<input placeholder="Nom / Établissement">
+<input placeholder="Email">
+<textarea placeholder="Message"></textarea>
+<button class="main" onclick="contactOK()">Envoyer</button>
+<div id="contactMsg"></div>
+</div>
+<div class="page-actions">
+<button class="back" onclick="goHome()">← Retour</button>
+</div>
 </div>
 
 </div>
 
 <script>
-// ===== NAVIGATION =====
+// Navigation
 function openPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
 function goHome(){openPage('home')}
 
-// ===== BASE MÉTIERS =====
+// Base métiers enrichie + secteur santé
 const jobs = {
   btp:{
     macon:{nom:"Maçon",risques:["Chutes","Manutentions"],cmr:[{nom:"Silice cristalline",effets:"Cancer pulmonaire",epi:["FFP3","Aspiration","Lunettes"]}]},
-    menuisier:{nom:"Menuisier",risques:["Machines","Bruit"],cmr:[{nom:"Poussières de bois",effets:"Cancer naso‑sinusien",epi:["FFP2/FFP3","Aspiration"]}]}
+    menuisier:{nom:"Menuisier",risques:["Machines","Bruit"],cmr:[{nom:"Poussières de bois",effets:"Cancer naso-sinusien",epi:["FFP2/FFP3","Aspiration"]}]},
+    couvreur:{nom:"Couvreur",risques:["Chutes","Postures"],cmr:[]},
+    electricien:{nom:"Électricien",risques:["Risque électrique","Chutes"],cmr:[{nom:"Amiante",effets:"Cancers",epi:["P3","Procédures"]}]}
   },
+
   industrie:{
-    soudeur:{nom:"Soudeur",risques:["Brûlures","Bruit"],cmr:[{nom:"Fumées de soudage",effets:"Cancer pulmonaire",epi:["Adduction d’air","Ventilation"]}]}
+    soudeur:{nom:"Soudeur",risques:["Brûlures","Bruit"],cmr:[{nom:"Fumées de soudage",effets:"Cancer pulmonaire",epi:["Adduction d’air"]}]},
+    maintenance:{nom:"Maintenance",risques:["Travail isolé"],cmr:[{nom:"Huiles usagées",effets:"Cancers cutanés",epi:["Gants"]}]}
   },
-  tertiaire:{
-    administratif:{nom:"Agent administratif",risques:["Écran","Charge mentale"],cmr:[]},
-    commercial:{nom:"Commercial itinérant",risques:["Risque routier"],cmr:[{nom:"Gaz diesel",effets:"Cancer pulmonaire",epi:["Organisation trajets","Ventilation"]}]}
-  },
+
   services:{
-    entretien:{nom:"Agent d’entretien",risques:["Produits chimiques","Chutes"],cmr:[{nom:"Produits de nettoyage",effets:"Irritations",epi:["Gants","Ventilation"]}]}
+    entretien:{nom:"Agent d’entretien",risques:["Produits chimiques","Chutes"],cmr:[{nom:"Détergents",effets:"Irritations",epi:["Gants","Ventilation"]}]},
+    cariste:{nom:"Cariste",risques:["Circulation","Charges"],cmr:[{nom:"Diesel",effets:"Cancer pulmonaire",epi:["Ventilation"]}]}
+  },
+
+  tertiaire:{
+    administratif:{nom:"Administratif",risques:["Écran","Charge mentale"],cmr:[]},
+    commercial:{nom:"Commercial itinérant",risques:["Risque routier"],cmr:[{nom:"Gaz diesel",effets:"Cancer pulmonaire",epi:["Organisation trajets"]}]}
+  },
+
+  sante:{
+    aide_soignant:{nom:"Aide-soignant",risques:["Manutention patients","RPS"],cmr:[{nom:"Formol",effets:"Cancers",epi:["Gants","Masque","Ventilation"]}]},
+    infirmier:{nom:"Infirmier",risques:["AES","Rythmes"],cmr:[{nom:"Cytotoxiques",effets:"Reprotoxicité",epi:["Gants nitrile","Surblouse"]}]},
+    ash:{nom:"ASH",risques:["Produits désinfectants"],cmr:[{nom:"Produits chlorés",effets:"Irritations",epi:["Gants","Masque"]}]},
+    laboratoire:{nom:"Technicien de laboratoire",risques:["Produits chimiques"],cmr:[{nom:"Solvants",effets:"Cancers",epi:["Sorbonne","Gants","Masque"]}]}
   }
 };
 
-// ===== PRÉVENTION =====
+// Prévention logique
 function loadJobs(){
   job.innerHTML="<option value=''>— Métier —</option>";
   job.disabled=true;
@@ -203,48 +205,29 @@ function loadJobs(){
   });
   job.disabled=false;
 }
+
 function showAnalysis(){
   analysis.innerHTML="";
   const j=jobs[sector.value][job.value];
   j.risques.forEach(r=>analysis.innerHTML+=`<div class="risk">⚠️ ${r}</div>`);
   j.cmr.forEach(c=>{
-    analysis.innerHTML+=`<div class="cmr">🔴 ${c.nom}<br>Effets : ${c.effets}<div class="epi">EPI : ${c.epi.join(", ")}</div></div>`;
+    analysis.innerHTML+=`
+      <div class="cmr">🔴 ${c.nom}<br>Effets : ${c.effets}
+      <div class="epi">EPI : ${c.epi.join(", ")}</div></div>`;
   });
 }
 
-// ===== CMR PRODUITS =====
-const cmrDB={
-  "3700123456789":{nom:"Résine époxy",effets:"Reprotoxicité",epi:["Gants","Masque A2P3"]}
-};
-
-async function startScan(){
-  if(!('BarcodeDetector'in window)){alert("Scan non disponible");return;}
-  video.classList.remove("hidden");
-  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
-  video.srcObject=stream;video.play();
-  const detector=new BarcodeDetector({formats:["ean_13"]});
-  const interval=setInterval(async()=>{
-    const codes=await detector.detect(video);
-    if(codes.length){
-      clearInterval(interval);
-      stream.getTracks().forEach(t=>t.stop());
-      video.classList.add("hidden");
-      displayCMR(codes[0].rawValue);
-    }
-  },500);
-}
-function searchCMR(){displayCMR(cmrSearch.value)}
-function displayCMR(key){
-  const res=cmrDB[key];
-  cmrResult.innerHTML=res
-    ? `<div class="cmr">🔴 ${res.nom}<br>${res.effets}<div class="epi">EPI : ${res.epi.join(", ")}</div></div>`
-    : `<div class="warning result">Produit non référencé</div>`;
-}
-
-// ===== PDP & CONTACT =====
+// PDP et contact
 function pdpOut(){pdpMsg.innerHTML="<div class='good result'>✅ Orientation PDP transmise</div>";}
 function contactOK(){contactMsg.innerHTML="<div class='good result'>✅ Message envoyé</div>";}
+function searchCMR(){
+  const v=cmrSearch.value.toLowerCase();
+  cmrResult.innerHTML=v
+    ? `<div class="cmr">🔴 Substance à analyser – rapprochez-vous de RESTEV</div>`
+    : "";
+}
 </script>
 
 </body>
 </html>
+``
