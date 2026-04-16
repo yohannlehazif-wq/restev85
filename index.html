@@ -285,32 +285,120 @@ btp: {
         epi: ["Masque A2P3","Ventilation","Gants"]
       }
     ]
-  }
-}
+  },
 
-industrie:{
-  soudeur:{
-    nom:"Soudeur",
-    risques:["Brûlures","Bruit"],
-    cmr:[{
-      nom:"Fumées de soudage",
-      effets:"Cancer pulmonaire",
-      epi:["Adduction d’air","Ventilation"]
-    }]
-  }
-},
-tertiaire:{
-  commercial:{
-    nom:"Commercial itinérant",
-    risques:["Risque routier"],
-    cmr:[{
-      nom:"Gaz d’échappement diesel",
-      effets:"Cancer pulmonaire",
-      epi:["Organisation trajets","Ventilation véhicule"]
-    }]
+industrie: {
+
+  soudeur: {
+    nom: "Soudeur",
+    risques: ["Brûlures","Rayonnements","Bruit"],
+    cmr: [
+      {
+        nom: "Fumées de soudage",
+        pourquoi: "Fusion métaux (acier, inox, alliages)",
+        effets: "Cancers pulmonaires",
+        exposition: "Inhalation",
+        epi: ["Masque à adduction d’air","Aspiration bras articulé","Gants"]
+      }
+    ]
+  },
+
+  maintenance: {
+    nom: "Agent de maintenance",
+    risques: ["Travail isolé","Chutes","Électricité"],
+    cmr: [
+      {
+        nom: "Huiles minérales usagées",
+        pourquoi: "Graissage, vidanges machines",
+        effets: "Cancers cutanés",
+        exposition: "Contact cutané",
+        epi: ["Gants nitrile","Vêtements longs","Hygiène mains"]
+      }
+    ]
+  },
+
+  mecanicien: {
+    nom: "Mécanicien industriel",
+    risques: ["Manutentions","Bruit","Vibrations"],
+    cmr: [
+      {
+        nom: "Solvants / dégraissants",
+        pourquoi: "Nettoyage pièces mécaniques",
+        effets: "Cancers, toxicité hépatique",
+        exposition: "Inhalation / cutanée",
+        epi: ["Masque A2P3","Gants","Ventilation"]
+      }
+    ]
+  },
+
+  operateur: {
+    nom: "Opérateur de production",
+    risques: ["Gestes répétitifs","Postures","Bruit"],
+    cmr: [
+      {
+        nom: "Huiles de coupe",
+        pourquoi: "Usinage métal",
+        effets: "Cancers cutanés",
+        exposition: "Contact / inhalation",
+        epi: ["Gants","Vêtements adaptés","Hygiène"]
+      }
+    ]
+  },
+
+  traitement_surface: {
+    nom: "Agent de traitement de surface",
+    risques: ["Produits chimiques","Brûlures chimiques"],
+    cmr: [
+      {
+        nom: "Chrome hexavalent",
+        pourquoi: "Traitement anticorrosion",
+        effets: "Cancer pulmonaire",
+        exposition: "Inhalation / cutanée",
+        epi: ["Masque P3","Gants","Confinement"]
+      }
+    ]
   }
 }
-};
+tertiaire: {
+
+  administratif: {
+    nom: "Agent administratif",
+    risques: ["Travail sur écran","Postures statiques","Charge mentale"],
+    cmr: []
+  },
+
+  comptable: {
+    nom: "Comptable / gestionnaire",
+    risques: ["Travail sur écran","Surcharge périodique","RPS"],
+    cmr: []
+  },
+
+  teleconseiller: {
+    nom: "Téléconseiller / centre d’appels",
+    risques: ["Contraintes temporelles","Fatigue vocale","RPS"],
+    cmr: []
+  },
+
+  informatique: {
+    nom: "Technicien informatique",
+    risques: ["Écrans","Postures","Déplacements"],
+    cmr: []
+  },
+
+  commercial: {
+    nom: "Commercial itinérant",
+    risques: ["Risque routier","Fatigue","Isolement"],
+    cmr: [
+      {
+        nom: "Gaz d’échappement diesel",
+        pourquoi: "Déplacements fréquents",
+        effets: "Cancers pulmonaires",
+        exposition: "Inhalation",
+        epi: ["Organisation trajets","Véhicule entretenu","Ventilation"]
+      }
+    ]
+  }
+}
 
 // PREVENTION LOGIC
 function loadJobs(){
