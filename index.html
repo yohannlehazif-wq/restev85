@@ -1,71 +1,73 @@
-<!DOCTYPE html><.header{
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RESTEV – Accueil</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
+}
+.app{
+  max-width:600px;
+  margin:auto;
+  padding:16px;
+}
+
+.header{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:14px;
   background:white;
-  border-radius:22px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.08);
-  margin-bottom:18px;
+  padding:16px;
+  border-radius:20px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.1);
+  margin-bottom:20px;
 }
 .header img{
-  height:48px;
+  height:50px;
 }
 .header-title{
   font-size:18px;
-  font-weight:700;
+  font-weight:bold;
   color:#3b82f6;
 }
 
-/* ACCUEIL */
 .home{
   background:white;
-  border-radius:28px;
+  border-radius:26px;
+  padding:24px;
   box-shadow:0 14px 34px rgba(59,130,246,0.18);
-  padding:22px;
 }
 
-/* TEXTE INTRO */
 .welcome{
   background:#f0f9ff;
-  border-radius:20px;
+  border-radius:18px;
   padding:18px;
-  margin-bottom:20px;
+  margin-bottom:22px;
   color:#1e40af;
-  font-size:15px;
-  line-height:1.4;
+  line-height:1.5;
 }
 
-/* GRILLE BOUTONS */
-.menu{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:14px;
-}
-
-/* CARTES */
-.card-btn{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:18px;
-  border-radius:22px;
-  font-size:16px;
-  font-weight:700;
+.menu button{
+  width:100%;
+  padding:16px;
   border:none;
+  border-radius:20px;
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:14px;
   text-align:left;
 }
 
-/* COULEURS PASTEL */
 .prevention{background:#e0f2fe;color:#1e3a8a;}
 .cmr{background:#fde2e4;color:#9d174d;}
 .pdp{background:#ddf7f2;color:#065f46;}
 .duerp{background:#ede9fe;color:#4c1d95;}
 .contact{background:#dcfce7;color:#14532d;}
-
-.icon{
-  font-size:24px;
-}
 </style>
 </head>
 
@@ -73,85 +75,32 @@
 
 <div class="app">
 
-<!-- HEADER -->
-<div class="header">
-  <img src="logo.png" alt="RESTEV">
-  <div class="header-title">Prévention santé au travail</div>
-</div>
-
-<!-- ACCUEIL -->
-<div class="home">
-
-  <div class="welcome">
-    👋 <strong>Bienvenue sur l’application RESTEV.</strong><br><br>
-    Cet outil vous aide à <strong>mieux comprendre les risques professionnels</strong>,
-    à <strong>repérer les expositions CMR</strong> et à <strong>anticiper les situations
-    de désinsertion professionnelle</strong>.<br><br>
-    🌱 Une approche <strong>préventive, pédagogique et orientée solutions</strong>.
+  <div class="header">
+    <img src="logo.png" alt="RESTEV">
+    <div class="header-title">Prévention santé au travail</div>
   </div>
 
-  <div class="menu">
+  <div class="home">
 
-    <button class="card-btn prevention" onclick="openPage('metier')">
-      <span class="icon">🛠️</span>
-      Prévention par métier
-    </button>
+    <div class="welcome">
+      👋 <strong>Bienvenue sur l’application RESTEV</strong><br><br>
+      Cet outil vous accompagne pour mieux <strong>comprendre les risques professionnels</strong>,
+      identifier les <strong>expositions CMR</strong> et prévenir les situations de
+      <strong>désinsertion professionnelle</strong>.<br><br>
+      🌱 Une approche <strong>préventive, humaine et orientée solutions</strong>.
+    </div>
 
-    <button class="card-btn cmr" onclick="openPage('cmr')">
-      <span class="icon">🌸</span>
-      Identification des risques CMR
-    </button>
-
-    <button class="card-btn pdp" onclick="openPage('pdp')">
-      <span class="icon">🩵</span>
-      Prévention de la désinsertion professionnelle
-    </button>
-
-    <button class="card-btn duerp" onclick="openPage('duerp')">
-      <span class="icon">💜</span>
-      DUERP – Appui à l’identification des risques
-    </button>
-
-    <button class="card-btn contact" onclick="openPage('contact')">
-      <span class="icon">🌿</span>
-      Contacter RESTEV
-    </button>
+    <div class="menu">
+      <button class="prevention">🛠️ Prévention par métier</button>
+      <button class="cmr">🌸 Identification des risques CMR</button>
+      <button class="pdp">🩵 Prévention de la désinsertion professionnelle</button>
+      <button class="duerp">💜 Appui DUERP</button>
+      <button class="contact">🌿 Contacter RESTEV</button>
+    </div>
 
   </div>
 
 </div>
-
-</div>
-
-<!-- SCRIPT NAVIGATION -->
-<script>
-function openPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-  document.getElementById(id).style.display='block';
-}
-</script>
 
 </body>
 </html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Prévention Santé au Travail</title>
-
-<style>
-/* FOND GÉNÉRAL */
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:linear-gradient(180deg,#ffffff 0%, #edf7ff 80%);
-}
-
-/* CONTENEUR */
-.app{
-  max-width:620px;
-  margin:auto;
-  padding:16px;
-}
-
-/* HEADER */
