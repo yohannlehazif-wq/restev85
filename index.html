@@ -118,15 +118,25 @@ video{
 </div>
 
 <!-- PREVENTION METIER -->
+<!-- PREVENTION METIER -->
 <div id="metier" class="page">
   <h2>Prévention par métier</h2>
-  <p>Analyse des risques professionnels, organisationnels et chimiques selon l’activité.</p>
 
-  <div class="card info">
-    Cette rubrique permet de repérer les principaux risques du poste
+  <p>
+    Cette rubrique permet de repérer les principaux risques associés à un métier
     et d’orienter les actions de prévention.
-  </div>
- 
+  </p>
+
+  <select id="jobSelect" onchange="showJob()">
+    <option value="">— Choisir un métier —</option>
+    <option value="agent_entretien">Agent d’entretien</option>
+    <option value="agent_maintenance">Agent de maintenance</option>
+    <option value="peintre">Peintre / applicateur</option>
+    <option value="magasinier">Magasinier / logistique</option>
+  </select>
+
+  <div id="jobResult"></div>
+
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
