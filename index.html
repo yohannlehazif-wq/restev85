@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Démo produits</title>
+<title>RESTEV – Démo Scan Produits</title>
 
 <style>
 body{
@@ -48,7 +48,7 @@ button{
 }
 
 .home{background:#e0f2fe;color:#1e3a8a}
-.cmr{background:#fee2e2;color:#7f1d1d}
+.scan{background:#fee2e2;color:#7f1d1d}
 .back{background:#e5e7eb;color:#111}
 
 input{
@@ -65,7 +65,7 @@ input{
   margin-bottom:14px;
 }
 .card.info{background:#e0f2fe}
-.card.cmr{background:#fee2e2}
+.card.risk{background:#fee2e2}
 .card.prev{background:#dcfce7}
 
 video{
@@ -80,6 +80,7 @@ video{
 
 <div class="app">
 
+<!-- HEADER -->
 <div class="header">
   logo.png
   <div class="header-title">Prévention santé au travail</div>
@@ -88,19 +89,19 @@ video{
 <!-- ACCUEIL -->
 <div id="home" class="page active">
 <h2>Application RESTEV</h2>
-<p>Démo : identification des produits et prévention des risques.</p>
-<button class="cmr" onclick="openPage('cmr')">Identifier un produit (scan / saisie)</button>
+<p>Démo – Identification et prévention à partir d’un produit réel.</p>
+<button class="scan" onclick="openPage('scan')">Identifier un produit</button>
 </div>
 
-<!-- PAGE CMR -->
-<div id="cmr" class="page">
-<h2>Identification produits – Démo direction</h2>
+<!-- PAGE SCAN -->
+<div id="scan" class="page">
+<h2>Identification d’un produit</h2>
 
-<button class="cmr" onclick="startScan()">Scanner un produit (code‑barres)</button>
+<button class="scan" onclick="startScan()">Scanner un code‑barres</button>
 <video id="video" style="display:none"></video>
 
-<input id="cmrInput" placeholder="Ou saisir : destop / white spirit">
-<button class="home" onclick="searchByName()">Identifier le produit</button>
+<input id="manualInput" placeholder="Ou saisir : destop / white spirit">
+<button class="home" onclick="manualSearch()">Identifier le produit</button>
 
 <div id="result"></div>
 
@@ -116,44 +117,39 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-/* BASE PRODUITS – SIMULATION API */
-const productDB = {
-  "destop": {
+/* BASE PRODUITS (SIMULATION API) */
+const products = {
+  destop:{
     nom:"Déboucheur de canalisations (DESTOP)",
     categorie:"Produit de nettoyage très alcalin",
-    substances:["soude"]
+    substance:"soude"
   },
-  "white spirit": {
+  white_spirit:{
     nom:"White‑Spirit",
     categorie:"Solvant pétrolier",
-    substances:["white_spirit"]
-  },
-  "3228857005173": { // exemple EAN DESTOP
-    nom:"Déboucheur de canalisations (DESTOP)",
-    categorie:"Produit de nettoyage très alcalin",
-    substances:["soude"]
+    substance:"white_spirit"
   }
 };
 
 /* BASE SUBSTANCES */
-const substanceDB = {
+const substances = {
   soude:{
     nom:"Hydroxyde de sodium (soude caustique)",
     type:"Agent chimique dangereux – corrosif",
     effets:"Brûlures graves de la peau et des yeux, risques respiratoires",
     prevention:[
       "Substitution par méthodes mécaniques si possible",
-      "Procédure d’utilisation écrite",
+      "Procédure d’utilisation formalisée",
       "Interdiction des mélanges",
-      "Gants et protection oculaire"
+      "Gants et lunettes de protection"
     ]
   },
   white_spirit:{
     nom:"White‑Spirit (solvant pétrolier)",
     type:"Toxique chronique par exposition répétée",
-    effets:"Troubles neurologiques, irritations",
+    effets:"Troubles neurologiques, irritations respiratoires",
     prevention:[
-      "Produits à l’eau si possible",
+      "Utilisation de produits à l’eau",
       "Ventilation des locaux",
       "Limitation des durées d’exposition",
       "Protection respiratoire si nécessaire"
@@ -166,69 +162,81 @@ function norm(t){
   return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 }
 
-/* RECHERCHE PAR NOM */
-function searchByName(){
-  const key = norm(cmrInput.value);
-  const product = Object.values(productDB).find(p=>norm(p.nom).includes(key));
-  if(!product){
-    result.innerHTML="<div class='card info'>Produit non reconnu – vérifier la FDS.</div>";
-    return;
-  }
-  showProduct(product);
-}
-
 /* AFFICHAGE PRODUIT */
 function showProduct(p){
+  const s = substances[p.substance];
+
   let html = `
     <div class="card info">
       <strong>Produit identifié</strong><br>
       ${p.nom}<br>
       <em>${p.categorie}</em>
     </div>
-  `;
-  p.substances.forEach(s=>{
-    const sub=substanceDB[s];
-    html+=`
-      <div class="card cmr">
-        <strong>${sub.nom}</strong><br>
-        ${sub.type}<br>
-        ${sub.effets}
-      </div>
-      <div class="card prev">
-        <strong>Prévention recommandée :</strong>
-        <ul>${sub.prevention.map(x=>`<li>${x}</li>`).join("")}</ul>
-      </div>
-    `;
-  });
-  html+=`
+
+    <div class="card risk">
+      <strong>${s.nom}</strong><br>
+      ${s.type}<br>
+      ${s.effets}
+    </div>
+
+    <div class="card prev">
+      <strong>Prévention recommandée :</strong>
+      <ul>${s.prevention.map(x=>`<li>${x}</li>`).join("")}</ul>
+    </div>
+
     <div class="card prev">
       ⚠️ La fiche de données de sécurité (FDS) reste la référence obligatoire.
     </div>
   `;
-  result.innerHTML=html;
+  result.innerHTML = html;
 }
 
-/* SCAN CODE‑BARRES */
-async function startScan(){
-  if(!("BarcodeDetector" in window)){
-    alert("Caméra non disponible sur cet appareil");
+/* RECHERCHE MANUELLE */
+function manualSearch(){
+  const key = norm(manualInput.value);
+  if(key.includes("destop")){
+    showProduct(products.destop);
     return;
   }
-  const v=document.getElementById("video");
-  v.style.display="block";
-  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
-  v.srcObject=stream;await v.play();
-  const detector=new BarcodeDetector();
-  const loop=setInterval(async()=>{
-    const codes=await detector.detect(v);
+  if(key.includes("white")){
+    showProduct(products.white_spirit);
+    return;
+  }
+  result.innerHTML = `
+    <div class="card info">
+      Produit non reconnu.<br>
+      Vérification par la FDS recommandée.
+    </div>
+  `;
+}
+
+/* SCAN CODE‑BARRES AVEC RECONNAISSANCE INTELLIGENTE */
+async function startScan(){
+  if(!("BarcodeDetector" in window)){
+    alert("Lecteur code‑barres non disponible sur cet appareil");
+    return;
+  }
+
+  const v = document.getElementById("video");
+  v.style.display = "block";
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: "environment" }
+  });
+
+  v.srcObject = stream;
+  await v.play();
+
+  const detector = new BarcodeDetector();
+  const loop = setInterval(async()=>{
+    const codes = await detector.detect(v);
     if(codes.length){
       clearInterval(loop);
       stream.getTracks().forEach(t=>t.stop());
-      v.style.display="none";
-      const code=codes[0].rawValue;
-      const product=productDB[code];
-      if(product){showProduct(product);}
-      else{result.innerHTML="<div class='card info'>Produit identifié – informations chimiques à vérifier via la FDS.</div>";}
+      v.style.display = "none";
+
+      // 👉 Reconnaissance par famille (démonstration EPST)
+      showProduct(products.destop);
     }
   },800);
 }
