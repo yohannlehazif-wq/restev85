@@ -1,4 +1,138 @@
-<!DOCTYPE html>
+<!DOCTYPE html><.header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  background:white;
+  border-radius:22px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  margin-bottom:18px;
+}
+.header img{
+  height:48px;
+}
+.header-title{
+  font-size:18px;
+  font-weight:700;
+  color:#3b82f6;
+}
+
+/* ACCUEIL */
+.home{
+  background:white;
+  border-radius:28px;
+  box-shadow:0 14px 34px rgba(59,130,246,0.18);
+  padding:22px;
+}
+
+/* TEXTE INTRO */
+.welcome{
+  background:#f0f9ff;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:20px;
+  color:#1e40af;
+  font-size:15px;
+  line-height:1.4;
+}
+
+/* GRILLE BOUTONS */
+.menu{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+/* CARTES */
+.card-btn{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:18px;
+  border-radius:22px;
+  font-size:16px;
+  font-weight:700;
+  border:none;
+  text-align:left;
+}
+
+/* COULEURS PASTEL */
+.prevention{background:#e0f2fe;color:#1e3a8a;}
+.cmr{background:#fde2e4;color:#9d174d;}
+.pdp{background:#ddf7f2;color:#065f46;}
+.duerp{background:#ede9fe;color:#4c1d95;}
+.contact{background:#dcfce7;color:#14532d;}
+
+.icon{
+  font-size:24px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.png" alt="RESTEV">
+  <div class="header-title">Prévention santé au travail</div>
+</div>
+
+<!-- ACCUEIL -->
+<div class="home">
+
+  <div class="welcome">
+    👋 <strong>Bienvenue sur l’application RESTEV.</strong><br><br>
+    Cet outil vous aide à <strong>mieux comprendre les risques professionnels</strong>,
+    à <strong>repérer les expositions CMR</strong> et à <strong>anticiper les situations
+    de désinsertion professionnelle</strong>.<br><br>
+    🌱 Une approche <strong>préventive, pédagogique et orientée solutions</strong>.
+  </div>
+
+  <div class="menu">
+
+    <button class="card-btn prevention" onclick="openPage('metier')">
+      <span class="icon">🛠️</span>
+      Prévention par métier
+    </button>
+
+    <button class="card-btn cmr" onclick="openPage('cmr')">
+      <span class="icon">🌸</span>
+      Identification des risques CMR
+    </button>
+
+    <button class="card-btn pdp" onclick="openPage('pdp')">
+      <span class="icon">🩵</span>
+      Prévention de la désinsertion professionnelle
+    </button>
+
+    <button class="card-btn duerp" onclick="openPage('duerp')">
+      <span class="icon">💜</span>
+      DUERP – Appui à l’identification des risques
+    </button>
+
+    <button class="card-btn contact" onclick="openPage('contact')">
+      <span class="icon">🌿</span>
+      Contacter RESTEV
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- SCRIPT NAVIGATION -->
+<script>
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+
+</body>
+</html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -6,211 +140,18 @@
 <title>RESTEV – Prévention Santé au Travail</title>
 
 <style>
+/* FOND GÉNÉRAL */
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(180deg,#ffffff 0%, #f0f7ff 70%);
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  background:linear-gradient(180deg,#ffffff 0%, #edf7ff 80%);
 }
-.container{max-width:640px;margin:auto;padding:16px}
+
+/* CONTENEUR */
+.app{
+  max-width:620px;
+  margin:auto;
+  padding:16px;
+}
 
 /* HEADER */
-.header{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:white;
-  padding:14px;
-  border-radius:18px;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
-  margin-bottom:16px;
-}
-.header img{height:44px;}
-.header-title{font-size:18px;font-weight:bold;color:#3b82f6}
-
-/* PAGE */
-.page{
-  background:white;
-  border-radius:24px;
-  box-shadow:0 12px 30px rgba(59,130,246,.18);
-  padding:20px;
-  display:none;
-}
-.page.active{display:block;}
-.page h2{margin-top:0;color:#1e40af}
-
-/* BUTTONS */
-button{
-  width:100%;
-  padding:14px;
-  margin-bottom:10px;
-  border:none;
-  border-radius:18px;
-  font-weight:bold;
-}
-.btn-main{background:#93c5fd;color:#1e3a8a;}
-.btn-cmr{background:#fbcfe8;color:#9d174d;}
-.btn-pdp{background:#99f6e4;color:#134e4a;}
-.btn-duerp{background:#ddd6fe;color:#4c1d95;}
-.btn-contact{background:#bbf7d0;color:#14532d;}
-.btn-back{background:#e5e7eb;color:#111;}
-
-/* INPUT */
-input, select, textarea{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:14px;
-  border:2px solid #bfdbfe;
-}
-
-/* CARDS */
-.card{
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:14px;
-}
-.card-risk{background:#e0f2fe;}
-.card-cmr{background:#fde2e4;}
-.card-rps{background:#fff7cd;}
-.card-prev{background:#dcfce7;}
-
-ul{margin:0;padding-left:18px;}
-li{margin-bottom:6px;}
-
-video{width:100%;border-radius:16px;margin-bottom:10px}
-</style>
-</head>
-
-<body>
-<div class="container">
-
-<div class="header">
-  <img src="logo.png" alt="RESTEV">
-  <div class="header-title">Prévention santé au travail</div>
-</div>
-
-<div id="home" class="page active">
-<h2>Application RESTEV</h2>
-<p>
-Outil EPST d’aide à la prévention, à l’identification des risques CMR,
-à la PDP et au DUERP.
-</p>
-<button class="btn-main" onclick="openPage('metier')">🛠️ Prévention par métier</button>
-<button class="btn-cmr" onclick="openPage('cmr')">🌸 Identification CMR</button>
-<button class="btn-pdp" onclick="openPage('pdp')">🩵 PDP</button>
-<button class="btn-duerp" onclick="openPage('duerp')">💜 DUERP</button>
-<button class="btn-contact" onclick="openPage('contact')">🌿 Contact RESTEV</button>
-</div>
-
-<!-- METIER -->
-<div id="metier" class="page">
-<h2>Analyse des risques par métier</h2>
-<select id="jobSelect" onchange="showAnalysis()">
-<option value="">— Choisir un métier —</option>
-<option value="macon">Maçon</option>
-<option value="menuisier">Menuisier</option>
-<option value="infirmier">Infirmier</option>
-</select>
-<div id="analysis"></div>
-<button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- CMR -->
-<div id="cmr" class="page">
-<h2>Identification CMR</h2>
-<button class="btn-cmr" onclick="startScan()">📷 Scanner un produit</button>
-<video id="video"></video>
-<input id="cmrInput" placeholder="Ex : silice, toluène, solvants…">
-<button class="btn-main" onclick="searchCMR()">Identifier</button>
-<div id="cmrResult"></div>
-<button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- PDP -->
-<div id="pdp" class="page">
-<h2>PDP</h2>
-<p>Prévention de la désinsertion professionnelle.</p>
-<button class="btn-pdp" onclick="alert('Orientation PDP transmise')">Orienter</button>
-<button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- DUERP -->
-<div id="duerp" class="page">
-<h2>DUERP</h2>
-<p>Contribution à l’identification des risques professionnels.</p>
-<button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- CONTACT -->
-<div id="contact" class="page">
-<h2>Contact RESTEV</h2>
-<input placeholder="Nom / Entreprise">
-<input placeholder="Email">
-<textarea placeholder="Message"></textarea>
-<button class="btn-contact" onclick="alert('Message envoyé')">Envoyer</button>
-<button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-</div>
-
-<script>
-function openPage(id){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
-}
-
-/* ANALYSE METIER */
-const jobs={
- macon:{risques:["Chutes","Manutentions"],cmr:["Silice cristalline"],rps:["Fatigue"],prev:["Protections collectives","Aspiration","EPI"]},
- menuisier:{risques:["Machines","Bruit"],cmr:["Poussières de bois"],rps:["Gestes répétés"],prev:["Aspiration","Formation"]},
- infirmier:{risques:["AES","Manutentions patients"],cmr:["Cytotoxiques"],rps:["Charge émotionnelle"],prev:["Protocoles","Aides techniques"]}
-};
-
-function showAnalysis(){
- const m=jobs[jobSelect.value];
- if(!m) return;
- analysis.innerHTML=`
- <div class="card card-risk"><strong>⚠️ Risques</strong><ul>${m.risques.map(r=>`<li>${r}</li>`).join("")}</ul></div>
- <div class="card card-cmr"><strong>🌸 CMR</strong><ul>${m.cmr.map(c=>`<li>${c}</li>`).join("")}</ul></div>
- <div class="card card-rps"><strong>🍑 Organisation</strong><ul>${m.rps.map(r=>`<li>${r}</li>`).join("")}</ul></div>
- <div class="card card-prev"><strong>🩵 Prévention</strong><ul>${m.prev.map(p=>`<li>${p}</li>`).join("")}</ul></div>
- `;
-}
-
-/* BASE CMR */
-const cmrDB={
- silice:{effets:"Cancer pulmonaire",prev:["Aspiration","FFP3","Travail humide"]},
- toluene:{effets:"Atteintes neurologiques",prev:["Ventilation","Substitution"]}
-};
-
-function normalize(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
-
-function searchCMR(){
- const key=normalize(cmrInput.value);
- const c=Object.entries(cmrDB).find(([k])=>k.includes(key));
- if(!c){cmrResult.innerHTML="<div class='card card-cmr'>Substance non référencée</div>";return;}
- cmrResult.innerHTML=`<div class="card card-cmr"><strong>Effets :</strong> ${c[1].effets}</div>
- <div class="card card-prev"><strong>Prévention :</strong><ul>${c[1].prev.map(p=>`<li>${p}</li>`).join("")}</ul></div>`;
-}
-
-/* SCAN */
-async function startScan(){
- if(!("BarcodeDetector" in window)){alert("Scan non disponible");return;}
- const video=document.getElementById("video");
- const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
- video.srcObject=stream;video.play();
- const detector=new BarcodeDetector();
- const timer=setInterval(async()=>{
-  const codes=await detector.detect(video);
-  if(codes.length){
-   clearInterval(timer);
-   stream.getTracks().forEach(t=>t.stop());
-   cmrInput.value=codes[0].rawValue;
-   searchCMR();
-  }
- },800);
-}
-</script>
-
-</body>
-</html>
