@@ -177,3 +177,122 @@ function openPage(id){
 
 </body>
 </html>
+
+<script>
+// ---------- BASE CMR ----------
+const cmrDB = {
+  silice: {
+    nom: "Silice cristalline",
+    type: "Cancérogène avéré",
+    usage: "Découpe et perçage du béton, carrelage, pierre",
+    effets: "Silicose, cancer pulmonaire",
+    exposition: "Inhalation de poussières fines",
+    prevention: [
+      "Substitution ou travail humide",
+      "Aspiration à la source",
+      "Organisation des tâches",
+      "Masque FFP3 en dernier recours"
+    ]
+  },
+  formol: {
+    nom: "Formaldéhyde",
+    type: "Cancérogène avéré",
+    usage: "Laboratoires, désinfection",
+    effets: "Cancers ORL, irritations",
+    exposition: "Inhalation",
+    prevention: [
+      "Travail en enceinte ventilée",
+      "Substitution si possible",
+      "Procédures strictes",
+      "Gants et protection respiratoire"
+    ]
+  },
+  toluene: {
+    nom: "Toluène",
+    type: "Reprotoxique suspecté",
+    usage: "Peintures, colles, solvants",
+    effets: "Atteintes neurologiques",
+    exposition: "Inhalation",
+    prevention: [
+      "Substitution",
+      "Ventilation",
+      "Limitation des durées d’exposition",
+      "Masque A2P3"
+    ]
+  }
+};
+
+// ---------- NORMALISATION TEXTE ----------
+function normalize(text){
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+// ---------- RECHERCHE CMR ----------
+function searchCMR(){
+  const input = normalize(document.getElementById("cmrInput").value);
+  const entry = Object.values(cmrDB)
+    .find(c => normalize(c.nom).includes(input));
+
+  if(!entry){
+    cmrResult.innerHTML = `
+      <div class="card cmr">
+        Substance non référencée.<br>
+        Analyse par RESTEV recommandée.
+      </div>
+    `;
+    return;
+  }
+
+  cmrResult.innerHTML = `
+    <div class="card cmr">
+      <strong>${entry.nom}</strong><br>
+      <em>${entry.type}</em><br><br>
+      <strong>Usage :</strong> ${entry.usage}<br>
+      <strong>Effets :</strong> ${entry.effets}<br>
+      <strong>Exposition :</strong> ${entry.exposition}
+    </div>
+
+    <div class="card prev">
+      <strong>Prévention prioritaire :</strong>
+      <ul>
+        ${entry.prevention.map(p=>`<li>${p}</li>`).join("")}
+      </ul>
+    </div>
+  `;
+}
+
+// ---------- SCAN CODE-BARRES ----------
+async function startScan(){
+  if(!("BarcodeDetector" in window)){
+    alert("Lecture code‑barres non disponible sur cet appareil");
+    return;
+  }
+
+  const video = document.getElementById("video");
+  video.style.display = "block";
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: "environment" }
+  });
+
+  video.srcObject = stream;
+  await video.play();
+
+  const detector = new BarcodeDetector();
+
+  const scanInterval = setInterval(async () => {
+    const codes = await detector.detect(video);
+    if(codes.length){
+      clearInterval(scanInterval);
+      stream.getTracks().forEach(t => t.stop());
+      video.style.display = "none";
+
+      document.getElementById("cmrInput").value = codes[0].rawValue;
+      searchCMR();
+    }
+  }, 800);
+}
+</script>
