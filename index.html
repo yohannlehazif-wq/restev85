@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – logo.png</title>
+<title>RESTEV </title>
 
 <style>
 body{
@@ -114,12 +114,36 @@ Contacter RESTEV
 <button class="back" onclick="openPage('home')">← Retour accueil</button>
 </div>
 
-<!-- ================= CMR ================= -->
-<div id="cmr" class="page">
-<h2>Identification des risques CMR</h2>
-<p>Repérage des substances cancérogènes, mutagènes ou reprotoxiques.</p>
-<button class="back" onclick="openPage('home')">← Retour accueil</button>
+<!-- ================= PAGE CMR ================= -->code‑barres)
+  </button>
+
+  <video id="video" style="display:none;"></video>
+
+  <input id="cmrInput"
+         placeholder="Ex : silice, solvant, formol, white spirit…">
+
+  <button class="btn-main" onclick="searchCMR()">
+    Identifier la substance
+  </button>
+
+  <div id="cmrResult"></div>
+
+  <button class="back" onclick="openPage('home')">
+    ← Retour à l’accueil
+  </button>
 </div>
+``
+<div id="cmr" class="page">
+  <h2>Identification des risques CMR</h2>
+
+  <p>
+    Cette page permet de repérer les substances ou produits
+    <strong>cancérogènes, mutagènes ou reprotoxiques</strong>
+    présents en situation de travail.
+  </p>
+
+  <button class="cmr" onclick="startScan()">
+
 
 <!-- ================= PDP ================= -->
 <div id="pdp" class="page">
