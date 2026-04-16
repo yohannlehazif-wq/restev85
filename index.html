@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Prévention Santé au Travail</title>
+<title>RESTEV – Identification CMR</title>
 
 <style>
-/* THÈME RESTEV */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff 0%, #edf4ff 75%);
 }
-.app{max-width:640px;margin:auto;padding:14px}
+.app{
+  max-width:620px;
+  margin:auto;
+  padding:14px;
+}
 
 /* HEADER */
 .header{
@@ -25,14 +28,14 @@ body{
 .header-title{
   font-size:18px;
   font-weight:700;
-  color:#2563eb;
+  color:#dc2626;
 }
 
 /* PAGE */
 .page{
-  background:#fff;
+  background:#ffffff;
   border-radius:26px;
-  box-shadow:0 16px 36px rgba(37,99,235,0.18);
+  box-shadow:0 16px 36px rgba(220,38,38,.18);
   display:flex;
   flex-direction:column;
   min-height:85vh;
@@ -40,7 +43,7 @@ body{
 .page h2{
   margin:0;
   padding:20px 26px 8px;
-  color:#1e3a8a;
+  color:#991b1b;
 }
 .page-content{
   padding:0 26px 20px;
@@ -53,8 +56,8 @@ body{
 
 /* UI */
 .info{
-  background:#f1f5ff;
-  color:#1e3a8a;
+  background:#fff1f2;
+  color:#991b1b;
   padding:16px;
   border-radius:20px;
   margin-bottom:18px;
@@ -69,40 +72,47 @@ button{
   font-weight:700;
   margin-bottom:10px;
 }
-.btn-main{background:#2563eb;color:#fff;}
-.btn-cmr{background:#dc2626;color:#fff;}
-.btn-pdp{background:#0f766e;color:#fff;}
-.btn-duerp{background:#7c3aed;color:#fff;}
-.btn-contact{background:#16a34a;color:#fff;}
+.btn-scan{background:#dc2626;color:#fff;}
+.btn-search{background:#2563eb;color:#fff;}
 .btn-back{background:#e5e7eb;}
 
-select,input,textarea{
+input{
   width:100%;
   padding:14px 16px;
   border-radius:18px;
-  border:2px solid #c7d2fe;
+  border:2px solid #fecaca;
   margin-bottom:16px;
   font-size:15px;
 }
 
-/* CARTES */
+/* CARTES CMR */
 .card{
   border-radius:20px;
   padding:16px;
   margin-bottom:16px;
 }
+.card-cmr{
+  background:#fee2e2;
+  border-left:6px solid #dc2626;
+}
+.card-prev{
+  background:#ecfdf5;
+  border-left:6px solid #16a34a;
+}
 .card h3{
   margin-top:0;
-  font-size:16px;
+  display:flex;
+  gap:8px;
 }
-
-.card-risk{background:#eff6ff;border-left:6px solid #2563eb;}
-.card-cmr{background:#fff1f2;border-left:6px solid #dc2626;}
-.card-rps{background:#fefce8;border-left:6px solid #ca8a04;}
-.card-prev{background:#ecfdf5;border-left:6px solid #16a34a;}
 
 ul{margin:0;padding-left:18px;}
 li{margin-bottom:6px;}
+
+video{
+  width:100%;
+  border-radius:16px;
+  margin-bottom:12px;
+}
 
 .hidden{display:none;}
 </style>
@@ -114,166 +124,147 @@ li{margin-bottom:6px;}
 <!-- HEADER -->
 <div class="header">
   <img src="logo.png" alt="RESTEV">
-  <div class="header-title">Prévention santé au travail</div>
+  <div class="header-title">Identification des risques CMR</div>
 </div>
 
-<!-- ================= MENU ================= -->
-<div id="home" class="page">
-<h2>Application RESTEV</h2>
+<div class="page">
+<h2>Substances & produits CMR</h2>
+
 <div class="page-content">
+
 <div class="info">
-Outil EPST d’aide à la prévention, à l’identification des risques CMR,
-à la prévention de la désinsertion professionnelle (PDP)
-et à la contribution DUERP.<br><br>
-⚠️ Outil d’orientation – ne remplace pas l’évaluation réglementaire.
-</div>
-</div>
-<div class="page-actions">
-<button class="btn-main" onclick="openPage('metier')">🛠️ Prévention par métier</button>
-<button class="btn-cmr" onclick="openPage('cmr')">🔴 Identification CMR</button>
-<button class="btn-pdp" onclick="openPage('pdp')">🧑‍⚕️ PDP</button>
-<button class="btn-duerp" onclick="openPage('duerp')">📄 DUERP</button>
-<button class="btn-contact" onclick="openPage('contact')">📩 Contact RESTEV</button>
-</div>
+Cette page permet d’identifier <strong>les risques Cancérogènes, Mutagènes
+ou Reprotoxiques (CMR)</strong> présents en milieu professionnel.<br><br>
+⚠️ Outil d’orientation EPST – ne remplace pas l’évaluation réglementaire.
 </div>
 
-<!-- ================= MÉTIER ================= -->
-<div id="metier" class="page hidden">
-<h2>Analyse des risques par métier</h2>
-<div class="page-content">
+<!-- SCAN CODE-BARRES -->
+<button class="btn-scan" onclick="startScan()">📷 Scanner un code‑barres</button>
+<video id="video" class="hidden"></video>
 
-<select id="jobSelect" onchange="showAnalysis()">
-<option value="">— Choisir un métier —</option>
-<option value="macon">Maçon</option>
-<option value="menuisier">Menuisier</option>
-<option value="infirmier">Infirmier</option>
-</select>
+<!-- RECHERCHE -->
+<input id="cmrInput" placeholder="Ex : silice, toluène, white-spirit, formol">
+<button class="btn-search" onclick="searchCMR()">Identifier la substance</button>
 
-<div id="analysis"></div>
-
-</div>
-<div class="page-actions">
-<button class="btn-back" onclick="goHome()">← Retour</button>
-</div>
-</div>
-
-<!-- ================= CMR ================= -->
-<div id="cmr" class="page hidden">
-<h2>Identification des risques CMR</h2>
-<div class="page-content">
-<div class="info">
-Recherche d’une substance ou d’un produit à risque
-cancérogène, mutagène ou reprotoxique.
-</div>
-<input id="cmrInput" placeholder="Ex : silice, solvants, médicaments cytotoxiques">
-<button class="btn-cmr" onclick="searchCMR()">Identifier</button>
 <div id="cmrResult"></div>
-</div>
-<div class="page-actions">
-<button class="btn-back" onclick="goHome()">← Retour</button>
-</div>
+
 </div>
 
-<!-- ================= PDP ================= -->
-<div id="pdp" class="page hidden">
-<h2>PDP – Prévention de la désinsertion professionnelle</h2>
-<div class="page-content">
-<ul>
-<li>Arrêts de travail longs ou répétés</li>
-<li>Difficulté à tenir le poste</li>
-<li>Restriction médicale</li>
-<li>Usure professionnelle</li>
-</ul>
-<button class="btn-pdp" onclick="pdpOut()">Orienter vers la cellule PDP</button>
-<div id="pdpMsg"></div>
-</div>
 <div class="page-actions">
-<button class="btn-back" onclick="goHome()">← Retour</button>
-</div>
-</div>
-
-<!-- ================= DUERP ================= -->
-<div id="duerp" class="page hidden">
-<h2>DUERP – Contribution RESTEV</h2>
-<div class="page-content">
-<div class="info">
-RESTEV accompagne l’identification des risques
-mais le DUERP doit être formalisé et validé par l’employeur
-(Code du travail R4121‑1).
-</div>
-</div>
-<div class="page-actions">
-<button class="btn-back" onclick="goHome()">← Retour</button>
-</div>
-</div>
-
-<!-- ================= CONTACT ================= -->
-<div id="contact" class="page hidden">
-<h2>Contact RESTEV</h2>
-<div class="page-content">
-<input placeholder="Nom / Entreprise">
-<input placeholder="Email">
-<textarea placeholder="Votre message"></textarea>
-<button class="btn-contact" onclick="contactOK()">Envoyer</button>
-<div id="contactMsg"></div>
-</div>
-<div class="page-actions">
-<button class="btn-back" onclick="goHome()">← Retour</button>
+<button class="btn-back" onclick="history.back()">← Retour</button>
 </div>
 </div>
 
 </div>
 
 <script>
-function openPage(id){
- document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
- document.getElementById(id).classList.remove('hidden');
-}
-function goHome(){openPage('home');}
-
-/* BASE METIERS RICHE */
-const jobs = {
-  macon:{
-    risques:["Chutes de hauteur","Manutentions lourdes","Bruit et vibrations"],
-    cmr:["Silice cristalline"],
-    rps:["Cadence chantier","Fatigue physique"],
-    prevention:["Protections collectives","Organisation des tâches","EPI en dernier recours"]
+/* BASE CMR RICHE */
+const cmrDB = {
+  "silice":{
+    nom:"Silice cristalline",
+    type:"Cancérogène avéré",
+    usages:"Découpe béton, pierre, carrelage",
+    effets:"Silicose, cancers pulmonaires",
+    exposition:"Inhalation",
+    prevention:[
+      "Substitution ou travail humide",
+      "Aspiration à la source",
+      "Organisation du chantier",
+      "Masque FFP3 (dernier recours)"
+    ]
   },
-  menuisier:{
-    risques:["Machines coupantes","Poussières","Bruit"],
-    cmr:["Poussières de bois"],
-    rps:["Gestes répétitifs"],
-    prevention:["Aspiration à la source","Formation machines","Protection respiratoire"]
+  "toluene":{
+    nom:"Toluène",
+    type:"Reprotoxique suspecté",
+    usages:"Peintures, colles, solvants",
+    effets:"Atteintes neurologiques, reproduction",
+    exposition:"Inhalation",
+    prevention:[
+      "Substitution si possible",
+      "Ventilation renforcée",
+      "Limitation des durées",
+      "Masque A2P3"
+    ]
   },
-  infirmier:{
-    risques:["AES","Manutention patients","Horaires décalés"],
-    cmr:["Médicaments cytotoxiques"],
-    rps:["Charge émotionnelle","Stress"],
-    prevention:["Protocoles sécurisés","Aides techniques","EPI adaptés"]
+  "white-spirit":{
+    nom:"White‑Spirit",
+    type:"Toxique chronique",
+    usages:"Peinture, dégraissage",
+    effets:"Troubles neurologiques",
+    exposition:"Inhalation / contact",
+    prevention:[
+      "Utilisation peintures à l’eau",
+      "Ventilation",
+      "Gants",
+      "Masque A2P3"
+    ]
+  },
+  "formol":{
+    nom:"Formaldéhyde",
+    type:"Cancérogène avéré",
+    usages:"Laboratoires, désinfection",
+    effets:"Cancers ORL",
+    exposition:"Inhalation",
+    prevention:[
+      "Confinement / hotte",
+      "Substitution",
+      "Procédures strictes",
+      "Gants et masque"
+    ]
   }
 };
 
-function showAnalysis(){
- const m=jobs[jobSelect.value];
- if(!m) return;
-
- analysis.innerHTML=`
- <div class="card card-risk"><h3>⚠️ Risques professionnels</h3><ul>${m.risques.map(r=>`<li>${r}</li>`).join("")}</ul></div>
- <div class="card card-cmr"><h3>🔴 Exposition CMR</h3><ul>${m.cmr.map(c=>`<li>${c}</li>`).join("")}</ul></div>
- <div class="card card-rps"><h3>🧠 Organisation / pénibilité</h3><ul>${m.rps.map(r=>`<li>${r}</li>`).join("")}</ul></div>
- <div class="card card-prev"><h3>🛡️ Prévention prioritaire</h3><ul>${m.prevention.map(p=>`<li>${p}</li>`).join("")}</ul></div>
- `;
-}
-
 function searchCMR(){
- const v=cmrInput.value.toLowerCase();
- cmrResult.innerHTML=v
-  ? `<div class="card card-cmr"><h3>🔴 Risque CMR identifié</h3>${v}</div>`
-  : "";
+  const key = cmrInput.value.toLowerCase();
+  const c = cmrDB[key];
+  if(!c){
+    cmrResult.innerHTML="<div class='card card-cmr'><strong>⚠️ Substance non référencée</strong><br>Analyse EPST recommandée.</div>";
+    return;
+  }
+
+  cmrResult.innerHTML=`
+    <div class="card card-cmr">
+      <h3>🔴 ${c.nom}</h3>
+      <ul>
+        <li><strong>Type :</strong> ${c.type}</li>
+        <li><strong>Usages :</strong> ${c.usages}</li>
+        <li><strong>Effets :</strong> ${c.effets}</li>
+        <li><strong>Exposition :</strong> ${c.exposition}</li>
+      </ul>
+    </div>
+
+    <div class="card card-prev">
+      <h3>🛡️ Prévention prioritaire</h3>
+      <ul>${c.prevention.map(p=>`<li>${p}</li>`).join("")}</ul>
+    </div>
+  `;
 }
 
-function pdpOut(){pdpMsg.innerHTML="<div class='info'>✅ Orientation PDP transmise</div>";}
-function contactOK(){contactMsg.innerHTML="<div class='info'>✅ Message envoyé</div>";}
+/* SCAN CODE-BARRES */
+async function startScan(){
+  if(!("BarcodeDetector" in window)){
+    alert("Scan non disponible sur cet appareil");
+    return;
+  }
+  const video = document.getElementById("video");
+  video.classList.remove("hidden");
+
+  const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+  video.srcObject=stream;
+  video.play();
+
+  const detector = new BarcodeDetector({formats:["ean_13","ean_8"]});
+  const interval=setInterval(async()=>{
+    const codes=await detector.detect(video);
+    if(codes.length){
+      clearInterval(interval);
+      stream.getTracks().forEach(t=>t.stop());
+      video.classList.add("hidden");
+      cmrInput.value=codes[0].rawValue;
+      searchCMR();
+    }
+  },600);
+}
 </script>
 
 </body>
