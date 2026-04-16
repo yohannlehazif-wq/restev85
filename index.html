@@ -13,7 +13,6 @@ body{
 }
 .app{max-width:620px;margin:auto;padding:16px}
 
-/* HEADER */
 .header{
   display:flex;
   align-items:center;
@@ -27,7 +26,6 @@ body{
 .header img{height:48px;}
 .header-title{font-size:18px;font-weight:bold;color:#3b82f6}
 
-/* PAGES */
 .page{
   display:none;
   background:white;
@@ -36,7 +34,6 @@ body{
   box-shadow:0 14px 34px rgba(59,130,246,0.15);
 }
 .page.active{display:block;}
-.page h2{margin-top:0;color:#1e40af}
 
 button{
   width:100%;
@@ -83,30 +80,25 @@ video{
 
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
   logo.png
   <div class="header-title">Prévention santé au travail</div>
 </div>
 
-<!-- HOME -->
 <div id="home" class="page active">
 <h2>Bienvenue sur RESTEV</h2>
 <button class="prevention" onclick="openPage('metier')">Prévention par métier</button>
-<button class="cmr" onclick="openPage('cmr')">Identification des risques CMR</button>
+<button class="cmr" onclick="openPage('cmr')">Identification CMR</button>
 <button class="pdp" onclick="openPage('pdp')">PDP</button>
 <button class="duerp" onclick="openPage('duerp')">DUERP</button>
 <button class="contact" onclick="openPage('contact')">Contact</button>
 </div>
 
-<!-- METIER -->
 <div id="metier" class="page">
 <h2>Prévention par métier</h2>
-<p>Analyse des risques professionnels.</p>
 <button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- CMR -->
 <div id="cmr" class="page">
 <h2>Identification des risques CMR</h2>
 
@@ -121,26 +113,9 @@ video{
 <button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- PDP -->
-<div id="pdp" class="page">
-<h2>PDP</h2>
-<p>Prévention de la désinsertion professionnelle.</p>
-<button class="back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- DUERP -->
-<div id="duerp" class="page">
-<h2>DUERP</h2>
-<p>Contribution à l’identification des risques.</p>
-<button class="back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- CONTACT -->
-<div id="contact" class="page">
-<h2>Contact RESTEV</h2>
-<p>Pour tout accompagnement.</p>
-<button class="back" onclick="openPage('home')">← Retour</button>
-</div>
+<div id="pdp" class="page"><h2>PDP</h2><button class="back" onclick="openPage('home')">← Retour</button></div>
+<div id="duerp" class="page"><h2>DUERP</h2><button class="back" onclick="openPage('home')">← Retour</button></div>
+<div id="contact" class="page"><h2>Contact</h2><button class="back" onclick="openPage('home')">← Retour</button></div>
 
 </div>
 
@@ -150,206 +125,37 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-/* BASE CMR */
-<script>
-/* ================= BASE CMR ÉTENDUE ================= */
-
+/* ===== BASE CMR ÉTENDUE ===== */
 const cmrDB = {
-
-  /* === POUSSIÈRES & MINÉRAUX === */
-  silice: {
-    nom: "Silice cristalline",
-    type: "Cancérogène avéré",
-    usage: "Découpe béton, pierre, carrelage",
-    effets: "Silicose, cancers pulmonaires",
-    exposition: "Inhalation de poussières fines",
-    prevention: [
-      "Substitution ou travail humide",
-      "Aspiration à la source",
-      "Organisation du chantier",
-      "Masque FFP3 en dernier recours"
-    ]
-  },
-
-  poussiere_bois: {
-    nom: "Poussières de bois",
-    type: "Cancérogène avéré",
-    usage: "Sciage, ponçage, rabotage",
-    effets: "Cancers naso-sinusiens",
-    exposition: "Inhalation",
-    prevention: [
-      "Aspiration intégrée aux machines",
-      "Nettoyage par aspiration",
-      "Organisation des postes",
-      "Protection respiratoire si nécessaire"
-    ]
-  },
-
-  /* === SOLVANTS / PEINTURE === */
-  toluene: {
-    nom: "Toluène",
-    type: "Reprotoxique suspecté",
-    usage: "Peintures, colles, solvants",
-    effets: "Atteintes neurologiques, fertilité",
-    exposition: "Inhalation",
-    prevention: [
-      "Substitution",
-      "Ventilation générale",
-      "Limitation des durées d’exposition",
-      "Masque A2P3"
-    ]
-  },
-
-  white_spirit: {
-    nom: "White‑Spirit",
-    type: "Toxique chronique",
-    usage: "Peinture, nettoyage",
-    effets: "Troubles neurologiques",
-    exposition: "Inhalation / contact cutané",
-    prevention: [
-      "Produits à l’eau si possible",
-      "Ventilation",
-      "Gants de protection",
-      "Masque A2P3"
-    ]
-  },
-
-  xylene: {
-    nom: "Xylène",
-    type: "Toxique chronique",
-    usage: "Peintures, vernis",
-    effets: "Troubles neurologiques",
-    exposition: "Inhalation",
-    prevention: [
-      "Substitution",
-      "Ventilation",
-      "Réduction du temps d’exposition",
-      "Protection respiratoire"
-    ]
-  },
-
-  acetone: {
-    nom: "Acétone",
-    type: "Irritant – inflammable",
-    usage: "Nettoyage, dégraissage",
-    effets: "Irritations, maux de tête",
-    exposition: "Inhalation",
-    prevention: [
-      "Ventilation",
-      "Limitation des quantités",
-      "Gants",
-      "Protection respiratoire si besoin"
-    ]
-  },
-
-  /* === METALLURGIE / INDUSTRIE === */
-  fumees_soudage: {
-    nom: "Fumées de soudage",
-    type: "Cancérogène",
-    usage: "Soudage acier, inox, alliages",
-    effets: "Cancers pulmonaires",
-    exposition: "Inhalation",
-    prevention: [
-      "Captage à la source",
-      "Ventilation des postes",
-      "Organisation des zones",
-      "Masque à adduction d’air"
-    ]
-  },
-
-  chrome_vi: {
-    nom: "Chrome hexavalent",
-    type: "Cancérogène avéré",
-    usage: "Traitements de surface",
-    effets: "Cancers pulmonaires, allergies",
-    exposition: "Inhalation / contact",
-    prevention: [
-      "Substitution prioritaire",
-      "Confinement des procédés",
-      "Procédures strictes",
-      "Protection respiratoire et cutanée"
-    ]
-  },
-
-  /* === SANTÉ / MÉDICO‑SOCIAL === */
-  formol: {
-    nom: "Formaldéhyde",
-    type: "Cancérogène avéré",
-    usage: "Laboratoires, anatomie pathologique",
-    effets: "Cancers ORL, irritations",
-    exposition: "Inhalation",
-    prevention: [
-      "Travail en hotte ou enceinte fermée",
-      "Substitution",
-      "Procédures strictes",
-      "Protection respiratoire"
-    ]
-  },
-
-  cytotoxiques: {
-    nom: "Médicaments cytotoxiques",
-    type: "Cancérogène / reprotoxique",
-    usage: "Préparation et administration traitements",
-    effets: "Cancers, effets reproduction",
-    exposition: "Contact / inhalation",
-    prevention: [
-      "Systèmes fermés",
-      "Organisation spécifique",
-      "Formation du personnel",
-      "EPI adaptés (gants, surblouse)"
-    ]
-  },
-
-  desinfectants_aldehydes: {
-    nom: "Désinfectants à base d’aldéhydes",
-    type: "CMR suspectés",
-    usage: "Désinfection matériel",
-    effets: "Irritations, effets respiratoires",
-    exposition: "Inhalation / contact",
-    prevention: [
-      "Produits alternatifs",
-      "Ventilation",
-      "Organisation des temps de pose",
-      "Gants et protection respiratoire"
-    ]
-  },
-
-  /* === MOTEURS / TRANSPORT === */
-  diesel: {
-    nom: "Gaz d’échappement diesel",
-    type: "Cancérogène avéré",
-    usage: "Engins, véhicules thermiques",
-    effets: "Cancers pulmonaires",
-    exposition: "Inhalation",
-    prevention: [
-      "Réduction à la source",
-      "Ventilation",
-      "Organisation des circulations",
-      "Maintenance des engins"
-    ]
-  }
-
+  silice:{nom:"Silice cristalline",effets:"Cancer pulmonaire",prevention:["Aspiration","FFP3","Travail humide"]},
+  formol:{nom:"Formaldéhyde",effets:"Cancers ORL",prevention:["Hotte","Substitution","Protection respiratoire"]},
+  toluene:{nom:"Toluène",effets:"Atteintes neurologiques",prevention:["Ventilation","Substitution","Masque A2P3"]},
+  white_spirit:{nom:"White‑Spirit",effets:"Troubles neurologiques",prevention:["Ventilation","Gants","Masque A2P3"]},
+  diesel:{nom:"Gaz d’échappement diesel",effets:"Cancer pulmonaire",prevention:["Réduction source","Ventilation","Organisation circulations"]}
 };
 
-/* ---------- NORMALISATION POUR RECHERCHE ---------- */
-function normalize(text){
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"");
+function normalize(t){
+  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 }
-</script>
 
-async function startScan(){
-  if(!("BarcodeDetector" in window)){
-    alert("Scan non disponible");
+function searchCMR(){
+  const key=normalize(cmrInput.value);
+  const entry=Object.values(cmrDB).find(c=>normalize(c.nom).includes(key));
+  if(!entry){
+    cmrResult.innerHTML="<div class='card cmr'>Substance non référencée – avis RESTEV recommandé</div>";
     return;
   }
+  cmrResult.innerHTML=`
+  <div class="card cmr"><strong>${entry.nom}</strong><br>${entry.effets}</div>
+  <div class="card prev"><strong>Prévention :</strong><ul>${entry.prevention.map(p=>`<li>${p}</li>`).join("")}</ul></div>`;
+}
+
+async function startScan(){
+  if(!("BarcodeDetector" in window)){alert("Scan non disponible");return;}
   const v=document.getElementById("video");
   v.style.display="block";
   const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
-  v.srcObject=stream;
-  await v.play();
+  v.srcObject=stream;await v.play();
   const detector=new BarcodeDetector();
   const loop=setInterval(async()=>{
     const codes=await detector.detect(v);
