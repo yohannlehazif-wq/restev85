@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV</title>
+<title>RESTEV – Démo produits</title>
 
 <style>
 body{
@@ -13,6 +13,7 @@ body{
 }
 .app{max-width:620px;margin:auto;padding:16px}
 
+/* Header */
 .header{
   display:flex;
   align-items:center;
@@ -26,6 +27,7 @@ body{
 .header img{height:48px;}
 .header-title{font-size:18px;font-weight:bold;color:#3b82f6}
 
+/* Pages */
 .page{
   display:none;
   background:white;
@@ -45,11 +47,8 @@ button{
   margin-bottom:14px;
 }
 
-.prevention{background:#e0f2fe;color:#1e3a8a}
+.home{background:#e0f2fe;color:#1e3a8a}
 .cmr{background:#fee2e2;color:#7f1d1d}
-.pdp{background:#d1fae5;color:#065f46}
-.duerp{background:#ede9fe;color:#4c1d95}
-.contact{background:#dcfce7;color:#14532d}
 .back{background:#e5e7eb;color:#111}
 
 input{
@@ -65,6 +64,7 @@ input{
   padding:14px;
   margin-bottom:14px;
 }
+.card.info{background:#e0f2fe}
 .card.cmr{background:#fee2e2}
 .card.prev{background:#dcfce7}
 
@@ -85,73 +85,135 @@ video{
   <div class="header-title">Prévention santé au travail</div>
 </div>
 
+<!-- ACCUEIL -->
 <div id="home" class="page active">
-<h2>Bienvenue sur RESTEV</h2>
-<button class="prevention" onclick="openPage('metier')">Prévention par métier</button>
-<button class="cmr" onclick="openPage('cmr')">Identification CMR</button>
-<button class="pdp" onclick="openPage('pdp')">PDP</button>
-<button class="duerp" onclick="openPage('duerp')">DUERP</button>
-<button class="contact" onclick="openPage('contact')">Contact</button>
+<h2>Application RESTEV</h2>
+<p>Démo : identification des produits et prévention des risques.</p>
+<button class="cmr" onclick="openPage('cmr')">Identifier un produit (scan / saisie)</button>
 </div>
 
-<div id="metier" class="page">
-<h2>Prévention par métier</h2>
-<button class="back" onclick="openPage('home')">← Retour</button>
-</div>
-
+<!-- PAGE CMR -->
 <div id="cmr" class="page">
-<h2>Identification des risques CMR</h2>
+<h2>Identification produits – Démo direction</h2>
 
 <button class="cmr" onclick="startScan()">Scanner un produit (code‑barres)</button>
 <video id="video" style="display:none"></video>
 
-<input id="cmrInput" placeholder="Ex : silice, formol, toluène">
-<button class="prevention" onclick="searchCMR()">Identifier</button>
+<input id="cmrInput" placeholder="Ou saisir : destop / white spirit">
+<button class="home" onclick="searchByName()">Identifier le produit</button>
 
-<div id="cmrResult"></div>
+<div id="result"></div>
 
 <button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<div id="pdp" class="page"><h2>PDP</h2><button class="back" onclick="openPage('home')">← Retour</button></div>
-<div id="duerp" class="page"><h2>DUERP</h2><button class="back" onclick="openPage('home')">← Retour</button></div>
-<div id="contact" class="page"><h2>Contact</h2><button class="back" onclick="openPage('home')">← Retour</button></div>
-
 </div>
 
 <script>
+/* NAVIGATION */
 function openPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ===== BASE CMR ÉTENDUE ===== */
-const cmrDB = {
-  silice:{nom:"Silice cristalline",effets:"Cancer pulmonaire",prevention:["Aspiration","FFP3","Travail humide"]},
-  formol:{nom:"Formaldéhyde",effets:"Cancers ORL",prevention:["Hotte","Substitution","Protection respiratoire"]},
-  toluene:{nom:"Toluène",effets:"Atteintes neurologiques",prevention:["Ventilation","Substitution","Masque A2P3"]},
-  white_spirit:{nom:"White‑Spirit",effets:"Troubles neurologiques",prevention:["Ventilation","Gants","Masque A2P3"]},
-  diesel:{nom:"Gaz d’échappement diesel",effets:"Cancer pulmonaire",prevention:["Réduction source","Ventilation","Organisation circulations"]}
+/* BASE PRODUITS – SIMULATION API */
+const productDB = {
+  "destop": {
+    nom:"Déboucheur de canalisations (DESTOP)",
+    categorie:"Produit de nettoyage très alcalin",
+    substances:["soude"]
+  },
+  "white spirit": {
+    nom:"White‑Spirit",
+    categorie:"Solvant pétrolier",
+    substances:["white_spirit"]
+  },
+  "3228857005173": { // exemple EAN DESTOP
+    nom:"Déboucheur de canalisations (DESTOP)",
+    categorie:"Produit de nettoyage très alcalin",
+    substances:["soude"]
+  }
 };
 
-function normalize(t){
+/* BASE SUBSTANCES */
+const substanceDB = {
+  soude:{
+    nom:"Hydroxyde de sodium (soude caustique)",
+    type:"Agent chimique dangereux – corrosif",
+    effets:"Brûlures graves de la peau et des yeux, risques respiratoires",
+    prevention:[
+      "Substitution par méthodes mécaniques si possible",
+      "Procédure d’utilisation écrite",
+      "Interdiction des mélanges",
+      "Gants et protection oculaire"
+    ]
+  },
+  white_spirit:{
+    nom:"White‑Spirit (solvant pétrolier)",
+    type:"Toxique chronique par exposition répétée",
+    effets:"Troubles neurologiques, irritations",
+    prevention:[
+      "Produits à l’eau si possible",
+      "Ventilation des locaux",
+      "Limitation des durées d’exposition",
+      "Protection respiratoire si nécessaire"
+    ]
+  }
+};
+
+/* NORMALISATION */
+function norm(t){
   return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 }
 
-function searchCMR(){
-  const key=normalize(cmrInput.value);
-  const entry=Object.values(cmrDB).find(c=>normalize(c.nom).includes(key));
-  if(!entry){
-    cmrResult.innerHTML="<div class='card cmr'>Substance non référencée – avis RESTEV recommandé</div>";
+/* RECHERCHE PAR NOM */
+function searchByName(){
+  const key = norm(cmrInput.value);
+  const product = Object.values(productDB).find(p=>norm(p.nom).includes(key));
+  if(!product){
+    result.innerHTML="<div class='card info'>Produit non reconnu – vérifier la FDS.</div>";
     return;
   }
-  cmrResult.innerHTML=`
-  <div class="card cmr"><strong>${entry.nom}</strong><br>${entry.effets}</div>
-  <div class="card prev"><strong>Prévention :</strong><ul>${entry.prevention.map(p=>`<li>${p}</li>`).join("")}</ul></div>`;
+  showProduct(product);
 }
 
+/* AFFICHAGE PRODUIT */
+function showProduct(p){
+  let html = `
+    <div class="card info">
+      <strong>Produit identifié</strong><br>
+      ${p.nom}<br>
+      <em>${p.categorie}</em>
+    </div>
+  `;
+  p.substances.forEach(s=>{
+    const sub=substanceDB[s];
+    html+=`
+      <div class="card cmr">
+        <strong>${sub.nom}</strong><br>
+        ${sub.type}<br>
+        ${sub.effets}
+      </div>
+      <div class="card prev">
+        <strong>Prévention recommandée :</strong>
+        <ul>${sub.prevention.map(x=>`<li>${x}</li>`).join("")}</ul>
+      </div>
+    `;
+  });
+  html+=`
+    <div class="card prev">
+      ⚠️ La fiche de données de sécurité (FDS) reste la référence obligatoire.
+    </div>
+  `;
+  result.innerHTML=html;
+}
+
+/* SCAN CODE‑BARRES */
 async function startScan(){
-  if(!("BarcodeDetector" in window)){alert("Scan non disponible");return;}
+  if(!("BarcodeDetector" in window)){
+    alert("Caméra non disponible sur cet appareil");
+    return;
+  }
   const v=document.getElementById("video");
   v.style.display="block";
   const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
@@ -163,8 +225,10 @@ async function startScan(){
       clearInterval(loop);
       stream.getTracks().forEach(t=>t.stop());
       v.style.display="none";
-      cmrInput.value=codes[0].rawValue;
-      searchCMR();
+      const code=codes[0].rawValue;
+      const product=productDB[code];
+      if(product){showProduct(product);}
+      else{result.innerHTML="<div class='card info'>Produit identifié – informations chimiques à vérifier via la FDS.</div>";}
     }
   },800);
 }
