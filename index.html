@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV </title>
+<title>RESTEV</title>
 
 <style>
 body{
@@ -11,13 +11,9 @@ body{
   font-family:Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
 }
-.app{
-  max-width:620px;
-  margin:auto;
-  padding:16px;
-}
+.app{max-width:620px;margin:auto;padding:16px}
 
-/* Header */
+/* HEADER */
 .header{
   display:flex;
   align-items:center;
@@ -29,13 +25,9 @@ body{
   margin-bottom:20px;
 }
 .header img{height:48px;}
-.header-title{
-  font-size:18px;
-  font-weight:bold;
-  color:#3b82f6;
-}
+.header-title{font-size:18px;font-weight:bold;color:#3b82f6}
 
-/* Pages */
+/* PAGES */
 .page{
   display:none;
   background:white;
@@ -44,9 +36,8 @@ body{
   box-shadow:0 14px 34px rgba(59,130,246,0.15);
 }
 .page.active{display:block;}
-.page h2{margin-top:0;color:#1e40af;}
+.page h2{margin-top:0;color:#1e40af}
 
-/* Buttons */
 button{
   width:100%;
   padding:16px;
@@ -55,16 +46,36 @@ button{
   font-size:16px;
   font-weight:bold;
   margin-bottom:14px;
-  text-align:left;
 }
 
-/* Pastel sobre */
-.prevention{background:#e0f2fe;color:#1e3a8a;}
-.cmr{background:#fee2e2;color:#7f1d1d;}
-.pdp{background:#d1fae5;color:#065f46;}
-.duerp{background:#ede9fe;color:#4c1d95;}
-.contact{background:#dcfce7;color:#14532d;}
-.back{background:#e5e7eb;color:#111;text-align:center;}
+.prevention{background:#e0f2fe;color:#1e3a8a}
+.cmr{background:#fee2e2;color:#7f1d1d}
+.pdp{background:#d1fae5;color:#065f46}
+.duerp{background:#ede9fe;color:#4c1d95}
+.contact{background:#dcfce7;color:#14532d}
+.back{background:#e5e7eb;color:#111}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:14px;
+  border:2px solid #c7d2fe;
+}
+
+.card{
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+}
+.card.cmr{background:#fee2e2}
+.card.prev{background:#dcfce7}
+
+video{
+  width:100%;
+  border-radius:14px;
+  margin-bottom:12px;
+}
 </style>
 </head>
 
@@ -78,92 +89,57 @@ button{
   <div class="header-title">Prévention santé au travail</div>
 </div>
 
-<!-- ================= ACCUEIL ================= -->
+<!-- HOME -->
 <div id="home" class="page active">
 <h2>Bienvenue sur RESTEV</h2>
-<p>
-Cette application accompagne les entreprises dans une démarche
-<strong>préventive et structurée</strong> en santé au travail.
-</p>
-
-<button class="prevention" onclick="openPage('metier')">
-Prévention par métier
-</button>
-
-<button class="cmr" onclick="openPage('cmr')">
-Identification des risques CMR
-</button>
-
-<button class="pdp" onclick="openPage('pdp')">
-Prévention de la désinsertion professionnelle
-</button>
-
-<button class="duerp" onclick="openPage('duerp')">
-Appui à l’élaboration du DUERP
-</button>
-
-<button class="contact" onclick="openPage('contact')">
-Contacter RESTEV
-</button>
+<button class="prevention" onclick="openPage('metier')">Prévention par métier</button>
+<button class="cmr" onclick="openPage('cmr')">Identification des risques CMR</button>
+<button class="pdp" onclick="openPage('pdp')">PDP</button>
+<button class="duerp" onclick="openPage('duerp')">DUERP</button>
+<button class="contact" onclick="openPage('contact')">Contact</button>
 </div>
 
-<!-- ================= MÉTIER ================= -->
+<!-- METIER -->
 <div id="metier" class="page">
 <h2>Prévention par métier</h2>
-<p>Analyse des risques professionnels selon l’activité exercée.</p>
-<button class="back" onclick="openPage('home')">← Retour accueil</button>
+<p>Analyse des risques professionnels.</p>
+<button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- ================= PAGE CMR ================= -->code‑barres)
-  </button>
-
-  <video id="video" style="display:none;"></video>
-
-  <input id="cmrInput"
-         placeholder="Ex : silice, solvant, formol, white spirit…">
-
-  <button class="btn-main" onclick="searchCMR()">
-    Identifier la substance
-  </button>
-
-  <div id="cmrResult"></div>
-
-  <button class="back" onclick="openPage('home')">
-    ← Retour à l’accueil
-  </button>
-</div>
-``
+<!-- CMR -->
 <div id="cmr" class="page">
-  <h2>Identification des risques CMR</h2>
+<h2>Identification des risques CMR</h2>
 
-  <p>
-    Cette page permet de repérer les substances ou produits
-    <strong>cancérogènes, mutagènes ou reprotoxiques</strong>
-    présents en situation de travail.
-  </p>
+<button class="cmr" onclick="startScan()">Scanner un produit (code‑barres)</button>
+<video id="video" style="display:none"></video>
 
-  <button class="cmr" onclick="startScan()">
+<input id="cmrInput" placeholder="Ex : silice, formol, toluène">
+<button class="prevention" onclick="searchCMR()">Identifier</button>
 
+<div id="cmrResult"></div>
 
-<!-- ================= PDP ================= -->
+<button class="back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- PDP -->
 <div id="pdp" class="page">
 <h2>PDP</h2>
 <p>Prévention de la désinsertion professionnelle.</p>
-<button class="back" onclick="openPage('home')">← Retour accueil</button>
+<button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- ================= DUERP ================= -->
+<!-- DUERP -->
 <div id="duerp" class="page">
 <h2>DUERP</h2>
 <p>Contribution à l’identification des risques.</p>
-<button class="back" onclick="openPage('home')">← Retour accueil</button>
+<button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- ================= CONTACT ================= -->
+<!-- CONTACT -->
 <div id="contact" class="page">
 <h2>Contact RESTEV</h2>
-<p>Pour tout accompagnement ou information.</p>
-<button class="back" onclick="openPage('home')">← Retour accueil</button>
+<p>Pour tout accompagnement.</p>
+<button class="back" onclick="openPage('home')">← Retour</button>
 </div>
 
 </div>
@@ -173,126 +149,67 @@ function openPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+
+/* BASE CMR */
+const cmrDB={
+  silice:{
+    nom:"Silice cristalline",
+    type:"Cancérogène avéré",
+    effet:"Silicose, cancer pulmonaire",
+    prevention:["Aspiration","Travail humide","FFP3"]
+  },
+  formol:{
+    nom:"Formaldéhyde",
+    type:"Cancérogène avéré",
+    effet:"Cancers ORL",
+    prevention:["Hotte","Procédures","Protection respiratoire"]
+  }
+};
+
+function normalize(t){
+  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+
+function searchCMR(){
+  const key=normalize(cmrInput.value);
+  const entry=Object.values(cmrDB).find(c=>normalize(c.nom).includes(key));
+  if(!entry){
+    cmrResult.innerHTML="<div class='card cmr'>Substance non référencée – avis RESTEV requis</div>";
+    return;
+  }
+  cmrResult.innerHTML=`
+  <div class="card cmr">
+    <strong>${entry.nom}</strong><br>${entry.type}<br>${entry.effet}
+  </div>
+  <div class="card prev">
+    <strong>Prévention :</strong>
+    <ul>${entry.prevention.map(p=>`<li>${p}</li>`).join("")}</ul>
+  </div>`;
+}
+
+async function startScan(){
+  if(!("BarcodeDetector" in window)){
+    alert("Scan non disponible");
+    return;
+  }
+  const v=document.getElementById("video");
+  v.style.display="block";
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+  v.srcObject=stream;
+  await v.play();
+  const detector=new BarcodeDetector();
+  const loop=setInterval(async()=>{
+    const codes=await detector.detect(v);
+    if(codes.length){
+      clearInterval(loop);
+      stream.getTracks().forEach(t=>t.stop());
+      v.style.display="none";
+      cmrInput.value=codes[0].rawValue;
+      searchCMR();
+    }
+  },800);
+}
 </script>
 
 </body>
 </html>
-
-<script>
-// ---------- BASE CMR ----------
-const cmrDB = {
-  silice: {
-    nom: "Silice cristalline",
-    type: "Cancérogène avéré",
-    usage: "Découpe et perçage du béton, carrelage, pierre",
-    effets: "Silicose, cancer pulmonaire",
-    exposition: "Inhalation de poussières fines",
-    prevention: [
-      "Substitution ou travail humide",
-      "Aspiration à la source",
-      "Organisation des tâches",
-      "Masque FFP3 en dernier recours"
-    ]
-  },
-  formol: {
-    nom: "Formaldéhyde",
-    type: "Cancérogène avéré",
-    usage: "Laboratoires, désinfection",
-    effets: "Cancers ORL, irritations",
-    exposition: "Inhalation",
-    prevention: [
-      "Travail en enceinte ventilée",
-      "Substitution si possible",
-      "Procédures strictes",
-      "Gants et protection respiratoire"
-    ]
-  },
-  toluene: {
-    nom: "Toluène",
-    type: "Reprotoxique suspecté",
-    usage: "Peintures, colles, solvants",
-    effets: "Atteintes neurologiques",
-    exposition: "Inhalation",
-    prevention: [
-      "Substitution",
-      "Ventilation",
-      "Limitation des durées d’exposition",
-      "Masque A2P3"
-    ]
-  }
-};
-
-// ---------- NORMALISATION TEXTE ----------
-function normalize(text){
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-// ---------- RECHERCHE CMR ----------
-function searchCMR(){
-  const input = normalize(document.getElementById("cmrInput").value);
-  const entry = Object.values(cmrDB)
-    .find(c => normalize(c.nom).includes(input));
-
-  if(!entry){
-    cmrResult.innerHTML = `
-      <div class="card cmr">
-        Substance non référencée.<br>
-        Analyse par RESTEV recommandée.
-      </div>
-    `;
-    return;
-  }
-
-  cmrResult.innerHTML = `
-    <div class="card cmr">
-      <strong>${entry.nom}</strong><br>
-      <em>${entry.type}</em><br><br>
-      <strong>Usage :</strong> ${entry.usage}<br>
-      <strong>Effets :</strong> ${entry.effets}<br>
-      <strong>Exposition :</strong> ${entry.exposition}
-    </div>
-
-    <div class="card prev">
-      <strong>Prévention prioritaire :</strong>
-      <ul>
-        ${entry.prevention.map(p=>`<li>${p}</li>`).join("")}
-      </ul>
-    </div>
-  `;
-}
-
-// ---------- SCAN CODE-BARRES ----------
-async function startScan(){
-  if(!("BarcodeDetector" in window)){
-    alert("Lecture code‑barres non disponible sur cet appareil");
-    return;
-  }
-
-  const video = document.getElementById("video");
-  video.style.display = "block";
-
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "environment" }
-  });
-
-  video.srcObject = stream;
-  await video.play();
-
-  const detector = new BarcodeDetector();
-
-  const scanInterval = setInterval(async () => {
-    const codes = await detector.detect(video);
-    if(codes.length){
-      clearInterval(scanInterval);
-      stream.getTracks().forEach(t => t.stop());
-      video.style.display = "none";
-
-      document.getElementById("cmrInput").value = codes[0].rawValue;
-      searchCMR();
-    }
-  }, 800);
-}
-</script>
