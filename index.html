@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Démo Scan Produits</title>
+<title>RESTEV – Prévention Santé au Travail</title>
 
 <style>
 body{
@@ -13,7 +13,7 @@ body{
 }
 .app{max-width:620px;margin:auto;padding:16px}
 
-/* Header */
+/* HEADER */
 .header{
   display:flex;
   align-items:center;
@@ -24,10 +24,10 @@ body{
   box-shadow:0 6px 20px rgba(0,0,0,0.08);
   margin-bottom:20px;
 }
-.header img{height:48px;}
-.header-title{font-size:18px;font-weight:bold;color:#3b82f6}
+.header img{height:48px}
+.header-title{font-size:18px;font-weight:bold;color:#2563eb}
 
-/* Pages */
+/* PAGES */
 .page{
   display:none;
   background:white;
@@ -35,8 +35,9 @@ body{
   padding:24px;
   box-shadow:0 14px 34px rgba(59,130,246,0.15);
 }
-.page.active{display:block;}
+.page.active{display:block}
 
+/* BOUTONS */
 button{
   width:100%;
   padding:16px;
@@ -47,9 +48,12 @@ button{
   margin-bottom:14px;
 }
 
-.home{background:#e0f2fe;color:#1e3a8a}
-.scan{background:#fee2e2;color:#7f1d1d}
-.back{background:#e5e7eb;color:#111}
+.btn-prevention{background:#e0f2fe;color:#1e3a8a}
+.btn-produit{background:#fee2e2;color:#7f1d1d}
+.btn-pdp{background:#d1fae5;color:#065f46}
+.btn-duerp{background:#ede9fe;color:#4c1d95}
+.btn-contact{background:#fef9c3;color:#854d0e}
+.btn-back{background:#e5e7eb;color:#111}
 
 input{
   width:100%;
@@ -67,6 +71,7 @@ input{
 .card.info{background:#e0f2fe}
 .card.risk{background:#fee2e2}
 .card.prev{background:#dcfce7}
+.card.warn{background:#fef9c3}
 
 video{
   width:100%;
@@ -82,161 +87,165 @@ video{
 
 <!-- HEADER -->
 <div class="header">
-  logo.png
+  <img src="logo.png" alt="RESTEV">
   <div class="header-title">Prévention santé au travail</div>
 </div>
 
 <!-- ACCUEIL -->
 <div id="home" class="page active">
-<h2>Application RESTEV</h2>
-<p>Démo – Identification et prévention à partir d’un produit réel.</p>
-<button class="scan" onclick="openPage('scan')">Identifier un produit</button>
+  <h2>Application RESTEV</h2>
+  <p>Outil d’aide à la prévention pour les entreprises adhérentes.</p>
+
+  <button class="btn-prevention" onclick="openPage('metier')">
+    Prévention par métier
+  </button>
+
+  <button class="btn-produit" onclick="openPage('produits')">
+    Produits & substances dangereuses
+  </button>
+
+  <button class="btn-pdp" onclick="openPage('pdp')">
+    Prévention de la désinsertion professionnelle
+  </button>
+
+  <button class="btn-duerp" onclick="openPage('duerp')">
+    Appui DUERP
+  </button>
+
+  <button class="btn-contact" onclick="openPage('contact')">
+    Contacter RESTEV
+  </button>
 </div>
 
-<!-- PAGE SCAN -->
-<div id="scan" class="page">
-<h2>Identification d’un produit</h2>
+<!-- PREVENTION METIER -->
+<div id="metier" class="page">
+  <h2>Prévention par métier</h2>
+  <p>Analyse des risques professionnels, organisationnels et chimiques selon l’activité.</p>
 
-<button class="scan" onclick="startScan()">Scanner un code‑barres</button>
-<video id="video" style="display:none"></video>
+  <div class="card info">
+    Cette rubrique permet de repérer les principaux risques du poste
+    et d’orienter les actions de prévention.
+  </div>
 
-<input id="manualInput" placeholder="Ou saisir : destop / white spirit">
-<button class="home" onclick="manualSearch()">Identifier le produit</button>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
 
-<div id="result"></div>
+<!-- PRODUITS -->
+<div id="produits" class="page">
+  <h2>Produits & substances dangereuses</h2>
 
-<button class="back" onclick="openPage('home')">← Retour</button>
+  <button class="btn-produit" onclick="startScan()">Scanner un produit</button>
+  <video id="video" style="display:none"></video>
+
+  <input id="manualInput" placeholder="Ex : destop / white spirit">
+  <button class="btn-prevention" onclick="manualSearch()">Identifier le produit</button>
+
+  <div id="result"></div>
+
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- PDP -->
+<div id="pdp" class="page">
+  <h2>PDP</h2>
+  <div class="card warn">
+    La PDP vise à repérer précocement les situations pouvant conduire
+    à une désinsertion professionnelle (santé, organisation, contraintes).
+  </div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- DUERP -->
+<div id="duerp" class="page">
+  <h2>DUERP</h2>
+  <div class="card info">
+    RESTEV accompagne l’identification des risques.
+    Le DUERP reste un document réglementaire sous la responsabilité de l’employeur.
+  </div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+  <h2>Contact RESTEV</h2>
+  <div class="card warn">
+    Pour toute question ou accompagnement en prévention :
+    <ul>
+      <li>Visites d’entreprise</li>
+      <li>Risque chimique</li>
+      <li>PDP</li>
+      <li>DUERP</li>
+    </ul>
+  </div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
 </div>
 
 <script>
-/* NAVIGATION */
 function openPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* BASE PRODUITS (SIMULATION API) */
-const products = {
+/* BASE PRODUITS */
+const products={
   destop:{
     nom:"Déboucheur de canalisations (DESTOP)",
-    categorie:"Produit de nettoyage très alcalin",
-    substance:"soude"
+    categorie:"Produit très alcalin",
+    risque:"Soude caustique – brûlures chimiques"
   },
-  white_spirit:{
+  'white spirit':{
     nom:"White‑Spirit",
     categorie:"Solvant pétrolier",
-    substance:"white_spirit"
+    risque:"Exposition chronique – solvants"
   }
 };
 
-/* BASE SUBSTANCES */
-const substances = {
-  soude:{
-    nom:"Hydroxyde de sodium (soude caustique)",
-    type:"Agent chimique dangereux – corrosif",
-    effets:"Brûlures graves de la peau et des yeux, risques respiratoires",
-    prevention:[
-      "Substitution par méthodes mécaniques si possible",
-      "Procédure d’utilisation formalisée",
-      "Interdiction des mélanges",
-      "Gants et lunettes de protection"
-    ]
-  },
-  white_spirit:{
-    nom:"White‑Spirit (solvant pétrolier)",
-    type:"Toxique chronique par exposition répétée",
-    effets:"Troubles neurologiques, irritations respiratoires",
-    prevention:[
-      "Utilisation de produits à l’eau",
-      "Ventilation des locaux",
-      "Limitation des durées d’exposition",
-      "Protection respiratoire si nécessaire"
-    ]
-  }
-};
-
-/* NORMALISATION */
-function norm(t){
-  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-}
-
-/* AFFICHAGE PRODUIT */
-function showProduct(p){
-  const s = substances[p.substance];
-
-  let html = `
-    <div class="card info">
-      <strong>Produit identifié</strong><br>
-      ${p.nom}<br>
-      <em>${p.categorie}</em>
-    </div>
-
-    <div class="card risk">
-      <strong>${s.nom}</strong><br>
-      ${s.type}<br>
-      ${s.effets}
-    </div>
-
-    <div class="card prev">
-      <strong>Prévention recommandée :</strong>
-      <ul>${s.prevention.map(x=>`<li>${x}</li>`).join("")}</ul>
-    </div>
-
-    <div class="card prev">
-      ⚠️ La fiche de données de sécurité (FDS) reste la référence obligatoire.
-    </div>
-  `;
-  result.innerHTML = html;
-}
-
-/* RECHERCHE MANUELLE */
 function manualSearch(){
-  const key = norm(manualInput.value);
+  const key=manualInput.value.toLowerCase();
   if(key.includes("destop")){
-    showProduct(products.destop);
-    return;
+    showProduit(products.destop);return;
   }
   if(key.includes("white")){
-    showProduct(products.white_spirit);
-    return;
+    showProduit(products["white spirit"]);return;
   }
-  result.innerHTML = `
+  result.innerHTML="<div class='card warn'>Produit non reconnu – consulter la FDS.</div>";
+}
+
+function showProduit(p){
+  result.innerHTML=`
     <div class="card info">
-      Produit non reconnu.<br>
-      Vérification par la FDS recommandée.
+      <strong>Produit identifié</strong><br>
+      ${p.nom}<br><em>${p.categorie}</em>
+    </div>
+    <div class="card risk">
+      <strong>Risque principal :</strong><br>${p.risque}
+    </div>
+    <div class="card prev">
+      Prévention : substitution, organisation, EPI si nécessaire.<br>
+      ⚠️ FDS obligatoire pour confirmation.
     </div>
   `;
 }
 
-/* SCAN CODE‑BARRES AVEC RECONNAISSANCE INTELLIGENTE */
 async function startScan(){
   if(!("BarcodeDetector" in window)){
-    alert("Lecteur code‑barres non disponible sur cet appareil");
+    alert("Scan non disponible sur cet appareil");
     return;
   }
-
-  const v = document.getElementById("video");
-  v.style.display = "block";
-
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "environment" }
-  });
-
-  v.srcObject = stream;
-  await v.play();
-
-  const detector = new BarcodeDetector();
-  const loop = setInterval(async()=>{
-    const codes = await detector.detect(v);
+  const v=document.getElementById("video");
+  v.style.display="block";
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+  v.srcObject=stream;await v.play();
+  const detector=new BarcodeDetector();
+  const loop=setInterval(async()=>{
+    const codes=await detector.detect(v);
     if(codes.length){
       clearInterval(loop);
       stream.getTracks().forEach(t=>t.stop());
-      v.style.display = "none";
-
-      // 👉 Reconnaissance par famille (démonstration EPST)
-      showProduct(products.destop);
+      v.style.display="none";
+      showProduit(products.destop); // démo volontaire
     }
   },800);
 }
@@ -244,3 +253,4 @@ async function startScan(){
 
 </body>
 </html>
+``
