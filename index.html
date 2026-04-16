@@ -9,7 +9,7 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:linear-gradient(180deg,#ffffff 0%, #e8f0ff 70%);
+  background:linear-gradient(180deg,#ffffff 0%, #f0f7ff 70%);
 }
 .container{max-width:640px;margin:auto;padding:16px}
 
@@ -19,24 +19,24 @@ body{
   align-items:center;
   gap:12px;
   background:white;
-  padding:12px;
-  border-radius:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  padding:14px;
+  border-radius:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
   margin-bottom:16px;
 }
-.header img{height:48px;}
-.header-title{font-size:18px;font-weight:bold;color:#2563eb}
+.header img{height:44px;}
+.header-title{font-size:18px;font-weight:bold;color:#3b82f6}
 
 /* PAGE */
 .page{
   background:white;
-  border-radius:22px;
-  box-shadow:0 10px 30px rgba(37,99,235,.25);
+  border-radius:24px;
+  box-shadow:0 12px 30px rgba(59,130,246,.18);
   padding:20px;
   display:none;
 }
 .page.active{display:block;}
-.page h2{margin-top:0;color:#1e3a8a}
+.page h2{margin-top:0;color:#1e40af}
 
 /* BUTTONS */
 button{
@@ -47,106 +47,97 @@ button{
   border-radius:18px;
   font-weight:bold;
 }
-.btn-main{background:#2563eb;color:white;}
-.btn-cmr{background:#dc2626;color:white;}
-.btn-pdp{background:#0f766e;color:white;}
-.btn-duerp{background:#7c3aed;color:white;}
-.btn-contact{background:#16a34a;color:white;}
-.btn-back{background:#e5e7eb;color:#111}
+.btn-main{background:#93c5fd;color:#1e3a8a;}
+.btn-cmr{background:#fbcfe8;color:#9d174d;}
+.btn-pdp{background:#99f6e4;color:#134e4a;}
+.btn-duerp{background:#ddd6fe;color:#4c1d95;}
+.btn-contact{background:#bbf7d0;color:#14532d;}
+.btn-back{background:#e5e7eb;color:#111;}
 
-/* UI */
+/* INPUT */
 input, select, textarea{
   width:100%;
   padding:12px;
   margin-bottom:14px;
   border-radius:14px;
-  border:2px solid #c7d2fe;
+  border:2px solid #bfdbfe;
 }
 
 /* CARDS */
-.card{border-radius:16px;padding:14px;margin-bottom:14px;}
-.risk{background:#eff6ff;border-left:6px solid #2563eb;}
-.cmr{background:#fee2e2;border-left:6px solid #dc2626;}
-.rps{background:#fef9c3;border-left:6px solid #ca8a04;}
-.prev{background:#dcfce7;border-left:6px solid #16a34a;}
+.card{
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:14px;
+}
+.card-risk{background:#e0f2fe;}
+.card-cmr{background:#fde2e4;}
+.card-rps{background:#fff7cd;}
+.card-prev{background:#dcfce7;}
 
 ul{margin:0;padding-left:18px;}
 li{margin-bottom:6px;}
 
-video{width:100%;border-radius:14px;margin-bottom:10px}
+video{width:100%;border-radius:16px;margin-bottom:10px}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<!-- HEADER -->
 <div class="header">
   <img src="logo.png" alt="RESTEV">
   <div class="header-title">Prévention santé au travail</div>
 </div>
 
-<!-- HOME -->
 <div id="home" class="page active">
 <h2>Application RESTEV</h2>
 <p>
-Outil EPST d’aide à la prévention, aux risques CMR,
-à la prévention de la désinsertion professionnelle (PDP)
-et à la contribution DUERP.
+Outil EPST d’aide à la prévention, à l’identification des risques CMR,
+à la PDP et au DUERP.
 </p>
 <button class="btn-main" onclick="openPage('metier')">🛠️ Prévention par métier</button>
-<button class="btn-cmr" onclick="openPage('cmr')">🔴 Identification CMR</button>
-<button class="btn-pdp" onclick="openPage('pdp')">🧑‍⚕️ PDP</button>
-<button class="btn-duerp" onclick="openPage('duerp')">📄 DUERP</button>
-<button class="btn-contact" onclick="openPage('contact')">📩 Contact RESTEV</button>
+<button class="btn-cmr" onclick="openPage('cmr')">🌸 Identification CMR</button>
+<button class="btn-pdp" onclick="openPage('pdp')">🩵 PDP</button>
+<button class="btn-duerp" onclick="openPage('duerp')">💜 DUERP</button>
+<button class="btn-contact" onclick="openPage('contact')">🌿 Contact RESTEV</button>
 </div>
 
 <!-- METIER -->
 <div id="metier" class="page">
 <h2>Analyse des risques par métier</h2>
-
 <select id="jobSelect" onchange="showAnalysis()">
 <option value="">— Choisir un métier —</option>
 <option value="macon">Maçon</option>
 <option value="menuisier">Menuisier</option>
 <option value="infirmier">Infirmier</option>
 </select>
-
 <div id="analysis"></div>
 <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
 <!-- CMR -->
 <div id="cmr" class="page">
-<h2>Identification des risques CMR</h2>
-<input id="cmrInput" placeholder="Ex : silice, silice cristalline, toluène">
-<button class="btn-cmr" onclick="searchCMR()">Identifier</button>
+<h2>Identification CMR</h2>
+<button class="btn-cmr" onclick="startScan()">📷 Scanner un produit</button>
+<video id="video"></video>
+<input id="cmrInput" placeholder="Ex : silice, toluène, solvants…">
+<button class="btn-main" onclick="searchCMR()">Identifier</button>
 <div id="cmrResult"></div>
 <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
 <!-- PDP -->
 <div id="pdp" class="page">
-<h2>PDP – Prévention de la désinsertion professionnelle</h2>
-<ul>
-<li>Arrêts longs ou répétés</li>
-<li>Difficulté à tenir le poste</li>
-<li>Restriction médicale</li>
-<li>Usure professionnelle</li>
-</ul>
-<button class="btn-pdp" onclick="alert('Orientation PDP transmise')">
-Orienter vers la cellule PDP
-</button>
+<h2>PDP</h2>
+<p>Prévention de la désinsertion professionnelle.</p>
+<button class="btn-pdp" onclick="alert('Orientation PDP transmise')">Orienter</button>
 <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
 <!-- DUERP -->
 <div id="duerp" class="page">
 <h2>DUERP</h2>
-<p>
-Le DUERP doit être formalisé et validé par l’employeur
-(Code du travail R4121‑1).
-</p>
+<p>Contribution à l’identification des risques professionnels.</p>
 <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
@@ -156,7 +147,7 @@ Le DUERP doit être formalisé et validé par l’employeur
 <input placeholder="Nom / Entreprise">
 <input placeholder="Email">
 <textarea placeholder="Message"></textarea>
-<button class="btn-contact" onclick="alert('Message transmis')">Envoyer</button>
+<button class="btn-contact" onclick="alert('Message envoyé')">Envoyer</button>
 <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
@@ -164,63 +155,62 @@ Le DUERP doit être formalisé et validé par l’employeur
 
 <script>
 function openPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
 }
 
-const jobs = {
-  macon:{
-    risques:["Chutes de hauteur","Manutentions lourdes","Bruit"],
-    cmr:["Silice cristalline"],
-    rps:["Cadence chantier","Fatigue physique"],
-    prevention:["Protections collectives","Aspiration","EPI en dernier recours"]
-  },
-  menuisier:{
-    risques:["Machines coupantes","Poussières","Bruit"],
-    cmr:["Poussières de bois"],
-    rps:["Gestes répétitifs"],
-    prevention:["Capotage machines","Aspiration","Masque FFP2/3"]
-  },
-  infirmier:{
-    risques:["AES","Manutention patients"],
-    cmr:["Médicaments cytotoxiques"],
-    rps:["Charge émotionnelle"],
-    prevention:["Protocoles","Aides techniques","EPI"]
-  }
+/* ANALYSE METIER */
+const jobs={
+ macon:{risques:["Chutes","Manutentions"],cmr:["Silice cristalline"],rps:["Fatigue"],prev:["Protections collectives","Aspiration","EPI"]},
+ menuisier:{risques:["Machines","Bruit"],cmr:["Poussières de bois"],rps:["Gestes répétés"],prev:["Aspiration","Formation"]},
+ infirmier:{risques:["AES","Manutentions patients"],cmr:["Cytotoxiques"],rps:["Charge émotionnelle"],prev:["Protocoles","Aides techniques"]}
 };
 
 function showAnalysis(){
-  const m = jobs[jobSelect.value];
-  if(!m) return;
-  analysis.innerHTML = `
-  <div class="card risk"><h3>⚠️ Risques</h3><ul>${m.risques.map(r=>`<li>${r}</li>`).join("")}</ul></div>
-  <div class="card cmr"><h3>🔴 CMR</h3><ul>${m.cmr.map(c=>`<li>${c}</li>`).join("")}</ul></div>
-  <div class="card rps"><h3>🧠 Organisation</h3><ul>${m.rps.map(r=>`<li>${r}</li>`).join("")}</ul></div>
-  <div class="card prev"><h3>🛡️ Prévention</h3><ul>${m.prevention.map(p=>`<li>${p}</li>`).join("")}</ul></div>
-  `;
+ const m=jobs[jobSelect.value];
+ if(!m) return;
+ analysis.innerHTML=`
+ <div class="card card-risk"><strong>⚠️ Risques</strong><ul>${m.risques.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+ <div class="card card-cmr"><strong>🌸 CMR</strong><ul>${m.cmr.map(c=>`<li>${c}</li>`).join("")}</ul></div>
+ <div class="card card-rps"><strong>🍑 Organisation</strong><ul>${m.rps.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+ <div class="card card-prev"><strong>🩵 Prévention</strong><ul>${m.prev.map(p=>`<li>${p}</li>`).join("")}</ul></div>
+ `;
 }
 
-const cmrDB = {
- silice:{nom:"Silice cristalline",effets:"Silicose, cancer pulmonaire",prev:["Aspiration","FFP3","Travail humide"]},
- toluene:{nom:"Toluène",effets:"Atteintes neurologiques",prev:["Ventilation","Substitution","Masque A2P3"]}
+/* BASE CMR */
+const cmrDB={
+ silice:{effets:"Cancer pulmonaire",prev:["Aspiration","FFP3","Travail humide"]},
+ toluene:{effets:"Atteintes neurologiques",prev:["Ventilation","Substitution"]}
 };
 
 function normalize(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
 
 function searchCMR(){
-  const key = normalize(cmrInput.value);
-  const entry = Object.values(cmrDB).find(c=>normalize(c.nom).includes(key));
-  if(!entry){
-    cmrResult.innerHTML="<div class='card cmr'>Substance non référencée – avis EPST recommandé</div>";
-    return;
+ const key=normalize(cmrInput.value);
+ const c=Object.entries(cmrDB).find(([k])=>k.includes(key));
+ if(!c){cmrResult.innerHTML="<div class='card card-cmr'>Substance non référencée</div>";return;}
+ cmrResult.innerHTML=`<div class="card card-cmr"><strong>Effets :</strong> ${c[1].effets}</div>
+ <div class="card card-prev"><strong>Prévention :</strong><ul>${c[1].prev.map(p=>`<li>${p}</li>`).join("")}</ul></div>`;
+}
+
+/* SCAN */
+async function startScan(){
+ if(!("BarcodeDetector" in window)){alert("Scan non disponible");return;}
+ const video=document.getElementById("video");
+ const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+ video.srcObject=stream;video.play();
+ const detector=new BarcodeDetector();
+ const timer=setInterval(async()=>{
+  const codes=await detector.detect(video);
+  if(codes.length){
+   clearInterval(timer);
+   stream.getTracks().forEach(t=>t.stop());
+   cmrInput.value=codes[0].rawValue;
+   searchCMR();
   }
-  cmrResult.innerHTML=`
-  <div class="card cmr"><h3>${entry.nom}</h3>${entry.effets}</div>
-  <div class="card prev"><h3>Prévention</h3><ul>${entry.prev.map(p=>`<li>${p}</li>`).join("")}</ul></div>
-  `;
+ },800);
 }
 </script>
 
 </body>
 </html>
-``
