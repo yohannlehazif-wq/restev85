@@ -151,41 +151,194 @@ function openPage(id){
 }
 
 /* BASE CMR */
-const cmrDB={
-  silice:{
-    nom:"Silice cristalline",
-    type:"Cancérogène avéré",
-    effet:"Silicose, cancer pulmonaire",
-    prevention:["Aspiration","Travail humide","FFP3"]
+<script>
+/* ================= BASE CMR ÉTENDUE ================= */
+
+const cmrDB = {
+
+  /* === POUSSIÈRES & MINÉRAUX === */
+  silice: {
+    nom: "Silice cristalline",
+    type: "Cancérogène avéré",
+    usage: "Découpe béton, pierre, carrelage",
+    effets: "Silicose, cancers pulmonaires",
+    exposition: "Inhalation de poussières fines",
+    prevention: [
+      "Substitution ou travail humide",
+      "Aspiration à la source",
+      "Organisation du chantier",
+      "Masque FFP3 en dernier recours"
+    ]
   },
-  formol:{
-    nom:"Formaldéhyde",
-    type:"Cancérogène avéré",
-    effet:"Cancers ORL",
-    prevention:["Hotte","Procédures","Protection respiratoire"]
+
+  poussiere_bois: {
+    nom: "Poussières de bois",
+    type: "Cancérogène avéré",
+    usage: "Sciage, ponçage, rabotage",
+    effets: "Cancers naso-sinusiens",
+    exposition: "Inhalation",
+    prevention: [
+      "Aspiration intégrée aux machines",
+      "Nettoyage par aspiration",
+      "Organisation des postes",
+      "Protection respiratoire si nécessaire"
+    ]
+  },
+
+  /* === SOLVANTS / PEINTURE === */
+  toluene: {
+    nom: "Toluène",
+    type: "Reprotoxique suspecté",
+    usage: "Peintures, colles, solvants",
+    effets: "Atteintes neurologiques, fertilité",
+    exposition: "Inhalation",
+    prevention: [
+      "Substitution",
+      "Ventilation générale",
+      "Limitation des durées d’exposition",
+      "Masque A2P3"
+    ]
+  },
+
+  white_spirit: {
+    nom: "White‑Spirit",
+    type: "Toxique chronique",
+    usage: "Peinture, nettoyage",
+    effets: "Troubles neurologiques",
+    exposition: "Inhalation / contact cutané",
+    prevention: [
+      "Produits à l’eau si possible",
+      "Ventilation",
+      "Gants de protection",
+      "Masque A2P3"
+    ]
+  },
+
+  xylene: {
+    nom: "Xylène",
+    type: "Toxique chronique",
+    usage: "Peintures, vernis",
+    effets: "Troubles neurologiques",
+    exposition: "Inhalation",
+    prevention: [
+      "Substitution",
+      "Ventilation",
+      "Réduction du temps d’exposition",
+      "Protection respiratoire"
+    ]
+  },
+
+  acetone: {
+    nom: "Acétone",
+    type: "Irritant – inflammable",
+    usage: "Nettoyage, dégraissage",
+    effets: "Irritations, maux de tête",
+    exposition: "Inhalation",
+    prevention: [
+      "Ventilation",
+      "Limitation des quantités",
+      "Gants",
+      "Protection respiratoire si besoin"
+    ]
+  },
+
+  /* === METALLURGIE / INDUSTRIE === */
+  fumees_soudage: {
+    nom: "Fumées de soudage",
+    type: "Cancérogène",
+    usage: "Soudage acier, inox, alliages",
+    effets: "Cancers pulmonaires",
+    exposition: "Inhalation",
+    prevention: [
+      "Captage à la source",
+      "Ventilation des postes",
+      "Organisation des zones",
+      "Masque à adduction d’air"
+    ]
+  },
+
+  chrome_vi: {
+    nom: "Chrome hexavalent",
+    type: "Cancérogène avéré",
+    usage: "Traitements de surface",
+    effets: "Cancers pulmonaires, allergies",
+    exposition: "Inhalation / contact",
+    prevention: [
+      "Substitution prioritaire",
+      "Confinement des procédés",
+      "Procédures strictes",
+      "Protection respiratoire et cutanée"
+    ]
+  },
+
+  /* === SANTÉ / MÉDICO‑SOCIAL === */
+  formol: {
+    nom: "Formaldéhyde",
+    type: "Cancérogène avéré",
+    usage: "Laboratoires, anatomie pathologique",
+    effets: "Cancers ORL, irritations",
+    exposition: "Inhalation",
+    prevention: [
+      "Travail en hotte ou enceinte fermée",
+      "Substitution",
+      "Procédures strictes",
+      "Protection respiratoire"
+    ]
+  },
+
+  cytotoxiques: {
+    nom: "Médicaments cytotoxiques",
+    type: "Cancérogène / reprotoxique",
+    usage: "Préparation et administration traitements",
+    effets: "Cancers, effets reproduction",
+    exposition: "Contact / inhalation",
+    prevention: [
+      "Systèmes fermés",
+      "Organisation spécifique",
+      "Formation du personnel",
+      "EPI adaptés (gants, surblouse)"
+    ]
+  },
+
+  desinfectants_aldehydes: {
+    nom: "Désinfectants à base d’aldéhydes",
+    type: "CMR suspectés",
+    usage: "Désinfection matériel",
+    effets: "Irritations, effets respiratoires",
+    exposition: "Inhalation / contact",
+    prevention: [
+      "Produits alternatifs",
+      "Ventilation",
+      "Organisation des temps de pose",
+      "Gants et protection respiratoire"
+    ]
+  },
+
+  /* === MOTEURS / TRANSPORT === */
+  diesel: {
+    nom: "Gaz d’échappement diesel",
+    type: "Cancérogène avéré",
+    usage: "Engins, véhicules thermiques",
+    effets: "Cancers pulmonaires",
+    exposition: "Inhalation",
+    prevention: [
+      "Réduction à la source",
+      "Ventilation",
+      "Organisation des circulations",
+      "Maintenance des engins"
+    ]
   }
+
 };
 
-function normalize(t){
-  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+/* ---------- NORMALISATION POUR RECHERCHE ---------- */
+function normalize(text){
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
 }
-
-function searchCMR(){
-  const key=normalize(cmrInput.value);
-  const entry=Object.values(cmrDB).find(c=>normalize(c.nom).includes(key));
-  if(!entry){
-    cmrResult.innerHTML="<div class='card cmr'>Substance non référencée – avis RESTEV requis</div>";
-    return;
-  }
-  cmrResult.innerHTML=`
-  <div class="card cmr">
-    <strong>${entry.nom}</strong><br>${entry.type}<br>${entry.effet}
-  </div>
-  <div class="card prev">
-    <strong>Prévention :</strong>
-    <ul>${entry.prevention.map(p=>`<li>${p}</li>`).join("")}</ul>
-  </div>`;
-}
+</script>
 
 async function startScan(){
   if(!("BarcodeDetector" in window)){
