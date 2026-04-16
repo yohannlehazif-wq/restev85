@@ -139,7 +139,143 @@ video{
 
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
+/* ================= PREVENTION PAR METIER ================= */
 
+const jobs = {
+
+  agent_entretien: {
+    nom: "Agent d’entretien",
+    activites: [
+      "Nettoyage des locaux",
+      "Utilisation de produits détergents et désinfectants"
+    ],
+    risques: [
+      "Glissades et chutes",
+      "Troubles musculo‑squelettiques",
+      "Exposition aux produits chimiques"
+    ],
+    produits: [
+      "Détergents",
+      "Désinfectants",
+      "Déboucheurs de canalisations"
+    ],
+    prevention: [
+      "Substitution par des produits moins dangereux",
+      "Organisation des tâches (dilution, temps de pose)",
+      "Ventilation des locaux",
+      "Gants et lunettes si nécessaire"
+    ]
+  },
+
+  agent_maintenance: {
+    nom: "Agent de maintenance",
+    activites: [
+      "Dépannage",
+      "Entretien des équipements",
+      "Utilisation de solvants"
+    ],
+    risques: [
+      "Risque électrique",
+      "Brûlures chimiques",
+      "Exposition chronique aux solvants"
+    ],
+    produits: [
+      "White‑Spirit",
+      "Dégraissants",
+      "Aérosols techniques"
+    ],
+    prevention: [
+      "Substitution des produits solvants",
+      "Ventilation des zones de travail",
+      "Limitation des expositions",
+      "EPI adaptés selon les tâches"
+    ]
+  },
+
+  peintre: {
+    nom: "Peintre / applicateur",
+    activites: [
+      "Préparation des surfaces",
+      "Application de peintures et vernis"
+    ],
+    risques: [
+      "Inhalation de solvants",
+      "Exposition aux CMR selon formulations",
+      "Postures contraignantes"
+    ],
+    produits: [
+      "Peintures solvantées",
+      "Diluants",
+      "Nettoyants outils"
+    ],
+    prevention: [
+      "Peintures à l’eau si possible",
+      "Ventilation et aspiration",
+      "Organisation du temps d’exposition",
+      "Protection respiratoire si nécessaire"
+    ]
+  },
+
+  magasinier: {
+    nom: "Magasinier / logistique",
+    activites: [
+      "Réception et stockage",
+      "Manutentions",
+      "Gestion des stocks"
+    ],
+    risques: [
+      "Manutentions manuelles",
+      "Circulation d’engins",
+      "Stockage de produits dangereux"
+    ],
+    produits: [
+      "Aérosols",
+      "Produits chimiques stockés"
+    ],
+    prevention: [
+      "Organisation des flux",
+      "Stockage sécurisé des produits",
+      "Étiquetage et information",
+      "Formation à la manipulation"
+    ]
+  }
+
+};
+
+/* AFFICHAGE METIER */
+function showJob(){
+  const id = document.getElementById("jobSelect").value;
+  if(!id){
+    document.getElementById("jobResult").innerHTML = "";
+    return;
+  }
+
+  const job = jobs[id];
+
+  document.getElementById("jobResult").innerHTML = `
+    <div class="card info">
+      <strong>${job.nom}</strong><br>
+      <em>Activités principales</em>
+      <ul>${job.activites.map(a=>`<li>${a}</li>`).join("")}</ul>
+    </div>
+
+    <div class="card risk">
+      <strong>Principaux risques</strong>
+      <ul>${job.risques.map(r=>`<li>${r}</li>`).join("")}</ul>
+    </div>
+
+    <div class="card risk">
+      <strong>Produits / expositions possibles</strong>
+      <ul>${job.produits.map(p=>`<li>${p}</li>`).join("")}</ul>
+    </div>
+
+    <div class="card prev">
+      <strong>Prévention prioritaire</strong>
+      <ul>${job.prevention.map(p=>`<li>${p}</li>`).join("")}</ul>
+      ⚠️ Analyse à adapter au poste réel et à l’organisation.
+    </div>
+  `;
+}
 <!-- PRODUITS -->
 <div id="produits" class="page">
   <h2>Produits & substances dangereuses</h2>
