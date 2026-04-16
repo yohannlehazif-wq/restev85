@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Accueil</title>
+<title>RESTEV – Prévention Santé au Travail</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
 }
 .app{
-  max-width:600px;
+  max-width:620px;
   margin:auto;
   padding:16px;
 }
 
-/* HEADER */
+/* Header */
 .header{
   display:flex;
   align-items:center;
@@ -28,35 +28,26 @@ body{
   box-shadow:0 6px 20px rgba(0,0,0,0.08);
   margin-bottom:20px;
 }
-.header img{
-  height:50px;
-}
+.header img{height:48px;}
 .header-title{
   font-size:18px;
   font-weight:bold;
   color:#3b82f6;
 }
 
-/* ACCUEIL */
-.home{
+/* Pages */
+.page{
+  display:none;
   background:white;
   border-radius:26px;
   padding:24px;
   box-shadow:0 14px 34px rgba(59,130,246,0.15);
 }
+.page.active{display:block;}
+.page h2{margin-top:0;color:#1e40af;}
 
-.welcome{
-  background:#f0f9ff;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:22px;
-  color:#1e40af;
-  line-height:1.5;
-  font-size:15px;
-}
-
-/* MENU */
-.menu button{
+/* Buttons */
+button{
   width:100%;
   padding:16px;
   border:none;
@@ -67,12 +58,13 @@ body{
   text-align:left;
 }
 
-/* PASTELS SOBRES */
+/* Pastel sobre */
 .prevention{background:#e0f2fe;color:#1e3a8a;}
 .cmr{background:#fee2e2;color:#7f1d1d;}
 .pdp{background:#d1fae5;color:#065f46;}
 .duerp{background:#ede9fe;color:#4c1d95;}
 .contact{background:#dcfce7;color:#14532d;}
+.back{background:#e5e7eb;color:#111;text-align:center;}
 </style>
 </head>
 
@@ -80,54 +72,82 @@ body{
 
 <div class="app">
 
-  <!-- HEADER -->
-  <div class="header">
-    <img src="logo.png" alt="RESTEV">
-    <div class="header-title">Prévention santé au travail</div>
-  </div>
+<!-- HEADER -->
+<div class="header">
+  logo.png
+  <div class="header-title">Prévention santé au travail</div>
+</div>
 
-  <!-- ACCUEIL -->
-  <div class="home">
+<!-- ================= ACCUEIL ================= -->
+<div id="home" class="page active">
+<h2>Bienvenue sur RESTEV</h2>
+<p>
+Cette application accompagne les entreprises dans une démarche
+<strong>préventive et structurée</strong> en santé au travail.
+</p>
 
-    <div class="welcome">
-      <strong>Bienvenue sur l’application RESTEV.</strong><br><br>
-      Cet outil accompagne les entreprises dans la compréhension des
-      <strong>risques professionnels</strong>, l’identification des
-      <strong>expositions CMR</strong> et la prévention de la
-      <strong>désinsertion professionnelle</strong>.<br><br>
-      Il s’inscrit dans une démarche <strong>préventive, structurée et orientée solutions</strong>.
-    </div>
+<button class="prevention" onclick="openPage('metier')">
+Prévention par métier
+</button>
 
-    <div class="menu">
-      <button class="prevention" onclick="openPage('metier')">
-        Prévention par métier
-      </button>
+<button class="cmr" onclick="openPage('cmr')">
+Identification des risques CMR
+</button>
 
-      <button class="cmr" onclick="openPage('cmr')">
-        Identification des risques CMR
-      </button>
+<button class="pdp" onclick="openPage('pdp')">
+Prévention de la désinsertion professionnelle
+</button>
 
-      <button class="pdp" onclick="openPage('pdp')">
-        Prévention de la désinsertion professionnelle (PDP)
-      </button>
+<button class="duerp" onclick="openPage('duerp')">
+Appui à l’élaboration du DUERP
+</button>
 
-      <button class="duerp" onclick="openPage('duerp')">
-        Appui à l’élaboration du DUERP
-      </button>
+<button class="contact" onclick="openPage('contact')">
+Contacter RESTEV
+</button>
+</div>
 
-      <button class="contact" onclick="openPage('contact')">
-        Contacter RESTEV
-      </button>
-    </div>
+<!-- ================= MÉTIER ================= -->
+<div id="metier" class="page">
+<h2>Prévention par métier</h2>
+<p>Analyse des risques professionnels selon l’activité exercée.</p>
+<button class="back" onclick="openPage('home')">← Retour accueil</button>
+</div>
 
-  </div>
+<!-- ================= CMR ================= -->
+<div id="cmr" class="page">
+<h2>Identification des risques CMR</h2>
+<p>Repérage des substances cancérogènes, mutagènes ou reprotoxiques.</p>
+<button class="back" onclick="openPage('home')">← Retour accueil</button>
+</div>
+
+<!-- ================= PDP ================= -->
+<div id="pdp" class="page">
+<h2>PDP</h2>
+<p>Prévention de la désinsertion professionnelle.</p>
+<button class="back" onclick="openPage('home')">← Retour accueil</button>
+</div>
+
+<!-- ================= DUERP ================= -->
+<div id="duerp" class="page">
+<h2>DUERP</h2>
+<p>Contribution à l’identification des risques.</p>
+<button class="back" onclick="openPage('home')">← Retour accueil</button>
+</div>
+
+<!-- ================= CONTACT ================= -->
+<div id="contact" class="page">
+<h2>Contact RESTEV</h2>
+<p>Pour tout accompagnement ou information.</p>
+<button class="back" onclick="openPage('home')">← Retour accueil</button>
+</div>
 
 </div>
 
 <script>
 function openPage(id){
-  alert("Navigation vers : " + id);
-  /* ici tu branches les vraies pages */
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 </script>
 
