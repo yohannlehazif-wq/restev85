@@ -5,19 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RESTEV – Prévention Santé au Travail</title>
 
-<!-- Typographies douces & modernes -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
-
 <style>
 body{
   margin:0;
   font-family:'Nunito', Arial, sans-serif;
-  background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
-  font-size:15px;
+  background:linear-gradient(180deg,#f8fbff 0%, #eef4ff 80%);
 }
-.app{max-width:900px;margin:auto;padding:16px}
+.app{max-width:920px;margin:auto;padding:18px}
 
 /* HEADER */
 .header{
@@ -25,34 +19,33 @@ body{
   align-items:center;
   gap:14px;
   background:white;
-  padding:16px;
-  border-radius:22px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.08);
-  margin-bottom:20px;
+  padding:18px;
+  border-radius:24px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.08);
+  margin-bottom:22px;
 }
 .header img{height:48px}
 .header-title{
-  font-family:'Poppins', sans-serif;
-  font-size:19px;
+  font-family:'Poppins', Arial, sans-serif;
+  font-size:20px;
   font-weight:600;
-  color:#2563eb
+  color:#1e3a8a
 }
 
 /* PAGES */
 .page{
   display:none;
   background:white;
-  border-radius:28px;
-  padding:26px;
-  box-shadow:0 14px 34px rgba(59,130,246,0.15);
+  border-radius:30px;
+  padding:28px;
+  box-shadow:0 18px 40px rgba(30,64,175,0.15);
 }
 .page.active{display:block}
 
 h2{
-  font-family:'Poppins', sans-serif;
-  font-size:22px;
+  font-family:'Poppins', Arial, sans-serif;
   margin-top:0;
-  color:#1e3a8a;
+  color:#1e40af;
 }
 
 /* BUTTONS */
@@ -60,45 +53,44 @@ button{
   width:100%;
   padding:16px;
   border:none;
-  border-radius:20px;
+  border-radius:22px;
   font-size:15px;
   font-weight:600;
-  font-family:'Poppins', sans-serif;
   margin-bottom:14px;
   cursor:pointer;
 }
-.btn-main{background:#e0f2fe;color:#1e3a8a}
+.btn-main{background:#dbeafe;color:#1e3a8a}
 .btn-back{background:#e5e7eb;color:#111}
-.btn-contact{background:#fef9c3;color:#854d0e}
+.btn-contact{background:#fef3c7;color:#92400e}
 
+/* SELECT */
 select{
   width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:16px;
+  padding:14px;
+  margin-bottom:16px;
+  border-radius:18px;
   border:2px solid #c7d2fe;
-  font-family:'Nunito', sans-serif;
+  font-size:15px;
 }
 
 /* CARDS */
 .card{
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:14px;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:16px;
 }
 .card.info{background:#e0f2fe}
-.card.warn{background:#fef9c3}
+.card.warn{background:#fef3c7}
 
 /* INDICATOR */
 .indicator{
   padding:16px;
   border-radius:18px;
-  font-weight:600;
-  margin-bottom:14px;
-  font-family:'Poppins', sans-serif;
+  font-weight:700;
+  margin-bottom:16px;
 }
-.green{background:#dcfce7;color:#14532d}
-.yellow{background:#fef9c3;color:#854d0e}
+.green{background:#dcfce7;color:#065f46}
+.yellow{background:#fef3c7;color:#92400e}
 .red{background:#fee2e2;color:#7f1d1d}
 
 /* CHECKLIST */
@@ -106,12 +98,6 @@ select{
   display:block;
   margin-bottom:8px;
   font-size:15px;
-}
-
-/* PRINT */
-@media print{
-  button{display:none}
-  body{background:white}
 }
 </style>
 </head>
@@ -128,24 +114,28 @@ select{
 
 <!-- HOME -->
 <div id="home" class="page active">
-  <h2>Prévention par métier</h2>
+  <h2>Auto‑évaluation de la prévention</h2>
   <p>
-    Outil d’auto‑évaluation par l’entreprise,
-    dans une logique d’accompagnement et de progrès continu.
+    Outil de repérage partagé par l’entreprise,
+    dans une logique de progrès et d’accompagnement.
   </p>
-  <button class="btn-main" onclick="openPage('metier')">Accéder à l’outil</button>
+  <button class="btn-main" onclick="openPage('metier')">Accéder à la prévention par métier</button>
   <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
 </div>
 
 <!-- METIER -->
 <div id="metier" class="page">
-  <h2>Choisir le métier</h2>
+  <h2>Choisir un métier</h2>
 
   <select id="jobSelect" onchange="showJob()">
-    <option value="">— Sélectionnez un métier —</option>
-    <option value="entretien">Agent d’entretien</option>
-    <option value="maintenance">Agent de maintenance</option>
-    <option value="bureau">Agent administratif / bureau</option>
+    <option value="">— Sélectionner —</option>
+    <option value="boucher">Boucher / charcutier</option>
+    <option value="boulanger">Boulanger / pâtissier</option>
+    <option value="poissonnier">Poissonnier</option>
+    <option value="cuisinier">Cuisinier / restauration</option>
+    <option value="commerce">Employé de commerce alimentaire</option>
+    <option value="livraison">Agent de livraison</option>
+    <option value="proprete">Agent de propreté / collecte</option>
   </select>
 
   <div id="jobResult"></div>
@@ -157,14 +147,10 @@ select{
 <div id="contact" class="page">
   <h2>Accompagnement RESTEV</h2>
   <div class="card.warn">
-    Le service de santé au travail RESTEV peut accompagner l’entreprise,
-    à sa demande, dans une démarche de prévention :
-    <ul>
-      <li>structurée</li>
-      <li>progressive</li>
-      <li>adaptée aux réalités du terrain</li>
-    </ul>
-    Sans jugement, ni évaluation.
+    Le service de santé au travail RESTEV peut accompagner l’entreprise
+    dans l’analyse des situations de travail,
+    la structuration de la prévention et l’amélioration continue,
+    à la demande et sans jugement.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -178,80 +164,62 @@ function openPage(id){
 }
 
 const jobs={
-  entretien:{
-    nom:"Agent d’entretien",
-    mesures:[
-      "Produits identifiés et étiquetés",
-      "Fiches de données de sécurité accessibles",
-      "Gants mis à disposition",
-      "Organisation des tournées",
-      "Signalisation sol glissant",
-      "Ventilation des locaux",
-      "Stockage sécurisé",
-      "Formation à l’utilisation",
-      "Absence de mélange de produits",
-      "Temps de pause adaptés"
-    ]
-  },
-  maintenance:{
-    nom:"Agent de maintenance",
-    mesures:[
-      "Habilitations adaptées",
-      "Consignation des énergies",
-      "Procédures connues",
-      "Stockage sécurisé",
-      "EPI disponibles",
-      "Ventilation des zones",
-      "Limitation des solvants",
-      "Gestion des urgences",
-      "Information des intervenants",
-      "Traçabilité des actions"
-    ]
-  },
-  bureau:{
-    nom:"Agent administratif / bureau",
-    mesures:[
-      "Postes informatiques adaptés",
-      "Écrans réglables",
-      "Sièges ergonomiques",
-      "Pauses autorisées",
-      "Organisation du temps",
-      "Régulation de la charge",
-      "Espaces calmes",
-      "Dialogue avec l’encadrement",
-      "Sensibilisation TMS",
-      "Aménagements possibles"
-    ]
-  }
+  boucher:{nom:"Boucher / charcutier",mesures:[
+    "Couteaux affûtés et entretenus","Gants anticoupure disponibles",
+    "Organisation des postes","Formation gestes et postures",
+    "Gestion de la chaîne du froid","Nettoyage du matériel",
+    "Chaussures antidérapantes","Rangement sécurisé","Pauses définies","Encadrement présent"
+  ]},
+  boulanger:{nom:"Boulanger / pâtissier",mesures:[
+    "Protection contre brûlures","Ventilation","Aspiration poussières de farine",
+    "Organisation des fours","Formation machines","Nettoyage régulier",
+    "Gestion des allergènes","EPI adaptés","Horaires organisés","Pauses prévues"
+  ]},
+  poissonnier:{nom:"Poissonnier",mesures:[
+    "Chaussures antidérapantes","Gants","Gestion du froid",
+    "Nettoyage des sols","Organisation des livraisons",
+    "Rangement du matériel","Formation hygiène","Ventilation",
+    "Postes aménagés","Encadrement"
+  ]},
+  cuisinier:{nom:"Cuisinier / restauration",mesures:[
+    "Protection contre brûlures","Organisation des flux",
+    "Chaussures antidérapantes","Formation hygiène",
+    "Ventilation","Nettoyage régulier","Gestion des produits",
+    "Organisation du rythme","Pauses","Encadrement"
+  ]},
+  commerce:{nom:"Employé de commerce alimentaire",mesures:[
+    "Manutention organisée","Aides mécaniques","Gestion des stocks",
+    "Chaussures adaptées","Formation","Organisation des horaires",
+    "Postes aménagés","Rangements sécurisés","Pauses","Encadrement"
+  ]},
+  livraison:{nom:"Agent de livraison",mesures:[
+    "Véhicules entretenus","Organisation des tournées",
+    "Formation gestes et postures","Aides de manutention",
+    "Gestion de la fatigue","Communication avec l’équipe",
+    "Temps de pause","Consignes sécurité","Charge limitée","Encadrement"
+  ]},
+  proprete:{nom:"Agent de propreté / collecte",mesures:[
+    "EPI adaptés","Organisation des tournées","Formation produits",
+    "Gestion des déchets","Chaussures de sécurité",
+    "Communication équipe","Temps de pause","Stockage produits",
+    "Ventilation","Encadrement"
+  ]}
 };
 
 function showJob(){
   const id=jobSelect.value;
   if(!id){jobResult.innerHTML="";return;}
   const j=jobs[id];
-
-  const checks=j.mesures.map(m=>`
-    <label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>
-  `).join("");
-
   jobResult.innerHTML=`
-    <div class="card info">
-      <strong>${j.nom}</strong><br>
-      Mesures actuellement en place (à compléter par l’entreprise)
-    </div>
-
-    <div id="indicator" class="indicator red">
-      État de la prévention : à situer
-    </div>
-
+    <div class="card info"><strong>${j.nom}</strong><br>
+    Mesures actuellement en place (à compléter par l’entreprise)</div>
+    <div id="indicator" class="indicator red">État de la prévention : à situer</div>
     <div class="card checklist">
-      ${checks}
+      ${j.mesures.map(m=>`<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`).join("")}
     </div>
-
     <div class="card.warn">
-      <strong>Accompagnement RESTEV</strong><br>
-      Possibilité d’un accompagnement à la demande,
-      dans une logique d’amélioration continue et partagée.
+      Accompagnement possible par le service de santé RESTEV,
+      à la demande et dans une logique de partenariat.
     </div>
   `;
 }
@@ -259,20 +227,11 @@ function showJob(){
 function updateIndicator(){
   const boxes=document.querySelectorAll('#jobResult input[type="checkbox"]');
   const checked=[...boxes].filter(b=>b.checked).length;
-  const total=boxes.length;
-  const ratio=checked/total;
-  const indicator=document.getElementById('indicator');
-
-  if(ratio>=0.7){
-    indicator.className="indicator green";
-    indicator.textContent="Prévention globalement structurée";
-  }else if(ratio>=0.4){
-    indicator.className="indicator yellow";
-    indicator.textContent="Prévention en cours de structuration";
-  }else{
-    indicator.className="indicator red";
-    indicator.textContent="Prévention à structurer";
-  }
+  const ratio=checked/boxes.length;
+  const i=document.getElementById('indicator');
+  if(ratio>=0.7){i.className="indicator green";i.textContent="Prévention globalement structurée";}
+  else if(ratio>=0.4){i.className="indicator yellow";i.textContent="Prévention en cours de structuration";}
+  else{i.className="indicator red";i.textContent="Prévention à structurer";}
 }
 </script>
 
