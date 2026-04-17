@@ -42,4 +42,62 @@
   <button onclick="evaluerBTP()">Évaluer la prévention BTP</button>
 
   <div id="resultat-btp" class="resultat"></div>
+  <script>
+function evaluerBTP(){
+
+  function score(pilier){
+    const c = document.querySelectorAll("." + pilier);
+    let ok = 0;
+    c.forEach(x => { if(x.checked) ok++; });
+    return ok / c.length;
+  }
+
+  const s1 = score("p1");
+  const s2 = score("p2");
+  const s3 = score("p3");
+  const s4 = score("p4");
+
+  const moyenne = (s1 + s2 + s3 + s4) / 4;
+  const res = document.getElementById("resultat-btp");
+
+  let couleur = "var(--vert)";
+  let message = "";
+
+  /* Diagnostic principal */
+  if(moyenne < 0.4){
+    couleur = "var(--rouge)";
+    message = "<strong>Prévention insuffisante sur des points clés.</strong><br>" +
+              "L’organisation et les mesures actuelles ne permettent pas " +
+              "de réduire efficacement les risques du chantier.";
+  } 
+  else if(moyenne < 0.75){
+    couleur = "var(--orange)";
+    message = "<strong>Prévention existante mais perfectible.</strong><br>" +
+              "Des améliorations ciblées peuvent réduire significativement les expositions.";
+  }
+  else{
+    couleur = "var(--vert)";
+    message = "<strong>Prévention globalement structurée.</strong><br>" +
+              "L’organisation et les moyens mis en place contribuent à limiter les risques.";
+  }
+
+  /* Analyse CMR spécifique */
+  if(s2 < 0.75){
+    couleur = couleur === "var(--vert)" ? "var(--orange)" : couleur;
+    message += "<br><br><strong>Point de vigilance – risques spécifiques / CMR :</strong><br>" +
+               "La présence de poussières, de sols pollués ou de produits dangereux " +
+               "nécessite une analyse approfondie.";
+  }
+
+  /* Message RESTEV */
+  message += "<br><br><em>" +
+             "RESTEV peut vous accompagner dans l’analyse des situations de travail, " +
+             "l’évaluation des expositions (CMR), la mise à jour du DUERP " +
+             "et la définition d’un plan d’actions adapté au BTP." +
+             "</em>";
+
+  res.style.background = couleur;
+  res.innerHTML = message;
+}
+</script>
 </div>
