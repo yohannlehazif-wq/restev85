@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>RESTEV</title>
 
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding-top: 80px;
+}
+
+/* Logo animé uniquement */
+.logo {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: logoFadeIn 1.5s ease-out forwards;
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Bouton toujours visible */
+.btn-enter {
+  margin-top: 40px;
+  padding: 18px 56px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 28px;
+  background: #1e3a8a;
+  color: #ffffff;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+  <div class="logo">
+    <img src="logo-restev.png" alt="RESTEV" width="240">
+  </div>
+
+  <p style="margin-top:30px;">
+    La prévention, c’est agir tôt pour préserver durablement la santé au travail.
+  </p>
+
+  <button class="btn-enter"
+          onclick="window.location.href='acc
