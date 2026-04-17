@@ -1,18 +1,17 @@
-<!DOCTYPE html><<html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RESTEV</title>
 
 <style>
-/* RESET */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
-/* FOND BLANC */
 body{
   height:100vh;
   background:#ffffff;
@@ -22,10 +21,9 @@ body{
   font-family:Arial, sans-serif;
 }
 
-/* CONTENEUR APP */
 .app{
   width:100%;
-  max-width:420px; /* smartphone */
+  max-width:420px;
   height:100%;
   display:flex;
   flex-direction:column;
@@ -39,12 +37,12 @@ body{
   animation:fadeZoom 2s ease-out forwards;
 }
 .logo img{
-  width:65vw;          /* taille principale mobile */
-  max-width:260px;     /* limite sur grands écrans */
-  min-width:180px;     /* lisible même sur petits */
+  width:65vw;          /* équilibre smartphone */
+  max-width:260px;     /* limite écran large */
+  min-width:180px;     /* lisible petit écran */
 }
 
-/* BOUTON ENTRÉE */
+/* BOUTON */
 .enter{
   margin-top:48px;
   opacity:0;
@@ -87,9 +85,9 @@ body{
 
   <!-- LOGO RESTEV -->
   <div class="logo">
-    <img src="logo-restev.png" alt="RESTEV – Prévention santé au travail">
+    <img src="logo-restev.png" alt="RESTEV">
   </div>
 
   <!-- BOUTON ENTRER -->
   <div class="enter">
-    <button onclick="location.href='accueil.html'
+    <button onclick="location.href='accueil.html'ml>
