@@ -2,90 +2,101 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – Auto‑évaluation Prévention BTP</title>
+<title>RESTEV – Auto‑évaluation BTP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root{
-  --vert:#2e8b7a;
-  --orange:#f2b66d;
-  --rouge:#e88b8b;
-  --fond:#f4f7f6;
-  --carte:#ffffff;
-  --texte:#2c3e50;
+  --primary:#2e8b7a;
+  --success:#2ecc71;
+  --warning:#f39c12;
+  --danger:#e74c3c;
+  --bg:#f2f5f4;
+  --card:#ffffff;
+  --text:#2c3e50;
 }
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:system-ui, Arial, sans-serif;
-  background:var(--fond);
-  color:var(--texte);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
 }
 
 header{
+  padding:24px;
   text-align:center;
-  padding:40px 20px;
-  background:#ffffff;
+  background:linear-gradient(135deg,#2e8b7a,#3fbf9a);
+  color:white;
 }
 
 header h1{
   margin:0;
-  color:var(--vert);
+  font-size:22px;
+}
+
+header p{
+  font-size:14px;
+  opacity:.9;
 }
 
 main{
-  max-width:900px;
+  max-width:720px;
   margin:auto;
-  padding:20px;
+  padding:16px;
 }
 
-.carte{
-  background:var(--carte);
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  margin-bottom:30px;
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-h2{
-  color:var(--vert);
+.card h2{
+  font-size:18px;
+  margin-top:0;
+  color:var(--primary);
 }
 
-h3{
-  margin-top:25px;
-  color:#34495e;
+.card p{
+  font-size:14px;
+  margin-bottom:14px;
 }
 
-.checklist label{
-  display:block;
-  margin:8px 0;
-  font-size:15px;
+.item{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:10px 0;
+}
+
+.item input{
+  transform:scale(1.3);
+  margin-top:3px;
 }
 
 button{
-  background:var(--vert);
-  color:white;
+  width:100%;
+  padding:16px;
+  font-size:16px;
   border:none;
-  padding:14px 28px;
-  border-radius:24px;
-  font-size:16px;
+  border-radius:16px;
+  background:var(--primary);
+  color:white;
   cursor:pointer;
+  margin-top:10px;
+}
+
+.result{
   margin-top:20px;
-}
-
-.resultat{
-  margin-top:25px;
   padding:18px;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:600;
-}
-
-footer{
-  text-align:center;
-  padding:30px;
-  font-size:14px;
-  color:#777;
+  border-radius:16px;
+  font-size:15px;
+  line-height:1.5;
 }
 </style>
 </head>
@@ -93,122 +104,100 @@ footer{
 <body>
 
 <header>
-  <h1>Auto‑évaluation Prévention – BTP</h1>
-  <p>Outil d’aide pour analyser l’organisation de la prévention sur les chantiers</p>
+  <h1>Auto‑évaluation prévention BTP</h1>
+  <p>Une vision claire de votre prévention terrain</p>
 </header>
 
 <main>
 
-<div class="carte">
-  <h2>👷 Analyse de votre prévention chantier</h2>
+<!-- PILIER 1 -->
+<div class="card">
+  <h2>🏗 Organisation & prévention collective</h2>
+  <p>Le travail est‑il organisé pour limiter les risques dès la conception ?</p>
 
-  <p>
-    Cette auto‑évaluation permet d’analyser la prévention réelle mise en place
-    sur vos chantiers. Les réponses doivent refléter la pratique habituelle,
-    et non une situation idéale.
-  </p>
-
-  <!-- PILIER 1 -->
-  <h3>1️⃣ Organisation & prévention collective</h3>
-  <div class="checklist">
-    <label><input type="checkbox" class="p1"> Les risques du chantier sont identifiés et formalisés (DUERP, PDP)</label>
-    <label><input type="checkbox" class="p1"> Les modes opératoires limitent réellement l’exposition aux risques</label>
-    <label><input type="checkbox" class="p1"> Les coactivités sont anticipées et encadrées</label>
-    <label><input type="checkbox" class="p1"> L’organisation évite le travail dans l’urgence</label>
-  </div>
-
-  <!-- PILIER 2 -->
-  <h3>2️⃣ Expositions & risques spécifiques (dont CMR)</h3>
-  <div class="checklist">
-    <label><input type="checkbox" class="p2"> Exposition à des poussières (silice, béton, bois…)</label>
-    <label><input type="checkbox" class="p2"> Exposition possible à des sols pollués</label>
-    <label><input type="checkbox" class="p2"> Présence de fumées, gaz ou produits chimiques</label>
-    <label><input type="checkbox" class="p2"> Les situations les plus exposantes sont identifiées</label>
-  </div>
-
-  <!-- PILIER 3 -->
-  <h3>3️⃣ Moyens techniques & EPI</h3>
-  <div class="checklist">
-    <label><input type="checkbox" class="p3"> Des protections collectives sont mises en place en priorité</label>
-    <label><input type="checkbox" class="p3"> Les équipements sont adaptés, disponibles et entretenus</label>
-    <label><input type="checkbox" class="p3"> Les EPI sont adaptés aux risques et correctement utilisés</label>
-  </div>
-
-  <!-- PILIER 4 -->
-  <h3>4️⃣ Compétences, information & suivi</h3>
-  <div class="checklist">
-    <label><input type="checkbox" class="p4"> Les salariés sont formés aux risques du chantier</label>
-    <label><input type="checkbox" class="p4"> Les consignes sont comprises et appliquées</label>
-    <label><input type="checkbox" class="p4"> Les incidents ou situations dangereuses sont analysés</label>
-  </div>
-
-  <button onclick="evaluerBTP()">Évaluer la prévention BTP</button>
-
-  <div id="resultat-btp" class="resultat"></div>
+  <div class="item"><input type="checkbox" class="p1"><label>Les risques sont identifiés et formalisés (DUERP, PDP)</label></div>
+  <div class="item"><input type="checkbox" class="p1"><label>Les modes opératoires réduisent l’exposition</label></div>
+  <div class="item"><input type="checkbox" class="p1"><label>Les coactivités sont anticipées</label></div>
+  <div class="item"><input type="checkbox" class="p1"><label>Le travail n’est pas réalisé dans l’urgence</label></div>
 </div>
+
+<!-- PILIER 2 -->
+<div class="card">
+  <h2>🧪 Expositions & risques spécifiques (CMR)</h2>
+  <p>Présence de poussières, substances ou situations à risque élevé.</p>
+
+  <div class="item"><input type="checkbox" class="p2"><label>Poussières (silice, béton, bois…)</label></div>
+  <div class="item"><input type="checkbox" class="p2"><label>Sols potentiellement pollués</label></div>
+  <div class="item"><input type="checkbox" class="p2"><label>Produits chimiques ou fumées</label></div>
+  <div class="item"><input type="checkbox" class="p2"><label>Situations exposantes clairement identifiées</label></div>
+</div>
+
+<!-- PILIER 3 -->
+<div class="card">
+  <h2>🦺 Moyens techniques & EPI</h2>
+  <p>Les protections sont‑elles adaptées au risque réel ?</p>
+
+  <div class="item"><input type="checkbox" class="p3"><label>Protections collectives en priorité</label></div>
+  <div class="item"><input type="checkbox" class="p3"><label>Matériel adapté et entretenu</label></div>
+  <div class="item"><input type="checkbox" class="p3"><label>EPI adaptés et correctement utilisés</label></div>
+</div>
+
+<!-- PILIER 4 -->
+<div class="card">
+  <h2>🎓 Compétences & suivi</h2>
+  <p>La prévention est‑elle comprise et suivie dans le temps ?</p>
+
+  <div class="item"><input type="checkbox" class="p4"><label>Salariés formés aux risques du chantier</label></div>
+  <div class="item"><input type="checkbox" class="p4"><label>Consignes comprises et appliquées</label></div>
+  <div class="item"><input type="checkbox" class="p4"><label>Situations dangereuses analysées</label></div>
+</div>
+
+<button onclick="evaluer()">Voir le diagnostic prévention</button>
+
+<div id="resultat" class="result"></div>
 
 </main>
 
-<footer>
-  Outil d’aide à la prévention – RESTEV
-</footer>
-
 <script>
-function evaluerBTP(){
+function evaluer(){
 
-  function score(classe){
-    const cases = document.querySelectorAll("." + classe);
-    let cochees = 0;
-    cases.forEach(c => { if(c.checked) cochees++; });
-    return cases.length ? cochees / cases.length : 0;
+  function score(cls){
+    const c=document.querySelectorAll("."+cls);
+    let ok=0; c.forEach(x=>{if(x.checked) ok++;});
+    return ok/c.length;
   }
 
-  const s1 = score("p1");
-  const s2 = score("p2");
-  const s3 = score("p3");
-  const s4 = score("p4");
+  const s1=score("p1");
+  const s2=score("p2");
+  const s3=score("p3");
+  const s4=score("p4");
 
-  const moyenne = (s1 + s2 + s3 + s4) / 4;
-  const res = document.getElementById("resultat-btp");
+  const moyenne=(s1+s2+s3+s4)/4;
+  const r=document.getElementById("resultat");
 
-  let couleur;
-  let message;
+  let couleur,message;
 
-  if(moyenne < 0.4){
-    couleur = "var(--rouge)";
-    message =
-      "<strong>Prévention insuffisante sur des points clés.</strong><br>" +
-      "L’organisation actuelle ne permet pas de maîtriser correctement les risques du chantier.";
-  }
-  else if(moyenne < 0.75){
-    couleur = "var(--orange)";
-    message =
-      "<strong>Prévention existante mais perfectible.</strong><br>" +
-      "Des améliorations ciblées peuvent significativement réduire les expositions.";
-  }
-  else{
-    couleur = "var(--vert)";
-    message =
-      "<strong>Prévention globalement structurée.</strong><br>" +
-      "Les mesures mises en place contribuent à limiter les risques du chantier.";
+  if(moyenne<0.4){
+    couleur="var(--danger)";
+    message="🔴 <strong>Prévention insuffisante.</strong><br>Des actions prioritaires sont nécessaires.";
+  }else if(moyenne<0.75){
+    couleur="var(--warning)";
+    message="🟠 <strong>Prévention perfectible.</strong><br>Des améliorations ciblées peuvent réduire les risques.";
+  }else{
+    couleur="var(--success)";
+    message="🟢 <strong>Prévention globalement structurée.</strong>";
   }
 
-  if(s2 < 0.75){
-    couleur = couleur === "var(--vert)" ? "var(--orange)" : couleur;
-    message +=
-      "<br><br><strong>Point de vigilance – risques spécifiques / CMR :</strong><br>" +
-      "La présence de poussières, de sols pollués ou de produits dangereux nécessite une analyse approfondie.";
+  if(s2<0.75){
+    couleur="var(--warning)";
+    message+="<br><br><strong>Point de vigilance CMR identifié.</strong>";
   }
 
-  message +=
-    "<br><br><em>" +
-    "RESTEV peut vous accompagner dans l’analyse des situations de travail, " +
-    "l’évaluation des expositions (CMR), la mise à jour du DUERP " +
-    "et la définition d’un plan d’actions adapté au BTP." +
-    "</em>";
+  message+="<br><br><em>RESTEV peut vous accompagner dans l’analyse des situations de travail, l’évaluation des expositions et la construction d’un plan d’actions adapté.</em>";
 
-  res.style.background = couleur;
-  res.innerHTML = message;
+  r.style.background=couleur;
+  r.style.color="white";
+  r.innerHTML=message;
 }
 </script>
 
