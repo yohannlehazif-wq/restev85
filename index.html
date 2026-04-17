@@ -1,112 +1,114 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RESTEV</title>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-body{
-  height:100vh;
-  background:#ffffff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial, sans-serif;
-}
+    body{
+      height:100vh;
+      background:#ffffff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family:Arial, sans-serif;
+    }
 
-.app{
-  width:100%;
-  max-width:420px;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-}
+    .app{
+      width:100%;
+      max-width:420px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
 
-.logo{
-  opacity:0;
-  animation:logoIn 2s ease-out forwards;
-}
-.logo img{
-  width:65vw;
-  max-width:260px;
-  min-width:180px;
-  animation:pulse 4s ease-in-out infinite;
-}
+    .logo{
+      opacity:0;
+      animation:logoIn 2s ease-out forwards;
+    }
 
-.ecg{
-  width:260px;
-  height:80px;
-  margin-top:24px;
-}
-.ecg path{
-  stroke:#1e3a8a;
-  stroke-width:2.5;
-  fill:none;
-  stroke-dasharray:500;
-  stroke-dashoffset:500;
-  animation:draw 2.5s ease-out forwards;
-  animation-delay:1.5s;
-}
+    .logo img{
+      width:65vw;
+      max-width:260px;
+      min-width:180px;
+      animation:pulse 4s ease-in-out infinite;
+    }
 
-.message{
-  margin-top:16px;
-  opacity:0;
-  animation:fadeIn 1.2s ease-out forwards;
-  animation-delay:2.6s;
-  text-align:center;
-  font-size:14px;
-  color:#334155;
-}
+    .ecg{
+      width:260px;
+      height:80px;
+      margin-top:24px;
+    }
 
-.enter{
-  margin-top:36px;
-  opacity:0;
-  animation:fadeIn 1.2s ease-out forwards;
-  animation-delay:3.4s;
-  animation-fill-mode: forwards;
-}
+    .ecg path{
+      stroke:#1e3a8a;
+      stroke-width:2.5;
+      fill:none;
+      stroke-dasharray:500;
+      stroke-dashoffset:500;
+      animation:draw 2.5s ease-out forwards;
+      animation-delay:1.5s;
+    }
 
-.enter button{
-  padding:14px 42px;
-  border:none;
-  border-radius:20px;
-  background:#1e3a8a;
-  color:#ffffff;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-}
+    .message{
+      margin-top:16px;
+      opacity:0;
+      animation:fadeIn 1.2s ease-out forwards;
+      animation-delay:2.6s;
+      text-align:center;
+      font-size:14px;
+      color:#334155;
+    }
 
-@keyframes logoIn{
-  from{opacity:0; transform:scale(0.92);}
-  to{opacity:1; transform:scale(1);}
-}
+    .enter{
+      margin-top:36px;
+      opacity:0;
+      animation:fadeIn 1.2s ease-out forwards;
+      animation-delay:3.4s;
+      animation-fill-mode: forwards;
+    }
 
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.04);}
-  100%{transform:scale(1);}
-}
+    .enter button{
+      padding:14px 42px;
+      border:none;
+      border-radius:20px;
+      background:#1e3a8a;
+      color:#ffffff;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+    }
 
-@keyframes draw{
-  to{stroke-dashoffset:0;}
-}
+    @keyframes logoIn{
+      from{opacity:0; transform:scale(0.92);}
+      to{opacity:1; transform:scale(1);}
+    }
 
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-</style>
+    @keyframes pulse{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.04);}
+      100%{transform:scale(1);}
+    }
+
+    @keyframes draw{
+      to{stroke-dashoffset:0;}
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0;}
+      to{opacity:1;}
+    }
+  </style>
 </head>
 
 <body>
@@ -114,7 +116,7 @@ body{
 <div class="app">
 
   <div class="logo">
-    logo-restev.png
+    <img src="logo-restev.png" alt="RESTEV">
   </div>
 
   <svg class="ecg" viewBox="0 0 300 80">
@@ -134,7 +136,6 @@ body{
   </div>
 
   <div class="enter">
-    <button onclick="window.location.href='accueil.html'div>
-
+    <button onclick="window.location
 </body>
 </html>
