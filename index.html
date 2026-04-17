@@ -57,7 +57,7 @@ button{
   cursor:pointer;
 }
 .btn-main{background:#dbeafe;color:#1e3a8a}
-.btn-contact{background:#fef3c7;color:#92400e}
+.btn-link{background:#dcfce7;color:#14532d}
 .btn-back{background:#e5e7eb;color:#111}
 
 .card{
@@ -67,6 +67,13 @@ button{
 }
 .card.info{background:#e0f2fe}
 .card.warn{background:#fef3c7}
+
+a{
+  color:#1e40af;
+  font-weight:600;
+  text-decoration:none;
+}
+a:hover{text-decoration:underline}
 </style>
 </head>
 
@@ -74,75 +81,73 @@ button{
 
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
-  <img src="logo.png" alt="RESTEV">
+  logo.png
   <div class="header-title">RESTEV – Prévention santé au travail</div>
 </div>
 
-<!-- HOME -->
+<!-- ACCUEIL -->
 <div id="home" class="page active">
-  <h2>Auto‑évaluation de la prévention</h2>
-  <p>Outil d’appui à la prévention, sans jugement, au service des entreprises.</p>
+  <h2>Outil de prévention & d’orientation</h2>
+  <p>
+    Cet outil permet aux entreprises de se situer
+    et de découvrir les possibilités d’accompagnement proposées par le RESTEV.
+  </p>
 
-  <button class="btn-main" onclick="openPage('metier')">Accéder à l’outil par métier</button>
+  <button class="btn-main" onclick="openPage('metier')">
+    Prévention par métier
+  </button>
+
   <button class="btn-main" onclick="openPage('accompagnement')">
     Accompagnement & sensibilisation RESTEV
   </button>
 </div>
 
-<!-- METIER (version courte présentation) -->
+<!-- METIER (présentation courte) -->
 <div id="metier" class="page">
   <h2>Prévention par métier</h2>
   <p>
-    L’entreprise peut se situer grâce à une auto‑évaluation simple,
-    puis solliciter un accompagnement si elle le souhaite.
+    Auto‑évaluation simple et partagée,
+    sans jugement, au service de la prévention.
   </p>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- ACCOMPAGNEMENT -->
+<!-- ACCOMPAGNEMENT RESTEV -->
 <div id="accompagnement" class="page">
   <h2>Accompagnement & sensibilisation RESTEV</h2>
 
   <div class="card.info">
-    <strong>Une démarche de prévention progressive</strong><br>
-    Le RESTEV accompagne les entreprises dans leurs démarches de prévention
-    des risques professionnels, en tenant compte de leurs contraintes
-    organisationnelles et de leur réalité de terrain.
+    <strong>Une mission de conseil et d’accompagnement</strong><br>
+    Le RESTEV accompagne les entreprises adhérentes dans la prévention
+    des risques professionnels et la préservation de la santé au travail,
+    dans une logique de partenariat.
   </div>
 
   <div class="card.info">
-    <strong>Actions de sensibilisation</strong>
+    <strong>Exemples d’actions proposées</strong>
     <ul>
-      <li>Sensibilisations collectives en entreprise</li>
-      <li>Ateliers thématiques (DUERP, CMR, EPI, manutention…)</li>
-      <li>Actions de prévention primaire adaptées aux métiers</li>
-    </ul>
-  </div>
-
-  <div class="card.info">
-    <strong>Accompagnement prévention</strong>
-    <ul>
-      <li>Appui à l’identification et à l’évaluation des risques</li>
+      <li>Actions de sensibilisation collective en entreprise</li>
+      <li>Ateliers thématiques (DUERP, CMR, EPI, manutention, RPS…)</li>
+      <li>Appui à l’évaluation des risques</li>
       <li>Accompagnement à la mise à jour du DUERP</li>
-      <li>Conseil en organisation du travail</li>
+      <li>Prévention de la désinsertion professionnelle (PDP)</li>
       <li>Interventions d’équipes pluridisciplinaires</li>
     </ul>
   </div>
 
-  <div class="card.info">
-    <strong>Prévention de la désinsertion professionnelle (PDP)</strong>
-    <ul>
-      <li>Repérage précoce des situations à risque</li>
-      <li>Maintien en emploi</li>
-      <li>Accompagnement individualisé</li>
-    </ul>
+  <div class="card.warn">
+    Les actions sont réalisées à la demande de l’entreprise,
+    en tenant compte de ses contraintes et de sa réalité de terrain.
   </div>
 
-  <div class="card.warn">
-    Les actions du RESTEV sont réalisées à la demande de l’entreprise,
-    dans une logique de partenariat, sans jugement ni évaluation.
+  <div class="card.info">
+    <strong>Pour aller plus loin (liens officiels)</strong>
+    <ul>
+      <li><a href="https://www.restev.fr/" target="_blank">Site officiel RESTEV</a></li>
+      <li><a href="https://www.restev.fr/vous-etes-employeur/" target="_blank">Vous êtes employeur – offre de service</a></li>
+      <li><a href="https://www.restev.fr/agenda/" target="_blank">Agenda des ateliers et sensibilisations</a></li>
+    </ul>
   </div>
 
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
