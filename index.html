@@ -1,18 +1,81 @@
-<!DOCTYPE html>%;
-  padding:10px;
-  font-size:16px;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Prévention</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f3f6fb;
 }
 
+.container{
+  max-width:700px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+h1{
+  text-align:center;
+  color:#1e3a8a;
+  margin-bottom:28px;
+}
+
+/* CARDS */
+.card{
+  background:#ffffff;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* TITRES DE CARTES */
+.card-title{
+  font-weight:600;
+  margin-bottom:12px;
+  color:#111827;
+}
+
+/* SELECT */
+select{
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+}
+
+/* CHECKLIST */
 ul{
   list-style:none;
   padding:0;
+  margin:0;
 }
 
-ul li{
-  margin-bottom:10px;
+li{
+  margin-bottom:12px;
 }
 
-button{
+label{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:15px;
+}
+
+/* TEXTE INFO */
+.info{
+  font-size:14px;
+  color:#374151;
+  line-height:1.5;
+  background:#eef2ff;
+}
+
+/* BOUTONS */
+.btn{
   padding:14px 32px;
   font-size:16px;
   font-weight:600;
@@ -25,11 +88,6 @@ button{
   background:#e5e7eb;
   color:#111;
 }
-
-.info{
-  font-size:14px;
-  color:#374151;
-}
 </style>
 </head>
 
@@ -39,10 +97,10 @@ button{
 
   <h1>Prévention par métier</h1>
 
-  <!-- Sélection métier -->
+  <!-- MÉTIER -->
   <div class="card">
-    <label for="metier"><strong>Métier ou activité principale</strong></label>
-    <select id="metier">
+    <div class="card-title">Métier ou activité principale</div>
+    <select>
       <option value="">— Sélectionner —</option>
       <option>BTP</option>
       <option>Santé / médico‑social</option>
@@ -53,71 +111,30 @@ button{
     </select>
   </div>
 
-  <!-- Checklist -->
+  <!-- CHECKLIST -->
   <div class="card">
-    <strong>Mesures actuellement en place (auto‑évaluation)</strong>
+    <div class="card-title">Mesures actuellement en place</div>
     <ul>
       <li><label><input type="checkbox"> Organisation du travail définie</label></li>
-      <li><label><input type="checkbox"> Information ou sensibilisation à la prévention</label></li>
+      <li><label><input type="checkbox"> Information / sensibilisation à la prévention</label></li>
       <li><label><input type="checkbox"> Équipements adaptés disponibles</label></li>
-      <li><label><input type="checkbox"> Matériel entretenu</label></li>
-      <li><label><input type="checkbox"> Règles de sécurité connues</label></li>
-      <li><label><input type="checkbox"> Temps d’échange possibles sur le travail</label></li>
+      <li><label><input type="checkbox"> Matériel entretenu régulièrement</label></li>
+      <li><label><input type="checkbox"> Consignes de sécurité connues</label></li>
+      <li><label><input type="checkbox"> Temps d’échange sur le travail possibles</label></li>
     </ul>
   </div>
 
-  <!-- Accompagnement -->
+  <!-- ACCOMPAGNEMENT -->
   <div class="card info">
-    Cette auto‑évaluation permet de se situer sur les pratiques de prévention.
+    Cette auto‑évaluation permet à l’entreprise de se situer sur ses pratiques
+    de prévention.
     <br><br>
     Le RESTEV peut accompagner l’entreprise, à sa demande, dans la réflexion,
     la structuration et la mise en œuvre des actions de prévention adaptées
-    à ses activités et à ses contraintes.
+    à ses activités, à ses contraintes et à sa réalité de terrain.
   </div>
 
-  <!-- Retour -->
-  <div style="text-align:center;">
-    <button class="btn-back" onclick="window.location.href='accueil.html'>
-
-</body>
-</html>
-``
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Prévention</title>
-
-<style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f6f8fb;
-  margin:0;
-  padding:0;
-}
-
-.container{
-  max-width:600px;
-  margin:0 auto;
-  padding:20px;
-}
-
-h1{
-  text-align:center;
-  color:#1e3a8a;
-  margin-bottom:20px;
-}
-
-.card{
-  background:#ffffff;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-
-label{
-  display:block;
-  margin-bottom:10px;
-}
-
-select{
+  <!-- RETOUR -->
+  <div style="text-align:center; margin-top:24px;">
+    <button class="btn btn-back"
+            onclick="window.location.href='accueil.html'l>
