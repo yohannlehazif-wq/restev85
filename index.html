@@ -13,88 +13,74 @@
   box-sizing:border-box;
 }
 
-/* BASE MOBILE FIRST */
+/* FOND BLANC – MOBILE FIRST */
 body{
-  font-family:'Nunito', Arial, sans-serif;
+  height:100vh;
   background:#ffffff;
-  min-height:100vh;
   display:flex;
   justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
 }
 
+/* CONTENEUR */
 .app{
   width:100%;
-  max-width:420px; /* smartphone */
-  padding:24px 20px 32px;
+  max-width:420px;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
 
 /* LOGO */
 .logo{
-  display:flex;
-  justify-content:center;
-  margin-top:24px;
-  margin-bottom:28px;
+  animation:fadeZoom 2s ease-out forwards;
 }
 .logo img{
-  width:160px;
+  width:170px;
   max-width:60%;
+  animation:pulse 3.6s ease-in-out infinite;
 }
 
-/* TITRE */
-h1{
-  font-family:'Poppins', Arial, sans-serif;
-  font-size:22px;
-  color:#1e3a8a;
-  text-align:center;
-  margin-bottom:14px;
+/* BOUTON */
+.enter{
+  margin-top:48px;
+  opacity:0;
+  animation:fadeIn 1.2s ease-out forwards;
+  animation-delay:2s;
 }
-
-/* TEXTE */
-.intro{
-  font-size:15px;
-  line-height:1.5;
-  color:#334155;
-  text-align:center;
-  margin-bottom:28px;
-}
-
-/* CARTES */
-.card{
-  background:#f8fbff;
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 6px 18px rgba(30,64,175,0.08);
-}
-
-/* BOUTONS */
-button{
-  width:100%;
+.enter button{
+  padding:14px 36px;
   border:none;
   border-radius:20px;
-  padding:16px;
+  background:#1e3a8a;
+  color:#ffffff;
   font-size:15px;
   font-weight:600;
   cursor:pointer;
 }
 
-.btn-main{
-  background:#dbeafe;
-  color:#1e3a8a;
-  margin-bottom:14px;
+/* ANIMATIONS */
+@keyframes fadeZoom{
+  0%{
+    opacity:0;
+    transform:scale(0.9);
+  }
+  100%{
+    opacity:1;
+    transform:scale(1);
+  }
 }
-
-.btn-accompagnement{
-  background:#dcfce7;
-  color:#14532d;
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+  100%{transform:scale(1)}
 }
-
-/* FOOTER */
-.footer{
-  text-align:center;
-  font-size:12px;
-  color:#64748b;
-  margin-top:32px;
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
 }
 </style>
 </head>
@@ -108,31 +94,6 @@ button{
     <img src="logo.png" alt="RESTEV">
   </div>
 
-  <!-- TITRE -->
-  <h1>Prévention & santé au travail</h1>
-
-  <!-- TEXTE -->
-  <div class="intro">
-    Outil d’auto‑évaluation de la prévention par métier.<br>
-    Une démarche <strong>neutre</strong>, <strong>simple</strong> et
-    <strong>sans jugement</strong>, au service des entreprises.
-  </div>
-
-  <!-- CARTE ACTION -->
-  <div class="card">
-    <button class="btn-main"
-      onclick="location.href='preventionccompagnement"
-      onclick="lisation RESTEV
-    </button>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="footer">
-    Service de santé au travail RESTEV<br>
-    Démarche d’accompagnement – sans évaluation
-  </div>
-
-</div>
-
-</body>
-</html>
+  <!-- BOUTON ENTRÉE -->
+  <div class="enter">
+    <button onclick="location.href='accueil.htmltml>
