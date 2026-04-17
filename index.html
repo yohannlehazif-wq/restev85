@@ -6,67 +6,132 @@
 <title>RESTEV</title>
 
 <style>
-/* Réinitialisation */
+/* RESET */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
-/* Page blanche */
+/* BASE MOBILE FIRST */
 body{
-  height:100vh;
+  font-family:'Nunito', Arial, sans-serif;
   background:#ffffff;
+  min-height:100vh;
   display:flex;
   justify-content:center;
-  align-items:center;
-  font-family:Arial, sans-serif;
 }
 
-/* Conteneur logo */
-.logo-container{
+.app{
+  width:100%;
+  max-width:420px; /* smartphone */
+  padding:24px 20px 32px;
+}
+
+/* LOGO */
+.logo{
+  display:flex;
+  justify-content:center;
+  margin-top:24px;
+  margin-bottom:28px;
+}
+.logo img{
+  width:160px;
+  max-width:60%;
+}
+
+/* TITRE */
+h1{
+  font-family:'Poppins', Arial, sans-serif;
+  font-size:22px;
+  color:#1e3a8a;
   text-align:center;
-  animation:fadeZoom 2.2s ease-out forwards;
+  margin-bottom:14px;
 }
 
-/* Logo */
-.logo-container img{
-  width:180px;        /* ajuste si besoin */
-  max-width:60vw;
-  animation:pulse 3.5s ease-in-out infinite;
+/* TEXTE */
+.intro{
+  font-size:15px;
+  line-height:1.5;
+  color:#334155;
+  text-align:center;
+  margin-bottom:28px;
 }
 
-/* Animation apparition */
-@keyframes fadeZoom{
-  0%{
-    opacity:0;
-    transform:scale(0.92);
-  }
-  100%{
-    opacity:1;
-    transform:scale(1);
-  }
+/* CARTES */
+.card{
+  background:#f8fbff;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 6px 18px rgba(30,64,175,0.08);
 }
 
-/* Animation respiration légère */
-@keyframes pulse{
-  0%{
-    transform:scale(1);
-  }
-  50%{
-    transform:scale(1.04);
-  }
-  100%{
-    transform:scale(1);
-  }
+/* BOUTONS */
+button{
+  width:100%;
+  border:none;
+  border-radius:20px;
+  padding:16px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.btn-main{
+  background:#dbeafe;
+  color:#1e3a8a;
+  margin-bottom:14px;
+}
+
+.btn-accompagnement{
+  background:#dcfce7;
+  color:#14532d;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#64748b;
+  margin-top:32px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="logo-container">
-  <img src="logo.png" alt="RESTEV">
+<div class="app">
+
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="logo.png" alt="RESTEV">
+  </div>
+
+  <!-- TITRE -->
+  <h1>Prévention & santé au travail</h1>
+
+  <!-- TEXTE -->
+  <div class="intro">
+    Outil d’auto‑évaluation de la prévention par métier.<br>
+    Une démarche <strong>neutre</strong>, <strong>simple</strong> et
+    <strong>sans jugement</strong>, au service des entreprises.
+  </div>
+
+  <!-- CARTE ACTION -->
+  <div class="card">
+    <button class="btn-main"
+      onclick="location.href='preventionccompagnement"
+      onclick="lisation RESTEV
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Service de santé au travail RESTEV<br>
+    Démarche d’accompagnement – sans évaluation
+  </div>
+
 </div>
 
 </body>
