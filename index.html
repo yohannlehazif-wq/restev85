@@ -1,19 +1,31 @@
-<!DOCTYPE html>>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
   <meta charset="UTF-8">
   <title>RESTEV – Prévention</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     :root {
-      --restev-vert: #2e8b7a;
-      --restev-vert-clair: #e6f4f1;
-      --restev-gris: #2c3e50;
+      --vert-fond: #dff2e1;
+      --vert-texte: #2f6b3f;
+
+      --orange-fond: #f8ead4;
+      --orange-texte: #8a5a1f;
+
+      --rouge-fond: #f4d6d6;
+      --rouge-texte: #7a2e2e;
+
+      --fond-general: #e6f4f1;
+      --texte-principal: #2c3e50;
+      --accent: #2e8b7a;
     }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: var(--restev-vert-clair);
+      background: var(--fond-general);
+      color: var(--texte-principal);
     }
 
     section {
@@ -28,7 +40,7 @@
     }
 
     h1, h2 {
-      color: var(--restev-vert);
+      color: var(--accent);
       margin-top: 0;
     }
 
@@ -36,44 +48,34 @@
       padding: 14px 30px;
       border: none;
       border-radius: 30px;
-      background: var(--restev-vert);
+      background: var(--accent);
       color: white;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 25px;
     }
 
     /* ===== ACCUEIL ===== */
-    .accueil-contenu {
+    .accueil {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: var(--restev-vert-clair);
     }
 
-    .logo-restev {
+    .logo {
       width: 220px;
       max-width: 70%;
       margin-bottom: 20px;
-      animation: entree 1.2s ease-out forwards, respiration 4s ease-in-out infinite 1.5s;
+      animation: respiration 4s ease-in-out infinite;
     }
 
-    .phrase-positive {
-      font-size: 16px;
-      color: var(--restev-gris);
+    .phrase {
       max-width: 320px;
       line-height: 1.6;
-      opacity: 0;
-      animation: entree 1.4s ease-out forwards;
-      animation-delay: 0.4s;
-    }
-
-    @keyframes entree {
-      from { opacity: 0; transform: scale(0.95) translateY(15px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      margin-bottom: 20px;
     }
 
     @keyframes respiration {
@@ -90,56 +92,36 @@
     }
 
     .menu button {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 18px 20px;
-      border-radius: 14px;
-      background: var(--restev-vert-clair);
-      color: var(--restev-gris);
-      font-weight: bold;
+      background: var(--fond-general);
+      color: var(--texte-principal);
       text-align: left;
+      border-radius: 14px;
+      font-weight: bold;
     }
 
-    .menu-description {
-      font-size: 13px;
-      font-weight: normal;
-      color: #555;
-    }
-
-    /* ===== PREVENTION METIER ===== */
-    .fiche-metier {
+    /* ===== CHECKLIST ===== */
+    .checklist {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      margin-top: 20px;
+      gap: 12px;
+      margin: 20px 0;
     }
 
-    .bloc-prevention {
-      background: var(--restev-vert-clair);
-      border-radius: 12px;
-      padding: 15px 18px;
-    }
-
-    .bloc-prevention h3 {
-      margin-top: 0;
-      font-size: 16px;
-      color: var(--restev-gris);
-    }
-
-    .bloc-prevention ul {
-      padding-left: 18px;
-      margin: 0;
-    }
-
-    .bloc-prevention li {
+    .checklist label {
       font-size: 14px;
-      margin-bottom: 6px;
+    }
+
+    .resultat {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 14px;
+      text-align: center;
+      font-weight: bold;
     }
 
     .retour {
       background: transparent;
-      color: var(--restev-vert);
+      color: var(--accent);
       margin-top: 30px;
     }
   </style>
@@ -149,11 +131,13 @@
 
 <!-- ACCUEIL -->
 <section id="accueil" class="active">
-  <div class="accueil-contenu">
-    <img src="logo-restev.png" alt="Logo RESTEV" class="logo-restev">
-    <p class="phrase-positive">
+  <div class="accueil">
+    <img src="logo-restev.png" alt="Logo RESTEV" class="logo">
+
+    <p class="phrase">
       La prévention commence par des choix simples, pensés pour durer.
     </p>
+
     <button onclick="show('menu')">Entrer</button>
   </div>
 </section>
@@ -163,25 +147,10 @@
   <h1>Menu principal</h1>
 
   <div class="menu">
-    <button onclick="show('metiers')">
-      👷 Prévention par métier
-      <div class="menu-description">Risques et mesures par poste</div>
-    </button>
-
-    <button onclick="show('cmr')">
-      🧪 CMR – Analyse produit
-      <div class="menu-description">Substances et FDS</div>
-    </button>
-
-    <button onclick="show('pdp')">
-      📋 Plan de prévention (PDP)
-      <div class="menu-description">Entreprises extérieures</div>
-    </button>
-
-    <button onclick="show('duerp')">
-      📊 DUERP
-      <div class="menu-description">Évaluation des risques</div>
-    </button>
+    <button onclick="show('metiers')">👷 Prévention par métier</button>
+    <button onclick="show('menu')">🧪 CMR – Analyse produit (à venir)</button>
+    <button onclick="show('menu')">📋 PDP (à venir)</button>
+    <button onclick="show('menu')">📊 DUERP (à venir)</button>
   </div>
 
   <button class="retour" onclick="show('accueil')">← Accueil</button>
@@ -191,53 +160,56 @@
 <section id="metiers">
   <h1>Prévention par métier</h1>
 
-  <div class="fiche-metier">
-    <h2>Technicien de maintenance</h2>
+  <h2>Auto‑évaluation – Technicien de maintenance</h2>
 
-    <div class="bloc-prevention">
-      <h3>Risques identifiés</h3>
-      <ul>
-        <li>Chutes de plain-pied</li>
-        <li>Risque électrique</li>
-        <li>Manutentions manuelles</li>
-      </ul>
-    </div>
+  <p>Coche ce qui est réellement en place dans l’entreprise :</p>
 
-    <div class="bloc-prevention">
-      <h3>Prévention existante</h3>
-      <ul>
-        <li>Port des EPI</li>
-        <li>Procédures établies</li>
-        <li>Formations sécurité</li>
-      </ul>
-    </div>
-
-    <div class="bloc-prevention">
-      <h3>Prévention recommandée</h3>
-      <ul>
-        <li>Renforcement formation électrique</li>
-        <li>Aides à la manutention</li>
-        <li>Révision des procédures</li>
-      </ul>
-    </div>
+  <div class="checklist">
+    <label><input type="checkbox" class="prev"> Équipements de protection disponibles</label>
+    <label><input type="checkbox" class="prev"> Formations sécurité réalisées</label>
+    <label><input type="checkbox" class="prev"> Procédures écrites accessibles</label>
+    <label><input type="checkbox" class="prev"> Vérification régulière du matériel</label>
+    <label><input type="checkbox" class="prev"> Analyse des situations à risque</label>
   </div>
+
+  <button onclick="evaluer()">Évaluer la prévention</button>
+
+  <div id="resultat" class="resultat"></div>
 
   <button class="retour" onclick="show('menu')">← Menu</button>
 </section>
-
-<!-- CMR / PDP / DUERP -->
-<section id="cmr"><h1>CMR</h1><button class="retour" onclick="show('menu')">← Menu</button></section>
-<section id="pdp"><h1>PDP</h1><button class="retour" onclick="show('menu')">← Menu</button></section>
-<section id="duerp"><h1>DUERP</h1><button class="retour" onclick="show('menu')">← Menu</button></section>
 
 <script>
   function show(id) {
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
+  }
+
+  function evaluer() {
+    const checks = document.querySelectorAll(".prev");
+    let count = 0;
+    checks.forEach(c => { if (c.checked) count++; });
+
+    const ratio = count / checks.length;
+    const res = document.getElementById("resultat");
+
+    if (ratio < 0.4) {
+      res.style.background = "#f4d6d6";
+      res.style.color = "#7a2e2e";
+      res.innerHTML = "Prévention à renforcer – des actions prioritaires sont à engager";
+    } else if (ratio < 0.75) {
+      res.style.background = "#f8ead4";
+      res.style.color = "#8a5a1f";
+      res.innerHTML = "Prévention en progression – bases présentes";
+    } else {
+      res.style.background = "#dff2e1";
+      res.style.color = "#2f6b3f";
+      res.innerHTML = "Prévention bien structurée – organisation cohérente";
+    }
   }
 </script>
 
 </body>
 </html>
-<html lang="fr">
+``
