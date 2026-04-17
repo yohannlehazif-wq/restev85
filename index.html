@@ -6,12 +6,14 @@
 <title>RESTEV</title>
 
 <style>
+/* RESET */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
+/* FOND BLANC */
 body{
   height:100vh;
   background:#ffffff;
@@ -21,6 +23,7 @@ body{
   font-family:Arial, sans-serif;
 }
 
+/* CONTENEUR MOBILE */
 .app{
   width:100%;
   max-width:420px;
@@ -37,17 +40,39 @@ body{
   animation:fadeZoom 2s ease-out forwards;
 }
 .logo img{
-  width:65vw;          /* équilibre smartphone */
-  max-width:260px;     /* limite écran large */
-  min-width:180px;     /* lisible petit écran */
+  width:65vw;
+  max-width:260px;
+  min-width:180px;
+  animation:pulse 3.8s ease-in-out infinite;
 }
 
-/* BOUTON */
+/* BARRE DE CHARGEMENT */
+.loader{
+  width:140px;
+  height:4px;
+  background:#e5e7eb;
+  border-radius:4px;
+  margin-top:32px;
+  overflow:hidden;
+  opacity:0;
+  animation:fadeIn 1s ease-out forwards;
+  animation-delay:1.2s;
+}
+.loader span{
+  display:block;
+  width:40%;
+  height:100%;
+  background:#1e3a8a;
+  border-radius:4px;
+  animation:move 1.4s ease-in-out infinite;
+}
+
+/* BOUTON ENTRÉE */
 .enter{
   margin-top:48px;
   opacity:0;
   animation:fadeIn 1.2s ease-out forwards;
-  animation-delay:2s;
+  animation-delay:2.4s;
 }
 .enter button{
   padding:14px 42px;
@@ -62,19 +87,25 @@ body{
 
 /* ANIMATIONS */
 @keyframes fadeZoom{
-  0%{
-    opacity:0;
-    transform:scale(0.92);
-  }
-  100%{
-    opacity:1;
-    transform:scale(1);
-  }
+  0%{opacity:0; transform:scale(0.92);}
+  100%{opacity:1; transform:scale(1);}
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
 }
 
 @keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes move{
+  0%{transform:translateX(-100%);}
+  50%{transform:translateX(100%);}
+  100%{transform:translateX(100%);}
 }
 </style>
 </head>
@@ -83,11 +114,17 @@ body{
 
 <div class="app">
 
-  <!-- LOGO RESTEV -->
+  <!-- LOGO -->
   <div class="logo">
     <img src="logo-restev.png" alt="RESTEV">
   </div>
 
-  <!-- BOUTON ENTRER -->
+  <!-- LOADER -->
+  <div class="loader">
+    <span></span>
+  </div>
+
+  <!-- BOUTON -->
   <div class="enter">
-    <button onclick="location.href='accueil.html'ml>
+    <button onclick="location.href='accueil>
+</html>
