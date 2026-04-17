@@ -1,108 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV</title>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+<head  background:#ffffff;<head>
+  font-family:Arial, sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
 }
 
-body {
-  min-height: 100vh;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  font-family: Arial, sans-serif;
-}
-
-.app {
-  width: 100%;
-  max-width: 420px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+.app{
+  width:100%;
+  max-width:420px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
 }
 
 /* LOGO */
-.logo {
-  margin-top: 80px;
-  opacity: 0;
-  animation: logoIn 1.8s ease-out forwards;
+.logo{
+  margin-top:60px;
+  opacity:0;
+  animation:logoIn 1.8s ease-out forwards;
 }
-
-.logo img {
-  width: 65vw;
-  max-width: 260px;
-  min-width: 180px;
+.logo img{
+  width:65vw;
+  max-width:260px;
+  min-width:180px;
 }
 
 /* ECG */
-.ecg {
-  width: 260px;
-  height: 80px;
-  margin-top: 24px;
+.ecg{
+  width:260px;
+  height:80px;
+  margin-top:24px;
 }
-
-.ecg path {
-  stroke: #1e3a8a;
-  stroke-width: 2.5;
-  fill: none;
-  stroke-dasharray: 500;
-  stroke-dashoffset: 500;
-  animation: draw 2.4s ease-out forwards;
-  animation-delay: 1.3s;
+.ecg path{
+  stroke:#1e3a8a;
+  stroke-width:2.5;
+  fill:none;
+  stroke-dasharray:500;
+  stroke-dashoffset:500;
+  animation:draw 2.4s ease-out forwards;
+  animation-delay:1.3s;
 }
 
 /* MESSAGE */
-.message {
-  margin-top: 16px;
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-  animation-delay: 2.5s;
-  text-align: center;
-  font-size: 14px;
-  color: #334155;
+.message{
+  margin-top:16px;
+  opacity:0;
+  animation:fadeIn 1s ease-out forwards;
+  animation-delay:2.5s;
+  text-align:center;
+  font-size:14px;
+  color:#334155;
 }
 
 /* BOUTON */
-.enter {
-  margin-top: 48px;
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-  animation-delay: 3.3s;
+.enter{
+  margin-top:40px;
+  margin-bottom:40px;
+  opacity:0;
+  animation:fadeIn 1s ease-out forwards;
+  animation-delay:3.3s;
+  animation-fill-mode:forwards;
+  position:relative;
+  z-index:10;
 }
-
-.enter button {
-  padding: 14px 48px;
-  border: none;
-  border-radius: 22px;
-  background: #1e3a8a;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
+.enter button{
+  padding:14px 48px;
+  border:none;
+  border-radius:22px;
+  background:#1e3a8a;
+  color:#ffffff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
 }
 
 /* ANIMATIONS */
-@keyframes logoIn {
-  from { opacity: 0; transform: scale(0.94); }
-  to { opacity: 1; transform: scale(1); }
+@keyframes logoIn{
+  from{opacity:0; transform:scale(0.94);}
+  to{opacity:1; transform:scale(1);}
 }
-
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
+@keyframes draw{
+  to{stroke-dashoffset:0;}
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
 }
 </style>
 </head>
@@ -132,9 +118,16 @@ body {
   </div>
 
   <div class="enter">
-    <button onclick="</div>
+    <button onclick="window.location.href='acc/html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RESTEV</title>
 
-</div>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-</body>
-</html>
+body{
