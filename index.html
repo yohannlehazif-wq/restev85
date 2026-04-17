@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,7 @@
   box-sizing:border-box;
 }
 
-/* FOND BLANC – MOBILE FIRST */
+/* FOND BLANC */
 body{
   height:100vh;
   background:#ffffff;
@@ -23,10 +22,10 @@ body{
   font-family:Arial, sans-serif;
 }
 
-/* CONTENEUR */
+/* CONTENEUR APP */
 .app{
   width:100%;
-  max-width:420px;
+  max-width:420px; /* smartphone */
   height:100%;
   display:flex;
   flex-direction:column;
@@ -36,15 +35,16 @@ body{
 
 /* LOGO */
 .logo{
+  opacity:0;
   animation:fadeZoom 2s ease-out forwards;
 }
 .logo img{
-  width:170px;
-  max-width:60%;
-  animation:pulse 3.6s ease-in-out infinite;
+  width:65vw;          /* taille principale mobile */
+  max-width:260px;     /* limite sur grands écrans */
+  min-width:180px;     /* lisible même sur petits */
 }
 
-/* BOUTON */
+/* BOUTON ENTRÉE */
 .enter{
   margin-top:48px;
   opacity:0;
@@ -52,7 +52,7 @@ body{
   animation-delay:2s;
 }
 .enter button{
-  padding:14px 36px;
+  padding:14px 42px;
   border:none;
   border-radius:20px;
   background:#1e3a8a;
@@ -66,18 +66,14 @@ body{
 @keyframes fadeZoom{
   0%{
     opacity:0;
-    transform:scale(0.9);
+    transform:scale(0.92);
   }
   100%{
     opacity:1;
     transform:scale(1);
   }
 }
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.05)}
-  100%{transform:scale(1)}
-}
+
 @keyframes fadeIn{
   from{opacity:0}
   to{opacity:1}
@@ -89,11 +85,11 @@ body{
 
 <div class="app">
 
-  <!-- LOGO -->
+  <!-- LOGO RESTEV -->
   <div class="logo">
-    <img src="logo.png" alt="RESTEV">
+    <img src="logo-restev.png" alt="RESTEV – Prévention santé au travail">
   </div>
 
-  <!-- BOUTON ENTRÉE -->
+  <!-- BOUTON ENTRER -->
   <div class="enter">
-    <button onclick="location.href='accueil.htmltml>
+    <button onclick="location.href='accueil.html'
