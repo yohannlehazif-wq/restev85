@@ -1,98 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
-</title><head>
+<head>
+  <meta charset="UTF-8">
+  <title>Test Prévention</title padding: 40px;  <title>Test Prévention</title>
+      color: #2c3e50;
+    }
 
-<style>
-body{
-  font-family:Arial, sans-serif;
-  background:#f3f6fb;
-  margin:0;
-  padding:30px;
-}
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
 
-h1{
-  color:#1e3a8a;
-}
+    h1 {
+      margin-top: 0;
+      color: #34495e;
+      font-size: 28px;
+    }
 
-.card{
-  background:#ffffff;
-  padding:20px;
-  margin-bottom:20px;
-  border-radius:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
+    p {
+      font-size: 16px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
 
-button{
-  padding:14px 32px;
-  font-size:16px;
-  font-weight:600;
-  border:none;
-  border-radius:20px;
-  background:#1e3a8a;
-  color:#ffffff;
-  cursor:pointer;
-}
-</style>
+    .info {
+      padding: 15px 20px;
+      background-color: #eef6f3;
+      border-left: 5px solid #7fb3a6;
+      border-radius: 4px;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      background-color: #7fb3a6;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      background-color: #6aa496;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>Prévention par métier</h1>
+  <div class="container">
 
-<div class="card">
-  <label for="metier"><strong>Métier</strong></label><br><br>
-  <select id="metier" onchange="changerMesures()">
-    <option value="">— Sélectionner —</option>
-    <option value="btp">BTP</option>
-    <option value="bouche">Métiers de bouche</option>
-    <option value="sante">Santé</option>
-  </select>
-</div>
+    <h1>Prévention</h1>
 
-<div class="card">
-  <strong>Mesures actuellement en place</strong>
-  <ul id="liste-mesures">
-    <li>Sélectionnez un métier pour afficher les mesures</li>
-  </ul>
-</div>
+    <p>
+      Cette page permet de vérifier le bon fonctionnement de l’affichage
+      et des éléments interactifs.
+    </p>
 
-<div class="card">
-  Le RESTEV peut accompagner l’entreprise, à sa demande, dans
-  la structuration de sa démarche de prévention.
-</div>
+    <div class="info">
+      Si tu vois ce texte, le HTML est bien interprété et la mise en page fonctionne correctement.
+    </div>
 
-<button onclick="alert('BOUTON OK')">
-  Bouton visible
-</button>
+    <button onclick="alert('CLIC OK')">
+      Bouton test
+    </button>
 
-<script>
-function changerMesures(){
-  var metier = document.getElementById("metier").value;
-  var liste = document.getElementById("liste-mesures");
-
-  liste.innerHTML = "";
-
-  if(metier === "btp"){
-    liste.innerHTML += "<li>Organisation du chantier</li>";
-    liste.innerHTML += "<li>Utilisation des EPI</li>";
-  }
-  else if(metier === "bouche"){
-    liste.innerHTML += "<li>Hygiène alimentaire</li>";
-    liste.innerHTML += "<li>Prévention des coupures</li>";
-  }
-  else if(metier === "sante"){
-    liste.innerHTML += "<li>Gestes et postures</li>";
-    liste.innerHTML += "<li>Protocoles connus</li>";
-  }
-  else{
-    liste.innerHTML = "<li>Sélectionnez un métier</li>";
-  }
-}
-</script>
+  </div>
 
 </body>
 </html>
-<meta charset="UTF-8">
 
-</body>
-</html>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f2f6f8;
+      margin: 0;
