@@ -1,23 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Auto‑évaluation Prévention BTP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --vert:#2e8b7a;
+  --orange:#f2b66d;
+  --rouge:#e88b8b;
+  --fond:#f4f7f6;
+  --carte:#ffffff;
+  --texte:#2c3e50;
+}
+
+body{
+  margin:0;
+  font-family:system-ui, Arial, sans-serif;
+  background:var(--fond);
+  color:var(--texte);
+}
+
+header{
+  text-align:center;
+  padding:40px 20px;
+  background:#ffffff;
+}
+
+header h1{
+  margin:0;
+  color:var(--vert);
+}
+
+main{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.carte{
+  background:var(--carte);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom:30px;
+}
+
+h2{
+  color:var(--vert);
+}
+
+h3{
+  margin-top:25px;
+  color:#34495e;
+}
+
+.checklist label{
+  display:block;
+  margin:8px 0;
+  font-size:15px;
+}
+
+button{
+  background:var(--vert);
+  color:white;
+  border:none;
+  padding:14px 28px;
+  border-radius:24px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:20px;
+}
+
+.resultat{
+  margin-top:25px;
+  padding:18px;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:600;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  font-size:14px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Auto‑évaluation Prévention – BTP</h1>
+  <p>Outil d’aide pour analyser l’organisation de la prévention sur les chantiers</p>
+</header>
+
+<main>
+
 <div class="carte">
-  <h2>👷 Auto‑évaluation – BTP</h2>
+  <h2>👷 Analyse de votre prévention chantier</h2>
+
   <p>
-    Cette auto‑évaluation permet d’analyser la prévention réelle sur les chantiers,
-    en tenant compte de l’organisation, des expositions et des moyens mis en œuvre.
+    Cette auto‑évaluation permet d’analyser la prévention réelle mise en place
+    sur vos chantiers. Les réponses doivent refléter la pratique habituelle,
+    et non une situation idéale.
   </p>
 
   <!-- PILIER 1 -->
   <h3>1️⃣ Organisation & prévention collective</h3>
   <div class="checklist">
     <label><input type="checkbox" class="p1"> Les risques du chantier sont identifiés et formalisés (DUERP, PDP)</label>
-    <label><input type="checkbox" class="p1"> Les modes opératoires limitent l’exposition aux risques</label>
+    <label><input type="checkbox" class="p1"> Les modes opératoires limitent réellement l’exposition aux risques</label>
     <label><input type="checkbox" class="p1"> Les coactivités sont anticipées et encadrées</label>
     <label><input type="checkbox" class="p1"> L’organisation évite le travail dans l’urgence</label>
   </div>
 
   <!-- PILIER 2 -->
-  <h3>2️⃣ Expositions & risques spécifiques (CMR)</h3>
+  <h3>2️⃣ Expositions & risques spécifiques (dont CMR)</h3>
   <div class="checklist">
-    <label><input type="checkbox" class="p2"> Exposition à des poussières (silice, bois, béton)</label>
+    <label><input type="checkbox" class="p2"> Exposition à des poussières (silice, béton, bois…)</label>
     <label><input type="checkbox" class="p2"> Exposition possible à des sols pollués</label>
     <label><input type="checkbox" class="p2"> Présence de fumées, gaz ou produits chimiques</label>
     <label><input type="checkbox" class="p2"> Les situations les plus exposantes sont identifiées</label>
@@ -27,8 +130,8 @@
   <h3>3️⃣ Moyens techniques & EPI</h3>
   <div class="checklist">
     <label><input type="checkbox" class="p3"> Des protections collectives sont mises en place en priorité</label>
-    <label><input type="checkbox" class="p3"> Les équipements sont adaptés et entretenus</label>
-    <label><input type="checkbox" class="p3"> Les EPI sont disponibles, adaptés et utilisés correctement</label>
+    <label><input type="checkbox" class="p3"> Les équipements sont adaptés, disponibles et entretenus</label>
+    <label><input type="checkbox" class="p3"> Les EPI sont adaptés aux risques et correctement utilisés</label>
   </div>
 
   <!-- PILIER 4 -->
@@ -42,14 +145,22 @@
   <button onclick="evaluerBTP()">Évaluer la prévention BTP</button>
 
   <div id="resultat-btp" class="resultat"></div>
-  <script>
+</div>
+
+</main>
+
+<footer>
+  Outil d’aide à la prévention – RESTEV
+</footer>
+
+<script>
 function evaluerBTP(){
 
-  function score(pilier){
-    const c = document.querySelectorAll("." + pilier);
-    let ok = 0;
-    c.forEach(x => { if(x.checked) ok++; });
-    return ok / c.length;
+  function score(classe){
+    const cases = document.querySelectorAll("." + classe);
+    let cochees = 0;
+    cases.forEach(c => { if(c.checked) cochees++; });
+    return cases.length ? cochees / cases.length : 0;
   }
 
   const s1 = score("p1");
@@ -60,44 +171,46 @@ function evaluerBTP(){
   const moyenne = (s1 + s2 + s3 + s4) / 4;
   const res = document.getElementById("resultat-btp");
 
-  let couleur = "var(--vert)";
-  let message = "";
+  let couleur;
+  let message;
 
-  /* Diagnostic principal */
   if(moyenne < 0.4){
     couleur = "var(--rouge)";
-    message = "<strong>Prévention insuffisante sur des points clés.</strong><br>" +
-              "L’organisation et les mesures actuelles ne permettent pas " +
-              "de réduire efficacement les risques du chantier.";
-  } 
+    message =
+      "<strong>Prévention insuffisante sur des points clés.</strong><br>" +
+      "L’organisation actuelle ne permet pas de maîtriser correctement les risques du chantier.";
+  }
   else if(moyenne < 0.75){
     couleur = "var(--orange)";
-    message = "<strong>Prévention existante mais perfectible.</strong><br>" +
-              "Des améliorations ciblées peuvent réduire significativement les expositions.";
+    message =
+      "<strong>Prévention existante mais perfectible.</strong><br>" +
+      "Des améliorations ciblées peuvent significativement réduire les expositions.";
   }
   else{
     couleur = "var(--vert)";
-    message = "<strong>Prévention globalement structurée.</strong><br>" +
-              "L’organisation et les moyens mis en place contribuent à limiter les risques.";
+    message =
+      "<strong>Prévention globalement structurée.</strong><br>" +
+      "Les mesures mises en place contribuent à limiter les risques du chantier.";
   }
 
-  /* Analyse CMR spécifique */
   if(s2 < 0.75){
     couleur = couleur === "var(--vert)" ? "var(--orange)" : couleur;
-    message += "<br><br><strong>Point de vigilance – risques spécifiques / CMR :</strong><br>" +
-               "La présence de poussières, de sols pollués ou de produits dangereux " +
-               "nécessite une analyse approfondie.";
+    message +=
+      "<br><br><strong>Point de vigilance – risques spécifiques / CMR :</strong><br>" +
+      "La présence de poussières, de sols pollués ou de produits dangereux nécessite une analyse approfondie.";
   }
 
-  /* Message RESTEV */
-  message += "<br><br><em>" +
-             "RESTEV peut vous accompagner dans l’analyse des situations de travail, " +
-             "l’évaluation des expositions (CMR), la mise à jour du DUERP " +
-             "et la définition d’un plan d’actions adapté au BTP." +
-             "</em>";
+  message +=
+    "<br><br><em>" +
+    "RESTEV peut vous accompagner dans l’analyse des situations de travail, " +
+    "l’évaluation des expositions (CMR), la mise à jour du DUERP " +
+    "et la définition d’un plan d’actions adapté au BTP." +
+    "</em>";
 
   res.style.background = couleur;
   res.innerHTML = message;
 }
 </script>
-</div>
+
+</body>
+</html>
