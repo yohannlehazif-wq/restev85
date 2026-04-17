@@ -11,7 +11,7 @@ body{
   font-family:Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
 }
-.app{max-width:780px;margin:auto;padding:16px}
+.app{max-width:900px;margin:auto;padding:16px}
 
 /* HEADER */
 .header{
@@ -37,7 +37,7 @@ body{
 }
 .page.active{display:block}
 
-/* BOUTONS */
+/* BUTTONS */
 button{
   width:100%;
   padding:16px;
@@ -50,7 +50,6 @@ button{
 .btn-main{background:#e0f2fe;color:#1e3a8a}
 .btn-back{background:#e5e7eb;color:#111}
 .btn-contact{background:#fef9c3;color:#854d0e}
-.btn-print{background:#dcfce7;color:#14532d}
 
 select{
   width:100%;
@@ -60,34 +59,32 @@ select{
   border:2px solid #c7d2fe;
 }
 
-/* CARTES */
+/* CARDS */
 .card{
   border-radius:16px;
   padding:14px;
   margin-bottom:14px;
 }
 .card.info{background:#e0f2fe}
-.card.good{background:#dcfce7}
-.card.advice{background:#ede9fe}
 .card.warn{background:#fef9c3}
+
+/* INDICATEUR */
+.indicator{
+  padding:14px;
+  border-radius:14px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+.green{background:#dcfce7;color:#14532d}
+.yellow{background:#fef9c3;color:#854d0e}
+.red{background:#fee2e2;color:#7f1d1d}
 
 /* CHECKLIST */
 .checklist label{
   display:block;
   margin-bottom:6px;
+  cursor:pointer;
 }
-
-/* TABLE */
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:14px;
-}
-th,td{
-  border:1px solid #c7d2fe;
-  padding:8px;
-}
-th{background:#e0f2fe}
 
 /* PRINT */
 @media print{
@@ -107,11 +104,11 @@ th{background:#e0f2fe}
   <div class="header-title">RESTEV – Prévention santé au travail</div>
 </div>
 
-<!-- ACCUEIL -->
+<!-- HOME -->
 <div id="home" class="page active">
-  <h2>Application RESTEV</h2>
-  <p>Outil d’appui à la prévention – posture d’accompagnement.</p>
-  <button class="btn-main" onclick="openPage('metier')">Prévention par métier</button>
+  <h2>Prévention par métier</h2>
+  <p>Auto‑évaluation par l’entreprise – posture d’accompagnement.</p>
+  <button class="btn-main" onclick="openPage('metier')">Accéder à l’outil</button>
   <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
 </div>
 
@@ -123,12 +120,11 @@ th{background:#e0f2fe}
     <option value="">— Choisir un métier —</option>
     <option value="entretien">Agent d’entretien</option>
     <option value="maintenance">Agent de maintenance</option>
-    <option value="bureau">Agent administratif</option>
+    <option value="bureau">Agent administratif / bureau</option>
   </select>
 
   <div id="jobResult"></div>
 
-  <button class="btn-print" onclick="window.print()">Imprimer / Exporter en PDF</button>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
@@ -138,10 +134,13 @@ th{background:#e0f2fe}
   <div class="card.warn">
     Le service de santé au travail RESTEV peut accompagner l’entreprise :
     <ul>
-      <li>dans l’analyse des situations de travail</li>
-      <li>dans la prévention des risques professionnels</li>
-      <li>dans une démarche progressive et partagée</li>
+      <li>Analyse des situations de travail</li>
+      <li>Prévention des risques professionnels</li>
+      <li>Démarche progressive et partagée</li>
+      <li>Appui DUERP et PDP</li>
     </ul>
+    L’accompagnement se fait à la demande de l’entreprise,
+    sans jugement et dans le respect de ses contraintes.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -154,60 +153,51 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-/* METIERS – LOGIQUE CHECKLIST */
+/* DONNÉES MÉTIERS – RISQUES TRÈS LARGES */
 const jobs={
   entretien:{
     nom:"Agent d’entretien",
-    risques:[
-      {r:"Chutes", s:"Sols humides"},
-      {r:"Produits chimiques", s:"Détergents, désinfectants"},
-      {r:"TMS", s:"Gestes répétés"}
-    ],
-    existant:[
-      "Produits identifiés et étiquetés",
-      "Gants disponibles",
-      "Organisation des tournées de nettoyage"
-    ],
-    amelioration:[
-      "Étudier des alternatives moins irritantes",
-      "Adapter les fréquences et durées",
-      "Renforcer la ventilation"
+    mesures:[
+      "Produits d’entretien identifiés et étiquetés",
+      "Fiches de données de sécurité accessibles",
+      "Gants mis à disposition",
+      "Organisation des tournées de nettoyage",
+      "Signalisation sol glissant",
+      "Ventilation des locaux",
+      "Stockage sécurisé des produits",
+      "Formation à l’utilisation des produits",
+      "Pas de mélange de produits",
+      "Temps de pause adaptés"
     ]
   },
   maintenance:{
     nom:"Agent de maintenance",
-    risques:[
-      {r:"Risque électrique", s:"Interventions techniques"},
-      {r:"Solvants", s:"Nettoyage, dégraissage"},
-      {r:"Brûlures", s:"Produits corrosifs"}
-    ],
-    existant:[
-      "Habilitations en place",
-      "Procédures connues",
-      "Stockage sécurisé"
-    ],
-    amelioration:[
-      "Limiter l’usage de solvants",
-      "Formaliser les situations à risque",
-      "Renforcer l’information sécurité"
+    mesures:[
+      "Habilitations adaptées au poste",
+      "Consignation des énergies",
+      "Procédures d’intervention connues",
+      "Stockage sécurisé des produits",
+      "Utilisation d’EPI",
+      "Ventilation des zones de travail",
+      "Limitation de l’usage de solvants",
+      "Gestion des situations d’urgence",
+      "Information des intervenants",
+      "Traçabilité des interventions"
     ]
   },
   bureau:{
-    nom:"Agent administratif",
-    risques:[
-      {r:"TMS", s:"Poste écran"},
-      {r:"Fatigue visuelle", s:"Écran prolongé"},
-      {r:"Stress", s:"Charge mentale"}
-    ],
-    existant:[
-      "Postes informatiques équipés",
+    nom:"Agent administratif / bureau",
+    mesures:[
+      "Postes informatiques adaptés",
+      "Écrans réglables",
+      "Sièges ergonomiques",
       "Pauses autorisées",
-      "Encadrement de proximité"
-    ],
-    amelioration:[
-      "Adapter les postes individuellement",
-      "Sensibiliser aux pauses actives",
-      "Améliorer la régulation de la charge"
+      "Organisation du temps de travail",
+      "Gestion de la charge de travail",
+      "Espaces de travail calmes",
+      "Possibilité d’échanges avec l’encadrement",
+      "Sensibilisation aux TMS",
+      "Aménagements individuels possibles"
     ]
   }
 };
@@ -217,32 +207,52 @@ function showJob(){
   if(!id){jobResult.innerHTML="";return;}
   const j=jobs[id];
 
+  const checks = j.mesures.map(m=>`
+    <label>
+      <input type="checkbox" onchange="updateIndicator()"> ${m}
+    </label>
+  `).join("");
+
   jobResult.innerHTML=`
-    <div class="card info"><strong>${j.nom}</strong></div>
-
-    <table>
-      <tr><th>Risque</th><th>Situation de travail</th></tr>
-      ${j.risques.map(l=>`<tr><td>${l.r}</td><td>${l.s}</td></tr>`).join("")}
-    </table>
-
-    <div class="card.good checklist">
-      <strong>Mesures actuellement en place (à compléter par l’entreprise)</strong>
-      ${j.existant.map(e=>`<label><input type="checkbox"> ${e}</label>`).join("")}
+    <div class="card info">
+      <strong>${j.nom}</strong><br>
+      Mesures actuellement en place (à compléter par l’entreprise)
     </div>
 
-    <div class="card.advice checklist">
-      <strong>Pistes d’amélioration envisageables</strong>
-      ${j.amelioration.map(a=>`<label><input type="checkbox"> ${a}</label>`).join("")}
-      Ces pistes sont proposées à titre indicatif et peuvent être adaptées.
+    <div id="indicator" class="indicator red">
+      État de la prévention : à évaluer
+    </div>
+
+    <div class="card checklist">
+      ${checks}
     </div>
 
     <div class="card.warn">
       <strong>Accompagnement possible par le service de santé RESTEV</strong><br>
       Le service de santé au travail RESTEV peut accompagner l’entreprise,
-      à sa demande, dans une démarche de prévention progressive,
+      à sa demande, dans l’analyse et l’amélioration de la prévention,
       sans jugement et en tenant compte des réalités du terrain.
     </div>
   `;
+}
+
+function updateIndicator(){
+  const boxes=document.querySelectorAll('#jobResult input[type="checkbox"]');
+  const checked=[...boxes].filter(b=>b.checked).length;
+  const total=boxes.length;
+  const ratio=checked/total;
+  const indicator=document.getElementById('indicator');
+
+  if(ratio>=0.7){
+    indicator.className="indicator green";
+    indicator.textContent="Prévention globalement structurée";
+  }else if(ratio>=0.4){
+    indicator.className="indicator yellow";
+    indicator.textContent="Prévention en cours de structuration";
+  }else{
+    indicator.className="indicator red";
+    indicator.textContent="Prévention à structurer";
+  }
 }
 </script>
 
