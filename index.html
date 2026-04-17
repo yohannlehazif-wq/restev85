@@ -2,143 +2,18 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RESTEV</title>
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  background:#ffffff;
-  font-family:Arial, sans-serif;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-}
-
-.app{
-  width:100%;
-  max-width:420px;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
-  padding-bottom:40px; /* espace bouton */
-}
-
-/* LOGO */
-.logo{
-  margin-top:80px;
-  opacity:0;
-  animation:logoIn 2s ease-out forwards;
-}
-.logo img{
-  width:65vw;
-  max-width:260px;
-  min-width:180px;
-  animation:pulse 4s ease-in-out infinite;
-}
-
-/* ECG */
-.ecg{
-  width:260px;
-  height:80px;
-  margin-top:24px;
-}
-.ecg path{
-  stroke:#1e3a8a;
-  stroke-width:2.5;
-  fill:none;
-  stroke-dasharray:500;
-  stroke-dashoffset:500;
-  animation:draw 2.5s ease-out forwards;
-  animation-delay:1.5s;
-}
-
-/* TEXTE */
-.message{
-  margin-top:16px;
-  opacity:0;
-  animation:fadeIn 1.2s ease-out forwards;
-  animation-delay:2.6s;
-  text-align:center;
-  font-size:14px;
-  color:#334155;
-}
-
-/* BOUTON */
-.enter{
-  margin-top:48px;
-  opacity:0;
-  animation:fadeIn 1.2s ease-out forwards;
-  animation-delay:3.4s;
-  animation-fill-mode:forwards;
-}
-
-.enter button{
-  padding:14px 48px;
-  border:none;
-  border-radius:22px;
-  background:#1e3a8a;
-  color:#ffffff;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* ANIMATIONS */
-@keyframes logoIn{
-  from{opacity:0; transform:scale(0.92);}
-  to{opacity:1; transform:scale(1);}
-}
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.04);}
-  100%{transform:scale(1);}
-}
-@keyframes draw{
-  to{stroke-dashoffset:0;}
-}
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-</style>
 </head>
 
-<body>
+<body style="font-family:Arial; text-align:center; padding-top:100px;">
 
-<div class="app">
+  <img src="logo-restev.png" alt="RESTEV" style="width:200px;"><br><br>
 
-  <div class="logo">
-    <img src="logo-restev.png" alt="RESTEV">
-  </div>
-
-  <svg class="ecg" viewBox="0 0 300 80">
-    <path d="
-      M0 40 L40 40
-      L55 20 L70 60
-      L85 25 L100 40
-      L140 40
-      L155 20 L170 60
-      L185 25 L200 40
-      L300 40
-    "/>
-  </svg>
-
-  <div class="message">
+  <p>
     La prévention, c’est agir tôt pour préserver durablement la santé au travail.
-  </div>
+  </p>
 
-  <div class="enter">
-    <button onclick="window
+  <br>
 
-</div>
-
-</body>
-</html>
+  <button onclick="window.location.href='accueil.html'"
+          style="padding:12px 30px; font-size:
