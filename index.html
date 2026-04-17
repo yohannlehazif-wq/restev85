@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Accueil</title>
+<title>RESTEV – Prévention</title>
 
 <style>
 *{
@@ -15,84 +15,77 @@
 body{
   background:#f8fbff;
   font-family:'Nunito', Arial, sans-serif;
-  min-height:100vh;
   display:flex;
   justify-content:center;
 }
 
-/* CONTAINER MOBILE */
 .app{
   width:100%;
   max-width:420px;
-  padding:20px;
+  padding:18px;
 }
 
 /* HEADER */
 .header{
   background:#ffffff;
   border-radius:22px;
-  padding:18px;
+  padding:14px;
   display:flex;
   justify-content:center;
-  box-shadow:0 6px 18px rgba(30,64,175,0.08);
-  margin-bottom:24px;
+  box-shadow:0 6px 16px rgba(30,64,175,0.08);
+  margin-bottom:20px;
 }
 .header img{
-  width:140px;
+  width:120px;
 }
 
 /* TITRE */
 h1{
   font-family:'Poppins', Arial, sans-serif;
-  font-size:20px;
+  font-size:18px;
   color:#1e3a8a;
   text-align:center;
-  margin-bottom:20px;
-}
-
-/* CARTES ACTION */
-.card{
-  background:#ffffff;
-  border-radius:24px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:0 10px 26px rgba(30,64,175,0.10);
-}
-
-.card-title{
-  font-size:17px;
-  font-weight:600;
-  color:#1e3a8a;
-  margin-bottom:10px;
-}
-
-.card-text{
-  font-size:14px;
-  color:#475569;
-  line-height:1.45;
   margin-bottom:16px;
 }
 
-.btn{
+/* SELECT */
+select{
   width:100%;
   padding:14px;
-  border:none;
   border-radius:18px;
+  border:2px solid #c7d2fe;
   font-size:15px;
-  font-weight:600;
-  cursor:pointer;
+  margin-bottom:20px;
 }
 
-/* BOUTONS */
-.btn-prevention{
-  background:#dbeafe;
-  color:#1e3a8a;
+/* CARDS */
+.card{
+  background:#ffffff;
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 8px 22px rgba(30,64,175,0.10);
+}
+.card.info{background:#e0f2fe}
+.card.warn{background:#fef3c7}
+
+/* CHECKLIST */
+.checklist label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
 }
 
-.btn-accompagnement{
-  background:#dcfce7;
-  color:#14532d;
+/* INDICATOR */
+.indicator{
+  padding:14px;
+  border-radius:18px;
+  font-weight:700;
+  margin-bottom:14px;
 }
+.green{background:#dcfce7;color:#065f46}
+.yellow{background:#fef3c7;color:#92400e}
+.red{background:#fee2e2;color:#7f1d1d}
 </style>
 </head>
 
@@ -102,33 +95,113 @@ h1{
 
   <!-- HEADER -->
   <div class="header">
-    logo-restev.png
+    <img src="logo-restev.png" alt="RESTEV">
   </div>
 
-  <h1>Bienvenue</h1>
+  <h1>Auto‑évaluation de la prévention</h1>
 
-  <!-- CARTE PRÉVENTION -->
-  <div class="card">
-    <div class="card-title">
-      Auto‑évaluation de la prévention
+  <!-- MÉTIERS -->
+  <select onchange="showChecklist()">
+    <option value="">— Sélectionner un métier —</option>
+
+    <optgroup label="Bâtiment & travaux">
+      <option>Maçon</option>
+      <option>Électricien</option>
+      <option>Plombier / chauffagiste</option>
+      <option>Conducteur d’engins</option>
+    </optgroup>
+
+    <optgroup label="Santé & médico‑social">
+      <option>Infirmier</option>
+      <option>Aide‑soignant</option>
+      <option>Agent hospitalier</option>
+    </optgroup>
+
+    <optgroup label="Métiers de bouche">
+      <option>Boucher / charcutier</option>
+      <option>Boulanger / pâtissier</option>
+      <option>Cuisinier</option>
+    </optgroup>
+
+    <optgroup label="Soins aux animaux">
+      <option>Vétérinaire</option>
+      <option>Auxiliaire vétérinaire</option>
+    </optgroup>
+
+    <optgroup label="Logistique, commerce & services">
+      <option>Employé de commerce</option>
+      <option>Préparateur / logistique</option>
+      <option>Livraison</option>
+      <option>Propreté</option>
+    </optgroup>
+  </select>
+
+  <!-- CONTENU DYNAMIQUE -->
+  <div id="content"></div>
+
+</div>
+
+<script>
+const mesures = [
+  "Organisation du travail formalisée",
+  "Information ou formation à la sécurité",
+  "Équipements de protection disponibles",
+  "Matériel entretenu",
+  "Rangement et circulation sécurisés",
+  "Gestion des situations d’urgence connue",
+  "Temps de pause possibles",
+  "Encadrement identifié",
+  "Communication interne sur la prévention",
+  "Aménagements ou adaptations possibles"
+];
+
+function showChecklist(){
+  const c = document.getElementById("content");
+  c.innerHTML = `
+    <div id="indicator" class="indicator red">
+      État de la prévention : à situer
     </div>
-    <div class="card-text">
-      Un outil simple permettant à l’entreprise de se situer
-      sur les mesures de prévention actuellement en place,
-      par métier.
+
+    <div class="card info">
+      <strong>Mesures actuellement en place<br>
+      <span style="font-weight:400">(à compléter par l’entreprise)</span></strong>
     </div>
-    <button class="btn btn-prevention"
-      onclick="location.href='prevention.html'MPAGNEMENT -->
-  <div class="card">
-    <div class="card-title">
-      Accompagnement & sensibilisation RESTEV
+
+    <div class="card checklist">
+      ${mesures.map(m => `
+        <label>
+          <input type="checkbox" onchange="updateIndicator()"> ${m}
+        </label>
+      `).join("")}
     </div>
-    <div class="card-text">
-      Découvrir les actions d’accompagnement,
-      de sensibilisation et d’appui proposées
-      par le service de santé au travail RESTEV.
+
+    <div class="card warn">
+      Un accompagnement par le service de santé au travail RESTEV
+      peut être proposé à la demande, pour soutenir et structurer
+      la démarche de prévention selon les besoins de l’entreprise.
     </div>
-    <button class="btn btn-accompagnement"
-      onclick="location.href='accompagnement.html'dy>
+  `;
+}
+
+function updateIndicator(){
+  const boxes = document.querySelectorAll('#content input[type="checkbox"]');
+  const checked = [...boxes].filter(b=>b.checked).length;
+  const ratio = checked / boxes.length;
+  const ind = document.getElementById('indicator');
+
+  if(ratio >= 0.7){
+    ind.className = "indicator green";
+    ind.textContent = "Prévention globalement structurée";
+  } else if(ratio >= 0.4){
+    ind.className = "indicator yellow";
+    ind.textContent = "Prévention en cours de structuration";
+  } else {
+    ind.className = "indicator red";
+    ind.textContent = "Prévention à structurer";
+  }
+}
+</script>
+
+</body>
 </html>
 ``
