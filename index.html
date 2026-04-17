@@ -14,8 +14,10 @@
 }
 
 body{
-  margin:0; font-family:Arial,sans-serif;
-  background:var(--fond); color:var(--texte);
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--fond);
+  color:var(--texte);
 }
 
 section{display:none; padding:30px; min-height:100vh; background:white;}
@@ -23,45 +25,75 @@ section.active{display:block}
 
 h1,h2{color:var(--accent)}
 button{
-  padding:14px 28px; border:none; border-radius:30px;
-  background:var(--accent); color:white;
-  font-size:16px; margin-top:20px;
+  padding:14px 28px;
+  border:none;
+  border-radius:30px;
+  background:var(--accent);
+  color:white;
+  font-size:16px;
+  margin-top:20px;
 }
 
 .accueil{
-  display:flex; flex-direction:column;
-  justify-content:center; align-items:center;
-  text-align:center; min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  min-height:100vh;
 }
 
-.logo{width:220px; max-width:70%; margin-bottom:20px;
-  animation:respiration 4s ease-in-out infinite;}
+.logo{
+  width:220px;
+  max-width:70%;
+  margin-bottom:20px;
+  animation:respiration 4s ease-in-out infinite;
+}
 
 @keyframes respiration{
-  0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)}
+  0%{transform:scale(1)}
+  50%{transform:scale(1.03)}
+  100%{transform:scale(1)}
 }
 
 .menu{display:grid; gap:16px}
 
 .menu button{
-  background:var(--fond); color:var(--texte);
-  text-align:left; font-weight:bold; border-radius:14px;
+  background:var(--fond);
+  color:var(--texte);
+  text-align:left;
+  font-weight:bold;
+  border-radius:14px;
 }
 
 select{
-  width:100%; padding:12px; border-radius:10px;
-  font-size:15px; margin-top:10px;
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  font-size:15px;
+  margin-top:10px;
 }
 
-.checklist{margin-top:20px; display:flex; flex-direction:column; gap:12px}
-.checklist label{font-size:14px}
+.checklist{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
 
 .resultat{
-  margin-top:20px; padding:18px;
-  border-radius:14px; font-weight:bold; text-align:center;
+  margin-top:20px;
+  padding:18px;
+  border-radius:14px;
+  font-weight:bold;
+  text-align:center;
 }
 
-.retour{background:transparent; color:var(--accent); margin-top:30px}
+.retour{
+  background:transparent;
+  color:var(--accent);
+  margin-top:30px;
+}
 </style>
 </head>
 
@@ -70,7 +102,7 @@ select{
 <!-- ACCUEIL -->
 <section id="accueil" class="active">
   <div class="accueil">
-    logo-restev.png
+    <img src="logo-restev.png" class="logo" alt="Logo RESTEV">
     <p>La prévention commence par des choix simples, pensés pour durer.</p>
     <button onclick="show('menu')">Entrer</button>
   </div>
@@ -85,16 +117,45 @@ select{
   <button class="retour" onclick="show('accueil')">← Accueil</button>
 </section>
 
-<!-- METIERS -->
+<!-- AUTO EVALUATION -->
 <section id="metiers">
 <h1>Auto‑évaluation prévention</h1>
 
 <label><strong>Sélectionnez votre métier :</strong></label>
 <select id="metier" onchange="chargerMetier()">
   <option value="">— Choisir —</option>
-  <option value="maintenance">Technicien de maintenance</option>
-  <option value="bureaux">Travail de bureau</option>
-  <option value="chantier">Travaux / Chantier</option>
+
+  <optgroup label="🩺 Santé">
+    <option value="infirmier">Infirmier / aide‑soignant</option>
+    <option value="medecin">Médecin</option>
+    <option value="ehpad">Personnel EHPAD</option>
+    <option value="ambulancier">Ambulancier</option>
+    <option value="laboratoire">Laboratoire / analyses</option>
+  </optgroup>
+
+  <optgroup label="🏗️ BTP">
+    <option value="macon">Maçon</option>
+    <option value="couvreur">Couvreur</option>
+    <option value="electricien">Électricien</option>
+    <option value="plombier">Plombier</option>
+    <option value="chefchantier">Chef de chantier</option>
+  </optgroup>
+
+  <optgroup label="💼 Tertiaire">
+    <option value="bureaux">Employé de bureau</option>
+    <option value="comptable">Comptable</option>
+    <option value="commercial">Commercial</option>
+    <option value="informatique">Informatique</option>
+    <option value="direction">Direction / encadrement</option>
+  </optgroup>
+
+  <optgroup label="🥖 Métiers de bouche">
+    <option value="boulanger">Boulanger</option>
+    <option value="patissier">Pâtissier</option>
+    <option value="boucher">Boucher</option>
+    <option value="cuisinier">Cuisinier</option>
+    <option value="serveur">Serveur</option>
+  </optgroup>
 </select>
 
 <div id="questions" class="checklist"></div>
@@ -112,29 +173,11 @@ function show(id){
  window.scrollTo(0,0);
 }
 
-/* QUESTIONS PAR METIER */
-const data = {
- maintenance:[
-  "EPI disponibles",
-  "Habilitation électrique à jour",
-  "Procédures écrites",
-  "Outils vérifiés",
-  "Analyse des situations à risque"
- ],
- bureaux:[
-  "Poste ergonomique",
-  "Pauses régulières",
-  "Éclairage adapté",
-  "Prévention RPS",
-  "Formation gestes/postures"
- ],
- chantier:[
-  "EPI portés",
-  "Accès sécurisés",
-  "Plan de prévention",
-  "Signalisation en place",
-  "Briefing sécurité"
- ]
+const data={
+ infirmier:["EPI disponibles","Gestion AES","Formation manutention","Protocoles écrits","Suivi RPS"],
+ macon:["EPI portés","Protections collectives","Manutention sécurisée","Plan de prévention","Brief sécurité"],
+ bureaux:["Poste ergonomique","Pauses","Prévention RPS","Éclairage adapté","Gestes postures"],
+ boulanger:["EPI coupe/brûlure","Ventilation farine","Manutention","Nettoyage sécurisé","Formation hygiène"]
 };
 
 function chargerMetier(){
@@ -144,30 +187,29 @@ function chargerMetier(){
  document.getElementById("resultat").innerHTML="";
  if(!data[m]) return;
  data[m].forEach(q=>{
-  zone.innerHTML+=
-   `<label><input type="checkbox" class="prev"> ${q}</label>`;
+  zone.innerHTML+=`<label><input type="checkbox" class="prev"> ${q}</label>`;
  });
 }
 
 function evaluer(){
  const c=document.querySelectorAll(".prev");
- if(c.length===0) return;
- let ok=0; c.forEach(x=>{if(x.checked) ok++;});
+ if(c.length===0)return;
+ let ok=0;c.forEach(x=>{if(x.checked)ok++;});
  const r=ok/c.length;
  const res=document.getElementById("resultat");
 
  if(r<0.4){
-  res.style.background="var(--rouge-fond)";
-  res.style.color="var(--rouge-texte)";
-  res.innerHTML="Prévention à renforcer – actions prioritaires";
+  res.style.background="#f4d6d6";
+  res.style.color="#7a2e2e";
+  res.innerHTML="Prévention à renforcer – actions prioritaires à engager";
  }else if(r<0.75){
-  res.style.background="var(--orange-fond)";
-  res.style.color="var(--orange-texte)";
+  res.style.background="#f8ead4";
+  res.style.color="#8a5a1f";
   res.innerHTML="Prévention en progression – bases présentes";
  }else{
-  res.style.background="var(--vert-fond)";
-  res.style.color="var(--vert-texte)";
-  res.innerHTML="Prévention maîtrisée – organisation cohérente";
+  res.style.background="#dff2e1";
+  res.style.color="#2f6b3f";
+  res.innerHTML="Prévention bien structurée – organisation cohérente";
  }
 }
 </script>
