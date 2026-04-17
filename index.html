@@ -1,69 +1,89 @@
-<script>
-const mesures = {
-  btp: [
-    "Organisation du travail et des chantiers",
-    "Formation à la sécurité et aux risques spécifiques",
-    "Équipements de protection individuelle (EPI)",
-    "Matériel et engins entretenus",
-    "Prévention des chutes et manutentions"
-  ],
-  sante: [
-    "Organisation des soins et des tâches",
-    "Prévention des risques biologiques",
-    "Gestes et postures adaptés",
-    "Protocoles connus et appliqués",
-    "Espaces de récupération identifiés"
-  ],
-  bouche: [
-    "Hygiène et sécurité alimentaire",
-    "Organisation des postes de travail",
-    "Équipements adaptés (coupures, brûlures)",
-    "Prévention des TMS",
-    "Matériel entretenu"
-  ],
-  logistique: [
-    "Organisation des flux",
-    "Gestes et postures",
-    "Utilisation d’aides à la manutention",
-    "Circulation sécurisée",
-    "Formation à la conduite d’engins"
-  ],
-  services: [
-    "Organisation du travail",
-    "Prévention des risques psychosociaux",
-    "Aménagement des postes",
-    "Temps d’échange sur le travail",
-    "Information prévention"
-  ]
-};
-
-function changerMesures(){
-  const metier = document.getElementById("metier").value;
-  const liste = document.getElementById("liste-mesures");
-
-  // Nettoyage
-  liste.innerHTML = "";
-
-  if (!mesures[metier]) {
-    const info = document.createElement("li");
-    info.style.color = "#6b7280";
-    info.textContent = "Sélectionnez un métier pour afficher les mesures correspondantes.";
-    liste.appendChild(info);
-    return;
-  }
-
-  mesures[metier].forEach(function(m){
-    const li = document.createElement("li");
-
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(" " + m));
-
-    li.appendChild(label);
-    liste.appendChild(li);
-  });
+<!DOCTYPE html>
+<html lang="frpx;<html lang="fr">
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
-</script>
+
+.card-title{
+  font-weight:600;
+  margin-bottom:12px;
+  color:#1e3a8a;
+}
+
+ul{
+  list-style:none;
+  padding:0;
+}
+
+li{
+  margin-bottom:12px;
+}
+
+label{
+  display:flex;
+  gap:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Prévention par métier</h1>
+
+  <div class="card">
+    <div class="card-title">Métier ou activité principale</div>
+    <select style="width:100%;padding:10px;">
+      <option>— Sélectionner —</option>
+      <option>BTP</option>
+      <option>Santé / médico‑social</option>
+      <option>Métiers de bouche</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Mesures actuellement en place</div>
+    <ul>
+      <li><label><input type="checkbox"> Organisation du travail</label></li>
+      <li><label><input type="checkbox"> Information prévention</label></li>
+      <li><label><input type="checkbox"> Équipements adaptés</label></li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#eef2ff;">
+    Cette auto‑évaluation permet de se situer sur les pratiques de prévention.
+    <br><br>
+    Le RESTEV peut accompagner l’entreprise, à sa demande, dans
+    la structuration de sa démarche de prévention.
+  </div>
+
+  <div style="text-align:center;">
+    <button onclick="window.location.href='accueil.html'"
+            style="padding:14px 32px;font-size:16px
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Prévention</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f3f6fb;
+}
+
+.container{
+  max-width:700px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+h1{
+  text-align:center;
+  color:#1e3a8a;
+  margin-bottom:28px;
+}
+
+.card{
+  background:#ffffff;
