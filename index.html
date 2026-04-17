@@ -86,19 +86,43 @@
       100% { transform: scale(1); }
     }
 
-    /* ------------------ MENU ------------------ */
-    .menu button {
-      width: 100%;
-      margin-top: 15px;
-      background: var(--restev-vert-clair);
-      color: var(--restev-gris);
-      font-weight: bold;
-    }
+  /* ------------------ MENU LISIBLE ------------------ *//* ------------------ MENU 14px;
+  background: var(--restev-vert-clair);
+  color: var(--restev-gris);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+}
 
-    .retour {
-      background: transparent;
-      color: var(--restev-vert);
-      margin-top: 40px;
+.menu button span {
+  font-size: 22px;
+}
+
+.menu button:active {
+  transform: scale(0.97);
+}
+
+.menu-description {
+  font-size: 13px;
+  font-weight: normal;
+  color: #555;
+  margin-top: 4px;
+}
+``
+.menu {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.menu button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+
     }
   </style>
 </head>
