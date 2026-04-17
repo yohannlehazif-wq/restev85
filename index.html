@@ -3,79 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Accompagnement</title>
+<title>RESTEV</title>
 
 <style>
+/* RESET */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
+/* BASE */
 body{
-  background:#f8fbff;
-  font-family:'Nunito', Arial, sans-serif;
+  height:100vh;
+  background:#ffffff;
   display:flex;
   justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
 }
 
 .app{
   width:100%;
   max-width:420px;
-  padding:18px;
-}
-
-/* HEADER */
-.header{
-  background:#ffffff;
-  border-radius:22px;
-  padding:14px;
+  height:100%;
   display:flex;
+  flex-direction:column;
   justify-content:center;
-  box-shadow:0 6px 16px rgba(30,64,175,0.08);
-  margin-bottom:20px;
-}
-.header img{
-  width:120px;
+  align-items:center;
+  padding:20px;
 }
 
-/* TITRE */
-h1{
-  font-family:'Poppins', Arial, sans-serif;
-  font-size:18px;
-  color:#1e3a8a;
+/* LOGO */
+.logo{
+  opacity:0;
+  animation:logoIn 2s ease-out forwards;
+}
+.logo img{
+  width:65vw;
+  max-width:260px;
+  min-width:180px;
+  animation:pulse 4s ease-in-out infinite;
+}
+
+/* ECG */
+.ecg{
+  width:260px;
+  height:80px;
+  margin-top:24px;
+  stroke:#1e3a8a;
+  stroke-width:2.5;
+  fill:none;
+}
+.ecg path{
+  stroke-dasharray:500;
+  stroke-dashoffset:500;
+  animation:draw 2.5s ease-out forwards;
+  animation-delay:1.5s;
+}
+
+/* TEXTE */
+.message{
+  margin-top:16px;
+  opacity:0;
+  animation:fadeIn 1.2s ease-out forwards;
+  animation-delay:2.6s;
   text-align:center;
-  margin-bottom:16px;
-}
-
-/* CARDS */
-.card{
-  background:#ffffff;
-  border-radius:22px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 8px 22px rgba(30,64,175,0.10);
-}
-
-.card-title{
-  font-size:16px;
-  font-weight:600;
-  color:#1e3a8a;
-  margin-bottom:8px;
-}
-
-.card-text{
   font-size:14px;
-  color:#475569;
-  line-height:1.45;
+  color:#334155;
 }
 
-/* CARTE MESSAGE */
-.card.info{
-  background:#e0f2fe;
+/* BOUTON */
+.enter{
+  margin-top:36px;
+  opacity:0;
+  animation:fadeIn 1.2s ease-out forwards;
+  animation-delay:3.4s;
 }
-.card.warn{
-  background:#fef3c7;
+.enter button{
+  padding:14px 42px;
+  border:none;
+  border-radius:20px;
+  background:#1e3a8a;
+  color:#ffffff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ANIMATIONS */
+@keyframes logoIn{
+  from{opacity:0; transform:scale(0.92);}
+  to{opacity:1; transform:scale(1);}
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+  100%{transform:scale(1);}
+}
+
+@keyframes draw{
+  to{stroke-dashoffset:0;}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
 }
 </style>
 </head>
@@ -84,79 +118,39 @@ h1{
 
 <div class="app">
 
-  <!-- HEADER -->
-  <div class="header">
+  <!-- LOGO -->
+  <div class="logo">
     logo-restev.png
   </div>
 
-  <h1>Accompagnement & sensibilisation</h1>
+  <!-- ECG -->
+  <svg class="ecg" viewBox="0 0 300 80">
+    <path d="
+      M0 40 
+      L40 40 
+      L55 20 
+      L70 60 
+      L85 25 
+      L100 40 
+      L140 40 
+      L155 20 
+      L170 60 
+      L185 25 
+      L200 40 
+      L300 40
+    "/>
+  </svg>
 
-  <!-- MESSAGE CADRE -->
-  <div class="card info">
-    Le RESTEV accompagne les entreprises dans leurs démarches de prévention
-    et de santé au travail, en tenant compte de leurs activités,
-    de leurs contraintes et de leur réalité de terrain.
+  <!-- MESSAGE -->
+  <div class="message">
+    La prévention, c’est agir tôt pour préserver durablement la santé au travail.
   </div>
 
-  <!-- CARTES OFFRES -->
-  <div class="card">
-    <div class="card-title">
-      Actions de sensibilisation
-    </div>
-    <div class="card-text">
-      Interventions collectives en entreprise ou en groupes,
-      adaptées aux métiers et aux situations rencontrées.
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      Accompagnement en prévention
-    </div>
-    <div class="card-text">
-      Appui à l’identification des risques professionnels,
-      à la structuration de la démarche de prévention
-      et à l’amélioration continue des conditions de travail.
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      Document Unique (DUERP)
-    </div>
-    <div class="card-text">
-      Accompagnement à l’évaluation des risques
-      et à la mise à jour du Document Unique,
-      dans le respect des obligations réglementaires.
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      Prévention de la désinsertion professionnelle (PDP)
-    </div>
-    <div class="card-text">
-      Appui au repérage précoce des situations à risque
-      et accompagnement des parcours professionnels
-      en lien avec le maintien dans l’emploi.
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      Interventions d’équipes pluridisciplinaires
-    </div>
-    <div class="card-text">
-      Mobilisation de compétences médicales,
-      paramédicales et techniques selon les besoins identifiés.
-    </div>
-  </div>
-
-  <!-- MESSAGE FIN -->
-  <div class="card warn">
-    Les accompagnements sont proposés à la demande de l’entreprise,
-    sans jugement, dans une logique d’écoute, de conseil
-    et d’adaptation aux réalités du terrain.
+  <!-- BOUTON -->
+  <div class="enter">
+    accueil.html
+      Entrer
+    </button>
   </div>
 
 </div>
