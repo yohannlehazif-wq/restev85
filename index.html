@@ -1,309 +1,45 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Prévention & accompagnement</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="carte">
+  <h2>👷 Auto‑évaluation – BTP</h2>
+  <p>
+    Cette auto‑évaluation permet d’analyser la prévention réelle sur les chantiers,
+    en tenant compte de l’organisation, des expositions et des moyens mis en œuvre.
+  </p>
 
-<style>
-:root{
-  --vert:#2e8b7a;
-  --orange:#f2b66d;
-  --rouge:#e88b8b;
-  --fond:#f4f7f6;
-  --carte:#ffffff;
-  --texte:#2c3e50;
-}
-
-body{
-  margin:0;
-  font-family:system-ui, Arial, sans-serif;
-  background:var(--fond);
-  color:var(--texte);
-}
-
-section{display:none;padding:30px}
-section.active{display:block}
-
-header{
-  text-align:center;
-  padding:40px 20px;
-}
-header img{width:180px}
-
-main{max-width:900px;margin:auto;display:grid;gap:20px}
-
-.carte{
-  background:var(--carte);
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-h1,h2{color:var(--vert)}
-
-button{
-  background:var(--vert);
-  color:white;
-  border:none;
-  padding:14px 26px;
-  border-radius:24px;
-  font-size:16px;
-  cursor:pointer;
-}
-
-.checklist label{display:block;margin:8px 0}
-
-.resultat{
-  margin-top:15px;
-  padding:16px;
-  border-radius:14px;
-  font-weight:bold;
-}
-
-.retour{
-  background:none;
-  color:var(--vert);
-  margin-top:20px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- ACCUEIL -->
-<section id="accueil" class="active">
-  <header>
-    <img src="logo-restev.png" alt="RESTEV">
-    <p>Se situer en prévention, identifier les risques<br>et avancer accompagné.</p>
-    <button onclick="show('dashboard')">Entrer</button>
-  </header>
-</section>
-
-<!-- TABLEAU DE BORD -->
-<section id="dashboard">
-  <main>
-    <div class="carte">
-      <h2>👷 Auto‑évaluation par métier</h2>
-      <p>Analyse simple de votre prévention réelle.</p>
-      <button onclick="show('evaluation')">Commencer</button>
-    </div>
-
-    <div class="carte">
-      <h2>🧪 Fiches risques & CMR</h2>
-      <p>Information claire sur les risques reconnus.</p>
-      <button onclick="show('risques')">Voir les risques</button>
-    </div>
-
-    <div class="carte">
-      <h2>📄 Synthèse entreprise</h2>
-      <p>Vision globale prévention & priorités.</p>
-      <button onclick="show('synthese')">Afficher</button>
-    </div>
-  </main>
-
-  <button class="retour" onclick="show('accueil')">← Accueil</button>
-</section>
-
-<!-- AUTO EVALUATION -->
-<section id="evaluation">
-  <h1>Auto‑évaluation par métier</h1>
-
-  <div class="carte">
-    <label>Métier :</label>
-    <select id="metier" onchange="chargerMetier()">
-      <option value="">— Choisir —</option>
-      <option value="macon">Maçon</option>
-      <option value="boulanger">Boulanger</option>
-      <option value="bureau">Travail de bureau</option>
-    </select>
-
-    <h2>Prévention métier</h2>
-    <div id="questions"></div>
-
-    <h2>Repérage CMR</h2>
-    <div class="checklist">
-      <label><input type="checkbox" class="cmr"> Silice / poussières</label>
-      <label><input type="checkbox" class="cmr"> Sols pollués</label>
-      <label><input type="checkbox" class="cmr"> Produits CMR</label>
-    </div>
-
-    <button onclick="evaluer()">Évaluer</button>
-    <div id="resultat" class="resultat"></div>
+  <!-- PILIER 1 -->
+  <h3>1️⃣ Organisation & prévention collective</h3>
+  <div class="checklist">
+    <label><input type="checkbox" class="p1"> Les risques du chantier sont identifiés et formalisés (DUERP, PDP)</label>
+    <label><input type="checkbox" class="p1"> Les modes opératoires limitent l’exposition aux risques</label>
+    <label><input type="checkbox" class="p1"> Les coactivités sont anticipées et encadrées</label>
+    <label><input type="checkbox" class="p1"> L’organisation évite le travail dans l’urgence</label>
   </div>
 
-  <button class="retour" onclick="show('dashboard')">← Tableau de bord</button>
-</section>
-
-<!-- FICHES RISQUES -->
-<!-- FICHES RISQUES -->
-<section id="risques">
-  <h1>Fiches risques – Information prévention</h1>
-
-  <!-- RISQUE SILICE -->
-  <div class="carte">
-    <h2>🧪 Silice cristalline</h2>
-
-    <p><strong>Définition</strong><br>
-    La silice cristalline est une poussière minérale émise lors de travaux
-    de découpe, perçage, sciage ou démolition de matériaux (béton, pierre, briques).
-    </p>
-
-    <p><strong>Métiers / situations concernés</strong><br>
-    BTP, maçonnerie, voirie, travaux urbains, carrières, maintenance.
-    </p>
-
-    <p><strong>Effets sur la santé</strong><br>
-    Maladies respiratoires, silicose, et cancers pulmonaires
-    (cancérogène reconnu par inhalation).
-    </p>
-
-    <p><strong>Cadre réglementaire</strong><br>
-    Agent CMR – obligation de repérage, d’évaluation de l’exposition
-    et de mise en place de mesures de prévention renforcées.
-    </p>
-
-    <p><strong>Moyens de prévention</strong><br>
-    Réduction des émissions (arrosage, captage), organisation du travail,
-    protections collectives, EPI respiratoires adaptés.
-    </p>
-
-    <p><em>
-    RESTEV peut vous accompagner dans l’évaluation de l’exposition,
-    l’analyse des situations de travail et la définition d’un plan d’actions adapté.
-    </em></p>
+  <!-- PILIER 2 -->
+  <h3>2️⃣ Expositions & risques spécifiques (CMR)</h3>
+  <div class="checklist">
+    <label><input type="checkbox" class="p2"> Exposition à des poussières (silice, bois, béton)</label>
+    <label><input type="checkbox" class="p2"> Exposition possible à des sols pollués</label>
+    <label><input type="checkbox" class="p2"> Présence de fumées, gaz ou produits chimiques</label>
+    <label><input type="checkbox" class="p2"> Les situations les plus exposantes sont identifiées</label>
   </div>
 
-  <!-- RISQUE SOLS POLLUÉS -->
-  <div class="carte">
-    <h2>🧪 Sols pollués</h2>
-
-    <p><strong>Définition</strong><br>
-    Les sols pollués peuvent contenir des substances dangereuses
-    (hydrocarbures, métaux lourds, solvants chlorés),
-    exposant les travailleurs lors de travaux de terrassement ou de fouilles.
-    </p>
-
-    <p><strong>Métiers / situations concernés</strong><br>
-    Travaux publics, VRD, chantiers urbains, réseaux, maintenance.
-    </p>
-
-    <p><strong>Effets sur la santé</strong><br>
-    Expositions cutanées, inhalation de vapeurs,
-    risques toxiques chroniques voire cancérogènes selon les polluants.
-    </p>
-
-    <p><strong>Cadre réglementaire</strong><br>
-    Obligation d’évaluation préalable des risques,
-    intégration au DUERP et adaptation des mesures de prévention.
-    </p>
-
-    <p><strong>Moyens de prévention</strong><br>
-    Études préalables, procédures spécifiques,
-    protections collectives et individuelles, organisation du chantier.
-    </p>
-
-    <p><em>
-    RESTEV peut vous accompagner dans l’analyse des sols,
-    l’évaluation du risque et la construction de mesures adaptées.
-    </em></p>
+  <!-- PILIER 3 -->
+  <h3>3️⃣ Moyens techniques & EPI</h3>
+  <div class="checklist">
+    <label><input type="checkbox" class="p3"> Des protections collectives sont mises en place en priorité</label>
+    <label><input type="checkbox" class="p3"> Les équipements sont adaptés et entretenus</label>
+    <label><input type="checkbox" class="p3"> Les EPI sont disponibles, adaptés et utilisés correctement</label>
   </div>
 
-  <!-- RISQUE VIBRATIONS -->
-  <div class="carte">
-    <h2>🔧 Vibrations (corps entier / main‑bras)</h2>
-
-    <p><strong>Définition</strong><br>
-    Les vibrations sont transmises au corps par les engins,
-    machines ou outils portatifs utilisés dans le cadre du travail.
-    </p>
-
-    <p><strong>Métiers / situations concernés</strong><br>
-    BTP, maintenance, conduite d’engins, travaux routiers.
-    </p>
-
-    <p><strong>Effets sur la santé</strong><br>
-    Troubles musculo‑squelettiques, lombalgies,
-    troubles circulatoires (main‑bras).
-    </p>
-
-    <p><strong>Cadre réglementaire</strong><br>
-    Valeurs limites d’exposition réglementaires,
-    obligation d’évaluation et de prévention.
-    </p>
-
-    <p><strong>Moyens de prévention</strong><br>
-    Choix du matériel, entretien,
-    limitation des durées d’exposition,
-    organisation du travail.
-    </p>
-
-    <p><em>
-    RESTEV peut vous accompagner dans l’évaluation des expositions
-    et la mise en conformité réglementaire.
-    </em></p>
+  <!-- PILIER 4 -->
+  <h3>4️⃣ Compétences, information & suivi</h3>
+  <div class="checklist">
+    <label><input type="checkbox" class="p4"> Les salariés sont formés aux risques du chantier</label>
+    <label><input type="checkbox" class="p4"> Les consignes sont comprises et appliquées</label>
+    <label><input type="checkbox" class="p4"> Les incidents ou situations dangereuses sont analysés</label>
   </div>
 
-  <button class="retour" onclick="show('dashboard')">← Tableau de bord</button>
-</section>
-  
-<!-- SYNTHESE -->
-<section id="synthese">
-  <h1>Synthèse entreprise</h1>
+  <button onclick="evaluerBTP()">Évaluer la prévention BTP</button>
 
-  <div class="carte">
-    <p>
-      ✅ Prévention métier évaluée<br>
-      ⚠️ Présence de risques spécifiques possible<br><br>
-      <strong>Un accompagnement RESTEV est recommandé
-      pour analyser les expositions et structurer le plan d’actions.</strong>
-    </p>
-  </div>
-
-  <button class="retour" onclick="show('dashboard')">← Tableau de bord</button>
-</section>
-
-<script>
-function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-const data={
-  macon:["Protections collectives","Manutentions maîtrisées","Plan de prévention"],
-  boulanger:["Ventilation","Manutention","Organisation postes"],
-  bureau:["Poste ergonomique","Pauses","Charge mentale"]
-};
-
-function chargerMetier(){
-  const m=document.getElementById("metier").value;
-  const zone=document.getElementById("questions");
-  zone.innerHTML="";
-  if(!data[m])return;
-  data[m].forEach(q=>{
-    zone.innerHTML+=`<label><input type="checkbox" class="prev"> ${q}</label>`;
-  });
-}
-
-function evaluer(){
-  const prev=document.querySelectorAll(".prev");
-  const cmr=document.querySelectorAll(".cmr:checked");
-  let ok=0; prev.forEach(x=>{if(x.checked)ok++});
-  const ratio=ok/prev.length;
-  const res=document.getElementById("resultat");
-
-  let couleur=ratio<0.4? "var(--rouge)":ratio<0.75?"var(--orange)":"var(--vert)";
-  let msg="Prévention évaluée.";
-
-  if(cmr.length>0){
-    couleur="var(--orange)";
-    msg+="<br><br><strong>Présence de risques CMR :</strong> RESTEV peut vous accompagner.";
-  }
-
-  res.style.background=couleur;
-  res.innerHTML=msg;
-}
-</script>
-
-</body>
-</html>
+  <div id="resultat-btp" class="resultat"></div>
+</div>
