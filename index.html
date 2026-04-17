@@ -2,87 +2,139 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Test Prévention</title padding: 40px;  <title>Test Prévention</title>
-      color: #2c3e50;
+  <title>RESTEV – Prévention</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --restev-vert: #2e8b7a;
+      --restev-vert-clair: #e6f4f1;
+      --restev-gris: #2c3e50;
     }
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background-color: #ffffff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--restev-vert-clair);
+    }
+
+    section {
+      display: none;
+      min-height: 100vh;
+      padding: 30px;
+      background: white;
+    }
+
+    section.active {
+      display: block;
     }
 
     h1 {
+      color: var(--restev-vert);
       margin-top: 0;
-      color: #34495e;
-      font-size: 28px;
-    }
-
-    p {
-      font-size: 16px;
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-
-    .info {
-      padding: 15px 20px;
-      background-color: #eef6f3;
-      border-left: 5px solid #7fb3a6;
-      border-radius: 4px;
-      margin-bottom: 30px;
-      font-style: italic;
     }
 
     button {
-      padding: 12px 28px;
-      font-size: 16px;
+      padding: 14px 30px;
       border: none;
-      border-radius: 25px;
-      background-color: #7fb3a6;
-      color: #ffffff;
+      border-radius: 30px;
+      background: var(--restev-vert);
+      color: white;
+      font-size: 16px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.1s ease;
+      margin-top: 20px;
     }
 
-    button:hover {
-      background-color: #6aa496;
+    .logo {
+      font-size: 40px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 100px;
+      color: var(--restev-vert);
+      animation: float 3s ease-in-out infinite;
     }
 
-    button:active {
-      transform: scale(0.97);
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .menu button {
+      width: 100%;
+      margin-top: 15px;
+      background: var(--restev-vert-clair);
+      color: var(--restev-gris);
+      font-weight: bold;
+    }
+
+    .retour {
+      background: transparent;
+      color: var(--restev-vert);
+      margin-top: 40px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-
-    <h1>Prévention</h1>
-
-    <p>
-      Cette page permet de vérifier le bon fonctionnement de l’affichage
-      et des éléments interactifs.
-    </p>
-
-    <div class="info">
-      Si tu vois ce texte, le HTML est bien interprété et la mise en page fonctionne correctement.
-    </div>
-
-    <button onclick="alert('CLIC OK')">
-      Bouton test
-    </button>
-
+<!-- ACCUEIL -->
+<section id="accueil" class="active">
+  <div class="logo">RESTEV</div>
+  <div style="text-align:center;">
+    <button onclick="show('menu')">Entrer</button>
   </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <h1>Menu principal</h1>
+
+  <div class="menu">
+    <button onclick="show('metiers')">Prévention par métier</button>
+    <button onclick="show('cmr')">CMR – Analyse produit</button>
+    <button onclick="show('pdp')">PDP</button>
+    <button onclick="show('duerp')">DUERP</button>
+  </div>
+
+  <button class="retour" onclick="show('accueil')">← Accueil</button>
+</section>
+
+<!-- PREVENTION METIERS -->
+<section id="metiers">
+  <h1>Prévention par métier</h1>
+  <p>Contenu à personnaliser par métier.</p>
+  <button class="retour" onclick="show('menu')">← Menu</button>
+</section>
+
+<!-- CMR -->
+<section id="cmr">
+  <h1>CMR – Analyse produit</h1>
+  <p>Analyse des produits chimiques, FDS, classement CMR.</p>
+  <button class="retour" onclick="show('menu')">← Menu</button>
+</section>
+
+<!-- PDP -->
+<section id="pdp">
+  <h1>Plan de prévention (PDP)</h1>
+  <p>Gestion des entreprises extérieures.</p>
+  <button class="retour" onclick="show('menu')">← Menu</button>
+</section>
+
+<!-- DUERP -->
+<section id="duerp">
+  <h1>DUERP</h1>
+  <p>Évaluation des risques professionnels.</p>
+  <button class="retour" onclick="show('menu')">← Menu</button>
+</section>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
 
 </body>
 </html>
-
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #f2f6f8;
-      margin: 0;
