@@ -57,8 +57,8 @@ button{
   cursor:pointer;
 }
 .btn-main{background:#dbeafe;color:#1e3a8a}
-.btn-link{background:#dcfce7;color:#14532d}
 .btn-back{background:#e5e7eb;color:#111}
+.btn-link{background:#dcfce7;color:#14532d}
 
 .card{
   border-radius:22px;
@@ -67,13 +67,6 @@ button{
 }
 .card.info{background:#e0f2fe}
 .card.warn{background:#fef3c7}
-
-a{
-  color:#1e40af;
-  font-weight:600;
-  text-decoration:none;
-}
-a:hover{text-decoration:underline}
 </style>
 </head>
 
@@ -81,6 +74,7 @@ a:hover{text-decoration:underline}
 
 <div class="app">
 
+<!-- HEADER -->
 <div class="header">
   logo.png
   <div class="header-title">RESTEV – Prévention santé au travail</div>
@@ -91,7 +85,7 @@ a:hover{text-decoration:underline}
   <h2>Outil de prévention & d’orientation</h2>
   <p>
     Cet outil permet aux entreprises de se situer
-    et de découvrir les possibilités d’accompagnement proposées par le RESTEV.
+    et d’identifier les possibilités d’accompagnement proposées par le RESTEV.
   </p>
 
   <button class="btn-main" onclick="openPage('metier')">
@@ -103,7 +97,7 @@ a:hover{text-decoration:underline}
   </button>
 </div>
 
-<!-- METIER (présentation courte) -->
+<!-- METIER (présentation) -->
 <div id="metier" class="page">
   <h2>Prévention par métier</h2>
   <p>
@@ -142,12 +136,22 @@ a:hover{text-decoration:underline}
   </div>
 
   <div class="card.info">
-    <strong>Pour aller plus loin (liens officiels)</strong>
-    <ul>
-      <li><a href="https://www.restev.fr/" target="_blank">Site officiel RESTEV</a></li>
-      <li><a href="https://www.restev.fr/vous-etes-employeur/" target="_blank">Vous êtes employeur – offre de service</a></li>
-      <li><a href="https://www.restev.fr/agenda/" target="_blank">Agenda des ateliers et sensibilisations</a></li>
-    </ul>
+    <strong>Accéder aux offres RESTEV officielles</strong>
+
+    <button class="btn-link"
+      onclick="window.open('https://www.restev.fr/', '_blank')">
+      🌐 Site officiel RESTEV
+    </button>
+
+    <button class="btn-link"
+      onclick="window.open('https://www.restev.fr/vous-etes-employeur/', '_blank')">
+      🏢 Offre de service – Employeur
+    </button>
+
+    <button class="btn-link"
+      onclick="window.open('https://www.restev.fr/', '_blank')">
+      📅 Agenda des ateliers & sensibilisations
+    </button>
   </div>
 
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
