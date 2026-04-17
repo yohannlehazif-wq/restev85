@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Prévention & CMR</title>
+<head‑évaluation prévention & CMR</title><head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -122,8 +120,8 @@ select{
 <!-- ACCUEIL -->
 <section id="accueil" class="active">
   <div class="accueil">
-    <img src="logo-restev.png" alt="Logo RESTEV" class="logo">
-    <p>Un outil pour comprendre, se situer et progresser en prévention.</p>
+    logo-restev.png
+    <p>Évaluer sa prévention, identifier les points de vigilance et avancer accompagné.</p>
     <button onclick="show('menu')">Entrer</button>
   </div>
 </section>
@@ -132,69 +130,42 @@ select{
 <section id="menu">
   <h1>Menu</h1>
   <div class="menu">
-    <button onclick="show('metiers')">👷 Auto‑évaluation prévention</button>
-    <button onclick="show('cmr')">🧪 Information CMR</button>
+    <button onclick="show('evaluation')">👷 Auto‑évaluation par métier</button>
   </div>
   <button class="retour" onclick="show('accueil')">← Accueil</button>
 </section>
 
-<!-- AUTO ÉVALUATION -->
-<section id="metiers">
-  <h1>Auto‑évaluation par métier</h1>
-
-  <div class="card">
-    <label><strong>Métier :</strong></label>
-    <select id="metier" onchange="chargerMetier()">
-      <option value="">— Choisir —</option>
-      <option value="aide">Aide‑soignant / EHPAD</option>
-      <option value="macon">Maçon</option>
-      <option value="bureau">Travail de bureau</option>
-      <option value="boulanger">Boulanger</option>
-    </select>
-
-    <div id="questions" class="checklist"></div>
-    <button onclick="evaluer()">Évaluer</button>
-    <div id="resultat" class="resultat"></div>
-  </div>
-
-  <button class="retour" onclick="show('menu')">← Menu</button>
-</section>
-
-<!-- CMR INFORMATION -->
-<section id="cmr">
-<h1>CMR – Comprendre et repérer</h1>
+<!-- AUTO EVALUATION METIER + CMR -->
+<section id="evaluation">
+<h1>Auto‑évaluation prévention</h1>
 
 <div class="card">
-  <h2>Définition</h2>
-  <p>
-    Les agents <strong>CMR</strong> sont des substances ou procédés
-    <strong>Cancérigènes, Mutagènes ou Reprotoxiques</strong>.
-  </p>
 
-  <div class="info">
-    L’employeur doit identifier ces agents, évaluer les expositions
-    et mettre en place des mesures de prévention adaptées
-    (Code du travail – R4412‑59 et suivants).
-  </div>
+  <label><strong>Sélectionnez votre métier :</strong></label>
+  <select id="metier" onchange="chargerMetier()">
+    <option value="">— Choisir —</option>
+    <option value="aide">Aide‑soignant / EHPAD</option>
+    <option value="macon">Maçon</option>
+    <option value="bureau">Travail de bureau</option>
+    <option value="boulanger">Boulanger</option>
+  </select>
 
-  <h2>Métiers concernés</h2>
-  <ul>
-    <li>Santé, EHPAD, laboratoire</li>
-    <li>BTP (silice, poussières)</li>
-    <li>Métiers de bouche (farines, fumées)</li>
-    <li>Maintenance et nettoyage</li>
-  </ul>
+  <h2>Prévention métier</h2>
+  <div id="questions" class="checklist"></div>
 
-  <h2>Repérage simple</h2>
+  <h2>Repérage CMR (si concerné)</h2>
+  <p>Indiquez si ces situations existent dans votre activité :</p>
+
   <div class="checklist">
-    <label><input type="checkbox" class="cmr"> Produits chimiques dangereux</label>
-    <label><input type="checkbox" class="cmr"> Poussières ou fumées</label>
-    <label><input type="checkbox" class="cmr"> Absence de captage/ventilation</label>
-    <label><input type="checkbox" class="cmr"> Protection collective insuffisante</label>
+    <label><input type="checkbox" class="cmr"> Utilisation de produits chimiques dangereux</label>
+    <label><input type="checkbox" class="cmr"> Poussières, fumées ou vapeurs</label>
+    <label><input type="checkbox" class="cmr"> Substances classées CMR</label>
+    <label><input type="checkbox" class="cmr"> Protections collectives insuffisantes</label>
   </div>
 
-  <button onclick="evaluerCMR()">Analyser</button>
-  <div id="cmr-resultat" class="resultat"></div>
+  <button onclick="evaluerGlobale()">Évaluer ma prévention</button>
+  <div id="resultat" class="resultat"></div>
+
 </div>
 
 <button class="retour" onclick="show('menu')">← Menu</button>
@@ -224,25 +195,45 @@ function chargerMetier(){
   });
 }
 
-function evaluer(){
-  const c=document.querySelectorAll(".prev");
-  let ok=0;c.forEach(x=>{if(x.checked)ok++;});
-  const r=ok/c.length;
-  const res=document.getElementById("resultat");
-  if(r<0.4){res.style.background="var(--rouge)";res.innerHTML="Prévention à renforcer";}
-  else if(r<0.75){res.style.background="var(--orange)";res.innerHTML="Prévention en progression";}
-  else{res.style.background="var(--vert)";res.innerHTML="Prévention maîtrisée";}
-}
+function evaluerGlobale(){
+  const prev=document.querySelectorAll(".prev");
+  const cmr=document.querySelectorAll(".cmr");
+  let okPrev=0; prev.forEach(x=>{if(x.checked)okPrev++;});
+  let okCmr=0; cmr.forEach(x=>{if(x.checked)okCmr++;});
 
-function evaluerCMR(){
-  const c=document.querySelectorAll(".cmr");
-  let ok=0;c.forEach(x=>{if(x.checked)ok++;});
-  const res=document.getElementById("cmr-resultat");
-  if(ok===0){res.style.background="var(--vert)";res.innerHTML="Aucune exposition déclarée";}
-  else if(ok<=2){res.style.background="var(--orange)";res.innerHTML="Exposition possible – analyse recommandée";}
-  else{res.style.background="var(--rouge)";res.innerHTML="Exposition CMR significative – action prioritaire";}
+  const ratio=okPrev/prev.length;
+  const res=document.getElementById("resultat");
+
+  let couleur="";
+  let message="";
+
+  if(ratio<0.4){
+    couleur="var(--rouge)";
+    message="Prévention à renforcer.";
+  }else if(ratio<0.75){
+    couleur="var(--orange)";
+    message="Prévention en progression.";
+  }else{
+    couleur="var(--vert)";
+    message="Prévention globalement maîtrisée.";
+  }
+
+  if(okCmr>0){
+    couleur = okCmr>2 ? "var(--rouge)" : "var(--orange)";
+    message +=
+      "<br><br><strong>Point de vigilance CMR identifié.</strong>" +
+      "<br>Une analyse plus approfondie et un accompagnement sont recommandés.";
+  }
+
+  message +=
+    "<br><br><em>RESTEV peut vous accompagner dans l’analyse de votre situation, " +
+    "la gestion des CMR et la mise en place d’actions adaptées.</em>";
+
+  res.style.background=couleur;
+  res.innerHTML=message;
 }
 </script>
 
 </body>
 </html>
+<meta charset="UTF-8">
