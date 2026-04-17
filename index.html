@@ -1,41 +1,9 @@
-<!DOCTYPE html><width=device-width, initial-scale=1.0">
+<!DOCTYPE html>>
+  <meta charset="UTF-8">
+  <title>RESTEV – Prévention</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    /* ---------- PREVENTION PAR METIER ---------- */
-
-.fiche-metier {
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.fiche-metier h2 {
-  color: var(--restev-vert);
-  font-size: 20px;
-}
-
-.bloc-prevention {
-  background: var(--restev-vert-clair);
-  border-radius: 12px;
-  padding: 15px 18px;
-}
-
-.bloc-prevention h3 {
-  margin-top: 0;
-  font-size: 16px;
-  color: var(--restev-gris);
-}
-
-.bloc-prevention ul {
-  padding-left: 18px;
-  margin-bottom: 0;
-}
-
-.bloc-prevention li {
-  margin-bottom: 6px;
-  font-size: 14px;
-}
     :root {
       --restev-vert: #2e8b7a;
       --restev-vert-clair: #e6f4f1;
@@ -59,7 +27,7 @@
       display: block;
     }
 
-    h1 {
+    h1, h2 {
       color: var(--restev-vert);
       margin-top: 0;
     }
@@ -72,10 +40,10 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
-    /* ------------------ ACCUEIL ------------------ */
+    /* ===== ACCUEIL ===== */
     .accueil-contenu {
       min-height: 100vh;
       display: flex;
@@ -89,7 +57,7 @@
     .logo-restev {
       width: 220px;
       max-width: 70%;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       animation: entree 1.2s ease-out forwards, respiration 4s ease-in-out infinite 1.5s;
     }
 
@@ -103,61 +71,76 @@
       animation-delay: 0.4s;
     }
 
-    /* --- Animation ECR --- */
     @keyframes entree {
-      from {
-        opacity: 0;
-        transform: scale(0.95) translateY(15px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      from { opacity: 0; transform: scale(0.95) translateY(15px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     @keyframes respiration {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.03); }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
-  /* ------------------ MENU LISIBLE ------------------ *//* ------------------ MENU 14px;
-  background: var(--restev-vert-clair);
-  color: var(--restev-gris);
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-  border: none;
-  cursor: pointer;
-}
+    /* ===== MENU ===== */
+    .menu {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
 
-.menu button span {
-  font-size: 22px;
-}
+    .menu button {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: var(--restev-vert-clair);
+      color: var(--restev-gris);
+      font-weight: bold;
+      text-align: left;
+    }
 
-.menu button:active {
-  transform: scale(0.97);
-}
+    .menu-description {
+      font-size: 13px;
+      font-weight: normal;
+      color: #555;
+    }
 
-.menu-description {
-  font-size: 13px;
-  font-weight: normal;
-  color: #555;
-  margin-top: 4px;
-}
-``
-.menu {
-  display: grid;
-  gap: 16px;
-  margin-top: 20px;
-}
+    /* ===== PREVENTION METIER ===== */
+    .fiche-metier {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 20px;
+    }
 
-.menu button {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px 20px;
+    .bloc-prevention {
+      background: var(--restev-vert-clair);
+      border-radius: 12px;
+      padding: 15px 18px;
+    }
 
+    .bloc-prevention h3 {
+      margin-top: 0;
+      font-size: 16px;
+      color: var(--restev-gris);
+    }
+
+    .bloc-prevention ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .bloc-prevention li {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .retour {
+      background: transparent;
+      color: var(--restev-vert);
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -167,161 +150,94 @@
 <!-- ACCUEIL -->
 <section id="accueil" class="active">
   <div class="accueil-contenu">
-
-    <img
-      src="logo-restev.png"
-      alt="Logo RESTEV – Prévention santé au travail"
-      class="logo-restev"
-    >
-
+    <img src="logo-restev.png" alt="Logo RESTEV" class="logo-restev">
     <p class="phrase-positive">
       La prévention commence par des choix simples, pensés pour durer.
     </p>
-
     <button onclick="show('menu')">Entrer</button>
-
   </div>
 </section>
 
 <!-- MENU -->
-<section id="menu"><section <div>
-        CMR – Analyse produit
-        <div class="menu-description">
-          Substances, FDS et prévention chimique
-        </div>
-      </div>
+<section id="menu">
+  <h1>Menu principal</h1>
+
+  <div class="menu">
+    <button onclick="show('metiers')">
+      👷 Prévention par métier
+      <div class="menu-description">Risques et mesures par poste</div>
+    </button>
+
+    <button onclick="show('cmr')">
+      🧪 CMR – Analyse produit
+      <div class="menu-description">Substances et FDS</div>
     </button>
 
     <button onclick="show('pdp')">
-      <span>📋</span>
-      <div>
-        Plan de prévention (PDP)
-        <div class="menu-description">
-          Entreprises extérieures et coactivité
-        </div>
-      </div>
+      📋 Plan de prévention (PDP)
+      <div class="menu-description">Entreprises extérieures</div>
     </button>
 
     <button onclick="show('duerp')">
-      <span>📊</span>
-      <div>
-        DUERP
-        <div class="menu-description">
-          Évaluation des risques professionnels
-        </div>
-      </div>
+      📊 DUERP
+      <div class="menu-description">Évaluation des risques</div>
     </button>
-
   </div>
 
   <button class="retour" onclick="show('accueil')">← Accueil</button>
 </section>
-  <h1>Menu principal</h1>
 
-  <div class="menu">
-
-    <button onclick="show('metiers')">
-      <span>👷</span>
-      <div>
-        Prévention par métier
-        <div class="menu-description">
-          Risques et mesures adaptées aux postes
-        </div>
-      </div>
-    </button>
-
-    <button onclick="show('cmr')">
-      <span>🧪</span>
-</section>
-
-<!-- METIERS -->
+<!-- PREVENTION PAR METIER -->
 <section id="metiers">
   <h1>Prévention par métier</h1>
-  <p>Contenu à personnaliser par métier.</p>
-  <button class="retour" onclick="show('menu')">← Menu</button>
-</section>
 
-<!-- CMR -->
-<section id="metiers">Manutentions manuelles</li>
-        <li>Exposition possible à des produits chimiques</li>
+  <div class="fiche-metier">
+    <h2>Technicien de maintenance</h2>
+
+    <div class="bloc-prevention">
+      <h3>Risques identifiés</h3>
+      <ul>
+        <li>Chutes de plain-pied</li>
+        <li>Risque électrique</li>
+        <li>Manutentions manuelles</li>
       </ul>
     </div>
 
     <div class="bloc-prevention">
-      <h3>Moyens de prévention existants</h3>
+      <h3>Prévention existante</h3>
       <ul>
-        <li>Port des équipements de protection individuelle</li>
-        <li>Procédures d’intervention établies</li>
-        <li>Formations sécurité réalisées</li>
+        <li>Port des EPI</li>
+        <li>Procédures établies</li>
+        <li>Formations sécurité</li>
       </ul>
     </div>
 
     <div class="bloc-prevention">
-      <h3>Moyens de prévention recommandés</h3>
+      <h3>Prévention recommandée</h3>
       <ul>
-        <li>Renforcement de la formation électrique</li>
-        <li>Amélioration de l’organisation des interventions</li>
-        <li>Mise à disposition d’aides à la manutention</li>
-        <li>Révision périodique des procédures</li>
+        <li>Renforcement formation électrique</li>
+        <li>Aides à la manutention</li>
+        <li>Révision des procédures</li>
       </ul>
     </div>
-
   </div>
 
   <button class="retour" onclick="show('menu')">← Menu</button>
 </section>
-``
-  <h1>Prévention par métier</h1>
 
-  <p>
-    Cette section présente les risques professionnels identifiés par poste de travail,
-    ainsi que les mesures de prévention existantes et recommandées.
-  </p>
-
-  <!-- FICHE METIER -->
-  <div class="fiche-metier">
-
-    <h2>Métier : Exemple – Technicien de maintenance</h2>
-
-    <div class="bloc-prevention">
-      <h3>Observations | Risques identifiés</h3>
-      <ul>
-        <li>Risque de chute de plain-pied</li>
-        <li>Risque électrique lors des interventions</li>
-
-</section>
-
-<!-- PDP -->
-<section id="pdp">
-  <h1>Plan de prévention (PDP)</h1>
-  <p>Gestion des entreprises extérieures.</p>
-  <button class="retour" onclick="show('menu')">← Menu</button>
-</section>
-
-<!-- DUERP -->
-<section id="duerp">
-  <h1>DUERP</h1>
-  <p>Évaluation des risques professionnels.</p>
-  <button class="retour" onclick="show('menu')">← Menu</button>
-</section>
+<!-- CMR / PDP / DUERP -->
+<section id="cmr"><h1>CMR</h1><button class="retour" onclick="show('menu')">← Menu</button></section>
+<section id="pdp"><h1>PDP</h1><button class="retour" onclick="show('menu')">← Menu</button></section>
+<section id="duerp"><h1>DUERP</h1><button class="retour" onclick="show('menu')">← Menu</button></section>
 
 <script>
   function show(id) {
-    document.querySelectorAll('section')
-      .forEach(section => section.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    window.scrollTo(0,0);
   }
 </script>
 
 </body>
 </html>
-
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>RESTEV – Prévention</title>
-
-
-</body>
-</html>
