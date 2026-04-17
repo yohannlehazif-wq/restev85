@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>RESTEV – Prévention</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><width=device-width, initial-scale=1.0">
 
   <style>
     :root {
@@ -42,10 +37,10 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 25px;
     }
 
-    /* ----- ACCUEIL ----- */
+    /* ------------------ ACCUEIL ------------------ */
     .accueil-contenu {
       min-height: 100vh;
       display: flex;
@@ -59,22 +54,39 @@
     .logo-restev {
       width: 220px;
       max-width: 70%;
-      margin-bottom: 50px;
-      animation: float 3s ease-in-out infinite, fadeIn 1.2s ease;
+      margin-bottom: 25px;
+      animation: entree 1.2s ease-out forwards, respiration 4s ease-in-out infinite 1.5s;
     }
 
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
+    .phrase-positive {
+      font-size: 16px;
+      color: var(--restev-gris);
+      max-width: 320px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: entree 1.4s ease-out forwards;
+      animation-delay: 0.4s;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+    /* --- Animation ECR --- */
+    @keyframes entree {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
-    /* ----- MENU ----- */
+    @keyframes respiration {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    /* ------------------ MENU ------------------ */
     .menu button {
       width: 100%;
       margin-top: 15px;
@@ -96,12 +108,19 @@
 <!-- ACCUEIL -->
 <section id="accueil" class="active">
   <div class="accueil-contenu">
+
     <img
       src="logo-restev.png"
       alt="Logo RESTEV – Prévention santé au travail"
       class="logo-restev"
     >
+
+    <p class="phrase-positive">
+      La prévention commence par des choix simples, pensés pour durer.
+    </p>
+
     <button onclick="show('menu')">Entrer</button>
+
   </div>
 </section>
 
@@ -119,7 +138,7 @@
   <button class="retour" onclick="show('accueil')">← Accueil</button>
 </section>
 
-<!-- PREVENTION METIERS -->
+<!-- METIERS -->
 <section id="metiers">
   <h1>Prévention par métier</h1>
   <p>Contenu à personnaliser par métier.</p>
@@ -155,6 +174,15 @@
     window.scrollTo(0, 0);
   }
 </script>
+
+</body>
+</html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>RESTEV – Prévention</title>
+
 
 </body>
 </html>
