@@ -5,11 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RESTEV – Prévention Santé au Travail</title>
 
+<!-- Typographies douces & modernes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:'Nunito', Arial, sans-serif;
   background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
+  font-size:15px;
 }
 .app{max-width:900px;margin:auto;padding:16px}
 
@@ -17,35 +23,49 @@ body{
 .header{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
   background:white;
   padding:16px;
-  border-radius:20px;
+  border-radius:22px;
   box-shadow:0 6px 20px rgba(0,0,0,0.08);
   margin-bottom:20px;
 }
 .header img{height:48px}
-.header-title{font-size:18px;font-weight:bold;color:#2563eb}
+.header-title{
+  font-family:'Poppins', sans-serif;
+  font-size:19px;
+  font-weight:600;
+  color:#2563eb
+}
 
 /* PAGES */
 .page{
   display:none;
   background:white;
-  border-radius:26px;
-  padding:24px;
+  border-radius:28px;
+  padding:26px;
   box-shadow:0 14px 34px rgba(59,130,246,0.15);
 }
 .page.active{display:block}
+
+h2{
+  font-family:'Poppins', sans-serif;
+  font-size:22px;
+  margin-top:0;
+  color:#1e3a8a;
+}
 
 /* BUTTONS */
 button{
   width:100%;
   padding:16px;
   border:none;
-  border-radius:18px;
-  font-size:16px;
-  font-weight:bold;
+  border-radius:20px;
+  font-size:15px;
+  font-weight:600;
+  font-family:'Poppins', sans-serif;
   margin-bottom:14px;
+  cursor:pointer;
 }
 .btn-main{background:#e0f2fe;color:#1e3a8a}
 .btn-back{background:#e5e7eb;color:#111}
@@ -55,25 +75,27 @@ select{
   width:100%;
   padding:12px;
   margin-bottom:14px;
-  border-radius:14px;
+  border-radius:16px;
   border:2px solid #c7d2fe;
+  font-family:'Nunito', sans-serif;
 }
 
 /* CARDS */
 .card{
-  border-radius:16px;
-  padding:14px;
+  border-radius:18px;
+  padding:16px;
   margin-bottom:14px;
 }
 .card.info{background:#e0f2fe}
 .card.warn{background:#fef9c3}
 
-/* INDICATEUR */
+/* INDICATOR */
 .indicator{
-  padding:14px;
-  border-radius:14px;
-  font-weight:bold;
+  padding:16px;
+  border-radius:18px;
+  font-weight:600;
   margin-bottom:14px;
+  font-family:'Poppins', sans-serif;
 }
 .green{background:#dcfce7;color:#14532d}
 .yellow{background:#fef9c3;color:#854d0e}
@@ -82,8 +104,8 @@ select{
 /* CHECKLIST */
 .checklist label{
   display:block;
-  margin-bottom:6px;
-  cursor:pointer;
+  margin-bottom:8px;
+  font-size:15px;
 }
 
 /* PRINT */
@@ -107,17 +129,20 @@ select{
 <!-- HOME -->
 <div id="home" class="page active">
   <h2>Prévention par métier</h2>
-  <p>Auto‑évaluation par l’entreprise – posture d’accompagnement.</p>
+  <p>
+    Outil d’auto‑évaluation par l’entreprise,
+    dans une logique d’accompagnement et de progrès continu.
+  </p>
   <button class="btn-main" onclick="openPage('metier')">Accéder à l’outil</button>
   <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
 </div>
 
 <!-- METIER -->
 <div id="metier" class="page">
-  <h2>Prévention par métier</h2>
+  <h2>Choisir le métier</h2>
 
   <select id="jobSelect" onchange="showJob()">
-    <option value="">— Choisir un métier —</option>
+    <option value="">— Sélectionnez un métier —</option>
     <option value="entretien">Agent d’entretien</option>
     <option value="maintenance">Agent de maintenance</option>
     <option value="bureau">Agent administratif / bureau</option>
@@ -130,17 +155,16 @@ select{
 
 <!-- CONTACT -->
 <div id="contact" class="page">
-  <h2>Contact RESTEV</h2>
+  <h2>Accompagnement RESTEV</h2>
   <div class="card.warn">
-    Le service de santé au travail RESTEV peut accompagner l’entreprise :
+    Le service de santé au travail RESTEV peut accompagner l’entreprise,
+    à sa demande, dans une démarche de prévention :
     <ul>
-      <li>Analyse des situations de travail</li>
-      <li>Prévention des risques professionnels</li>
-      <li>Démarche progressive et partagée</li>
-      <li>Appui DUERP et PDP</li>
+      <li>structurée</li>
+      <li>progressive</li>
+      <li>adaptée aux réalités du terrain</li>
     </ul>
-    L’accompagnement se fait à la demande de l’entreprise,
-    sans jugement et dans le respect de ses contraintes.
+    Sans jugement, ni évaluation.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -153,36 +177,35 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-/* DONNÉES MÉTIERS – RISQUES TRÈS LARGES */
 const jobs={
   entretien:{
     nom:"Agent d’entretien",
     mesures:[
-      "Produits d’entretien identifiés et étiquetés",
+      "Produits identifiés et étiquetés",
       "Fiches de données de sécurité accessibles",
       "Gants mis à disposition",
-      "Organisation des tournées de nettoyage",
+      "Organisation des tournées",
       "Signalisation sol glissant",
       "Ventilation des locaux",
-      "Stockage sécurisé des produits",
-      "Formation à l’utilisation des produits",
-      "Pas de mélange de produits",
+      "Stockage sécurisé",
+      "Formation à l’utilisation",
+      "Absence de mélange de produits",
       "Temps de pause adaptés"
     ]
   },
   maintenance:{
     nom:"Agent de maintenance",
     mesures:[
-      "Habilitations adaptées au poste",
+      "Habilitations adaptées",
       "Consignation des énergies",
-      "Procédures d’intervention connues",
-      "Stockage sécurisé des produits",
-      "Utilisation d’EPI",
-      "Ventilation des zones de travail",
-      "Limitation de l’usage de solvants",
-      "Gestion des situations d’urgence",
+      "Procédures connues",
+      "Stockage sécurisé",
+      "EPI disponibles",
+      "Ventilation des zones",
+      "Limitation des solvants",
+      "Gestion des urgences",
       "Information des intervenants",
-      "Traçabilité des interventions"
+      "Traçabilité des actions"
     ]
   },
   bureau:{
@@ -192,12 +215,12 @@ const jobs={
       "Écrans réglables",
       "Sièges ergonomiques",
       "Pauses autorisées",
-      "Organisation du temps de travail",
-      "Gestion de la charge de travail",
-      "Espaces de travail calmes",
-      "Possibilité d’échanges avec l’encadrement",
-      "Sensibilisation aux TMS",
-      "Aménagements individuels possibles"
+      "Organisation du temps",
+      "Régulation de la charge",
+      "Espaces calmes",
+      "Dialogue avec l’encadrement",
+      "Sensibilisation TMS",
+      "Aménagements possibles"
     ]
   }
 };
@@ -207,10 +230,8 @@ function showJob(){
   if(!id){jobResult.innerHTML="";return;}
   const j=jobs[id];
 
-  const checks = j.mesures.map(m=>`
-    <label>
-      <input type="checkbox" onchange="updateIndicator()"> ${m}
-    </label>
+  const checks=j.mesures.map(m=>`
+    <label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>
   `).join("");
 
   jobResult.innerHTML=`
@@ -220,7 +241,7 @@ function showJob(){
     </div>
 
     <div id="indicator" class="indicator red">
-      État de la prévention : à évaluer
+      État de la prévention : à situer
     </div>
 
     <div class="card checklist">
@@ -228,10 +249,9 @@ function showJob(){
     </div>
 
     <div class="card.warn">
-      <strong>Accompagnement possible par le service de santé RESTEV</strong><br>
-      Le service de santé au travail RESTEV peut accompagner l’entreprise,
-      à sa demande, dans l’analyse et l’amélioration de la prévention,
-      sans jugement et en tenant compte des réalités du terrain.
+      <strong>Accompagnement RESTEV</strong><br>
+      Possibilité d’un accompagnement à la demande,
+      dans une logique d’amélioration continue et partagée.
     </div>
   `;
 }
