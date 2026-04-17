@@ -74,14 +74,48 @@
       margin-top: 40px;
     }
   </style>
+  .accueil-contenu {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-restev {
+  width: 220px;
+  max-width: 70%;
+  margin-bottom: 50px;
+  animation: float 3s ease-in-out infinite, fadeIn 1.2s ease;
+}
+
+/* Animation flottante douce */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Apparition progressive */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
 </head>
 
 <body>
 
 <!-- ACCUEIL -->
 <section id="accueil" class="active">
-  <div class="logo">RESTEV</div>
-  <div style="text-align:center;">
+  <div class="accueil-contenu">
+    
+    <img 
+      src="logo-restev.png" 
+      alt="Logo RESTEV – Prévention santé au travail"
+      class="logo-restev"
+    >
+
     <button onclick="show('menu')">Entrer</button>
   </div>
 </section>
