@@ -26,6 +26,80 @@ label{
 }
 </style>
 </head>
+<script> "Équipements adaptés (coupures, brûlures)",
+    "Prévention des TMS",
+    "Matériel entretenu"
+  ],
+  logistique: [
+    "Organisation des flux",
+    "Gestes et postures",
+    "Aides à la manutention disponibles",
+    "Circulation sécurisée",
+    "Formation à la conduite d’engins"
+  ],
+  services: [
+    "Organisation du travail",
+    "Prévention des risques psychosociaux",
+    "Aménagement des postes",
+    "Temps d’échange sur le travail",
+    "Information prévention"
+  ]
+};
+
+function changerMesures(){
+  var metier = document.getElementById("metier").value;
+  var liste = document.getElementById("liste-mesures");
+
+  // Nettoyage
+  liste.innerHTML = "";
+
+  if (!mesures[metier]) {
+    var info = document.createElement("li");
+    info.style.color = "#6b7280";
+    info.style.fontSize = "14px";
+    info.textContent = "Sélectionnez un métier pour afficher les mesures correspondantes.";
+    liste.appendChild(info);
+    return;
+  }
+
+  for (var i = 0; i < mesures[metier].length; i++) {
+    var li = document.createElement("li");
+
+    var label = document.createElement("label");
+    label.style.display = "flex";
+    label.style.gap = "10px";
+    label.style.fontSize = "15px";
+
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(" " + mesures[metier][i]));
+
+    li.appendChild(label);
+    liste.appendChild(li);
+  }
+}
+</script>
+
+var mesures = {
+  btp: [
+    "Organisation du travail et des chantiers",
+    "Formation à la sécurité et aux risques spécifiques",
+    "Équipements de protection individuelle (EPI)",
+    "Matériel et engins entretenus",
+    "Prévention des chutes et manutentions"
+  ],
+  sante: [
+    "Organisation des soins et des tâches",
+    "Prévention des risques biologiques",
+    "Gestes et postures adaptés",
+    "Protocoles connus et appliqués",
+    "Espaces de récupération identifiés"
+  ],
+  bouche: [
+    "Hygiène et sécurité alimentaire",
+    "Organisation des postes de travail",
 
 <body>
 
