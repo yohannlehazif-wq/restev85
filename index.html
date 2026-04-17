@@ -1,239 +1,142 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head‑évaluation prévention & CMR</title><head>
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Prévention & accompagnement</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root{
-  --vert:#7fbf9a;
+  --vert:#2e8b7a;
+  --vert-clair:#eaf6f3;
   --orange:#f2b66d;
   --rouge:#e88b8b;
-  --fond:#ecf6f3;
+  --fond:#f4f7f6;
   --carte:#ffffff;
-  --accent:#2e8b7a;
   --texte:#2c3e50;
 }
 
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:system-ui, Arial, sans-serif;
   background:var(--fond);
   color:var(--texte);
 }
 
-section{
-  display:none;
-  min-height:100vh;
-  padding:28px;
-}
-section.active{display:block}
-
-h1,h2,h3{color:var(--accent)}
-
-button{
-  padding:14px 28px;
-  border:none;
-  border-radius:24px;
-  background:var(--accent);
-  color:white;
-  font-size:16px;
-  margin-top:20px;
-}
-
-.card{
-  background:var(--carte);
-  border-radius:20px;
-  padding:22px;
-  margin-top:20px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
-
-.accueil{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+header{
   text-align:center;
+  padding:40px 20px;
 }
 
-.logo{
-  width:200px;
-  max-width:70%;
-  margin-bottom:20px;
+header img{
+  width:180px;
   animation:resp 4s ease-in-out infinite;
+}
+
+header p{
+  max-width:400px;
+  margin:20px auto 0;
+  font-size:16px;
 }
 
 @keyframes resp{
   0%{transform:scale(1)}
-  50%{transform:scale(1.05)}
+  50%{transform:scale(1.04)}
   100%{transform:scale(1)}
 }
 
-.menu{display:grid;gap:16px}
-
-.menu button{
-  background:white;
-  color:var(--texte);
-  font-weight:bold;
+main{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+  display:grid;
+  gap:20px;
 }
 
-select{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  font-size:15px;
-  margin-top:10px;
+.carte{
+  background:var(--carte);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.checklist{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:15px;
+.carte h2{
+  color:var(--vert);
+  margin-top:0;
 }
 
-.resultat{
-  padding:16px;
-  border-radius:14px;
-  font-weight:bold;
-  margin-top:15px;
+.carte p{
+  margin:10px 0 20px;
 }
 
-.info{
-  background:#eef5f2;
-  border-left:5px solid var(--accent);
-  padding:14px;
-  border-radius:10px;
-  margin-top:15px;
+button{
+  background:var(--vert);
+  border:none;
+  color:white;
+  padding:14px 26px;
+  border-radius:24px;
+  font-size:16px;
+  cursor:pointer;
 }
 
-.retour{
-  background:transparent;
-  color:var(--accent);
+.carte.orange{border-left:6px solid var(--orange)}
+.carte.rouge{border-left:6px solid var(--rouge)}
+.carte.vert{border-left:6px solid var(--vert-clair)}
+
+footer{
+  text-align:center;
+  padding:30px;
+  font-size:14px;
+  color:#6b6b6b;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ACCUEIL -->
-<section id="accueil" class="active">
-  <div class="accueil">
-    logo-restev.png
-    <p>Évaluer sa prévention, identifier les points de vigilance et avancer accompagné.</p>
-    <button onclick="show('menu')">Entrer</button>
-  </div>
-</section>
+<header>
+  <img src="logo-restev.png" alt="RESTEV">
+  <p>
+    Se situer en prévention, identifier les risques,
+    et avancer accompagné.
+  </p>
+</header>
 
-<!-- MENU -->
-<section id="menu">
-  <h1>Menu</h1>
-  <div class="menu">
-    <button onclick="show('evaluation')">👷 Auto‑évaluation par métier</button>
-  </div>
-  <button class="retour" onclick="show('accueil')">← Accueil</button>
-</section>
+<main>
 
-<!-- AUTO EVALUATION METIER + CMR -->
-<section id="evaluation">
-<h1>Auto‑évaluation prévention</h1>
-
-<div class="card">
-
-  <label><strong>Sélectionnez votre métier :</strong></label>
-  <select id="metier" onchange="chargerMetier()">
-    <option value="">— Choisir —</option>
-    <option value="aide">Aide‑soignant / EHPAD</option>
-    <option value="macon">Maçon</option>
-    <option value="bureau">Travail de bureau</option>
-    <option value="boulanger">Boulanger</option>
-  </select>
-
-  <h2>Prévention métier</h2>
-  <div id="questions" class="checklist"></div>
-
-  <h2>Repérage CMR (si concerné)</h2>
-  <p>Indiquez si ces situations existent dans votre activité :</p>
-
-  <div class="checklist">
-    <label><input type="checkbox" class="cmr"> Utilisation de produits chimiques dangereux</label>
-    <label><input type="checkbox" class="cmr"> Poussières, fumées ou vapeurs</label>
-    <label><input type="checkbox" class="cmr"> Substances classées CMR</label>
-    <label><input type="checkbox" class="cmr"> Protections collectives insuffisantes</label>
+  <div class="carte vert">
+    <h2>👷 Auto‑évaluation par métier</h2>
+    <p>
+      Évaluez votre organisation de prévention en fonction
+      de votre activité réelle.
+    </p>
+    <button>Commencer l’auto‑évaluation</button>
   </div>
 
-  <button onclick="evaluerGlobale()">Évaluer ma prévention</button>
-  <div id="resultat" class="resultat"></div>
+  <div class="carte orange">
+    <h2>🧪 Risques spécifiques & CMR</h2>
+    <p>
+      Repérage des risques reconnus (CMR, physiques,
+      organisationnels) liés à votre métier.
+    </p>
+    <button>Identifier les risques</button>
+  </div>
 
-</div>
+  <div class="carte rouge">
+    <h2>🤝 Accompagnement RESTEV</h2>
+    <p>
+      Analyse approfondie, DUERP, CMR, plan d’actions :
+      RESTEV vous accompagne à chaque étape.
+    </p>
+    <button>Être accompagné</button>
+  </div>
 
-<button class="retour" onclick="show('menu')">← Menu</button>
-</section>
+</main>
 
-<script>
-function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-const data={
-  aide:["EPI disponibles","Formation manutention","Gestion AES","Organisation soins","Prévention RPS"],
-  macon:["Protections collectives","Manutention sécurisée","Plan de prévention","Brief sécurité","EPI portés"],
-  bureau:["Poste ergonomique","Pauses","Prévention RPS","Éclairage adapté","Organisation du travail"],
-  boulanger:["Ventilation","Manutentions","EPI coupures","Farines maîtrisées","Organisation postes"]
-};
-
-function chargerMetier(){
-  const m=document.getElementById("metier").value;
-  const zone=document.getElementById("questions");
-  zone.innerHTML="";
-  document.getElementById("resultat").innerHTML="";
-  if(!data[m])return;
-  data[m].forEach(q=>{
-    zone.innerHTML += `<label><input type="checkbox" class="prev"> ${q}</label>`;
-  });
-}
-
-function evaluerGlobale(){
-  const prev=document.querySelectorAll(".prev");
-  const cmr=document.querySelectorAll(".cmr");
-  let okPrev=0; prev.forEach(x=>{if(x.checked)okPrev++;});
-  let okCmr=0; cmr.forEach(x=>{if(x.checked)okCmr++;});
-
-  const ratio=okPrev/prev.length;
-  const res=document.getElementById("resultat");
-
-  let couleur="";
-  let message="";
-
-  if(ratio<0.4){
-    couleur="var(--rouge)";
-    message="Prévention à renforcer.";
-  }else if(ratio<0.75){
-    couleur="var(--orange)";
-    message="Prévention en progression.";
-  }else{
-    couleur="var(--vert)";
-    message="Prévention globalement maîtrisée.";
-  }
-
-  if(okCmr>0){
-    couleur = okCmr>2 ? "var(--rouge)" : "var(--orange)";
-    message +=
-      "<br><br><strong>Point de vigilance CMR identifié.</strong>" +
-      "<br>Une analyse plus approfondie et un accompagnement sont recommandés.";
-  }
-
-  message +=
-    "<br><br><em>RESTEV peut vous accompagner dans l’analyse de votre situation, " +
-    "la gestion des CMR et la mise en place d’actions adaptées.</em>";
-
-  res.style.background=couleur;
-  res.innerHTML=message;
-}
-</script>
+<footer>
+  Outil d’aide à la prévention – RESTEV
+</footer>
 
 </body>
 </html>
-<meta charset="UTF-8">
+``
