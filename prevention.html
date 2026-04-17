@@ -1,167 +1,95 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Prévention</title>
+</title><head>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
-  background:#f8fbff;
-  font-family:Arial,sans-serif;
-  display:flex;
-  justify-content:center;
+  font-family:Arial, sans-serif;
+  background:#f3f6fb;
+  margin:0;
+  padding:30px;
 }
-
-.app{
-  width:100%;
-  max-width:420px;
-  padding:18px;
-}
-
-.header{
-  background:#ffffff;
-  border-radius:22px;
-  padding:14px;
-  display:flex;
-  justify-content:center;
-  box-shadow:0 6px 16px rgba(0,0,0,0.08);
-  margin-bottom:16px;
-}
-.header img{width:120px;}
 
 h1{
-  font-size:18px;
-  text-align:center;
   color:#1e3a8a;
-  margin-bottom:14px;
-}
-
-select{
-  width:100%;
-  padding:14px;
-  border-radius:18px;
-  border:2px solid #c7d2fe;
-  margin-bottom:18px;
 }
 
 .card{
   background:#ffffff;
-  border-radius:22px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
-.card.info{background:#e0f2fe;}
-.card.warn{background:#fef3c7;}
-
-.checklist label{
-  display:block;
-  margin-bottom:8px;
-  font-size:14px;
-}
-
-.indicator{
-  padding:14px;
-  border-radius:18px;
-  font-weight:bold;
-  margin-bottom:14px;
-}
-.green{background:#dcfce7;color:#065f46;}
-.yellow{background:#fef3c7;color:#92400e;}
-.red{background:#fee2e2;color:#7f1d1d;}
 
 button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:18px;
-  font-size:15px;
+  padding:14px 32px;
+  font-size:16px;
   font-weight:600;
+  border:none;
+  border-radius:20px;
+  background:#1e3a8a;
+  color:#ffffff;
   cursor:pointer;
-}
-
-.btn-back{
-  background:#e5e7eb;
-  color:#111;
-  margin-top:8px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<h1>Prévention par métier</h1>
 
-  <div class="header">
-    <img src="logo-restev.png" alt="RESTEV">
-  </div>
-
-  <h1>Auto‑évaluation de la prévention</h1>
-
-  <select onchange="showChecklist()">
-    <option value="">— Sélectionner un métier —</option>
-    <option>BTP</option>
-    <option>Santé / médico‑social</option>
-    <option>Métiers de bouche</option>
-    <option>Soins vétérinaires</option>
-    <option>Commerce / logistique / services</option>
+<div class="card">
+  <label for="metier"><strong>Métier</strong></label><br><br>
+  <select id="metier" onchange="changerMesures()">
+    <option value="">— Sélectionner —</option>
+    <option value="btp">BTP</option>
+    <option value="bouche">Métiers de bouche</option>
+    <option value="sante">Santé</option>
   </select>
+</div>
 
-  <div id="content"></div>
+<div class="card">
+  <strong>Mesures actuellement en place</strong>
+  <ul id="liste-mesures">
+    <li>Sélectionnez un métier pour afficher les mesures</li>
+  </ul>
+</div>
 
-  <!-- 🔙 RETOUR -->
-  <button class="btn-back" onclick="location.href='accueil.html"Organisation du travail définie",
-  "Information ou formation sécurité",
-  "Équipements de protection disponibles",
-  "Matériel entretenu",
-  "Circulation et rangement sécurisés",
-  "Gestion des situations d’urgence",
-  "Temps de pause possibles",
-  "Encadrement identifié",
-  "Communication prévention",
-  "Aménagements possibles"
-];
+<div class="card">
+  Le RESTEV peut accompagner l’entreprise, à sa demande, dans
+  la structuration de sa démarche de prévention.
+</div>
 
-function showChecklist(){
-  const c=document.getElementById("content");
-  c.innerHTML=`
-    <div id="indicator" class="indicator red">Prévention à situer</div>
+<button onclick="alert('BOUTON OK')">
+  Bouton visible
+</button>
 
-    <div class="card info">
-      <strong>Mesures actuellement en place</strong>
-    </div>
+<script>
+function changerMesures(){
+  var metier = document.getElementById("metier").value;
+  var liste = document.getElementById("liste-mesures");
 
-    <div class="card checklist">
-      ${mesures.map(m=>`<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`).join("")}
-    </div>
+  liste.innerHTML = "";
 
-    <div class="card warn">
-      Un accompagnement par le RESTEV peut être proposé à la demande.
-    </div>
-  `;
-}
-
-function updateIndicator(){
-  const boxes=document.querySelectorAll('#content input[type="checkbox"]');
-  const checked=[...boxes].filter(b=>b.checked).length;
-  const ratio=checked/boxes.length;
-  const ind=document.getElementById('indicator');
-
-  if(ratio>=0.7){
-    ind.className="indicator green";
-    ind.textContent="Prévention globalement structurée";
-  }else if(ratio>=0.4){
-    ind.className="indicator yellow";
-    ind.textContent="Prévention en cours de structuration";
-  }else{
-    ind.className="indicator red";
-    ind.textContent="Prévention à structurer";
+  if(metier === "btp"){
+    liste.innerHTML += "<li>Organisation du chantier</li>";
+    liste.innerHTML += "<li>Utilisation des EPI</li>";
+  }
+  else if(metier === "bouche"){
+    liste.innerHTML += "<li>Hygiène alimentaire</li>";
+    liste.innerHTML += "<li>Prévention des coupures</li>";
+  }
+  else if(metier === "sante"){
+    liste.innerHTML += "<li>Gestes et postures</li>";
+    liste.innerHTML += "<li>Protocoles connus</li>";
+  }
+  else{
+    liste.innerHTML = "<li>Sélectionnez un métier</li>";
   }
 }
 </script>
 
 </body>
 </html>
+<meta charset="UTF-8">
