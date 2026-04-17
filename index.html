@@ -3,264 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Prévention et accompagnement</title>
+<title>RESTEV</title>
 
 <style>
+/* Réinitialisation */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* Page blanche */
 body{
-  margin:0;
-  font-family:'Nunito', Arial, sans-serif;
-  background:linear-gradient(180deg,#f8fbff 0%, #eef4ff 80%);
-}
-.app{
-  max-width:1000px;
-  margin:auto;
-  padding:22px;
-}
-
-.header{
+  height:100vh;
+  background:#ffffff;
   display:flex;
+  justify-content:center;
   align-items:center;
-  gap:16px;
-  background:white;
-  padding:20px;
-  border-radius:24px;
-  box-shadow:0 10px 26px rgba(0,0,0,0.08);
-  margin-bottom:26px;
-}
-.header img{height:52px}
-.header h1{
-  font-family:'Poppins', Arial, sans-serif;
-  font-size:22px;
-  margin:0;
-  color:#1e3a8a;
+  font-family:Arial, sans-serif;
 }
 
-.page{
-  display:none;
-  background:white;
-  border-radius:30px;
-  padding:30px;
-  box-shadow:0 18px 40px rgba(30,64,175,0.15);
-}
-.page.active{display:block}
-
-h2{
-  font-family:'Poppins', Arial, sans-serif;
-  color:#1e40af;
-  margin-top:0;
+/* Conteneur logo */
+.logo-container{
+  text-align:center;
+  animation:fadeZoom 2.2s ease-out forwards;
 }
 
-button{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:22px;
-  font-size:15px;
-  font-weight:600;
-  margin-bottom:14px;
-  cursor:pointer;
-}
-.btn-main{background:#dbeafe;color:#1e3a8a}
-.btn-accompagnement{background:#dcfce7;color:#14532d}
-.btn-back{background:#e5e7eb;color:#111}
-
-select{
-  width:100%;
-  padding:14px;
-  border-radius:18px;
-  border:2px solid #c7d2fe;
-  font-size:15px;
-  margin-bottom:20px;
+/* Logo */
+.logo-container img{
+  width:180px;        /* ajuste si besoin */
+  max-width:60vw;
+  animation:pulse 3.5s ease-in-out infinite;
 }
 
-.card{
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:18px;
-}
-.card.info{background:#e0f2fe}
-.card.warn{background:#fef3c7}
-
-.checklist label{
-  display:block;
-  margin-bottom:8px;
-  font-size:15px;
+/* Animation apparition */
+@keyframes fadeZoom{
+  0%{
+    opacity:0;
+    transform:scale(0.92);
+  }
+  100%{
+    opacity:1;
+    transform:scale(1);
+  }
 }
 
-.indicator{
-  padding:18px;
-  border-radius:20px;
-  font-weight:700;
-  margin-bottom:16px;
+/* Animation respiration légère */
+@keyframes pulse{
+  0%{
+    transform:scale(1);
+  }
+  50%{
+    transform:scale(1.04);
+  }
+  100%{
+    transform:scale(1);
+  }
 }
-.green{background:#dcfce7;color:#065f46}
-.yellow{background:#fef3c7;color:#92400e}
-.red{background:#fee2e2;color:#7f1d1d}
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
-<div class="header">
+<div class="logo-container">
   <img src="logo.png" alt="RESTEV">
-  <h1>Prévention & accompagnement en santé au travail</h1>
 </div>
-
-<!-- ACCUEIL -->
-<div id="home" class="page active">
-  <h2>Auto‑évaluation de la prévention</h2>
-  <p>
-    Cet outil permet à l’entreprise de se situer sur les mesures de prévention
-    actuellement en place, dans une logique neutre, progressive et sans jugement.
-  </p>
-
-  <button class="btn-main" onclick="openPage('metier')">
-    Accéder à l’auto‑évaluation par métier
-  </button>
-
-  <button class="btn-accompagnement" onclick="openPage('accompagnement')">
-    Accompagnement & sensibilisation RESTEV
-  </button>
-</div>
-
-<!-- MÉTIERS -->
-<div id="metier" class="page">
-  <h2>Choisir le métier concerné</h2>
-
-  <select id="jobSelect" onchange="showJob()">
-    <option value="">— Sélectionner —</option>
-
-    <optgroup label="Bâtiment et travaux">
-      <option>BTP – Métiers du bâtiment</option>
-      <option>Maçon</option>
-      <option>Électricien</option>
-      <option>Plombier / chauffagiste</option>
-    </optgroup>
-
-    <optgroup label="Santé et médico‑social">
-      <option>Infirmier</option>
-      <option>Aide‑soignant</option>
-      <option>Agent hospitalier</option>
-    </optgroup>
-
-    <optgroup label="Métiers de bouche">
-      <option>Boucher / charcutier</option>
-      <option>Boulanger / pâtissier</option>
-      <option>Cuisinier</option>
-    </optgroup>
-
-    <optgroup label="Animaux et soins vétérinaires">
-      <option>Vétérinaire</option>
-      <option>Auxiliaire vétérinaire</option>
-    </optgroup>
-
-    <optgroup label="Logistique, commerce, services">
-      <option>Employé de commerce</option>
-      <option>Logistique / préparation</option>
-      <option>Livraison</option>
-      <option>Propreté</option>
-    </optgroup>
-  </select>
-
-  <div id="resultat"></div>
-
-  <button class="btn-accompagnement" onclick="openPage('accompagnement')">
-    Accompagnement & sensibilisation RESTEV
-  </button>
-
-  <button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-<!-- ACCOMPAGNEMENT -->
-<div id="accompagnement" class="page">
-  <h2>Accompagnement & sensibilisation RESTEV</h2>
-
-  <div class="card.info">
-    Le RESTEV accompagne les entreprises dans une démarche de prévention
-    adaptée à leurs activités, à leurs contraintes et à leurs réalités de terrain.
-  </div>
-
-  <div class="card.info">
-    <strong>Exemples d’actions proposées</strong>
-    <ul>
-      <li>Actions de sensibilisation collective</li>
-      <li>Accompagnement en prévention des risques professionnels</li>
-      <li>Appui à l’évaluation des risques et au DUERP</li>
-      <li>Prévention de la désinsertion professionnelle (PDP)</li>
-      <li>Interventions d’équipes pluridisciplinaires</li>
-    </ul>
-  </div>
-
-  <div class="card.warn">
-    Les accompagnements sont réalisés à la demande de l’entreprise,
-    sans jugement, dans une logique d’écoute et de co‑construction.
-  </div>
-
-  <button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
-</div>
-
-<script>
-function openPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-const mesures=[
-  "Organisation du travail formalisée",
-  "Information ou formation à la sécurité",
-  "Équipements de protection disponibles",
-  "Matériel entretenu",
-  "Circulation et rangement sécurisés",
-  "Gestion des situations d’urgence connue",
-  "Temps de pause possibles",
-  "Encadrement identifié",
-  "Communication interne sur la prévention",
-  "Aménagements ou adaptations possibles"
-];
-
-function showJob(){
-  const res=document.getElementById("resultat");
-  res.innerHTML=`
-    <div id="indicator" class="indicator red">État de la prévention : à situer</div>
-
-    <div class="card info">
-      <strong>Mesures actuellement en place (à compléter par l’entreprise)</strong>
-    </div>
-
-    <div class="card checklist">
-      ${mesures.map(m=>`<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`).join("")}
-    </div>
-
-    <div class="card.warn">
-      Possibilité d’un accompagnement par le RESTEV,
-      à la demande, pour soutenir et structurer la démarche de prévention.
-    </div>
-  `;
-}
-
-function updateIndicator(){
-  const boxes=document.querySelectorAll('#resultat input[type="checkbox"]');
-  const checked=[...boxes].filter(b=>b.checked).length;
-  const ratio=checked/boxes.length;
-  const ind=document.getElementById('indicator');
-
-  if(ratio>=0.7){
-    ind.className="indicator green";
-    ind.textContent="Prévention globalement structurée";
-  }else if(ratio>=0.4){
-    ind.className="indicator yellow";
-    ind.textContent="Prévention en cours de structuration";
-  }else{
-    ind.className="indicator red";
-    ind.textContent="Prévention à structurer";
-  }
-}
-</script>
 
 </body>
 </html>
-``
