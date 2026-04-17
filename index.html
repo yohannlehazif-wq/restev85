@@ -11,9 +11,8 @@ body{
   font-family:'Nunito', Arial, sans-serif;
   background:linear-gradient(180deg,#f8fbff 0%, #eef4ff 80%);
 }
-.app{max-width:920px;margin:auto;padding:18px}
+.app{max-width:960px;margin:auto;padding:20px}
 
-/* HEADER */
 .header{
   display:flex;
   align-items:center;
@@ -32,12 +31,11 @@ body{
   color:#1e3a8a
 }
 
-/* PAGES */
 .page{
   display:none;
   background:white;
   border-radius:30px;
-  padding:28px;
+  padding:30px;
   box-shadow:0 18px 40px rgba(30,64,175,0.15);
 }
 .page.active{display:block}
@@ -48,7 +46,6 @@ h2{
   color:#1e40af;
 }
 
-/* BUTTONS */
 button{
   width:100%;
   padding:16px;
@@ -63,29 +60,26 @@ button{
 .btn-back{background:#e5e7eb;color:#111}
 .btn-contact{background:#fef3c7;color:#92400e}
 
-/* SELECT */
 select{
   width:100%;
   padding:14px;
-  margin-bottom:16px;
+  margin-bottom:20px;
   border-radius:18px;
   border:2px solid #c7d2fe;
   font-size:15px;
 }
 
-/* CARDS */
 .card{
-  border-radius:20px;
-  padding:18px;
+  border-radius:22px;
+  padding:20px;
   margin-bottom:16px;
 }
 .card.info{background:#e0f2fe}
 .card.warn{background:#fef3c7}
 
-/* INDICATOR */
 .indicator{
-  padding:16px;
-  border-radius:18px;
+  padding:18px;
+  border-radius:20px;
   font-weight:700;
   margin-bottom:16px;
 }
@@ -93,7 +87,6 @@ select{
 .yellow{background:#fef3c7;color:#92400e}
 .red{background:#fee2e2;color:#7f1d1d}
 
-/* CHECKLIST */
 .checklist label{
   display:block;
   margin-bottom:8px;
@@ -106,36 +99,58 @@ select{
 
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
   <img src="logo.png" alt="RESTEV">
   <div class="header-title">RESTEV – Prévention santé au travail</div>
 </div>
 
-<!-- HOME -->
 <div id="home" class="page active">
   <h2>Auto‑évaluation de la prévention</h2>
-  <p>
-    Outil de repérage partagé par l’entreprise,
-    dans une logique de progrès et d’accompagnement.
-  </p>
-  <button class="btn-main" onclick="openPage('metier')">Accéder à la prévention par métier</button>
+  <p>Outil partagé et non jugeant, basé sur l’auto‑évaluation de l’entreprise.</p>
+  <button class="btn-main" onclick="openPage('metier')">Accéder par métier</button>
   <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
 </div>
 
-<!-- METIER -->
 <div id="metier" class="page">
   <h2>Choisir un métier</h2>
 
   <select id="jobSelect" onchange="showJob()">
     <option value="">— Sélectionner —</option>
-    <option value="boucher">Boucher / charcutier</option>
-    <option value="boulanger">Boulanger / pâtissier</option>
-    <option value="poissonnier">Poissonnier</option>
-    <option value="cuisinier">Cuisinier / restauration</option>
-    <option value="commerce">Employé de commerce alimentaire</option>
-    <option value="livraison">Agent de livraison</option>
-    <option value="proprete">Agent de propreté / collecte</option>
+
+    <optgroup label="BTP">
+      <option value="macon">Maçon</option>
+      <option value="electricien">Électricien bâtiment</option>
+      <option value="plombier">Plombier / chauffagiste</option>
+      <option value="couvreur">Couvreur</option>
+      <option value="engin">Conducteur d’engins</option>
+    </optgroup>
+
+    <optgroup label="Santé">
+      <option value="infirmier">Infirmier / infirmière</option>
+      <option value="aidesoignant">Aide‑soignant</option>
+      <option value="ash">Agent hospitalier / ASH</option>
+      <option value="brancardier">Brancardier</option>
+    </optgroup>
+
+    <optgroup label="Métiers de bouche">
+      <option value="boucher">Boucher / charcutier</option>
+      <option value="boulanger">Boulanger / pâtissier</option>
+      <option value="poissonnier">Poissonnier</option>
+      <option value="cuisinier">Cuisinier</option>
+      <option value="alimentaire">Employé alimentaire</option>
+    </optgroup>
+
+    <optgroup label="Vétérinaire">
+      <option value="veterinaire">Vétérinaire</option>
+      <option value="auxvet">Auxiliaire vétérinaire</option>
+    </optgroup>
+
+    <optgroup label="Autres métiers">
+      <option value="logistique">Logistique / préparation</option>
+      <option value="securite">Agent de sécurité</option>
+      <option value="livreur">Livreur / chauffeur</option>
+      <option value="proprete">Propreté / collecte</option>
+    </optgroup>
   </select>
 
   <div id="jobResult"></div>
@@ -143,14 +158,13 @@ select{
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- CONTACT -->
 <div id="contact" class="page">
   <h2>Accompagnement RESTEV</h2>
   <div class="card.warn">
-    Le service de santé au travail RESTEV peut accompagner l’entreprise
-    dans l’analyse des situations de travail,
+    Le service de santé au travail RESTEV peut accompagner l’entreprise,
+    à sa demande, dans l’analyse des situations de travail,
     la structuration de la prévention et l’amélioration continue,
-    à la demande et sans jugement.
+    sans jugement ni évaluation.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -163,60 +177,31 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-const jobs={
-  boucher:{nom:"Boucher / charcutier",mesures:[
-    "Couteaux affûtés et entretenus","Gants anticoupure disponibles",
-    "Organisation des postes","Formation gestes et postures",
-    "Gestion de la chaîne du froid","Nettoyage du matériel",
-    "Chaussures antidérapantes","Rangement sécurisé","Pauses définies","Encadrement présent"
-  ]},
-  boulanger:{nom:"Boulanger / pâtissier",mesures:[
-    "Protection contre brûlures","Ventilation","Aspiration poussières de farine",
-    "Organisation des fours","Formation machines","Nettoyage régulier",
-    "Gestion des allergènes","EPI adaptés","Horaires organisés","Pauses prévues"
-  ]},
-  poissonnier:{nom:"Poissonnier",mesures:[
-    "Chaussures antidérapantes","Gants","Gestion du froid",
-    "Nettoyage des sols","Organisation des livraisons",
-    "Rangement du matériel","Formation hygiène","Ventilation",
-    "Postes aménagés","Encadrement"
-  ]},
-  cuisinier:{nom:"Cuisinier / restauration",mesures:[
-    "Protection contre brûlures","Organisation des flux",
-    "Chaussures antidérapantes","Formation hygiène",
-    "Ventilation","Nettoyage régulier","Gestion des produits",
-    "Organisation du rythme","Pauses","Encadrement"
-  ]},
-  commerce:{nom:"Employé de commerce alimentaire",mesures:[
-    "Manutention organisée","Aides mécaniques","Gestion des stocks",
-    "Chaussures adaptées","Formation","Organisation des horaires",
-    "Postes aménagés","Rangements sécurisés","Pauses","Encadrement"
-  ]},
-  livraison:{nom:"Agent de livraison",mesures:[
-    "Véhicules entretenus","Organisation des tournées",
-    "Formation gestes et postures","Aides de manutention",
-    "Gestion de la fatigue","Communication avec l’équipe",
-    "Temps de pause","Consignes sécurité","Charge limitée","Encadrement"
-  ]},
-  proprete:{nom:"Agent de propreté / collecte",mesures:[
-    "EPI adaptés","Organisation des tournées","Formation produits",
-    "Gestion des déchets","Chaussures de sécurité",
-    "Communication équipe","Temps de pause","Stockage produits",
-    "Ventilation","Encadrement"
-  ]}
-};
+const baseMesures=[
+  "Organisation du travail définie",
+  "Formation ou information sécurité",
+  "EPI adaptés disponibles",
+  "Matériel entretenu",
+  "Rangement sécurisé",
+  "Gestion des situations d’urgence",
+  "Pauses possibles",
+  "Encadrement identifié",
+  "Communication interne",
+  "Aménagements possibles"
+];
 
 function showJob(){
-  const id=jobSelect.value;
-  if(!id){jobResult.innerHTML="";return;}
-  const j=jobs[id];
+  const name=jobSelect.options[jobSelect.selectedIndex].text;
   jobResult.innerHTML=`
-    <div class="card info"><strong>${j.nom}</strong><br>
+    <div class="card info"><strong>${name}</strong><br>
     Mesures actuellement en place (à compléter par l’entreprise)</div>
+
     <div id="indicator" class="indicator red">État de la prévention : à situer</div>
+
     <div class="card checklist">
-      ${j.mesures.map(m=>`<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`).join("")}
+      ${baseMesures.map(m=>`<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`).join("")}
     </div>
+
     <div class="card.warn">
       Accompagnement possible par le service de santé RESTEV,
       à la demande et dans une logique de partenariat.
