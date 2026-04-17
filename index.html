@@ -55,7 +55,7 @@ button{
 .btn-contact{background:#fef9c3;color:#854d0e}
 .btn-back{background:#e5e7eb;color:#111}
 
-input{
+select,input{
   width:100%;
   padding:12px;
   margin-bottom:14px;
@@ -72,12 +72,6 @@ input{
 .card.risk{background:#fee2e2}
 .card.prev{background:#dcfce7}
 .card.warn{background:#fef9c3}
-
-video{
-  width:100%;
-  border-radius:14px;
-  margin-bottom:12px;
-}
 </style>
 </head>
 
@@ -87,45 +81,23 @@ video{
 
 <!-- HEADER -->
 <div class="header">
-  <img src="logo.png" alt="RESTEV">
+  logo.png
   <div class="header-title">Prévention santé au travail</div>
 </div>
 
 <!-- ACCUEIL -->
 <div id="home" class="page active">
   <h2>Application RESTEV</h2>
-  <p>Outil d’aide à la prévention pour les entreprises adhérentes.</p>
-
-  <button class="btn-prevention" onclick="openPage('metier')">
-    Prévention par métier
-  </button>
-
-  <button class="btn-produit" onclick="openPage('produits')">
-    Produits & substances dangereuses
-  </button>
-
-  <button class="btn-pdp" onclick="openPage('pdp')">
-    Prévention de la désinsertion professionnelle
-  </button>
-
-  <button class="btn-duerp" onclick="openPage('duerp')">
-    Appui DUERP
-  </button>
-
-  <button class="btn-contact" onclick="openPage('contact')">
-    Contacter RESTEV
-  </button>
+  <button class="btn-prevention" onclick="openPage('metier')">Prévention par métier</button>
+  <button class="btn-produit" onclick="openPage('produits')">Produits & substances</button>
+  <button class="btn-pdp" onclick="openPage('pdp')">PDP</button>
+  <button class="btn-duerp" onclick="openPage('duerp')">DUERP</button>
+  <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
 </div>
 
 <!-- PREVENTION METIER -->
-<!-- PREVENTION METIER -->
 <div id="metier" class="page">
   <h2>Prévention par métier</h2>
-
-  <p>
-    Cette rubrique permet de repérer les principaux risques associés à un métier
-    et d’orienter les actions de prévention.
-  </p>
 
   <select id="jobSelect" onchange="showJob()">
     <option value="">— Choisir un métier —</option>
@@ -139,155 +111,11 @@ video{
 
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
-/* ================= PREVENTION PAR METIER ================= */
 
-const jobs = {
-
-  agent_entretien: {
-    nom: "Agent d’entretien",
-    activites: [
-      "Nettoyage des locaux",
-      "Utilisation de produits détergents et désinfectants"
-    ],
-    risques: [
-      "Glissades et chutes",
-      "Troubles musculo‑squelettiques",
-      "Exposition aux produits chimiques"
-    ],
-    produits: [
-      "Détergents",
-      "Désinfectants",
-      "Déboucheurs de canalisations"
-    ],
-    prevention: [
-      "Substitution par des produits moins dangereux",
-      "Organisation des tâches (dilution, temps de pose)",
-      "Ventilation des locaux",
-      "Gants et lunettes si nécessaire"
-    ]
-  },
-
-  agent_maintenance: {
-    nom: "Agent de maintenance",
-    activites: [
-      "Dépannage",
-      "Entretien des équipements",
-      "Utilisation de solvants"
-    ],
-    risques: [
-      "Risque électrique",
-      "Brûlures chimiques",
-      "Exposition chronique aux solvants"
-    ],
-    produits: [
-      "White‑Spirit",
-      "Dégraissants",
-      "Aérosols techniques"
-    ],
-    prevention: [
-      "Substitution des produits solvants",
-      "Ventilation des zones de travail",
-      "Limitation des expositions",
-      "EPI adaptés selon les tâches"
-    ]
-  },
-
-  peintre: {
-    nom: "Peintre / applicateur",
-    activites: [
-      "Préparation des surfaces",
-      "Application de peintures et vernis"
-    ],
-    risques: [
-      "Inhalation de solvants",
-      "Exposition aux CMR selon formulations",
-      "Postures contraignantes"
-    ],
-    produits: [
-      "Peintures solvantées",
-      "Diluants",
-      "Nettoyants outils"
-    ],
-    prevention: [
-      "Peintures à l’eau si possible",
-      "Ventilation et aspiration",
-      "Organisation du temps d’exposition",
-      "Protection respiratoire si nécessaire"
-    ]
-  },
-
-  magasinier: {
-    nom: "Magasinier / logistique",
-    activites: [
-      "Réception et stockage",
-      "Manutentions",
-      "Gestion des stocks"
-    ],
-    risques: [
-      "Manutentions manuelles",
-      "Circulation d’engins",
-      "Stockage de produits dangereux"
-    ],
-    produits: [
-      "Aérosols",
-      "Produits chimiques stockés"
-    ],
-    prevention: [
-      "Organisation des flux",
-      "Stockage sécurisé des produits",
-      "Étiquetage et information",
-      "Formation à la manipulation"
-    ]
-  }
-
-};
-
-/* AFFICHAGE METIER */
-function showJob(){
-  const id = document.getElementById("jobSelect").value;
-  if(!id){
-    document.getElementById("jobResult").innerHTML = "";
-    return;
-  }
-
-  const job = jobs[id];
-
-  document.getElementById("jobResult").innerHTML = `
-    <div class="card info">
-      <strong>${job.nom}</strong><br>
-      <em>Activités principales</em>
-      <ul>${job.activites.map(a=>`<li>${a}</li>`).join("")}</ul>
-    </div>
-
-    <div class="card risk">
-      <strong>Principaux risques</strong>
-      <ul>${job.risques.map(r=>`<li>${r}</li>`).join("")}</ul>
-    </div>
-
-    <div class="card risk">
-      <strong>Produits / expositions possibles</strong>
-      <ul>${job.produits.map(p=>`<li>${p}</li>`).join("")}</ul>
-    </div>
-
-    <div class="card prev">
-      <strong>Prévention prioritaire</strong>
-      <ul>${job.prevention.map(p=>`<li>${p}</li>`).join("")}</ul>
-      ⚠️ Analyse à adapter au poste réel et à l’organisation.
-    </div>
-  `;
-}
 <!-- PRODUITS -->
 <div id="produits" class="page">
   <h2>Produits & substances dangereuses</h2>
-
-  <button class="btn-produit" onclick="startScan()">Scanner un produit</button>
-  <video id="video" style="display:none"></video>
-
-  <input id="manualInput" placeholder="Ex : destop / white spirit">
-  <button class="btn-prevention" onclick="manualSearch()">Identifier le produit</button>
-
-  <div id="result"></div>
-
+  <div class="card warn">Fonction produit déjà validée</div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
@@ -295,8 +123,7 @@ function showJob(){
 <div id="pdp" class="page">
   <h2>PDP</h2>
   <div class="card warn">
-    La PDP vise à repérer précocement les situations pouvant conduire
-    à une désinsertion professionnelle (santé, organisation, contraintes).
+    Repérage précoce des situations de désinsertion professionnelle.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -305,8 +132,7 @@ function showJob(){
 <div id="duerp" class="page">
   <h2>DUERP</h2>
   <div class="card info">
-    RESTEV accompagne l’identification des risques.
-    Le DUERP reste un document réglementaire sous la responsabilité de l’employeur.
+    Appui à l’identification des risques – document réglementaire employeur.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -315,13 +141,7 @@ function showJob(){
 <div id="contact" class="page">
   <h2>Contact RESTEV</h2>
   <div class="card warn">
-    Pour toute question ou accompagnement en prévention :
-    <ul>
-      <li>Visites d’entreprise</li>
-      <li>Risque chimique</li>
-      <li>PDP</li>
-      <li>DUERP</li>
-    </ul>
+    Accompagnement prévention – visites, PDP, DUERP.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -334,69 +154,45 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-/* BASE PRODUITS */
-const products={
-  destop:{
-    nom:"Déboucheur de canalisations (DESTOP)",
-    categorie:"Produit très alcalin",
-    risque:"Soude caustique – brûlures chimiques"
+/* BASE METIERS */
+const jobs = {
+  agent_entretien:{
+    nom:"Agent d’entretien",
+    activites:["Nettoyage","Désinfection"],
+    risques:["Chutes","TMS","Produits chimiques"],
+    prevention:["Produits moins dangereux","Organisation","Ventilation","EPI"]
   },
-  'white spirit':{
-    nom:"White‑Spirit",
-    categorie:"Solvant pétrolier",
-    risque:"Exposition chronique – solvants"
+  agent_maintenance:{
+    nom:"Agent de maintenance",
+    activites:["Entretien","Dépannage"],
+    risques:["Électrique","Solvants","Brûlures"],
+    prevention:["Substitution","Ventilation","Limitation exposition","EPI"]
+  },
+  peintre:{
+    nom:"Peintre / applicateur",
+    activites:["Préparation","Application peinture"],
+    risques:["Solvants","CMR","Postures"],
+    prevention:["Peintures à l’eau","Aspiration","Organisation","Protection"]
+  },
+  magasinier:{
+    nom:"Magasinier / logistique",
+    activites:["Stockage","Manutention"],
+    risques:["Manutentions","Circulation","Produits dangereux"],
+    prevention:["Organisation","Stockage sécurisé","Information","Formation"]
   }
 };
 
-function manualSearch(){
-  const key=manualInput.value.toLowerCase();
-  if(key.includes("destop")){
-    showProduit(products.destop);return;
-  }
-  if(key.includes("white")){
-    showProduit(products["white spirit"]);return;
-  }
-  result.innerHTML="<div class='card warn'>Produit non reconnu – consulter la FDS.</div>";
-}
-
-function showProduit(p){
-  result.innerHTML=`
-    <div class="card info">
-      <strong>Produit identifié</strong><br>
-      ${p.nom}<br><em>${p.categorie}</em>
-    </div>
-    <div class="card risk">
-      <strong>Risque principal :</strong><br>${p.risque}
-    </div>
-    <div class="card prev">
-      Prévention : substitution, organisation, EPI si nécessaire.<br>
-      ⚠️ FDS obligatoire pour confirmation.
-    </div>
+function showJob(){
+  const id = jobSelect.value;
+  if(!id){jobResult.innerHTML="";return;}
+  const j = jobs[id];
+  jobResult.innerHTML=`
+    <div class="card info"><strong>${j.nom}</strong><ul>${j.activites.map(a=>`<li>${a}</li>`).join("")}</ul></div>
+    <div class="card risk"><strong>Risques</strong><ul>${j.risques.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+    <div class="card prev"><strong>Prévention</strong><ul>${j.prevention.map(p=>`<li>${p}</li>`).join("")}</ul></div>
   `;
-}
-
-async function startScan(){
-  if(!("BarcodeDetector" in window)){
-    alert("Scan non disponible sur cet appareil");
-    return;
-  }
-  const v=document.getElementById("video");
-  v.style.display="block";
-  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
-  v.srcObject=stream;await v.play();
-  const detector=new BarcodeDetector();
-  const loop=setInterval(async()=>{
-    const codes=await detector.detect(v);
-    if(codes.length){
-      clearInterval(loop);
-      stream.getTracks().forEach(t=>t.stop());
-      v.style.display="none";
-      showProduit(products.destop); // démo volontaire
-    }
-  },800);
 }
 </script>
 
 </body>
 </html>
-``
