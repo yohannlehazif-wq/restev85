@@ -1,4 +1,14 @@
-<!DOCTYPE html><Organisation des soins et des tâches",
+<script>
+const mesures = {
+  btp: [
+    "Organisation du travail et des chantiers",
+    "Formation à la sécurité et aux risques spécifiques",
+    "Équipements de protection individuelle (EPI)",
+    "Matériel et engins entretenus",
+    "Prévention des chutes et manutentions"
+  ],
+  sante: [
+    "Organisation des soins et des tâches",
     "Prévention des risques biologiques",
     "Gestes et postures adaptés",
     "Protocoles connus et appliqués",
@@ -30,161 +40,30 @@
 function changerMesures(){
   const metier = document.getElementById("metier").value;
   const liste = document.getElementById("liste-mesures");
+
+  // Nettoyage
   liste.innerHTML = "";
 
-  if(!mesures[metier]) return;
+  if (!mesures[metier]) {
+    const info = document.createElement("li");
+    info.style.color = "#6b7280";
+    info.textContent = "Sélectionnez un métier pour afficher les mesures correspondantes.";
+    liste.appendChild(info);
+    return;
+  }
 
-  mesures[metier].forEach(m => {
+  mesures[metier].forEach(function(m){
     const li = document.createElement("li");
-    li.innerHTML = `<label><input type="checkbox"> ${m}</label>`;
+
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(" " + m));
+
+    li.appendChild(label);
     liste.appendChild(li);
   });
 }
 </script>
-
-</body>
-</html>
-
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Prévention</title>
-
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f3f6fb;
-}
-
-.container{
-  max-width:700px;
-  margin:0 auto;
-  padding:24px 16px 40px;
-}
-
-h1{
-  text-align:center;
-  color:#1e3a8a;
-  margin-bottom:28px;
-}
-
-/* CARTES */
-.card{
-  background:#ffffff;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-.card-title{
-  font-weight:600;
-  margin-bottom:12px;
-  color:#1e3a8a;
-}
-
-/* SELECT */
-select{
-  width:100%;
-  padding:12px;
-  font-size:16px;
-  border-radius:12px;
-  border:1px solid #d1d5db;
-}
-
-/* CHECKLIST */
-ul{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
-li{
-  margin-bottom:12px;
-}
-
-label{
-  display:flex;
-  gap:10px;
-  font-size:15px;
-}
-
-/* INFO */
-.info{
-  font-size:14px;
-  color:#1e3a8a;
-  background:#eef2ff;
-  line-height:1.5;
-}
-
-/* BOUTON */
-.btn-back{
-  padding:14px 32px;
-  font-size:16px;
-  font-weight:600;
-  border:none;
-  border-radius:24px;
-  cursor:pointer;
-  background:#e5e7eb;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <h1>Prévention par métier</h1>
-
-  <!-- MÉTIER -->
-  <div class="card">
-    <div class="card-title">Métier ou activité principale</div>
-    <select id="metier" onchange="changerMesures()">
-      <option value="">— Sélectionner —</option>
-      <option value="btp">BTP</option>
-      <option value="sante">Santé / médico‑social</option>
-      <option value="bouche">Métiers de bouche</option>
-      <option value="logistique">Logistique / transport</option>
-      <option value="services">Commerce / services</option>
-    </select>
-  </div>
-
-  <!-- CHECKLIST -->
-  <div class="card">
-    <div class="card-title">Mesures actuellement en place</div>
-    <ul id="liste-mesures">
-      <li style="font-size:14px;color:#6b7280;">
-        Sélectionnez un métier pour afficher les mesures correspondantes.
-      </li>
-    </ul>
-  </div>
-
-  <!-- ACCOMPAGNEMENT -->
-  <div class="card info">
-    Cette auto‑évaluation permet à l’entreprise de se situer sur ses pratiques
-    de prévention.<br><br>
-    Le RESTEV peut accompagner l’entreprise, à sa demande, dans la réflexion,
-    la structuration et la mise en œuvre des actions de prévention adaptées
-    à ses activités et à ses contraintes.
-  </div>
-
-  <!-- RETOUR -->
-  <div style="text-align:center;">
-    accueil.html
-      ← Retour à l’accueil
-    </button>
-  </div>
-
-</div>
-
-<script>
-const mesures = {
-  btp: [
-    "Organisation du travail et des chantiers",
-    "Formation à la sécurité et aux risques spécifiques",
-    "Équipements de protection individuelle (EPI)",
-    "Matériel et engins entretenus",
-    "Prévention des chutes et manutentions"
-  ],
-  sante: [
