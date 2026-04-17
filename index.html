@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RESTEV – Auto‑évaluation prévention</title>
+<title>RESTEV – Prévention et accompagnement</title>
 
 <style>
 body{
@@ -11,10 +11,10 @@ body{
   font-family:'Nunito', Arial, sans-serif;
   background:linear-gradient(180deg,#f8fbff 0%, #eef4ff 80%);
 }
-.container{
-  max-width:980px;
+.app{
+  max-width:1000px;
   margin:auto;
-  padding:24px;
+  padding:22px;
 }
 
 .header{
@@ -35,11 +35,34 @@ body{
   color:#1e3a8a;
 }
 
+.page{
+  display:none;
+  background:white;
+  border-radius:30px;
+  padding:30px;
+  box-shadow:0 18px 40px rgba(30,64,175,0.15);
+}
+.page.active{display:block}
+
 h2{
   font-family:'Poppins', Arial, sans-serif;
   color:#1e40af;
   margin-top:0;
 }
+
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:22px;
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:14px;
+  cursor:pointer;
+}
+.btn-main{background:#dbeafe;color:#1e3a8a}
+.btn-accompagnement{background:#dcfce7;color:#14532d}
+.btn-back{background:#e5e7eb;color:#111}
 
 select{
   width:100%;
@@ -50,14 +73,13 @@ select{
   margin-bottom:20px;
 }
 
-/* CARDS */
 .card{
   border-radius:22px;
   padding:20px;
   margin-bottom:18px;
 }
-.info{background:#e0f2fe}
-.warn{background:#fef3c7}
+.card.info{background:#e0f2fe}
+.card.warn{background:#fef3c7}
 
 .checklist label{
   display:block;
@@ -65,7 +87,6 @@ select{
   font-size:15px;
 }
 
-/* INDICATOR */
 .indicator{
   padding:18px;
   border-radius:20px;
@@ -80,55 +101,120 @@ select{
 
 <body>
 
-<div class="container">
+<div class="app">
 
-  <div class="header">
-    logo.png
-    <h1>Auto‑évaluation de la prévention par métier</h1>
-  </div>
+<div class="header">
+  <img src="logo.png" alt="RESTEV">
+  <h1>Prévention & accompagnement en santé au travail</h1>
+</div>
 
-  <div class="card info">
-    Cette page permet à l’entreprise de se situer sur les mesures de prévention
-    actuellement en place, sans jugement, dans une logique d’amélioration continue.
-  </div>
+<!-- ACCUEIL -->
+<div id="home" class="page active">
+  <h2>Auto‑évaluation de la prévention</h2>
+  <p>
+    Cet outil permet à l’entreprise de se situer sur les mesures de prévention
+    actuellement en place, dans une logique neutre, progressive et sans jugement.
+  </p>
 
+  <button class="btn-main" onclick="openPage('metier')">
+    Accéder à l’auto‑évaluation par métier
+  </button>
+
+  <button class="btn-accompagnement" onclick="openPage('accompagnement')">
+    Accompagnement & sensibilisation RESTEV
+  </button>
+</div>
+
+<!-- MÉTIERS -->
+<div id="metier" class="page">
   <h2>Choisir le métier concerné</h2>
 
   <select id="jobSelect" onchange="showJob()">
     <option value="">— Sélectionner —</option>
 
-    <optgroup label="BTP">
-      <option value="btp">Métiers du BTP</option>
+    <optgroup label="Bâtiment et travaux">
+      <option>BTP – Métiers du bâtiment</option>
+      <option>Maçon</option>
+      <option>Électricien</option>
+      <option>Plombier / chauffagiste</option>
     </optgroup>
 
-    <optgroup label="Santé">
-      <option value="sante">Santé / médico‑social</option>
+    <optgroup label="Santé et médico‑social">
+      <option>Infirmier</option>
+      <option>Aide‑soignant</option>
+      <option>Agent hospitalier</option>
     </optgroup>
 
     <optgroup label="Métiers de bouche">
-      <option value="bouche">Métiers de bouche</option>
+      <option>Boucher / charcutier</option>
+      <option>Boulanger / pâtissier</option>
+      <option>Cuisinier</option>
     </optgroup>
 
-    <optgroup label="Vétérinaire">
-      <option value="veto">Vétérinaire / auxiliaire vétérinaire</option>
+    <optgroup label="Animaux et soins vétérinaires">
+      <option>Vétérinaire</option>
+      <option>Auxiliaire vétérinaire</option>
     </optgroup>
 
-    <optgroup label="Première nécessité & autres">
-      <option value="divers">Commerce, logistique, propreté, livraison…</option>
+    <optgroup label="Logistique, commerce, services">
+      <option>Employé de commerce</option>
+      <option>Logistique / préparation</option>
+      <option>Livraison</option>
+      <option>Propreté</option>
     </optgroup>
   </select>
 
   <div id="resultat"></div>
 
+  <button class="btn-accompagnement" onclick="openPage('accompagnement')">
+    Accompagnement & sensibilisation RESTEV
+  </button>
+
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- ACCOMPAGNEMENT -->
+<div id="accompagnement" class="page">
+  <h2>Accompagnement & sensibilisation RESTEV</h2>
+
+  <div class="card.info">
+    Le RESTEV accompagne les entreprises dans une démarche de prévention
+    adaptée à leurs activités, à leurs contraintes et à leurs réalités de terrain.
+  </div>
+
+  <div class="card.info">
+    <strong>Exemples d’actions proposées</strong>
+    <ul>
+      <li>Actions de sensibilisation collective</li>
+      <li>Accompagnement en prévention des risques professionnels</li>
+      <li>Appui à l’évaluation des risques et au DUERP</li>
+      <li>Prévention de la désinsertion professionnelle (PDP)</li>
+      <li>Interventions d’équipes pluridisciplinaires</li>
+    </ul>
+  </div>
+
+  <div class="card.warn">
+    Les accompagnements sont réalisés à la demande de l’entreprise,
+    sans jugement, dans une logique d’écoute et de co‑construction.
+  </div>
+
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
 </div>
 
 <script>
-const mesuresBase = [
-  "Organisation du travail définie",
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+const mesures=[
+  "Organisation du travail formalisée",
   "Information ou formation à la sécurité",
   "Équipements de protection disponibles",
   "Matériel entretenu",
-  "Rangement et circulation sécurisés",
+  "Circulation et rangement sécurisés",
   "Gestion des situations d’urgence connue",
   "Temps de pause possibles",
   "Encadrement identifié",
@@ -138,12 +224,7 @@ const mesuresBase = [
 
 function showJob(){
   const res=document.getElementById("resultat");
-
-  const checks = mesuresBase.map(m =>
-    `<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`
-  ).join("");
-
-  res.innerHTML = `
+  res.innerHTML=`
     <div id="indicator" class="indicator red">État de la prévention : à situer</div>
 
     <div class="card info">
@@ -151,15 +232,12 @@ function showJob(){
     </div>
 
     <div class="card checklist">
-      ${checks}
+      ${mesures.map(m=>`<label><input type="checkbox" onchange="updateIndicator()"> ${m}</label>`).join("")}
     </div>
 
-    <div class="card warn">
-      <strong>Accompagnement RESTEV</strong><br>
-      Le service de santé au travail RESTEV peut accompagner l’entreprise,
-      à sa demande, dans l’analyse des situations de travail
-      et la structuration de la prévention,
-      sans jugement et en tenant compte des réalités du terrain.
+    <div class="card.warn">
+      Possibilité d’un accompagnement par le RESTEV,
+      à la demande, pour soutenir et structurer la démarche de prévention.
     </div>
   `;
 }
@@ -185,3 +263,4 @@ function updateIndicator(){
 
 </body>
 </html>
+``
