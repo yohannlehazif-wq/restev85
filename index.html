@@ -1,4 +1,34 @@
-<!DOCTYPE html><:20px;
+
+!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Prévention</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f3f6fb;
+}
+
+.container{
+  max-width:700px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+h1{
+  text-align:center;
+  color:#1e3a8a;
+  margin-bottom:28px;
+}
+
+.card{
+  background:#ffffff;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -8,7 +38,6 @@
   color:#1e3a8a;
 }
 
-/* SELECT */
 select{
   width:100%;
   padding:12px;
@@ -17,7 +46,6 @@ select{
   border:1px solid #d1d5db;
 }
 
-/* CHECKLIST */
 ul{
   list-style:none;
   padding:0;
@@ -34,7 +62,6 @@ label{
   font-size:15px;
 }
 
-/* INFO */
 .info{
   background:#eef2ff;
   color:#1e3a8a;
@@ -42,7 +69,6 @@ label{
   line-height:1.5;
 }
 
-/* BOUTON */
 .btn-back{
   padding:14px 32px;
   font-size:16px;
@@ -61,7 +87,6 @@ label{
 
   <h1>Prévention par métier</h1>
 
-  <!-- MÉTIER -->
   <div class="card">
     <div class="card-title">Métier ou activité principale</div>
     <select id="metier" onchange="changerMesures()">
@@ -74,7 +99,6 @@ label{
     </select>
   </div>
 
-  <!-- CHECKLIST -->
   <div class="card">
     <div class="card-title">Mesures actuellement en place</div>
     <ul id="liste-mesures">
@@ -84,7 +108,6 @@ label{
     </ul>
   </div>
 
-  <!-- ACCOMPAGNEMENT -->
   <div class="card info">
     Cette auto‑évaluation permet à l’entreprise de se situer sur ses pratiques
     de prévention.<br><br>
@@ -92,10 +115,8 @@ label{
     et la structuration de sa démarche de prévention.
   </div>
 
-  <!-- RETOUR -->
   <div style="text-align:center;">
-    <button class="btn-back" onclick="window.location.href='accueil
-</div>
+    <button class="btn-back" onclick="window.location.href='accueil.html'>
 
 <script>
 var mesures = {
@@ -165,33 +186,3 @@ function changerMesures(){
 
 </body>
 </html>
-
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Prévention</title>
-
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f3f6fb;
-}
-
-.container{
-  max-width:700px;
-  margin:0 auto;
-  padding:24px 16px 40px;
-}
-
-h1{
-  text-align:center;
-  color:#1e3a8a;
-  margin-bottom:28px;
-}
-
-/* CARTES */
-.card{
-  background:#ffffff;
-  border-radius:16px;
-  padding:20px;
