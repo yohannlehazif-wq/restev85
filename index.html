@@ -1,187 +1,98 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Prévention</title>
+</title><head>
 
 <style>
 body{
-  margin:0;
   font-family:Arial, sans-serif;
   background:#f3f6fb;
-}
-
-.container{
-  max-width:700px;
-  margin:0 auto;
-  padding:24px 16px 40px;
+  margin:0;
+  padding:30px;
 }
 
 h1{
-  text-align:center;
   color:#1e3a8a;
-  margin-bottom:28px;
 }
 
 .card{
   background:#ffffff;
-  border-radius:16px;
   padding:20px;
   margin-bottom:20px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-.card-title{
-  font-weight:600;
-  margin-bottom:12px;
-  color:#1e3a8a;
-}
-
-select{
-  width:100%;
-  padding:12px;
-  font-size:16px;
   border-radius:12px;
-  border:1px solid #d1d5db;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
-ul{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
-li{
-  margin-bottom:12px;
-}
-
-label{
-  display:flex;
-  gap:10px;
-  font-size:15px;
-}
-
-.info{
-  background:#eef2ff;
-  color:#1e3a8a;
-  font-size:14px;
-  line-height:1.5;
-}
-
-.btn-back{
+button{
   padding:14px 32px;
   font-size:16px;
   font-weight:600;
   border:none;
-  border-radius:24px;
+  border-radius:20px;
+  background:#1e3a8a;
+  color:#ffffff;
   cursor:pointer;
-  background:#e5e7eb;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<h1>Prévention par métier</h1>
 
-  <h1>Prévention par métier</h1>
+<div class="card">
+  <label for="metier"><strong>Métier</strong></label><br><br>
+  <select id="metier" onchange="changerMesures()">
+    <option value="">— Sélectionner —</option>
+    <option value="btp">BTP</option>
+    <option value="bouche">Métiers de bouche</option>
+    <option value="sante">Santé</option>
+  </select>
+</div>
 
-  <div class="card">
-    <div class="card-title">Métier ou activité principale</div>
-    <select id="metier" onchange="changerMesures()">
-      <option value="">— Sélectionner —</option>
-      <option value="btp">BTP</option>
-      <option value="sante">Santé / médico‑social</option>
-      <option value="bouche">Métiers de bouche</option>
-      <option value="logistique">Logistique / transport</option>
-      <option value="services">Commerce / services</option>
-    </select>
-  </div>
+<div class="card">
+  <strong>Mesures actuellement en place</strong>
+  <ul id="liste-mesures">
+    <li>Sélectionnez un métier pour afficher les mesures</li>
+  </ul>
+</div>
 
-  <div class="card">
-    <div class="card-title">Mesures actuellement en place</div>
-    <ul id="liste-mesures">
-      <li style="color:#6b7280;font-size:14px;">
-        Sélectionnez un métier pour afficher les mesures correspondantes.
-      </li>
-    </ul>
-  </div>
+<div class="card">
+  Le RESTEV peut accompagner l’entreprise, à sa demande, dans
+  la structuration de sa démarche de prévention.
+</div>
 
-  <div class="card info">
-    Cette auto‑évaluation permet à l’entreprise de se situer sur ses pratiques
-    de prévention.<br><br>
-    Le RESTEV peut accompagner l’entreprise, à sa demande, dans la réflexion
-    et la structuration de sa démarche de prévention.
-  </div>
-
-  <div style="text-align:center;">
-    <button class="btn-back" onclick="window.location.href='accueil.html>
+<button onclick="alert('BOUTON OK')">
+  Bouton visible
+</button>
 
 <script>
-var mesures = {
-  btp: [
-    "Organisation du travail et des chantiers",
-    "Formation à la sécurité et aux risques spécifiques",
-    "Équipements de protection individuelle (EPI)",
-    "Matériel et engins entretenus",
-    "Prévention des chutes et manutentions"
-  ],
-  sante: [
-    "Organisation des soins et des tâches",
-    "Prévention des risques biologiques",
-    "Gestes et postures adaptés",
-    "Protocoles connus et appliqués",
-    "Espaces de récupération identifiés"
-  ],
-  bouche: [
-    "Hygiène et sécurité alimentaire",
-    "Organisation des postes de travail",
-    "Équipements adaptés (coupures, brûlures)",
-    "Prévention des TMS",
-    "Matériel entretenu"
-  ],
-  logistique: [
-    "Organisation des flux",
-    "Gestes et postures",
-    "Aides à la manutention",
-    "Circulation sécurisée",
-    "Formation à la conduite d’engins"
-  ],
-  services: [
-    "Organisation du travail",
-    "Prévention des risques psychosociaux",
-    "Aménagement des postes",
-    "Temps d’échange sur le travail",
-    "Information prévention"
-  ]
-};
-
 function changerMesures(){
   var metier = document.getElementById("metier").value;
   var liste = document.getElementById("liste-mesures");
+
   liste.innerHTML = "";
 
-  if (!mesures[metier]) {
-    var li = document.createElement("li");
-    li.style.color = "#6b7280";
-    li.style.fontSize = "14px";
-    li.textContent = "Sélectionnez un métier pour afficher les mesures correspondantes.";
-    liste.appendChild(li);
-    return;
+  if(metier === "btp"){
+    liste.innerHTML += "<li>Organisation du chantier</li>";
+    liste.innerHTML += "<li>Utilisation des EPI</li>";
   }
-
-  for (var i = 0; i < mesures[metier].length; i++) {
-    var li = document.createElement("li");
-    var label = document.createElement("label");
-    var cb = document.createElement("input");
-    cb.type = "checkbox";
-    label.appendChild(cb);
-    label.appendChild(document.createTextNode(" " + mesures[metier][i]));
-    li.appendChild(label);
-    liste.appendChild(li);
+  else if(metier === "bouche"){
+    liste.innerHTML += "<li>Hygiène alimentaire</li>";
+    liste.innerHTML += "<li>Prévention des coupures</li>";
+  }
+  else if(metier === "sante"){
+    liste.innerHTML += "<li>Gestes et postures</li>";
+    liste.innerHTML += "<li>Protocoles connus</li>";
+  }
+  else{
+    liste.innerHTML = "<li>Sélectionnez un métier</li>";
   }
 }
 </script>
+
+</body>
+</html>
+<meta charset="UTF-8">
 
 </body>
 </html>
