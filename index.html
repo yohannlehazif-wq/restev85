@@ -11,7 +11,7 @@ body{
   font-family:Arial,sans-serif;
   background:linear-gradient(180deg,#ffffff 0%, #eef7ff 80%);
 }
-.app{max-width:700px;margin:auto;padding:16px}
+.app{max-width:750px;margin:auto;padding:16px}
 
 /* HEADER */
 .header{
@@ -49,10 +49,9 @@ button{
 }
 .btn-main{background:#e0f2fe;color:#1e3a8a}
 .btn-back{background:#e5e7eb;color:#111}
-.btn-print{background:#dcfce7;color:#14532d}
 .btn-contact{background:#fef9c3;color:#854d0e}
+.btn-print{background:#dcfce7;color:#14532d}
 
-/* SELECT */
 select{
   width:100%;
   padding:12px;
@@ -69,8 +68,10 @@ select{
 }
 .card.info{background:#e0f2fe}
 .card.warn{background:#fef9c3}
+.card.good{background:#dcfce7}
+.card.advice{background:#ede9fe}
 
-/* TABLEAU */
+/* TABLE */
 table{
   width:100%;
   border-collapse:collapse;
@@ -80,20 +81,12 @@ th,td{
   border:1px solid #c7d2fe;
   padding:8px;
 }
-th{background:#e0f2fe;text-align:left}
+th{background:#e0f2fe}
 
-/* IMPRESSION */
+/* PRINT */
 @media print{
-  body{
-    background:white;
-  }
-  .btn-back,.btn-main,.btn-print{
-    display:none;
-  }
-  .page{
-    box-shadow:none;
-    border-radius:0;
-  }
+  button{display:none}
+  body{background:white}
 }
 </style>
 </head>
@@ -102,7 +95,6 @@ th{background:#e0f2fe;text-align:left}
 
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
   <img src="logo.png" alt="RESTEV">
   <div class="header-title">RESTEV – Prévention santé au travail</div>
@@ -111,8 +103,8 @@ th{background:#e0f2fe;text-align:left}
 <!-- ACCUEIL -->
 <div id="home" class="page active">
   <h2>Application RESTEV</h2>
+  <p>Outil d’aide à la prévention, orienté accompagnement des entreprises.</p>
   <button class="btn-main" onclick="openPage('metier')">Prévention par métier</button>
-  <button class="btn-main" onclick="openPage('produits')">Produits & substances</button>
   <button class="btn-main" onclick="openPage('pdp')">PDP</button>
   <button class="btn-main" onclick="openPage('duerp')">DUERP</button>
   <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
@@ -135,18 +127,12 @@ th{background:#e0f2fe;text-align:left}
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
-<!-- PRODUITS -->
-<div id="produits" class="page">
-  <h2>Produits & substances dangereuses</h2>
-  <div class="card info">Module produit disponible</div>
-  <button class="btn-back" onclick="openPage('home')">← Retour</button>
-</div>
-
 <!-- PDP -->
 <div id="pdp" class="page">
   <h2>PDP</h2>
-  <div class="card warn">
-    Repérage des situations d’usure professionnelle et de désinsertion.
+  <div class="card.info">
+    Repérage précoce des situations d’usure, maintien dans l’emploi,
+    accompagnement des parcours professionnels.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -154,8 +140,9 @@ th{background:#e0f2fe;text-align:left}
 <!-- DUERP -->
 <div id="duerp" class="page">
   <h2>DUERP</h2>
-  <div class="card info">
-    Appui à l’identification des risques – le DUERP reste sous responsabilité employeur.
+  <div class="card.info">
+    RESTEV accompagne la réflexion et l’identification des risques.
+    Le DUERP reste un document réglementaire sous la responsabilité de l’employeur.
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -163,8 +150,14 @@ th{background:#e0f2fe;text-align:left}
 <!-- CONTACT -->
 <div id="contact" class="page">
   <h2>Contact RESTEV</h2>
-  <div class="card warn">
-    Accompagnement en prévention, PDP, DUERP, visites d’entreprise.
+  <div class="card.warn">
+    Le service de santé RESTEV peut accompagner l’entreprise sur :
+    <ul>
+      <li>Prévention des risques professionnels</li>
+      <li>Risque chimique</li>
+      <li>PDP</li>
+      <li>DUERP</li>
+    </ul>
   </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
@@ -177,13 +170,24 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
+/* METIERS ENRICHIS */
 const jobs={
   entretien:{
     nom:"Agent d’entretien",
     tableau:[
-      {r:"Chutes", s:"Sols humides", p:"Organisation, signalisation"},
-      {r:"Produits chimiques", s:"Détergents", p:"Substitution, gants"},
-      {r:"TMS", s:"Gestes répétés", p:"Organisation du travail"}
+      {r:"Chutes", s:"Sols humides", p:"Organisation des interventions"},
+      {r:"Produits chimiques", s:"Détergents", p:"Choix produits, EPI"},
+      {r:"TMS", s:"Gestes répétitifs", p:"Organisation du travail"}
+    ],
+    existant:[
+      "Produits d’entretien identifiés",
+      "Utilisation de gants",
+      "Planning de nettoyage défini"
+    ],
+    conseils:[
+      "Étudier des produits moins irritants",
+      "Adapter les fréquences et durées de nettoyage",
+      "Renforcer la ventilation des locaux"
     ]
   },
   maintenance:{
@@ -192,6 +196,16 @@ const jobs={
       {r:"Risque électrique", s:"Interventions techniques", p:"Consignation"},
       {r:"Solvants", s:"Nettoyage", p:"Ventilation"},
       {r:"Brûlures", s:"Produits corrosifs", p:"EPI"}
+    ],
+    existant:[
+      "Habilitations électriques",
+      "Procédures d’intervention",
+      "Stockage identifié des produits"
+    ],
+    conseils:[
+      "Limiter l’usage de solvants",
+      "Formaliser les situations à risque",
+      "Renforcer l’information des intervenants"
     ]
   },
   bureau:{
@@ -200,6 +214,16 @@ const jobs={
       {r:"TMS", s:"Poste écran", p:"Ergonomie"},
       {r:"Fatigue visuelle", s:"Écran prolongé", p:"Pauses"},
       {r:"Stress", s:"Charge mentale", p:"Organisation"}
+    ],
+    existant:[
+      "Postes informatiques équipés",
+      "Pauses autorisées",
+      "Management de proximité"
+    ],
+    conseils:[
+      "Adapter les postes individuellement",
+      "Sensibiliser aux pauses actives",
+      "Améliorer la régulation de la charge de travail"
     ]
   }
 };
@@ -208,14 +232,30 @@ function showJob(){
   const id=jobSelect.value;
   if(!id){jobResult.innerHTML="";return;}
   const j=jobs[id];
+
   jobResult.innerHTML=`
     <div class="card info"><strong>${j.nom}</strong></div>
+
     <table>
       <tr><th>Risque</th><th>Situation</th><th>Prévention</th></tr>
       ${j.tableau.map(l=>`<tr><td>${l.r}</td><td>${l.s}</td><td>${l.p}</td></tr>`).join("")}
     </table>
-    <div class="card warn" style="font-size:12px;">
-      ⚠️ Tableau d’aide à l’identification – à adapter à la situation réelle.
+
+    <div class="card.good">
+      <strong>Ce qui est déjà mis en place dans l’entreprise</strong>
+      <ul>${j.existant.map(e=>`<li>${e}</li>`).join("")}</ul>
+    </div>
+
+    <div class="card.advice">
+      <strong>Pistes d’amélioration possibles</strong>
+      <ul>${j.conseils.map(c=>`<li>${c}</li>`).join("")}</ul>
+      Ces propositions sont à adapter aux contraintes de l’entreprise.
+    </div>
+
+    <div class="card.warn">
+      <strong>Accompagnement possible par le service de santé RESTEV</strong><br>
+      Analyse partagée, conseils personnalisés, appui à la démarche de prévention,
+      sans jugement et dans une logique d’amélioration continue.
     </div>
   `;
 }
