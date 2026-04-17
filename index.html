@@ -47,10 +47,11 @@ button{
   font-weight:bold;
   margin-bottom:14px;
 }
-
-.btn-prevention{background:#e0f2fe;color:#1e3a8a}
+.btn-main{background:#e0f2fe;color:#1e3a8a}
 .btn-back{background:#e5e7eb;color:#111}
+.btn-contact{background:#fef9c3;color:#854d0e}
 
+/* SELECT */
 select{
   width:100%;
   padding:12px;
@@ -68,21 +69,17 @@ select{
 .card.info{background:#e0f2fe}
 .card.warn{background:#fef9c3}
 
-/* TABLEAU */
+/* TABLE */
 table{
   width:100%;
   border-collapse:collapse;
   font-size:14px;
 }
-th, td{
+th,td{
   border:1px solid #c7d2fe;
   padding:8px;
-  vertical-align:top;
 }
-th{
-  background:#e0f2fe;
-  text-align:left;
-}
+th{background:#e0f2fe}
 </style>
 </head>
 
@@ -92,35 +89,68 @@ th{
 
 <!-- HEADER -->
 <div class="header">
-  <img src="logo.png" altheader-title">Prévention santé au travail</div>
+  <img src="logo.png" alt="RESTEV">
+  <div class="header-title">Prévention santé au travail</div>
 </div>
 
 <!-- ACCUEIL -->
 <div id="home" class="page active">
   <h2>Application RESTEV</h2>
-  <p>Outil d’aide à l’identification et à la structuration de la prévention.</p>
-  <button class="btn-prevention" onclick="openPage('metier')">Prévention par métier</button>
+  <button class="btn-main" onclick="openPage('metier')">Prévention par métier</button>
+  <button class="btn-main" onclick="openPage('produits')">Produits & substances</button>
+  <button class="btn-main" onclick="openPage('pdp')">PDP</button>
+  <button class="btn-main" onclick="openPage('duerp')">DUERP</button>
+  <button class="btn-contact" onclick="openPage('contact')">Contact RESTEV</button>
 </div>
 
-<!-- METIER -->
+<!-- METIERS -->
 <div id="metier" class="page">
   <h2>Prévention par métier</h2>
 
   <select id="jobSelect" onchange="showJob()">
     <option value="">— Choisir un métier —</option>
-    <option value="agent_entretien">Agent d’entretien</option>
-    <option value="agent_maintenance">Agent de maintenance</option>
-    <option value="peintre">Peintre / applicateur</option>
-    <option value="magasinier">Magasinier / logistique</option>
-    <option value="boucher">Boucher / charcutier</option>
-    <option value="cuisinier">Cuisinier / restauration</option>
-    <option value="soignant">Aide‑soignant / soignant</option>
-    <option value="cariste">Cariste</option>
-    <option value="labo">Technicien de laboratoire</option>
-    <option value="bureau">Agent administratif / bureau</option>
+    <option value="entretien">Agent d’entretien</option>
+    <option value="maintenance">Agent de maintenance</option>
+    <option value="bureau">Agent administratif</option>
   </select>
 
   <div id="jobResult"></div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- PRODUITS -->
+<div id="produits" class="page">
+  <h2>Produits & substances dangereuses</h2>
+  <div class="card info">
+    Module produits en place (scan & exemples).
+  </div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- PDP -->
+<div id="pdp" class="page">
+  <h2>PDP</h2>
+  <div class="card.warn">
+    Repérage des situations de désinsertion professionnelle.
+  </div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- DUERP -->
+<div id="duerp" class="page">
+  <h2>DUERP</h2>
+  <div class="card.info">
+    Appui à l’identification des risques – document employeur.
+  </div>
+  <button class="btn-back" onclick="openPage('home')">← Retour</button>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+  <h2>Contact RESTEV</h2>
+  <div class="card.warn">
+    Accompagnement prévention – visites, risques, PDP, DUERP.
+  </div>
   <button class="btn-back" onclick="openPage('home')">← Retour</button>
 </div>
 
@@ -132,85 +162,29 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-const jobs = {
-  agent_entretien:{
+const jobs={
+  entretien:{
     nom:"Agent d’entretien",
     tableau:[
-      {risque:"Chutes", situation:"Sols humides", prevention:"Organisation, signalisation"},
-      {risque:"Produits chimiques", situation:"Détergents, désinfectants", prevention:"Substitution, gants"},
-      {risque:"TMS", situation:"Gestes répétés", prevention:"Organisation, matériel"}
+      {r:"Chutes", s:"Sols humides", p:"Organisation"},
+      {r:"Produits", s:"Détergents", p:"Substitution"},
+      {r:"TMS", s:"Gestes", p:"Organisation"}
     ]
   },
-  agent_maintenance:{
+  maintenance:{
     nom:"Agent de maintenance",
     tableau:[
-      {risque:"Électrique", situation:"Interventions équipements", prevention:"Consignation"},
-      {risque:"Solvants", situation:"Nettoyage, dégraissage", prevention:"Ventilation, substitution"},
-      {risque:"Brûlures", situation:"Produits corrosifs", prevention:"EPI"}
-    ]
-  },
-  peintre:{
-    nom:"Peintre / applicateur",
-    tableau:[
-      {risque:"Inhalation solvants", situation:"Application peinture", prevention:"Ventilation"},
-      {risque:"CMR possibles", situation:"Peintures solvantées", prevention:"Peintures à l’eau"},
-      {risque:"Postures", situation:"Travail prolongé bras levés", prevention:"Organisation"}
-    ]
-  },
-  magasinier:{
-    nom:"Magasinier / logistique",
-    tableau:[
-      {risque:"Manutention", situation:"Charges manuelles", prevention:"Aides mécaniques"},
-      {risque:"Circulation", situation:"Engins", prevention:"Plan de circulation"},
-      {risque:"Produits dangereux", situation:"Stockage chimique", prevention:"Sécurisation"}
-    ]
-  },
-  boucher:{
-    nom:"Boucher / charcutier",
-    tableau:[
-      {risque:"Coupures", situation:"Couteaux", prevention:"Formation, EPI"},
-      {risque:"TMS", situation:"Découpe répétée", prevention:"Organisation"},
-      {risque:"Froid", situation:"Chambres froides", prevention:"Protection thermique"}
-    ]
-  },
-  cuisinier:{
-    nom:"Cuisinier / restauration",
-    tableau:[
-      {risque:"Brûlures", situation:"Cuisson", prevention:"Procédures"},
-      {risque:"Chutes", situation:"Sols gras", prevention:"Nettoyage"},
-      {risque:"Coupures", situation:"Ustensiles", prevention:"Formation"}
-    ]
-  },
-  soignant:{
-    nom:"Aide‑soignant / soignant",
-    tableau:[
-      {risque:"Manutention patients", situation:"Transferts", prevention:"Aides techniques"},
-      {risque:"AES", situation:"Soins", prevention:"Procédures"},
-      {risque:"Stress", situation:"Charge émotionnelle", prevention:"Organisation"}
-    ]
-  },
-  cariste:{
-    nom:"Cariste",
-    tableau:[
-      {risque:"Collision", situation:"Conduite chariot", prevention:"Formation"},
-      {risque:"Chutes", situation:"Chargement", prevention:"Organisation"},
-      {risque:"Manutention", situation:"Palettes", prevention:"Aides mécaniques"}
-    ]
-  },
-  labo:{
-    nom:"Technicien de laboratoire",
-    tableau:[
-      {risque:"Produits chimiques", situation:"Manipulation réactifs", prevention:"Hotte"},
-      {risque:"Projection", situation:"Transvasement", prevention:"EPI"},
-      {risque:"CMR", situation:"Formol, solvants", prevention:"Substitution"}
+      {r:"Électrique", s:"Intervention", p:"Consignation"},
+      {r:"Solvants", s:"Nettoyage", p:"Ventilation"},
+      {r:"Brûlures", s:"Produits", p:"EPI"}
     ]
   },
   bureau:{
-    nom:"Agent administratif / bureau",
+    nom:"Agent administratif",
     tableau:[
-      {risque:"TMS", situation:"Poste écran", prevention:"Ergonomie"},
-      {risque:"Fatigue visuelle", situation:"Écran prolongé", prevention:"Pauses"},
-      {risque:"Stress", situation:"Charge mentale", prevention:"Organisation"}
+      {r:"TMS", s:"Écran", p:"Ergonomie"},
+      {r:"Stress", s:"Charge mentale", p:"Organisation"},
+      {r:"Fatigue visuelle", s:"Écran", p:"Pauses"}
     ]
   }
 };
@@ -218,19 +192,13 @@ const jobs = {
 function showJob(){
   const id = jobSelect.value;
   if(!id){ jobResult.innerHTML=""; return; }
-
   const j = jobs[id];
-  jobResult.innerHTML = `
+  jobResult.innerHTML=`
     <div class="card info"><strong>${j.nom}</strong></div>
-    <div class="card info">
-      <table>
-        <tr><th>Risque</th><th>Situation</th><th>Prévention</th></tr>
-        ${j.tableau.map(l=>`<tr><td>${l.risque}</td><td>${l.situation}</td><td>${l.prevention}</td></tr>`).join("")}
-      </table>
-      <div style="margin-top:8px;font-size:12px;">
-        ⚠️ Tableau d’aide à l’identification – à adapter à la situation réelle.
-      </div>
-    </div>
+    <table>
+      <tr><th>Risque</th><th>Situation</th><th>Prévention</th></tr>
+      ${j.tableau.map(l=>`<tr><td>${l.r}</td><td>${l.s}</td><td>${l.p}</td></tr>`).join("")}
+    </table>
   `;
 }
 </script>
