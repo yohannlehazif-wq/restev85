@@ -8,7 +8,6 @@
 <style>
 :root{
   --vert:#2e8b7a;
-  --vert-clair:#eaf6f3;
   --orange:#f2b66d;
   --rouge:#e88b8b;
   --fond:#f4f7f6;
@@ -23,120 +22,201 @@ body{
   color:var(--texte);
 }
 
+section{display:none;padding:30px}
+section.active{display:block}
+
 header{
   text-align:center;
   padding:40px 20px;
 }
+header img{width:180px}
 
-header img{
-  width:180px;
-  animation:resp 4s ease-in-out infinite;
-}
-
-header p{
-  max-width:400px;
-  margin:20px auto 0;
-  font-size:16px;
-}
-
-@keyframes resp{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.04)}
-  100%{transform:scale(1)}
-}
-
-main{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-  display:grid;
-  gap:20px;
-}
+main{max-width:900px;margin:auto;display:grid;gap:20px}
 
 .carte{
   background:var(--carte);
   border-radius:20px;
   padding:24px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-.carte h2{
-  color:var(--vert);
-  margin-top:0;
-}
-
-.carte p{
-  margin:10px 0 20px;
-}
+h1,h2{color:var(--vert)}
 
 button{
   background:var(--vert);
-  border:none;
   color:white;
+  border:none;
   padding:14px 26px;
   border-radius:24px;
   font-size:16px;
   cursor:pointer;
 }
 
-.carte.orange{border-left:6px solid var(--orange)}
-.carte.rouge{border-left:6px solid var(--rouge)}
-.carte.vert{border-left:6px solid var(--vert-clair)}
+.checklist label{display:block;margin:8px 0}
 
-footer{
-  text-align:center;
-  padding:30px;
-  font-size:14px;
-  color:#6b6b6b;
+.resultat{
+  margin-top:15px;
+  padding:16px;
+  border-radius:14px;
+  font-weight:bold;
+}
+
+.retour{
+  background:none;
+  color:var(--vert);
+  margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <img src="logo-restev.png" alt="RESTEV">
-  <p>
-    Se situer en prévention, identifier les risques,
-    et avancer accompagné.
-  </p>
-</header>
+<!-- ACCUEIL -->
+<section id="accueil" class="active">
+  <header>
+    <img src="logo-restev.png" alt="RESTEV">
+    <p>Se situer en prévention, identifier les risques<br>et avancer accompagné.</p>
+    <button onclick="show('dashboard')">Entrer</button>
+  </header>
+</section>
 
-<main>
+<!-- TABLEAU DE BORD -->
+<section id="dashboard">
+  <main>
+    <div class="carte">
+      <h2>👷 Auto‑évaluation par métier</h2>
+      <p>Analyse simple de votre prévention réelle.</p>
+      <button onclick="show('evaluation')">Commencer</button>
+    </div>
 
-  <div class="carte vert">
-    <h2>👷 Auto‑évaluation par métier</h2>
-    <p>
-      Évaluez votre organisation de prévention en fonction
-      de votre activité réelle.
-    </p>
-    <button>Commencer l’auto‑évaluation</button>
+    <div class="carte">
+      <h2>🧪 Fiches risques & CMR</h2>
+      <p>Information claire sur les risques reconnus.</p>
+      <button onclick="show('risques')">Voir les risques</button>
+    </div>
+
+    <div class="carte">
+      <h2>📄 Synthèse entreprise</h2>
+      <p>Vision globale prévention & priorités.</p>
+      <button onclick="show('synthese')">Afficher</button>
+    </div>
+  </main>
+
+  <button class="retour" onclick="show('accueil')">← Accueil</button>
+</section>
+
+<!-- AUTO EVALUATION -->
+<section id="evaluation">
+  <h1>Auto‑évaluation par métier</h1>
+
+  <div class="carte">
+    <label>Métier :</label>
+    <select id="metier" onchange="chargerMetier()">
+      <option value="">— Choisir —</option>
+      <option value="macon">Maçon</option>
+      <option value="boulanger">Boulanger</option>
+      <option value="bureau">Travail de bureau</option>
+    </select>
+
+    <h2>Prévention métier</h2>
+    <div id="questions"></div>
+
+    <h2>Repérage CMR</h2>
+    <div class="checklist">
+      <label><input type="checkbox" class="cmr"> Silice / poussières</label>
+      <label><input type="checkbox" class="cmr"> Sols pollués</label>
+      <label><input type="checkbox" class="cmr"> Produits CMR</label>
+    </div>
+
+    <button onclick="evaluer()">Évaluer</button>
+    <div id="resultat" class="resultat"></div>
   </div>
 
-  <div class="carte orange">
-    <h2>🧪 Risques spécifiques & CMR</h2>
+  <button class="retour" onclick="show('dashboard')">← Tableau de bord</button>
+</section>
+
+<!-- FICHES RISQUES -->
+<section id="risques">
+  <h1>Fiches risques – Exemples</h1>
+
+  <div class="carte">
+    <h2>🧪 Silice cristalline</h2>
     <p>
-      Repérage des risques reconnus (CMR, physiques,
-      organisationnels) liés à votre métier.
+      Poussières générées lors du sciage, perçage, démolition.
+      Cancérogène reconnu par inhalation.
     </p>
-    <button>Identifier les risques</button>
+    <p><strong>Prévention :</strong> captage, arrosage, EPI, organisation.</p>
   </div>
 
-  <div class="carte rouge">
-    <h2>🤝 Accompagnement RESTEV</h2>
+  <div class="carte">
+    <h2>🧪 Sols pollués</h2>
     <p>
-      Analyse approfondie, DUERP, CMR, plan d’actions :
-      RESTEV vous accompagne à chaque étape.
+      Exposition possible aux hydrocarbures,
+      métaux lourds, solvants chlorés.
     </p>
-    <button>Être accompagné</button>
+    <p><strong>Prévention :</strong> études préalables, protections, procédures.</p>
   </div>
 
-</main>
+  <button class="retour" onclick="show('dashboard')">← Tableau de bord</button>
+</section>
 
-<footer>
-  Outil d’aide à la prévention – RESTEV
-</footer>
+<!-- SYNTHESE -->
+<section id="synthese">
+  <h1>Synthèse entreprise</h1>
+
+  <div class="carte">
+    <p>
+      ✅ Prévention métier évaluée<br>
+      ⚠️ Présence de risques spécifiques possible<br><br>
+      <strong>Un accompagnement RESTEV est recommandé
+      pour analyser les expositions et structurer le plan d’actions.</strong>
+    </p>
+  </div>
+
+  <button class="retour" onclick="show('dashboard')">← Tableau de bord</button>
+</section>
+
+<script>
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+const data={
+  macon:["Protections collectives","Manutentions maîtrisées","Plan de prévention"],
+  boulanger:["Ventilation","Manutention","Organisation postes"],
+  bureau:["Poste ergonomique","Pauses","Charge mentale"]
+};
+
+function chargerMetier(){
+  const m=document.getElementById("metier").value;
+  const zone=document.getElementById("questions");
+  zone.innerHTML="";
+  if(!data[m])return;
+  data[m].forEach(q=>{
+    zone.innerHTML+=`<label><input type="checkbox" class="prev"> ${q}</label>`;
+  });
+}
+
+function evaluer(){
+  const prev=document.querySelectorAll(".prev");
+  const cmr=document.querySelectorAll(".cmr:checked");
+  let ok=0; prev.forEach(x=>{if(x.checked)ok++});
+  const ratio=ok/prev.length;
+  const res=document.getElementById("resultat");
+
+  let couleur=ratio<0.4? "var(--rouge)":ratio<0.75?"var(--orange)":"var(--vert)";
+  let msg="Prévention évaluée.";
+
+  if(cmr.length>0){
+    couleur="var(--orange)";
+    msg+="<br><br><strong>Présence de risques CMR :</strong> RESTEV peut vous accompagner.";
+  }
+
+  res.style.background=couleur;
+  res.innerHTML=msg;
+}
+</script>
 
 </body>
 </html>
-``
