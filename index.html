@@ -1,58 +1,123 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV</title>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding-top: 80px;
+<!DOCTYPE html>%;
+  padding:10px;
+  font-size:16px;
 }
 
-/* Logo animé uniquement */
-.logo {
-  opacity: 0;
-  transform: scale(0.95);
-  animation: logoFadeIn 1.5s ease-out forwards;
+ul{
+  list-style:none;
+  padding:0;
 }
 
-@keyframes logoFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+ul li{
+  margin-bottom:10px;
 }
 
-/* Bouton toujours visible */
-.btn-enter {
-  margin-top: 40px;
-  padding: 18px 56px;
-  font-size: 18px;
-  font-weight: 600;
-  border: none;
-  border-radius: 28px;
-  background: #1e3a8a;
-  color: #ffffff;
-  cursor: pointer;
+button{
+  padding:14px 32px;
+  font-size:16px;
+  font-weight:600;
+  border:none;
+  border-radius:24px;
+  cursor:pointer;
+}
+
+.btn-back{
+  background:#e5e7eb;
+  color:#111;
+}
+
+.info{
+  font-size:14px;
+  color:#374151;
 }
 </style>
 </head>
 
 <body>
 
-  <div class="logo">
-    <img src="logo-restev.png" alt="RESTEV" width="240">
+<div class="container">
+
+  <h1>Prévention par métier</h1>
+
+  <!-- Sélection métier -->
+  <div class="card">
+    <label for="metier"><strong>Métier ou activité principale</strong></label>
+    <select id="metier">
+      <option value="">— Sélectionner —</option>
+      <option>BTP</option>
+      <option>Santé / médico‑social</option>
+      <option>Métiers de bouche</option>
+      <option>Commerce / services</option>
+      <option>Logistique / transport</option>
+      <option>Autre activité</option>
+    </select>
   </div>
 
-  <p style="margin-top:30px;">
-    La prévention, c’est agir tôt pour préserver durablement la santé au travail.
-  </p>
+  <!-- Checklist -->
+  <div class="card">
+    <strong>Mesures actuellement en place (auto‑évaluation)</strong>
+    <ul>
+      <li><label><input type="checkbox"> Organisation du travail définie</label></li>
+      <li><label><input type="checkbox"> Information ou sensibilisation à la prévention</label></li>
+      <li><label><input type="checkbox"> Équipements adaptés disponibles</label></li>
+      <li><label><input type="checkbox"> Matériel entretenu</label></li>
+      <li><label><input type="checkbox"> Règles de sécurité connues</label></li>
+      <li><label><input type="checkbox"> Temps d’échange possibles sur le travail</label></li>
+    </ul>
+  </div>
 
-  <button class="btn-enter"
-          onclick="window.location.href='acc
+  <!-- Accompagnement -->
+  <div class="card info">
+    Cette auto‑évaluation permet de se situer sur les pratiques de prévention.
+    <br><br>
+    Le RESTEV peut accompagner l’entreprise, à sa demande, dans la réflexion,
+    la structuration et la mise en œuvre des actions de prévention adaptées
+    à ses activités et à ses contraintes.
+  </div>
+
+  <!-- Retour -->
+  <div style="text-align:center;">
+    <button class="btn-back" onclick="window.location.href='accueil.html'>
+
+</body>
+</html>
+``
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – Prévention</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f6f8fb;
+  margin:0;
+  padding:0;
+}
+
+.container{
+  max-width:600px;
+  margin:0 auto;
+  padding:20px;
+}
+
+h1{
+  text-align:center;
+  color:#1e3a8a;
+  margin-bottom:20px;
+}
+
+.card{
+  background:#ffffff;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+label{
+  display:block;
+  margin-bottom:10px;
+}
+
+select{
