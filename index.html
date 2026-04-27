@@ -1,4 +1,7 @@
-<!DOCTYPE html>-8">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
 <title>RESTEV – Auto‑évaluation prévention</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -24,7 +27,6 @@ body{
   color:var(--text);
 }
 
-/* HEADER */
 header{
   background:white;
   padding:14px;
@@ -36,7 +38,6 @@ header{
 
 header img{height:44px}
 
-/* LAYOUT */
 main{
   padding:16px;
   max-width:480px;
@@ -57,20 +58,14 @@ h2{
   font-size:20px;
 }
 
-/* QUESTIONS */
-.question{
-  margin:18px 0;
-}
+.question{margin:18px 0}
 
 .question p{
   margin:0 0 8px 0;
   font-weight:500;
 }
 
-.buttons{
-  display:flex;
-  gap:10px;
-}
+.buttons{display:flex;gap:10px}
 
 .buttons button{
   flex:1;
@@ -86,7 +81,6 @@ h2{
   font-weight:600;
 }
 
-/* RESULTAT */
 .result{
   text-align:center;
   padding:22px;
@@ -116,13 +110,11 @@ ul{padding-left:18px}
 <body>
 
 <header>
-  <img src="logo-restev.png" alt="Logo RESTEV">
-  <strong>Auto‑évaluation prévention</strong>
+  <strong>RESTEV – Auto‑évaluation prévention</strong>
 </header>
 
 <main>
 
-<!-- ===== METIER BTP ===== -->
 <div class="card">
   <h2>🏗 Métier : BTP / Chantier</h2>
   <p>Répondez selon votre pratique habituelle.</p>
@@ -146,7 +138,7 @@ ul{padding-left:18px}
   </div>
 
   <div class="question" data-id="q3">
-    <p>Les poussières (silice, béton…) sont réduites à la source ?</p>
+    <p>Les poussières sont réduites à la source ?</p>
     <div class="buttons">
       <button onclick="setAnswer('q3',2,this)">Oui</button>
       <button onclick="setAnswer('q3',1,this)">Partiellement</button>
@@ -154,17 +146,8 @@ ul{padding-left:18px}
     </div>
   </div>
 
-  <div class="question" data-id="q4">
-    <p>Des protections collectives sont en place ?</p>
-    <div class="buttons">
-      <button onclick="setAnswer('q4',2,this)">Oui</button>
-      <button onclick="setAnswer('q4',1,this)">Partiellement</button>
-      <button onclick="setAnswer('q4',0,this)">Non</button>
-    </div>
-  </div>
-
   <div class="question" data-id="cmr">
-    <p>Présence de risques CMR (silice, sols pollués, amiante…) ?</p>
+    <p>Présence de risques CMR ?</p>
     <div class="buttons">
       <button onclick="setCMR(true,this)">Oui</button>
       <button onclick="setCMR(false,this)">Non</button>
@@ -200,35 +183,21 @@ function calcul(){
   let total = 0;
   Object.values(answers).forEach(v => total += v);
 
-  let niveau="",classe="";
-  if(total <=4){ niveau="Prévention insuffisante"; classe="red"; }
-  else if(total <=7){ niveau="Prévention perfectible"; classe="orange"; }
-  else{ niveau="Prévention globalement maîtrisée"; classe="green"; }
+  let niveau = '', classe = '';
+  if(total <= 2){ niveau = 'Prévention insuffisante'; classe = 'red'; }
+  else if(total <= 5){ niveau = 'Prévention perfectible'; classe = 'orange'; }
+  else{ niveau = 'Prévention globalement maîtrisée'; classe = 'green'; }
 
   document.getElementById("resultat").innerHTML = `
     <div class="card result ${classe}">
       <h2>${niveau}</h2>
-      ${cmr ? "<p><strong>⚠️ Présence de risques CMR identifiée</strong></p>" : ""}
-      <p>Des actions ciblées peuvent améliorer rapidement la prévention.</p>
-    </div>
-
-    <div class="card">
-      <h2>🛡️ Priorités de prévention</h2>
-      <ul>
-        <li>Organisation et anticipation du chantier</li>
-        <li>Réduction des poussières à la source</li>
-        <li>Protections collectives</li>
-        <li>Formation et information des équipes</li>
-      </ul>
+      ${cmr ? '<p><strong>⚠️ Présence de risques CMR</strong></p>' : ''}
+      <p>Des actions simples peuvent améliorer la prévention.</p>
     </div>
 
     <div class="card">
       <h2>🤝 Accompagnement RESTEV</h2>
-      <p>
-        RESTEV peut vous accompagner dans l’analyse des expositions,
-        la prévention des CMR et la construction du DUERP.
-      </p>
-      <button class="main">Être accompagné</button>
+      <p>RESTEV vous accompagne dans l’analyse terrain et la construction du DUERP.</p>
     </div>
   `;
 }
@@ -236,5 +205,3 @@ function calcul(){
 
 </body>
 </html>
-<html lang="fr">
-<head>
