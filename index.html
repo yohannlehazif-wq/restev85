@@ -2,81 +2,122 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – Analyse produit CMR</title>
+<title>RESTEV – Analyse produit</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-  font-family:system-ui, Arial;
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
   background:#f2f5f4;
-  padding:16px;
+  color:#2c3e50;
 }
+
+header{
+  background:#2e8b7a;
+  color:white;
+  text-align:center;
+  padding:24px;
+}
+
 .card{
   background:white;
-  border-radius:16px;
+  margin:16px;
   padding:16px;
+  border-radius:18px;
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
+
+h2{
+  margin-top:0;
+  color:#2e8b7a;
+}
+
+.badge{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:20px;
+  font-weight:600;
+  margin-top:8px;
+}
+
+.badge.red{background:#e74c3c;color:white}
+.badge.green{background:#2ecc71;color:white}
+.badge.orange{background:#f39c12;color:white}
+
+ul{
+  padding-left:18px;
+}
+
 button{
   width:100%;
   padding:14px;
-  border:none;
   background:#2e8b7a;
   color:white;
+  border:none;
+  border-radius:16px;
   font-size:16px;
-  border-radius:14px;
-  margin-top:10px;
-}
-input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #ccc;
-}
-.result{
-  margin-top:14px;
-  padding:14px;
-  border-radius:14px;
-  background:#f39c12;
-  color:white;
 }
 </style>
 </head>
 
 <body>
 
+<header>
+  <h1>Analyse produit</h1>
+  <p>Comprendre simplement les risques</p>
+</header>
+
+<!-- PRODUIT -->
 <div class="card">
-  <h2>🧪 Analyse produit – Repérage CMR</h2>
-
-  <p>
-    Saisissez le nom du produit ou scannez le code‑barres.
-    Cette analyse permet un <strong>repérage préalable</strong>,
-    et ne remplace pas l’évaluation réglementaire.
-  </p>
-
-  <!-- SAISIE MANUELLE -->
-  <input type="text" id="produit" placeholder="Nom du produit ou code‑barres">
-
-  <!-- SCAN CAMERA -->
-  <br><br>
-  <input type="file" accept="image/*" capture="environment">
-
-  <button onclick="analyser()">Analyser le produit</button>
-
-  <div id="resultat"></div>
+  <h2>🧪 Produit analysé</h2>
+  <p><strong>Nom :</strong> Exemple produit de nettoyage</p>
 </div>
 
-<script>
-function analyser(){
-  document.getElementById("resultat").innerHTML =
-  "<div class='result'>" +
-  "<strong>⚠ Produit potentiellement concerné par des risques CMR.</strong><br><br>" +
-  "Une analyse de la FDS et de la classification CLP est nécessaire.<br><br>" +
-  "<em>SEIRICH (INRS) est l’outil de référence pour l’évaluation réglementaire.<br>" +
-  "RESTEV peut vous accompagner dans cette démarche.</em>" +
-  "</div>";
-}
-</script>
+<!-- CMR -->
+<div class="card">
+  <h2>☣️ Le produit est‑il CMR ?</h2>
+  <span class="badge red">Oui – risque identifié</span>
+  <p>
+    Ce produit contient des substances pouvant présenter
+    un risque pour la santé lors d’une exposition répétée.
+  </p>
+</div>
+
+<!-- SUBSTANCES -->
+<div class="card">
+  <h2>🔎 Substances concernées</h2>
+  <ul>
+    <li>Solvants organiques</li>
+    <li>Substances irritantes respiratoires</li>
+    <li>Composés potentiellement cancérogènes</li>
+  </ul>
+</div>
+
+<!-- PREVENTION -->
+<div class="card">
+  <h2>🛡️ Prévention à mettre en place</h2>
+  <ul>
+    <li>Limiter l’utilisation au strict nécessaire</li>
+    <li>Assurer une ventilation efficace</li>
+    <li>Utiliser des équipements de protection adaptés</li>
+    <li>Former les utilisateurs aux risques</li>
+  </ul>
+</div>
+
+<!-- ACCOMPAGNEMENT -->
+<div class="card">
+  <h2>🤝 Besoin d’accompagnement ?</h2>
+  <p>
+    Lorsqu’un produit présente des risques CMR,
+    une analyse plus approfondie est recommandée
+    pour protéger durablement les salariés.
+  </p>
+  <button>
+    Être accompagné par RESTEV
+  </button>
+</div>
 
 </body>
 </html>
+``
