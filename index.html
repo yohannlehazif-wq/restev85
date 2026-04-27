@@ -2,93 +2,94 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – Auto‑évaluation métiers & prévention</title>
+<title>RESTEV – Auto‑évaluation métier</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root{
+  --green:#2ecc71;
+  --orange:#f39c12;
+  --red:#e74c3c;
   --primary:#2e8b7a;
-  --secondary:#f39c12;
-  --danger:#e74c3c;
-  --success:#2ecc71;
   --bg:#f2f5f4;
-  --card:#ffffff;
-  --text:#2c3e50;
 }
-
-*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  font-family:-apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
   background:var(--bg);
-  color:var(--text);
 }
 
 header{
   background:white;
-  padding:20px;
+  padding:16px;
   display:flex;
   align-items:center;
-  gap:20px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  gap:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
-header img{height:60px}
-header h1{margin:0;color:var(--primary)}
+
+header img{height:50px}
 
 main{
-  max-width:1100px;
+  padding:16px;
+  max-width:900px;
   margin:auto;
-  padding:20px;
 }
 
 .card{
-  background:var(--card);
+  background:white;
   border-radius:18px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
-details{margin-top:10px}
-summary{
-  cursor:pointer;
-  font-weight:700;
-  font-size:18px;
-  color:var(--primary);
+h2{color:var(--primary);margin-top:0}
+
+.question{
+  margin:14px 0;
 }
 
-.badge{
-  display:inline-block;
-  padding:6px 12px;
+.buttons{
+  display:flex;
+  gap:10px;
+}
+
+.buttons button{
+  flex:1;
+  padding:12px;
+  border:none;
   border-radius:14px;
-  font-weight:600;
-  margin-bottom:10px;
-}
-.red{background:var(--danger);color:white}
-.orange{background:var(--secondary);color:white}
-.green{background:var(--success);color:white}
-
-.eval label{
-  display:block;
-  margin:6px 0;
+  font-size:15px;
 }
 
-.eval input{margin-right:8px}
+.yes{background:var(--green);color:white}
+.middle{background:var(--orange);color:white}
+.no{background:var(--red);color:white}
 
-button{
+.result{
+  text-align:center;
+  padding:20px;
+  border-radius:18px;
+  color:white;
+}
+
+.result.green{background:var(--green)}
+.result.orange{background:var(--orange)}
+.result.red{background:var(--red)}
+
+ul{padding-left:18px}
+button.main{
   width:100%;
   padding:14px;
-  border:none;
-  border-radius:16px;
   background:var(--primary);
   color:white;
+  border:none;
+  border-radius:16px;
   font-size:16px;
   margin-top:14px;
 }
-
-h3{margin-bottom:6px;color:var(--primary)}
-ul{padding-left:18px}
 </style>
 </head>
 
@@ -96,185 +97,92 @@ ul{padding-left:18px}
 
 <header>
   logo-restev.png
-  <h1>Auto‑évaluation prévention par métier</h1>
+  <strong>Auto‑évaluation prévention</strong>
 </header>
 
 <main>
 
 <div class="card">
-  <p>
-    Cette auto‑évaluation permet de <strong>se situer simplement</strong>
-    sur les risques liés à son métier et de visualiser
-    <strong>les actions de prévention attendues</strong>.
-  </p>
-</div>
+  <h2>🏗 Métier : BTP / Chantier</h2>
+  <p>Répondez simplement selon votre pratique habituelle.</p>
 
-<!-- ===================== BTP ===================== -->
-<div class="card">
-  <details>
-    <summary>🏗 BTP / Chantier</summary>
-
-    <span class="badge red">Risques et CMR élevés</span>
-
-    <h3>1️⃣ Auto‑évaluation rapide</h3>
-    <div class="eval">
-      <label><input type="radio" name="btp1"> Les risques sont identifiés et anticipés</label>
-      <label><input type="radio" name="btp1"> Partiellement</label>
-      <label><input type="radio" name="btp1"> Non</label>
-
-      <label><input type="radio" name="btp2"> Les poussières et substances sont maîtrisées</label>
-      <label><input type="radio" name="btp2"> Partiellement</label>
-      <label><input type="radio" name="btp2"> Non</label>
+  <div class="question">
+    <strong>Les risques sont identifiés avant le chantier ?</strong>
+    <div class="buttons">
+      <button class="yes" onclick="addScore(2)">Oui</button>
+      <button class="middle" onclick="addScore(1)">À améliorer</button>
+      <button class="no" onclick="addScore(0)">Non</button>
     </div>
+  </div>
 
-    <h3>2️⃣ Risques et CMR concernés</h3>
-    <ul>
-      <li>Silice cristalline (béton, pierre, carrelage)</li>
-      <li>Sols pollués</li>
-      <li>Fumées de diesel</li>
-      <li>Amiante (rénovation)</li>
-      <li>Manutentions et chutes</li>
-    </ul>
-
-    <h3>3️⃣ Prévention attendue</h3>
-    <ul>
-      <li>Organisation et planification du chantier</li>
-      <li>Réduction des poussières à la source</li>
-      <li>Protections collectives prioritaires</li>
-      <li>EPI adaptés en complément</li>
-    </ul>
-
-    <p><em>
-      RESTEV peut accompagner l’analyse chantier,
-      la gestion des CMR et la structuration du DUERP.
-    </em></p>
-
-    <button>Être accompagné par RESTEV</button>
-  </details>
-</div>
-
-<!-- ===================== NETTOYAGE ===================== -->
-<div class="card">
-  <details>
-    <summary>🧹 Nettoyage professionnel</summary>
-
-    <span class="badge orange">Risque chimique fréquent</span>
-
-    <h3>1️⃣ Auto‑évaluation</h3>
-    <div class="eval">
-      <label><input type="radio" name="net1"> Les produits sont connus et maîtrisés</label>
-      <label><input type="radio" name="net1"> Partiellement</label>
-      <label><input type="radio" name="net1"> Non</label>
+  <div class="question">
+    <strong>Les poussières sont‑elles maîtrisées ?</strong>
+    <div class="buttons">
+      <button class="yes" onclick="addScore(2)">Oui</button>
+      <button class="middle" onclick="addScore(1)">À améliorer</button>
+      <button class="no" onclick="addScore(0)">Non</button>
     </div>
+  </div>
 
-    <h3>2️⃣ Risques et CMR</h3>
-    <ul>
-      <li>Décapants</li>
-      <li>Solvants</li>
-      <li>Éthers de glycol</li>
-      <li>Produits irritants respiratoires</li>
-    </ul>
+  <div class="question">
+    <strong>Présence de substances type silice / sols pollués ?</strong>
+    <div class="buttons">
+      <button class="no" onclick="addCMR(true)">Oui</button>
+      <button class="yes" onclick="addCMR(false)">Non</button>
+    </div>
+  </div>
 
-    <h3>3️⃣ Prévention</h3>
-    <ul>
-      <li>Choix et substitution des produits</li>
-      <li>Respect des dosages</li>
-      <li>Ventilation</li>
-      <li>Formation des agents</li>
-    </ul>
-
-    <button>Être accompagné par RESTEV</button>
-  </details>
+  <button class="main" onclick="calcul()">Voir mon résultat</button>
 </div>
 
-<!-- ===================== SANTE ===================== -->
-<div class="card">
-  <details>
-    <summary>🩺 Santé / EHPAD</summary>
-
-    <span class="badge red">Biologique & organisation</span>
-
-    <h3>Risques et expositions</h3>
-    <ul>
-      <li>Agents biologiques</li>
-      <li>Médicaments dangereux</li>
-      <li>Manutention de personnes</li>
-      <li>Charge mentale</li>
-    </ul>
-
-    <h3>Prévention</h3>
-    <ul>
-      <li>Protocoles et organisation des soins</li>
-      <li>Aides techniques</li>
-      <li>Formation</li>
-    </ul>
-
-    <button>Être accompagné par RESTEV</button>
-  </details>
-</div>
-
-<!-- ===================== INDUSTRIE ===================== -->
-<div class="card">
-  <details>
-    <summary>🏭 Industrie / Atelier</summary>
-
-    <span class="badge red">Machines & CMR</span>
-
-    <h3>Risques</h3>
-    <ul>
-      <li>Machines dangereuses</li>
-      <li>Fumées de soudage</li>
-      <li>Huiles de coupe</li>
-      <li>Isocyanates, résines époxy</li>
-    </ul>
-
-    <h3>Prévention</h3>
-    <ul>
-      <li>Protections collectives</li>
-      <li>Captage des fumées</li>
-      <li>Organisation et formation</li>
-    </ul>
-
-    <button>Être accompagné par RESTEV</button>
-  </details>
-</div>
-
-<!-- ===================== LOGISTIQUE ===================== -->
-<div class="card">
-  <details>
-    <summary>📦 Logistique / Manutention</summary>
-
-    <span class="badge orange">TMS & circulation</span>
-
-    <h3>Risques</h3>
-    <ul>
-      <li>Manutentions répétées</li>
-      <li>Circulation engins</li>
-      <li>Bruit</li>
-    </ul>
-
-    <h3>Prévention</h3>
-    <ul>
-      <li>Aides mécaniques</li>
-      <li>Organisation des flux</li>
-      <li>Formation gestes et postures</li>
-    </ul>
-
-    <button>Être accompagné par RESTEV</button>
-  </details>
-</div>
-
-<div class="card">
-  <h2>🤝 Accompagnement RESTEV</h2>
-  <p>
-    Cette auto‑évaluation permet une première orientation.<br><br>
-    <strong>RESTEV accompagne ensuite l’analyse,
-    la hiérarchisation des risques et le plan d’actions.</strong>
-  </p>
-  <button>Contacter RESTEV</button>
-</div>
+<div id="resultat"></div>
 
 </main>
+
+<script>
+let score=0;
+let cmr=false;
+
+function addScore(val){ score+=val; }
+function addCMR(val){ cmr=val; }
+
+function calcul(){
+  let res=document.getElementById('resultat');
+  let niveau="",classe="",msg="";
+
+  if(score<=2){niveau="Prévention insuffisante";classe="red";}
+  else if(score<=4){niveau="Prévention perfectible";classe="orange";}
+  else{niveau="Prévention maîtrisée";classe="green";}
+
+  msg = `
+  <div class="card result ${classe}">
+    <h2>${niveau}</h2>
+    ${cmr ? "<p><strong>⚠️ Présence de risques CMR identifiée</strong></p>" : ""}
+    <p>Une action ciblée permet de réduire durablement les risques.</p>
+  </div>
+
+  <div class="card">
+    <h2>🛡️ Prévention prioritaire</h2>
+    <ul>
+      <li>Organisation du chantier</li>
+      <li>Réduction des poussières à la source</li>
+      <li>Protections collectives</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🤝 Accompagnement RESTEV</h2>
+    <p>
+      RESTEV peut vous accompagner pour analyser les expositions,
+      structurer les actions CMR et sécuriser le DUERP.
+    </p>
+    <button class="main">Être accompagné</button>
+  </div>
+  `;
+
+  res.innerHTML=msg;
+}
+</script>
 
 </body>
 </html>
