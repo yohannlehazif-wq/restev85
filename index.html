@@ -1,139 +1,261 @@
-<!-- PAGE METIERS : RISQUES & PREVENTION -->
-<section id="metiers-data">
-  <div style="padding:16px;max-width:800px;margin:auto">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>RESTEV – App Prévention</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <h1 style="color:#2e8b7a">👷 Métiers, risques & prévention</h1>
-    <p>
-      Cette page présente les <strong>principaux risques par métier</strong>
-      et les <strong>actions de prévention essentielles</strong>.
-    </p>
+<style>
+:root{
+  --primary:#2e8b7a;
+  --secondary:#f39c12;
+  --danger:#e74c3c;
+  --success:#2ecc71;
+  --bg:#f2f5f4;
+  --card:#ffffff;
+  --text:#2c3e50;
+}
 
-    <!-- BTP -->
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+
+header{
+  background:white;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+header img{height:60px}
+
+header h1{
+  margin:0;
+  color:var(--primary);
+  font-size:22px;
+}
+
+nav{
+  position:sticky;
+  top:0;
+  background:var(--primary);
+  padding:10px;
+  display:flex;
+  justify-content:space-around;
+}
+
+nav button{
+  background:white;
+  border:none;
+  border-radius:20px;
+  padding:8px 16px;
+  font-weight:600;
+  color:var(--primary);
+}
+
+section{display:none;padding:16px}
+section.active{display:block}
+
+.container{max-width:1000px;margin:auto}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card h2{margin-top:0;color:var(--primary)}
+
+button.main{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  margin-top:12px;
+  border:none;
+  border-radius:16px;
+  background:var(--primary);
+  color:white;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:16px;
+  font-size:14px;
+  font-weight:600;
+}
+.orange{background:var(--secondary);color:white}
+.red{background:var(--danger);color:white}
+.green{background:var(--success);color:white}
+
+.m-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+
+ul{padding-left:16px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo-restev.png" alt="Logo RESTEV">
+  <h1>Prévention santé au travail</h1>
+</header>
+
+<nav>
+  <button onclick="go('home')">Accueil</button>
+  <button onclick="go('metiers')">Métiers</button>
+  <button onclick="go('produits')">Produits & CMR</button>
+  <button onclick="go('restev')">RESTEV</button>
+</nav>
+
+<!-- ACCUEIL -->
+<section id="home" class="active">
+  <div class="container">
     <div class="card">
-      <h2>🏗 Métier : BTP / Chantier</h2>
-
-      <h3>⚠️ Risques principaux</h3>
-      <ul>
-        <li>Chutes de hauteur</li>
-        <li>Manutentions et postures</li>
-        <li>Poussières (silice, béton)</li>
-        <li>Produits chimiques et sols pollués</li>
-      </ul>
-
-      <h3>☣️ Expositions possibles (dont CMR)</h3>
-      <ul>
-        <li>Silice cristalline</li>
-        <li>Bitumes, fumées diesel</li>
-        <li>Sols pollués (hydrocarbures, métaux)</li>
-      </ul>
-
-      <h3>🛡️ Prévention à mettre en place</h3>
-      <ul>
-        <li>Organisation du chantier et planification</li>
-        <li>Protections collectives (garde‑corps, captage)</li>
-        <li>Réduction des poussières (arrosage, méthodes adaptées)</li>
-        <li>EPI adaptés et formation des équipes</li>
-      </ul>
-
-      <p><em>
-        RESTEV peut accompagner l’analyse des chantiers,
-        des expositions CMR et la mise en place d’un plan d’actions.
-      </em></p>
+      <h2>Bienvenue dans l’app RESTEV</h2>
+      <p>
+        Une application pour <strong>comprendre les risques</strong>,
+        <strong>agir simplement</strong> et
+        <strong>être accompagné</strong>.
+      </p>
+      <button class="main" onclick="go('metiers')">Explorer par métier</button>
     </div>
-
-    <!-- SANTE -->
-    <div class="card">
-      <h2>🩺 Métier : Santé / EHPAD</h2>
-
-      <h3>⚠️ Risques principaux</h3>
-      <ul>
-        <li>Risques biologiques</li>
-        <li>Manutention de personnes</li>
-        <li>Charge mentale et organisationnelle</li>
-      </ul>
-
-      <h3>☣️ Expositions possibles</h3>
-      <ul>
-        <li>Médicaments dangereux</li>
-        <li>Produits de désinfection</li>
-      </ul>
-
-      <h3>🛡️ Prévention à mettre en place</h3>
-      <ul>
-        <li>Protocoles de soins et d’hygiène</li>
-        <li>Aides à la manutention</li>
-        <li>Formation et information du personnel</li>
-        <li>Organisation des équipes et repos</li>
-      </ul>
-
-      <p><em>
-        RESTEV peut accompagner la prévention des risques
-        biologiques, chimiques et organisationnels.
-      </em></p>
-    </div>
-
-    <!-- TERTIAIRE -->
-    <div class="card">
-      <h2>💼 Métier : Tertiaire / Bureaux</h2>
-
-      <h3>⚠️ Risques principaux</h3>
-      <ul>
-        <li>Travail sur écran</li>
-        <li>Postures prolongées</li>
-        <li>Charge mentale</li>
-      </ul>
-
-      <h3>☣️ Expositions possibles</h3>
-      <ul>
-        <li>Produits de nettoyage</li>
-        <li>Substances contenues dans le matériel</li>
-      </ul>
-
-      <h3>🛡️ Prévention à mettre en place</h3>
-      <ul>
-        <li>Aménagement ergonomique des postes</li>
-        <li>Pauses et alternance des tâches</li>
-        <li>Organisation du travail et prévention des RPS</li>
-      </ul>
-
-      <p><em>
-        RESTEV peut accompagner l’amélioration
-        des conditions de travail et la prévention des RPS.
-      </em></p>
-    </div>
-
-    <!-- METIERS DE BOUCHE -->
-    <div class="card">
-      <h2>🥖 Métier : Métiers de bouche</h2>
-
-      <h3>⚠️ Risques principaux</h3>
-      <ul>
-        <li>Coupures et brûlures</li>
-        <li>Manutentions répétées</li>
-        <li>Rythmes de travail soutenus</li>
-      </ul>
-
-      <h3>☣️ Expositions possibles</h3>
-      <ul>
-        <li>Farines (inhalation)</li>
-        <li>Produits de nettoyage</li>
-        <li>Huiles ou fumées de cuisson</li>
-      </ul>
-
-      <h3>🛡️ Prévention à mettre en place</h3>
-      <ul>
-        <li>Organisation des postes</li>
-        <li>Réduction des poussières</li>
-        <li>Formation aux gestes et postures</li>
-        <li>EPI adaptés</li>
-      </ul>
-
-      <p><em>
-        RESTEV peut accompagner la prévention des expositions
-        et l’amélioration de l’organisation du travail.
-      </em></p>
-    </div>
-
   </div>
 </section>
+
+<!-- METIERS -->
+<section id="metiers">
+  <div class="container">
+    <h2>👷 Métiers & prévention</h2>
+
+    <div class="m-grid">
+
+      <div class="card">
+        <h2>🏗 BTP / Chantier</h2>
+        <span class="badge red">Risques élevés</span>
+        <ul>
+          <li>Chutes, manutentions, poussières</li>
+          <li>Silice, sols pollués, diesel</li>
+        </ul>
+        <p><strong>Prévention :</strong> organisation chantier, protections collectives, réduction des poussières, EPI.</p>
+        <button class="main">Accompagnement RESTEV</button>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ Maintenance industrielle</h2>
+        <span class="badge orange">Risques techniques</span>
+        <ul>
+          <li>Machines, électricité, produits</li>
+          <li>Solvants, huiles, fumées</li>
+        </ul>
+        <p><strong>Prévention :</strong> consignation, procédures, formation, EPI adaptés.</p>
+        <button class="main">Accompagnement RESTEV</button>
+      </div>
+
+      <div class="card">
+        <h2>🧹 Nettoyage professionnel</h2>
+        <span class="badge orange">Risques chimiques</span>
+        <ul>
+          <li>Produits chimiques</li>
+          <li>Postures, rythmes</li>
+        </ul>
+        <p><strong>Prévention :</strong> choix produits, dilution, ventilation, formation.</p>
+        <button class="main">Accompagnement RESTEV</button>
+      </div>
+
+      <div class="card">
+        <h2>🩺 Santé / EHPAD</h2>
+        <span class="badge red">Risques biologiques</span>
+        <ul>
+          <li>Agents biologiques</li>
+          <li>Médicaments, désinfectants</li>
+        </ul>
+        <p><strong>Prévention :</strong> protocoles, aides manutention, organisation, formation.</p>
+        <button class="main">Accompagnement RESTEV</button>
+      </div>
+
+      <div class="card">
+        <h2>🥖 Métiers de bouche</h2>
+        <span class="badge orange">Risques mixtes</span>
+        <ul>
+          <li>Coupures, brûlures</li>
+          <li>Farines, produits nettoyage</li>
+        </ul>
+        <p><strong>Prévention :</strong> organisation postes, aspiration, gestes & postures.</p>
+        <button class="main">Accompagnement RESTEV</button>
+      </div>
+
+      <div class="card">
+        <h2>💼 Tertiaire / Bureaux</h2>
+        <span class="badge green">Risques modérés</span>
+        <ul>
+          <li>Écran, posture</li>
+          <li>Charge mentale</li>
+        </ul>
+        <p><strong>Prévention :</strong> ergonomie, pauses, organisation du travail.</p>
+        <button class="main">Accompagnement RESTEV</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRODUITS -->
+<section id="produits">
+  <div class="container">
+    <div class="card">
+      <h2>🧪 Produits & CMR</h2>
+      <p>
+        Identifier simplement si un produit présente
+        un risque pour la santé.
+      </p>
+      <span class="badge red">CMR : possible</span>
+      <p>
+        Actions immédiates : limiter l’usage, ventiler,
+        protéger les utilisateurs.
+      </p>
+      <button class="main">Analyser un produit</button>
+    </div>
+  </div>
+</section>
+
+<!-- RESTEV -->
+<section id="restev">
+  <div class="container">
+    <div class="card">
+      <h2>🤝 L’accompagnement RESTEV</h2>
+      <ul>
+        <li>Analyse des situations de travail</li>
+        <li>CMR & produits</li>
+        <li>DUERP et plan d’actions</li>
+        <li>Appui terrain et expertise</li>
+      </ul>
+      <button class="main">Contact RESTEV</button>
+    </div>
+  </div>
+</section>
+
+<script>
+function go(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>
 ``
