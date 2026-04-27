@@ -4,110 +4,125 @@
 <meta charset="UTF-8">
 <title>RESTEV – Prévention des risques professionnels</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 <style>
-:root{--primary:#2e8b7a;--bg:#f5f7f6;--card:#fff;--text:#2c3e50;--grey:#eaeaea}
+:root{
+  --primary:#2e8b7a;--bg:#f5f7f6;--card:#ffffff;--text:#2c3e50;--grey:#ececec;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text)}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial;background:var(--bg);color:var(--text)}
 header{background:#fff;padding:16px;display:flex;gap:14px;align-items:center;box-shadow:0 3px 10px rgba(0,0,0,.08)}
 header img{height:46px}
-nav{display:flex;justify-content:space-around;background:var(--primary);padding:10px}
+nav{display:flex;justify-content:space-around;background:var(--primary);padding:10px;flex-wrap:wrap}
 nav button{background:#fff;border:none;border-radius:18px;padding:8px 14px;font-weight:600;color:var(--primary)}
 section{display:none;padding:16px}
 section.active{display:block}
 .container{max-width:900px;margin:auto}
 .card{background:var(--card);border-radius:18px;padding:18px;margin-bottom:18px;box-shadow:0 6px 16px rgba(0,0,0,.08)}
-h1,h2{color:var(--primary);margin-top:0}
+h1,h2,h3{color:var(--primary);margin-top:0}
 ul{padding-left:18px}
 button.main{width:100%;padding:14px;border:none;border-radius:16px;background:var(--primary);color:white;font-size:16px;margin-top:10px}
-input,textarea,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin-bottom:10px}
 .question{margin:14px 0}
-.buttons{display:flex;gap:10px}
-.buttons button{flex:1;padding:12px;border:none;border-radius:14px;background:var(--grey)}
+.buttons{display:flex;gap:8px}
+.buttons button{flex:1;padding:12px;border:none;border-radius:12px;background:var(--grey)}
 .buttons button.selected{background:#ccc;font-weight:600}
-.result{padding:18px;border-radius:16px;color:#fff;text-align:center}
+.result{padding:16px;border-radius:14px;color:#fff;text-align:center}
 .green{background:#2ecc71}.orange{background:#f39c12}.red{background:#e74c3c}
 #scanner{width:100%;height:220px;background:#000;border-radius:12px;margin-bottom:10px}
+input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin-bottom:10px}
 </style>
 </head>
 <body>
-<header><img src="logo-restev.png" alt="RESTEV"><strong>Prévention & DUERP</strong></header>
+<header><img src="logo-restev.png" alt="RESTEV"><strong>Application prévention & DUERP</strong></header>
 <nav>
 <button onclick="go('home')">Accueil</button>
-<button onclick="go('metiers')">Métiers</button>
-<button onclick="go('cmr')">CMR</button>
-<button onclick="go('eval')">Auto‑évaluation</button>
+<button onclick="go('metiers')">Prévention métiers</button>
+<button onclick="go('cmr')">Analyse CMR</button>
+<button onclick="go('eval')">Auto-évaluation</button>
+<button onclick="go('duerp')">DUERP</button>
 <button onclick="go('contact')">Contact</button>
 </nav>
 
-<section id="home" class="active"><div class="container"><div class="card">
+<section id="home" class="active"><div class="container">
+<div class="card">
 <h1>RESTEV</h1>
-<p>RESTEV accompagne les entreprises dans la prévention des risques professionnels et la construction du DUERP, avec une approche terrain, humaine et pragmatique.</p>
+<p><strong>RESTEV accompagne les entreprises</strong> dans la prévention des risques professionnels, l’analyse des produits dangereux et la construction du DUERP.</p>
 <ul>
-<li>Prévention par métier</li>
-<li>Analyse des produits et CMR</li>
-<li>Auto‑évaluations simples</li>
-<li>DUERP construit ensemble</li>
+<li>Approche terrain et métier</li>
+<li>Prévention chimique et CMR</li>
+<li>Auto-évaluations simples et non anxiogènes</li>
+<li>DUERP construit avec l’entreprise</li>
 </ul>
-</div></div></section>
-
-<section id="metiers"><div class="container"><div class="card">
-<h2>Prévention par métier</h2>
-<ul>
-<li><strong>Tertiaire</strong> : écrans, postures, charge mentale</li>
-<li><strong>Logistique</strong> : manutentions, circulations</li>
-<li><strong>Nettoyage</strong> : postures, organisation</li>
-<li><strong>Métiers de bouche</strong> : coupures, brûlures</li>
-<li><strong>Industrie</strong> : machines, bruit</li>
-</ul>
-</div></div></section>
-
-<section id="cmr"><div class="container">
-<div class="card">
-<h2>Analyse CMR & produits</h2>
-<p>Scanner un code‑barres ou analyser un produit.</p>
-<div id="scanner"></div>
-<button class="main" onclick="startScan()">Démarrer le scan</button>
-</div>
-<div class="card">
-<h3>Résultat simplifié</h3>
-<p><strong>Produit potentiellement à risque CMR</strong></p>
-<ul>
-<li>Solvants</li>
-<li>Éthers de glycol</li>
-</ul>
-<p>Prévention : substitution, ventilation, EPI.</p>
 </div>
 </div></section>
 
-<section id="eval"><div class="container"><div class="card">
-<h2>Auto‑évaluation (exemple BTP)</h2>
-<div class="question">Risques identifiés avant chantier ?<div class="buttons">
-<button onclick="setAnswer(2,this)">Oui</button><button onclick="setAnswer(1,this)">Partiellement</button><button onclick="setAnswer(0,this)">Non</button>
-</div></div>
-<div class="question">Organisation adaptée ?<div class="buttons">
-<button onclick="setAnswer(2,this)">Oui</button><button onclick="setAnswer(1,this)">Partiellement</button><button onclick="setAnswer(0,this)">Non</button>
-</div></div>
-<button class="main" onclick="calc()">Voir le résultat</button>
+<section id="metiers"><div class="container">
+<div class="card"><h2>Prévention par métier</h2>
+<p>Chaque métier expose à des risques spécifiques. RESTEV intervient en sensibilisation, organisation du travail et prévention primaire.</p>
+</div>
+<div class="card"><h3>Tertiaire / Bureaux</h3>
+<ul><li>Travail sur écran</li><li>Postures prolongées</li><li>Charge mentale</li></ul>
+<p><strong>Prévention :</strong> ergonomie des postes, pauses, organisation, prévention RPS.</p></div>
+<div class="card"><h3>Logistique / Manutention</h3>
+<ul><li>Manutentions manuelles</li><li>Circulations internes</li></ul>
+<p><strong>Prévention :</strong> aides mécaniques, gestes et postures, organisation des flux.</p></div>
+<div class="card"><h3>Nettoyage professionnel</h3>
+<ul><li>Postures contraignantes</li><li>Rythmes de travail</li></ul>
+<p><strong>Prévention :</strong> organisation des interventions, prévention TMS.</p></div>
+<div class="card"><h3>Métiers de bouche</h3>
+<ul><li>Coupures</li><li>Brûlures</li></ul>
+<p><strong>Prévention :</strong> aménagement des postes, gestion des cadences.</p></div>
+<div class="card"><h3>Industrie / Atelier</h3>
+<ul><li>Machines</li><li>Bruit</li></ul>
+<p><strong>Prévention :</strong> protections collectives, procédures, formation.</p></div>
+</div></section>
+
+<section id="cmr"><div class="container">
+<div class="card"><h2>Analyse CMR & produits</h2>
+<p>Scanner un produit pour identifier un risque potentiel lié aux substances dangereuses.</p>
+<div id="scanner"></div>
+<button class="main" onclick="startScan()">Démarrer le scan code-barres</button>
+</div>
+<div class="card"><h3>Exemple résultat</h3>
+<p><strong>Produit à risque potentiel</strong></p>
+<ul><li>Solvants</li><li>Éthers de glycol</li></ul>
+<p><strong>Prévention :</strong> substitution, ventilation, EPI, formation des utilisateurs.</p></div>
+</div></section>
+
+<section id="eval"><div class="container">
+<div class="card"><h2>Auto-évaluation prévention (exemple)</h2>
+<div class="question">Les risques sont connus ?<div class="buttons"><button onclick="ans(2,this)">Oui</button><button onclick="ans(1,this)">Partiellement</button><button onclick="ans(0,this)">Non</button></div></div>
+<div class="question">Organisation adaptée ?<div class="buttons"><button onclick="ans(2,this)">Oui</button><button onclick="ans(1,this)">Partiellement</button><button onclick="ans(0,this)">Non</button></div></div>
+<div class="question">Les salariés sont formés ?<div class="buttons"><button onclick="ans(2,this)">Oui</button><button onclick="ans(1,this)">Partiellement</button><button onclick="ans(0,this)">Non</button></div></div>
+<button class="main" onclick="calc()">Afficher résultat</button>
 <div id="res"></div>
+</div></div></section>
+
+<section id="duerp"><div class="container"><div class="card">
+<h2>DUERP – Construction conjointe</h2>
+<p>Le DUERP est élaboré avec l’entreprise à partir du travail réel.</p>
+<ul>
+<li>Repérage des situations de travail</li>
+<li>Analyse des risques</li>
+<li>Classement des priorités</li>
+<li>Plan d’actions réaliste</li>
+</ul>
 </div></div></section>
 
 <section id="contact"><div class="container"><div class="card">
 <h2>Contact RESTEV</h2>
 <form>
-<input placeholder="Nom / Entreprise" required>
-<input type="email" placeholder="Email" required>
+<input placeholder="Nom / Entreprise" required><input type="email" placeholder="Email" required>
 <textarea rows="4" placeholder="Votre message"></textarea>
-<button class="main" type="submit">Envoyer</button>
+<button class="main">Envoyer</button>
 </form>
 </div></div></section>
 
 <script>
 function go(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 let score=0
-function setAnswer(v,btn){score+=v;btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected')}
-function calc(){let c='green',t='Prévention maîtrisée';if(score<2){c='red';t='Prévention insuffisante'}else if(score<4){c='orange';t='Prévention perfectible'}document.getElementById('res').innerHTML=`<div class="result ${c}">${t}</div>`;score=0}
+function ans(v,b){score+=v;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')}
+function calc(){let c='green',t='Prévention maîtrisée';if(score<=2){c='red';t='Prévention insuffisante'}else if(score<=4){c='orange';t='Prévention perfectible'}document.getElementById('res').innerHTML=`<div class="result ${c}">${t}</div>`;score=0}
 function startScan(){Quagga.init({inputStream:{name:'Live',type:'LiveStream',target:document.querySelector('#scanner')},decoder:{readers:['ean_reader']}},err=>{if(!err)Quagga.start()})}
 </script>
 </body>
