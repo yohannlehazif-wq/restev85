@@ -2,188 +2,81 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – App Prévention</title>
+<title>RESTEV – Analyse produit CMR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root{
-  --primary:#2e8b7a;
-  --bg:#f2f5f4;
-  --card:#ffffff;
-  --text:#2c3e50;
-}
-
-*{box-sizing:border-box}
-
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-  background:var(--bg);
-  color:var(--text);
+  font-family:system-ui, Arial;
+  background:#f2f5f4;
+  padding:16px;
 }
-
-header{
-  padding:28px;
-  text-align:center;
-  background:linear-gradient(135deg,#2e8b7a,#3fbf9a);
-  color:white;
-}
-
-header h1{margin:0;font-size:22px}
-header p{font-size:14px;opacity:.9}
-
-nav{
-  display:flex;
-  justify-content:space-around;
-  padding:10px;
-  background:white;
-  position:sticky;
-  top:0;
-}
-
-nav button{
-  background:none;
-  border:none;
-  font-size:14px;
-  color:var(--primary);
-  font-weight:600;
-}
-
-section{display:none;padding:16px}
-section.active{display:block}
-
-.container{max-width:720px;margin:auto}
-
 .card{
-  background:var(--card);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:18px;
+  background:white;
+  border-radius:16px;
+  padding:16px;
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
-
-button.main{
+button{
   width:100%;
-  padding:16px;
+  padding:14px;
   border:none;
-  border-radius:16px;
-  background:var(--primary);
+  background:#2e8b7a;
   color:white;
   font-size:16px;
+  border-radius:14px;
+  margin-top:10px;
+}
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ccc;
+}
+.result{
+  margin-top:14px;
+  padding:14px;
+  border-radius:14px;
+  background:#f39c12;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>RESTEV – Prévention</h1>
-  <p>Identifier les risques • Agir • Être accompagné</p>
-</header>
+<div class="card">
+  <h2>🧪 Analyse produit – Repérage CMR</h2>
 
-<nav>
-  <button onclick="go('home')">Accueil</button>
-  <button onclick="go('metiers')">Métiers</button>
-  <button onclick="go('produit')">Analyse produit</button>
-</nav>
+  <p>
+    Saisissez le nom du produit ou scannez le code‑barres.
+    Cette analyse permet un <strong>repérage préalable</strong>,
+    et ne remplace pas l’évaluation réglementaire.
+  </p>
 
-<!-- ACCUEIL APP -->
-<section id="home" class="active">
-  <div class="container">
+  <!-- SAISIE MANUELLE -->
+  <input type="text" id="produit" placeholder="Nom du produit ou code‑barres">
 
-    <div class="card">
-      <h2>👷 Prévention par métier</h2>
-      <p>
-        Évaluez la prévention réelle selon l’activité exercée
-        (BTP, santé, tertiaire, métiers de bouche…).
-      </p>
-      <button class="main" onclick="go('metiers')">Commencer</button>
-    </div>
+  <!-- SCAN CAMERA -->
+  <br><br>
+  <input type="file" accept="image/*" capture="environment">
 
-    <div class="card">
-      <h2>🧪 Analyse produit & CMR</h2>
-      <p>
-        Repérez la présence d’agents CMR à partir d’un produit,
-        d’un nom commercial ou d’un code‑barres.
-      </p>
-      <button class="main" onclick="go('produit')">Analyser un produit</button>
-    </div>
+  <button onclick="analyser()">Analyser le produit</button>
 
-    <div class="card">
-      <h2>🤝 Accompagnement RESTEV</h2>
-      <p>
-        DUERP, CMR, analyse de situations de travail,
-        plan d’actions : RESTEV vous accompagne.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-<!-- PREVENTION METIERS -->
-<section id="metiers">
-  <div class="container">
-
-    <div class="card">
-      <h2>Choisir un métier</h2>
-      <p>Sélectionnez votre secteur d’activité :</p>
-
-      <button class="main">BTP</button><br><br>
-      <button class="main">Santé / EHPAD</button><br><br>
-      <button class="main">Tertiaire</button><br><br>
-      <button class="main">Métiers de bouche</button>
-    </div>
-
-  </div>
-</section>
-
-<!-- ANALYSE PRODUIT -->
-<section id="produit">
-  <div class="container">
-
-    <div class="card">
-      <h2>🧪 Analyse produit (CMR)</h2>
-
-      <p>
-        Entrez le nom du produit ou le code‑barres.
-        Cette analyse permet un <strong>repérage CMR</strong>,
-        basé sur les classifications connues.
-      </p>
-
-      <input type="text" placeholder="Nom du produit ou code‑barres"
-             style="width:100%;padding:14px;border-radius:12px;">
-      <br><br>
-
-      <button class="main" onclick="analyserProduit()">
-        Lancer l’analyse
-      </button>
-
-      <div id="resultat-produit"></div>
-    </div>
-
-  </div>
-</section>
+  <div id="resultat"></div>
+</div>
 
 <script>
-function go(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
-}
-
-function analyserProduit(){
-  const r=document.getElementById("resultat-produit");
-  r.innerHTML=
-    "<div class='card'>" +
-    "<strong>⚠ Produit potentiellement concerné par des risques CMR.</strong><br><br>" +
-    "Une analyse de la FDS et de la classification CLP est nécessaire " +
-    "pour confirmer l’exposition.<br><br>" +
-    "<em>RESTEV peut vous accompagner dans l’analyse du produit, " +
-    "la gestion CMR et l’intégration au DUERP.</em>" +
-    "</div>";
+function analyser(){
+  document.getElementById("resultat").innerHTML =
+  "<div class='result'>" +
+  "<strong>⚠ Produit potentiellement concerné par des risques CMR.</strong><br><br>" +
+  "Une analyse de la FDS et de la classification CLP est nécessaire.<br><br>" +
+  "<em>SEIRICH (INRS) est l’outil de référence pour l’évaluation réglementaire.<br>" +
+  "RESTEV peut vous accompagner dans cette démarche.</em>" +
+  "</div>";
 }
 </script>
 
 </body>
 </html>
-``
