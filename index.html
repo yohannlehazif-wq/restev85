@@ -11,14 +11,19 @@
   --orange:#f39c12;
   --red:#e74c3c;
   --primary:#2e8b7a;
-  --bg:#f2f5f4;
-  --btn:#e0e0e0;
+  --bg:#f5f7f6;
+  --btn:#ececec;
+  --btn-disabled:#d3d3d3;
+  --text:#2c3e50;
 }
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
   background:var(--bg);
+  color:var(--text);
 }
 
 header{
@@ -27,35 +32,43 @@ header{
   display:flex;
   align-items:center;
   gap:12px;
-  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
-header img{height:48px}
+header img{height:46px}
 
 main{
   padding:16px;
-  max-width:900px;
+  max-width:480px;
   margin:auto;
 }
 
 .card{
   background:white;
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:16px;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:18px;
   box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
-h2{color:var(--primary);margin-top:0}
+h2{
+  margin-top:0;
+  color:var(--primary);
+  font-size:20px;
+}
 
 .question{
-  margin:14px 0;
+  margin:18px 0;
+}
+
+.question p{
+  margin:0 0 8px 0;
+  font-weight:500;
 }
 
 .buttons{
   display:flex;
-  gap:8px;
-  margin-top:6px;
+  gap:10px;
 }
 
 .buttons button{
@@ -65,12 +78,23 @@ h2{color:var(--primary);margin-top:0}
   border-radius:14px;
   font-size:14px;
   background:var(--btn);
+  transition:.2s;
+}
+
+.buttons button.selected{
+  background:#cccccc;
+  font-weight:600;
+}
+
+.buttons button.disabled{
+  background:var(--btn-disabled);
+  opacity:.6;
 }
 
 .result{
   text-align:center;
-  padding:20px;
-  border-radius:18px;
+  padding:22px;
+  border-radius:20px;
   color:white;
 }
 
@@ -78,17 +102,15 @@ h2{color:var(--primary);margin-top:0}
 .result.orange{background:var(--orange)}
 .result.red{background:var(--red)}
 
-ul{padding-left:18px}
-
 button.main{
   width:100%;
   padding:14px;
   background:var(--primary);
   color:white;
   border:none;
-  border-radius:16px;
+  border-radius:18px;
   font-size:16px;
-  margin-top:14px;
+  margin-top:18px;
 }
 </style>
 </head>
@@ -96,7 +118,7 @@ button.main{
 <body>
 
 <header>
-  logo-restev.png
+  <img src="logo-restev.png" alt="Logo RESTEV">
   <strong>Auto‑évaluation prévention</strong>
 </header>
 
@@ -104,68 +126,49 @@ button.main{
 
 <div class="card">
   <h2>🏗 Métier : BTP / Chantier</h2>
-  <p>Répondez selon la pratique habituelle sur vos chantiers.</p>
+  <p>Répondez simplement selon votre pratique habituelle.</p>
 
-  <!-- QUESTIONS -->
-  <div class="question">
-    Les risques sont identifiés avant le démarrage du chantier ?
+  <div class="question" data-score="">
+    <p>Les risques sont identifiés avant le chantier ?</p>
     <div class="buttons">
-      <button onclick="add(2)">Oui</button>
-      <button onclick="add(1)">Partiellement</button>
-      <button onclick="add(0)">Non</button>
+      <button onclick="answer(this,2)">Oui</button>
+      <button onclick="answer(this,1)">Partiellement</button>
+      <button onclick="answer(this,0)">Non</button>
     </div>
   </div>
 
-  <div class="question">
-    L’organisation évite le travail dans l’urgence ?
+  <div class="question" data-score="">
+    <p>L’organisation évite le travail dans l’urgence ?</p>
     <div class="buttons">
-      <button onclick="add(2)">Oui</button>
-      <button onclick="add(1)">Partiellement</button>
-      <button onclick="add(0)">Non</button>
+      <button onclick="answer(this,2)">Oui</button>
+      <button onclick="answer(this,1)">Partiellement</button>
+      <button onclick="answer(this,0)">Non</button>
     </div>
   </div>
 
-  <div class="question">
-    Les poussières (silice, béton…) sont‑elles réduites à la source ?
+  <div class="question" data-score="">
+    <p>Les poussières (silice, béton…) sont réduites à la source ?</p>
     <div class="buttons">
-      <button onclick="add(2)">Oui</button>
-      <button onclick="add(1)">Partiellement</button>
-      <button onclick="add(0)">Non</button>
+      <button onclick="answer(this,2)">Oui</button>
+      <button onclick="answer(this,1)">Partiellement</button>
+      <button onclick="answer(this,0)">Non</button>
     </div>
   </div>
 
-  <div class="question">
-    Des protections collectives sont‑elles en place ?
+  <div class="question" data-score="">
+    <p>Des protections collectives sont en place ?</p>
     <div class="buttons">
-      <button onclick="add(2)">Oui</button>
-      <button onclick="add(1)">Partiellement</button>
-      <button onclick="add(0)">Non</button>
+      <button onclick="answer(this,2)">Oui</button>
+      <button onclick="answer(this,1)">Partiellement</button>
+      <button onclick="answer(this,0)">Non</button>
     </div>
   </div>
 
-  <div class="question">
-    Les manutentions sont‑elles limitées ou aidées ?
+  <div class="question" data-cmr="">
+    <p>Présence de risques CMR (silice, sols pollués, amiante…) ?</p>
     <div class="buttons">
-      <button onclick="add(2)">Oui</button>
-      <button onclick="add(1)">Partiellement</button>
-      <button onclick="add(0)">Non</button>
-    </div>
-  </div>
-
-  <div class="question">
-    Les salariés sont‑ils formés aux risques du chantier ?
-    <div class="buttons">
-      <button onclick="add(2)">Oui</button>
-      <button onclick="add(1)">Partiellement</button>
-      <button onclick="add(0)">Non</button>
-    </div>
-  </div>
-
-  <div class="question">
-    Présence de CMR (silice, sols pollués, amiante…) ?
-    <div class="buttons">
-      <button onclick="cmr=true">Oui</button>
-      <button onclick="cmr=false">Non</button>
+      <button onclick="setCMR(this,true)">Oui</button>
+      <button onclick="setCMR(this,false)">Non</button>
     </div>
   </div>
 
@@ -177,45 +180,63 @@ button.main{
 </main>
 
 <script>
-let score=0;
 let cmr=false;
 
-function add(v){ score+=v; }
+function answer(btn,val){
+  const buttons = btn.parentNode.querySelectorAll("button");
+  const q = btn.closest(".question");
+
+  buttons.forEach(b=>{
+    b.classList.add("disabled");
+    b.onclick=null;
+  });
+  btn.classList.add("selected");
+  q.dataset.score = val;
+}
+
+function setCMR(btn,val){
+  const buttons = btn.parentNode.querySelectorAll("button");
+  buttons.forEach(b=>{
+    b.classList.add("disabled");
+    b.onclick=null;
+  });
+  btn.classList.add("selected");
+  cmr=val;
+}
 
 function calcul(){
-  let zone=document.getElementById("resultat");
+  let total=0;
+  document.querySelectorAll(".question[data-score]").forEach(q=>{
+    total+=Number(q.dataset.score||0);
+  });
+
   let niveau="",classe="";
+  if(total<=4){niveau="Prévention insuffisante";classe="red";}
+  else if(total<=7){niveau="Prévention perfectible";classe="orange";}
+  else{niveau="Prévention globalement maîtrisée";classe="green";}
 
-  if(score <= 6){ niveau="Prévention insuffisante"; classe="red"; }
-  else if(score <= 10){ niveau="Prévention perfectible"; classe="orange"; }
-  else{ niveau="Prévention globalement maîtrisée"; classe="green"; }
-
-  zone.innerHTML = `
+  document.getElementById("resultat").innerHTML=`
     <div class="card result ${classe}">
       <h2>${niveau}</h2>
       ${cmr ? "<p><strong>⚠️ Présence de risques CMR identifiée</strong></p>" : ""}
-      <p>Des actions ciblées permettent de réduire durablement les risques.</p>
+      <p>Des actions simples permettent d’améliorer la prévention.</p>
     </div>
 
     <div class="card">
-      <h2>🛡️ Prévention prioritaire</h2>
+      <h2>🛡️ Priorités de prévention</h2>
       <ul>
-        <li>Renforcer l’organisation du chantier</li>
-        <li>Réduire les poussières à la source</li>
-        <li>Déployer les protections collectives</li>
-        <li>Former et sensibiliser les équipes</li>
+        <li>Organisation et anticipation du chantier</li>
+        <li>Réduction des poussières à la source</li>
+        <li>Protections collectives</li>
+        <li>Information des équipes</li>
       </ul>
     </div>
 
     <div class="card">
       <h2>🤝 Accompagnement RESTEV</h2>
       <p>
-        RESTEV peut vous accompagner pour :
-        <ul>
-          <li>l’analyse des expositions CMR</li>
-          <li>la hiérarchisation des actions</li>
-          <li>la mise à jour du DUERP</li>
-        </ul>
+        RESTEV peut vous accompagner pour analyser les expositions,
+        sécuriser les pratiques et structurer le DUERP.
       </p>
       <button class="main">Être accompagné</button>
     </div>
