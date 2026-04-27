@@ -2,206 +2,85 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – Auto‑évaluation prévention</title>
+<title>RESTEV – Prévention & Accompagnement</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 :root{
-  --primary:#2e8b7a;
-  --green:#2ecc71;
-  --orange:#f39c12;
-  --red:#e74c3c;
-  --bg:#f5f7f6;
-  --card:#ffffff;
-  --btn:#ededed;
-  --btn-selected:#cfcfcf;
-  --text:#2c3e50;
+  --primary:#2e8b7a; --bg:#f5f7f6; --card:#ffffff; --text:#2c3e50;
 }
-
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-  background:var(--bg);
-  color:var(--text);
-}
-
-header{
-  background:white;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  box-shadow:0 3px 10px rgba(0,0,0,.08);
-}
-
-header img{height:44px}
-
-main{
-  padding:16px;
-  max-width:480px;
-  margin:auto;
-}
-
-.card{
-  background:var(--card);
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-}
-
-h2{
-  margin-top:0;
-  color:var(--primary);
-  font-size:20px;
-}
-
-.question{margin:18px 0}
-
-.question p{
-  margin:0 0 8px 0;
-  font-weight:500;
-}
-
-.buttons{display:flex;gap:10px}
-
-.buttons button{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:14px;
-  font-size:14px;
-  background:var(--btn);
-}
-
-.buttons button.selected{
-  background:var(--btn-selected);
-  font-weight:600;
-}
-
-.result{
-  text-align:center;
-  padding:22px;
-  border-radius:20px;
-  color:white;
-}
-
-.result.green{background:var(--green)}
-.result.orange{background:var(--orange)}
-.result.red{background:var(--red)}
-
-button.main{
-  width:100%;
-  padding:14px;
-  background:var(--primary);
-  color:white;
-  border:none;
-  border-radius:18px;
-  font-size:16px;
-  margin-top:18px;
-}
-
+body{margin:0;font-family:system-ui,Arial;background:var(--bg);color:var(--text)}
+header{background:white;padding:16px;display:flex;gap:14px;align-items:center;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+header img{height:48px}
+nav{display:flex;justify-content:space-around;background:var(--primary);padding:10px}
+nav button{background:white;border:none;border-radius:18px;padding:8px 14px;font-weight:600;color:var(--primary)}
+section{display:none;padding:16px}
+section.active{display:block}
+.container{max-width:900px;margin:auto}
+.card{background:var(--card);border-radius:18px;padding:18px;margin-bottom:18px;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+h1,h2{color:var(--primary);margin-top:0}
 ul{padding-left:18px}
+button.main{width:100%;padding:14px;border:none;border-radius:16px;background:var(--primary);color:white;font-size:16px;margin-top:12px}
 </style>
 </head>
-
 <body>
-
 <header>
-  <strong>RESTEV – Auto‑évaluation prévention</strong>
+  <img src="logo-restev.png" alt="Logo RESTEV">
+  <strong>Prévention & accompagnement</strong>
 </header>
+<nav>
+  <button onclick="go('home')">Accueil</button>
+  <button onclick="go('services')">Services</button>
+  <button onclick="go('pdp')">Cellule PDP</button>
+  <button onclick="go('duerp')">DUERP</button>
+</nav>
 
-<main>
+<section id="home" class="active"><div class="container"><div class="card">
+<h1>RESTEV</h1>
+<p><strong>RESTEV est une équipe pluridisciplinaire</strong> dédiée à la prévention des risques professionnels et au maintien durable dans l’emploi.</p>
+<p>Notre approche : comprendre le travail réel, anticiper les risques et construire des solutions utiles et humaines.</p>
+</div></div></section>
 
-<div class="card">
-  <h2>🏗 Métier : BTP / Chantier</h2>
-  <p>Répondez selon votre pratique habituelle.</p>
+<section id="services"><div class="container"><div class="card">
+<h2>Nos services</h2>
+<ul>
+<li>Prévention des risques professionnels</li>
+<li>Sensibilisations métiers & conditions de travail</li>
+<li>Analyses de situations de travail</li>
+<li>Accompagnement DUERP</li>
+<li>Prévention de la désinsertion professionnelle</li>
+</ul>
+</div></div></section>
 
-  <div class="question" data-id="q1">
-    <p>Les risques sont identifiés avant le chantier ?</p>
-    <div class="buttons">
-      <button onclick="setAnswer('q1',2,this)">Oui</button>
-      <button onclick="setAnswer('q1',1,this)">Partiellement</button>
-      <button onclick="setAnswer('q1',0,this)">Non</button>
-    </div>
-  </div>
+<section id="pdp"><div class="container"><div class="card">
+<h2>Équipe pluridisciplinaire & Cellule PDP</h2>
+<p>RESTEV s’appuie sur une <strong>équipe pluridisciplinaire</strong> intégrant une cellule PDP (Prévention de la Désinsertion Professionnelle).</p>
+<ul>
+<li><strong>Ergonome</strong> : adaptation du travail réel</li>
+<li><strong>Ingénieur prévention</strong> : structuration des actions</li>
+<li><strong>Psychologue du travail</strong> : charge mentale, RPS</li>
+<li><strong>Techniciens IPRP</strong> : accompagnement terrain</li>
+</ul>
+<p>La cellule PDP intervient lorsque le maintien dans l’emploi est un enjeu.</p>
+</div></div></section>
 
-  <div class="question" data-id="q2">
-    <p>L’organisation évite le travail dans l’urgence ?</p>
-    <div class="buttons">
-      <button onclick="setAnswer('q2',2,this)">Oui</button>
-      <button onclick="setAnswer('q2',1,this)">Partiellement</button>
-      <button onclick="setAnswer('q2',0,this)">Non</button>
-    </div>
-  </div>
-
-  <div class="question" data-id="q3">
-    <p>Les poussières sont réduites à la source ?</p>
-    <div class="buttons">
-      <button onclick="setAnswer('q3',2,this)">Oui</button>
-      <button onclick="setAnswer('q3',1,this)">Partiellement</button>
-      <button onclick="setAnswer('q3',0,this)">Non</button>
-    </div>
-  </div>
-
-  <div class="question" data-id="cmr">
-    <p>Présence de risques CMR ?</p>
-    <div class="buttons">
-      <button onclick="setCMR(true,this)">Oui</button>
-      <button onclick="setCMR(false,this)">Non</button>
-    </div>
-  </div>
-
-  <button class="main" onclick="calcul()">Voir mon résultat</button>
-</div>
-
-<div id="resultat"></div>
-
-</main>
+<section id="duerp"><div class="container"><div class="card">
+<h2>DUERP – Une construction commune</h2>
+<p>Le DUERP est un outil vivant, construit <strong>avec l’entreprise</strong>, à partir du travail réel.</p>
+<ul>
+<li>Repérage terrain</li>
+<li>Analyse partagée des risques</li>
+<li>Priorisation réaliste</li>
+<li>Plan d’actions opérationnel</li>
+</ul>
+<button class="main">Construire le DUERP avec RESTEV</button>
+</div></div></section>
 
 <script>
-const answers = {};
-let cmr = false;
-
-function setAnswer(id,value,btn){
-  answers[id] = value;
-  const buttons = btn.parentNode.querySelectorAll("button");
-  buttons.forEach(b=>b.classList.remove("selected"));
-  btn.classList.add("selected");
-}
-
-function setCMR(value,btn){
-  cmr = value;
-  const buttons = btn.parentNode.querySelectorAll("button");
-  buttons.forEach(b=>b.classList.remove("selected"));
-  btn.classList.add("selected");
-}
-
-function calcul(){
-  let total = 0;
-  Object.values(answers).forEach(v => total += v);
-
-  let niveau = '', classe = '';
-  if(total <= 2){ niveau = 'Prévention insuffisante'; classe = 'red'; }
-  else if(total <= 5){ niveau = 'Prévention perfectible'; classe = 'orange'; }
-  else{ niveau = 'Prévention globalement maîtrisée'; classe = 'green'; }
-
-  document.getElementById("resultat").innerHTML = `
-    <div class="card result ${classe}">
-      <h2>${niveau}</h2>
-      ${cmr ? '<p><strong>⚠️ Présence de risques CMR</strong></p>' : ''}
-      <p>Des actions simples peuvent améliorer la prévention.</p>
-    </div>
-
-    <div class="card">
-      <h2>🤝 Accompagnement RESTEV</h2>
-      <p>RESTEV vous accompagne dans l’analyse terrain et la construction du DUERP.</p>
-    </div>
-  `;
+function go(id){
+ document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo(0,0);
 }
 </script>
-
-</body>
-</html>
+</body></nhtml>
