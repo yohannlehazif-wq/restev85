@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – Auto‑évaluation BTP</title>
+<title>RESTEV – Prévention & accompagnement</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -26,27 +26,39 @@ body{
 }
 
 header{
-  padding:24px;
+  padding:28px 20px;
   text-align:center;
   background:linear-gradient(135deg,#2e8b7a,#3fbf9a);
   color:white;
 }
 
-header h1{
-  margin:0;
-  font-size:22px;
+header h1{margin:0;font-size:22px}
+header p{font-size:14px;opacity:.9}
+
+nav{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  background:white;
+  padding:10px;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
-header p{
+nav button{
+  background:var(--primary);
+  color:white;
+  border:none;
+  border-radius:20px;
+  padding:8px 16px;
   font-size:14px;
-  opacity:.9;
 }
 
-main{
-  max-width:720px;
-  margin:auto;
-  padding:16px;
-}
+section{display:none;padding:16px}
+section.active{display:block}
+
+.container{max-width:900px;margin:auto}
 
 .card{
   background:var(--card);
@@ -56,30 +68,18 @@ main{
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.card h2{
-  font-size:18px;
-  margin-top:0;
-  color:var(--primary);
-}
-
-.card p{
-  font-size:14px;
-  margin-bottom:14px;
-}
+h2{color:var(--primary);font-size:18px}
+h3{font-size:16px;margin-top:20px}
 
 .item{
   display:flex;
-  align-items:flex-start;
   gap:12px;
-  padding:10px 0;
+  margin:10px 0;
 }
 
-.item input{
-  transform:scale(1.3);
-  margin-top:3px;
-}
+.item input{transform:scale(1.2);margin-top:2px}
 
-button{
+button.main{
   width:100%;
   padding:16px;
   font-size:16px;
@@ -87,16 +87,14 @@ button{
   border-radius:16px;
   background:var(--primary);
   color:white;
-  cursor:pointer;
-  margin-top:10px;
+  margin-top:12px;
 }
 
 .result{
-  margin-top:20px;
-  padding:18px;
+  padding:16px;
   border-radius:16px;
-  font-size:15px;
-  line-height:1.5;
+  margin-top:16px;
+  color:white;
 }
 </style>
 </head>
@@ -104,100 +102,171 @@ button{
 <body>
 
 <header>
-  <h1>Auto‑évaluation prévention BTP</h1>
-  <p>Une vision claire de votre prévention terrain</p>
+  <h1>RESTEV – Prévention & accompagnement</h1>
+  <p>Se situer, comprendre les risques et agir accompagné</p>
 </header>
 
-<main>
+<nav>
+  <button onclick="go('dashboard')">Accueil</button>
+  <button onclick="go('btp')">Auto‑évaluation BTP</button>
+  <button onclick="go('risques')">Fiches risques</button>
+  <button onclick="go('synthese')">Synthèse</button>
+</nav>
 
-<!-- PILIER 1 -->
-<div class="card">
-  <h2>🏗 Organisation & prévention collective</h2>
-  <p>Le travail est‑il organisé pour limiter les risques dès la conception ?</p>
+<!-- DASHBOARD -->
+<section id="dashboard" class="active">
+  <div class="container">
 
-  <div class="item"><input type="checkbox" class="p1"><label>Les risques sont identifiés et formalisés (DUERP, PDP)</label></div>
-  <div class="item"><input type="checkbox" class="p1"><label>Les modes opératoires réduisent l’exposition</label></div>
-  <div class="item"><input type="checkbox" class="p1"><label>Les coactivités sont anticipées</label></div>
-  <div class="item"><input type="checkbox" class="p1"><label>Le travail n’est pas réalisé dans l’urgence</label></div>
-</div>
+    <div class="card">
+      <h2>👷 Auto‑évaluation par métier</h2>
+      <p>
+        Évaluez la prévention réelle de votre activité, à partir de situations concrètes.
+      </p>
+      <button class="main" onclick="go('btp')">Commencer (BTP)</button>
+    </div>
 
-<!-- PILIER 2 -->
-<div class="card">
-  <h2>🧪 Expositions & risques spécifiques (CMR)</h2>
-  <p>Présence de poussières, substances ou situations à risque élevé.</p>
+    <div class="card">
+      <h2>🧪 Risques & CMR</h2>
+      <p>
+        Information claire et pédagogique sur les risques reconnus
+        (silice, sols pollués, vibrations, CMR…).
+      </p>
+      <button class="main" onclick="go('risques')">Consulter les fiches</button>
+    </div>
 
-  <div class="item"><input type="checkbox" class="p2"><label>Poussières (silice, béton, bois…)</label></div>
-  <div class="item"><input type="checkbox" class="p2"><label>Sols potentiellement pollués</label></div>
-  <div class="item"><input type="checkbox" class="p2"><label>Produits chimiques ou fumées</label></div>
-  <div class="item"><input type="checkbox" class="p2"><label>Situations exposantes clairement identifiées</label></div>
-</div>
+    <div class="card">
+      <h2>🤝 Accompagnement RESTEV</h2>
+      <p>
+        Analyse CMR, DUERP, plan d’actions :
+        RESTEV vous accompagne de manière adaptée et pragmatique.
+      </p>
+    </div>
 
-<!-- PILIER 3 -->
-<div class="card">
-  <h2>🦺 Moyens techniques & EPI</h2>
-  <p>Les protections sont‑elles adaptées au risque réel ?</p>
+  </div>
+</section>
 
-  <div class="item"><input type="checkbox" class="p3"><label>Protections collectives en priorité</label></div>
-  <div class="item"><input type="checkbox" class="p3"><label>Matériel adapté et entretenu</label></div>
-  <div class="item"><input type="checkbox" class="p3"><label>EPI adaptés et correctement utilisés</label></div>
-</div>
+<!-- AUTO EVALUATION BTP -->
+<section id="btp">
+  <div class="container">
 
-<!-- PILIER 4 -->
-<div class="card">
-  <h2>🎓 Compétences & suivi</h2>
-  <p>La prévention est‑elle comprise et suivie dans le temps ?</p>
+    <div class="card">
+      <h2>Auto‑évaluation prévention – BTP</h2>
+      <p>Répondez en fonction de la pratique habituelle sur vos chantiers.</p>
 
-  <div class="item"><input type="checkbox" class="p4"><label>Salariés formés aux risques du chantier</label></div>
-  <div class="item"><input type="checkbox" class="p4"><label>Consignes comprises et appliquées</label></div>
-  <div class="item"><input type="checkbox" class="p4"><label>Situations dangereuses analysées</label></div>
-</div>
+      <h3>🏗 Organisation & prévention collective</h3>
+      <div class="item"><input type="checkbox" class="p1">Risques identifiés et formalisés (DUERP, PDP)</div>
+      <div class="item"><input type="checkbox" class="p1">Modes opératoires limitant l’exposition</div>
+      <div class="item"><input type="checkbox" class="p1">Coactivités anticipées</div>
+      <div class="item"><input type="checkbox" class="p1">Pas de travail systématique dans l’urgence</div>
 
-<button onclick="evaluer()">Voir le diagnostic prévention</button>
+      <h3>🧪 Expositions & risques spécifiques (CMR)</h3>
+      <div class="item"><input type="checkbox" class="p2">Poussières (silice, béton, bois…)</div>
+      <div class="item"><input type="checkbox" class="p2">Sols pollués</div>
+      <div class="item"><input type="checkbox" class="p2">Produits chimiques, fumées</div>
+      <div class="item"><input type="checkbox" class="p2">Situations exposantes identifiées</div>
 
-<div id="resultat" class="result"></div>
+      <h3>🦺 Moyens techniques & EPI</h3>
+      <div class="item"><input type="checkbox" class="p3">Protections collectives prioritaires</div>
+      <div class="item"><input type="checkbox" class="p3">Matériel adapté et entretenu</div>
+      <div class="item"><input type="checkbox" class="p3">EPI adaptés et utilisés</div>
 
-</main>
+      <h3>🎓 Compétences & suivi</h3>
+      <div class="item"><input type="checkbox" class="p4">Salariés formés aux risques</div>
+      <div class="item"><input type="checkbox" class="p4">Consignes comprises et appliquées</div>
+      <div class="item"><input type="checkbox" class="p4">Incidents et situations dangereuses analysés</div>
+
+      <button class="main" onclick="evaluer()">Voir le résultat</button>
+      <div id="resultat" class="result"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FICHES RISQUES -->
+<section id="risques">
+  <div class="container">
+
+    <div class="card">
+      <h2>🧪 Silice cristalline</h2>
+      <p>
+        Poussières générées lors du sciage, perçage, démolition.
+        Cancérogène reconnu par inhalation.
+      </p>
+      <p><strong>Prévention :</strong> captage, arrosage, organisation, EPI respiratoires.</p>
+      <p><em>RESTEV peut vous accompagner dans l’évaluation de l’exposition.</em></p>
+    </div>
+
+    <div class="card">
+      <h2>🧪 Sols pollués</h2>
+      <p>
+        Exposition possible aux hydrocarbures, métaux lourds,
+        solvants lors de travaux de terrassement.
+      </p>
+      <p><strong>Prévention :</strong> études préalables, procédures spécifiques, protections.</p>
+      <p><em>RESTEV peut vous accompagner dans l’analyse du risque.</em></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SYNTHESE -->
+<section id="synthese">
+  <div class="container">
+
+    <div class="card">
+      <h2>📄 Synthèse entreprise</h2>
+      <p>
+        ✅ Prévention évaluée par métier<br>
+        ⚠️ Risques spécifiques et CMR identifiés<br><br>
+        <strong>
+          Un accompagnement RESTEV est recommandé pour structurer
+          le DUERP et définir des actions prioritaires.
+        </strong>
+      </p>
+    </div>
+
+  </div>
+</section>
 
 <script>
-function evaluer(){
+function go(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
 
+function evaluer(){
   function score(cls){
     const c=document.querySelectorAll("."+cls);
-    let ok=0; c.forEach(x=>{if(x.checked) ok++;});
+    let ok=0;c.forEach(x=>{if(x.checked)ok++;});
     return ok/c.length;
   }
 
-  const s1=score("p1");
-  const s2=score("p2");
-  const s3=score("p3");
-  const s4=score("p4");
-
+  const s1=score("p1"),s2=score("p2"),s3=score("p3"),s4=score("p4");
   const moyenne=(s1+s2+s3+s4)/4;
   const r=document.getElementById("resultat");
 
-  let couleur,message;
+  let color,msg;
 
   if(moyenne<0.4){
-    couleur="var(--danger)";
-    message="🔴 <strong>Prévention insuffisante.</strong><br>Des actions prioritaires sont nécessaires.";
+    color="var(--danger)";
+    msg="🔴 Prévention insuffisante – actions prioritaires nécessaires.";
   }else if(moyenne<0.75){
-    couleur="var(--warning)";
-    message="🟠 <strong>Prévention perfectible.</strong><br>Des améliorations ciblées peuvent réduire les risques.";
+    color="var(--warning)";
+    msg="🟠 Prévention perfectible – améliorations ciblées possibles.";
   }else{
-    couleur="var(--success)";
-    message="🟢 <strong>Prévention globalement structurée.</strong>";
+    color="var(--success)";
+    msg="🟢 Prévention globalement structurée.";
   }
 
   if(s2<0.75){
-    couleur="var(--warning)";
-    message+="<br><br><strong>Point de vigilance CMR identifié.</strong>";
+    color="var(--warning)";
+    msg+="<br><br><strong>Point de vigilance CMR identifié.</strong>";
   }
 
-  message+="<br><br><em>RESTEV peut vous accompagner dans l’analyse des situations de travail, l’évaluation des expositions et la construction d’un plan d’actions adapté.</em>";
-
-  r.style.background=couleur;
-  r.style.color="white";
-  r.innerHTML=message;
+  msg+="<br><br><em>RESTEV peut vous accompagner dans l’analyse, le DUERP et le plan d’actions.</em>";
+  r.style.background=color;
+  r.innerHTML=msg;
 }
 </script>
 
