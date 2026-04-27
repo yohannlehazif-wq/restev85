@@ -1,186 +1,139 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>RESTEV – Produits & CMR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- PAGE METIERS : RISQUES & PREVENTION -->
+<section id="metiers-data">
+  <div style="padding:16px;max-width:800px;margin:auto">
 
-<!-- QuaggaJS pour scan code-barres -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-
-<style>
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-  background:#f2f5f4;
-  color:#2c3e50;
-}
-
-header{
-  background:#2e8b7a;
-  color:white;
-  text-align:center;
-  padding:24px;
-}
-
-section{display:none;padding:16px}
-section.active{display:block}
-
-.card{
-  background:white;
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  background:#2e8b7a;
-  color:white;
-  font-size:16px;
-  margin-top:10px;
-}
-
-.badge{
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:14px;
-  font-weight:600;
-}
-.red{background:#e74c3c;color:white}
-.green{background:#2ecc71;color:white}
-.orange{background:#f39c12;color:white}
-
-#scanner{width:100%;height:240px}
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>RESTEV</h1>
-  <p>Produits • CMR • Prévention</p>
-</header>
-
-<!-- ACCUEIL -->
-<section id="home" class="active">
-  <div class="card">
-    <h2>📦 Analyse produit</h2>
-    <p>Identifier simplement les risques liés à un produit.</p>
-    <button onclick="go('scan')">Scanner un produit</button>
-  </div>
-
-  <div class="card">
-    <h2>👷 Métiers & prévention</h2>
-    <p>Relier les produits aux métiers exposés.</p>
-    <button onclick="go('metiers')">Voir les métiers</button>
-  </div>
-</section>
-
-<!-- SCAN PRODUIT -->
-<section id="scan">
-  <div class="card">
-    <h2>📷 Scanner le code‑barres</h2>
-    <div id="scanner"></div>
-    <button onclick="demarrerScan()">Démarrer le scan</button>
-    <button onclick="stopScan()">Arrêter</button>
-  </div>
-
-  <div id="resultat-produit" class="card" style="display:none"></div>
-</section>
-
-<!-- METIERS -->
-<section id="metiers">
-  <div class="card">
-    <h2>Métiers concernés</h2>
-    <ul>
-      <li>BTP – chantier, maintenance</li>
-      <li>Santé / EHPAD</li>
-      <li>Nettoyage</li>
-      <li>Industrie / ateliers</li>
-    </ul>
-    <button onclick="go('home')">Retour accueil</button>
-  </div>
-</section>
-
-<script>
-function go(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-/* SCAN BARCODE */
-function demarrerScan(){
-  Quagga.init({
-    inputStream : {
-      name : "Live",
-      type : "LiveStream",
-      target: document.querySelector('#scanner'),
-      constraints: { facingMode: "environment" }
-    },
-    decoder : {
-      readers : ["ean_reader"]
-    }
-  }, function(err) {
-    if (!err) Quagga.start();
-  });
-
-  Quagga.onDetected(function(data){
-    analyserProduit(data.codeResult.code);
-    stopScan();
-  });
-}
-
-function stopScan(){
-  Quagga.stop();
-}
-
-/* ANALYSE SIMPLIFIEE */
-function analyserProduit(code){
-  const zone=document.getElementById("resultat-produit");
-  zone.style.display="block";
-  zone.innerHTML=`
-    <h2>🧪 Produit analysé</h2>
-    <p><strong>Code :</strong> ${code}</p>
-
-    <h3>☣️ CMR</h3>
-    <span class="badge red">Produit à risque identifié</span>
-
-    <h3>Substances possibles</h3>
-    <ul>
-      <li>Solvants organiques</li>
-      <li>Composés irritants / toxiques</li>
-    </ul>
-
-    <h3>🛡️ Prévention recommandée</h3>
-    <ul>
-      <li>Limiter l’utilisation</li>
-      <li>Ventilation efficace</li>
-      <li>EPI adaptés</li>
-      <li>Information des utilisateurs</li>
-    </ul>
-
-    <h3>👷 Métiers concernés</h3>
-    <ul>
-      <li>BTP</li>
-      <li>Nettoyage</li>
-      <li>Maintenance</li>
-    </ul>
-
-    <h3>🤝 Accompagnement</h3>
+    <h1 style="color:#2e8b7a">👷 Métiers, risques & prévention</h1>
     <p>
-      Une analyse approfondie est recommandée.
-      <strong>RESTEV peut vous accompagner</strong>
-      (CMR, DUERP, SEIRICH).
+      Cette page présente les <strong>principaux risques par métier</strong>
+      et les <strong>actions de prévention essentielles</strong>.
     </p>
-    <button onclick="go('home')">Retour</button>
-  `;
-}
-</script>
 
-</body>
-</html>
+    <!-- BTP -->
+    <div class="card">
+      <h2>🏗 Métier : BTP / Chantier</h2>
+
+      <h3>⚠️ Risques principaux</h3>
+      <ul>
+        <li>Chutes de hauteur</li>
+        <li>Manutentions et postures</li>
+        <li>Poussières (silice, béton)</li>
+        <li>Produits chimiques et sols pollués</li>
+      </ul>
+
+      <h3>☣️ Expositions possibles (dont CMR)</h3>
+      <ul>
+        <li>Silice cristalline</li>
+        <li>Bitumes, fumées diesel</li>
+        <li>Sols pollués (hydrocarbures, métaux)</li>
+      </ul>
+
+      <h3>🛡️ Prévention à mettre en place</h3>
+      <ul>
+        <li>Organisation du chantier et planification</li>
+        <li>Protections collectives (garde‑corps, captage)</li>
+        <li>Réduction des poussières (arrosage, méthodes adaptées)</li>
+        <li>EPI adaptés et formation des équipes</li>
+      </ul>
+
+      <p><em>
+        RESTEV peut accompagner l’analyse des chantiers,
+        des expositions CMR et la mise en place d’un plan d’actions.
+      </em></p>
+    </div>
+
+    <!-- SANTE -->
+    <div class="card">
+      <h2>🩺 Métier : Santé / EHPAD</h2>
+
+      <h3>⚠️ Risques principaux</h3>
+      <ul>
+        <li>Risques biologiques</li>
+        <li>Manutention de personnes</li>
+        <li>Charge mentale et organisationnelle</li>
+      </ul>
+
+      <h3>☣️ Expositions possibles</h3>
+      <ul>
+        <li>Médicaments dangereux</li>
+        <li>Produits de désinfection</li>
+      </ul>
+
+      <h3>🛡️ Prévention à mettre en place</h3>
+      <ul>
+        <li>Protocoles de soins et d’hygiène</li>
+        <li>Aides à la manutention</li>
+        <li>Formation et information du personnel</li>
+        <li>Organisation des équipes et repos</li>
+      </ul>
+
+      <p><em>
+        RESTEV peut accompagner la prévention des risques
+        biologiques, chimiques et organisationnels.
+      </em></p>
+    </div>
+
+    <!-- TERTIAIRE -->
+    <div class="card">
+      <h2>💼 Métier : Tertiaire / Bureaux</h2>
+
+      <h3>⚠️ Risques principaux</h3>
+      <ul>
+        <li>Travail sur écran</li>
+        <li>Postures prolongées</li>
+        <li>Charge mentale</li>
+      </ul>
+
+      <h3>☣️ Expositions possibles</h3>
+      <ul>
+        <li>Produits de nettoyage</li>
+        <li>Substances contenues dans le matériel</li>
+      </ul>
+
+      <h3>🛡️ Prévention à mettre en place</h3>
+      <ul>
+        <li>Aménagement ergonomique des postes</li>
+        <li>Pauses et alternance des tâches</li>
+        <li>Organisation du travail et prévention des RPS</li>
+      </ul>
+
+      <p><em>
+        RESTEV peut accompagner l’amélioration
+        des conditions de travail et la prévention des RPS.
+      </em></p>
+    </div>
+
+    <!-- METIERS DE BOUCHE -->
+    <div class="card">
+      <h2>🥖 Métier : Métiers de bouche</h2>
+
+      <h3>⚠️ Risques principaux</h3>
+      <ul>
+        <li>Coupures et brûlures</li>
+        <li>Manutentions répétées</li>
+        <li>Rythmes de travail soutenus</li>
+      </ul>
+
+      <h3>☣️ Expositions possibles</h3>
+      <ul>
+        <li>Farines (inhalation)</li>
+        <li>Produits de nettoyage</li>
+        <li>Huiles ou fumées de cuisson</li>
+      </ul>
+
+      <h3>🛡️ Prévention à mettre en place</h3>
+      <ul>
+        <li>Organisation des postes</li>
+        <li>Réduction des poussières</li>
+        <li>Formation aux gestes et postures</li>
+        <li>EPI adaptés</li>
+      </ul>
+
+      <p><em>
+        RESTEV peut accompagner la prévention des expositions
+        et l’amélioration de l’organisation du travail.
+      </em></p>
+    </div>
+
+  </div>
+</section>
+``
