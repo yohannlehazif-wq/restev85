@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>RESTEV – App Prévention Santé au Travail</title>
+<title>RESTEV – Auto‑évaluation métiers & prévention</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -36,24 +36,11 @@ header{
 header img{height:60px}
 header h1{margin:0;color:var(--primary)}
 
-nav{
-  display:flex;
-  justify-content:space-around;
-  background:var(--primary);
-  padding:10px;
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
 }
-nav button{
-  background:white;
-  border:none;
-  border-radius:20px;
-  padding:8px 16px;
-  font-weight:600;
-  color:var(--primary);
-}
-
-section{display:none;padding:20px}
-section.active{display:block}
-.container{max-width:1100px;margin:auto}
 
 .card{
   background:var(--card);
@@ -63,26 +50,12 @@ section.active{display:block}
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-details{
-  margin-top:10px;
-}
-
+details{margin-top:10px}
 summary{
   cursor:pointer;
-  font-weight:600;
+  font-weight:700;
+  font-size:18px;
   color:var(--primary);
-  padding:8px 0;
-}
-
-button.main{
-  width:100%;
-  padding:14px;
-  border-radius:16px;
-  border:none;
-  background:var(--primary);
-  color:white;
-  font-size:16px;
-  margin-top:12px;
 }
 
 .badge{
@@ -96,7 +69,25 @@ button.main{
 .orange{background:var(--secondary);color:white}
 .green{background:var(--success);color:white}
 
-h2{color:var(--primary)}
+.eval label{
+  display:block;
+  margin:6px 0;
+}
+
+.eval input{margin-right:8px}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:var(--primary);
+  color:white;
+  font-size:16px;
+  margin-top:14px;
+}
+
+h3{margin-bottom:6px;color:var(--primary)}
 ul{padding-left:18px}
 </style>
 </head>
@@ -105,225 +96,186 @@ ul{padding-left:18px}
 
 <header>
   logo-restev.png
-  <h1>Prévention santé au travail</h1>
+  <h1>Auto‑évaluation prévention par métier</h1>
 </header>
 
-<nav>
-  <button onclick="go('home')">Accueil</button>
-  <button onclick="go('metiers')">Métiers</button>
-  <button onclick="go('restev')">RESTEV</button>
-</nav>
+<main>
 
-<section id="home" class="active">
-  <div class="container">
-    <div class="card">
-      <h2>L’app RESTEV</h2>
-      <p>
-        Une application pour <strong>rendre la prévention compréhensible</strong>,
-        <strong>utile</strong> et <strong>accessible à tous</strong>.
-      </p>
-      <button class="main" onclick="go('metiers')">Découvrir les métiers</button>
-    </div>
-  </div>
-</section>
+<div class="card">
+  <p>
+    Cette auto‑évaluation permet de <strong>se situer simplement</strong>
+    sur les risques liés à son métier et de visualiser
+    <strong>les actions de prévention attendues</strong>.
+  </p>
+</div>
 
-<section id="metiers">
-  <div class="container">
-    <h2>👷 Métiers – Risques & prévention</h2>
+<!-- ===================== BTP ===================== -->
+<div class="card">
+  <details>
+    <summary>🏗 BTP / Chantier</summary>
 
-    <!-- MODELE METIER -->
-    <div class="card">
-      <h2>🏗 BTP / Chantier</h2>
-      <span class="badge red">Expositions élevées</span>
+    <span class="badge red">Risques et CMR élevés</span>
 
-      <details>
-        <summary>🔎 Risques et expositions</summary>
-        <ul>
-          <li>Chutes, manutentions, circulation</li>
-          <li>Silice, sols pollués, fumées diesel</li>
-        </ul>
-      </details>
+    <h3>1️⃣ Auto‑évaluation rapide</h3>
+    <div class="eval">
+      <label><input type="radio" name="btp1"> Les risques sont identifiés et anticipés</label>
+      <label><input type="radio" name="btp1"> Partiellement</label>
+      <label><input type="radio" name="btp1"> Non</label>
 
-      <details>
-        <summary>🛡️ Prévention essentielle</summary>
-        <ul>
-          <li>Organisation du chantier</li>
-          <li>Protections collectives</li>
-          <li>Réduction des poussières</li>
-        </ul>
-      </details>
-
-      <details>
-        <summary>➕ Prévention complémentaire</summary>
-        <ul>
-          <li>EPI adaptés</li>
-          <li>Formation des équipes</li>
-        </ul>
-      </details>
-
-      <button class="main">Être accompagné par RESTEV</button>
+      <label><input type="radio" name="btp2"> Les poussières et substances sont maîtrisées</label>
+      <label><input type="radio" name="btp2"> Partiellement</label>
+      <label><input type="radio" name="btp2"> Non</label>
     </div>
 
-    <!-- NETTOYAGE -->
-    <div class="card">
-      <h2>🧹 Nettoyage professionnel</h2>
-      <span class="badge orange">Risque chimique</span>
+    <h3>2️⃣ Risques et CMR concernés</h3>
+    <ul>
+      <li>Silice cristalline (béton, pierre, carrelage)</li>
+      <li>Sols pollués</li>
+      <li>Fumées de diesel</li>
+      <li>Amiante (rénovation)</li>
+      <li>Manutentions et chutes</li>
+    </ul>
 
-      <details>
-        <summary>🔎 Risques et expositions</summary>
-        <ul>
-          <li>Produits chimiques</li>
-          <li>Postures répétées</li>
-        </ul>
-      </details>
+    <h3>3️⃣ Prévention attendue</h3>
+    <ul>
+      <li>Organisation et planification du chantier</li>
+      <li>Réduction des poussières à la source</li>
+      <li>Protections collectives prioritaires</li>
+      <li>EPI adaptés en complément</li>
+    </ul>
 
-      <details>
-        <summary>🛡️ Prévention essentielle</summary>
-        <ul>
-          <li>Choix et substitution des produits</li>
-          <li>Respect des dosages</li>
-        </ul>
-      </details>
+    <p><em>
+      RESTEV peut accompagner l’analyse chantier,
+      la gestion des CMR et la structuration du DUERP.
+    </em></p>
 
-      <details>
-        <summary>➕ Prévention complémentaire</summary>
-        <ul>
-          <li>Ventilation</li>
-          <li>Formation et EPI</li>
-        </ul>
-      </details>
+    <button>Être accompagné par RESTEV</button>
+  </details>
+</div>
 
-      <button class="main">Être accompagné par RESTEV</button>
+<!-- ===================== NETTOYAGE ===================== -->
+<div class="card">
+  <details>
+    <summary>🧹 Nettoyage professionnel</summary>
+
+    <span class="badge orange">Risque chimique fréquent</span>
+
+    <h3>1️⃣ Auto‑évaluation</h3>
+    <div class="eval">
+      <label><input type="radio" name="net1"> Les produits sont connus et maîtrisés</label>
+      <label><input type="radio" name="net1"> Partiellement</label>
+      <label><input type="radio" name="net1"> Non</label>
     </div>
 
-    <!-- SANTE -->
-    <div class="card">
-      <h2>🩺 Santé / EHPAD</h2>
-      <span class="badge red">Biologique & organisation</span>
+    <h3>2️⃣ Risques et CMR</h3>
+    <ul>
+      <li>Décapants</li>
+      <li>Solvants</li>
+      <li>Éthers de glycol</li>
+      <li>Produits irritants respiratoires</li>
+    </ul>
 
-      <details>
-        <summary>🔎 Risques et expositions</summary>
-        <ul>
-          <li>Agents biologiques</li>
-          <li>Manutention de personnes</li>
-        </ul>
-      </details>
+    <h3>3️⃣ Prévention</h3>
+    <ul>
+      <li>Choix et substitution des produits</li>
+      <li>Respect des dosages</li>
+      <li>Ventilation</li>
+      <li>Formation des agents</li>
+    </ul>
 
-      <details>
-        <summary>🛡️ Prévention essentielle</summary>
-        <ul>
-          <li>Protocoles et organisation</li>
-          <li>Aides techniques</li>
-        </ul>
-      </details>
+    <button>Être accompagné par RESTEV</button>
+  </details>
+</div>
 
-      <details>
-        <summary>➕ Prévention complémentaire</summary>
-        <ul>
-          <li>Formation</li>
-          <li>Prévention RPS</li>
-        </ul>
-      </details>
+<!-- ===================== SANTE ===================== -->
+<div class="card">
+  <details>
+    <summary>🩺 Santé / EHPAD</summary>
 
-      <button class="main">Être accompagné par RESTEV</button>
-    </div>
+    <span class="badge red">Biologique & organisation</span>
 
-    <!-- NOUVEAUX METIERS -->
-    <div class="card">
-      <h2>⚙️ Maintenance industrielle</h2>
-      <span class="badge orange">Technique & chimique</span>
-      <details>
-        <summary>🔎 Risques</summary>
-        <ul><li>Machines, électricité, produits</li></ul>
-      </details>
-      <details>
-        <summary>🛡️ Prévention</summary>
-        <ul><li>Consignation, procédures, formation</li></ul>
-      </details>
-      <button class="main">Être accompagné par RESTEV</button>
-    </div>
+    <h3>Risques et expositions</h3>
+    <ul>
+      <li>Agents biologiques</li>
+      <li>Médicaments dangereux</li>
+      <li>Manutention de personnes</li>
+      <li>Charge mentale</li>
+    </ul>
 
-    <div class="card">
-      <h2>⚡ Électricien</h2>
-      <span class="badge red">Risque électrique</span>
-      <details>
-        <summary>🔎 Risques</summary>
-        <ul><li>Contacts électriques, chutes</li></ul>
-      </details>
-      <details>
-        <summary>🛡️ Prévention</summary>
-        <ul><li>Habilitations, consignation</li></ul>
-      </details>
-      <button class="main">Être accompagné par RESTEV</button>
-    </div>
+    <h3>Prévention</h3>
+    <ul>
+      <li>Protocoles et organisation des soins</li>
+      <li>Aides techniques</li>
+      <li>Formation</li>
+    </ul>
 
-    <div class="card">
-      <h2>🚿 Plombier / Chauffagiste</h2>
-      <span class="badge orange">Chimique & thermique</span>
-      <details>
-        <summary>🔎 Risques</summary>
-        <ul><li>Produits, brûlures, manutention</li></ul>
-      </details>
-      <details>
-        <summary>🛡️ Prévention</summary>
-        <ul><li>Organisation, EPI, formation</li></ul>
-      </details>
-      <button class="main">Être accompagné par RESTEV</button>
-    </div>
+    <button>Être accompagné par RESTEV</button>
+  </details>
+</div>
 
-    <div class="card">
-      <h2>📦 Logistique / Manutention</h2>
-      <span class="badge orange">TMS</span>
-      <details>
-        <summary>🔎 Risques</summary>
-        <ul><li>Charges, circulation</li></ul>
-      </details>
-      <details>
-        <summary>🛡️ Prévention</summary>
-        <ul><li>Aides mécaniques, organisation</li></ul>
-      </details>
-      <button class="main">Être accompagné par RESTEV</button>
-    </div>
+<!-- ===================== INDUSTRIE ===================== -->
+<div class="card">
+  <details>
+    <summary>🏭 Industrie / Atelier</summary>
 
-    <div class="card">
-      <h2>🏭 Industrie / Atelier</h2>
-      <span class="badge red">Machine & chimique</span>
-      <details>
-        <summary>🔎 Risques</summary>
-        <ul><li>Machines, produits, bruit</li></ul>
-      </details>
-      <details>
-        <summary>🛡️ Prévention</summary>
-        <ul><li>Protections collectives, procédures</li></ul>
-      </details>
-      <button class="main">Être accompagné par RESTEV</button>
-    </div>
+    <span class="badge red">Machines & CMR</span>
 
-  </div>
-</section>
+    <h3>Risques</h3>
+    <ul>
+      <li>Machines dangereuses</li>
+      <li>Fumées de soudage</li>
+      <li>Huiles de coupe</li>
+      <li>Isocyanates, résines époxy</li>
+    </ul>
 
-<section id="restev">
-  <div class="container">
-    <div class="card">
-      <h2>🤝 L’accompagnement RESTEV</h2>
-      <ul>
-        <li>Analyse des situations de travail</li>
-        <li>CMR et produits dangereux</li>
-        <li>DUERP et plan d’actions</li>
-        <li>Accompagnement terrain</li>
-      </ul>
-      <button class="main">Contacter RESTEV</button>
-    </div>
-  </div>
-</section>
+    <h3>Prévention</h3>
+    <ul>
+      <li>Protections collectives</li>
+      <li>Captage des fumées</li>
+      <li>Organisation et formation</li>
+    </ul>
 
-<script>
-function go(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
-}
-</script>
+    <button>Être accompagné par RESTEV</button>
+  </details>
+</div>
+
+<!-- ===================== LOGISTIQUE ===================== -->
+<div class="card">
+  <details>
+    <summary>📦 Logistique / Manutention</summary>
+
+    <span class="badge orange">TMS & circulation</span>
+
+    <h3>Risques</h3>
+    <ul>
+      <li>Manutentions répétées</li>
+      <li>Circulation engins</li>
+      <li>Bruit</li>
+    </ul>
+
+    <h3>Prévention</h3>
+    <ul>
+      <li>Aides mécaniques</li>
+      <li>Organisation des flux</li>
+      <li>Formation gestes et postures</li>
+    </ul>
+
+    <button>Être accompagné par RESTEV</button>
+  </details>
+</div>
+
+<div class="card">
+  <h2>🤝 Accompagnement RESTEV</h2>
+  <p>
+    Cette auto‑évaluation permet une première orientation.<br><br>
+    <strong>RESTEV accompagne ensuite l’analyse,
+    la hiérarchisation des risques et le plan d’actions.</strong>
+  </p>
+  <button>Contacter RESTEV</button>
+</div>
+
+</main>
 
 </body>
 </html>
+``
