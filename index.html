@@ -3,53 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SST Vendée - Scanner Prévention</title>
+    <title>RESTEV - Prévention Santé au Travail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { --vendee-blue: #0056b3; --vendee-red: #e63946; }
-        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .navbar { background-color: var(--vendee-blue); color: white; }
-        #reader { width: 100%; border-radius: 15px; overflow: hidden; border: 2px solid #ddd; }
-        .result-card { transition: all 0.3s ease; }
-        .btn-vendee { background-color: var(--vendee-blue); color: white; border-radius: 25px; }
-        .btn-vendee:hover { background-color: #004494; color: white; }
+        /* COULEURS OFFICIELLES EXTRAITES DU SITE RESTEV.FR */
+        :root { 
+            --restev-navy: #1a365d;   /* Bleu Marine (Header/Titres) */
+            --restev-green: #97c93e;  /* Vert (Boutons/Validation/Vitalité) */
+            --restev-bg: #f8fafc;     /* Fond de page neutre */
+            --restev-white: #ffffff;
+        }
+
+        body { 
+            background-color: var(--restev-bg); 
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #2d3748;
+        }
+
+        /* Barre supérieure - Style Institutionnel */
+        .navbar { 
+            background-color: var(--restev-navy) !important;
+            padding: 1rem 0;
+            border-bottom: 4px solid var(--restev-green);
+        }
+        .navbar-brand { font-weight: 700; color: white !important; letter-spacing: 1px; }
+
+        /* Style du Scanner */
+        #reader { 
+            border: 3px solid var(--restev-navy);
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Cartes de résultats */
+        .card-result {
+            border: none;
+            border-left: 8px solid var(--restev-green);
+            background: white;
+            border-radius: 12px;
+        }
+        .card-cmr { border-left-color: #e53e3e; }
+
+        /* Boutons personnalisés */
+        .btn-restev-green {
+            background-color: var(--restev-green);
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 10px 20px;
+            border: none;
+            transition: transform 0.2s;
+        }
+        .btn-restev-green:hover {
+            background-color: #82af35;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-navy {
+            border: 2px solid var(--restev-navy);
+            color: var(--restev-navy);
+            font-weight: 600;
+            border-radius: 8px;
+        }
+        .btn-outline-navy:hover {
+            background-color: var(--restev-navy);
+            color: white;
+        }
+
+        /* Icônes de modules */
+        .module-icon { color: var(--restev-green); font-size: 1.5rem; margin-bottom: 0.5rem; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar mb-4 shadow-sm">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1 text-white">SST VENDÉE - PRÉVENTION</span>
+    <nav class="navbar mb-4 shadow">
+        <div class="container text-center">
+            <span class="navbar-brand mx-auto">RESTEV VENDÉE</span>
         </div>
     </nav>
 
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <h2 class="mb-3">Scanner de Risques</h2>
-                <p class="text-muted">Analysez vos produits chimiques pour détecter les agents CMR.</p>
+                <h3 class="mb-4" style="color: var(--restev-navy);">Gestion des Risques Chimiques</h3>
                 
                 <div id="reader" class="mb-4"></div>
-                
-                <div id="result-container" class="d-none">
-                    <div id="product-info" class="card result-card shadow p-4 text-start">
+
+                <div id="result-container" class="d-none animate__animated animate__fadeIn">
+                    <div id="product-info" class="card card-result shadow-sm p-4 text-start">
                         </div>
-                    <button class="btn btn-outline-secondary mt-3" onclick="resetScanner()">Scanner un autre produit</button>
+                    <button class="btn btn-outline-navy mt-4 w-100" onclick="resetScanner()">Scanner un nouveau produit</button>
                 </div>
 
-                <hr class="my-5">
-
-                <div class="row g-3">
-                    <div class="col-6">
-                        <div class="p-3 bg-white rounded shadow-sm">
-                            <h6>📝 DUERP</h6>
-                            <small>Mise à jour</small>
+                <div class="row g-3 mt-4" id="quick-menu">
+                    <div class="col-4">
+                        <div class="p-2 bg-white rounded shadow-sm border-top border-4 border-success">
+                            <div class="module-icon">📋</div>
+                            <small class="fw-bold">DUERP</small>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="p-3 bg-white rounded shadow-sm">
-                            <h6>🛡️ Conseil</h6>
-                            <small>Contact IPRP</small>
+                    <div class="col-4">
+                        <div class="p-2 bg-white rounded shadow-sm border-top border-4 border-primary">
+                            <div class="module-icon">🛡️</div>
+                            <small class="fw-bold">Conseil</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-2 bg-white rounded shadow-sm border-top border-4 border-warning">
+                            <div class="module-icon">📞</div>
+                            <small class="fw-bold">Urgence</small>
                         </div>
                     </div>
                 </div>
@@ -57,59 +122,50 @@
         </div>
     </div>
 
-    <footer class="text-center mt-5 p-4 text-muted small">
-        &copy; 2026 Réseau Santé Travail Entreprise Vendée
+    <footer class="text-center mt-5 p-4 text-muted border-top bg-white">
+        <small>Service de Santé au Travail - Réseau Est Vendéen</small><br>
+        <strong>restev.fr</strong>
     </footer>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
         let databaseProduits = [];
+        fetch('produits.json').then(r=>r.json()).then(d=>databaseProduits = d.produits);
 
-        // 1. Chargement de la base de données depuis produits.json
-        fetch('produits.json')
-            .then(response => response.json())
-            .then(data => {
-                databaseProduits = data.produits;
-                console.log("Base de données opérationnelle.");
-            })
-            .catch(err => console.error("Erreur de chargement du fichier JSON:", err));
-
-        // 2. Initialisation du scanner
         function onScanSuccess(decodedText) {
-            // Arrêter le scanner après une détection réussie pour économiser la batterie
-            // html5QrcodeScanner.clear(); 
-            
             const container = document.getElementById('result-container');
             const info = document.getElementById('product-info');
+            const menu = document.getElementById('quick-menu');
+            
             container.classList.remove('d-none');
             document.getElementById('reader').classList.add('d-none');
+            menu.classList.add('d-none');
 
-            // Recherche du produit
             const produit = databaseProduits.find(p => p.code === decodedText);
 
             if (produit) {
                 if (produit.cmr) {
+                    info.classList.add('card-cmr');
                     info.innerHTML = `
-                        <h4 class="text-danger">⚠️ ALERTE CMR</h4>
-                        <p><strong>Nom :</strong> ${produit.nom}</p>
-                        <p><strong>Classement :</strong> ${produit.classement}</p>
-                        <div class="alert alert-warning small">${produit.conseil}</div>
-                        <button class="btn btn-danger w-100 mt-2">Ajouter au DUERP</button>
+                        <h4 class="text-danger">⚠️ RISQUE CMR</h4>
+                        <p class="mb-1"><strong>Nom :</strong> ${produit.nom}</p>
+                        <p class="mb-3"><strong>Danger :</strong> ${produit.classement}</p>
+                        <div class="p-2 bg-light rounded small mb-3"><strong>Action :</strong> ${produit.conseil}</div>
+                        <button class="btn btn-restev-green w-100">Intégrer au Document Unique</button>
                     `;
                 } else {
+                    info.classList.remove('card-cmr');
                     info.innerHTML = `
-                        <h4 class="text-success">✅ PRODUIT IDENTIFIÉ</h4>
-                        <p><strong>Nom :</strong> ${produit.nom}</p>
-                        <p>Aucun risque CMR connu pour ce produit.</p>
-                        <p class="small text-muted">${produit.conseil}</p>
+                        <h4 style="color: var(--restev-green)">✅ PRODUIT CONFORME</h4>
+                        <p class="mb-1"><strong>Nom :</strong> ${produit.nom}</p>
+                        <p class="small text-muted">Aucune substance CMR répertoriée dans ce produit.</p>
                     `;
                 }
             } else {
                 info.innerHTML = `
-                    <h4 class="text-secondary">❓ PRODUIT INCONNU</h4>
-                    <p>Code scanné : <strong>${decodedText}</strong></p>
-                    <p>Ce produit n'est pas encore dans la base régionale.</p>
-                    <button class="btn btn-primary w-100">Demander une analyse FDS</button>
+                    <h4 class="text-muted">PRODUIT NON RÉFÉRENCÉ</h4>
+                    <p>Code : ${decodedText}</p>
+                    <button class="btn btn-restev-green w-100">Envoyer la FDS au RESTEV</button>
                 `;
             }
         }
@@ -117,128 +173,11 @@
         function resetScanner() {
             document.getElementById('result-container').classList.add('d-none');
             document.getElementById('reader').classList.remove('d-none');
+            document.getElementById('quick-menu').classList.remove('d-none');
         }
 
         let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
     </script>
-</body>
-</html>
-<div class="card-icon">🛡️</div>
-                        <h5 class="card-title">Prévention au Travail</h5>
-                        <p class="card-text">Accédez aux fiches métiers, postures et conseils de santé quotidienne.</p>
-                        <a href="#" class="btn btn-vendee w-100">Consulter les fiches</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <div class="card-icon">🧪</div>
-                        <h5 class="card-title">Risques Chimiques</h5>
-                        <p class="card-text">Gérez votre inventaire, scannez les FDS et évaluez la dangerosité.</p>
-                        <a href="#" class="btn btn-vendee w-100">Gérer mes produits</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <div class="card-icon">📝</div>
-                        <h5 class="card-title">Accompagnement DUERP</h5>
-                        <p class="card-text">Mise à jour de votre Document Unique et suivi du plan d'action.</p>
-                        <a href="#" class="btn btn-vendee w-100">Mettre à jour</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-5 p-4 bg-white rounded shadow-sm">
-            <h4>Contactez votre centre Vendée</h4>
-            <p>Un doute sur un risque ? Contactez votre conseiller en prévention dédié.</p>
-            <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-outline-primary" type="button">📞 Appeler mon centre</button>
-                <button class="btn btn-outline-secondary" type="button">📧 Envoyer un message</button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="text-center mt-5 mb-4 text-muted small">
-        &copy; 2026 Santé au Travail Vendée - Prévenir pour Protéger
-    </footer>
-
-</body>
-</html>
-<section id="metiers"><div class="container">
-<div class="card"><h2>Prévention par métier</h2>
-<p>Chaque métier expose à des risques spécifiques. RESTEV intervient en sensibilisation, organisation du travail et prévention primaire.</p>
-</div>
-<div class="card"><h3>Tertiaire / Bureaux</h3>
-<ul><li>Travail sur écran</li><li>Postures prolongées</li><li>Charge mentale</li></ul>
-<p><strong>Prévention :</strong> ergonomie des postes, pauses, organisation, prévention RPS.</p></div>
-<div class="card"><h3>Logistique / Manutention</h3>
-<ul><li>Manutentions manuelles</li><li>Circulations internes</li></ul>
-<p><strong>Prévention :</strong> aides mécaniques, gestes et postures, organisation des flux.</p></div>
-<div class="card"><h3>Nettoyage professionnel</h3>
-<ul><li>Postures contraignantes</li><li>Rythmes de travail</li></ul>
-<p><strong>Prévention :</strong> organisation des interventions, prévention TMS.</p></div>
-<div class="card"><h3>Métiers de bouche</h3>
-<ul><li>Coupures</li><li>Brûlures</li></ul>
-<p><strong>Prévention :</strong> aménagement des postes, gestion des cadences.</p></div>
-<div class="card"><h3>Industrie / Atelier</h3>
-<ul><li>Machines</li><li>Bruit</li></ul>
-<p><strong>Prévention :</strong> protections collectives, procédures, formation.</p></div>
-</div></section>
-
-<section id="cmr"><div class="container">
-<div class="card"><h2>Analyse CMR & produits</h2>
-<p>Scanner un produit pour identifier un risque potentiel lié aux substances dangereuses.</p>
-<div id="scanner"></div>
-<button class="main" onclick="startScan()">Démarrer le scan code-barres</button>
-</div>
-<div class="card"><h3>Exemple résultat</h3>
-<p><strong>Produit à risque potentiel</strong></p>
-<ul><li>Solvants</li><li>Éthers de glycol</li></ul>
-<p><strong>Prévention :</strong> substitution, ventilation, EPI, formation des utilisateurs.</p></div>
-</div></section>
-
-<section id="eval"><div class="container">
-<div class="card"><h2>Auto-évaluation prévention (exemple)</h2>
-<div class="question">Les risques sont connus ?<div class="buttons"><button onclick="ans(2,this)">Oui</button><button onclick="ans(1,this)">Partiellement</button><button onclick="ans(0,this)">Non</button></div></div>
-<div class="question">Organisation adaptée ?<div class="buttons"><button onclick="ans(2,this)">Oui</button><button onclick="ans(1,this)">Partiellement</button><button onclick="ans(0,this)">Non</button></div></div>
-<div class="question">Les salariés sont formés ?<div class="buttons"><button onclick="ans(2,this)">Oui</button><button onclick="ans(1,this)">Partiellement</button><button onclick="ans(0,this)">Non</button></div></div>
-<button class="main" onclick="calc()">Afficher résultat</button>
-<div id="res"></div>
-</div></div></section>
-
-<section id="duerp"><div class="container"><div class="card">
-<h2>DUERP – Construction conjointe</h2>
-<p>Le DUERP est élaboré avec l’entreprise à partir du travail réel.</p>
-<ul>
-<li>Repérage des situations de travail</li>
-<li>Analyse des risques</li>
-<li>Classement des priorités</li>
-<li>Plan d’actions réaliste</li>
-</ul>
-</div></div></section>
-
-<section id="contact"><div class="container"><div class="card">
-<h2>Contact RESTEV</h2>
-<form>
-<input placeholder="Nom / Entreprise" required><input type="email" placeholder="Email" required>
-<textarea rows="4" placeholder="Votre message"></textarea>
-<button class="main">Envoyer</button>
-</form>
-</div></div></section>
-
-<script>
-function go(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
-let score=0
-function ans(v,b){score+=v;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')}
-function calc(){let c='green',t='Prévention maîtrisée';if(score<=2){c='red';t='Prévention insuffisante'}else if(score<=4){c='orange';t='Prévention perfectible'}document.getElementById('res').innerHTML=`<div class="result ${c}">${t}</div>`;score=0}
-function startScan(){Quagga.init({inputStream:{name:'Live',type:'LiveStream',target:document.querySelector('#scanner')},decoder:{readers:['ean_reader']}},err=>{if(!err)Quagga.start()})}
-</script>
 </body>
 </html>
