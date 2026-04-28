@@ -3,179 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV - Prévention Santé au Travail</title>
+    <title>RESTEV 85 - Assistant Prévention & Traçabilité</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        /* COULEURS OFFICIELLES EXTRAITES DU SITE RESTEV.FR */
+        /* COULEURS EXTRAITES DU LOGO OFFICIAL */
         :root { 
-            --restev-navy: #1a365d;   /* Bleu Marine (Header/Titres) */
-            --restev-green: #97c93e;  /* Vert (Boutons/Validation/Vitalité) */
-            --restev-bg: #f8fafc;     /* Fond de page neutre */
-            --restev-white: #ffffff;
+            --restev-blue: #3d7cc0;    /* Bleu principal du texte 'RESTEV' */
+            --restev-violet: #a74b9e;  /* Violet du 'V' et du pictogramme */
+            --restev-orange: #f29c2b;  /* Orange du pictogramme */
+            --restev-yellow: #fdd017;  /* Jaune du pictogramme */
+            --restev-bg: #f5f8fc;
+            --restev-navy: #1a365d;   /* Bleu institutionnel pour fonds */
         }
 
         body { 
             background-color: var(--restev-bg); 
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            color: #2d3748;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: #333;
         }
 
-        /* Barre supérieure - Style Institutionnel */
-        .navbar { 
-            background-color: var(--restev-navy) !important;
+        /* En-tête Institutionnel */
+        .header-restev {
+            background-color: white;
+            border-bottom: 5px solid var(--restev-blue);
             padding: 1rem 0;
-            border-bottom: 4px solid var(--restev-green);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .navbar-brand { font-weight: 700; color: white !important; letter-spacing: 1px; }
+        .header-logo {
+            max-height: 80px;
+            width: auto;
+        }
 
-        /* Style du Scanner */
+        /* Scanner */
         #reader { 
-            border: 3px solid var(--restev-navy);
-            border-radius: 15px;
-            overflow: hidden;
+            width: 100%; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border: 4px solid var(--restev-blue);
             background: white;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
 
-        /* Cartes de résultats */
-        .card-result {
+        /* Alertes et Cartes */
+        .card-custom {
             border: none;
-            border-left: 8px solid var(--restev-green);
-            background: white;
             border-radius: 12px;
-        }
-        .card-cmr { border-left-color: #e53e3e; }
-
-        /* Boutons personnalisés */
-        .btn-restev-green {
-            background-color: var(--restev-green);
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 10px 20px;
-            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
             transition: transform 0.2s;
         }
-        .btn-restev-green:hover {
-            background-color: #82af35;
+        .card-custom:hover { transform: translateY(-3px); }
+        
+        .border-cmr { border-left: 8px solid var(--restev-violet); }
+        .border-safe { border-left: 8px solid #5cb85c; }
+        .text-cmr { color: var(--restev-violet); font-weight: bold; }
+        
+        /* Boutons personnalisés */
+        .btn-restev-blue {
+            background-color: var(--restev-blue);
             color: white;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-navy {
-            border: 2px solid var(--restev-navy);
-            color: var(--restev-navy);
-            font-weight: 600;
+            font-weight: bold;
             border-radius: 8px;
         }
-        .btn-outline-navy:hover {
-            background-color: var(--restev-navy);
-            color: white;
-        }
+        .btn-restev-blue:hover { background-color: #2e5d91; color: white; }
 
-        /* Icônes de modules */
-        .module-icon { color: var(--restev-green); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .btn-outline-violet {
+            border: 2px solid var(--restev-violet);
+            color: var(--restev-violet);
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        .btn-outline-violet:hover { background-color: var(--restev-violet); color: white; }
+
+        /* Tableau DUERP */
+        .table-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .badge-cmr { background-color: var(--restev-violet); color: white; }
+
+        footer { font-size: 0.85rem; color: #666; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar mb-4 shadow">
-        <div class="container text-center">
-            <span class="navbar-brand mx-auto">RESTEV VENDÉE</span>
+    <header class="header-restev text-center">
+        <div class="container">
+            <div style="font-weight: bold; font-size: 1.5rem; color: var(--restev-blue); border: 2px dashed var(--restev-blue); padding: 10px; display: inline-block;">
+                [ Placez logo-restev.png ici ]
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <h3 class="mb-4" style="color: var(--restev-navy);">Gestion des Risques Chimiques</h3>
+                <h4 class="mb-4" style="color: var(--restev-blue);">Vérification CMR & Traçabilité</h4>
                 
-                <div id="reader" class="mb-4"></div>
+                <div id="reader" class="mb-3"></div>
 
-                <div id="result-container" class="d-none animate__animated animate__fadeIn">
-                    <div id="product-info" class="card card-result shadow-sm p-4 text-start">
+                <div id="result-container" class="d-none">
+                    <div id="product-info" class="card card-custom p-4 text-start">
                         </div>
-                    <button class="btn btn-outline-navy mt-4 w-100" onclick="resetScanner()">Scanner un nouveau produit</button>
+                    <button class="btn btn-outline-secondary w-100 mb-4" onclick="resetScanner()">Scanner un autre produit</button>
                 </div>
+            </div>
+        </div>
 
-                <div class="row g-3 mt-4" id="quick-menu">
-                    <div class="col-4">
-                        <div class="p-2 bg-white rounded shadow-sm border-top border-4 border-success">
-                            <div class="module-icon">📋</div>
-                            <small class="fw-bold">DUERP</small>
-                        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-10">
+                <div class="table-container">
+                    <h5 class="mb-3" style="color: var(--restev-blue);"><span style="color: var(--restev-violet);">📋</span> Inventaire de Veille Sanitaire (DUERP)</h5>
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Danger</th>
+                                    <th>Préconisation</th>
+                                    <th>État d'action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="duerp-list">
+                                <tr id="empty-row">
+                                    <td colspan="4" class="text-center text-muted p-4 italic">
+                                        Scannez un produit chimique pour l'ajouter à votre traçabilité.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-4">
-                        <div class="p-2 bg-white rounded shadow-sm border-top border-4 border-primary">
-                            <div class="module-icon">🛡️</div>
-                            <small class="fw-bold">Conseil</small>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="p-2 bg-white rounded shadow-sm border-top border-4 border-warning">
-                            <div class="module-icon">📞</div>
-                            <small class="fw-bold">Urgence</small>
-                        </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">🖨️ Version imprimable</button>
+                        <button class="btn btn-sm btn-outline-violet" onclick="window.location.href='mailto:conseil@restev85.fr'">📞 Demander conseil au RESTEV 85</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center mt-5 p-4 text-muted border-top bg-white">
-        <small>Service de Santé au Travail - Réseau Est Vendéen</small><br>
-        <strong>restev.fr</strong>
+    <footer class="text-center p-4 mt-5 bg-white border-top">
+        <p class="mb-0">
+            <strong>RESTEV 85</strong> - Prévention santé au travail<br>
+            Veille sanitaire et traçabilité des expositions (Article L.4622-2)
+        </p>
     </footer>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
         let databaseProduits = [];
-        fetch('produits.json').then(r=>r.json()).then(d=>databaseProduits = d.produits);
 
+        // Chargement de la base de données
+        fetch('produits.json')
+            .then(r => r.json())
+            .then(d => {
+                databaseProduits = d.produits;
+                console.log("Base de veille RESTEV chargée.");
+            })
+            .catch(e => console.error("Erreur base de données:", e));
+
+        // Initialisation du scanner
         function onScanSuccess(decodedText) {
             const container = document.getElementById('result-container');
             const info = document.getElementById('product-info');
-            const menu = document.getElementById('quick-menu');
-            
+            const readerDiv = document.getElementById('reader');
+
             container.classList.remove('d-none');
-            document.getElementById('reader').classList.add('d-none');
-            menu.classList.add('d-none');
+            readerDiv.classList.add('d-none');
 
             const produit = databaseProduits.find(p => p.code === decodedText);
 
             if (produit) {
                 if (produit.cmr) {
-                    info.classList.add('card-cmr');
+                    info.className = "card card-custom p-4 text-start border-cmr";
                     info.innerHTML = `
-                        <h4 class="text-danger">⚠️ RISQUE CMR</h4>
+                        <h4 class="text-cmr">⚠️ ALERTE CMR DÉTECTÉE</h4>
                         <p class="mb-1"><strong>Nom :</strong> ${produit.nom}</p>
-                        <p class="mb-3"><strong>Danger :</strong> ${produit.classement}</p>
-                        <div class="p-2 bg-light rounded small mb-3"><strong>Action :</strong> ${produit.conseil}</div>
-                        <button class="btn btn-restev-green w-100">Intégrer au Document Unique</button>
+                        <p class="mb-2"><strong>Classification :</strong> ${produit.classement}</p>
+                        <div class="alert alert-light border small mb-3"><strong>Conseil de prévention :</strong> ${produit.conseil}</div>
+                        <button class="btn btn-restev-blue w-100" onclick="ajouterAuDuerp('${produit.nom}', '${produit.classement}', '${produit.conseil}', true)">
+                            Ajouter à l'inventaire DUERP
+                        </button>
                     `;
                 } else {
-                    info.classList.remove('card-cmr');
+                    info.className = "card card-custom p-4 text-start border-safe";
                     info.innerHTML = `
-                        <h4 style="color: var(--restev-green)">✅ PRODUIT CONFORME</h4>
+                        <h4 class="text-success">✅ Produit Référencé (Non-CMR)</h4>
                         <p class="mb-1"><strong>Nom :</strong> ${produit.nom}</p>
-                        <p class="small text-muted">Aucune substance CMR répertoriée dans ce produit.</p>
+                        <p class="small text-muted mb-3">Le produit ne contient pas d'agents CMR répertoriés.</p>
+                        <button class="btn btn-outline-secondary btn-sm w-100" onclick="ajouterAuDuerp('${produit.nom}', '${produit.classement}', '${produit.conseil}', false)">
+                            Ajouter pour traçabilité simple
+                        </button>
                     `;
                 }
             } else {
+                info.className = "card card-custom p-4 text-start border-light";
                 info.innerHTML = `
-                    <h4 class="text-muted">PRODUIT NON RÉFÉRENCÉ</h4>
-                    <p>Code : ${decodedText}</p>
-                    <button class="btn btn-restev-green w-100">Envoyer la FDS au RESTEV</button>
+                    <h4 class="text-muted">❓ Produit Non Référencé</h4>
+                    <p>Code scanné : ${decodedText}</p>
+                    <p class="small">Ce produit n'est pas encore dans la base régionale. Veuillez analyser sa FDS.</p>
+                    <button class="btn btn-restev-blue w-100" onclick="resetScanner()">Recommencer</button>
                 `;
             }
+        }
+
+        function ajouterAuDuerp(nom, risque, conseil, isCmr) {
+            const list = document.getElementById('duerp-list');
+            const emptyRow = document.getElementById('empty-row');
+            if (emptyRow) emptyRow.remove();
+
+            const row = document.createElement('tr');
+            const badgeClass = isCmr ? 'badge-cmr' : 'bg-success text-white';
+            
+            row.innerHTML = `
+                <td><strong>${nom}</strong></td>
+                <td><span class="badge ${badgeClass}">${risque}</span></td>
+                <td><small>${conseil}</small></td>
+                <td><select class="form-select form-select-sm border-primary">
+                    <option>À faire</option>
+                    <option>En cours</option>
+                    <option>Terminé</option>
+                </select></td>
+            `;
+            list.appendChild(row);
+            alert("Produit ajouté à l'inventaire de traçabilité.");
+            resetScanner();
         }
 
         function resetScanner() {
             document.getElementById('result-container').classList.add('d-none');
             document.getElementById('reader').classList.remove('d-none');
-            document.getElementById('quick-menu').classList.remove('d-none');
         }
 
+        // Démarrage du scanner
         let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
     </script>
