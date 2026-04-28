@@ -3,249 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Partenaire Prévention</title>
+    <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { 
-            --restev-blue: #3d7cc0; 
-            --restev-violet: #a74b9e; 
-            --restev-green: #97c93e;
-            --restev-yellow: #fdd017;
-            --restev-bg: #f8fafc;
-        }
-
-        body { background-color: var(--restev-bg); font-family: 'Segoe UI', system-ui, sans-serif; padding-bottom: 80px; }
-
-        /* Header avec Logo */
-        .header-restev { background: white; border-bottom: 5px solid var(--restev-blue); padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo-img { max-height: 70px; width: auto; margin-bottom: 5px; }
-
-        /* Navigation par onglets */
-        .nav-tabs { background: white; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .nav-link { color: #666; font-weight: 600; border: none !important; margin: 0 5px; padding: 12px 20px; }
+        :root { --restev-blue: #3d7cc0; --restev-violet: #a74b9e; --restev-green: #97c93e; --restev-bg: #f8fafc; }
+        body { background-color: var(--restev-bg); font-family: 'Segoe UI', sans-serif; padding-bottom: 90px; }
+        .header-restev { background: white; border-bottom: 5px solid var(--restev-blue); padding: 15px; }
+        .logo-img { max-height: 60px; }
+        .nav-link { color: #666; font-weight: 600; border: none !important; }
         .nav-link.active { color: var(--restev-blue) !important; border-bottom: 4px solid var(--restev-blue) !important; }
-
-        /* Scanner */
-        #reader { border: 4px solid var(--restev-blue); border-radius: 20px; overflow: hidden; background: white; margin-top: 10px; }
-
-        /* Cartes & Badges */
-        .card-custom { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 20px; background: white; }
-        .border-cmr { border-left: 8px solid var(--restev-violet); }
-        .border-safe { border-left: 8px solid var(--restev-green); }
-        .btn-restev { background-color: var(--restev-blue); color: white; font-weight: bold; border-radius: 10px; }
-        .btn-restev:hover { background-color: #2e5d91; color: white; }
-        .badge-cmr { background-color: var(--restev-violet); color: white; padding: 6px 12px; }
-
-        /* Onglet Fiches */
-        .card-fiche { cursor: pointer; transition: 0.2s; border: none; border-radius: 15px; }
-        .card-fiche:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-        .fiche-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
-
-        footer { font-size: 0.8rem; background: white; border-top: 1px solid #eee; }
+        #reader { border: 4px solid var(--restev-blue); border-radius: 20px; overflow: hidden; background: white; }
+        .card-custom { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background: white; }
+        .picto-grid img { width: 50px; height: 50px; cursor: pointer; margin: 5px; transition: 0.2s; }
+        .picto-grid img:hover { transform: scale(1.2); }
+        .btn-restev { background: var(--restev-blue); color: white; border-radius: 10px; font-weight: bold; }
+        footer { font-size: 0.75rem; background: white; border-top: 1px solid #eee; z-index: 1000; }
     </style>
 </head>
 <body>
 
     <header class="header-restev text-center">
-        <div class="container">
-            <img src="1000009663.jpg" alt="RESTEV 85" class="logo-img" onerror="this.style.display='none'">
-            <h6 class="mb-0 fw-bold" style="color: var(--restev-blue);">Prévention Santé au Travail 85</h6>
-        </div>
+        <img src="1000009663.jpg" alt="RESTEV 85" class="logo-img" onerror="this.style.display='none'">
+        <h6 class="mb-0 fw-bold" style="color: var(--restev-blue);">RESTEV 85 - Partenaire Santé</h6>
     </header>
 
-    <ul class="nav nav-tabs sticky-top justify-content-center mb-3" id="mainTabs" role="tablist">
-        <li class="nav-item">
-            <button class="nav-link active" id="scan-tab" data-bs-toggle="tab" data-bs-target="#scan-content" type="button">🔍 Scan</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" id="duerp-tab" data-bs-toggle="tab" data-bs-target="#duerp-content" type="button">📊 Suivi</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" id="prev-tab" data-bs-toggle="tab" data-bs-target="#prev-content" type="button">🛡️ Conseils</button>
-        </li>
+    <ul class="nav nav-tabs sticky-top justify-content-center bg-white" id="mainTabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#scan-content">🔍 Scan</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#duerp-content">📊 Suivi</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#prev-content">🛡️ Conseils</button></li>
     </ul>
 
-    <div class="container tab-content mt-2">
+    <div class="container tab-content mt-3">
         
         <div class="tab-pane fade show active" id="scan-content">
-            <div class="text-center">
-                <p class="text-muted small mb-3">Identifiez vos produits pour un conseil immédiat.</p>
-                <div id="reader"></div>
-                <div id="result-container" class="d-none">
-                    <div id="product-info" class="card card-custom p-4 text-start"></div>
-                    <button class="btn btn-outline-secondary w-100 mt-3" onclick="resetScanner()">Nouvelle analyse</button>
-                </div>
+            <div id="reader"></div>
+            <div id="result-container" class="d-none mt-3">
+                <div id="product-info" class="card card-custom p-4"></div>
+                <button class="btn btn-outline-secondary w-100 mt-2" onclick="resetScanner()">Scanner un autre produit</button>
+            </div>
+            <div class="mt-4 p-3 card-custom text-center">
+                <h6>🆘 Besoin d'aide pour lire une FDS ?</h6>
+                <button class="btn btn-sm btn-outline-primary" onclick="ouvrirSOSFDS()">Guide de lecture rapide</button>
             </div>
         </div>
 
         <div class="tab-pane fade" id="duerp-content">
-            <div class="card card-custom p-4">
-                <h5 class="mb-3" style="color: var(--restev-blue);">Ma Traçabilité Prévention</h5>
-                <p class="small text-muted">Ces données restent privées sur votre appareil.</p>
+            <div class="card card-custom p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0 text-primary">Mon Bilan d'Exposition</h6>
+                    <button class="btn btn-sm btn-success" onclick="exporterBilan()">📥 Export Visite Médicale</button>
+                </div>
                 <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead class="table-light">
-                            <tr><th>Produit</th><th>Analyse</th><th>État d'action</th><th></th></tr>
-                        </thead>
+                    <table class="table table-sm align-middle">
                         <tbody id="duerp-list"></tbody>
                     </table>
                 </div>
-                <button class="btn btn-sm btn-outline-danger mt-4" onclick="viderTout()">Effacer l'historique</button>
             </div>
         </div>
 
         <div class="tab-pane fade" id="prev-content">
-            <h5 class="mb-3 text-center" style="color: var(--restev-blue);">L'Expertise RESTEV 85</h5>
-            <div class="row g-3">
-                <div class="col-6">
-                    <div class="card card-fiche p-4 text-center shadow-sm" onclick="ouvrirChimie()">
-                        <span class="fiche-icon">🧪</span>
-                        <small class="fw-bold">Risques Chimiques</small>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card card-fiche p-4 text-center shadow-sm" onclick="ouvrirFiche('Poste Écran', 'Un bon réglage évite les tensions. Votre écran doit être à hauteur de vue, vos pieds à plat, et pensez à reposer vos yeux 5 min toutes les heures.')">
-                        <span class="fiche-icon">💻</span>
-                        <small class="fw-bold">Travail Écran</small>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card card-fiche p-4 text-center shadow-sm" onclick="ouvrirFiche('Manutention', 'Pour protéger votre dos, pliez les genoux et gardez la charge proche de vous. Des aides mécaniques existent, n\'hésitez pas à nous consulter.')">
-                        <span class="fiche-icon">📦</span>
-                        <small class="fw-bold">Manutention</small>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card card-fiche p-4 text-center shadow-sm" onclick="ouvrirFiche('Prévention Addictions', 'Le RESTEV vous accompagne dans la bienveillance. La vigilance au poste est primordiale pour votre sécurité et celle de vos collègues.')">
-                        <span class="fiche-icon">🚫</span>
-                        <small class="fw-bold">Addictions</small>
-                    </div>
+            <div class="card card-custom p-3 mb-3 border-start border-4 border-warning">
+                <h6>⚡ Diagnostic Flash Poste</h6>
+                <p class="small">Évaluez votre poste en 30 secondes.</p>
+                <button class="btn btn-sm btn-restev" onclick="lancerDiag()">Démarrer</button>
+            </div>
+
+            <div class="card card-custom p-3 mb-3">
+                <h6>⚠️ Guide des Dangers (CLP)</h6>
+                <p class="small text-muted">Cliquez sur un symbole pour comprendre le risque.</p>
+                <div class="picto-grid text-center">
+                    <span onclick="infoPicto('Explosif', 'Produit pouvant exploser au contact d\'une flamme ou d\'un choc.')">💥</span>
+                    <span onclick="infoPicto('Inflammable', 'Peut s\'enflammer facilement. Éloignez toute source de chaleur.')">🔥</span>
+                    <span onclick="infoPicto('Corrosif', 'Attaque les tissus (peau, yeux) et les métaux. Portez des lunettes !')">🧪</span>
+                    <span onclick="infoPicto('Toxicité aiguë', 'Empoisonnement rapide même à faible dose.')">💀</span>
+                    <span onclick="infoPicto('Danger Santé (CMR)', 'Effets graves à long terme (cancer, mutation, fertilité).')">👤</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="ficheModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow">
-          <div class="modal-header" style="background-color: var(--restev-blue); color: white;">
-            <h5 class="modal-title" id="ficheTitle"></h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body p-4" id="ficheBody"></div>
+    <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header" id="modalHeader" style="background: var(--restev-blue); color: white;">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody"></div>
+            </div>
         </div>
-      </div>
     </div>
 
     <footer class="text-center p-3 fixed-bottom shadow-lg">
-        <div class="container">
-            <span class="fw-bold" style="color: var(--restev-blue);">RESTEV 85</span> - Partenaire de votre santé au travail
-        </div>
+        <div class="container"><span class="fw-bold" style="color: var(--restev-blue);">RESTEV 85</span> | Partenaire de votre sécurité</div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        let databaseProduits = [];
         let inventaireLocal = JSON.parse(localStorage.getItem('restev_duerp')) || [];
+        let databaseProduits = [];
+        const modal = new bootstrap.Modal(document.getElementById('mainModal'));
 
-        // Charger la base JSON
-        fetch('produits.json').then(r => r.json()).then(d => {
-            databaseProduits = d.produits;
-            afficherInventaire();
-        }).catch(() => console.warn("Produits.json non trouvé."));
+        fetch('produits.json').then(r => r.json()).then(d => { databaseProduits = d.produits; afficherInventaire(); });
 
-        // Fonctions Fiches
-        function ouvrirFiche(titre, texte) {
-            document.getElementById('ficheTitle').innerText = titre;
-            document.getElementById('ficheBody').innerHTML = `<p>${texte}</p>`;
-            new bootstrap.Modal(document.getElementById('ficheModal')).show();
+        // 1. DIAGNOSTIC FLASH
+        function lancerDiag() {
+            document.getElementById('modalTitle').innerText = "Diagnostic Rapide";
+            document.getElementById('modalBody').innerHTML = `
+                <p><strong>Question :</strong> Travaillez-vous dans un espace ventilé ?</p>
+                <button class="btn btn-success btn-sm w-100 mb-2" onclick="diagReponse('ok')">Oui, c'est aéré</button>
+                <button class="btn btn-warning btn-sm w-100" onclick="diagReponse('ko')">Non, c'est confiné</button>
+            `;
+            modal.show();
+        }
+        function diagReponse(res) {
+            const msg = res === 'ok' ? "Parfait. Continuez à maintenir cette aération." : "Attention : Le RESTEV préconise l'installation d'une aspiration localisée pour éviter de respirer les vapeurs.";
+            document.getElementById('modalBody').innerHTML = `<div class="alert alert-info">${msg}</div>`;
         }
 
-        function ouvrirChimie() {
-            const html = `
-                <div class="text-start">
-                    <p class="text-muted italic">Organiser votre prévention chimique en toute sérénité.</p>
-                    <h6 class="fw-bold" style="color: var(--restev-blue);">📚 Ressources FDS</h6>
-                    <p class="small">La Fiche de Données de Sécurité (FDS) est le guide du fabricant. Gardez-la à portée de main !</p>
-                    <h6 class="fw-bold" style="color: var(--restev-blue);">🛠️ Protection adaptée</h6>
-                    <ul class="small">
-                        <li><strong>Aérer :</strong> Une bonne circulation d'air est le premier geste de sécurité.</li>
-                        <li><strong>Le bon gant :</strong> Tous les gants ne se valent pas. Vérifiez le matériau préconisé par la FDS pour éviter les irritations.</li>
-                    </ul>
-                    <h6 class="fw-bold" style="color: var(--restev-blue);">🚿 Prendre soin de soi</h6>
-                    <p class="small">Un lavage de mains avant chaque pause et en fin de journée protège votre santé et celle de vos proches à la maison.</p>
-                    <div class="alert border-start border-4 border-info bg-light small">
-                        <strong>Le conseil RESTEV :</strong> Nos experts peuvent vous aider à identifier des alternatives moins dangereuses pour vos procédés.
-                    </div>
-                </div>`;
-            ouvrirFiche('Risques Chimiques', html);
+        // 2. SOS FDS
+        function ouvrirSOSFDS() {
+            document.getElementById('modalTitle').innerText = "Lire une FDS";
+            document.getElementById('modalBody').innerHTML = `
+                <ul class="small">
+                    <li><strong>Rubrique 2 :</strong> Les dangers (Pictogrammes).</li>
+                    <li><strong>Rubrique 4 :</strong> Premiers secours.</li>
+                    <li><strong>Rubrique 8 :</strong> Les gants et masques à porter.</li>
+                    <li><strong>Rubrique 11 :</strong> Effets sur la santé.</li>
+                </ul>
+            `;
+            modal.show();
         }
 
-        // Scanner Logic
+        // 3. PICTO INFO
+        function infoPicto(titre, texte) {
+            document.getElementById('modalTitle').innerText = titre;
+            document.getElementById('modalBody').innerHTML = `<p>${texte}</p>`;
+            modal.show();
+        }
+
+        // 4. EXPORT BILAN
+        function exporterBilan() {
+            let contenu = "BILAN EXPOSITION RESTEV 85\n\n";
+            inventaireLocal.forEach(p => contenu += `- ${p.nom} (${p.risque})\n`);
+            const blob = new Blob([contenu], {type: "text/plain"});
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Bilan_Exposition_RESTEV.txt";
+            link.click();
+        }
+
+        // SCAN & LOGIC
         function onScanSuccess(decodedText) {
-            const container = document.getElementById('result-container');
             const info = document.getElementById('product-info');
             document.getElementById('reader').classList.add('d-none');
-            container.classList.remove('d-none');
-
+            document.getElementById('result-container').classList.remove('d-none');
             const produit = databaseProduits.find(p => p.code === decodedText);
-
             if (produit) {
-                const isCmr = produit.cmr;
-                info.className = `card card-custom p-4 border-start border-5 ${isCmr ? 'border-cmr' : 'border-safe'}`;
-                info.innerHTML = `
-                    <h5 class="${isCmr ? 'text-cmr' : 'text-success'} fw-bold">${isCmr ? '⚠️ ALERTE CMR' : '✅ PRODUIT RÉFÉRENCÉ'}</h5>
-                    <p class="mb-1 fw-bold">${produit.nom}</p>
-                    <p class="mb-3 small">${produit.conseil}</p>
-                    <button class="btn btn-restev w-100" onclick="ajouterAuDuerp('${produit.nom}', '${produit.classement}', ${isCmr})">Ajouter à mon suivi</button>
-                `;
+                info.innerHTML = `<h6>${produit.nom}</h6><p class="small">${produit.conseil}</p>
+                <button class="btn btn-restev btn-sm w-100" onclick="ajouterAuDuerp('${produit.nom}','${produit.classement}',${produit.cmr})">Tracer ce produit</button>`;
             } else {
-                info.innerHTML = `<h5>Produit non répertorié</h5><p>Code : ${decodedText}</p><p class="small">Contactez-nous pour une analyse de FDS.</p>`;
+                info.innerHTML = `<p>Produit inconnu (${decodedText}).</p>`;
             }
         }
 
-        // DUERP & Persistence
-        function ajouterAuDuerp(nom, risque, isCmr) {
-            inventaireLocal.push({ nom, risque, isCmr });
+        function ajouterAuDuerp(nom, risque, cmr) {
+            inventaireLocal.push({nom, risque, cmr});
             localStorage.setItem('restev_duerp', JSON.stringify(inventaireLocal));
             afficherInventaire();
-            alert("Informations ajoutées à votre historique.");
             resetScanner();
         }
 
         function afficherInventaire() {
             const list = document.getElementById('duerp-list');
-            list.innerHTML = inventaireLocal.length ? "" : "<tr><td colspan='4' class='text-center text-muted p-3 small'>Aucun scan enregistré.</td></tr>";
+            list.innerHTML = inventaireLocal.length ? "" : "<tr><td class='text-center p-3'>Aucun scan.</td></tr>";
             inventaireLocal.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><small class="fw-bold">${item.nom}</small></td>
-                    <td><span class="badge ${item.isCmr ? 'badge-cmr' : 'bg-success'}">${item.isCmr ? 'CMR' : 'Sûr'}</span></td>
-                    <td><select class="form-select form-select-sm border-primary" style="font-size: 0.75rem;">
-                        <option>💡 À réfléchir</option><option>🛠️ En amélioration</option><option>✅ Maîtrisé</option>
-                    </select></td>
-                    <td class="text-end"><button class="btn btn-sm btn-link text-danger" onclick="supprimerItem(${index})">🗑️</button></td>
-                `;
-                list.appendChild(row);
+                list.innerHTML += `<tr><td><strong>${item.nom}</strong></td><td><span class="badge ${item.cmr?'bg-danger':'bg-success'}">${item.cmr?'CMR':'OK'}</span></td><td class="text-end"><button class="btn btn-sm text-danger" onclick="suppr(${index})">🗑️</button></td></tr>`;
             });
         }
 
-        function supprimerItem(index) {
-            inventaireLocal.splice(index, 1);
-            localStorage.setItem('restev_duerp', JSON.stringify(inventaireLocal));
-            afficherInventaire();
-        }
-
-        function viderTout() { if(confirm("Supprimer l'historique de traçabilité ?")) { localStorage.removeItem('restev_duerp'); inventaireLocal = []; afficherInventaire(); } }
+        function suppr(i) { inventaireLocal.splice(i,1); localStorage.setItem('restev_duerp', JSON.stringify(inventaireLocal)); afficherInventaire(); }
+        function resetScanner() { document.getElementById('result-container').classList.add('d-none'); document.getElementById('reader').classList.remove('d-none'); }
         
-        function resetScanner() { 
-            document.getElementById('result-container').classList.add('d-none'); 
-            document.getElementById('reader').classList.remove('d-none'); 
-        }
-
-        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess);
+        new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 }).render(onScanSuccess);
     </script>
 </body>
 </html>
