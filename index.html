@@ -3,38 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SST Vendée - App Adhérent</title>
+    <title>SST Vendée - Scanner Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root { --vendee-blue: #0056b3; --vendee-red: #e63946; }
-        body { background-color: #f8f9fa; font-family: sans-serif; }
-        .navbar { background-color: var(--vendee-blue); }
-        .card-icon { font-size: 2.5rem; margin-bottom: 15px; }
-        .btn-vendee { background-color: var(--vendee-blue); color: white; }
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background-color: var(--vendee-blue); color: white; }
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; border: 2px solid #ddd; }
+        .result-card { transition: all 0.3s ease; }
+        .btn-vendee { background-color: var(--vendee-blue); color: white; border-radius: 25px; }
         .btn-vendee:hover { background-color: #004494; color: white; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark shadow-sm">
+    <nav class="navbar mb-4 shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <strong>SST VENDÉE</strong> <small>| Adhérents</small>
-            </a>
+            <span class="navbar-brand mb-0 h1 text-white">SST VENDÉE - PRÉVENTION</span>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <header class="text-center mb-5">
-            <h1>Espace Prévention</h1>
-            <p class="text-muted">Votre tableau de bord de santé au travail</p>
-        </header>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2 class="mb-3">Scanner de Risques</h2>
+                <p class="text-muted">Analysez vos produits chimiques pour détecter les agents CMR.</p>
+                
+                <div id="reader" class="mb-4"></div>
+                
+                <div id="result-container" class="d-none">
+                    <div id="product-info" class="card result-card shadow p-4 text-start">
+                        </div>
+                    <button class="btn btn-outline-secondary mt-3" onclick="resetScanner()">Scanner un autre produit</button>
+                </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <div class="card-icon">🛡️</div>
+                <hr class="my-5">
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <h6>📝 DUERP</h6>
+                            <small>Mise à jour</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <h6>🛡️ Conseil</h6>
+                            <small>Contact IPRP</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 p-4 text-muted small">
+        &copy; 2026 Réseau Santé Travail Entreprise Vendée
+    </footer>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        let databaseProduits = [];
+
+        // 1. Chargement de la base de données depuis produits.json
+        fetch('produits.json')
+            .then(response => response.json())
+            .then(data => {
+                databaseProduits = data.produits;
+                console.log("Base de données opérationnelle.");
+            })
+            .catch(err => console.error("Erreur de chargement du fichier JSON:", err));
+
+        // 2. Initialisation du scanner
+        function onScanSuccess(decodedText) {
+            // Arrêter le scanner après une détection réussie pour économiser la batterie
+            // html5QrcodeScanner.clear(); 
+            
+            const container = document.getElementById('result-container');
+            const info = document.getElementById('product-info');
+            container.classList.remove('d-none');
+            document.getElementById('reader').classList.add('d-none');
+
+            // Recherche du produit
+            const produit = databaseProduits.find(p => p.code === decodedText);
+
+            if (produit) {
+                if (produit.cmr) {
+                    info.innerHTML = `
+                        <h4 class="text-danger">⚠️ ALERTE CMR</h4>
+                        <p><strong>Nom :</strong> ${produit.nom}</p>
+                        <p><strong>Classement :</strong> ${produit.classement}</p>
+                        <div class="alert alert-warning small">${produit.conseil}</div>
+                        <button class="btn btn-danger w-100 mt-2">Ajouter au DUERP</button>
+                    `;
+                } else {
+                    info.innerHTML = `
+                        <h4 class="text-success">✅ PRODUIT IDENTIFIÉ</h4>
+                        <p><strong>Nom :</strong> ${produit.nom}</p>
+                        <p>Aucun risque CMR connu pour ce produit.</p>
+                        <p class="small text-muted">${produit.conseil}</p>
+                    `;
+                }
+            } else {
+                info.innerHTML = `
+                    <h4 class="text-secondary">❓ PRODUIT INCONNU</h4>
+                    <p>Code scanné : <strong>${decodedText}</strong></p>
+                    <p>Ce produit n'est pas encore dans la base régionale.</p>
+                    <button class="btn btn-primary w-100">Demander une analyse FDS</button>
+                `;
+            }
+        }
+
+        function resetScanner() {
+            document.getElementById('result-container').classList.add('d-none');
+            document.getElementById('reader').classList.remove('d-none');
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
+<div class="card-icon">🛡️</div>
                         <h5 class="card-title">Prévention au Travail</h5>
                         <p class="card-text">Accédez aux fiches métiers, postures et conseils de santé quotidienne.</p>
                         <a href="#" class="btn btn-vendee w-100">Consulter les fiches</a>
