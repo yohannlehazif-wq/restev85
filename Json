@@ -2,17 +2,10 @@
   "produits": [
     {
       "code": "3250391518105",
-      "nom": "Dégraissant Industriel V85",
+      "nom": "Solvant Métallurgie Vendée",
       "cmr": true,
-      "classement": "Cancérogène Cat. 1B",
-      "conseil": "Porter obligatoirement des gants en nitrile et un masque ABEK."
-    },
-    {
-      "code": "3045320001234",
-      "nom": "Alcool Isopropylique 99%",
-      "cmr": false,
-      "classement": "Inflammable / Irritant",
-      "conseil": "Utiliser dans une zone ventilée, loin de toute flamme."
+      "classement": "H350 (Cancérogène)",
+      "conseil": "Substitution recommandée. Utiliser en circuit fermé."
     }
   ]
 }
