@@ -1,0 +1,45 @@
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+let databaseProduits = [];
+
+// Chargement de la base de données JSON
+fetch('produits.json')
+    .then(response => response.json())
+    .then(data => {
+        databaseProduits = data.produits;
+        console.log("Base de données chargée :", databaseProduits.length, "produits.");
+    })
+    .catch(err => console.error("Erreur de chargement JSON:", err));
+
+function onScanSuccess(decodedText, decodedResult) {
+    const container = document.getElementById('result-container');
+    const info = document.getElementById('product-info');
+    container.classList.remove('d-none');
+
+    // Recherche du produit dans la liste chargée
+    const produit = databaseProduits.find(p => p.code === decodedText);
+
+    if (produit) {
+        if (produit.cmr) {
+            info.className = "alert alert-danger shadow-sm";
+            info.innerHTML = `
+                <h4>⚠️ DANGER CMR</h4>
+                <p><strong>Produit :</strong> ${produit.nom}</p>
+                <p><strong>Risque :</strong> ${produit.classement}</p>
+                <hr>
+                <p class="mb-0"><strong>Préconisation :</strong> ${produit.conseil}</p>
+            `;
+        } else {
+            info.className = "alert alert-success shadow-sm";
+            info.innerHTML = `<h4>✅ Produit Identifié</h4><p>${produit.nom} : Aucun risque CMR détecté.</p>`;
+        }
+    } else {
+        info.className = "alert alert-warning shadow-sm";
+        info.innerHTML = `<h4>❓ Inconnu</h4><p>Le code <strong>${decodedText}</strong> ne figure pas dans la base. Veuillez consulter la FDS papier.</p>`;
+    }
+}
+
+let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess);
+</script>
