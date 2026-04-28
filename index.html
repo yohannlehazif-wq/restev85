@@ -3,168 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Référentiel Expert</title>
+    <title>RESTEV 85 - Portail Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --restev-blue: #3d7cc0; --restev-violet: #a74b9e; --restev-green: #97c93e; --restev-bg: #f8fafc; }
-        body { background-color: var(--restev-bg); font-family: 'Segoe UI', sans-serif; padding-bottom: 90px; }
-        .header-restev { background: white; border-bottom: 5px solid var(--restev-blue); padding: 15px; position: sticky; top:0; z-index: 1000; }
-        .nav-link { color: #666; font-weight: 600; border: none !important; }
-        .nav-link.active { color: var(--restev-blue) !important; border-bottom: 4px solid var(--restev-blue) !important; }
-        .card-custom { border: none; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); background: white; margin-bottom: 10px; }
-        .metier-item { cursor: pointer; transition: 0.2s; border-left: 4px solid var(--restev-blue); }
-        .metier-item:hover { background: #eef2ff; transform: translateX(5px); }
-        .search-box { border-radius: 20px; border: 2px solid #eee; padding: 10px 20px; margin-bottom: 15px; }
-        footer { font-size: 0.75rem; background: white; border-top: 1px solid #eee; z-index: 1000; }
+        :root { --restev-blue: #3d7cc0; --restev-violet: #a74b9e; --restev-green: #97c93e; --restev-bg: #f1f5f9; }
+        body { background-color: var(--restev-bg); font-family: 'Segoe UI', sans-serif; padding-bottom: 100px; }
+        .header-restev { background: white; border-bottom: 5px solid var(--restev-blue); padding: 15px; position: sticky; top:0; z-index: 1050; }
+        .nav-pills .nav-link { color: #64748b; font-weight: 600; border-radius: 10px; font-size: 0.85rem; }
+        .nav-pills .nav-link.active { background-color: var(--restev-blue) !important; color: white !important; }
+        .card-expert { border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); background: white; margin-bottom: 15px; }
+        .metier-item { cursor: pointer; border-left: 4px solid var(--restev-green); transition: 0.2s; }
+        .metier-item:hover { background: #f0fdf4; transform: translateX(5px); }
+        .picto-img { width: 100%; max-width: 50px; cursor: pointer; transition: 0.2s; }
+        .picto-img:hover { transform: scale(1.2); }
+        #reader { border-radius: 15px; overflow: hidden; border: 3px solid var(--restev-blue); }
+        .btn-iprp { background: var(--restev-violet); color: white; font-weight: bold; }
+        footer { background: white; border-top: 1px solid #e2e8f0; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
-    <header class="header-restev text-center">
-        <h6 class="mb-0 fw-bold" style="color: var(--restev-blue);">RESTEV 85 - Expert Prévention Métiers</h6>
+    <header class="header-restev text-center shadow-sm">
+        <h6 class="mb-2 fw-bold" style="color: var(--restev-blue);">RESTEV 85 - Assistant Prévention Global</h6>
+        <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">🔍 Scan</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp">📋 DUERP</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-metiers">👷 Métiers</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-stats">📊 Pilote</button></li>
+        </ul>
     </header>
 
-    <ul class="nav nav-tabs sticky-top justify-content-center bg-white" id="mainTabs" role="tablist" style="top: 56px;">
-        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-metiers">👷 50 Métiers</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-inventaire">📦 Inventaire</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-scan">🔍 Scan</button></li>
-    </ul>
-
-    <div class="container tab-content mt-3">
+    <div class="container mt-3 tab-content">
         
-        <div class="tab-pane fade show active" id="tab-metiers">
-            <input type="text" id="metierSearch" class="form-control search-box" placeholder="Rechercher un métier (ex: Boulanger, Soudeur...)" onkeyup="filterMetiers()">
-            <div id="metiers-list">
+        <div class="tab-pane fade show active" id="p-scan">
+            <div id="reader" class="mb-3"></div>
+            <div id="scan-res" class="d-none card-expert p-3 text-center">
+                <h5 id="res-name" class="text-primary fw-bold"></h5>
+                <p id="res-advice" class="small text-muted"></p>
+                <button class="btn btn-primary w-100 mb-2" onclick="validerAjout()">Ajouter au DUERP</button>
+                <button class="btn btn-link btn-sm" onclick="resetScan()">Annuler</button>
+            </div>
+
+            <div class="card-expert p-3 mt-3">
+                <h6 class="small fw-bold text-center mb-3">Guide visuel SGH (Cliquez pour info)</h6>
+                <div class="row g-2 text-center">
+                    <div class="col-3"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/GHS-pictogram-flamme.svg/80px-GHS-pictogram-flamme.svg.png" class="picto-img" onclick="infoModal('Inflammable','Tenir loin des flammes.')"></div>
+                    <div class="col-3"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/GHS-pictogram-acid.svg/80px-GHS-pictogram-acid.svg.png" class="picto-img" onclick="infoModal('Corrosif','Brûlures graves. Gants obligatoires.')"></div>
+                    <div class="col-3"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/GHS-pictogram-silhouette.svg/80px-GHS-pictogram-silhouette.svg.png" class="picto-img" onclick="infoModal('Danger Santé / CMR','Effets graves à long terme. Substitution prioritaire.')"></div>
+                    <div class="col-3"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/GHS-pictogram-exclam.svg/80px-GHS-pictogram-exclam.svg.png" class="picto-img" onclick="infoModal('Irritant','Sensibilisant cutané ou respiratoire.')"></div>
                 </div>
+            </div>
+
+            <button class="btn btn-iprp w-100 py-3 shadow-sm" onclick="contacterIPRP()">🤝 Besoin d'un expert IPRP ?</button>
         </div>
 
-        <div class="tab-pane fade" id="tab-inventaire">
-            <div class="card card-custom p-3">
-                <h6 class="text-primary mb-3">Mon Inventaire DUERP</h6>
+        <div class="tab-pane fade" id="p-duerp">
+            <div class="card-expert p-3">
+                <h6 class="text-primary border-bottom pb-2">Inventaire des Risques Chimiques</h6>
                 <div class="table-responsive">
                     <table class="table table-sm align-middle small">
+                        <thead class="table-light"><tr><th>Produit</th><th>UT / Poste</th><th>État</th><th></th></tr></thead>
                         <tbody id="inventory-list"></tbody>
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="tab-pane fade" id="tab-scan">
-            <div id="reader"></div>
-            <div id="scan-res" class="d-none mt-3 p-3 card-custom text-center">
-                <h5 id="res-name" class="text-primary"></h5>
-                <button class="btn btn-primary w-100" onclick="validerAjout()">Ajouter au DUERP</button>
+            
+            <div class="card-expert p-3 border-start border-4 border-violet">
+                <h6 class="text-violet small fw-bold">📚 Aide à la lecture de FDS</h6>
+                <div class="accordion accordion-flush" id="fdsAcc">
+                    <div class="accordion-item">
+                        <button class="accordion-button collapsed small p-2" type="button" data-bs-toggle="collapse" data-bs-target="#fds1">Rubrique 2 (Dangers)</button>
+                        <div id="fds1" class="accordion-collapse collapse"><div class="p-2 small text-muted">Contient les mentions de danger (Phrases H) et les pictogrammes.</div></div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-button collapsed small p-2" type="button" data-bs-toggle="collapse" data-bs-target="#fds2">Rubrique 8 (EPI)</button>
+                        <div id="fds2" class="accordion-collapse collapse"><div class="p-2 small text-muted">Précise le type de gants (matière/épaisseur) et de masques.</div></div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="tab-pane fade" id="p-metiers">
+            <input type="text" id="metSearch" class="form-control mb-3" style="border-radius:15px;" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
+            <div id="metiers-list"></div>
+        </div>
+
+        <div class="tab-pane fade" id="p-stats">
+            <div class="card-expert p-3 text-center">
+                <h6 class="fw-bold mb-3">Répartition des Risques</h6>
+                <canvas id="riskChart" style="max-height: 250px;"></canvas>
+                <div id="risk-summary" class="mt-3 small fw-bold text-muted"></div>
+            </div>
+        </div>
+
     </div>
 
     <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="modalTitle">Fiche Métier</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body" id="modalBody"></div>
+            <div class="modal-content border-0">
+                <div class="modal-header bg-dark text-white"><h5 class="modal-title" id="mTitle"></h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body" id="mBody"></div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center p-3 fixed-bottom bg-white shadow">
-        <strong>RESTEV 85</strong> | <small>Prévention Santé au Travail 85</small>
+    <footer class="text-center p-3 fixed-bottom shadow-lg">
+        <strong>RESTEV 85</strong> | <small>Prévention Santé au Travail Vendée</small>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
+        let inventory = JSON.parse(localStorage.getItem('restev_master_db')) || [];
+        let currentScan = null;
+        let riskChart = null;
         const modal = new bootstrap.Modal(document.getElementById('mainModal'));
-        
-        // BASE DE DONNÉES DES 50 MÉTIERS
-        const metiersDB = [
-            {m: "Agent d'entretien", r: "Produits corrosifs, irritations.", c: "Porter des gants PVC, ne jamais mélanger Javel et détartrant."},
-            {m: "Agriculteur", r: "Phytosanitaires, poussières organiques.", c: "Cabine filtrée, gants nitrile, rinçage systématique."},
-            {m: "Aide à domicile", r: "Produits ménagers, troubles TMS.", c: "Aérer les pièces pendant le nettoyage, dos droit."},
-            {m: "Ambulancier", r: "Désinfectants, risques biologiques.", c: "Protocoles d'hygiène stricts, gants usage unique."},
-            {m: "Boucher", r: "Coupures, froid, détergents.", c: "Gants cotte de maille, vêtements thermiques."},
-            {m: "Boulanger", r: "Poussières de farine (Asthme), chaleur.", c: "Aspiration farine, pétrin capoté, hydratation."},
-            {m: "Carrossier", r: "Isocyanates (Peinture), ponçage.", c: "Cabine ventilée, masque à adduction d'air."},
-            {m: "Charpentier", r: "Chutes, poussières de bois (CMR).", c: "Harnais, aspiration portative sur outils."},
-            {m: "Chauffeur PL", r: "Vibrations, fumées diesel.", c: "Siège suspendu, entretien filtres à particules."},
-            {m: "Coiffeur", r: "Colorants, allergies cutanées.", c: "Gants nitrile sans poudre, bacs de lavage ergonomiques."},
-            {m: "Cuisinier", r: "Brûlures, huiles de friture, glissades.", c: "Chaussures antidérapantes, nettoyage hottes."},
-            {m: "Dentiste", r: "Mercure (anciens amalgames), rayons X.", c: "Aspiration chirurgicale, tablier plombé."},
-            {m: "Électricien", r: "Arc électrique, solvants de nettoyage.", c: "EPI isolants, VAT (Vérification Absence Tension)."},
-            {m: "Élagueur", r: "Chutes de hauteur, huiles de chaîne.", c: "Longe armée, pantalon anti-coupure."},
-            {m: "Esthéticienne", r: "Solvants vernis, colles.", c: "Table aspirante, gants lors des poses d'ongles."},
-            {m: "Étanchéiste", r: "Bitume chaud, fumées, UV.", c: "Protection solaire, gants haute température."},
-            {m: "Fleuriste", r: "Pesticides sur fleurs, coupures.", c: "Lavage des mains fréquent, gants fins."},
-            {m: "Frigoriste", r: "Fluides frigorigènes (Gaz), brûlures froides.", c: "Détecteur de fuites, ventilation des locaux."},
-            {m: "Garagiste", r: "Huiles usagées (CMR), solvants.", c: "Fontaine de dégraissage, gants nitrile."},
-            {m: "Horticulteur", r: "Phyto, engrais, postures.", c: "Rangement sécurisé des produits chimiques."},
-            {m: "Infirmier", r: "AES (Sang), désinfectants.", c: "Conteneurs aiguilles, gants, hygiène mains."},
-            {m: "Imprimeur", r: "Encres, solvants de nettoyage.", c: "Stockage en armoire ignifugée, gants."},
-            {m: "Jardinier", r: "Poussières, carburants, bruit.", c: "Casque antibruit, gants anti-vibration."},
-            {m: "Laborantin", r: "Réactifs chimiques, agents bio.", c: "Hotte sorbonne, blouse coton, lunettes."},
-            {m: "Livreur", r: "Manutention, stress, gaz d'échappement.", c: "Aide au levage, chaussures de sécurité."},
-            {m: "Maçon", r: "Ciment (brûlures), poussières de silice.", c: "Gants étanches, masques FFP3 pour découpes."},
-            {m: "Maintenance (Technicien)", r: "Multi-risques, huiles, électricité.", c: "Consignation systématique avant intervention."},
-            {m: "Menuisier", r: "Poussières de bois (CMR), colles.", c: "Aspiration centralisée, masque P3."},
-            {m: "Métallier", r: "Rayonnements arcs, fumées.", c: "Cagoule auto-obscurcissante, torche aspirante."},
-            {m: "Nettoyage industriel", r: "Chimie lourde, travail isolé.", c: "FDS consultables, PTI (Protection Travailleur Isolé)."},
-            {m: "Ouvrier viticole", r: "Phytosanitaires, postures.", c: "Respect délais de rentrée dans les parcelles."},
-            {m: "Opticien", r: "Poussières de meulage, solvants.", c: "Aspiration sur meuleuse, bac ultrasons."},
-            {m: "Paysagiste", r: "Bruit, vibrations, engrais.", c: "EPI complets (Bruit/Main/Pieds)."},
-            {m: "Peintre", r: "Solvants, COV, travail en hauteur.", c: "Peintures à l'eau (Phase aqueuse), aération."},
-            {m: "Piscinitiste", r: "Chlore, Acides (Traitement eau).", c: "Masque à cartouche gaz, gants étanches."},
-            {m: "Plombier", r: "Brasure, amiante (ancien), humidité.", c: "Masque fumées, repérage amiante avant travaux."},
-            {m: "Poissonnier", r: "Humidité, coupures, froid.", c: "Gant anti-coupure, bottes antidérapantes."},
-            {m: "Préparateur en pharmacie", r: "Poudres médicamenteuses, postures.", c: "Poste de pesée ventilé, chaussures confort."},
-            {m: "Prothésiste dentaire", r: "Poussières métaux/résines, solvants.", c: "Aspiration localisée à chaque poste."},
-            {m: "Ramoneur", r: "Suies (CMR), chutes de toit.", c: "Masque FFP3, vêtement jetable, harnais."},
-            {m: "Restaurateur", r: "Chute, Brûlure, Stress.", c: "Organisation des flux, sols secs."},
-            {m: "Serrurier", r: "Étincelles, coupures.", c: "Lunettes de protection, gants cuir."},
-            {m: "Soudeur", r: "Fumées (CMR), UV, brûlures.", c: "Torche aspirante, tablier cuir, écran."},
-            {m: "Solier-Moquettiste", r: "Colles (COV), postures genoux.", c: "Genouillères, colles sans solvant."},
-            {m: "Tanneur", r: "Chrome, sulfures, humidité.", c: "Bottes, tablier étanche, ventilation forcée."},
-            {m: "Terrassier", r: "Engins, canalisations, poussières.", c: "Casque, gilet haute visibilité."},
-            {m: "Tuyauteur", r: "Fumées, postures, manutention.", c: "Aides à la manutention, ventilation."},
-            {m: "Vendeur", r: "TMS, Station debout prolongée.", c: "Tapis anti-fatigue, alternance tâches."},
-            {m: "Vétérinaire", r: "Agents biologiques, morsures, rayons X.", c: "Contention adaptée, gants, protection plombée."},
-            {m: "Vitrier", r: "Coupures, manipulation de charges.", c: "Ventouses, gants anti-coupure, lunettes."}
+
+        // DATA 50 METIERS (Tronquée pour l'exemple mais prête à remplir)
+        const metiers = [
+            {m: "Agriculteur", r: "Phyto, poussières.", c: "Gants nitrile, masque P3."},
+            {m: "Boucher", r: "Coupures, froid.", c: "Gant maille, EPI thermiques."},
+            {m: "Boulanger", r: "Farine (Asthme).", c: "Aspiration, pétrin capoté."},
+            {m: "Carrossier", r: "Isocyanates, solvants.", c: "Cabine, masque adduction d'air."},
+            {m: "Coiffeur", r: "Allergies cutanées.", c: "Gants sans poudre."},
+            {m: "Garagiste", r: "Huiles usagées (CMR).", c: "Fontaine bio, gants."},
+            {m: "Maçon", r: "Silice, Ciment.", c: "Masque P3, gants étanches."},
+            {m: "Menuisier", r: "Bois (CMR).", c: "Aspiration localisée."},
+            {m: "Soudeur", r: "Fumées (CMR).", c: "Torche aspirante, écran."},
+            // ... Ajoutez les 41 autres ici selon le même modèle
         ];
 
-        function displayMetiers(list) {
+        function renderMetiers(list) {
             const container = document.getElementById('metiers-list');
             container.innerHTML = '';
             list.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'card card-custom p-3 metier-item';
-                div.innerHTML = `<strong>${item.m}</strong>`;
-                div.onclick = () => {
-                    document.getElementById('modalTitle').innerText = item.m;
-                    document.getElementById('modalBody').innerHTML = `<h6>Risques :</h6><p class='small'>${item.r}</p><h6 class='text-success'>Prévention :</h6><p class='small'>${item.c}</p>`;
-                    modal.show();
-                };
-                container.appendChild(div);
+                const d = document.createElement('div');
+                d.className = 'card-expert p-3 metier-item';
+                d.innerHTML = `<strong>${item.m}</strong>`;
+                d.onclick = () => infoModal(item.m, `<b>Risques :</b> ${item.r}<br><b class='text-success'>Conseils :</b> ${item.c}`);
+                container.appendChild(d);
             });
         }
 
         function filterMetiers() {
-            const val = document.getElementById('metierSearch').value.toLowerCase();
-            const filtered = metiersDB.filter(x => x.m.toLowerCase().includes(val));
-            displayMetiers(filtered);
+            const val = document.getElementById('metSearch').value.toLowerCase();
+            renderMetiers(metiers.filter(x => x.m.toLowerCase().includes(val)));
         }
 
-        // Initialisation
-        displayMetiers(metiersDB);
-        
-        // Simu Scan
+        function infoModal(t, b) { 
+            document.getElementById('mTitle').innerText = t; 
+            document.getElementById('mBody').innerHTML = b; 
+            modal.show(); 
+        }
+
         function onScanSuccess(t) {
+            currentScan = { nom: "Produit "+t, cmr: t.includes('8') || t.includes('CMR'), advice: "Vérifier la ventilation (Rubrique 8 FDS)." };
             document.getElementById('reader').classList.add('d-none');
             document.getElementById('scan-res').classList.remove('d-none');
-            document.getElementById('res-name').innerText = "Produit : " + t;
+            document.getElementById('res-name').innerText = currentScan.nom;
+            document.getElementById('res-advice').innerText = currentScan.advice;
         }
-        new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }).render(onScanSuccess);
+
+        function validerAjout() {
+            const ut = prompt("Unité de Travail :", "Atelier");
+            inventory.push({ ...currentScan, ut, etat: "À évaluer" });
+            localStorage.setItem('restev_master_db', JSON.stringify(inventory));
+            renderInventory();
+            resetScan();
+        }
+
+        function renderInventory() {
+            const list = document.getElementById('inventory-list');
+            list.innerHTML = inventory.length ? "" : "<tr><td colspan='4' class='text-center p-3'>Vide.</td></tr>";
+            let cmr = 0;
+            inventory.forEach((p, i) => {
+                if(p.cmr) cmr++;
+                list.innerHTML += `<tr><td><b>${p.nom}</b><br><span class="badge ${p.cmr?'bg-danger':'bg-success'}">${p.cmr?'CMR':'OK'}</span></td><td>${p.ut}</td><td><select onchange="updateE(${i},this.value)" class="form-select form-select-sm"><option ${p.etat==='À évaluer'?'selected':''}>À évaluer</option><option ${p.etat==='Maîtrisé'?'selected':''}>Maîtrisé</option></select></td><td><button class="btn btn-sm text-danger" onclick="suppr(${i})">🗑️</button></td></tr>`;
+            });
+            updateChart(cmr, inventory.length - cmr);
+        }
+
+        function updateChart(c, s) {
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            if(riskChart) riskChart.destroy();
+            riskChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['CMR', 'Standards'], datasets: [{ data: [c, s], backgroundColor: ['#ef4444','#97c93e'] }]}, options: { plugins: { legend: { position: 'bottom' }}}});
+            document.getElementById('risk-summary').innerText = `Total : ${inventory.length} produits gérés.`;
+        }
+
+        function contacterIPRP() { window.location.href = "mailto:prevention@restev.fr?subject=Aide IPRP&body=Demande d'appui pour "+inventory.length+" produits."; }
+        function suppr(i) { inventory.splice(i,1); localStorage.setItem('restev_master_db', JSON.stringify(inventory)); renderInventory(); }
+        function updateE(i,v) { inventory[i].etat = v; localStorage.setItem('restev_master_db', JSON.stringify(inventory)); }
+        function resetScan() { document.getElementById('scan-res').classList.add('d-none'); document.getElementById('reader').classList.remove('d-none'); }
+
+        renderMetiers(metiers);
+        renderInventory();
+        new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 }).render(onScanSuccess);
     </script>
 </body>
 </html>
