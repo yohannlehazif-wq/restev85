@@ -15,15 +15,17 @@
         .nav-pills .nav-link.active { background-color: var(--restev-blue) !important; }
         .card-expert { border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); background: white; margin-bottom: 15px; }
         
-        /* Style des Pictogrammes SGH HD */
         .sgh-container { cursor: pointer; transition: transform 0.2s; text-align: center; padding: 5px; }
         .sgh-container:hover { transform: scale(1.1); }
-        .sgh-diamond { width: 100%; max-width: 70px; display: block; margin: 0 auto; }
-        .sgh-label { font-size: 0.6rem; font-weight: bold; margin-top: 5px; color: #444; line-height: 1; }
+        .sgh-diamond { width: 100%; max-width: 65px; display: block; margin: 0 auto; }
+        .sgh-label { font-size: 0.55rem; font-weight: bold; margin-top: 5px; color: #444; }
 
-        #reader { border-radius: 15px; overflow: hidden; border: 3px solid var(--restev-blue); background: #000; }
-        .btn-iprp { background: var(--restev-violet); color: white; font-weight: bold; border-radius: 12px; }
+        #reader { border-radius: 15px; overflow: hidden; border: 3px solid var(--restev-blue); background: #000; min-height: 250px; }
+        .btn-violet { background: var(--restev-violet); color: white; font-weight: bold; border-radius: 12px; }
+        .btn-violet:hover { color: white; opacity: 0.9; }
         footer { background: white; border-top: 1px solid #e2e8f0; font-size: 0.75rem; z-index: 1000; }
+        .metier-item { cursor: pointer; transition: 0.2s; border-left: 4px solid var(--restev-green); }
+        .metier-item:hover { background: #f0fdf4; transform: translateX(5px); }
     </style>
 </head>
 <body>
@@ -41,61 +43,39 @@
     <div class="container mt-3 tab-content">
         
         <div class="tab-pane fade show active" id="p-scan">
-            <div id="reader" class="mb-3"></div>
+            <div id="reader" class="mb-3 shadow-sm"></div>
+            
             <div id="scan-res" class="d-none card-expert p-3 text-center border-top border-5 border-primary">
-                <h5 id="res-name" class="text-primary fw-bold"></h5>
-                <button class="btn btn-primary w-100 mb-2" onclick="validerAjout()">Ajouter au DUERP</button>
-                <button class="btn btn-link btn-sm text-muted" onclick="resetScan()">Annuler</button>
+                <div id="res-name"></div>
+                <div id="res-advice" class="mt-2"></div>
+                <button class="btn btn-primary w-100 mb-2 mt-3" onclick="validerAjout()">Ajouter à l'inventaire</button>
+                <button class="btn btn-link btn-sm text-muted" onclick="resetScan()">Scanner un autre produit</button>
             </div>
 
             <div class="card-expert p-3 mt-3">
                 <h6 class="small fw-bold text-center mb-3">Classification SGH Officielle</h6>
                 <div class="row g-1">
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH01 - Explosif','Danger d\'explosion en masse. Éviter les chocs et la chaleur.')">
-                        <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><circle cx="50" cy="65" r="8" fill="black"/><path d="M50 65 L20 30 M50 65 L80 30 M50 65 L50 20 M35 40 L65 40" stroke="black" stroke-width="3"/></svg>
-                        <div class="sgh-label">Explosif</div>
-                    </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH02 - Inflammable','Gaz, liquide ou solide inflammable. Tenir à l\'écart des flammes.')">
+                    <div class="col-4 sgh-container" onclick="infoModal('SGH02 - Inflammable','Tenir à l\'écart des flammes.')">
                         <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M30 75 Q50 10 70 75 Q50 60 30 75" fill="black"/></svg>
                         <div class="sgh-label">Inflammable</div>
                     </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH03 - Comburant','Peut provoquer ou aggraver un incendie. Ne pas stocker près des inflammables.')">
-                        <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><circle cx="50" cy="60" r="12" fill="none" stroke="black" stroke-width="4"/><path d="M35 50 Q50 10 65 50" fill="black"/></svg>
-                        <div class="sgh-label">Comburant</div>
-                    </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH04 - Gaz sous pression','Contient un gaz sous pression; peut exploser sous l\'effet de la chaleur.')">
-                        <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M30 65 L70 65 L70 55 L30 55 Z M70 60 L85 60" stroke="black" stroke-width="6" fill="black"/></svg>
-                        <div class="sgh-label">Gaz Pression</div>
-                    </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH05 - Corrosif','Peut être corrosif pour les métaux et provoquer des brûlures de la peau.')">
+                    <div class="col-4 sgh-container" onclick="infoModal('SGH05 - Corrosif','Brûlures graves. Gants et lunettes obligatoires.')">
                         <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M25 50 L40 50 M60 50 L75 50" stroke="black" stroke-width="5"/><rect x="30" y="60" width="40" height="8" fill="black"/></svg>
                         <div class="sgh-label">Corrosif</div>
                     </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH06 - Toxique aigu','Mortel ou toxique par ingestion, contact cutané ou inhalation.')">
-                        <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><circle cx="50" cy="40" r="12" fill="black"/><path d="M35 65 L65 75 M35 75 L65 65" stroke="black" stroke-width="5"/></svg>
-                        <div class="sgh-label">Toxique</div>
-                    </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH07 - Irritant','Nocif pour la santé. Provoque une irritation des yeux ou de la peau.')">
-                        <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><rect x="46" y="25" width="8" height="35" fill="black"/><circle cx="50" cy="72" r="5" fill="black"/></svg>
-                        <div class="sgh-label">Irritant</div>
-                    </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH08 - Danger Santé (CMR)','Cancérogène, Mutagène, Reprotoxique. Risques graves pour les organes.')">
+                    <div class="col-4 sgh-container" onclick="infoModal('SGH08 - Danger Santé','Cancérogène, Mutagène, Reprotoxique.')">
                         <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M50 30 L55 45 L70 50 L55 55 L50 70 L45 55 L30 50 L45 45 Z" fill="black"/></svg>
                         <div class="sgh-label">Danger CMR</div>
-                    </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH09 - Environnement','Très toxique pour les organismes aquatiques.')">
-                        <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M30 70 Q50 50 70 70 M60 40 L70 30" stroke="black" stroke-width="3" fill="none"/><circle cx="65" cy="35" r="3" fill="black"/></svg>
-                        <div class="sgh-label">Milieu Aqua</div>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-iprp w-100 py-3 mt-3 shadow" onclick="contacterIPRP()">🤝 Solliciter un conseil IPRP</button>
+            <button class="btn btn-violet w-100 py-3 mt-3 shadow" onclick="contacterIPRP()">🤝 Solliciter un conseil IPRP</button>
         </div>
 
         <div class="tab-pane fade" id="p-duerp">
             <div class="card-expert p-3">
-                <h6 class="text-primary fw-bold mb-3 border-bottom pb-2">Suivi des Expositions</h6>
+                <h6 class="text-primary fw-bold mb-3 border-bottom pb-2">Inventaire Technique</h6>
                 <div class="table-responsive">
                     <table class="table table-sm align-middle small">
                         <thead class="table-light"><tr><th>Produit</th><th>UT</th><th>Risque</th><th></th></tr></thead>
@@ -106,7 +86,7 @@
         </div>
 
         <div class="tab-pane fade" id="p-metiers">
-            <input type="text" id="metSearch" class="form-control mb-3" style="border-radius:15px;" placeholder="Rechercher parmi 50 métiers..." onkeyup="filterMetiers()">
+            <input type="text" id="metSearch" class="form-control mb-3" style="border-radius:15px; border:2px solid var(--restev-blue);" placeholder="Rechercher un métier (ex: Peintre, Maçon...)" onkeyup="filterMetiers()">
             <div id="metiers-list"></div>
         </div>
 
@@ -121,7 +101,7 @@
 
     <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0">
+            <div class="modal-content border-0 shadow-lg">
                 <div class="modal-header bg-dark text-white"><h5 class="modal-title" id="mTitle"></h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body" id="mBody"></div>
             </div>
@@ -129,29 +109,75 @@
     </div>
 
     <footer class="text-center p-3 fixed-bottom bg-white shadow-lg">
-        <strong>RESTEV 85</strong> | <small>Service de Prévention et Santé au Travail</small>
+        <strong>RESTEV 85</strong> | <small>Prévenir aujourd'hui pour demain</small>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        let inventory = JSON.parse(localStorage.getItem('restev_pro_v3')) || [];
+        let inventory = JSON.parse(localStorage.getItem('restev_pro_v4')) || [];
         let currentScan = null;
         let riskChart = null;
         const modal = new bootstrap.Modal(document.getElementById('mainModal'));
 
-        // Liste des métiers
+        // --- BASE DE DONNÉES "CONNECTÉE" (SIMULATION) ---
+        const API_RESTEV_PRODUITS = {
+            "3152541000105": { nom: "White Spirit (Onyx)", cmr: false, risq: "H226 : Inflammable / H304 : Danger aspiration", conseil: "Porter des gants nitrile. Ne pas transvaser dans une bouteille d'eau.", icon: "⚠️" },
+            "3152541000303": { nom: "Acétone (Onyx)", cmr: false, risq: "H225 : Très inflammable / H319 : Irritation yeux", conseil: "Gants BUTYLE uniquement. Ventilation forcée nécessaire.", icon: "🔥" },
+            "3152541001003": { nom: "Acide Chlorhydrique", cmr: false, risq: "H314 : Corrosif cutané sévère", conseil: "Protection oculaire obligatoire. Gants PVC.", icon: "🧪" },
+            "3000000000008": { nom: "Trichloréthylène", cmr: true, risq: "H350 : Cancérogène avéré", conseil: "SUBSTITUTION PRIORITAIRE. Contactez votre IPRP RESTEV 85.", icon: "🚫" }
+        };
+
+        function onScanSuccess(decodedText) {
+            const code = decodedText.trim();
+            const produit = API_RESTEV_PRODUITS[code];
+            
+            document.getElementById('reader').classList.add('d-none');
+            document.getElementById('scan-res').classList.remove('d-none');
+
+            if (produit) {
+                currentScan = { nom: produit.nom, cmr: produit.cmr, advice: produit.risq };
+                document.getElementById('res-name').innerHTML = `
+                    <div class="badge bg-success mb-2">Produit reconnu par RESTEV 85</div>
+                    <h4 class="fw-bold">${produit.nom} ${produit.icon}</h4>
+                `;
+                document.getElementById('res-advice').innerHTML = `
+                    <div class="alert alert-warning text-start shadow-sm border-0" style="background:#fffcf0">
+                        <strong>⚠️ Risques :</strong><br>${produit.risq}<br><br>
+                        <strong>✅ Conseil RESTEV :</strong><br>${produit.conseil}
+                    </div>
+                `;
+            } else {
+                currentScan = { nom: "Produit Inconnu ("+code+")", cmr: false, advice: "Analyse FDS requise." };
+                document.getElementById('res-name').innerHTML = `
+                    <div class="badge bg-danger mb-2">Code non référencé</div>
+                    <h4 class="text-muted">Produit inconnu</h4>
+                `;
+                document.getElementById('res-advice').innerHTML = `
+                    <div class="p-3 bg-light rounded text-start">
+                        <p class="small text-muted">Ce code <b>${code}</b> n'est pas encore dans la base partagée. Veuillez consulter la FDS (Rubrique 2 et 8).</p>
+                        <button class="btn btn-sm btn-outline-primary w-100" onclick="contacterIPRP()">Demander une analyse IPRP</button>
+                    </div>
+                `;
+            }
+        }
+
+        // --- GESTION DES 50 MÉTIERS ---
         const metiers = [
-            {m: "Agent d'entretien", r: "Chimie corrosive.", c: "Gants PVC obligatoires."},
-            {m: "Agriculteur", r: "Phytosanitaires.", c: "Masque A2P3, gants nitrile."},
-            {m: "Boucher", r: "Coupures, froid.", c: "Gant cotte de maille."},
-            {m: "Carrossier", r: "Isocyanates.", c: "Aspiration localisée."},
-            {m: "Coiffeur", r: "Allergies cutanées.", c: "Gants sans poudre."},
-            {m: "Garagiste", r: "Huiles usagées (CMR).", c: "Fontaine de dégraissage."},
-            {m: "Menuisier", r: "Bois (CMR).", c: "Aspiration centralisée."},
-            {m: "Peintre", r: "Solvants, COV.", c: "Aération, masque A1."},
-            {m: "Soudeur", r: "Fumées (CMR).", c: "Torche aspirante."},
-            {m: "Vigneron", r: "Traitement, cuves.", c: "Détecteur CO2."}
+            {m: "Agent d'entretien", r: "Chimie corrosive, mélanges.", c: "Gants PVC, doseurs automatiques."},
+            {m: "Agriculteur", r: "Phytosanitaires, poussières.", c: "Cabine filtrée, gants nitrile."},
+            {m: "Boucher", r: "Coupures, froid, détergents.", c: "Gant maille, EPI thermique."},
+            {m: "Carrossier", r: "Isocyanates, ponçage.", c: "Masque adduction air, cabine."},
+            {m: "Coiffeur", r: "Allergies, agents colorants.", c: "Gants nitrile sans poudre."},
+            {m: "Électricien", r: "Nettoyants contacts, solvants.", c: "VAT, gants isolants."},
+            {m: "Garagiste", r: "Huiles usagées (CMR).", c: "Fontaine bio, gants nitrile."},
+            {m: "Jardinier", r: "Carburants, engrais.", c: "EPI complets, stockage sécurisé."},
+            {m: "Maçon", r: "Silice, ciment (brûlure).", c: "Masque FFP3, gants étanches."},
+            {m: "Menuisier", r: "Poussières de bois (CMR).", c: "Aspiration centralisée."},
+            {m: "Peintre", r: "Solvants, COV.", c: "Aération, masque A1P2."},
+            {m: "Soudeur", r: "Fumées de soudage (CMR).", c: "Torche aspirante, cagoule active."},
+            {m: "Vigneron", r: "Traitement, CO2 (cuves).", c: "Détecteur CO2, EPI phyto."}
+            // ... Ajoutez les autres ici
         ];
 
         function renderMetiers(list) {
@@ -159,10 +185,10 @@
             container.innerHTML = '';
             list.forEach(item => {
                 const d = document.createElement('div');
-                d.className = 'card-expert p-3 mb-2' + (item.r.includes('CMR') ? ' border-start border-danger border-4' : '');
-                d.style.cursor = 'pointer';
+                d.className = 'card-expert p-3 mb-2 metier-item';
+                if(item.r.includes('CMR')) d.style.borderLeft = "4px solid #ef4444";
                 d.innerHTML = `<strong>${item.m}</strong> <br><small class='text-muted'>${item.r}</small>`;
-                d.onclick = () => infoModal(item.m, `<b>Risques :</b> ${item.r}<br><b class='text-success'>Prévention :</b> ${item.c}`);
+                d.onclick = () => infoModal(item.m, `<b>Risques :</b> ${item.r}<br><br><b class='text-success'>Prévention préconisée :</b><br>${item.c}`);
                 container.appendChild(d);
             });
         }
@@ -178,24 +204,17 @@
             modal.show(); 
         }
 
-        function onScanSuccess(t) {
-            currentScan = { nom: "Produit ("+t+")", cmr: t.includes('8') || t.includes('CMR'), advice: "Vérifier la Rubrique 8 de la FDS." };
-            document.getElementById('reader').classList.add('d-none');
-            document.getElementById('scan-res').classList.remove('d-none');
-            document.getElementById('res-name').innerText = currentScan.nom;
-        }
-
         function validerAjout() {
-            const ut = prompt("Unité de Travail :", "Atelier");
+            const ut = prompt("Unité de Travail :", "Atelier Principal");
             inventory.push({ ...currentScan, ut });
-            localStorage.setItem('restev_pro_v3', JSON.stringify(inventory));
+            localStorage.setItem('restev_pro_v4', JSON.stringify(inventory));
             renderInventory();
             resetScan();
         }
 
         function renderInventory() {
             const list = document.getElementById('inventory-list');
-            list.innerHTML = inventory.length ? "" : "<tr><td colspan='4' class='text-center p-3'>Aucun produit.</td></tr>";
+            list.innerHTML = inventory.length ? "" : "<tr><td colspan='4' class='text-center p-3 text-muted'>Aucun produit enregistré.</td></tr>";
             let cmr = 0;
             inventory.forEach((p, i) => {
                 if(p.cmr) cmr++;
@@ -207,12 +226,12 @@
         function updateChart(c, s) {
             const ctx = document.getElementById('riskChart').getContext('2d');
             if(riskChart) riskChart.destroy();
-            riskChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Danger CMR', 'Standard'], datasets: [{ data: [c, s], backgroundColor: ['#ef4444','#97c93e'], borderWidth: 5 }]}, options: { plugins: { legend: { position: 'bottom' }}}});
-            document.getElementById('risk-summary').innerHTML = `<b>Bilan :</b> ${inventory.length} produits enregistrés.<br>${c} produit(s) présentent un risque majeur.`;
+            riskChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Risque CMR', 'Standard'], datasets: [{ data: [c, s], backgroundColor: ['#ef4444','#97c93e'], borderWidth: 5 }]}, options: { plugins: { legend: { position: 'bottom' }}}});
+            document.getElementById('risk-summary').innerHTML = `<b>Bilan :</b> ${inventory.length} produits référencés.<br>${c} poste(s) avec exposition CMR.`;
         }
 
-        function contacterIPRP() { window.location.href = "mailto:prevention@restev.fr?subject=Aide IPRP&body=Demande d'accompagnement."; }
-        function suppr(i) { inventory.splice(i,1); localStorage.setItem('restev_pro_v3', JSON.stringify(inventory)); renderInventory(); }
+        function contacterIPRP() { window.location.href = "mailto:prevention@restev.fr?subject=Aide IPRP&body=Demande d'appui sur site."; }
+        function suppr(i) { inventory.splice(i,1); localStorage.setItem('restev_pro_v4', JSON.stringify(inventory)); renderInventory(); }
         function resetScan() { document.getElementById('scan-res').classList.add('d-none'); document.getElementById('reader').classList.remove('d-none'); }
 
         renderMetiers(metiers);
