@@ -3,82 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Portail Expert Prévention</title>
+    <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --restev-blue: #3d7cc0; --restev-violet: #a74b9e; --restev-green: #97c93e; --restev-bg: #f1f5f9; }
-        body { background-color: var(--restev-bg); font-family: 'Segoe UI', sans-serif; padding-bottom: 100px; }
-        .header-restev { background: white; border-bottom: 5px solid var(--restev-blue); padding: 15px; position: sticky; top:0; z-index: 1050; }
-        .logo-img { max-height: 60px; margin-bottom: 10px; }
-        .nav-pills .nav-link { color: #64748b; font-weight: 600; border-radius: 10px; font-size: 0.8rem; margin: 2px; }
-        .nav-pills .nav-link.active { background-color: var(--restev-blue) !important; }
-        .card-expert { border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); background: white; margin-bottom: 15px; }
+        :root { 
+            --restev-blue: #3d7cc0; 
+            --restev-violet: #a74b9e; 
+            --restev-green: #97c93e; 
+            --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%);
+            --bg: #f8fafc; 
+        }
         
-        .sgh-container { cursor: pointer; transition: transform 0.2s; text-align: center; padding: 5px; }
-        .sgh-container:hover { transform: scale(1.1); }
-        .sgh-diamond { width: 100%; max-width: 65px; display: block; margin: 0 auto; }
-        .sgh-label { font-size: 0.55rem; font-weight: bold; margin-top: 5px; color: #444; }
+        body { background-color: var(--bg); font-family: 'Inter', system-ui, -apple-system, sans-serif; padding-bottom: 110px; }
 
-        #reader { border-radius: 15px; overflow: hidden; border: 3px solid var(--restev-blue); background: #000; min-height: 250px; }
-        .btn-violet { background: var(--restev-violet); color: white; font-weight: bold; border-radius: 12px; }
-        .btn-violet:hover { color: white; opacity: 0.9; }
-        footer { background: white; border-top: 1px solid #e2e8f0; font-size: 0.75rem; z-index: 1000; }
-        .metier-item { cursor: pointer; transition: 0.2s; border-left: 4px solid var(--restev-green); }
-        .metier-item:hover { background: #f0fdf4; transform: translateX(5px); }
+        /* Header avec Dégradé */
+        .header-restev { 
+            background: var(--gradient); 
+            padding: 25px 15px 60px 15px; 
+            border-radius: 0 0 30px 30px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(61, 124, 192, 0.2);
+        }
+        .logo-img { max-height: 50px; background: white; padding: 8px; border-radius: 12px; margin-bottom: 10px; }
+
+        /* Barre de navigation flottante */
+        .nav-pills {
+            background: white;
+            padding: 8px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin: -35px 15px 20px 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
+        }
+        .nav-pills .nav-link { 
+            color: #64748b; 
+            font-weight: 600; 
+            border-radius: 15px; 
+            font-size: 0.75rem;
+            border: none;
+            transition: 0.3s;
+        }
+        .nav-pills .nav-link.active { background: var(--restev-blue) !important; box-shadow: 0 4px 12px rgba(61, 124, 192, 0.3); }
+
+        /* Cartes Premium */
+        .card-expert { 
+            border: none; 
+            border-radius: 20px; 
+            background: white; 
+            padding: 20px;
+            margin-bottom: 18px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .card-expert:active { transform: scale(0.98); }
+
+        /* Styles Scanner & SGH */
+        #reader { border-radius: 20px; overflow: hidden; border: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .sgh-diamond { width: 100%; max-width: 60px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .sgh-label { font-size: 0.6rem; font-weight: 700; color: #475569; margin-top: 8px; }
+
+        /* Bouton Action */
+        .btn-main {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            padding: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 20px rgba(167, 75, 158, 0.2);
+        }
+
+        .metier-badge { background: #f1f5f9; color: var(--restev-blue); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+        
+        footer { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-top: 1px solid rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-    <header class="header-restev text-center shadow-sm">
-        <img src="restev_logo.jpeg" alt="RESTEV 85" class="logo-img" onerror="this.src='https://via.placeholder.com/200x60?text=RESTEV+85'">
-        <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">🔍 Scan</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp">📋 DUERP</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-metiers">👷 Métiers</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-stats">📊 Pilote</button></li>
-        </ul>
-    </header>
+    <div class="header-restev text-center">
+        <img src="restev_logo.jpeg" alt="RESTEV 85" class="logo-img" onerror="this.src='https://via.placeholder.com/150x40?text=RESTEV+85'">
+        <p class="small opacity-75 mb-0">Prévention & Santé au Travail Vendée</p>
+    </div>
 
-    <div class="container mt-3 tab-content">
+    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">📸 SCAN</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp">📂 INVENTAIRE</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-metiers">👷 MÉTIERS</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-stats">📈 DATA</button></li>
+    </ul>
+
+    <div class="container tab-content">
         
         <div class="tab-pane fade show active" id="p-scan">
-            <div id="reader" class="mb-3 shadow-sm"></div>
+            <div id="reader" class="mb-4"></div>
             
-            <div id="scan-res" class="d-none card-expert p-3 text-center border-top border-5 border-primary">
+            <div id="scan-res" class="d-none card-expert text-center animate__animated animate__fadeInUp">
                 <div id="res-name"></div>
-                <div id="res-advice" class="mt-2"></div>
-                <button class="btn btn-primary w-100 mb-2 mt-3" onclick="validerAjout()">Ajouter à l'inventaire</button>
-                <button class="btn btn-link btn-sm text-muted" onclick="resetScan()">Scanner un autre produit</button>
+                <div id="res-advice" class="mt-3"></div>
+                <button class="btn btn-main w-100 mt-3" onclick="validerAjout()">AJOUTER AU DUERP</button>
+                <button class="btn btn-link btn-sm mt-2 text-muted" onclick="resetScan()">Ignorer</button>
             </div>
 
-            <div class="card-expert p-3 mt-3">
-                <h6 class="small fw-bold text-center mb-3">Classification SGH Officielle</h6>
-                <div class="row g-1">
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH02 - Inflammable','Tenir à l\'écart des flammes.')">
+            <div class="card-expert">
+                <h6 class="fw-bold mb-3" style="color: var(--restev-blue)">Guide Interactif SGH</h6>
+                <div class="row text-center">
+                    <div class="col-4 mb-3" onclick="infoModal('Inflammable','Maintenir loin des sources de chaleur.')">
                         <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M30 75 Q50 10 70 75 Q50 60 30 75" fill="black"/></svg>
                         <div class="sgh-label">Inflammable</div>
                     </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH05 - Corrosif','Brûlures graves. Gants et lunettes obligatoires.')">
+                    <div class="col-4 mb-3" onclick="infoModal('Corrosif','Gants et lunettes obligatoires.')">
                         <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M25 50 L40 50 M60 50 L75 50" stroke="black" stroke-width="5"/><rect x="30" y="60" width="40" height="8" fill="black"/></svg>
                         <div class="sgh-label">Corrosif</div>
                     </div>
-                    <div class="col-4 sgh-container" onclick="infoModal('SGH08 - Danger Santé','Cancérogène, Mutagène, Reprotoxique.')">
+                    <div class="col-4 mb-3" onclick="infoModal('Danger Santé','Risque CMR : Substitution prioritaire.')">
                         <svg viewBox="0 0 100 100" class="sgh-diamond"><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="white" stroke="#FF0000" stroke-width="4"/><path d="M50 30 L55 45 L70 50 L55 55 L50 70 L45 55 L30 50 L45 45 Z" fill="black"/></svg>
-                        <div class="sgh-label">Danger CMR</div>
+                        <div class="sgh-label">CMR</div>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-violet w-100 py-3 mt-3 shadow" onclick="contacterIPRP()">🤝 Solliciter un conseil IPRP</button>
+            <button class="btn btn-main w-100 py-3" style="background: white; color: var(--restev-violet); border: 2px solid var(--restev-violet);" onclick="contacterIPRP()">🤝 CONTACTER UN EXPERT IPRP</button>
         </div>
 
         <div class="tab-pane fade" id="p-duerp">
-            <div class="card-expert p-3">
-                <h6 class="text-primary fw-bold mb-3 border-bottom pb-2">Inventaire Technique</h6>
-                <div class="table-responsive">
-                    <table class="table table-sm align-middle small">
-                        <thead class="table-light"><tr><th>Produit</th><th>UT</th><th>Risque</th><th></th></tr></thead>
+            <div class="card-expert">
+                <h6 class="fw-bold mb-4">Inventaire des Risques Chimiques</h6>
+                <div id="inventory-list-container">
+                    <table class="table table-borderless align-middle small">
                         <tbody id="inventory-list"></tbody>
                     </table>
                 </div>
@@ -86,98 +143,68 @@
         </div>
 
         <div class="tab-pane fade" id="p-metiers">
-            <input type="text" id="metSearch" class="form-control mb-3" style="border-radius:15px; border:2px solid var(--restev-blue);" placeholder="Rechercher un métier (ex: Peintre, Maçon...)" onkeyup="filterMetiers()">
+            <div class="px-2 mb-3">
+                <input type="text" id="metSearch" class="form-control" style="border-radius:15px; border:none; padding:12px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
+            </div>
             <div id="metiers-list"></div>
         </div>
 
         <div class="tab-pane fade" id="p-stats">
-            <div class="card-expert p-4 text-center">
-                <h6 class="fw-bold mb-3">Tableau de bord de Prévention</h6>
+            <div class="card-expert">
+                <h6 class="fw-bold mb-4 text-center">Pilotage du Risque Territorial</h6>
                 <canvas id="riskChart"></canvas>
-                <div id="risk-summary" class="mt-4 p-2 bg-light rounded small"></div>
+                <div id="risk-summary" class="mt-4 text-center fw-bold text-muted small"></div>
             </div>
         </div>
     </div>
 
     <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header bg-dark text-white"><h5 class="modal-title" id="mTitle"></h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body" id="mBody"></div>
+            <div class="modal-content border-0 shadow-2xl" style="border-radius: 25px;">
+                <div class="modal-header border-0"><h5 class="fw-bold" id="mTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body pt-0" id="mBody"></div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center p-3 fixed-bottom bg-white shadow-lg">
-        <strong>RESTEV 85</strong> | <small>Prévenir aujourd'hui pour demain</small>
+    <footer class="text-center p-3 fixed-bottom shadow-lg">
+        <span class="fw-bold" style="color: var(--restev-blue)">RESTEV</span> <span style="color: var(--restev-violet)">85</span>
+        <div class="text-muted" style="font-size: 0.6rem;">© 2026 Prévention Santé au Travail</div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        let inventory = JSON.parse(localStorage.getItem('restev_pro_v4')) || [];
-        let currentScan = null;
+        let inventory = JSON.parse(localStorage.getItem('restev_premium_db')) || [];
         let riskChart = null;
         const modal = new bootstrap.Modal(document.getElementById('mainModal'));
 
-        // --- BASE DE DONNÉES "CONNECTÉE" (SIMULATION) ---
-        const API_RESTEV_PRODUITS = {
-            "3152541000105": { nom: "White Spirit (Onyx)", cmr: false, risq: "H226 : Inflammable / H304 : Danger aspiration", conseil: "Porter des gants nitrile. Ne pas transvaser dans une bouteille d'eau.", icon: "⚠️" },
-            "3152541000303": { nom: "Acétone (Onyx)", cmr: false, risq: "H225 : Très inflammable / H319 : Irritation yeux", conseil: "Gants BUTYLE uniquement. Ventilation forcée nécessaire.", icon: "🔥" },
-            "3152541001003": { nom: "Acide Chlorhydrique", cmr: false, risq: "H314 : Corrosif cutané sévère", conseil: "Protection oculaire obligatoire. Gants PVC.", icon: "🧪" },
-            "3000000000008": { nom: "Trichloréthylène", cmr: true, risq: "H350 : Cancérogène avéré", conseil: "SUBSTITUTION PRIORITAIRE. Contactez votre IPRP RESTEV 85.", icon: "🚫" }
+        const API_RESTEV = {
+            "3152541000105": { nom: "White Spirit", cmr: false, risq: "Inflammable (H226)", conseil: "Aération forcée, gants nitrile.", color: "warning" },
+            "3152541000303": { nom: "Acétone", cmr: false, risq: "Très Inflammable (H225)", conseil: "Gants Butyle obligatoires.", color: "warning" },
+            "3000000000008": { nom: "Trichloréthylène", cmr: true, risq: "Cancérogène (H350)", conseil: "INTERDIT : Substitution immédiate.", color: "danger" }
         };
 
-        function onScanSuccess(decodedText) {
-            const code = decodedText.trim();
-            const produit = API_RESTEV_PRODUITS[code];
-            
+        function onScanSuccess(t) {
+            const p = API_RESTEV[t];
             document.getElementById('reader').classList.add('d-none');
             document.getElementById('scan-res').classList.remove('d-none');
-
-            if (produit) {
-                currentScan = { nom: produit.nom, cmr: produit.cmr, advice: produit.risq };
-                document.getElementById('res-name').innerHTML = `
-                    <div class="badge bg-success mb-2">Produit reconnu par RESTEV 85</div>
-                    <h4 class="fw-bold">${produit.nom} ${produit.icon}</h4>
-                `;
-                document.getElementById('res-advice').innerHTML = `
-                    <div class="alert alert-warning text-start shadow-sm border-0" style="background:#fffcf0">
-                        <strong>⚠️ Risques :</strong><br>${produit.risq}<br><br>
-                        <strong>✅ Conseil RESTEV :</strong><br>${produit.conseil}
-                    </div>
-                `;
+            if (p) {
+                currentScan = { nom: p.nom, cmr: p.cmr, advice: p.risq };
+                document.getElementById('res-name').innerHTML = `<span class="badge bg-${p.color} mb-2">PRODUIT DÉTECTÉ</span><h3 class="fw-bold">${p.nom}</h3>`;
+                document.getElementById('res-advice').innerHTML = `<div class="p-3 rounded-4 bg-light text-start small"><b>Risque :</b> ${p.risq}<br><br><b>Conseil Expert :</b> ${p.conseil}</div>`;
             } else {
-                currentScan = { nom: "Produit Inconnu ("+code+")", cmr: false, advice: "Analyse FDS requise." };
-                document.getElementById('res-name').innerHTML = `
-                    <div class="badge bg-danger mb-2">Code non référencé</div>
-                    <h4 class="text-muted">Produit inconnu</h4>
-                `;
-                document.getElementById('res-advice').innerHTML = `
-                    <div class="p-3 bg-light rounded text-start">
-                        <p class="small text-muted">Ce code <b>${code}</b> n'est pas encore dans la base partagée. Veuillez consulter la FDS (Rubrique 2 et 8).</p>
-                        <button class="btn btn-sm btn-outline-primary w-100" onclick="contacterIPRP()">Demander une analyse IPRP</button>
-                    </div>
-                `;
+                currentScan = { nom: "Inconnu ("+t+")", cmr: false, advice: "N/A" };
+                document.getElementById('res-name').innerHTML = `<h4 class="text-muted">Code ${t} non référencé</h4>`;
+                document.getElementById('res-advice').innerHTML = `<p class="small px-3">Produit absent de la base RESTEV. Veuillez saisir le nom manuellement.</p>`;
             }
         }
 
-        // --- GESTION DES 50 MÉTIERS ---
         const metiers = [
-            {m: "Agent d'entretien", r: "Chimie corrosive, mélanges.", c: "Gants PVC, doseurs automatiques."},
-            {m: "Agriculteur", r: "Phytosanitaires, poussières.", c: "Cabine filtrée, gants nitrile."},
-            {m: "Boucher", r: "Coupures, froid, détergents.", c: "Gant maille, EPI thermique."},
-            {m: "Carrossier", r: "Isocyanates, ponçage.", c: "Masque adduction air, cabine."},
-            {m: "Coiffeur", r: "Allergies, agents colorants.", c: "Gants nitrile sans poudre."},
-            {m: "Électricien", r: "Nettoyants contacts, solvants.", c: "VAT, gants isolants."},
-            {m: "Garagiste", r: "Huiles usagées (CMR).", c: "Fontaine bio, gants nitrile."},
-            {m: "Jardinier", r: "Carburants, engrais.", c: "EPI complets, stockage sécurisé."},
-            {m: "Maçon", r: "Silice, ciment (brûlure).", c: "Masque FFP3, gants étanches."},
-            {m: "Menuisier", r: "Poussières de bois (CMR).", c: "Aspiration centralisée."},
-            {m: "Peintre", r: "Solvants, COV.", c: "Aération, masque A1P2."},
-            {m: "Soudeur", r: "Fumées de soudage (CMR).", c: "Torche aspirante, cagoule active."},
-            {m: "Vigneron", r: "Traitement, CO2 (cuves).", c: "Détecteur CO2, EPI phyto."}
-            // ... Ajoutez les autres ici
+            {m: "Peintre en bâtiment", r: "Solvants, COV, Chutes.", c: "Masque A2P3, échafaudage sécurisé."},
+            {m: "Mécanicien Auto", r: "Huiles usagées (CMR), benzène.", c: "Gants nitrile, fontaine de dégraissage."},
+            {m: "Boulanger", r: "Farine (Asthme), chaleur.", c: "Aspiration localisée, pétrin capoté."},
+            {m: "Infirmier", r: "Risque Bio (AES), produits désinfection.", c: "Conteneur aiguilles, gants usage unique."}
         ];
 
         function renderMetiers(list) {
@@ -185,17 +212,11 @@
             container.innerHTML = '';
             list.forEach(item => {
                 const d = document.createElement('div');
-                d.className = 'card-expert p-3 mb-2 metier-item';
-                if(item.r.includes('CMR')) d.style.borderLeft = "4px solid #ef4444";
-                d.innerHTML = `<strong>${item.m}</strong> <br><small class='text-muted'>${item.r}</small>`;
-                d.onclick = () => infoModal(item.m, `<b>Risques :</b> ${item.r}<br><br><b class='text-success'>Prévention préconisée :</b><br>${item.c}`);
+                d.className = 'card-expert';
+                d.innerHTML = `<div class="d-flex justify-content-between align-items-center"><span class="fw-bold">${item.m}</span><span class="metier-badge">Détails</span></div>`;
+                d.onclick = () => infoModal(item.m, `<p class="small text-muted mb-3">${item.r}</p><div class="p-3 bg-success bg-opacity-10 text-success rounded-4 small"><b>Prévention :</b> ${item.c}</div>`);
                 container.appendChild(d);
             });
-        }
-
-        function filterMetiers() {
-            const val = document.getElementById('metSearch').value.toLowerCase();
-            renderMetiers(metiers.filter(x => x.m.toLowerCase().includes(val)));
         }
 
         function infoModal(t, b) { 
@@ -204,21 +225,13 @@
             modal.show(); 
         }
 
-        function validerAjout() {
-            const ut = prompt("Unité de Travail :", "Atelier Principal");
-            inventory.push({ ...currentScan, ut });
-            localStorage.setItem('restev_pro_v4', JSON.stringify(inventory));
-            renderInventory();
-            resetScan();
-        }
-
         function renderInventory() {
             const list = document.getElementById('inventory-list');
-            list.innerHTML = inventory.length ? "" : "<tr><td colspan='4' class='text-center p-3 text-muted'>Aucun produit enregistré.</td></tr>";
+            list.innerHTML = "";
             let cmr = 0;
             inventory.forEach((p, i) => {
                 if(p.cmr) cmr++;
-                list.innerHTML += `<tr><td><b>${p.nom}</b></td><td>${p.ut}</td><td><span class="badge ${p.cmr?'bg-danger':'bg-success'}">${p.cmr?'CMR':'OK'}</span></td><td><button class="btn btn-sm text-danger" onclick="suppr(${i})">🗑️</button></td></tr>`;
+                list.innerHTML += `<tr class="border-bottom"><td class="py-3"><b>${p.nom}</b><br><small class="text-muted">${p.ut}</small></td><td class="text-end"><span class="badge ${p.cmr?'bg-danger':'bg-success'} rounded-pill">${p.cmr?'CMR':'OK'}</span></td><td><button class="btn btn-sm" onclick="suppr(${i})">🗑️</button></td></tr>`;
             });
             updateChart(cmr, inventory.length - cmr);
         }
@@ -226,13 +239,26 @@
         function updateChart(c, s) {
             const ctx = document.getElementById('riskChart').getContext('2d');
             if(riskChart) riskChart.destroy();
-            riskChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Risque CMR', 'Standard'], datasets: [{ data: [c, s], backgroundColor: ['#ef4444','#97c93e'], borderWidth: 5 }]}, options: { plugins: { legend: { position: 'bottom' }}}});
-            document.getElementById('risk-summary').innerHTML = `<b>Bilan :</b> ${inventory.length} produits référencés.<br>${c} poste(s) avec exposition CMR.`;
+            riskChart = new Chart(ctx, { type: 'doughnut', data: { labels: ['Danger CMR', 'Standard'], datasets: [{ data: [c, s], backgroundColor: ['#ef4444','#3d7cc0'], borderRadius: 10, spacing: 5 }]}, options: { plugins: { legend: { position: 'bottom' }}}});
+            document.getElementById('risk-summary').innerText = `${inventory.length} produits suivis sur le territoire.`;
         }
 
-        function contacterIPRP() { window.location.href = "mailto:prevention@restev.fr?subject=Aide IPRP&body=Demande d'appui sur site."; }
-        function suppr(i) { inventory.splice(i,1); localStorage.setItem('restev_pro_v4', JSON.stringify(inventory)); renderInventory(); }
+        function validerAjout() {
+            const ut = prompt("Unité de Travail :", "Atelier");
+            inventory.push({ ...currentScan, ut });
+            localStorage.setItem('restev_premium_db', JSON.stringify(inventory));
+            renderInventory();
+            resetScan();
+        }
+
+        function filterMetiers() {
+            const val = document.getElementById('metSearch').value.toLowerCase();
+            renderMetiers(metiers.filter(x => x.m.toLowerCase().includes(val)));
+        }
+
+        function suppr(i) { inventory.splice(i,1); localStorage.setItem('restev_premium_db', JSON.stringify(inventory)); renderInventory(); }
         function resetScan() { document.getElementById('scan-res').classList.add('d-none'); document.getElementById('reader').classList.remove('d-none'); }
+        function contacterIPRP() { window.location.href = "mailto:prevention@restev.fr"; }
 
         renderMetiers(metiers);
         renderInventory();
