@@ -60,40 +60,64 @@
     </div>
 
     <div id="page-metiers" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-        <h5 class="fw-bold mb-3">Référentiel Métiers Vendéens</h5>
+    <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+    <h5 class="fw-bold mb-4 text-primary">Expertise Prévention par Branche</h5>
 
-        <div class="card-expert" style="border-color: #2c5da7;">
-            <h6 class="fw-bold">Industrie & Nautisme (Montaigu)</h6>
-            <p class="small">🔴 Chimique : Styrène. 🟠 Physique : Manutention lourde.</p>
-            <div class="p-2 bg-light rounded small">✅ Aspiration fixe + gants spécifiques + aide au levage.</div>
-        </div>
-
-        <div class="card-expert" style="border-color: #8ec641;">
-            <h6 class="fw-bold">Agroalimentaire (Les Herbiers / Les Essarts)</h6>
-            <p class="small">🔴 Chimique : Désinfectants. 🟠 Physique : Froid, TMS.</p>
-            <div class="p-2 bg-light rounded small">✅ Combinaisons étanches + rotation des postes + sols anti-dérapants.</div>
-        </div>
-
-        <div class="card-expert" style="border-color: #a74b9e;">
-            <h6 class="fw-bold">Coiffure & Esthétique (La Roche-sur-Yon)</h6>
-            <p class="small">🔴 Chimique : Colorations, Produits volatils. 🟠 Physique : Station debout.</p>
-            <div class="p-2 bg-light rounded small">✅ Ventilation du salon + gants sans latex + sièges ergonomiques.</div>
-        </div>
-
-        <div class="card-expert" style="border-color: #f97316;">
-            <h6 class="fw-bold">Espaces Verts & Paysage</h6>
-            <p class="small">🔴 Chimique : Phyto, Carburants. 🟠 Physique : Bruit, Vibrations.</p>
-            <div class="p-2 bg-light rounded small">✅ Local phyto aux normes + protections auditives + vêtements anti-coupure.</div>
-        </div>
-
-        <div class="card-expert" style="border-color: #06b6d4;">
-            <h6 class="fw-bold">Restauration & Métiers de Bouche</h6>
-            <p class="small">🔴 Chimique : Dégraissants. 🟠 Physique : Brûlures, Coupures.</p>
-            <div class="p-2 bg-light rounded small">✅ Doseurs automatiques + gants anti-coupure + chaussures de sécurité.</div>
+    <div class="card-expert" style="border-color: #8b4513;">
+        <h6 class="fw-bold">Menuiserie & Travail du bois</h6>
+        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Poussières de bois (classées CMR), colles (isocyanates), vernis et solvants.</p>
+        <p class="small mb-1">🟠 <b>Risque Physique :</b> Coupures (machines outils), bruit (surdité pro), vibrations.</p>
+        <p class="small mb-2">🔵 <b>Organisationnel :</b> Manutention de panneaux lourds (TMS).</p>
+        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
+            <b>Prévention INRS (ED 6348) :</b> Aspiration haute performance (v < 20m/s), port du masque FFP3 lors du ponçage, et utilisation de servantes pour les charges.
         </div>
     </div>
 
+    <div class="card-expert" style="border-color: #0077be;">
+        <h6 class="fw-bold">Industrie du Nautisme & Composites</h6>
+        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Inhalation de Styrène (résines), acétone, fibres de verre/carbone.</p>
+        <p class="small mb-1">🟠 <b>Risque Physique :</b> Chutes de hauteur (travail sur coque), postures contraintes.</p>
+        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
+            <b>Prévention CARSAT (R445) :</b> Ventilation par flux laminaire, gants spécifiques en alcool polyvinylique (PVA) ou Viton, et suivi médical renforcé.
+        </div>
+    </div>
+
+    <div class="card-expert" style="border-color: #00ced1;">
+        <h6 class="fw-bold">Propreté & Nettoyage Industriel</h6>
+        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Dermatoses liées aux détergents, intoxications par mélange (gaz chloré).</p>
+        <p class="small mb-1">🟠 <b>Risque Physique :</b> Glissades (sols humides), gestes répétitifs des membres supérieurs.</p>
+        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
+            <b>Prévention INRS (ED 6093) :</b> Utilisation de doseurs automatiques, port de gants longs à manchette, et formation "Gestes et Postures" (PRAP).
+        </div>
+    </div>
+
+    <div class="card-expert" style="border-color: #228b22;">
+        <h6 class="fw-bold">Agroalimentaire (Transformation de viande/plats)</h6>
+        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Produits de désinfection (bases/acides), gaz réfrigérants (NH3).</p>
+        <p class="small mb-1">🟠 <b>Risque Physique :</b> Froid ambiant, TMS (cadences), coupures, chutes de plain-pied.</p>
+        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
+            <b>Prévention CARSAT (R469) :</b> Alternance des tâches pour limiter les TMS, vêtements thermiques isolants, et couteaux à garde de sécurité.
+        </div>
+    </div>
+
+    <div class="card-expert" style="border-color: #ff4500;">
+        <h6 class="fw-bold">Bâtiment & Gros Œuvre</h6>
+        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Silice cristalline (découpe), ciments (chrome VI - brûlures).</p>
+        <p class="small mb-1">🟠 <b>Risque Physique :</b> Chutes de hauteur, manutention manuelle, vibrations (marteau-piqueur).</p>
+        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
+            <b>Prévention INRS (ED 6098) :</b> Matériel avec captage d'eau ou aspiration intégrée, gants étanches, et mécanisation du levage (grues, chariots).
+        </div>
+    </div>
+
+    <div class="card-expert" style="border-color: #708090;">
+        <h6 class="fw-bold">Mécanique & Carrosserie</h6>
+        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Huiles de vidange (cancérogènes), isocyanates (peinture), gaz d'échappement.</p>
+        <p class="small mb-1">🟠 <b>Risque Physique :</b> Bruit, écrasement, incendie/explosion (batteries Li-ion).</p>
+        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
+            <b>Prévention INRS (ED 6062) :</b> Fontaine de dégraissage non-solvantée, aspiration localisée des gaz, et gants nitrile à usage unique.
+        </div>
+    </div>
+</div>
     <div id="page-diag" class="app-page">
         <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
         <div class="card-expert">
