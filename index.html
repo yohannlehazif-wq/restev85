@@ -17,10 +17,10 @@
             background-color: #f8fafc; 
             font-family: 'Segoe UI', sans-serif; 
             color: #333;
-            line-height: 1.8; /* Aération des phrases pour la lecture */
+            line-height: 1.8;
         }
 
-        /* --- PAGE DE GARDE MODERNE --- */
+        /* --- PAGE DE GARDE --- */
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, var(--blue-restev) 0%, var(--violet-restev) 100%);
@@ -55,7 +55,7 @@
 
         .card-custom { 
             background: white; border-radius: 25px; padding: 30px; 
-            margin-bottom: 35px; /* Espacement important entre les blocs */
+            margin-bottom: 35px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             border-left: 8px solid var(--blue-restev);
         }
@@ -134,7 +134,7 @@
         <div id="reader"></div>
         <button id="btn-cam" class="btn btn-primary w-100 py-3 mb-4 rounded-4 fw-bold" onclick="startCamera()">OUVRIR LA CAMÉRA DE SCAN</button>
         
-        <input type="text" class="form-control form-control-lg rounded-4 mb-4 border-primary" placeholder="Recherche (ex: Acetone, Ciment...)" onkeyup="manualSearch(this.value)">
+        <input type="text" id="manualInput" class="form-control form-control-lg rounded-4 mb-4 border-primary" placeholder="Recherche (ex: Acetone, Ciment...)" onkeyup="manualSearch(this.value)">
 
         <div id="scan-res" class="d-none">
             <div class="card-custom" style="border-left-color: #dc2626;">
@@ -183,40 +183,12 @@
         let scanner;
         let score = 0, qIdx = 0;
         
-        // Base de données : Tu peux tester avec ces chiffres ou le nom
         const db = {
             "3045320001234": { n: "Acétone Pure", d: "Solvant inflammable. Vapeurs toxiques pour le système nerveux.", p: "Port de gants BUTYLE obligatoire. Ventilation forcée (V > 0.5m/s)." },
             "3256224123456": { n: "Lessive Soude", d: "Corrosif sévère. Provoque des brûlures cutanées et des lésions oculaires graves.", p: "Lunettes de protection étanches + Gants PVC à manchettes." },
             "acetone": { n: "Acétone", d: "Très inflammable. Vapeurs irritantes.", p: "Gants en Butyle, ventilation du poste." },
             "ciment": { n: "Ciment / Béton", d: "Corrosif (Chrome VI). Risque de dermatoses.", p: "Gants étanches, lunettes, et crème barrière." }
         };
-
-        // ... (reste des fonctions identiques)
-
-        function startCamera() {
-            document.getElementById('reader').style.display = 'block';
-            document.getElementById('btn-cam').style.display = 'none';
-            
-            // Initialisation spécifique pour CODE-BARRES (formats 1D)
-            scanner = new Html5Qrcode("reader");
-            
-            const config = { 
-                fps: 20, // Plus d'images par seconde pour saisir le code-barres
-                qrbox: { width: 300, height: 150 }, // Format rectangulaire adapté aux codes-barres
-                aspectRatio: 1.0
-            };
-
-            // On force la lecture des formats standards (EAN, Code 128, etc.)
-            scanner.start(
-                { facingMode: "environment" }, 
-                config, 
-                (decodedText) => { 
-                    // Vibration légère pour confirmer le scan (si supporté)
-                    if (navigator.vibrate) navigator.vibrate(100);
-                    manualSearch(decodedText); 
-                }
-            ).catch(err => alert("Erreur caméra : " + err));
-        }
 
         const questions = [
             "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
@@ -246,16 +218,39 @@
             if(p === 'page-diag') updateQuiz();
         }
 
+        // UNIQUE FONCTION START CAMERA (Optimisée Code-Barres)
         function startCamera() {
             document.getElementById('reader').style.display = 'block';
             document.getElementById('btn-cam').style.display = 'none';
+            
             scanner = new Html5Qrcode("reader");
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => { manualSearch(txt); });
+            
+            const config = { 
+                fps: 20, 
+                qrbox: { width: 300, height: 150 }, 
+                aspectRatio: 1.0
+            };
+
+            scanner.start(
+                { facingMode: "environment" }, 
+                config, 
+                (decodedText) => { 
+                    if (navigator.vibrate) navigator.vibrate(100);
+                    manualSearch(decodedText); 
+                }
+            ).catch(err => alert("Erreur caméra : " + err));
         }
 
         function stopScannerAndBack() {
-            if(scanner) scanner.stop().finally(() => showPage('page-menu'));
-            else showPage('page-menu');
+            if(scanner && scanner.isScanning) {
+                scanner.stop().then(() => {
+                    document.getElementById('reader').style.display = 'none';
+                    document.getElementById('btn-cam').style.display = 'block';
+                    showPage('page-menu');
+                }).catch(() => showPage('page-menu'));
+            } else {
+                showPage('page-menu');
+            }
         }
 
         function manualSearch(v) {
@@ -265,6 +260,8 @@
                 document.getElementById('res-danger').innerHTML = "<b>Dangers :</b> " + db[k].d;
                 document.getElementById('res-prev').innerText = db[k].p;
                 document.getElementById('scan-res').classList.remove('d-none');
+                // On remplit le champ texte si c'est un scan
+                document.getElementById('manualInput').value = v;
             }
         }
 
