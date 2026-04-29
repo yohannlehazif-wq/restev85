@@ -10,20 +10,17 @@
         :root { --blue-restev: #2c5da7; --green-restev: #8ec641; --violet-restev: #a74b9e; --bg-light: #f4f7f9; }
         body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; color: #333; }
         
-        /* PAGE DE GARDE */
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 10000; display: flex; flex-direction: column;
             align-items: center; justify-content: center; text-align: center;
         }
-        .logo-landing { width: 250px; animation: zoomIn 1.2s ease-out; }
+        .logo-landing { width: 250px; }
 
-        /* HEADER & PAGES */
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 3px solid var(--blue-restev); position: sticky; top: 0; z-index: 1000; display: none; }
         .app-page { display: none; padding: 20px; animation: fadeIn 0.4s; }
         .active-page { display: block !important; }
 
-        /* MENU CARDS */
         .menu-card {
             background: white; border: none; border-radius: 20px; padding: 25px;
             display: flex; align-items: center; text-align: left;
@@ -33,120 +30,106 @@
         
         .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-left: 6px solid var(--blue-restev); }
         .btn-back { background: #e2e8f0; border: none; border-radius: 12px; padding: 10px 20px; font-weight: 600; margin-bottom: 20px; }
-        .btn-action { background: var(--blue-restev); color: white; border: none; border-radius: 15px; padding: 18px; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-action { background: var(--blue-restev); color: white; border: none; border-radius: 15px; padding: 18px; font-weight: bold; width: 100%; }
         
-        .risk-tag { font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 50px; margin-right: 5px; display: inline-block; }
-        .tag-chem { background: #fee2e2; color: #dc2626; }
-        .tag-phys { background: #ffedd5; color: #ea580c; }
+        .search-box { border-radius: 15px; padding: 15px; border: 2px solid #e2e8f0; margin-bottom: 20px; width: 100%; }
+        .badge-source { font-size: 0.7rem; background: #eee; padding: 2px 8px; border-radius: 4px; float: right; }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
         <img src="logo.png" class="logo-landing" alt="RESTEV 85" onerror="this.src='https://via.placeholder.com/200?text=RESTEV+85'">
-        <h4 class="fw-bold mt-3">Expertise Santé Travail</h4>
+        <h4 class="fw-bold mt-3">Santé au Travail</h4>
         <p class="text-muted">La Roche-sur-Yon | Les Essarts | Montaigu | Les Herbiers</p>
-        <button class="btn btn-primary px-5 py-3 rounded-pill fw-bold mt-4" onclick="startApp()">ENTRER</button>
+        <button class="btn btn-primary px-5 py-3 rounded-pill fw-bold mt-4" onclick="startApp()">ACCÉDER</button>
     </div>
 
     <div class="app-header" id="app-header">
-        <img src="logo.png" style="height: 50px;" alt="RESTEV">
+        <img src="logo.png" style="height: 45px;" alt="RESTEV">
     </div>
 
     <div id="page-menu" class="app-page">
-        <h5 class="fw-bold mb-4">Votre Espace Prévention</h5>
+        <h5 class="fw-bold mb-4">Votre Assistant Prévention</h5>
         
+        <button class="menu-card" onclick="showPage('page-scan')">
+            <div class="icon-circle" style="background:#fff7ed; color:#ea580c;">🔍</div>
+            <div><b>Vérifier un Produit</b><span>Scan ou recherche de dangers</span></div>
+        </button>
+
         <button class="menu-card" onclick="showPage('page-metiers')">
             <div class="icon-circle" style="background:#eef2ff; color:#2c5da7;">👷</div>
-            <div><b>Référentiel Métiers</b><span>Fiches conseils INRS & CARSAT</span></div>
+            <div><b>Référentiel Métiers</b><span>Fiches conseils par branche</span></div>
         </button>
 
         <button class="menu-card" onclick="showPage('page-diag')">
             <div class="icon-circle" style="background:#f0fdf4; color:#16a34a;">⚖️</div>
-            <div><b>Auto-Diagnostic</b><span>Évaluer ma sécurité en 10 points</span></div>
+            <div><b>Auto-Diagnostic</b><span>Évaluer ma sécurité en 10 pts</span></div>
         </button>
+    </div>
 
-        <button class="menu-card" onclick="showPage('page-trans')">
-            <div class="icon-circle" style="background:#f1f5f9; color:#475569;">✉️</div>
-            <div><b>Transmettre au Technicien</b><span>Échanger sur vos résultats</span></div>
-        </button>
+    <div id="page-scan" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
+        <h5 class="fw-bold mb-3">Identification du danger</h5>
+        
+        <input type="text" id="searchInput" class="search-box" placeholder="Tapez le nom du produit (ex: Acétone, Ciment...)" onkeyup="chercherProduit()">
+        
+        <div id="resultat-produit" class="animate__animated animate__fadeIn d-none">
+            <div class="card-expert" style="border-color: #dc2626;">
+                <span class="badge-source" id="p-source">INRS</span>
+                <h6 class="fw-bold" id="p-title">Nom du produit</h6>
+                <hr>
+                <p class="small"><b>⚠️ Risques identifiés :</b><br><span id="p-risques"></span></p>
+                <div class="p-3 bg-light rounded-3 small border-start border-3 border-success">
+                    <b class="text-success">✅ Prévention préconisée :</b><br>
+                    <span id="p-prevention"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="empty-msg" class="text-center text-muted py-5">
+            <p>Scannez ou saisissez un produit pour voir les mesures de protection.</p>
+        </div>
     </div>
 
     <div id="page-metiers" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
         <h5 class="fw-bold mb-4">Prévention par Branche</h5>
-
         <div class="card-expert">
-            <h6 class="fw-bold text-primary">Menuiserie & Travail du bois</h6>
-            <div class="mb-2">
-                <span class="risk-tag tag-chem">Risque Chimique</span>
-                <span class="risk-tag tag-phys">Risque Physique</span>
-            </div>
-            <p class="small"><b>Dangers :</b> Poussières de bois (CMR), coupures, bruit intense, vibrations mains-bras.</p>
-            <div class="p-3 bg-light rounded-3 small border-start border-3 border-dark">
-                <b>Recommandation INRS (ED 6348) :</b> Captage des poussières à la source, port du casque anti-bruit et utilisation systématique des protecteurs sur machines-outils.
-            </div>
-        </div>
-
-        <div class="card-expert">
-            <h6 class="fw-bold text-primary">Logistique & Transport</h6>
-            <div class="mb-2">
-                <span class="risk-tag tag-chem">Risque Chimique</span>
-                <span class="risk-tag tag-phys">Risque Physique</span>
-            </div>
-            <p class="small"><b>Dangers :</b> Gaz d'échappement, chutes de quai, accidents de la route, TMS liés au port de charges.</p>
-            <div class="p-3 bg-light rounded-3 small border-start border-3 border-dark">
-                <b>Recommandation CARSAT :</b> Protocole de sécurité pour les quais, formation au risque routier et mise à disposition de transpalettes électriques.
-            </div>
-        </div>
-
-        <div class="card-expert">
-            <h6 class="fw-bold text-primary">Métiers de la Propreté</h6>
-            <div class="mb-2">
-                <span class="risk-tag tag-chem">Risque Chimique</span>
-                <span class="risk-tag tag-phys">Risque Physique</span>
-            </div>
-            <p class="small"><b>Dangers :</b> Brûlures par produits corrosifs, mélanges toxiques, glissades, gestes répétitifs.</p>
-            <div class="p-3 bg-light rounded-3 small border-start border-3 border-dark">
-                <b>Recommandation INRS (ED 6093) :</b> Port de gants à manchette, interdiction des mélanges (Javel + Acide) et alternance des tâches.
-            </div>
-        </div>
-    </div>
-
-    <div id="page-diag" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
-        <div class="card-expert">
-            <h6 class="fw-bold text-center mb-4">Évaluation de votre entreprise</h6>
-            <p id="q-text" class="fw-bold mb-4" style="min-height: 60px; text-align: center;"></p>
-            <button class="btn btn-outline-primary w-100 py-3 mb-2" onclick="ans(1)">OUI / TOUJOURS</button>
-            <button class="btn btn-outline-secondary w-100 py-3 mb-2" onclick="ans(0)">NON / PARFOIS</button>
-            <div class="text-center mt-3 small text-muted"><span id="q-idx">1</span> / 10</div>
-        </div>
-    </div>
-
-    <div id="page-trans" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
-        <div class="card-expert text-center">
-            <h5 class="fw-bold">Prendre rendez-vous</h5>
-            <p class="small text-muted">Transmettez vos résultats de diagnostic pour un accompagnement personnalisé par votre technicien référent sur le secteur de La Roche-sur-Yon.</p>
-            <button class="btn-action" onclick="sendMail()">ENVOYER LE BILAN</button>
+            <h6 class="fw-bold">Menuiserie & Travail du bois</h6>
+            <p class="small"><b>Dangers :</b> Poussières CMR, coupures, bruit.</p>
+            <div class="p-2 bg-light rounded small">Recommandation INRS : Captage à la source.</div>
         </div>
     </div>
 
     <script>
-        let score = 0, qIdx = 0;
-        const qs = [
-            "Votre Document Unique (DUERP) a-t-il été mis à jour récemment ?",
-            "Vos salariés disposent-ils d'équipements de protection individuelle (EPI) ?",
-            "Réalisez-vous des formations sécurité pour vos nouveaux arrivants ?",
-            "L'éclairage et la ventilation sont-ils adaptés à vos postes de travail ?",
-            "Vos installations électriques et machines sont-elles contrôlées ?",
-            "La manutention manuelle est-elle limitée par des aides techniques ?",
-            "Le risque chimique est-il identifié et les FDS accessibles ?",
-            "Avez-vous un protocole clair en cas d'accident ou d'urgence ?",
-            "Vos salariés sont-ils sensibilisés aux risques liés à leur métier ?",
-            "Les pauses et l'organisation du travail permettent-elles de limiter la fatigue ?"
-        ];
+        // BASE DE DONNÉES PRÉVENTION PRODUITS
+        const db_produits = {
+            "acetone": {
+                nom: "Acétone / Solvants",
+                risques: "Inflammable, irritation cutanée, vertiges par inhalation.",
+                prevention: "Ventilation forcée, port de gants en Butyle (le Nitrile ne suffit pas), masque avec filtre type A.",
+                source: "INRS Fiche 3"
+            },
+            "ciment": {
+                nom: "Ciment / Béton frais",
+                risques: "Brûlures chimiques (Chrome VI), dermatoses, poussières de silice.",
+                prevention: "Porter des gants étanches doublés coton, lunettes de protection, travail à l'humide pour éviter les poussières.",
+                source: "CARSAT R466"
+            },
+            "farine": {
+                nom: "Poussières de Farine",
+                risques: "Asthme professionnel, sensibilisation respiratoire.",
+                prevention: "Verser la farine doucement, nettoyage à l'aspirateur classe M (interdiction de la balayette).",
+                source: "INRS ED 6298"
+            },
+            "javel": {
+                nom: "Eau de Javel (Hypochlorite)",
+                risques: "Corrosif, gaz toxique si mélangé à un acide (détartrant).",
+                prevention: "Porter des lunettes, ne jamais mélanger, stocker dans un bac de rétention.",
+                source: "INRS ED 6093"
+            }
+        };
 
         function startApp() {
             document.getElementById('landing-page').style.display = 'none';
@@ -157,27 +140,25 @@
         function showPage(p) {
             document.querySelectorAll('.app-page').forEach(pg => pg.classList.remove('active-page'));
             document.getElementById(p).classList.add('active-page');
-            if(p === 'page-diag') updateQ();
         }
 
-        function updateQ() {
-            document.getElementById('q-text').innerText = qs[qIdx];
-            document.getElementById('q-idx').innerText = qIdx + 1;
-        }
+        function chercherProduit() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let resDiv = document.getElementById('resultat-produit');
+            let emptyMsg = document.getElementById('empty-msg');
 
-        function ans(p) {
-            score += p;
-            if(qIdx < 9) { qIdx++; updateQ(); }
-            else { 
-                alert("Diagnostic terminé ! Score : " + score + "/10."); 
-                showPage('page-menu'); 
-                qIdx = 0; // Reset pour la prochaine fois
+            if (db_produits[input]) {
+                let p = db_produits[input];
+                document.getElementById('p-title').innerText = p.nom;
+                document.getElementById('p-risques').innerText = p.risques;
+                document.getElementById('p-prevention').innerText = p.prevention;
+                document.getElementById('p-source').innerText = p.source;
+                resDiv.classList.remove('d-none');
+                emptyMsg.classList.add('d-none');
+            } else {
+                resDiv.classList.add('d-none');
+                emptyMsg.classList.remove('d-none');
             }
-        }
-
-        function sendMail() {
-            let body = `Bonjour,\n\nJe viens de réaliser mon auto-diagnostic sur l'application RESTEV 85.\nScore : ${score}/10.\n\nSouhaiterais faire le point avec mon technicien conseil.\n\nSecteur : La Roche-sur-Yon / Nord Vendée.`;
-            window.location.href = "mailto:prevention@restev85.fr?subject=Bilan Diag Adherent&body=" + encodeURIComponent(body);
         }
     </script>
 </body>
