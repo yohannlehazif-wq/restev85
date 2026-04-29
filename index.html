@@ -183,10 +183,40 @@
         let scanner;
         let score = 0, qIdx = 0;
         
+        // Base de données : Tu peux tester avec ces chiffres ou le nom
         const db = {
-            "acetone": { n: "Acétone", d: "Très inflammable. Vapeurs irritantes pour les yeux et les voies respiratoires.", p: "Gants en Butyle (indispensables), ventilation forcée du poste, et stockage en armoire coupe-feu." },
-            "ciment": { n: "Ciment / Béton", d: "Corrosif. Contient du Chrome VI responsable de dermatoses et brûlures chimiques.", p: "Gants étanches à manchettes, lunettes de protection, et application de crème barrière." }
+            "3045320001234": { n: "Acétone Pure", d: "Solvant inflammable. Vapeurs toxiques pour le système nerveux.", p: "Port de gants BUTYLE obligatoire. Ventilation forcée (V > 0.5m/s)." },
+            "3256224123456": { n: "Lessive Soude", d: "Corrosif sévère. Provoque des brûlures cutanées et des lésions oculaires graves.", p: "Lunettes de protection étanches + Gants PVC à manchettes." },
+            "acetone": { n: "Acétone", d: "Très inflammable. Vapeurs irritantes.", p: "Gants en Butyle, ventilation du poste." },
+            "ciment": { n: "Ciment / Béton", d: "Corrosif (Chrome VI). Risque de dermatoses.", p: "Gants étanches, lunettes, et crème barrière." }
         };
+
+        // ... (reste des fonctions identiques)
+
+        function startCamera() {
+            document.getElementById('reader').style.display = 'block';
+            document.getElementById('btn-cam').style.display = 'none';
+            
+            // Initialisation spécifique pour CODE-BARRES (formats 1D)
+            scanner = new Html5Qrcode("reader");
+            
+            const config = { 
+                fps: 20, // Plus d'images par seconde pour saisir le code-barres
+                qrbox: { width: 300, height: 150 }, // Format rectangulaire adapté aux codes-barres
+                aspectRatio: 1.0
+            };
+
+            // On force la lecture des formats standards (EAN, Code 128, etc.)
+            scanner.start(
+                { facingMode: "environment" }, 
+                config, 
+                (decodedText) => { 
+                    // Vibration légère pour confirmer le scan (si supporté)
+                    if (navigator.vibrate) navigator.vibrate(100);
+                    manualSearch(decodedText); 
+                }
+            ).catch(err => alert("Erreur caméra : " + err));
+        }
 
         const questions = [
             "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
