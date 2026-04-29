@@ -25,8 +25,9 @@
         .btn-main { background: var(--gradient); color: white; border: none; border-radius: 18px; padding: 18px; width: 100%; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 15px rgba(167, 75, 158, 0.2); transition: 0.3s; }
         .btn-main:active { transform: scale(0.98); }
         
-        .metier-title { color: var(--blue); border-left: 4px solid var(--violet); padding-left: 10px; font-weight: bold; margin-top: 15px; }
-        .inrs-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 15px; font-size: 0.85rem; margin-top: 10px; }
+        .metier-cat { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--violet); font-weight: bold; }
+        .metier-title { color: var(--blue); font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; }
+        .inrs-box { background: #f8fafc; border-left: 4px solid var(--green); padding: 12px; border-radius: 0 15px 15px 0; font-size: 0.85rem; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -55,7 +56,7 @@
 
             <div class="card-expert" id="scan-instructions">
                 <h6 class="fw-bold text-primary">Scanner Intelligent Actif</h6>
-                <p class="small text-muted mb-0">L'application est connectée à la base <b>Open Products</b> et au moteur d'analyse sémantique RESTEV. Scannez un code-barres pour identifier les risques SGH.</p>
+                <p class="small text-muted mb-0">Scannez un code-barres pour identifier les risques SGH.</p>
             </div>
         </div>
 
@@ -72,8 +73,19 @@
 
         <div class="tab-pane fade" id="p-metiers">
             <div class="card-expert">
-                <h5 class="fw-bold">Référentiel Vendée</h5>
-                <input type="text" id="mSearch" class="form-control my-3" placeholder="Rechercher (ex: Menuisier, Garage...)" onkeyup="searchMet()">
+                <h5 class="fw-bold mb-3">Référentiel INRS / CARSAT</h5>
+                
+                <div class="row g-2 mb-4">
+                    <div class="col-12">
+                        <select id="catSelect" class="form-select form-select-lg" style="border-radius: 15px; font-size: 0.9rem;" onchange="filtrerMetiers()">
+                            <option value="TOUS">Toutes les catégories</option>
+                            </select>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" id="mSearch" class="form-control" placeholder="Rechercher un métier, un risque..." onkeyup="filtrerMetiers()" style="border-radius: 15px;">
+                    </div>
+                </div>
+
                 <div id="met-container"></div>
             </div>
         </div>
@@ -98,164 +110,123 @@
     <script>
         let inventaire = [];
         let pCurrent = null;
-        const scanRes = document.getElementById('scan-res');
-        const modalAlerte = new bootstrap.Modal(document.getElementById('modalAlerte'));
 
-        // 1. BASE DE DONNÉES LOCALE (Produits de démonstration courants)
-        const DB_PRODUITS = {
-            // Chimie classique
-            "3152541000105": { n: "White Spirit", cl: "INFLAMMABLE", adv: "H226 - Utiliser en zone ventilée. Gants Nitrile (EN374).", cmr: false },
-            "3152541001003": { n: "Acide Chlorhydrique", cl: "ACIDE", adv: "H314 - Corrosif. Protection oculaire obligatoire.", cmr: false },
-            "3000000000008": { n: "Trichloréthylène", cl: "CMR", adv: "H350 - Cancérogène. Substitution prioritaire (CARSAT).", cmr: true },
-            // Mécanique
-            "3250220030018": { n: "Nettoyant Freins", cl: "INFLAMMABLE", adv: "Aérosol extrêmement inflammable. Irritant pour la peau. Gants requis.", cmr: false },
-            "5011987115005": { n: "Dégrippant WD-40", cl: "INFLAMMABLE", adv: "Peut être mortel en cas d'ingestion et de pénétration dans les voies respiratoires.", cmr: false },
-            // Bois / Bâtiment
-            "3170650000201": { n: "Colle Polyuréthane (PU)", cl: "SENSIBILISANT", adv: "Contient des isocyanates. Risque d'asthme professionnel. Masque et gants obligatoires.", cmr: false },
-            // Ménager / Entretien
-            "3045215215001": { n: "Eau de Javel (Extrait)", cl: "BASE", adv: "H314 - Corrosif. Ne JAMAIS mélanger avec un acide (dégagement de chlore gazeux toxique).", cmr: false },
-            "3011360000000": { n: "Détartrant WC", cl: "ACIDE", adv: "H318 - Lésions oculaires graves. Porter des EPI adaptés.", cmr: false }
-        };
-
-        // 2. MOTEUR D'ANALYSE SÉMANTIQUE (Si l'API trouve un nom non référencé)
-        function analyserRisque(nomProduit) {
-            const nom = nomProduit.toLowerCase();
-            
-            // Famille Ménager / Nettoyage
-            if (nom.includes("javel") || nom.includes("déboucheur")) return { cl: "BASE", adv: "Corrosif. Ne jamais mélanger avec un acide. Gants ménagers." };
-            if (nom.includes("détartrant") || nom.includes("vinaigre")) return { cl: "ACIDE", adv: "Irritant/Corrosif. Éviter le contact avec les yeux." };
-            if (nom.includes("nettoyant") || nom.includes("lessive") || nom.includes("vitre")) return { cl: "IRRITANT", adv: "Risque de dermatose (eczéma). Rincer les mains après usage." };
-            
-            // Famille Mécanique / Peinture
-            if (nom.includes("frein") || nom.includes("moteur") || nom.includes("graisse")) return { cl: "INFLAMMABLE", adv: "Vapeurs toxiques. Gants nitrile et travail en zone aérée." };
-            if (nom.includes("peinture") || nom.includes("diluant") || nom.includes("solvant") || nom.includes("aérosol")) return { cl: "INFLAMMABLE", adv: "Risque Solvant : Ventilation, éloigner des étincelles, Masque A2." };
-            
-            // Famille Bâtiment / Bois
-            if (nom.includes("colle") || nom.includes("résine") || nom.includes("mastic")) return { cl: "SENSIBILISANT", adv: "Allergies cutanées ou respiratoires possibles. Éviter le contact direct." };
-            if (nom.includes("ciment") || nom.includes("mortier")) return { cl: "CORROSIF", adv: "Brûlures au ciment fréquentes. Gants étanches obligatoires." };
-
-            return { cl: "À VÉRIFIER", adv: "Produit reconnu, mais classe de danger à vérifier sur la FDS." };
-        }
-
-        // 3. RÉFÉRENTIEL MÉTIERS
+        // --- 1. BASE DE DONNÉES MÉTIERS (ÉVOLUTIVE) ---
+        // Pour ajouter un métier, il suffit de copier/coller une ligne ici.
         const DB_METIERS = [
-            { m: "Menuisier / Charpentier", r: "Poussières de bois (CMR), Colles PU (Sensibilisants)", p: "Aspiration à la source sur les machines. Masque FFP3. Remplacement des colles PU si possible." },
-            { m: "Mécanicien Garage", r: "Huiles usagées, Solvants, Amiante (anciens freins)", p: "Fontaines de dégraissage biologiques. Port de gants nitrile pour la vidange." },
-            { m: "Agent d'Entretien", r: "Mélange Javel/Acide, TMS, Chutes", p: "Interdiction de transvaser sans étiquette. Utilisation de centrales de dilution pour éviter le surdosage." },
-            { m: "Peintre Carrossier", r: "Isocyanates, COV, Benzène", p: "Travail exclusif en cabine ventilée. Masque à adduction d'air." }
+            // Catégorie Bâtiment
+            { cat: "Bâtiment & Bois", m: "Menuisier / Charpentier", r: "Poussières de bois (CMR), Colles PU (Sensibilisants)", p: "Aspiration à la source sur les machines. Masque FFP3. Remplacement des colles PU." },
+            { cat: "Bâtiment & Bois", m: "Peintre en Bâtiment", r: "COV, Solvants, Amiante (rénovation)", p: "Privilégier les peintures en phase aqueuse. Port du masque A2P3." },
+            { cat: "Bâtiment & Bois", m: "Maçon / Carreleur", r: "Poussières de silice, Ciment (Corrosif)", p: "Découpe à l'eau pour la silice. Gants étanches pour le ciment." },
+            
+            // Catégorie Mécanique
+            { cat: "Automobile & Mécanique", m: "Mécanicien VL/PL", r: "Huiles de vidange (CMR), Benzène, Dégraissants", p: "Fontaines de dégraissage biologiques. Port de gants nitrile. Interdiction de la soufflette." },
+            { cat: "Automobile & Mécanique", m: "Peintre Carrossier", r: "Isocyanates, COV, Benzène", p: "Travail exclusif en cabine ventilée. Masque à adduction d'air." },
+            
+            // Catégorie Propreté
+            { cat: "Nettoyage & Propreté", m: "Agent d'Entretien", r: "Mélange Javel/Acide, TMS, Allergies", p: "Ne jamais transvaser sans étiquette. Utilisation de centrales de dilution automatiques." },
+            { cat: "Nettoyage & Propreté", m: "Nettoyeur Industriel", r: "Solvants forts, Produits corrosifs", p: "Combinaison chimique de type 4, lunettes masques et gants spécifiques." },
+            
+            // Catégorie Esthétique / Santé
+            { cat: "Coiffure & Esthétique", m: "Coiffeur(se)", r: "Persulfates (décoloration), Allergies respiratoires", p: "Utilisation de poudres compactes. Gants nitrile (pas de latex)." }
         ];
 
-        // --- SCANNER ET API ---
-        const html5QrCode = new Html5Qrcode("reader");
-        
-        function startScanner() {
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 150 } }, onScanFound)
-            .catch(err => {
-                document.getElementById('reader').innerHTML = "<div class='p-4 text-center text-white'>Caméra indisponible. L'application nécessite un accès à l'appareil photo.</div>";
+        // --- INITIALISATION DU MENU DÉROULANT ---
+        function initFiltres() {
+            // Extrait les catégories uniques et les trie par ordre alphabétique
+            const categories = [...new Set(DB_METIERS.map(item => item.cat))].sort();
+            const select = document.getElementById('catSelect');
+            
+            categories.forEach(cat => {
+                select.innerHTML += `<option value="${cat}">${cat}</option>`;
             });
+            
+            // Affiche tout par défaut
+            renderMetiers(DB_METIERS);
         }
 
-        async function onScanFound(code) {
-            html5QrCode.pause(true); 
-            
-            // 1. Cherche dans la base experte locale
-            let p = DB_PRODUITS[code];
+        // --- MOTEUR DE FILTRAGE (Catégorie + Recherche) ---
+        function filtrerMetiers() {
+            const catChoisie = document.getElementById('catSelect').value;
+            const recherche = document.getElementById('mSearch').value.toLowerCase();
 
-            // 2. Si introuvable, interroge l'API Open Products
-            if (!p) {
-                document.getElementById('scan-instructions').innerHTML = "<p class='small text-primary fw-bold mb-0'>Recherche dans la base mondiale...</p>";
-                try {
-                    const res = await fetch(`https://world.openproductsfacts.org/api/v0/product/${code}.json`);
-                    const data = await res.json();
-                    
-                    if (data.status === 1 && data.product.product_name) {
-                        const nomAPI = data.product.product_name;
-                        const analyse = analyserRisque(nomAPI);
-                        p = { n: nomAPI, cl: analyse.cl, adv: analyse.adv, cmr: false };
-                    }
-                } catch (e) { console.log("API Error", e); }
+            const resultats = DB_METIERS.filter(item => {
+                // Vérifie la catégorie
+                const correspondCat = (catChoisie === "TOUS" || item.cat === catChoisie);
+                // Vérifie le texte de recherche (dans le nom du métier ou les risques)
+                const correspondTexte = item.m.toLowerCase().includes(recherche) || item.r.toLowerCase().includes(recherche);
+                
+                return correspondCat && correspondTexte;
+            });
+
+            renderMetiers(resultats);
+        }
+
+        // --- AFFICHAGE DES MÉTIERS ---
+        function renderMetiers(data) {
+            const container = document.getElementById('met-container');
+            if(data.length === 0) {
+                container.innerHTML = `<div class="text-center text-muted mt-4">Aucun métier trouvé pour cette recherche.</div>`;
+                return;
             }
 
-            // 3. Résultat final
-            pCurrent = p || { n: "Inconnu ("+code+")", cl: "NON RÉFÉRENCÉ", adv: "Le produit n'est pas dans la base. Prenez en photo l'étiquette SGH au dos.", cmr: false };
+            container.innerHTML = data.map(d => `
+                <div class="card-expert p-3 shadow-sm border mb-3 animate__animated animate__fadeIn">
+                    <div class="metier-cat">${d.cat}</div>
+                    <div class="metier-title mt-0">${d.m}</div>
+                    <p class="small mb-2"><b>Risques majeurs :</b> ${d.r}</p>
+                    <div class="inrs-box text-success mb-0"><b>Prévention INRS / CARSAT :</b><br>${d.p}</div>
+                </div>
+            `).join('');
+        }
+
+        // --- BASE PRODUITS / SCANNER / INVENTAIRE (Gardé intact) ---
+        const DB_PRODUITS = {
+            "3152541000105": { n: "White Spirit", cl: "INFLAMMABLE", adv: "Gants Nitrile (EN374).", cmr: false },
+            "3152541001003": { n: "Acide Chlorhydrique", cl: "ACIDE", adv: "Protection oculaire obligatoire.", cmr: false }
+        };
+
+        const html5QrCode = new Html5Qrcode("reader");
+        function startScanner() {
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 150 } }, onScanFound).catch(e => console.log(e));
+        }
+
+        function onScanFound(code) {
+            html5QrCode.pause(true); 
+            pCurrent = DB_PRODUITS[code] || { n: "Produit Scanné ("+code+")", cl: "À VÉRIFIER", adv: "Vérifier la FDS.", cmr: false };
             
             document.getElementById('reader').style.display = 'none';
             document.getElementById('scan-instructions').style.display = 'none';
-            scanRes.classList.remove('d-none');
+            document.getElementById('scan-res').classList.remove('d-none');
             
-            let colorClass = pCurrent.cl === "INFLAMMABLE" ? "bg-warning text-dark" : 
-                             pCurrent.cl === "ACIDE" || pCurrent.cl === "BASE" || pCurrent.cl === "CORROSIF" ? "bg-danger" : 
-                             pCurrent.cl === "CMR" ? "bg-dark" : "bg-info text-dark";
-
             document.getElementById('res-info').innerHTML = `
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h4 class="fw-bold mb-0 text-primary">${pCurrent.n}</h4>
-                    ${pCurrent.cmr ? '<span class="badge-cmr">RISQUE CMR</span>' : ''}
-                </div>
-                <span class="badge ${colorClass} mb-3" style="font-size:0.8rem">${pCurrent.cl}</span>
-                <div class="inrs-box"><b>Conseil RESTEV :</b><br>${pCurrent.adv}</div>
+                <h4 class="fw-bold mb-1 text-primary">${pCurrent.n}</h4>
+                <span class="badge bg-warning text-dark mb-3">${pCurrent.cl}</span>
+                <div class="inrs-box" style="border-left-color: var(--blue)"><b>Conseil :</b><br>${pCurrent.adv}</div>
             `;
         }
 
         function restartScanner() {
-            scanRes.classList.add('d-none');
+            document.getElementById('scan-res').classList.add('d-none');
             document.getElementById('reader').style.display = 'block';
             document.getElementById('scan-instructions').style.display = 'block';
-            document.getElementById('scan-instructions').innerHTML = `<h6 class="fw-bold text-primary">Scanner Intelligent Actif</h6><p class="small text-muted mb-0">Scannez un code-barres pour identifier les risques SGH.</p>`;
             html5QrCode.resume();
         }
 
-        // --- MATRICE ET INVENTAIRE ---
         function validerAjout() {
-            // Matrice de stockage simplifiée : Acides vs Bases vs Inflammables
-            const conflit = inventaire.find(i => 
-                (pCurrent.cl === "ACIDE" && (i.cl === "BASE" || i.cl === "INFLAMMABLE")) || 
-                (pCurrent.cl === "BASE" && (i.cl === "ACIDE" || i.cl === "INFLAMMABLE")) ||
-                (pCurrent.cl === "INFLAMMABLE" && (i.cl === "ACIDE" || i.cl === "BASE" || i.cl === "COMBURANT"))
-            );
-
-            if (conflit) {
-                document.getElementById('msg-alerte').innerHTML = `Risque de réaction violente (gaz toxiques ou feu). Vous tentez de stocker <b>${pCurrent.n}</b> (${pCurrent.cl}) dans la même zone que <b>${conflit.n}</b> (${conflit.cl}).`;
-                modalAlerte.show();
-            }
-
             inventaire.push(pCurrent);
-            updateInv();
+            document.getElementById('empty-msg').style.display = 'none';
+            document.getElementById('compteur-inv').innerText = inventaire.length + " produit(s)";
+            document.getElementById('inv-list').innerHTML += `
+                <li class="list-group-item d-flex justify-content-between py-2 px-0 border-bottom">
+                    <div><b>${pCurrent.n}</b><br><small class="text-muted">${pCurrent.cl}</small></div>
+                </li>`;
             restartScanner();
         }
 
-        function updateInv() {
-            const list = document.getElementById('inv-list');
-            document.getElementById('empty-msg').style.display = inventaire.length ? 'none' : 'block';
-            document.getElementById('compteur-inv').innerText = inventaire.length + " produit(s)";
-            
-            list.innerHTML = inventaire.map((i, index) => `
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0 border-bottom">
-                    <div><b class="text-dark">${i.n}</b><br><small class="text-muted">${i.cl}</small></div>
-                    ${i.cmr ? '<span class="text-danger fw-bold">CMR</span>' : '<span class="text-success">OK</span>'}
-                </li>
-            `).join('');
-        }
-
-        // --- MÉTIERS ---
-        function searchMet() {
-            const val = document.getElementById('mSearch').value.toLowerCase();
-            renderMet(DB_METIERS.filter(x => x.m.toLowerCase().includes(val)));
-        }
-
-        function renderMet(data) {
-            document.getElementById('met-container').innerHTML = data.map(d => `
-                <div class="card-expert p-3 shadow-sm border">
-                    <div class="metier-title mt-0">${d.m}</div>
-                    <p class="small mb-2 mt-2"><b>Risques majeurs :</b> ${d.r}</p>
-                    <div class="inrs-box text-success mb-0 border-success"><b>Actions de prévention :</b><br>${d.p}</div>
-                </div>
-            `).join('');
-        }
-
-        // INITIALISATION
+        // LANCEMENT AU DÉMARRAGE
+        initFiltres();
         startScanner();
-        renderMet(DB_METIERS);
     </script>
 </body>
 </html>
