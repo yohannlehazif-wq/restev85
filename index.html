@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Prévention</title>
+    <title>RESTEV 85 - Prévention Connectée</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,46 +14,55 @@
             --restev-yellow: #f9c61a;  --bg: #f8fafc;
         }
 
-        body { background-color: var(--bg); font-family: 'Segoe UI', sans-serif; margin-bottom: 95px; }
+        body { background-color: var(--bg); font-family: 'Segoe UI', system-ui; color: #1e293b; margin-bottom: 95px; }
         
-        /* --- SPLASH SCREEN --- */
+        /* --- PAGE DE GARDE --- */
         #splash { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
-        .splash-logo { width: 250px; margin-bottom: 30px; }
+        .splash-logo { width: 260px; max-width: 80%; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05)); margin-bottom: 40px; }
+        .btn-start { background: linear-gradient(90deg, var(--restev-blue), var(--restev-teal)); color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: bold; box-shadow: 0 8px 20px rgba(31,91,156,0.2); }
 
         /* --- HEADER --- */
-        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--restev-yellow); position: sticky; top: 0; z-index: 1000; }
-        .header-logo { height: 40px; }
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--restev-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .header-logo { height: 45px; }
 
-        /* --- CARDS & MENU --- */
-        .welcome-card { background: linear-gradient(135deg, var(--restev-blue), var(--restev-teal)); color: white; padding: 25px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin-bottom: 20px; text-align: center; }
+        /* --- DASHBOARD --- */
+        .welcome-card { background: linear-gradient(135deg, var(--restev-blue), #144275); color: white; padding: 25px; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; margin-bottom: 25px; text-align: center; }
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-        .menu-card { background: white; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); cursor: pointer; }
-        .menu-card i { font-size: 2rem; margin-bottom: 10px; display: block; }
+        .menu-card { background: white; padding: 20px; border-radius: 25px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; transition: 0.2s; }
+        .menu-card:active { transform: scale(0.95); }
+        .menu-card i { font-size: 2.2rem; margin-bottom: 12px; display: block; }
 
-        /* --- SGH --- */
-        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
-        .sgh-box { background: white; border-radius: 12px; padding: 10px; text-align: center; border-bottom: 3px solid var(--restev-purple); font-size: 0.6rem; font-weight: bold; }
-        .sgh-box img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 5px; }
+        /* --- SGH GRID --- */
+        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
+        .sgh-box { background: white; border-radius: 15px; padding: 10px; text-align: center; border-bottom: 3px solid var(--restev-purple); box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.6rem; font-weight: bold; }
+        .sgh-box img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 8px; }
 
-        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--restev-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; width: 20%; }
+        /* --- SCANNER --- */
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--restev-teal); background: #000; }
+
+        /* --- UI ELEMENTS --- */
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .prev-box { background: #f0f7ff; border-radius: 10px; padding: 15px; margin-top: 10px; font-size: 0.85rem; border: 1px solid #dbeafe; white-space: pre-line; }
+        .badge-epi { background: #eef2f6; color: var(--restev-blue); padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; margin-right: 5px; font-weight: bold; display: inline-block; margin-top: 5px; }
+
+        /* --- NAV BOTTOM --- */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; width: 20%; }
         .nav-item.active { color: var(--restev-blue); }
 
-        .app-page { display: none; animation: fadeIn 0.3s; }
+        .app-page { display: none; animation: fadeIn 0.3s ease; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="splash">
         <img src="restv_logo.jpeg" alt="RESTEV" class="splash-logo">
-        <p class="text-muted small mb-4">Prévention & Santé au Travail 85</p>
-        <button class="btn btn-primary rounded-pill px-5 fw-bold" style="background: var(--restev-blue); border:none;" onclick="startApp()">DÉMARRER</button>
+        <button class="btn-start" onclick="startApp()">DÉMARRER</button>
     </div>
 
     <div class="app-header">
@@ -62,8 +71,8 @@
 
     <div id="page-home" class="app-page active-page">
         <div class="welcome-card">
-            <h5 class="fw-bold mb-1">Espace Adhérents</h5>
-            <p class="small mb-0 opacity-75">Outils de prévention des risques</p>
+            <h5 class="fw-bold mb-1">Espace Prévention</h5>
+            <p class="small mb-0 opacity-75">Santé & Sécurité au Travail (85)</p>
         </div>
         <div class="grid-menu">
             <div class="menu-card" onclick="nav('page-scan', document.getElementById('nav-scan'))">
@@ -80,20 +89,21 @@
             </div>
             <div class="menu-card" onclick="nav('page-sgh', document.getElementById('nav-sgh'))">
                 <i class="fa-solid fa-triangle-exclamation" style="color: var(--restev-purple);"></i>
-                <b>Risques SGH</b>
+                <b>Danger SGH</b>
             </div>
         </div>
     </div>
 
     <div id="page-scan" class="app-page">
-        <div class="p-4 text-center">
-            <h5 class="fw-bold text-primary mb-3">Scanner Produit Chimique</h5>
-            <div id="reader" style="width:100%; border-radius:15px; border:3px solid var(--restev-teal);"></div>
-            <button class="btn btn-primary w-100 rounded-pill py-3 mt-4" style="background: var(--restev-blue);" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
-            <div id="res-area" class="mt-4 d-none">
-                <div class="card-custom">
-                    <p id="res-code" class="fw-bold fs-4 text-dark"></p>
-                    <a id="fds-link" target="_blank" class="btn btn-success w-100 rounded-pill">RECHERCHER LA FDS</a>
+        <div class="p-4">
+            <h5 class="fw-bold text-primary mb-3">Recherche FDS</h5>
+            <div id="reader"></div>
+            <button class="btn btn-primary w-100 py-3 rounded-pill mt-4 fw-bold" style="background: var(--restev-blue); border:none;" onclick="startScanner()">LANCER LE SCANNER</button>
+            <div id="res-area" class="d-none mt-4">
+                <div class="card-custom text-center">
+                    <h6 class="text-muted">Code détecté :</h6>
+                    <p id="res-code" class="fw-bold fs-4"></p>
+                    <a id="fds-link" target="_blank" class="btn btn-success w-100 rounded-pill">VOIR LA FICHE FDS</a>
                 </div>
             </div>
         </div>
@@ -101,18 +111,18 @@
 
     <div id="page-metiers" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--restev-teal);">Base Prévention</h5>
-            <input type="text" id="search-input" class="form-control rounded-pill mb-4 shadow-sm" placeholder="Ex: Menuisier, Peintre..." onkeyup="searchInternal()">
+            <h5 class="fw-bold mb-3" style="color: var(--restev-teal);">Prévention par Métier</h5>
+            <input type="text" id="search-input" class="form-control rounded-pill mb-4 border-0 shadow-sm px-4 py-3" placeholder="Rechercher (ex: Boucher, Peintre...)" onkeyup="searchInternal()">
             <div id="search-results"></div>
         </div>
     </div>
 
     <div id="page-inventory" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-3 text-r-orange" style="color: var(--restev-orange);">Mon Stock Produits</h5>
+            <h5 class="fw-bold mb-3" style="color: var(--restev-orange);">Mon Inventaire Produit</h5>
             <div class="input-group mb-3 shadow-sm">
-                <input type="text" id="inv-input" class="form-control rounded-start-pill" placeholder="Nom du produit...">
-                <button class="btn btn-success rounded-end-pill px-4" onclick="addInv()">Ajouter</button>
+                <input type="text" id="inv-input" class="form-control border-0 py-3 rounded-start-pill px-4" placeholder="Nom du produit...">
+                <button class="btn btn-success rounded-end-pill px-4" onclick="addInv()">OK</button>
             </div>
             <div id="inv-list"></div>
         </div>
@@ -120,20 +130,20 @@
 
     <div id="page-sgh" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--restev-purple);">Symboles de Danger</h5>
+            <h5 class="fw-bold mb-3" style="color: var(--restev-purple);">Signalisation de Danger</h5>
             <div class="sgh-grid" id="sgh-list"></div>
         </div>
     </div>
 
     <div id="page-contact" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-4 text-primary">Vos Contacts RESTEV</h5>
+            <h5 class="fw-bold text-primary mb-4">Vos Contacts RESTEV</h5>
             <div class="card-custom" style="border-left-color: var(--restev-orange);">
                 <b class="fs-5">Yoann LE HAZIF</b><br>
-                <span class="text-muted small">Technicien Prévention (TPRP)</span>
+                <span class="text-muted">Technicien Prévention (TPRP)</span>
                 <div class="mt-3">
-                    <a href="tel:0251944329" class="btn btn-sm btn-outline-primary rounded-pill me-2">Bureau</a>
-                    <a href="tel:0685675246" class="btn btn-sm btn-primary rounded-pill">Mobile</a>
+                    <a href="tel:0251944329" class="btn btn-sm btn-outline-primary rounded-pill me-2">02 51 94 43 29</a>
+                    <a href="tel:0685675246" class="btn btn-sm btn-primary rounded-pill" style="background: var(--restev-blue);">06 85 67 52 46</a>
                 </div>
             </div>
             <div id="centres-list"></div>
@@ -141,22 +151,23 @@
     </div>
 
     <div class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>HOME</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
         <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
         <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-boxes-stacked"></i>STOCK</button>
-        <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-address-book"></i>CONTACT</button>
+        <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-user-tie"></i>CONTACT</button>
     </div>
 
     <script>
-        // --- BASE DE DONNÉES ---
+        // --- BASE DE DONNÉES COMPLÈTE ---
         const dbMetiers = [
-            { m: "Menuiserie", r: "Poussières de bois, Bruit, Coupures.", p: "Aspiration à la source, Masque FFP3, Protections auditives." },
-            { m: "Peinture / Carrosserie", r: "Solvants, Isocyanates, Incendie.", p: "Cabine ventilée, Gants nitrile, Masque A2P3." },
-            { m: "Bâtiment / Maçonnerie", r: "Chutes, Silice, Manutention.", p: "Échafaudage conforme, Arrosage poussière, Casque." }
+            { m: "Peintre / Carrossier", r: "Solvants, Isocyanates, Incendie.", p: "• Cabine ventilée.\n• Stockage armoire de sécurité.\n• Masque adduction d'air ou A2P3.", epi: ["Masque A2P3", "Gants Nitrile"] },
+            { m: "Menuisier / Ébéniste", r: "Poussières de bois (Cancérigène), Bruit.", p: "• Aspiration centralisée classe M.\n• Nettoyage aspirateur (pas de soufflette).\n• Protections auditives.", epi: ["Masque FFP3", "Bouchons"] },
+            { m: "Boucherie / Charcuterie", r: "Coupures, Machines, TMS.", p: "• Maintenance des machines de coupe.\n• Alternance des tâches.\n• Chaussures antidérapantes.", epi: ["Gants cotte mailles", "Chaussures SRC"] },
+            { m: "Agent de Propreté", r: "Risques Chimiques, Dermatoses.", p: "• Doseurs automatiques.\n• Ne JAMAIS mélanger Javel et produits acides.\n• Gants à manchettes.", epi: ["Gants Nitrile", "Chaussures SRC"] },
+            { m: "Maçon / Bâtiment", r: "Chutes, Silice, Manutention.", p: "• Échafaudages conformes.\n• Arrosage pour limiter la poussière de silice.\n• Casque jugulaire.", epi: ["Casque", "Chaussures S3", "Gants"] }
         ];
 
-        // --- SGH AVEC VOS NOMS DE FICHIERS ---
         const sghData = [
             { f: "SGH01_BombeExplosant.jpg", t: "Explosif" },
             { f: "SGH02_Flamme.jpg", t: "Inflammable" },
@@ -170,15 +181,13 @@
         ];
 
         const centres = [
-            { n: "Siège La Roche-sur-Yon", a: "1 Impasse Newton", t: "02 51 37 06 68" },
-            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00" }
+            { n: "Siège La Roche-sur-Yon", a: "1 Impasse Newton, 85007 La Roche-sur-Yon", t: "02 51 37 06 68" },
+            { n: "Les Herbiers", a: "Avenue de l'Arrivée, 85500 Les Herbiers", t: "02 51 67 00 00" },
+            { n: "Montaigu-Vendée", a: "Pôle de la Maine, 85600 Montaigu", t: "02 51 94 00 00" }
         ];
 
-        // --- LOGIQUE ---
-        function startApp() { 
-            document.getElementById('splash').style.display='none'; 
-            renderSGH(); renderInv(); searchInternal(); renderCentres();
-        }
+        // --- FONCTIONS ---
+        function startApp() { document.getElementById('splash').style.display='none'; renderSGH(); renderInv(); searchInternal(); renderCentres(); }
         
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
@@ -197,37 +206,38 @@
 
         function searchInternal() {
             const v = document.getElementById('search-input').value.toLowerCase();
-            document.getElementById('search-results').innerHTML = dbMetiers.filter(i => i.m.toLowerCase().includes(v)).map(item => `
+            document.getElementById('search-results').innerHTML = dbMetiers.filter(i => i.m.toLowerCase().includes(v) || i.r.toLowerCase().includes(v)).map(item => `
                 <div class="card-custom">
-                    <b class="text-primary">${item.m}</b><br>
+                    <b class="text-primary fs-5">${item.m}</b><br>
                     <small><b>Risques :</b> ${item.r}</small>
-                    <div class="mt-2 p-2 bg-light rounded small border">${item.p}</div>
+                    <div class="prev-box"><b>Prévention :</b><br>${item.p}</div>
+                    <div class="mt-2">${item.epi.map(e => `<span class="badge-epi">${e}</span>`).join('')}</div>
                 </div>`).join('');
         }
 
         function renderInv() {
-            const list = JSON.parse(localStorage.getItem('restev_inv') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_inv_db') || "[]");
             document.getElementById('inv-list').innerHTML = list.map((p, i) => `
                 <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--restev-orange);">
                     <span class="fw-bold">${p}</span>
-                    <i class="fa-solid fa-trash text-danger" onclick="delInv(${i})"></i>
+                    <i class="fa-solid fa-trash text-danger fs-5" onclick="delInv(${i})"></i>
                 </div>`).join('');
         }
 
         function addInv() {
             const v = document.getElementById('inv-input').value;
             if(!v) return;
-            const list = JSON.parse(localStorage.getItem('restev_inv') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_inv_db') || "[]");
             list.push(v);
-            localStorage.setItem('restev_inv', JSON.stringify(list));
+            localStorage.setItem('restev_inv_db', JSON.stringify(list));
             document.getElementById('inv-input').value = "";
             renderInv();
         }
 
         function delInv(i) {
-            const list = JSON.parse(localStorage.getItem('restev_inv') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_inv_db') || "[]");
             list.splice(i, 1);
-            localStorage.setItem('restev_inv', JSON.stringify(list));
+            localStorage.setItem('restev_inv_db', JSON.stringify(list));
             renderInv();
         }
 
@@ -235,19 +245,19 @@
             document.getElementById('centres-list').innerHTML = centres.map(c => `
                 <div class="card-custom mt-3" style="border-left-color: var(--restev-teal);">
                     <b>${c.n}</b><br><small class="text-muted">${c.a}</small><br>
-                    <a href="tel:${c.t.replace(/ /g,'')}" class="text-decoration-none small fw-bold">${c.t}</a>
+                    <a href="tel:${c.t.replace(/ /g,'')}" class="text-decoration-none small fw-bold text-r-blue">${c.t}</a>
                 </div>`).join('');
         }
 
         let sc;
         function startScanner() {
-            sc = new Html5Qrcode("reader");
+            if(!sc) sc = new Html5Qrcode("reader");
             sc.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
                 document.getElementById('res-code').innerText = t;
-                document.getElementById('fds-link').href = `https://www.google.com/search?q=FDS+produit+${t}`;
+                document.getElementById('fds-link').href = `https://www.google.com/search?q=Fiche+de+donnees+de+securite+code+ean+${t}`;
                 document.getElementById('res-area').classList.remove('d-none');
                 sc.stop();
-            }).catch(err => alert("Erreur caméra : " + err));
+            }).catch(err => alert("Vérifiez les permissions de votre caméra."));
         }
     </script>
 </body>
