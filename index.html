@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        :root { --blue: #3d7cc0; --violet: #a74b9e; --green: #97c93e; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
+        :root { --blue: #3d7cc0; --violet: #a74b9e; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
         body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, sans-serif; padding-bottom: 100px; }
         
         /* Design Premium */
@@ -21,7 +22,8 @@
         #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; border: 4px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
         
         .badge-cmr { background-color: #ef4444; color: white; padding: 5px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
-        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 18px; padding: 18px; width: 100%; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 15px rgba(167, 75, 158, 0.2); }
+        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 18px; padding: 18px; width: 100%; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 15px rgba(167, 75, 158, 0.2); transition: 0.3s; }
+        .btn-main:active { transform: scale(0.98); }
         
         .metier-title { color: var(--blue); border-left: 4px solid var(--violet); padding-left: 10px; font-weight: bold; margin-top: 15px; }
         .inrs-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 15px; font-size: 0.85rem; margin-top: 10px; }
@@ -52,23 +54,26 @@
             </div>
 
             <div class="card-expert" id="scan-instructions">
-                <h6 class="fw-bold">Conseil Expert</h6>
-                <p class="small text-muted mb-0">Placez le code-barres du produit bien au centre du cadre. L'application identifie automatiquement les classes SGH selon les bases INRS.</p>
+                <h6 class="fw-bold text-primary">Scanner Intelligent Actif</h6>
+                <p class="small text-muted mb-0">L'application est connectée à la base <b>Open Products</b> et au moteur d'analyse sémantique RESTEV. Scannez un code-barres pour identifier les risques SGH.</p>
             </div>
         </div>
 
         <div class="tab-pane fade" id="p-duerp">
             <div class="card-expert">
-                <h5 class="fw-bold mb-3">Inventaire Unité : Atelier</h5>
-                <div id="empty-msg" class="text-center py-4 text-muted small">Aucun produit scanné pour le moment.</div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Unité : Atelier Principal</h5>
+                    <span class="badge bg-primary" id="compteur-inv">0 produit</span>
+                </div>
+                <div id="empty-msg" class="text-center py-4 text-muted small">Le DUERP de cette zone est vide.</div>
                 <ul id="inv-list" class="list-group list-group-flush"></ul>
             </div>
         </div>
 
         <div class="tab-pane fade" id="p-metiers">
             <div class="card-expert">
-                <h5 class="fw-bold">Référentiel Métiers Vendée</h5>
-                <input type="text" id="mSearch" class="form-control my-3" placeholder="Rechercher (ex: Peintre, Maçon...)" onkeyup="searchMet()">
+                <h5 class="fw-bold">Référentiel Vendée</h5>
+                <input type="text" id="mSearch" class="form-control my-3" placeholder="Rechercher (ex: Menuisier, Garage...)" onkeyup="searchMet()">
                 <div id="met-container"></div>
             </div>
         </div>
@@ -96,60 +101,99 @@
         const scanRes = document.getElementById('scan-res');
         const modalAlerte = new bootstrap.Modal(document.getElementById('modalAlerte'));
 
-        // BASE DE DONNÉES EXPERTE (Exemples)
+        // 1. BASE DE DONNÉES LOCALE (Produits de démonstration courants)
         const DB_PRODUITS = {
+            // Chimie classique
             "3152541000105": { n: "White Spirit", cl: "INFLAMMABLE", adv: "H226 - Utiliser en zone ventilée. Gants Nitrile (EN374).", cmr: false },
             "3152541001003": { n: "Acide Chlorhydrique", cl: "ACIDE", adv: "H314 - Corrosif. Protection oculaire obligatoire.", cmr: false },
-            "3000000000008": { n: "Trichloréthylène", cl: "CMR", adv: "H350 - Cancérogène. Substitution prioritaire recommandée par CARSAT.", cmr: true }
+            "3000000000008": { n: "Trichloréthylène", cl: "CMR", adv: "H350 - Cancérogène. Substitution prioritaire (CARSAT).", cmr: true },
+            // Mécanique
+            "3250220030018": { n: "Nettoyant Freins", cl: "INFLAMMABLE", adv: "Aérosol extrêmement inflammable. Irritant pour la peau. Gants requis.", cmr: false },
+            "5011987115005": { n: "Dégrippant WD-40", cl: "INFLAMMABLE", adv: "Peut être mortel en cas d'ingestion et de pénétration dans les voies respiratoires.", cmr: false },
+            // Bois / Bâtiment
+            "3170650000201": { n: "Colle Polyuréthane (PU)", cl: "SENSIBILISANT", adv: "Contient des isocyanates. Risque d'asthme professionnel. Masque et gants obligatoires.", cmr: false },
+            // Ménager / Entretien
+            "3045215215001": { n: "Eau de Javel (Extrait)", cl: "BASE", adv: "H314 - Corrosif. Ne JAMAIS mélanger avec un acide (dégagement de chlore gazeux toxique).", cmr: false },
+            "3011360000000": { n: "Détartrant WC", cl: "ACIDE", adv: "H318 - Lésions oculaires graves. Porter des EPI adaptés.", cmr: false }
         };
 
-        // RÉFÉRENTIEL MÉTIERS (DATA CARSAT/INRS)
-        const DB_METIERS = [
-            { 
-                m: "Peintre en bâtiment", 
-                r: "Exposition aux COV, solvants organiques, chutes de hauteur.", 
-                p: "Substitution des peintures solvantées par des phases aqueuses. Masque A2P3 pour pulvérisation.",
-                ref: "INRS ED 937"
-            },
-            { 
-                m: "Mécanicien VL/PL", 
-                r: "Huiles de vidange usagées (CMR), benzène, TMS sous châssis.", 
-                p: "Fontaines de dégraissage biologiques. Utilisation de gants usage unique nitrile.",
-                ref: "CARSAT R442"
-            },
-            { 
-                m: "Agent de Propreté", 
-                r: "Mélanges dangereux (eau de javel + acide), dermatoses.", 
-                p: "Doseurs automatiques. Ne jamais transvaser sans étiquetage SGH.",
-                ref: "INRS ED 6061"
-            }
-        ];
+        // 2. MOTEUR D'ANALYSE SÉMANTIQUE (Si l'API trouve un nom non référencé)
+        function analyserRisque(nomProduit) {
+            const nom = nomProduit.toLowerCase();
+            
+            // Famille Ménager / Nettoyage
+            if (nom.includes("javel") || nom.includes("déboucheur")) return { cl: "BASE", adv: "Corrosif. Ne jamais mélanger avec un acide. Gants ménagers." };
+            if (nom.includes("détartrant") || nom.includes("vinaigre")) return { cl: "ACIDE", adv: "Irritant/Corrosif. Éviter le contact avec les yeux." };
+            if (nom.includes("nettoyant") || nom.includes("lessive") || nom.includes("vitre")) return { cl: "IRRITANT", adv: "Risque de dermatose (eczéma). Rincer les mains après usage." };
+            
+            // Famille Mécanique / Peinture
+            if (nom.includes("frein") || nom.includes("moteur") || nom.includes("graisse")) return { cl: "INFLAMMABLE", adv: "Vapeurs toxiques. Gants nitrile et travail en zone aérée." };
+            if (nom.includes("peinture") || nom.includes("diluant") || nom.includes("solvant") || nom.includes("aérosol")) return { cl: "INFLAMMABLE", adv: "Risque Solvant : Ventilation, éloigner des étincelles, Masque A2." };
+            
+            // Famille Bâtiment / Bois
+            if (nom.includes("colle") || nom.includes("résine") || nom.includes("mastic")) return { cl: "SENSIBILISANT", adv: "Allergies cutanées ou respiratoires possibles. Éviter le contact direct." };
+            if (nom.includes("ciment") || nom.includes("mortier")) return { cl: "CORROSIF", adv: "Brûlures au ciment fréquentes. Gants étanches obligatoires." };
 
-        // --- GESTION DU SCANNER RÉEL ---
-        const html5QrCode = new Html5Qrcode("reader");
-        const qrConfig = { fps: 10, qrbox: { width: 250, height: 150 } };
-
-        function startScanner() {
-            html5QrCode.start({ facingMode: "environment" }, qrConfig, (decodedText) => {
-                onScanFound(decodedText);
-            }).catch(err => console.log("Caméra non trouvée ou bloquée."));
+            return { cl: "À VÉRIFIER", adv: "Produit reconnu, mais classe de danger à vérifier sur la FDS." };
         }
 
-        function onScanFound(code) {
-            html5QrCode.pause(true); // On met en pause pour traiter
-            pCurrent = DB_PRODUITS[code] || { n: "Produit Inconnu ("+code+")", cl: "AUTRE", adv: "Veuillez vérifier la FDS.", cmr: false };
+        // 3. RÉFÉRENTIEL MÉTIERS
+        const DB_METIERS = [
+            { m: "Menuisier / Charpentier", r: "Poussières de bois (CMR), Colles PU (Sensibilisants)", p: "Aspiration à la source sur les machines. Masque FFP3. Remplacement des colles PU si possible." },
+            { m: "Mécanicien Garage", r: "Huiles usagées, Solvants, Amiante (anciens freins)", p: "Fontaines de dégraissage biologiques. Port de gants nitrile pour la vidange." },
+            { m: "Agent d'Entretien", r: "Mélange Javel/Acide, TMS, Chutes", p: "Interdiction de transvaser sans étiquette. Utilisation de centrales de dilution pour éviter le surdosage." },
+            { m: "Peintre Carrossier", r: "Isocyanates, COV, Benzène", p: "Travail exclusif en cabine ventilée. Masque à adduction d'air." }
+        ];
+
+        // --- SCANNER ET API ---
+        const html5QrCode = new Html5Qrcode("reader");
+        
+        function startScanner() {
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 150 } }, onScanFound)
+            .catch(err => {
+                document.getElementById('reader').innerHTML = "<div class='p-4 text-center text-white'>Caméra indisponible. L'application nécessite un accès à l'appareil photo.</div>";
+            });
+        }
+
+        async function onScanFound(code) {
+            html5QrCode.pause(true); 
+            
+            // 1. Cherche dans la base experte locale
+            let p = DB_PRODUITS[code];
+
+            // 2. Si introuvable, interroge l'API Open Products
+            if (!p) {
+                document.getElementById('scan-instructions').innerHTML = "<p class='small text-primary fw-bold mb-0'>Recherche dans la base mondiale...</p>";
+                try {
+                    const res = await fetch(`https://world.openproductsfacts.org/api/v0/product/${code}.json`);
+                    const data = await res.json();
+                    
+                    if (data.status === 1 && data.product.product_name) {
+                        const nomAPI = data.product.product_name;
+                        const analyse = analyserRisque(nomAPI);
+                        p = { n: nomAPI, cl: analyse.cl, adv: analyse.adv, cmr: false };
+                    }
+                } catch (e) { console.log("API Error", e); }
+            }
+
+            // 3. Résultat final
+            pCurrent = p || { n: "Inconnu ("+code+")", cl: "NON RÉFÉRENCÉ", adv: "Le produit n'est pas dans la base. Prenez en photo l'étiquette SGH au dos.", cmr: false };
             
             document.getElementById('reader').style.display = 'none';
             document.getElementById('scan-instructions').style.display = 'none';
             scanRes.classList.remove('d-none');
             
+            let colorClass = pCurrent.cl === "INFLAMMABLE" ? "bg-warning text-dark" : 
+                             pCurrent.cl === "ACIDE" || pCurrent.cl === "BASE" || pCurrent.cl === "CORROSIF" ? "bg-danger" : 
+                             pCurrent.cl === "CMR" ? "bg-dark" : "bg-info text-dark";
+
             document.getElementById('res-info').innerHTML = `
-                <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="fw-bold mb-1">${pCurrent.n}</h4>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="fw-bold mb-0 text-primary">${pCurrent.n}</h4>
                     ${pCurrent.cmr ? '<span class="badge-cmr">RISQUE CMR</span>' : ''}
                 </div>
-                <span class="badge bg-primary mb-3">${pCurrent.cl}</span>
-                <div class="inrs-box"><b>Conseil Prévention :</b><br>${pCurrent.adv}</div>
+                <span class="badge ${colorClass} mb-3" style="font-size:0.8rem">${pCurrent.cl}</span>
+                <div class="inrs-box"><b>Conseil RESTEV :</b><br>${pCurrent.adv}</div>
             `;
         }
 
@@ -157,18 +201,21 @@
             scanRes.classList.add('d-none');
             document.getElementById('reader').style.display = 'block';
             document.getElementById('scan-instructions').style.display = 'block';
+            document.getElementById('scan-instructions').innerHTML = `<h6 class="fw-bold text-primary">Scanner Intelligent Actif</h6><p class="small text-muted mb-0">Scannez un code-barres pour identifier les risques SGH.</p>`;
             html5QrCode.resume();
         }
 
         // --- MATRICE ET INVENTAIRE ---
         function validerAjout() {
+            // Matrice de stockage simplifiée : Acides vs Bases vs Inflammables
             const conflit = inventaire.find(i => 
-                (pCurrent.cl === "ACIDE" && i.cl === "INFLAMMABLE") || 
-                (pCurrent.cl === "INFLAMMABLE" && i.cl === "ACIDE")
+                (pCurrent.cl === "ACIDE" && (i.cl === "BASE" || i.cl === "INFLAMMABLE")) || 
+                (pCurrent.cl === "BASE" && (i.cl === "ACIDE" || i.cl === "INFLAMMABLE")) ||
+                (pCurrent.cl === "INFLAMMABLE" && (i.cl === "ACIDE" || i.cl === "BASE" || i.cl === "COMBURANT"))
             );
 
             if (conflit) {
-                document.getElementById('msg-alerte').innerHTML = `Risque de réaction exothermique ou départ de feu. Vous stockez un <b>${pCurrent.cl}</b> à côté d'un <b>${conflit.cl}</b> (${conflit.n}).`;
+                document.getElementById('msg-alerte').innerHTML = `Risque de réaction violente (gaz toxiques ou feu). Vous tentez de stocker <b>${pCurrent.n}</b> (${pCurrent.cl}) dans la même zone que <b>${conflit.n}</b> (${conflit.cl}).`;
                 modalAlerte.show();
             }
 
@@ -180,10 +227,12 @@
         function updateInv() {
             const list = document.getElementById('inv-list');
             document.getElementById('empty-msg').style.display = inventaire.length ? 'none' : 'block';
-            list.innerHTML = inventaire.map(i => `
-                <li class="list-group-item d-flex justify-content-between py-3">
-                    <div><b>${i.n}</b><br><small class="text-muted">${i.cl}</small></div>
-                    ${i.cmr ? '⚠️' : '✅'}
+            document.getElementById('compteur-inv').innerText = inventaire.length + " produit(s)";
+            
+            list.innerHTML = inventaire.map((i, index) => `
+                <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0 border-bottom">
+                    <div><b class="text-dark">${i.n}</b><br><small class="text-muted">${i.cl}</small></div>
+                    ${i.cmr ? '<span class="text-danger fw-bold">CMR</span>' : '<span class="text-success">OK</span>'}
                 </li>
             `).join('');
         }
@@ -191,20 +240,20 @@
         // --- MÉTIERS ---
         function searchMet() {
             const val = document.getElementById('mSearch').value.toLowerCase();
-            const filtered = DB_METIERS.filter(x => x.m.toLowerCase().includes(val));
-            renderMet(filtered);
+            renderMet(DB_METIERS.filter(x => x.m.toLowerCase().includes(val)));
         }
 
         function renderMet(data) {
             document.getElementById('met-container').innerHTML = data.map(d => `
-                <div class="metier-title">${d.m}</div>
-                <div class="small text-muted mb-2">Ref: ${d.ref}</div>
-                <p class="small mb-1"><b>Risques :</b> ${d.r}</p>
-                <div class="inrs-box text-success"><b>Prévention CARSAT :</b><br>${d.p}</div>
+                <div class="card-expert p-3 shadow-sm border">
+                    <div class="metier-title mt-0">${d.m}</div>
+                    <p class="small mb-2 mt-2"><b>Risques majeurs :</b> ${d.r}</p>
+                    <div class="inrs-box text-success mb-0 border-success"><b>Actions de prévention :</b><br>${d.p}</div>
+                </div>
             `).join('');
         }
 
-        // INIT
+        // INITIALISATION
         startScanner();
         renderMet(DB_METIERS);
     </script>
