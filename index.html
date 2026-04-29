@@ -6,10 +6,9 @@
     <title>RESTEV 85 - Prévention Active</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { --blue-restev: #2c5da7; --green-restev: #8ec641; --violet-restev: #a74b9e; --bg-light: #f4f7f9; }
-        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; color: #333; margin: 0; }
+        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; color: #333; }
         
         /* PAGE DE GARDE */
         #landing-page {
@@ -19,30 +18,33 @@
         }
         .logo-landing { width: 250px; animation: zoomIn 1.2s ease-out; }
 
-        /* NAVIGATION & PAGES */
+        /* HEADER & PAGES */
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 3px solid var(--blue-restev); position: sticky; top: 0; z-index: 1000; display: none; }
-        .app-page { display: none; padding: 20px; animation: fadeIn 0.5s; }
+        .app-page { display: none; padding: 20px; animation: fadeIn 0.4s; }
         .active-page { display: block !important; }
 
         /* MENU CARDS */
         .menu-card {
-            background: white; border: none; border-radius: 20px; padding: 20px;
+            background: white; border: none; border-radius: 20px; padding: 25px;
             display: flex; align-items: center; text-align: left;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; width: 100%; margin-bottom: 15px;
         }
-        .menu-card:active { transform: scale(0.96); }
-        .icon-circle { width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-right: 15px; flex-shrink: 0; }
+        .icon-circle { width: 55px; height: 55px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-right: 15px; flex-shrink: 0; }
         
-        .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border-left: 5px solid var(--blue-restev); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .btn-back { background: #e2e8f0; border: none; border-radius: 12px; padding: 8px 16px; font-weight: 600; margin-bottom: 20px; }
-        .btn-action { background: var(--blue-restev); color: white; border: none; border-radius: 15px; padding: 15px; font-weight: bold; width: 100%; }
+        .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-left: 6px solid var(--blue-restev); }
+        .btn-back { background: #e2e8f0; border: none; border-radius: 12px; padding: 10px 20px; font-weight: 600; margin-bottom: 20px; }
+        .btn-action { background: var(--blue-restev); color: white; border: none; border-radius: 15px; padding: 18px; font-weight: bold; width: 100%; margin-top: 10px; }
+        
+        .risk-tag { font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 50px; margin-right: 5px; display: inline-block; }
+        .tag-chem { background: #fee2e2; color: #dc2626; }
+        .tag-phys { background: #ffedd5; color: #ea580c; }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
         <img src="logo.png" class="logo-landing" alt="RESTEV 85" onerror="this.src='https://via.placeholder.com/200?text=RESTEV+85'">
-        <h4 class="fw-bold mt-3">Santé au Travail</h4>
+        <h4 class="fw-bold mt-3">Expertise Santé Travail</h4>
         <p class="text-muted">La Roche-sur-Yon | Les Essarts | Montaigu | Les Herbiers</p>
         <button class="btn btn-primary px-5 py-3 rounded-pill fw-bold mt-4" onclick="startApp()">ENTRER</button>
     </div>
@@ -52,88 +54,98 @@
     </div>
 
     <div id="page-menu" class="app-page">
-        <h5 class="fw-bold mb-4">Espace Prévention Adhérent</h5>
-        <button class="menu-card" onclick="showPage('page-scan')"><div class="icon-circle" style="background:#fff7ed;">📸</div><div><b>Inventaire Chimique</b><span>Scanner & FDS</span></div></button>
-        <button class="menu-card" onclick="showPage('page-metiers')"><div class="icon-circle" style="background:#eef2ff;">👷</div><div><b>Référentiel Métiers</b><span>Tous les risques par secteur</span></div></button>
-        <button class="menu-card" onclick="showPage('page-diag')"><div class="icon-circle" style="background:#f0fdf4;">⚖️</div><div><b>Auto-Diagnostic</b><span>Évaluer ma sécurité en 10 pts</span></div></button>
-        <button class="menu-card" onclick="showPage('page-trans')"><div class="icon-circle" style="background:#f1f5f9;">✉️</div><div><b>Transmettre</b><span>Envoyer au technicien</span></div></button>
+        <h5 class="fw-bold mb-4">Votre Espace Prévention</h5>
+        
+        <button class="menu-card" onclick="showPage('page-metiers')">
+            <div class="icon-circle" style="background:#eef2ff; color:#2c5da7;">👷</div>
+            <div><b>Référentiel Métiers</b><span>Fiches conseils INRS & CARSAT</span></div>
+        </button>
+
+        <button class="menu-card" onclick="showPage('page-diag')">
+            <div class="icon-circle" style="background:#f0fdf4; color:#16a34a;">⚖️</div>
+            <div><b>Auto-Diagnostic</b><span>Évaluer ma sécurité en 10 points</span></div>
+        </button>
+
+        <button class="menu-card" onclick="showPage('page-trans')">
+            <div class="icon-circle" style="background:#f1f5f9; color:#475569;">✉️</div>
+            <div><b>Transmettre au Technicien</b><span>Échanger sur vos résultats</span></div>
+        </button>
     </div>
 
     <div id="page-metiers" class="app-page">
-    <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-    <h5 class="fw-bold mb-4 text-primary">Expertise Prévention par Branche</h5>
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+        <h5 class="fw-bold mb-4">Prévention par Branche</h5>
 
-    <div class="card-expert" style="border-color: #8b4513;">
-        <h6 class="fw-bold">Menuiserie & Travail du bois</h6>
-        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Poussières de bois (classées CMR), colles (isocyanates), vernis et solvants.</p>
-        <p class="small mb-1">🟠 <b>Risque Physique :</b> Coupures (machines outils), bruit (surdité pro), vibrations.</p>
-        <p class="small mb-2">🔵 <b>Organisationnel :</b> Manutention de panneaux lourds (TMS).</p>
-        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
-            <b>Prévention INRS (ED 6348) :</b> Aspiration haute performance (v < 20m/s), port du masque FFP3 lors du ponçage, et utilisation de servantes pour les charges.
+        <div class="card-expert">
+            <h6 class="fw-bold text-primary">Menuiserie & Travail du bois</h6>
+            <div class="mb-2">
+                <span class="risk-tag tag-chem">Risque Chimique</span>
+                <span class="risk-tag tag-phys">Risque Physique</span>
+            </div>
+            <p class="small"><b>Dangers :</b> Poussières de bois (CMR), coupures, bruit intense, vibrations mains-bras.</p>
+            <div class="p-3 bg-light rounded-3 small border-start border-3 border-dark">
+                <b>Recommandation INRS (ED 6348) :</b> Captage des poussières à la source, port du casque anti-bruit et utilisation systématique des protecteurs sur machines-outils.
+            </div>
+        </div>
+
+        <div class="card-expert">
+            <h6 class="fw-bold text-primary">Logistique & Transport</h6>
+            <div class="mb-2">
+                <span class="risk-tag tag-chem">Risque Chimique</span>
+                <span class="risk-tag tag-phys">Risque Physique</span>
+            </div>
+            <p class="small"><b>Dangers :</b> Gaz d'échappement, chutes de quai, accidents de la route, TMS liés au port de charges.</p>
+            <div class="p-3 bg-light rounded-3 small border-start border-3 border-dark">
+                <b>Recommandation CARSAT :</b> Protocole de sécurité pour les quais, formation au risque routier et mise à disposition de transpalettes électriques.
+            </div>
+        </div>
+
+        <div class="card-expert">
+            <h6 class="fw-bold text-primary">Métiers de la Propreté</h6>
+            <div class="mb-2">
+                <span class="risk-tag tag-chem">Risque Chimique</span>
+                <span class="risk-tag tag-phys">Risque Physique</span>
+            </div>
+            <p class="small"><b>Dangers :</b> Brûlures par produits corrosifs, mélanges toxiques, glissades, gestes répétitifs.</p>
+            <div class="p-3 bg-light rounded-3 small border-start border-3 border-dark">
+                <b>Recommandation INRS (ED 6093) :</b> Port de gants à manchette, interdiction des mélanges (Javel + Acide) et alternance des tâches.
+            </div>
         </div>
     </div>
 
-    <div class="card-expert" style="border-color: #0077be;">
-        <h6 class="fw-bold">Industrie du Nautisme & Composites</h6>
-        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Inhalation de Styrène (résines), acétone, fibres de verre/carbone.</p>
-        <p class="small mb-1">🟠 <b>Risque Physique :</b> Chutes de hauteur (travail sur coque), postures contraintes.</p>
-        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
-            <b>Prévention CARSAT (R445) :</b> Ventilation par flux laminaire, gants spécifiques en alcool polyvinylique (PVA) ou Viton, et suivi médical renforcé.
-        </div>
-    </div>
-
-    <div class="card-expert" style="border-color: #00ced1;">
-        <h6 class="fw-bold">Propreté & Nettoyage Industriel</h6>
-        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Dermatoses liées aux détergents, intoxications par mélange (gaz chloré).</p>
-        <p class="small mb-1">🟠 <b>Risque Physique :</b> Glissades (sols humides), gestes répétitifs des membres supérieurs.</p>
-        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
-            <b>Prévention INRS (ED 6093) :</b> Utilisation de doseurs automatiques, port de gants longs à manchette, et formation "Gestes et Postures" (PRAP).
-        </div>
-    </div>
-
-    <div class="card-expert" style="border-color: #228b22;">
-        <h6 class="fw-bold">Agroalimentaire (Transformation de viande/plats)</h6>
-        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Produits de désinfection (bases/acides), gaz réfrigérants (NH3).</p>
-        <p class="small mb-1">🟠 <b>Risque Physique :</b> Froid ambiant, TMS (cadences), coupures, chutes de plain-pied.</p>
-        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
-            <b>Prévention CARSAT (R469) :</b> Alternance des tâches pour limiter les TMS, vêtements thermiques isolants, et couteaux à garde de sécurité.
-        </div>
-    </div>
-
-    <div class="card-expert" style="border-color: #ff4500;">
-        <h6 class="fw-bold">Bâtiment & Gros Œuvre</h6>
-        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Silice cristalline (découpe), ciments (chrome VI - brûlures).</p>
-        <p class="small mb-1">🟠 <b>Risque Physique :</b> Chutes de hauteur, manutention manuelle, vibrations (marteau-piqueur).</p>
-        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
-            <b>Prévention INRS (ED 6098) :</b> Matériel avec captage d'eau ou aspiration intégrée, gants étanches, et mécanisation du levage (grues, chariots).
-        </div>
-    </div>
-
-    <div class="card-expert" style="border-color: #708090;">
-        <h6 class="fw-bold">Mécanique & Carrosserie</h6>
-        <p class="small mb-1">🔴 <b>Risque Chimique :</b> Huiles de vidange (cancérogènes), isocyanates (peinture), gaz d'échappement.</p>
-        <p class="small mb-1">🟠 <b>Risque Physique :</b> Bruit, écrasement, incendie/explosion (batteries Li-ion).</p>
-        <div class="p-2 bg-light rounded small border-start border-3 border-dark">
-            <b>Prévention INRS (ED 6062) :</b> Fontaine de dégraissage non-solvantée, aspiration localisée des gaz, et gants nitrile à usage unique.
-        </div>
-    </div>
-</div>
     <div id="page-diag" class="app-page">
         <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
         <div class="card-expert">
-            <p id="q-text" class="fw-bold mb-4"></p>
-            <button class="btn btn-outline-primary w-100 mb-2 py-3" onclick="ans(1)">OUI / TOUJOURS</button>
-            <button class="btn btn-outline-secondary w-100 mb-2 py-3" onclick="ans(0)">NON / PARFOIS</button>
+            <h6 class="fw-bold text-center mb-4">Évaluation de votre entreprise</h6>
+            <p id="q-text" class="fw-bold mb-4" style="min-height: 60px; text-align: center;"></p>
+            <button class="btn btn-outline-primary w-100 py-3 mb-2" onclick="ans(1)">OUI / TOUJOURS</button>
+            <button class="btn btn-outline-secondary w-100 py-3 mb-2" onclick="ans(0)">NON / PARFOIS</button>
             <div class="text-center mt-3 small text-muted"><span id="q-idx">1</span> / 10</div>
+        </div>
+    </div>
+
+    <div id="page-trans" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
+        <div class="card-expert text-center">
+            <h5 class="fw-bold">Prendre rendez-vous</h5>
+            <p class="small text-muted">Transmettez vos résultats de diagnostic pour un accompagnement personnalisé par votre technicien référent sur le secteur de La Roche-sur-Yon.</p>
+            <button class="btn-action" onclick="sendMail()">ENVOYER LE BILAN</button>
         </div>
     </div>
 
     <script>
         let score = 0, qIdx = 0;
         const qs = [
-            "Inventaire des produits à jour ?", "FDS accessibles à tous ?", "EPI portés et conformes ?",
-            "Document Unique (DUERP) à jour ?", "Ventilation contrôlée ?", "Salariés formés aux risques ?",
-            "Stockage organisé ?", "Aides à la manutention présentes ?", "Trousse de secours vérifiée ?", "Pauses organisées ?"
+            "Votre Document Unique (DUERP) a-t-il été mis à jour récemment ?",
+            "Vos salariés disposent-ils d'équipements de protection individuelle (EPI) ?",
+            "Réalisez-vous des formations sécurité pour vos nouveaux arrivants ?",
+            "L'éclairage et la ventilation sont-ils adaptés à vos postes de travail ?",
+            "Vos installations électriques et machines sont-elles contrôlées ?",
+            "La manutention manuelle est-elle limitée par des aides techniques ?",
+            "Le risque chimique est-il identifié et les FDS accessibles ?",
+            "Avez-vous un protocole clair en cas d'accident ou d'urgence ?",
+            "Vos salariés sont-ils sensibilisés aux risques liés à leur métier ?",
+            "Les pauses et l'organisation du travail permettent-elles de limiter la fatigue ?"
         ];
 
         function startApp() {
@@ -156,7 +168,16 @@
         function ans(p) {
             score += p;
             if(qIdx < 9) { qIdx++; updateQ(); }
-            else { alert("Diagnostic terminé ! Score : " + score + "/10. Transmettez-le au technicien."); showPage('page-menu'); }
+            else { 
+                alert("Diagnostic terminé ! Score : " + score + "/10."); 
+                showPage('page-menu'); 
+                qIdx = 0; // Reset pour la prochaine fois
+            }
+        }
+
+        function sendMail() {
+            let body = `Bonjour,\n\nJe viens de réaliser mon auto-diagnostic sur l'application RESTEV 85.\nScore : ${score}/10.\n\nSouhaiterais faire le point avec mon technicien conseil.\n\nSecteur : La Roche-sur-Yon / Nord Vendée.`;
+            window.location.href = "mailto:prevention@restev85.fr?subject=Bilan Diag Adherent&body=" + encodeURIComponent(body);
         }
     </script>
 </body>
