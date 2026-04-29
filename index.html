@@ -3,103 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Prévention & Santé</title>
+    <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { --blue: #3d7cc0; --violet: #a74b9e; --green: #2ecc71; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
         body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; padding-bottom: 100px; }
         
-        /* Header avec Logo */
+        /* Correction Logo : On utilise une div stylisée si l'image est manquante */
         .header { background: var(--gradient); color: white; padding: 30px 15px 60px; text-align: center; border-radius: 0 0 35px 35px; }
-        .logo-placeholder { width: 80px; height: 80px; background: white; border-radius: 18px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .logo-placeholder img { width: 90%; }
+        .logo-container { 
+            width: 90px; height: 90px; background: white; border-radius: 20px; 
+            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 3px solid rgba(255,255,255,0.3);
+        }
+        .logo-container img { max-width: 80%; max-height: 80%; object-fit: contain; }
+        .logo-text { color: var(--blue); font-weight: 900; font-size: 1.2rem; }
 
-        /* Onglets */
-        .nav-pills { background: white; padding: 6px; border-radius: 20px; margin: -30px 15px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border: 1px solid #eee; }
-        .nav-link { color: #64748b; font-weight: 600; border-radius: 15px; font-size: 0.8rem; padding: 10px 5px; }
+        .nav-pills { background: white; padding: 6px; border-radius: 20px; margin: -30px 15px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+        .nav-link { color: #64748b; font-weight: 600; border-radius: 15px; font-size: 0.75rem; }
         .nav-link.active { background: var(--blue) !important; color: white !important; }
 
         .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        
-        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #f1f5f9; display: none; }
-        .btn-action { border-radius: 15px; padding: 15px; font-weight: bold; width: 100%; transition: 0.2s; }
-        .inrs-ref { border-left: 3px solid var(--green); padding-left: 12px; margin-top: 10px; font-size: 0.85rem; background: #f0fff4; border-radius: 0 10px 10px 0; padding: 10px; }
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; display: none; margin-bottom: 15px; }
+        .btn-action { border-radius: 15px; padding: 12px; font-weight: bold; width: 100%; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo-placeholder">
-            <img src="https://via.placeholder.com/150/FFFFFF/3d7cc0?text=RESTEV" alt="Logo RESTEV">
+        <div class="logo-container">
+            <img src="logo-restev.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="Logo">
+            <div class="logo-text" style="display:none;">R85</div>
         </div>
         <h3 class="fw-bold mb-0">RESTEV 85</h3>
-        <p class="small opacity-75">Accompagnement Santé & Prévention</p>
+        <p class="small opacity-75">Mon Espace Prévention Adhérent</p>
     </div>
 
     <div class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
         <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-scan">📸 SCAN</button>
         <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-list">📂 INVENTAIRE</button>
-        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-metiers">👷 MÉTIERS</button>
-        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-contact">✉️ CONTACT</button>
+        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-portail">🌐 PORTAIL</button>
     </div>
 
     <div class="container tab-content">
         
         <div class="tab-pane fade show active" id="tab-scan">
             <div class="card-expert text-center">
-                <div id="reader" class="mb-3"></div>
-                <button id="btn-start-scan" class="btn btn-primary btn-action mb-3" onclick="toggleScanner()">
-                    OUVRIR LE SCANNER
-                </button>
-                <div id="scan-res" class="d-none text-start animate__animated animate__fadeIn">
-                    <div id="res-info" class="p-3 bg-light rounded-4 border mb-3"></div>
+                <div id="reader"></div>
+                <button id="btn-scan" class="btn btn-primary btn-action mb-3" onclick="toggleScanner()">OUVRIR LE SCANNER</button>
+                
+                <div id="scan-res" class="d-none text-start p-3 bg-light rounded-4 border">
+                    <h5 id="p-name" class="fw-bold mb-1"></h5>
+                    <span id="p-risk" class="badge bg-warning text-dark mb-3"></span>
                     <div class="mb-3">
-                        <label class="small fw-bold">Nombre de salariés exposés :</label>
-                        <input type="number" id="nb-salaries" class="form-control" placeholder="0" style="border-radius:10px">
+                        <label class="small fw-bold">Salariés exposés :</label>
+                        <input type="number" id="p-nb" class="form-control" placeholder="0">
                     </div>
-                    <button class="btn btn-success btn-action" onclick="validerAjout()">AJOUTER AU LISTING</button>
+                    <button class="btn btn-success w-100 fw-bold py-2" onclick="validerAjout()">AJOUTER AU DOSSIER</button>
                 </div>
-                <p class="text-muted small mt-2 mb-0">Scannez un produit pour voir ses dangers et conseils de prévention.</p>
             </div>
         </div>
 
         <div class="tab-pane fade" id="tab-list">
             <div class="card-expert">
-                <h5 class="fw-bold mb-3">Listing des Expositions</h5>
-                <div id="inv-container">
-                    <p class="text-center text-muted py-4">Aucun produit listé.</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Mes FDS enregistrées</h5>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exporterCSV()">Exporter CSV</button>
+                </div>
+                <div id="inv-list">
+                    <p class="text-center text-muted py-3">Aucune donnée.</p>
                 </div>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="tab-metiers">
+        <div class="tab-pane fade" id="tab-portail">
             <div class="card-expert">
-                <h5 class="fw-bold mb-3">Référentiels CARSAT / INRS</h5>
-                <select id="selectMetier" class="form-select mb-3" style="border-radius: 12px;" onchange="afficherFicheMetier()">
-                    <option value="">Choisir un métier...</option>
-                    <option value="boulanger">Boulanger / Pâtissier</option>
-                    <option value="batiment">Bâtiment (Peintre, Maçon)</option>
-                    <option value="mecanique">Mécanique / Garage</option>
-                </select>
-                <div id="fiche-metier"></div>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="tab-contact">
-            <div class="card-expert text-center">
-                <div class="display-4 mb-3">🤝</div>
-                <h5 class="fw-bold">Besoin d'un conseiller ?</h5>
-                <p class="small text-muted">Transmettez votre inventaire ou posez une question à votre équipe RESTEV 85.</p>
-                <button class="btn btn-primary btn-action mb-3" onclick="envoyerEmail()">
-                    TRANSMETTRE MON INVENTAIRE
-                </button>
-                <div class="p-3 bg-light rounded-4 text-start">
-                    <small><b>Pourquoi nous contacter ?</b><br>
-                    • Analyse de vos FDS<br>
-                    • Aide au Document Unique (DUERP)<br>
-                    • Conseils sur les protections (EPI)</small>
+                <h5 class="fw-bold">Dépôt Portail Adhérent</h5>
+                <p class="small text-muted">Une fois votre inventaire terminé, vous pouvez le télécharger et le déposer sur votre espace sécurisé RESTEV.</p>
+                
+                <div class="p-3 bg-light rounded-4 mb-3">
+                    <div class="fw-bold text-primary mb-2">Marche à suivre :</div>
+                    <ol class="small ps-3 mb-0">
+                        <li>Vérifiez votre inventaire dans l'onglet "📂".</li>
+                        <li>Cliquez sur <b>"Générer le rapport"</b> ci-dessous.</li>
+                        <li>Connectez-vous sur <i>portail.restev85.fr</i></li>
+                        <li>Déposez le fichier dans la section "Documents DUERP".</li>
+                    </ol>
                 </div>
+                
+                <button class="btn btn-primary btn-action" onclick="exporterCSV()">GÉNÉRER LE RAPPORT POUR LE PORTAIL</button>
             </div>
         </div>
 
@@ -112,90 +105,65 @@
         let isScanning = false;
         const html5QrCode = new Html5Qrcode("reader");
 
-        // --- GESTION DU SCANNER ---
+        // GESTION SCAN
         function toggleScanner() {
-            const btn = document.getElementById('btn-start-scan');
             if (!isScanning) {
                 document.getElementById('reader').style.display = 'block';
-                html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanSuccess);
-                btn.innerText = "ARRÊTER LE SCANNER";
-                btn.classList.replace('btn-primary', 'btn-danger');
+                html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (code) => {
+                    pCurrent = { n: "Produit "+code, cl: "Risque Chimique", adv: "Porter des gants nitrile." };
+                    document.getElementById('p-name').innerText = pCurrent.n;
+                    document.getElementById('p-risk').innerText = pCurrent.cl;
+                    document.getElementById('scan-res').classList.remove('d-none');
+                    stopScanner();
+                });
+                document.getElementById('btn-scan').innerText = "ARRÊTER";
                 isScanning = true;
-            } else {
-                stopScanner();
-            }
+            } else { stopScanner(); }
         }
 
         function stopScanner() {
             html5QrCode.stop().then(() => {
                 document.getElementById('reader').style.display = 'none';
-                const btn = document.getElementById('btn-start-scan');
-                btn.innerText = "OUVRIR LE SCANNER";
-                btn.classList.replace('btn-danger', 'btn-primary');
+                document.getElementById('btn-scan').innerText = "OUVRIR LE SCANNER";
                 isScanning = false;
             });
         }
 
-        function onScanSuccess(decodedText) {
-            stopScanner();
-            // Simulation base de données
-            pCurrent = { n: "Produit Scanné ("+decodedText+")", cl: "Inflammable / COV", adv: "Aérer les locaux et porter des gants." };
-            document.getElementById('scan-res').classList.remove('d-none');
-            document.getElementById('res-info').innerHTML = `<strong>${pCurrent.n}</strong><br><span class="badge bg-warning text-dark mt-2">${pCurrent.cl}</span>`;
-        }
-
         function validerAjout() {
-            const nb = document.getElementById('nb-salaries').value || 0;
-            inventaire.push({...pCurrent, nb: nb});
-            updateInventoryUI();
+            const nb = document.getElementById('p-nb').value || 0;
+            inventaire.push({...pCurrent, nb: nb, date: new Date().toLocaleDateString()});
+            updateUI();
             document.getElementById('scan-res').classList.add('d-none');
-            alert("Produit ajouté à l'inventaire !");
+            alert("Ajouté à l'inventaire !");
         }
 
-        function updateInventoryUI() {
-            const container = document.getElementById('inv-container');
-            if (inventaire.length === 0) return;
-            container.innerHTML = inventaire.map(i => `
-                <div class="p-3 mb-2 border rounded-4 shadow-sm bg-light">
-                    <div class="d-flex justify-content-between">
-                        <strong>${i.n}</strong>
-                        <span class="badge bg-primary">${i.nb} exposé(s)</span>
-                    </div>
-                    <div class="small text-muted mt-1">Conseil: ${i.adv}</div>
+        function updateUI() {
+            const list = document.getElementById('inv-list');
+            if(inventaire.length === 0) return;
+            list.innerHTML = inventaire.map(i => `
+                <div class="p-3 mb-2 border rounded-4 bg-light small">
+                    <div class="d-flex justify-content-between fw-bold"><span>${i.n}</span><span class="text-primary">${i.nb} sal.</span></div>
+                    <div class="text-muted">FDS enregistrée le ${i.date}</div>
                 </div>
             `).join('');
         }
 
-        // --- MÉTIERS ---
-        const DATA_METIERS = {
-            boulanger: { r: "Poussières de farine, Asthme professionnel.", p: "Favoriser le nettoyage humide ou aspirateur (pas de soufflette). Masque P3 conseillé pour l'empâtage.", ref: "CARSAT / INRS ED 6298" },
-            batiment: { r: "Poussières de silice, Ciment, Chutes.", p: "Découpe à l'eau, gants étanches pour le ciment, vérification des échafaudages.", ref: "CARSAT / INRS R442" },
-            mecanique: { r: "Huiles usagées (CMR), Benzène.", p: "Installation d'une fontaine bio. Utilisation systématique de gants nitrile.", ref: "INRS ED 6062" }
-        };
-
-        function afficherFicheMetier() {
-            const val = document.getElementById('selectMetier').value;
-            const container = document.getElementById('fiche-metier');
-            if(!val) { container.innerHTML = ""; return; }
-            const m = DATA_METIERS[val];
-            container.innerHTML = `
-                <div class="inrs-ref animate__animated animate__fadeIn">
-                    <p class="mb-1 text-danger"><strong>Risques principaux :</strong><br>${m.r}</p>
-                    <p class="mb-1 text-success"><strong>Conseils Prévention :</strong><br>${m.p}</p>
-                    <small class="text-muted">Source: ${m.ref}</small>
-                </div>
-            `;
-        }
-
-        // --- CONTACT DIRECT ---
-        function envoyerEmail() {
-            let body = "Bonjour mon conseiller RESTEV 85,\n\nSouhaiterais faire le point sur mon inventaire :\n\n";
-            inventaire.forEach(i => {
-                body += `- ${i.n} (${i.nb} salariés exposés)\n`;
-            });
-            body += "\nMerci de me recontacter pour une aide au DUERP.\nCordialement.";
+        // FONCTION EXPORT PORTAIL (CSV)
+        function exporterCSV() {
+            if(inventaire.length === 0) { alert("L'inventaire est vide !"); return; }
             
-            window.location.href = `mailto:conseiller@restev85.fr?subject=Demande de conseil Prevention - Adherent&body=${encodeURIComponent(body)}`;
+            let csvContent = "data:text/csv;charset=utf-8,Produit;Risque;Salarie_Exposes;Date_Ajout\n";
+            inventaire.forEach(i => {
+                csvContent += `${i.n};${i.cl};${i.nb};${i.date}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "export_restev_duerp.csv");
+            document.body.appendChild(link);
+            link.click();
+            alert("Fichier prêt ! Vous pouvez maintenant le déposer sur votre portail adhérent.");
         }
     </script>
 </body>
