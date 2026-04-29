@@ -3,182 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <title>RESTEV 85 - Prévention Active</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { 
             --blue-restev: #2c5da7; 
             --green-restev: #8ec641; 
-            --bg-gradient: linear-gradient(135deg, #2c5da7 0%, #a74b9e 100%);
+            --violet-restev: #a74b9e;
         }
 
         body { 
-            background-color: #f8fafc; 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            line-height: 1.6; /* Aération des phrases */
+            background-color: #f4f7f9; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: #333;
+            line-height: 1.7; /* Aération demandée */
         }
 
-        /* ANIMATION PAGE DE GARDE MODERNE */
+        /* --- PAGE DE GARDE MODERNE --- */
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-gradient);
-            z-index: 10000; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center;
-            color: white; overflow: hidden;
+            background: linear-gradient(135deg, var(--blue-restev) 0%, var(--violet-restev) 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: white;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 85%;
+        .glass-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 90%;
         }
 
-        .logo-placeholder {
-            width: 120px; height: 120px; background: white;
-            border-radius: 25%; margin-bottom: 25px; display: inline-flex;
-            align-items: center; justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        .communes {
+            font-size: 0.85rem; font-weight: 300; letter-spacing: 1px;
+            margin-top: 20px; line-height: 1.4;
         }
 
-        /* HEADER */
+        /* --- STRUCTURE APP --- */
         .app-header { 
             background: white; padding: 15px; text-align: center; 
-            border-bottom: 4px solid var(--green-restev); 
-            position: sticky; top: 0; z-index: 1000; display: none;
+            border-bottom: 4px solid var(--green-restev); display: none;
         }
 
-        /* SECTIONS */
-        .app-page { display: none; padding: 25px; }
+        .app-page { display: none; padding: 25px; animation: fadeIn 0.5s; }
         .active-page { display: block !important; }
 
         .card-expert { 
             background: white; border-radius: 20px; padding: 25px; 
-            margin-bottom: 25px; /* Espacement entre les blocs */
+            margin-bottom: 30px; /* Grand espace entre les blocs */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-left: 8px solid var(--blue-restev);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        .risk-item { margin-bottom: 15px; } /* Espace entre les lignes de risque */
-
-        .btn-main {
-            background: var(--blue-restev); color: white; border: none;
-            padding: 18px; border-radius: 18px; font-weight: bold; width: 100%;
-            transition: all 0.3s;
+        .btn-start {
+            background: white; color: var(--blue-restev); border: none;
+            padding: 15px 40px; border-radius: 50px; font-weight: bold;
+            text-transform: uppercase; transition: 0.3s; margin-top: 30px;
         }
 
-        .communes-list { font-size: 0.9rem; opacity: 0.9; margin-top: 15px; letter-spacing: 1px; }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 20px; display: none; }
+        .prevention-box {
+            background: #f8fafc; padding: 15px; border-radius: 12px;
+            margin-top: 15px; border: 1px dashed #cbd5e1;
+        }
+
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; display: none; margin-bottom: 20px; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
-        <div class="glass-card">
-            <div class="logo-placeholder">
-                <img src="logo.png" style="width: 80px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063205.png'">
+        <div class="glass-box">
+            <div style="background:white; border-radius:20px; padding:15px; display:inline-block; margin-bottom:20px;">
+                <img src="logo.png" style="width:100px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063205.png'">
             </div>
-            <h2 class="fw-bold mb-2">RESTEV 85</h2>
-            <p class="mb-4">Votre Partenaire Santé & Prévention</p>
-            <hr style="width: 50px; margin: 20px auto; border-top: 3px solid var(--green-restev);">
-            <div class="communes-list">
-                LA ROCHE-SUR-YON • LES ESSARTS-EN-BOCAGE<br>MONTAIGU • LES HERBIERS
+            <h1 class="fw-bold">RESTEV 85</h1>
+            <p class="fs-5">Santé au Travail & Prévention Active</p>
+            
+            <div class="communes">
+                LA ROCHE-SUR-YON • LES ESSARTS-EN-BOCAGE<br>
+                MONTAIGU • LES HERBIERS
             </div>
-            <button class="btn btn-light btn-lg rounded-pill fw-bold mt-5 px-5 shadow" onclick="startApp()">Lancer l'Expertise</button>
+
+            <button class="btn-start" onclick="demarrerApp()">Commencer</button>
         </div>
     </div>
 
     <div class="app-header" id="app-header">
-        <h6 class="fw-bold m-0 text-primary">RESTEV 85 - Prévention Active</h6>
-        <span class="small text-muted">Secteur Vendée Centre & Nord</span>
+        <h6 class="fw-bold m-0 text-primary">RESTEV 85 - Expert Prévention</h6>
     </div>
 
-    <div id="page-menu" class="app-page active-page">
-        <h4 class="fw-bold mb-4">Tableau de bord</h4>
+    <div id="page-menu" class="app-page">
+        <h4 class="fw-bold mb-4">Votre Espace</h4>
         
-        <div class="card-expert" onclick="showPage('page-scan')" style="cursor: pointer;">
-            <h5>🔍 Scanner un Produit</h5>
-            <p class="text-muted small">Identification immédiate des dangers chimiques et protections individuelles.</p>
+        <div class="card-expert" onclick="ouvrirScan()">
+            <h5 class="fw-bold">📸 Scan & Risque Chimique</h5>
+            <p class="text-muted small">Identifiez un produit et obtenez les mesures de protection INRS immédiatement.</p>
         </div>
 
-        <div class="card-expert" onclick="showPage('page-metiers')" style="cursor: pointer;">
-            <h5>👷 Référentiel Métiers</h5>
-            <p class="text-muted small">Conseils approfondis selon les normes INRS et CARSAT Pays de la Loire.</p>
-        </div>
-
-        <div class="card-expert" onclick="showPage('page-diag')" style="cursor: pointer;">
-            <h5>⚖️ Auto-Diagnostic</h5>
-            <p class="text-muted small">Bilan de sécurité en 10 points clés pour votre entreprise.</p>
-        </div>
-    </div>
-
-    <div id="page-metiers" class="app-page">
-        <button class="btn btn-sm btn-outline-secondary mb-4" onclick="showPage('page-menu')">← Retour au menu</button>
-        <h4 class="fw-bold mb-4">Prévention par Branche</h4>
-
-        <div class="card-expert">
-            <h5 class="text-primary fw-bold">Menuiserie & Industries du Bois</h5>
-            <div class="risk-item">
-                <span class="badge bg-danger mb-2">RISQUE CHIMIQUE</span><br>
-                Les poussières de bois dur sont classées <b>cancérogènes (CMR)</b>. L'exposition prolongée provoque des pathologies nasosinusiennes graves.
-            </div>
-            <div class="risk-item">
-                <span class="badge bg-warning text-dark mb-2">RISQUE PHYSIQUE</span><br>
-                Niveaux sonores dépassant souvent 85 dB(A). Risques de coupures majeures et de projection de particules.
-            </div>
-            <div class="p-3 bg-light rounded shadow-sm">
-                <b>💡 Action Prévention (ED 6348) :</b> Mise en place d'un captage à la source avec vitesse d'air > 20 m/s. Port obligatoire de protections auditives moulées.
-            </div>
-        </div>
-
-        <div class="card-expert" style="border-left-color: #8ec641;">
-            <h5 class="text-success fw-bold">Agroalimentaire & Transformation</h5>
-            <div class="risk-item">
-                <span class="badge bg-danger mb-2">RISQUE CHIMIQUE</span><br>
-                Manipulation de bases (soude) et acides pour le nettoyage. Risque de brûlures oculaires et cutanées irréversibles.
-            </div>
-            <div class="risk-item">
-                <span class="badge bg-warning text-dark mb-2">RISQUE PHYSIQUE</span><br>
-                Environnements humides et froids favorisant les chutes et les <b>Troubles Musculo-Squelettiques (TMS)</b>.
-            </div>
-            <div class="p-3 bg-light rounded shadow-sm">
-                <b>💡 Action Prévention (R469) :</b> Utilisation de centrales de dosage automatiques. Chaussures à coefficient d'adhérence élevé (SRC).
-            </div>
+        <div class="card-expert" onclick="showPage('page-metiers')">
+            <h5 class="fw-bold">👷 Fiches Métiers CARSAT</h5>
+            <p class="text-muted small">Découvrez les risques spécifiques et les solutions techniques pour votre branche.</p>
         </div>
     </div>
 
     <div id="page-scan" class="app-page">
-        <button class="btn btn-sm btn-outline-secondary mb-4" onclick="stopScannerAndBack()">← Retour</button>
-        <div id="reader"></div>
-        <button id="btn-cam" class="btn-main mb-4" onclick="startScanner()">OUVRIR LE SCANNER PHOTO</button>
+        <button class="btn btn-outline-secondary mb-4" onclick="retourMenu()">← Retour</button>
+        <h5 class="fw-bold">Analyse de produit</h5>
         
-        <input type="text" class="form-control form-control-lg border-primary mb-4" placeholder="Ou tapez le produit..." onkeyup="search(this.value)">
+        <div id="reader"></div>
+        <button id="btn-cam" class="btn btn-primary w-100 py-3 mb-4 fw-bold" onclick="activerCamera()">ACTIVER LA CAMÉRA</button>
+        
+        <input type="text" class="form-control form-control-lg mb-4 shadow-sm" placeholder="Ou tapez le nom (ex: Acetone)" onkeyup="chercherManuellement(this.value)">
 
-        <div id="res-area" class="d-none">
-            <div class="card-expert shadow-lg">
-                <h3 id="res-name" class="fw-bold"></h3>
-                <p id="res-desc" class="mt-3"></p>
-                <div class="alert alert-success mt-3" id="res-prev"></div>
+        <div id="resultat" class="d-none animate__animated animate__fadeIn">
+            <div class="card-expert" style="border-left-color: #dc2626;">
+                <h4 id="res-nom" class="fw-bold text-danger"></h4>
+                <p id="res-danger" class="mt-3"></p>
+                <div class="prevention-box">
+                    <b class="text-success">🛡️ Mesures de Prévention :</b><br>
+                    <span id="res-prev"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-metiers" class="app-page">
+        <button class="btn btn-outline-secondary mb-4" onclick="showPage('page-menu')">← Retour</button>
+        <h4 class="fw-bold mb-4">Référentiel par métier</h4>
+
+        <div class="card-expert">
+            <h5 class="fw-bold text-primary">Industrie du Bois (Menuiserie)</h5>
+            <p><b>Risque :</b> Exposition aux poussières de bois (Cancérogène CMR) et bruit > 80dB.</p>
+            <div class="prevention-box">
+                <b>Conseil INRS (ED 6348) :</b> Captage à la source obligatoire, nettoyage à l'aspirateur industriel (pas de soufflette) et port de protections auditives adaptées.
+            </div>
+        </div>
+
+        <div class="card-expert" style="border-left-color: var(--green-restev);">
+            <h5 class="fw-bold text-success">Agroalimentaire (Transformation)</h5>
+            <p><b>Risque :</b> Brûlures par produits de nettoyage (soude/acide) et Troubles Musculo-Squelettiques (TMS).</p>
+            <div class="prevention-box">
+                <b>Conseil CARSAT :</b> Utilisation de centrales de dosage, chaussures de sécurité SRC (anti-glisse) et formation aux gestes et postures (PRAP).
             </div>
         </div>
     </div>
 
     <script>
-        let html5QrCode;
-        
-        const db = {
-            "acetone": { n: "Acétone", d: "Solvant très inflammable. Irritation des muqueuses et toxicité nerveuse par inhalation.", p: "Gants Butyle obligatoires (le nitrile fond). Ventilation forcée du poste de travail." },
-            "ciment": { n: "Ciment / Chaux", d: "Corrosif. Risque de brûlures chimiques et de dermatoses. Contient du Chrome VI.", p: "Gants étanches à manchette longue. Protection oculaire systématique." }
+        let qrScanner;
+        const database = {
+            "acetone": { 
+                nom: "Acétone / Solvants", 
+                danger: "Extrêmement inflammable. Provoque une sévère irritation des yeux. Somnolence ou vertiges.", 
+                prev: "Gants en Butyle requis (le Nitrile ne protège pas). Ventilation du local. Masque avec filtre A." 
+            },
+            "ciment": { 
+                nom: "Ciment / Béton", 
+                danger: "Corrosif (Chrome VI). Provoque des brûlures chimiques et des allergies cutanées graves.", 
+                prev: "Gants étanches à manchette longue. Lunettes de sécurité. Travail à l'humide pour limiter la poussière." 
+            }
         };
 
-        function startApp() {
+        function demarrerApp() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('app-header').style.display = 'block';
+            showPage('page-menu');
         }
 
         function showPage(p) {
@@ -187,25 +182,34 @@
             window.scrollTo(0,0);
         }
 
-        function startScanner() {
+        function ouvrirScan() {
+            showPage('page-scan');
+        }
+
+        function activerCamera() {
             document.getElementById('reader').style.display = 'block';
             document.getElementById('btn-cam').style.display = 'none';
-            html5QrCode = new Html5Qrcode("reader");
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => { search(txt); });
+            qrScanner = new Html5Qrcode("reader");
+            qrScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
+                chercherManuellement(txt);
+            }).catch(err => alert("Erreur d'accès à la caméra. Vérifiez les autorisations de votre navigateur."));
         }
 
-        function stopScannerAndBack() {
-            if(html5QrCode) html5QrCode.stop().finally(() => showPage('page-menu'));
-            else showPage('page-menu');
+        function retourMenu() {
+            if(qrScanner) {
+                qrScanner.stop().finally(() => { showPage('page-menu'); });
+            } else {
+                showPage('page-menu');
+            }
         }
 
-        function search(v) {
-            let k = v.toLowerCase().trim();
-            if(db[k]) {
-                document.getElementById('res-name').innerText = db[k].n;
-                document.getElementById('res-desc').innerHTML = "<b>Danger :</b> " + db[k].d;
-                document.getElementById('res-prev').innerHTML = "<b>Prévention INRS :</b> " + db[k].p;
-                document.getElementById('res-area').classList.remove('d-none');
+        function chercherManuellement(val) {
+            let k = val.toLowerCase().trim();
+            if(database[k]) {
+                document.getElementById('res-nom').innerText = database[k].nom;
+                document.getElementById('res-danger').innerText = database[k].danger;
+                document.getElementById('res-prev').innerText = database[k].prev;
+                document.getElementById('resultat').classList.remove('d-none');
             }
         }
     </script>
