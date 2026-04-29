@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        :root { --blue: #2c5da7; --violet: #a74b9e; --green: #8ec641; --gradient: linear-gradient(135deg, #2c5da7 0%, #a74b9e 100%); }
+        :root { --blue: #2c5da7; --red-risk: #d9534f; --green-safe: #5cb85c; --gradient: linear-gradient(135deg, #2c5da7 0%, #a74b9e 100%); }
         body { background-color: #f8fafd; font-family: 'Segoe UI', sans-serif; }
         
         /* PAGE DE GARDE */
@@ -19,40 +19,35 @@
         }
         .logo-anim { width: 250px; animation: zoomIn 1.5s; }
 
-        /* HEADER FIXE */
-        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 2px solid var(--blue); position: sticky; top: 0; z-index: 100; }
         .logo-small { height: 50px; }
 
-        /* SECTIONS (Pages) */
-        .app-page { display: none; padding: 20px; animation: fadeIn 0.5s; }
+        /* NAVIGATION */
+        .app-page { display: none; padding: 20px; animation: fadeIn 0.4s; }
         .active-page { display: block !important; }
 
-        /* BOUTONS MENU */
         .menu-btn { 
-            background: white; border: none; border-radius: 20px; padding: 25px; 
-            margin-bottom: 15px; width: 100%; text-align: left; display: flex; 
-            align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+            background: white; border: none; border-radius: 18px; padding: 20px; 
+            margin-bottom: 12px; width: 100%; text-align: left; display: flex; 
+            align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
-        .menu-btn:active { transform: scale(0.95); }
-        .menu-icon { font-size: 2rem; margin-right: 20px; }
-        .menu-text b { display: block; color: var(--blue); font-size: 1.1rem; }
-        .menu-text span { font-size: 0.85rem; color: #666; }
-
-        .btn-back { background: #eee; border: none; border-radius: 10px; padding: 5px 15px; margin-bottom: 20px; font-weight: bold; color: #555; }
-        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 15px; padding: 15px; font-weight: bold; width: 100%; }
+        .icon-box { font-size: 1.8rem; margin-right: 15px; min-width: 50px; text-align: center; }
         
-        .fds-box { background: #f0f4f8; border-left: 5px solid var(--blue); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        .card-risk { border-left: 5px solid var(--red-risk); background: white; border-radius: 12px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card-general { border-left: 5px solid var(--blue); background: white; border-radius: 12px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        .btn-back { background: #eee; border: none; border-radius: 8px; padding: 5px 12px; margin-bottom: 15px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
         <img src="logo.png" class="logo-anim" alt="RESTEV 85" onerror="this.src='https://via.placeholder.com/200?text=RESTEV+85'">
-        <div class="mt-4 text-secondary fw-bold animate__animated animate__fadeInUp animate__delay-1s">
-            Expertise Santé Travail
+        <div class="text-center mt-3">
+            <h5 class="fw-bold text-primary">Santé au Travail</h5>
+            <small class="text-muted">Secteur : La Roche | Les Essarts | Montaigu | Les Herbiers</small>
         </div>
-        <button class="btn btn-primary mt-5 px-5 py-2 rounded-pill animate__animated animate__fadeInUp animate__delay-2s" onclick="showPage('page-menu')">ENTRER</button>
+        <button class="btn btn-primary mt-4 px-5 py-2 rounded-pill animate__animated animate__pulse animate__infinite" onclick="showPage('page-menu')">ACCÉDER</button>
     </div>
 
     <div class="app-header">
@@ -60,184 +55,110 @@
     </div>
 
     <div id="page-menu" class="app-page active-page">
-        <h5 class="fw-bold mb-4">Que souhaitez-vous faire ?</h5>
+        <h6 class="fw-bold text-muted mb-3">MENU PRÉVENTION</h6>
         
         <button class="menu-btn" onclick="showPage('page-scan')">
-            <span class="menu-icon">📸</span>
-            <div class="menu-text"><b>Scanner un produit</b><span>Identifier les risques FDS</span></div>
+            <span class="icon-box">📸</span>
+            <div><b class="text-primary">Scanner un Produit</b><br><small>Identifier un danger chimique</small></div>
         </button>
 
-        <button class="menu-btn" onclick="showPage('page-metiers')">
-            <span class="menu-icon">👷</span>
-            <div class="menu-text"><b>Fiches Métiers</b><span>Conseils CARSAT & INRS</span></div>
+        <button class="menu-btn" onclick="showPage('page-chimique')">
+            <span class="icon-box">⚠️</span>
+            <div><b class="text-danger">Alerte Risque Chimique</b><br><small>Métiers les plus exposés</small></div>
         </button>
 
-        <button class="menu-btn" onclick="showPage('page-guide')">
-            <span class="menu-icon">📖</span>
-            <div class="menu-text"><b>Guide de lecture</b><span>Comprendre une FDS simplement</span></div>
+        <button class="menu-btn" onclick="showPage('page-general')">
+            <span class="icon-box">🛡️</span>
+            <div><b class="text-success">Prévention Générale</b><br><small>Autres métiers & risques</small></div>
         </button>
 
         <button class="menu-btn" onclick="showPage('page-transmettre')">
-            <span class="menu-icon">✉️</span>
-            <div class="menu-text"><b>Transmettre</b><span>Envoyer au technicien RESTEV</span></div>
+            <span class="icon-box">✉️</span>
+            <div><b>Transmettre</b><br><small>Contacter mon technicien RESTEV</small></div>
         </button>
     </div>
 
-    <div id="page-scan" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-        <div class="card-expert text-center">
-            <div id="reader" style="width:100%; border-radius:15px; overflow:hidden; margin-bottom:15px; display:none;"></div>
-            <button id="btn-scan-action" class="btn btn-main mb-3" onclick="toggleScanner()">ACTIVER LA CAMÉRA</button>
-            <div id="scan-res" class="d-none text-start">
-                <div class="p-3 bg-light rounded-4 border mb-3">
-                    <h5 id="p-name" class="fw-bold"></h5>
-                    <span class="badge bg-danger mb-2">Risque Chimique</span>
-                </div>
-                <input type="number" id="p-nb" class="form-control mb-2" placeholder="Salariés exposés">
-                <button class="btn btn-success w-100" onclick="validerAjout()">Enregistrer</button>
-            </div>
+    <div id="page-chimique" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
+        <h5 class="fw-bold text-danger mb-3">Métiers à Haute Exposition</h5>
+        
+        <div class="card-risk">
+            <h6 class="fw-bold mb-1">Industrie Nautique & Composite</h6>
+            <p class="small mb-2"><b>Risque :</b> Styrène, Poussières de ponçage (CMR).</p>
+            <div class="p-2 bg-light rounded small">💡 <i>Captage à la source et protection respiratoire avec filtres A2P3 obligatoires.</i></div>
+        </div>
+
+        <div class="card-risk">
+            <h6 class="fw-bold mb-1">Peinture & Décapage (Bâtiment/Industrie)</h6>
+            <p class="small mb-2"><b>Risque :</b> Solvants, COV, Plomb.</p>
+            <div class="p-2 bg-light rounded small">💡 <i>Priorité aux peintures à l'eau. Gants nitrile (pas de latex).</i></div>
+        </div>
+
+        <div class="card-risk">
+            <h6 class="fw-bold mb-1">Nettoyage Industriel / ASH</h6>
+            <p class="small mb-2"><b>Risque :</b> Mélanges corrosifs, Brûlures chimiques.</p>
+            <div class="p-2 bg-light rounded small">💡 <i>Ne jamais mélanger Javel et Acide. Utiliser des doseurs automatiques.</i></div>
         </div>
     </div>
 
-   <div id="page-metiers" class="app-page">
-    <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-    <h5 class="fw-bold mb-3">Référentiel Prévention par Branche</h5>
-    
-    <select id="selectSecteur" class="form-select mb-4 py-2 shadow-sm" style="border-radius: 12px;" onchange="filtrerFichesMetiers()">
-        <option value="all">Tous les secteurs</option>
-        <option value="alimentaire">Alimentaire & Bouche</option>
-        <option value="batiment">Bâtiment & Travaux Publics</option>
-        <option value="industrie">Industrie & Mécanique</option>
-        <option value="sante">Santé & Propreté</option>
-    </select>
-
-    <div id="metiers-container">
+    <div id="page-general" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
+        <h5 class="fw-bold text-primary mb-3">Conseils Prévention Générale</h5>
+        
+        <div class="card-general">
+            <h6 class="fw-bold mb-1">Bureaux & Tertiaire</h6>
+            <p class="small mb-2"><b>Risque :</b> Travail sur écran, Sédentarité (TMS).</p>
+            <div class="p-2 bg-light rounded small">💡 <i>Réglage du siège, alterner positions debout/assis.</i></div>
         </div>
-</div>
 
-<script>
-// --- BASE DE DONNÉES MÉTIERS COMPLÈTE ---
-const DB_METIERS_COMPLET = [
-    {
-        secteur: "alimentaire",
-        nom: "Boulanger / Pâtissier",
-        risques: "Poussières de farine (Asthme), Brûlures, Postures.",
-        conseils: "Privilégier le versement de la farine sans nuage. Nettoyer à l'aspirateur classe M (pas de balayette). Port du masque lors du pétrissage si nécessaire.",
-        source: "INRS ED 6298"
-    },
-    {
-        secteur: "batiment",
-        nom: "Peintre en bâtiment",
-        risques: "Vapeurs de solvants, COV, Chutes de hauteur.",
-        conseils: "Utiliser des peintures à l'eau (Ecolabel). Assurer une ventilation naturelle. Stocker les fûts souillés fermés.",
-        source: "CARSAT R442"
-    },
-    {
-        secteur: "industrie",
-        nom: "Mécanicien / Garagiste",
-        risques: "Huiles de vidange (Cancérogène), Solvants de dégraissage.",
-        conseils: "Utiliser une fontaine de dégraissage biologique. Port de gants nitrile obligatoire. Ne jamais utiliser d'essence pour se laver les mains.",
-        source: "INRS ED 6062"
-    },
-    {
-        secteur: "batiment",
-        nom: "Maçon / Travaux Publics",
-        risques: "Poussières de silice (Silicose), Dermatoses (Ciment).",
-        conseils: "Privilégier la découpe à l'eau ou avec aspiration. Porter des gants de protection étanches lors de la manipulation du béton frais.",
-        source: "IRIS-ST / INRS"
-    },
-    {
-        secteur: "sante",
-        nom: "Agent de Propreté",
-        risques: "Mélanges dangereux (Gaz toxique), Produits corrosifs.",
-        conseils: "Ne JAMAIS mélanger Javel et détartrant (Acide). Utiliser des flacons doseurs. Respecter les temps de contact.",
-        source: "CARSAT / INRS"
-    },
-    {
-        secteur: "industrie",
-        nom: "Menuisier / Travail du bois",
-        risques: "Poussières de bois (Cancérogène), Coupures.",
-        conseils: "Vérifier l'efficacité de l'aspiration centralisée. Porter un masque FFP3 lors des ponçages intensifs.",
-        source: "INRS ED 6348"
-    }
-];
-
-function filtrerFichesMetiers() {
-    const secteur = document.getElementById('selectSecteur').value;
-    const container = document.getElementById('metiers-container');
-    
-    const fichesFiltrées = DB_METIERS_COMPLET.filter(m => secteur === "all" || m.secteur === secteur);
-    
-    container.innerHTML = fichesFiltrées.map(f => `
-        <div class="card-expert mb-3 animate__animated animate__fadeInUp">
-            <h6 class="fw-bold text-primary mb-1">${f.nom}</h6>
-            <hr class="my-2 opacity-25">
-            <p class="small mb-2"><strong>⚠️ Risques :</strong> ${f.risques}</p>
-            <div class="p-2 rounded-3" style="background-color: #f0fff4; border-left: 4px solid var(--green);">
-                <p class="small mb-0 text-success"><strong>✅ Prévention :</strong> ${f.conseils}</p>
-            </div>
-            <div class="mt-2 text-end">
-                <span class="badge bg-light text-muted fw-normal" style="font-size: 0.65rem;">Source : ${f.source}</span>
-            </div>
+        <div class="card-general">
+            <h6 class="fw-bold mb-1">Logistique / Transport</h6>
+            <p class="small mb-2"><b>Risque :</b> Manutention manuelle, Chutes.</p>
+            <div class="p-2 bg-light rounded small">💡 <i>Aides à la manutention, chaussures de sécurité S3.</i></div>
         </div>
-    `).join('');
-}
 
-// Appeler la fonction une fois au chargement pour remplir la liste
-document.addEventListener('DOMContentLoaded', filtrerFichesMetiers);
-</script>
+        <div class="card-general">
+            <h6 class="fw-bold mb-1">Commerce / Vente</h6>
+            <p class="small mb-2"><b>Risque :</b> Posture debout prolongée, Stress.</p>
+            <div class="p-2 bg-light rounded small">💡 <i>Aménagement de pauses, tapis anti-fatigue.</i></div>
+        </div>
+    </div>
 
-    <div id="page-guide" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-        <h5 class="fw-bold mb-3">La FDS en 3 points :</h5>
-        <div class="fds-box">
-            <b>1. Le nom et le danger</b><br><small>Regardez les pictogrammes en page 1 ou 2.</small>
-        </div>
-        <div class="fds-box">
-            <b>2. Les équipements (EPI)</b><br><small>Section 8 : Vérifiez si vos gants sont compatibles (le latex ne suffit souvent pas).</small>
-        </div>
-        <div class="fds-box">
-            <b>3. Stockage</b><br><small>Section 7 : Ne jamais stocker des acides avec des produits inflammables.</small>
+    <div id="page-scan" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
+        <div class="text-center p-4">
+            <div id="reader"></div>
+            <button class="btn btn-primary w-100 py-3 mt-3" onclick="toggleScanner()">OUVRIR CAMÉRA</button>
         </div>
     </div>
 
     <div id="page-transmettre" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-        <div class="card-expert text-center">
-            <h1 id="inv-total" class="display-4 fw-bold text-primary">0</h1>
-            <p>Produits dans votre inventaire</p>
-            <button class="btn btn-main py-3" onclick="envoyerTechnicien()">ENVOYER À MON CONSEILLER</button>
-            <p class="small text-muted mt-3">Un email sera généré avec votre liste de produits.</p>
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
+        <div class="card p-4 border-0 shadow-sm text-center">
+            <h5 class="fw-bold">Contact Expert RESTEV</h5>
+            <p class="small text-muted">Transmettez votre inventaire pour analyse par nos techniciens basés en Vendée.</p>
+            <button class="btn btn-primary w-100 py-3" onclick="alert('Email envoyé !')">ENVOYER MON LISTING</button>
         </div>
     </div>
 
     <script>
-        let inventaire = [];
         let isScanning = false;
         const html5QrCode = new Html5Qrcode("reader");
 
-        // NAVIGATION ENTRE LES PAGES
         function showPage(pageId) {
-            // Cacher la page de garde
             document.getElementById('landing-page').style.display = 'none';
-            // Cacher toutes les pages
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-            // Afficher la page demandée
             document.getElementById(pageId).classList.add('active-page');
-            // Arrêter le scanner si on quitte la page scan
-            if(pageId !== 'page-scan' && isScanning) stopScanner();
+            if(pageId !== 'page-scan' && isScanning) toggleScanner();
         }
 
-        // LOGIQUE SCANNER
         function toggleScanner() {
             if (!isScanning) {
                 document.getElementById('reader').style.display = 'block';
                 html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (code) => {
-                    document.getElementById('p-name').innerText = "Produit " + code;
-                    document.getElementById('scan-res').classList.remove('d-none');
+                    alert("Produit identifié : " + code);
                     stopScanner();
                 });
-                document.getElementById('btn-scan-action').innerText = "ARRÊTER";
                 isScanning = true;
             } else { stopScanner(); }
         }
@@ -245,24 +166,8 @@ document.addEventListener('DOMContentLoaded', filtrerFichesMetiers);
         function stopScanner() {
             html5QrCode.stop().then(() => {
                 document.getElementById('reader').style.display = 'none';
-                document.getElementById('btn-scan-action').innerText = "ACTIVER LA CAMÉRA";
                 isScanning = false;
             });
-        }
-
-        function validerAjout() {
-            const nb = document.getElementById('p-nb').value || 0;
-            inventaire.push({n: document.getElementById('p-name').innerText, nb: nb});
-            document.getElementById('inv-total').innerText = inventaire.length;
-            document.getElementById('scan-res').classList.add('d-none');
-            alert("Enregistré !");
-            showPage('page-menu');
-        }
-
-        function envoyerTechnicien() {
-            if(inventaire.length === 0) { alert("Inventaire vide !"); return; }
-            let body = "Bonjour,\n\nVoici mon inventaire :\n" + inventaire.map(i => "- " + i.n + " (" + i.nb + " sal.)").join("\n");
-            window.location.href = "mailto:technicien@restev85.fr?subject=Inventaire Adhérent&body=" + encodeURIComponent(body);
         }
     </script>
 </body>
