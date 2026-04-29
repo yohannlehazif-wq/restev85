@@ -9,74 +9,98 @@
     <style>
         :root { --blue-restev: #2c5da7; --green-restev: #8ec641; --violet-restev: #a74b9e; }
         body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; line-height: 1.8; }
-        #landing-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--blue-restev) 0%, var(--violet-restev) 100%); z-index: 10000; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
-        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); padding: 45px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.2); max-width: 90%; }
+        
+        /* PAGE DE GARDE */
+        #landing-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--blue-restev) 0%, var(--violet-restev) 100%); z-index: 10000; display: flex; align-items: center; justify-content: center; text-align: center; color: white; transition: 0.5s; }
+        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); padding: 45px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 25px 50px rgba(0,0,0,0.3); max-width: 90%; }
+        
+        /* INTERFACE */
         .app-header { background: white; padding: 20px; text-align: center; border-bottom: 4px solid var(--green-restev); display: none; position: sticky; top: 0; z-index: 1000; }
-        .app-page { display: none; padding: 30px 20px; }
+        .app-page { display: none; padding: 30px 20px; animation: fadeIn 0.4s; }
         .active-page { display: block !important; }
         .card-custom { background: white; border-radius: 25px; padding: 30px; margin-bottom: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-left: 8px solid var(--blue-restev); }
         .btn-nav { background: var(--blue-restev); color: white; border: none; padding: 20px; border-radius: 20px; width: 100%; font-weight: bold; margin-bottom: 20px; text-align: left; display: flex; align-items: center; }
+        
         #reader { width: 100%; border-radius: 20px; overflow: hidden; display: none; margin-bottom: 25px; border: 2px solid var(--blue-restev); }
         .expert-tip { background: #f0fdf4; border: 1px solid #dcfce7; padding: 20px; border-radius: 15px; margin-top: 20px; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
         <div class="glass-card">
-            <h1 class="fw-bold">RESTEV 85</h1>
-            <p>LA ROCHE-SUR-YON • LES ESSARTS-EN-BOCAGE</p>
-            <button class="btn btn-light rounded-pill px-5 fw-bold" onclick="enterApp()">COMMENCER</button>
+            <div style="background:white; border-radius:25%; padding:20px; display:inline-block; margin-bottom:25px;">
+                <img src="logo.png" style="width:100px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063205.png'">
+            </div>
+            <h1 class="fw-bold mb-0">RESTEV 85</h1>
+            <p class="fs-5 opacity-75">Santé au Travail - Prévention Active</p>
+            <p class="small opacity-50">LA ROCHE-SUR-YON • LES ESSARTS-EN-BOCAGE<br>MONTAIGU-VENDÉE • LES HERBIERS</p>
+            <button class="btn btn-light rounded-pill px-5 py-2 fw-bold mt-3" onclick="enterApp()">COMMENCER</button>
         </div>
     </div>
 
     <div class="app-header" id="app-header">
-        <h6 class="fw-bold m-0 text-primary">RESTEV 85 - Prévention Active</h6>
+        <h6 class="fw-bold m-0 text-primary">RESTEV 85 - Expert Prévention</h6>
     </div>
 
     <div id="page-menu" class="app-page">
-        <button class="btn-nav" onclick="showPage('page-scan')">🔍 <div><b>Scan Produit</b></div></button>
-        <button class="btn-nav" onclick="showPage('page-metiers')" style="background: var(--violet-restev);">👷 <div><b>Fiches Métiers</b></div></button>
+        <h4 class="fw-bold mb-4">Espace Adhérent</h4>
+        <button class="btn-nav" onclick="showPage('page-scan')">
+            <span style="font-size: 2rem; margin-right: 20px;">🔍</span>
+            <div><b>Scan Code-Barres</b><br><small class="opacity-75">Recherche FDS & Prévention</small></div>
+        </button>
+        <button class="btn-nav" onclick="showPage('page-metiers')" style="background: var(--violet-restev);">
+            <span style="font-size: 2rem; margin-right: 20px;">👷</span>
+            <div><b>Fiches Métiers</b><br><small class="opacity-75">Risques CARSAT</small></div>
+        </button>
     </div>
 
     <div id="page-scan" class="app-page">
-        <button class="btn btn-light mb-4" onclick="stopScannerAndBack()">← Retour</button>
+        <button class="btn btn-light mb-4 shadow-sm" onclick="stopScannerAndBack()">← Retour</button>
         <div id="reader"></div>
-        <button id="btn-cam" class="btn btn-primary w-100 py-3 mb-4 rounded-4" onclick="startCamera()">SCANNER CODE-BARRES</button>
-        <input type="text" id="manualInput" class="form-control form-control-lg mb-4" placeholder="Nom ou code..." onkeyup="manualSearch(this.value)">
+        <button id="btn-cam" class="btn btn-primary w-100 py-3 mb-4 rounded-4 fw-bold" onclick="startCamera()">OUVRIR LE SCANNER</button>
+        <input type="text" id="manualInput" class="form-control form-control-lg rounded-4 mb-4 border-primary" placeholder="Scanner ou taper un nom (ex: Destop)..." onkeyup="manualSearch(this.value)">
 
         <div id="scan-res" class="d-none">
             <div class="card-custom" style="border-left-color: #dc2626;">
                 <h4 id="res-title" class="fw-bold text-danger"></h4>
                 <p id="res-danger" class="mt-3"></p>
                 <div class="expert-tip" id="res-prev-container">
-                    <b class="text-success">🛡️ PRÉVENTION :</b><br>
+                    <b class="text-success">🛡️ PRÉVENTION LOCALE :</b><br>
                     <span id="res-prev"></span>
+                    <div id="google-fds-btn" class="mt-3"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="page-metiers" class="app-page">
-        <button class="btn btn-light mb-4" onclick="showPage('page-menu')">← Retour</button>
-        <div class="card-custom"><h5>Menuiserie</h5><p>Risque poussières bois.</p></div>
+        <button class="btn btn-light mb-4 shadow-sm" onclick="showPage('page-menu')">← Retour</button>
+        <div class="card-custom">
+            <h5 class="fw-bold text-primary">Menuiserie / Bois</h5>
+            <p>Risque : Poussières (CMR).</p>
+            <div class="expert-tip">Aspiration obligatoire + Masque FFP3.</div>
+        </div>
     </div>
 
     <script>
         let scanner;
         
-        // --- BASE MISE À JOUR AVEC LE DESTOP ---
         const db = {
-            "3021000000000": { n: "Destop / Soude Caustique", d: "Très corrosif. Provoque des brûlures chimiques immédiates et graves de la peau et des yeux.", p: "Gants en PVC ou Néoprène obligatoires. Lunettes de protection étanches (visière conseillée). En cas de contact, rincer abondamment à l'eau pendant 15 min." },
-            "3421273100100": { n: "Acide Chlorhydrique", d: "Corrosif. Vapeurs irritantes pour les bronches.", p: "Gants PVC, lunettes. Ne jamais verser d'eau dans l'acide, mais l'acide dans l'eau." },
-            "3152540003507": { n: "Alcool à brûler", d: "Très inflammable. Vapeurs pouvant causer des maux de tête.", p: "Ventilation du local, pas de flamme nue à proximité." },
-            "destop": { n: "Destop (Soude liquide)", d: "Base forte extrêmement corrosive.", p: "Vêtements de protection, gants longs et lunettes. Attention aux projections." }
+            "destop": { n: "Destop (Soude liquide)", d: "Base extrêmement corrosive. Brûlures graves.", p: "Gants Néoprène, protection oculaire totale." },
+            "3021000000000": { n: "Destop / Déboucheur", d: "Corrosif sévère. Danger pour les yeux.", p: "Gants PVC, visière." },
+            "acetone": { n: "Acétone", d: "Très inflammable. Vapeurs irritantes.", p: "Gants Butyle, ventilation forcée." }
         };
 
         function enterApp() {
-            document.getElementById('landing-page').style.display = 'none';
-            document.getElementById('app-header').style.display = 'block';
-            showPage('page-menu');
+            document.getElementById('landing-page').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('landing-page').style.display = 'none';
+                document.getElementById('app-header').style.display = 'block';
+                showPage('page-menu');
+            }, 500);
         }
 
         function showPage(p) {
@@ -89,39 +113,49 @@
             document.getElementById('btn-cam').style.display = 'none';
             scanner = new Html5Qrcode("reader");
             scanner.start({ facingMode: "environment" }, { fps: 20, qrbox: { width: 300, height: 150 } }, (txt) => { 
+                if (navigator.vibrate) navigator.vibrate(100);
                 manualSearch(txt); 
-            });
+            }).catch(err => alert("Erreur : " + err));
         }
 
         function stopScannerAndBack() {
-            if(scanner) scanner.stop().finally(() => { 
-                document.getElementById('reader').style.display = 'none';
-                document.getElementById('btn-cam').style.display = 'block';
-                showPage('page-menu'); 
-            });
-            else showPage('page-menu');
+            if(scanner && scanner.isScanning) {
+                scanner.stop().then(() => {
+                    document.getElementById('reader').style.display = 'none';
+                    document.getElementById('btn-cam').style.display = 'block';
+                    showPage('page-menu');
+                });
+            } else { showPage('page-menu'); }
         }
 
+        // --- FONCTION DE RECHERCHE AVEC GOOGLE FDS PDF ---
         function manualSearch(v) {
             let k = v.toLowerCase().trim();
             let resArea = document.getElementById('scan-res');
+            let resTitle = document.getElementById('res-title');
+            let resPrev = document.getElementById('res-prev');
+            let googleBtn = document.getElementById('google-fds-btn');
+            
             document.getElementById('manualInput').value = v;
 
             if(db[k]) {
-                document.getElementById('res-title').innerText = db[k].n;
-                document.getElementById('res-danger').innerHTML = "<b>Dangers :</b> " + db[k].d;
-                document.getElementById('res-prev').innerText = db[k].p;
+                resTitle.innerText = db[k].n;
+                document.getElementById('res-danger').innerHTML = "<b>Danger identifié :</b> " + db[k].d;
+                resPrev.innerText = db[k].p;
                 
-                // NOUVEAU LIEN DE RECHERCHE ULTRA-STABLE (Google spécialisé sécurité)
-                let searchUrl = "https://www.google.com/search?q=Fiche+de+donnees+de+securite+" + encodeURIComponent(db[k].n);
-                document.getElementById('res-prev').innerHTML += `<br><br><a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mt-2">📄 Voir la FDS complète (Google)</a>`;
+                // Bouton Google FDS précis
+                let searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(db[k].n + " FDS filetype:pdf");
+                googleBtn.innerHTML = `<a href="${searchUrl}" target="_blank" class="btn btn-primary w-100 shadow-sm mt-2">🔍 Ouvrir la FDS officielle (PDF)</a>`;
                 
                 resArea.classList.remove('d-none');
-            } else if(v.length > 3) {
-                document.getElementById('res-title').innerText = "Recherche externe...";
-                document.getElementById('res-danger').innerText = "Produit non listé localement.";
-                let searchUrl = "https://www.google.com/search?q=danger+prevention+" + encodeURIComponent(v);
-                document.getElementById('res-prev').innerHTML = `<a href="${searchUrl}" target="_blank" class="btn btn-primary w-100">Chercher les infos de sécurité</a>`;
+            } else if(v.length > 2) {
+                resTitle.innerText = "Produit : " + v;
+                document.getElementById('res-danger').innerText = "Non listé localement.";
+                resPrev.innerText = "Utilisez l'accès Google FDS pour obtenir les mesures de sécurité officielles.";
+                
+                let searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(v + " FDS filetype:pdf");
+                googleBtn.innerHTML = `<a href="${searchUrl}" target="_blank" class="btn btn-warning w-100 fw-bold">🚀 Lancer la recherche Google FDS</a>`;
+                
                 resArea.classList.remove('d-none');
             }
         }
