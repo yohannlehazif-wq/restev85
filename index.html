@@ -41,7 +41,7 @@
         .nav-item.active { color: var(--restev-blue); }
         .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.2s; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .vlep-badge { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; float: right; }
         
         .app-page { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
@@ -61,16 +61,16 @@
         <div id="icon-bg"></div>
         <div class="glass-box">
             <img src="logo-restev.png" style="width: 250px; margin-bottom: 40px;">
-            <button class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-primary shadow" onclick="startApp()">ENTRER DANS L'APP</button>
+            <button class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-primary shadow" onclick="startApp()">ACCÉDER À L'APPLICATION</button>
         </div>
     </div>
 
     <div class="app-header"><img src="logo-restev.png" height="40"></div>
 
     <div id="page-home" class="app-page active-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode text-primary me-2"></i>Scan Produit Chimique</h5>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode text-primary me-2"></i>Contrôle Produits</h5>
         <div id="reader" style="display:none; width:100%; border-radius:20px; overflow:hidden; margin-bottom:15px;"></div>
-        <button class="btn btn-primary w-100 py-3 rounded-4 mb-4 fw-bold" onclick="toggleCamera()">ACTIVER LA CAMÉRA</button>
+        <button class="btn btn-primary w-100 py-3 rounded-4 mb-4 fw-bold" onclick="toggleCamera()">SCANNER UN PICTOGRAMME</button>
         <div id="res-area" class="d-none">
             <div class="card-custom">
                 <h4 id="res-n" class="fw-bold text-primary"></h4>
@@ -81,44 +81,44 @@
     </div>
 
     <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3">Pictogrammes de Danger</h5>
+        <h5 class="fw-bold mb-3">Guide des Dangers (SGH)</h5>
         <div id="sgh-list"></div>
     </div>
 
     <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3 text-primary">Fiches de Prévention Métiers</h5>
-        <input type="text" class="form-control rounded-pill mb-4 px-4 py-3 border-0 shadow-sm" placeholder="Rechercher (ex: Soudeur, Bureau...)" onkeyup="renderMetiers(this.value)">
+        <h5 class="fw-bold mb-3 text-primary">Prévention par Métier</h5>
+        <input type="text" class="form-control rounded-pill mb-4 px-4 py-3 border-0 shadow-sm" placeholder="Rechercher un métier..." onkeyup="renderMetiers(this.value)">
         <div id="metiers-list"></div>
     </div>
 
     <div id="page-diag" class="app-page">
-        <h5 class="fw-bold mb-4 text-center">Auto-Évaluation Sécurité</h5>
+        <h5 class="fw-bold mb-4 text-center">Évaluation Flash Sécurité</h5>
         <div id="diag-container" class="card-custom">
             <p id="q-text" class="fw-bold fs-5"></p>
             <div class="d-grid gap-2 mt-4">
-                <button class="btn btn-outline-primary py-3 rounded-4 fw-bold" onclick="answer(1)">OUI / CONFORME</button>
-                <button class="btn btn-outline-secondary py-3 rounded-4" onclick="answer(0)">NON / À AMÉLIORER</button>
+                <button class="btn btn-outline-primary py-3 rounded-4 fw-bold" onclick="answer(1)">CONFORME</button>
+                <button class="btn btn-outline-secondary py-3 rounded-4" onclick="answer(0)">À CORRIGER</button>
             </div>
             <div class="text-center mt-3 small text-muted">Question <span id="q-idx">1</span>/10</div>
         </div>
         <div id="diag-result" class="d-none text-center">
             <h1 id="final-score" class="display-1 fw-bold text-primary"></h1>
             <p id="diag-advice" class="mb-4"></p>
-            <button class="btn btn-primary rounded-pill px-5" onclick="resetDiag()">Recommencer</button>
+            <button class="btn btn-primary rounded-pill px-5" onclick="resetDiag()">Nouvelle Évaluation</button>
         </div>
     </div>
 
     <div id="page-contact" class="app-page">
-        <h5 class="fw-bold mb-4">Centres de Proximité</h5>
+        <h5 class="fw-bold mb-4">Centres RESTEV Vendée</h5>
         <div id="centres-list"></div>
     </div>
 
     <div class="nav-bottom">
         <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-qrcode"></i>SCAN</button>
-        <button class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-circle-info"></i>INFO SGH</button>
-        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
+        <button class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-circle-info"></i>SGH</button>
+        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-user-shield"></i>MÉTIERS</button>
         <button class="nav-item" onclick="nav('page-diag', this)"><i class="fa-solid fa-clipboard-check"></i>ÉVAL</button>
-        <button class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-address-card"></i>CONTACT</button>
+        <button class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-map-marked-alt"></i>CONTACT</button>
     </div>
 
     <div id="job-modal">
@@ -128,39 +128,37 @@
 
     <script>
         const sghLexique = [
-            { img: "SGH02_Flamme.jpg", t: "Inflammable", d: "Éviter flammes, étincelles et sources de chaleur." },
-            { img: "SGH05_Corrosion.jpg", t: "Corrosif", d: "Provoque des brûlures de la peau et des yeux." },
-            { img: "SGH07_PointExclamation.jpg", t: "Nocif / Irritant", d: "Peut causer des allergies ou des vertiges." },
-            { img: "SGH08_DangerSante.jpg", t: "Danger Grave", d: "Effets CMR (Cancérogène, Mutagène, Reprotoxique)." },
-            { img: "SGH09_Environnement.jpg", t: "Polluant", d: "Toxique pour la nature et les milieux aquatiques." }
+            { img: "SGH02_Flamme.jpg", t: "Inflammable", d: "Risque d'incendie. Éloigner des sources de chaleur." },
+            { img: "SGH05_Corrosion.jpg", t: "Corrosif", d: "Détruit les tissus vivants. Gants et lunettes obligatoires." },
+            { img: "SGH07_PointExclamation.jpg", t: "Nocif", d: "Irritations cutanées ou respiratoires." },
+            { img: "SGH08_DangerSante.jpg", t: "Danger Grave", d: "Effets CMR ou toxicité d'organes cibles." },
+            { img: "SGH09_Environnement.jpg", t: "Écotoxique", d: "Ne pas rejeter à l'égout ou dans la nature." }
         ];
 
-        // BASE DE DONNÉES MÉTIERS COMPLÈTE
+        // BASE DE DONNÉES MÉTIERS & PRÉVENTION RENFORCÉE
         const metiersData = [
-            { m: "Menuisier / Ébéniste", vlep: "Bois: 1mg/m³", r: "Poussières cancérigènes, Bruit, Coupures.", p: "• TECHNIQUE : Aspiration centrale (Vérification annuelle).\n• ORGA : Nettoyage à l'aspirateur industriel (pas de soufflette).\n• EPI : Masque FFP3 + Protection auditive." },
-            { m: "Soudeur (TIG / MIG)", vlep: "Fumées: 5mg/m³", r: "Fumées de soudage, Rayonnements UV, Brûlures.", p: "• TECHNIQUE : Torche aspirante ou bras articulé mobile.\n• ORGA : Mise en place d'écrans de protection (rideaux).\n• EPI : Cagoule auto-obscurcissante, gants cuir, tablier." },
-            { m: "Agent de Propreté", vlep: "Chimie variable", r: "Risque chimique (mélanges), TMS, Chutes.", p: "• TECHNIQUE : Utilisation de doseurs automatiques.\n• ORGA : Ne jamais mélanger Javel et détartrant (Chlore !).\n• EPI : Gants nitrile à manchette, chaussures SRC." },
-            { m: "Carrossier Peintre", vlep: "Isocyanates", r: "Vapeurs solvants, Asthme pro, Incendie.", p: "• TECHNIQUE : Cabine de peinture ventilée en dépression.\n• ORGA : Armoire de stockage sécurité pour les produits.\n• EPI : Masque à adduction d'air, combinaison jetable." },
-            { m: "Métier du Bureau / Tertiaire", vlep: "N/A", r: "Sédentarité, Fatigue visuelle, Stress (RPS).", p: "• TECHNIQUE : Double écran, siège ergonomique réglable.\n• ORGA : Alterner positions assise/debout, pauses visuelles.\n• PREV : Ambiance sonore contrôlée (cloisons)." },
-            { m: "Agriculteur / Viticulteur", vlep: "Variable", r: "Phytosanitaires, TMS, Risque machine.", p: "• TECHNIQUE : Cabine de tracteur à filtration charbon actif.\n• ORGA : Respect des délais de rentrée dans les parcelles.\n• EPI : Combinaison type 4 pour les traitements." },
-            { m: "Préparateur de commandes", vlep: "N/A", r: "TMS, Heurts engins, Chutes d'objets.", p: "• TECHNIQUE : Filmeuse automatique, lève-palettes.\n• ORGA : Plan de circulation piéton/engin balisé.\n• EPI : Chaussures de sécurité, gants de manutention." },
-            { m: "Soignant (EHPAD / Clinique)", vlep: "N/A", r: "TMS (Mobilisation), AES (Piqures), Burn-out.", p: "• TECHNIQUE : Rails au plafond, lits électriques, lève-malades.\n• ORGA : Collecteur d'aiguilles au plus proche du soin.\n• EPI : Gants usage unique, chaussures fermées." }
+            { m: "Menuisier / Charpentier", vlep: "Bois: 1mg/m³", r: "Cancers (poussières), Bruit, Chutes.", p: "• TECHNIQUE : Aspiration fixe classe M + contrôle des filtres.\n• ORGA : Substitution des essences les plus toxiques si possible.\n• EPI : Masque FFP3, Bouchons moulés, Chaussures S3." },
+            { m: "Soudeur / Tuyauteur", vlep: "Fumées: 5mg/m³", r: "Oedème pulmonaire, Arc électrique, Brûlures.", p: "• TECHNIQUE : Aspiration à la source (bras ou torche).\n• ORGA : Aménagement de l'atelier pour éviter le co-activité.\n• EPI : Cagoule opto-électronique, Gants cuir, Tablier." },
+            { m: "Agent de Propreté / ASH", vlep: "Chimie", r: "Dermatoses, Brûlures chimiques, TMS.", p: "• TECHNIQUE : Chariots ergonomiques, Doseurs automatiques.\n• ORGA : Affichage des protocoles de mélange (Interdiction Javel+Acide).\n• EPI : Gants nitrile longs, Chaussures SRC." },
+            { m: "Métiers du Bâtiment (Maçon/Peintre)", vlep: "Silice/Solvant", r: "Silicose, Chutes de hauteur, Manutention lourde.", p: "• TECHNIQUE : Utilisation de lève-matériaux, Échafaudages conformes.\n• ORGA : Nettoyage à l'eau pour limiter les poussières.\n• EPI : Casque avec jugulaire, Masque P3, Gants anti-vibration." },
+            { m: "Bureautique / Accueil", vlep: "N/A", r: "Fatigue visuelle, Troubles Musculo-Squelettiques (TMS).", p: "• TECHNIQUE : Siège réglable 5 branches, Écran à hauteur des yeux.\n• ORGA : Alterner les tâches, Pauses actives toutes les 2h.\n• PREV : Réglage de l'éclairage pour éviter les reflets." },
+            { m: "Logistique / Cariste", vlep: "N/A", r: "Collision, Chute de charge, Vibration.", p: "• TECHNIQUE : Limitation de vitesse automatique sur engins.\n• ORGA : Plan de circulation séparant piétons et chariots.\n• EPI : Gilet haute visibilité, Chaussures de sécurité." },
+            { m: "Soignant / Aide à domicile", vlep: "N/A", r: "TMS (Port de charges), Risque biologique, Stress.", p: "• TECHNIQUE : Aide technique au transfert (guidon, lève-malade).\n• ORGA : Organisation des tournées pour limiter la fatigue.\n• PREV : Formation PRAP (Prévention des Risques liés à l'Activité Physique)." }
         ];
 
+        // CONTACTS COMPLETS AVEC LES ESSARTS
         const centres = [
-            { n: "La Roche-sur-Yon (Siège)", a: "Rue Benjamin Franklin", t: "02 51 37 00 00", c: "blue" },
-            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00", c: "green" },
-            { n: "Montaigu-Vendée", a: "Pôle de la Maine", t: "02 51 94 00 00", c: "yellow" },
-            { n: "Les Essarts", a: "Rue des artisans", t: "02 51 48 00 00", c: "violet" }
+            { n: "La Roche-sur-Yon (Siège)", a: "Rue Benjamin Franklin", t: "02 51 37 00 00", m: "https://maps.google.com/?q=Restev+Les+Herbiers2" },
+            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00", m: "https://maps.google.com/?q=Restev+Les+Herbiers3" },
+            { n: "Montaigu-Vendée", a: "Pôle de la Maine", t: "02 51 94 00 00", m: "https://maps.google.com/?q=Restev+Les+Herbiers4" },
+            { n: "Les Essarts", a: "15 Rue des Artisans", t: "02 51 48 44 44", m: "https://maps.google.com/?q=Restev+Les+Herbiers5" },
+            { n: "Challans", a: "Zone de la Bloire", t: "02 51 93 12 12", m: "https://maps.google.com/?q=Restev+Les+Herbiers6" }
         ];
 
-        const questions = ["Le DUERP est-il à jour ?", "Les FDS sont-elles accessibles ?", "Les EPI sont-ils réellement portés ?", "L'aspiration est-elle vérifiée ?", "Le personnel est-il formé ?", "Les extincteurs sont-ils contrôlés ?", "Les aides au levage sont-elles là ?", "Y a-t-il assez de SST ?", "Arrêts d'urgence testés ?", "Produits sur bac de rétention ?"];
+        const questions = ["Le DUERP a-t-il été mis à jour il y a moins d'un an ?", "Les FDS sont-elles classées et accessibles ?", "Les EPI sont-ils en bon état et portés ?", "L'aspiration centralisée est-elle contrôlée périodiquement ?", "Les nouveaux arrivants sont-ils formés à la sécurité ?", "Les extincteurs sont-ils signalés et vérifiés ?", "Les aides au levage (palans, chariots) sont-elles utilisées ?", "Y a-t-il au moins un SST pour 10 salariés ?", "Les arrêts d'urgence sont-ils accessibles ?", "Les stockages chimiques sont-ils sur bac de rétention ?"];
         let qIdx = 0, score = 0, scanner;
 
-        function startApp() { 
-            document.getElementById('splash').style.display='none'; 
-            renderSGH(); renderMetiers(); renderCentres(); resetDiag(); 
-        }
+        function startApp() { document.getElementById('splash').style.display='none'; renderSGH(); renderMetiers(); renderCentres(); resetDiag(); }
 
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
@@ -178,7 +176,7 @@
         function renderMetiers(f="") {
             const list = document.getElementById('metiers-list'); list.innerHTML = "";
             metiersData.filter(m => m.m.toLowerCase().includes(f.toLowerCase())).forEach((m, i) => {
-                list.innerHTML += `<div class="card-custom" onclick="openJob(${i})"><span class="vlep-badge">${m.vlep}</span><b>${m.m}</b><br><small class="text-muted">Consulter les préconisations</small></div>`;
+                list.innerHTML += `<div class="card-custom" onclick="openJob(${i})"><span class="vlep-badge">${m.vlep}</span><b>${m.m}</b><br><small class="text-muted">Risques et Préventions</small></div>`;
             });
         }
 
@@ -187,9 +185,9 @@
             document.getElementById('job-content').innerHTML = `
                 <div class="card-custom">
                     <h3 class="fw-bold text-primary">${m.m}</h3>
-                    <div class="badge bg-danger mb-3 p-2">VLEP : ${m.vlep}</div>
-                    <h6 class="fw-bold"><i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>RISQUES :</h6><p class="small text-muted">${m.r}</p>
-                    <h6 class="fw-bold text-success"><i class="fa-solid fa-shield-halved me-2"></i>PRÉVENTION :</h6>
+                    <div class="badge bg-danger mb-3 p-2">SÉCURITÉ RÉGLEMENTAIRE</div>
+                    <h6 class="fw-bold text-danger">RISQUES :</h6><p class="small">${m.r}</p>
+                    <h6 class="fw-bold text-success">PRÉCONISATIONS :</h6>
                     <div class="prev-section">${m.p}</div>
                 </div>`;
             document.getElementById('job-modal').style.display = 'block';
@@ -198,8 +196,12 @@
 
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(c => `
-                <div class="card-custom" style="border-left-color: var(--restev-${c.c})">
-                    <b>${c.n}</b><br><small class="text-muted">${c.a}</small><br>
+                <div class="card-custom">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <b>${c.n}</b>
+                        <a href="${c.m}" target="_blank" class="btn btn-sm btn-outline-primary">Google Maps</a>
+                    </div>
+                    <small class="text-muted">${c.a}</small><br>
                     <a href="tel:${c.t.replace(/ /g,'')}" class="btn btn-sm btn-primary rounded-pill mt-2">${c.t}</a>
                 </div>`).join('');
         }
@@ -211,7 +213,7 @@
                 document.getElementById('diag-container').classList.add('d-none');
                 document.getElementById('diag-result').classList.remove('d-none');
                 document.getElementById('final-score').innerText = score + "/10";
-                document.getElementById('diag-advice').innerText = score > 7 ? "Excellent ! Continuez ainsi." : "Contactez RESTEV pour une visite conseil.";
+                document.getElementById('diag-advice').innerText = score > 7 ? "Excellent niveau de conformité !" : "Action requise : Contactez votre conseiller RESTEV.";
             }
         }
         function updateQ() { document.getElementById('q-text').innerText = questions[qIdx]; document.getElementById('q-idx').innerText = qIdx + 1; }
@@ -223,15 +225,14 @@
                 r.style.display = 'block';
                 scanner = new Html5Qrcode("reader");
                 scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
-                    document.getElementById('res-n').innerText = "Résultat : " + txt;
-                    document.getElementById('res-p').innerText = "Vérification dans la base RESTEV en cours...\nVérifiez que le picto SGH correspond à la fiche produit.";
+                    document.getElementById('res-n').innerText = "Vérification en cours...";
+                    document.getElementById('res-p').innerText = "Analyse du pictogramme : " + txt + "\n\nRappel : Toujours porter des gants nitrile lors de la manipulation de produits inconnus.";
                     document.getElementById('res-area').classList.remove('d-none');
                     scanner.stop(); r.style.display = 'none';
                 });
             } else { scanner.stop(); r.style.display = 'none'; }
         }
 
-        // Animation Background
         const iconsArr = ['fa-helmet-safety', 'fa-shield-halved', 'fa-biohazard', 'fa-fire-extinguisher'];
         const bgArea = document.getElementById('icon-bg');
         for(let i=0; i<12; i++) {
