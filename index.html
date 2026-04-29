@@ -99,17 +99,93 @@
         </div>
     </div>
 
-    <div id="page-metiers" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
-        <h5 class="fw-bold">Prévention Métiers</h5>
-        <div class="card-expert mt-3">
-            <h6 class="fw-bold text-primary">Boulangerie</h6>
-            <p class="small">Risque de "l'asthme du boulanger" (farine). <br><b>Solution :</b> Ne pas utiliser de soufflette, aspirer les poussières.</p>
-            <hr>
-            <h6 class="fw-bold text-primary">Bâtiment</h6>
-            <p class="small">Risque Silice et COV. <br><b>Solution :</b> Travail à l'humide, masques FFP3 si poussières.</p>
+   <div id="page-metiers" class="app-page">
+    <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+    <h5 class="fw-bold mb-3">Référentiel Prévention par Branche</h5>
+    
+    <select id="selectSecteur" class="form-select mb-4 py-2 shadow-sm" style="border-radius: 12px;" onchange="filtrerFichesMetiers()">
+        <option value="all">Tous les secteurs</option>
+        <option value="alimentaire">Alimentaire & Bouche</option>
+        <option value="batiment">Bâtiment & Travaux Publics</option>
+        <option value="industrie">Industrie & Mécanique</option>
+        <option value="sante">Santé & Propreté</option>
+    </select>
+
+    <div id="metiers-container">
         </div>
-    </div>
+</div>
+
+<script>
+// --- BASE DE DONNÉES MÉTIERS COMPLÈTE ---
+const DB_METIERS_COMPLET = [
+    {
+        secteur: "alimentaire",
+        nom: "Boulanger / Pâtissier",
+        risques: "Poussières de farine (Asthme), Brûlures, Postures.",
+        conseils: "Privilégier le versement de la farine sans nuage. Nettoyer à l'aspirateur classe M (pas de balayette). Port du masque lors du pétrissage si nécessaire.",
+        source: "INRS ED 6298"
+    },
+    {
+        secteur: "batiment",
+        nom: "Peintre en bâtiment",
+        risques: "Vapeurs de solvants, COV, Chutes de hauteur.",
+        conseils: "Utiliser des peintures à l'eau (Ecolabel). Assurer une ventilation naturelle. Stocker les fûts souillés fermés.",
+        source: "CARSAT R442"
+    },
+    {
+        secteur: "industrie",
+        nom: "Mécanicien / Garagiste",
+        risques: "Huiles de vidange (Cancérogène), Solvants de dégraissage.",
+        conseils: "Utiliser une fontaine de dégraissage biologique. Port de gants nitrile obligatoire. Ne jamais utiliser d'essence pour se laver les mains.",
+        source: "INRS ED 6062"
+    },
+    {
+        secteur: "batiment",
+        nom: "Maçon / Travaux Publics",
+        risques: "Poussières de silice (Silicose), Dermatoses (Ciment).",
+        conseils: "Privilégier la découpe à l'eau ou avec aspiration. Porter des gants de protection étanches lors de la manipulation du béton frais.",
+        source: "IRIS-ST / INRS"
+    },
+    {
+        secteur: "sante",
+        nom: "Agent de Propreté",
+        risques: "Mélanges dangereux (Gaz toxique), Produits corrosifs.",
+        conseils: "Ne JAMAIS mélanger Javel et détartrant (Acide). Utiliser des flacons doseurs. Respecter les temps de contact.",
+        source: "CARSAT / INRS"
+    },
+    {
+        secteur: "industrie",
+        nom: "Menuisier / Travail du bois",
+        risques: "Poussières de bois (Cancérogène), Coupures.",
+        conseils: "Vérifier l'efficacité de l'aspiration centralisée. Porter un masque FFP3 lors des ponçages intensifs.",
+        source: "INRS ED 6348"
+    }
+];
+
+function filtrerFichesMetiers() {
+    const secteur = document.getElementById('selectSecteur').value;
+    const container = document.getElementById('metiers-container');
+    
+    const fichesFiltrées = DB_METIERS_COMPLET.filter(m => secteur === "all" || m.secteur === secteur);
+    
+    container.innerHTML = fichesFiltrées.map(f => `
+        <div class="card-expert mb-3 animate__animated animate__fadeInUp">
+            <h6 class="fw-bold text-primary mb-1">${f.nom}</h6>
+            <hr class="my-2 opacity-25">
+            <p class="small mb-2"><strong>⚠️ Risques :</strong> ${f.risques}</p>
+            <div class="p-2 rounded-3" style="background-color: #f0fff4; border-left: 4px solid var(--green);">
+                <p class="small mb-0 text-success"><strong>✅ Prévention :</strong> ${f.conseils}</p>
+            </div>
+            <div class="mt-2 text-end">
+                <span class="badge bg-light text-muted fw-normal" style="font-size: 0.65rem;">Source : ${f.source}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Appeler la fonction une fois au chargement pour remplir la liste
+document.addEventListener('DOMContentLoaded', filtrerFichesMetiers);
+</script>
 
     <div id="page-guide" class="app-page">
         <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
