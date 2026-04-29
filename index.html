@@ -6,16 +6,16 @@
     <title>RESTEV 85 - Prévention Active</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        :root { --blue-restev: #2c5da7; --green-restev: #8ec641; --violet-restev: #a74b9e; --bg-light: #f4f7f9; }
-        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; color: #333; }
+        :root { --blue-restev: #2c5da7; --green-restev: #8ec641; --bg-light: #f4f7f9; }
+        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; color: #333; margin: 0; }
         
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 10000; display: flex; flex-direction: column;
             align-items: center; justify-content: center; text-align: center;
         }
-        .logo-landing { width: 250px; }
 
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 3px solid var(--blue-restev); position: sticky; top: 0; z-index: 1000; display: none; }
         .app-page { display: none; padding: 20px; animation: fadeIn 0.4s; }
@@ -24,22 +24,21 @@
         .menu-card {
             background: white; border: none; border-radius: 20px; padding: 25px;
             display: flex; align-items: center; text-align: left;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; width: 100%; margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; margin-bottom: 15px;
         }
-        .icon-circle { width: 55px; height: 55px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-right: 15px; flex-shrink: 0; }
         
         .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-left: 6px solid var(--blue-restev); }
-        .btn-back { background: #e2e8f0; border: none; border-radius: 12px; padding: 10px 20px; font-weight: 600; margin-bottom: 20px; }
-        .btn-action { background: var(--blue-restev); color: white; border: none; border-radius: 15px; padding: 18px; font-weight: bold; width: 100%; }
+        .btn-back { background: #e2e8f0; border: none; border-radius: 12px; padding: 10px 20px; margin-bottom: 20px; }
         
-        .search-box { border-radius: 15px; padding: 15px; border: 2px solid #e2e8f0; margin-bottom: 20px; width: 100%; }
-        .badge-source { font-size: 0.7rem; background: #eee; padding: 2px 8px; border-radius: 4px; float: right; }
+        /* Style du scanner */
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #000; margin-bottom: 20px; }
+        .search-box { border-radius: 15px; padding: 15px; border: 2px solid #e2e8f0; width: 100%; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
-        <img src="logo.png" class="logo-landing" alt="RESTEV 85" onerror="this.src='https://via.placeholder.com/200?text=RESTEV+85'">
+        <img src="logo.png" style="width:250px;" alt="RESTEV 85" onerror="this.src='https://via.placeholder.com/200?text=RESTEV+85'">
         <h4 class="fw-bold mt-3">Santé au Travail</h4>
         <p class="text-muted">La Roche-sur-Yon | Les Essarts | Montaigu | Les Herbiers</p>
         <button class="btn btn-primary px-5 py-3 rounded-pill fw-bold mt-4" onclick="startApp()">ACCÉDER</button>
@@ -51,44 +50,32 @@
 
     <div id="page-menu" class="app-page">
         <h5 class="fw-bold mb-4">Votre Assistant Prévention</h5>
-        
         <button class="menu-card" onclick="showPage('page-scan')">
-            <div class="icon-circle" style="background:#fff7ed; color:#ea580c;">🔍</div>
-            <div><b>Vérifier un Produit</b><span>Scan ou recherche de dangers</span></div>
+            <div style="font-size: 1.6rem; margin-right: 15px;">🔍</div>
+            <div><b>Scanner un Produit</b><span>Appareil photo ou recherche</span></div>
         </button>
-
         <button class="menu-card" onclick="showPage('page-metiers')">
-            <div class="icon-circle" style="background:#eef2ff; color:#2c5da7;">👷</div>
-            <div><b>Référentiel Métiers</b><span>Fiches conseils par branche</span></div>
-        </button>
-
-        <button class="menu-card" onclick="showPage('page-diag')">
-            <div class="icon-circle" style="background:#f0fdf4; color:#16a34a;">⚖️</div>
-            <div><b>Auto-Diagnostic</b><span>Évaluer ma sécurité en 10 pts</span></div>
+            <div style="font-size: 1.6rem; margin-right: 15px;">👷</div>
+            <div><b>Référentiel Métiers</b><span>Fiches INRS & CARSAT</span></div>
         </button>
     </div>
 
     <div id="page-scan" class="app-page">
-        <button class="btn-back" onclick="showPage('page-menu')">← Retour</button>
-        <h5 class="fw-bold mb-3">Identification du danger</h5>
+        <button class="btn-back" onclick="stopScannerAndBack()">← Retour</button>
+        <h5 class="fw-bold mb-3">Identifier un risque</h5>
         
-        <input type="text" id="searchInput" class="search-box" placeholder="Tapez le nom du produit (ex: Acétone, Ciment...)" onkeyup="chercherProduit()">
+        <div id="reader"></div>
+        
+        <input type="text" id="searchInput" class="search-box" placeholder="Ou tapez le nom (ex: Acetone, Ciment...)" onkeyup="chercherProduit(this.value)">
         
         <div id="resultat-produit" class="animate__animated animate__fadeIn d-none">
             <div class="card-expert" style="border-color: #dc2626;">
-                <span class="badge-source" id="p-source">INRS</span>
-                <h6 class="fw-bold" id="p-title">Nom du produit</h6>
-                <hr>
-                <p class="small"><b>⚠️ Risques identifiés :</b><br><span id="p-risques"></span></p>
+                <h6 class="fw-bold" id="p-title">Produit</h6>
+                <p class="small"><b>⚠️ Risques :</b> <span id="p-risques"></span></p>
                 <div class="p-3 bg-light rounded-3 small border-start border-3 border-success">
-                    <b class="text-success">✅ Prévention préconisée :</b><br>
-                    <span id="p-prevention"></span>
+                    <b class="text-success">✅ Prévention :</b> <span id="p-prevention"></span>
                 </div>
             </div>
-        </div>
-        
-        <div id="empty-msg" class="text-center text-muted py-5">
-            <p>Scannez ou saisissez un produit pour voir les mesures de protection.</p>
         </div>
     </div>
 
@@ -97,38 +84,19 @@
         <h5 class="fw-bold mb-4">Prévention par Branche</h5>
         <div class="card-expert">
             <h6 class="fw-bold">Menuiserie & Travail du bois</h6>
-            <p class="small"><b>Dangers :</b> Poussières CMR, coupures, bruit.</p>
-            <div class="p-2 bg-light rounded small">Recommandation INRS : Captage à la source.</div>
+            <p class="small">Poussières de bois (CMR), coupures, bruit.</p>
+            <div class="p-2 bg-light rounded small"><b>INRS (ED 6348) :</b> Captage à la source.</div>
         </div>
     </div>
 
     <script>
-        // BASE DE DONNÉES PRÉVENTION PRODUITS
-        const db_produits = {
-            "acetone": {
-                nom: "Acétone / Solvants",
-                risques: "Inflammable, irritation cutanée, vertiges par inhalation.",
-                prevention: "Ventilation forcée, port de gants en Butyle (le Nitrile ne suffit pas), masque avec filtre type A.",
-                source: "INRS Fiche 3"
-            },
-            "ciment": {
-                nom: "Ciment / Béton frais",
-                risques: "Brûlures chimiques (Chrome VI), dermatoses, poussières de silice.",
-                prevention: "Porter des gants étanches doublés coton, lunettes de protection, travail à l'humide pour éviter les poussières.",
-                source: "CARSAT R466"
-            },
-            "farine": {
-                nom: "Poussières de Farine",
-                risques: "Asthme professionnel, sensibilisation respiratoire.",
-                prevention: "Verser la farine doucement, nettoyage à l'aspirateur classe M (interdiction de la balayette).",
-                source: "INRS ED 6298"
-            },
-            "javel": {
-                nom: "Eau de Javel (Hypochlorite)",
-                risques: "Corrosif, gaz toxique si mélangé à un acide (détartrant).",
-                prevention: "Porter des lunettes, ne jamais mélanger, stocker dans un bac de rétention.",
-                source: "INRS ED 6093"
-            }
+        let html5QrCode;
+
+        // Base de données simplifiée
+        const db_prevention = {
+            "acetone": { nom: "Acétone", risques: "Inflammable, vapeurs irritantes.", prevention: "Ventilation, gants Butyle, masque type A." },
+            "ciment": { nom: "Ciment / Béton", risques: "Brûlures (Chrome VI), Silice.", prevention: "Gants étanches, lunettes, travail à l'humide." },
+            "javel": { nom: "Eau de Javel", risques: "Corrosif, Gaz toxique avec acide.", prevention: "Ne pas mélanger, gants PVC, lunettes." }
         };
 
         function startApp() {
@@ -140,24 +108,37 @@
         function showPage(p) {
             document.querySelectorAll('.app-page').forEach(pg => pg.classList.remove('active-page'));
             document.getElementById(p).classList.add('active-page');
+            if(p === 'page-scan') startScanner();
         }
 
-        function chercherProduit() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let resDiv = document.getElementById('resultat-produit');
-            let emptyMsg = document.getElementById('empty-msg');
+        function startScanner() {
+            html5QrCode = new Html5Qrcode("reader");
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            
+            html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
+                // Si on scanne un texte/code, on cherche dans la base
+                chercherProduit(decodedText);
+            }).catch((err) => {
+                console.error("Erreur caméra : ", err);
+            });
+        }
 
-            if (db_produits[input]) {
-                let p = db_produits[input];
+        function stopScannerAndBack() {
+            if(html5QrCode) {
+                html5QrCode.stop().then(() => { showPage('page-menu'); }).catch(() => { showPage('page-menu'); });
+            } else { showPage('page-menu'); }
+        }
+
+        function chercherProduit(val) {
+            let key = val.toLowerCase().trim();
+            let resDiv = document.getElementById('resultat-produit');
+            
+            if (db_prevention[key]) {
+                let p = db_prevention[key];
                 document.getElementById('p-title').innerText = p.nom;
                 document.getElementById('p-risques').innerText = p.risques;
                 document.getElementById('p-prevention').innerText = p.prevention;
-                document.getElementById('p-source').innerText = p.source;
                 resDiv.classList.remove('d-none');
-                emptyMsg.classList.add('d-none');
-            } else {
-                resDiv.classList.add('d-none');
-                emptyMsg.classList.remove('d-none');
             }
         }
     </script>
