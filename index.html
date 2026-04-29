@@ -8,81 +8,119 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --blue-restev: #2c5da7; --violet-restev: #a74b9e; --yellow-restev: #f9b233; --bg: #f8fafc; }
-        body { background-color: var(--bg); font-family: 'Segoe UI', system-ui; margin-bottom: 80px; }
+        :root { --blue: #2c5da7; --green: #8ec641; --violet: #a74b9e; --dark: #1e293b; --danger: #e11d48; --yellow: #f9b233; }
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', system-ui; color: var(--dark); margin-bottom: 80px; overflow-x: hidden; }
         
         /* --- HEADER --- */
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--yellow-restev); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo-main { height: 70px; object-fit: contain; }
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo-img { height: 50px; object-fit: contain; }
 
         /* --- NAVIGATION --- */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.75rem; font-weight: 600; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-        .nav-item.active { color: var(--blue-restev); }
-        .nav-item i { font-size: 1.5rem; margin-bottom: 2px; }
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { border: none; background: none; color: #64748b; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
+        .nav-item.active { color: var(--blue); font-weight: bold; }
+        .nav-item i { font-size: 1.4rem; margin-bottom: 4px; }
 
-        /* --- CARDS & PICTOS --- */
-        .card-restev { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid var(--blue-restev); }
-        .picto-container { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .ghs-picto { width: 55px; height: 55px; object-fit: contain; border: 1px solid #eee; padding: 2px; border-radius: 5px; }
-        
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; margin-bottom: 15px; }
-        .app-page { display: none; padding: 20px; animation: fadeIn 0.3s ease-in; }
+        /* --- PAGES --- */
+        .app-page { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
         .active-page { display: block !important; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        /* --- COMPONENTS --- */
+        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-left: 5px solid var(--blue); transition: 0.2s; cursor: pointer; }
+        .card-custom:active { transform: scale(0.98); }
+        .vlep-badge { background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; float: right; }
+        
+        /* PICTOS SGH */
+        .picto-container { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .ghs-picto { width: 50px; height: 50px; object-fit: contain; border: 1px solid #eee; border-radius: 5px; }
+        .picto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .picto-btn { border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; text-align: center; background: white; font-size: 1.2rem; }
+
+        /* MODAL MÉTIER */
+        #job-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f1f5f9; z-index: 2000; display: none; overflow-y: auto; padding: 20px; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: black; margin-bottom: 15px; }
+        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; align-items: center; justify-content: center; text-align: center; }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <img src="logo-restev.png" alt="RESTEV 85" style="width: 220px; margin-bottom: 30px;">
-        <button class="btn btn-primary rounded-pill px-5 fw-bold" onclick="startApp()">ACCÉDER À L'EXPERT</button>
+        <div>
+            <img src="logo-restev.png" alt="RESTEV 85" style="width: 250px; margin-bottom: 30px;">
+            <br>
+            <button class="btn btn-primary rounded-pill px-5 fw-bold" onclick="startApp()">ENTRER</button>
+        </div>
     </div>
 
     <div class="app-header">
-        <img src="logo-restev.png" alt="Logo RESTEV" class="logo-main">
+        <img src="logo-restev.png" alt="Logo" class="logo-img">
     </div>
 
-    <div id="page-scan" class="app-page active-page">
-        <h5 class="fw-bold mb-3">Identification Produit</h5>
-        <div id="reader" style="display:none"></div>
-        <button id="btn-scan" class="btn btn-primary w-100 py-3 rounded-4 mb-4 fw-bold" onclick="toggleCamera()">
-            <i class="fa-solid fa-camera me-2"></i> SCANNER CODE-BARRES
-        </button>
-        
-        <div class="input-group mb-4 shadow-sm">
-            <input type="text" id="manualInput" class="form-control border-0 px-3" placeholder="Nom du produit ou code..." style="border-radius: 15px 0 0 15px;">
-            <button class="btn btn-primary" onclick="searchProduct(document.getElementById('manualInput').value)" style="border-radius: 0 15px 15px 0;">OK</button>
+    <div id="page-home" class="app-page active-page">
+        <h6 class="fw-bold mb-3">Décodeur de Risques Rapide</h6>
+        <div class="picto-grid">
+            <div class="picto-btn" onclick="alert('🔥 INFLAMMABLE')">🔥</div>
+            <div class="picto-btn" onclick="alert('🧪 CORROSIF')">🧪</div>
+            <div class="picto-btn" onclick="alert('💀 TOXIQUE')">💀</div>
+            <div class="picto-btn" onclick="alert('🫁 CMR')">🫁</div>
         </div>
 
+        <h6 class="fw-bold mb-3"><i class="fa-solid fa-camera"></i> Scan de Produit</h6>
+        <div id="reader" style="display:none"></div>
+        <button id="btn-scan" class="btn btn-primary w-100 py-3 rounded-4 mb-3 fw-bold" onclick="toggleCamera()"><i class="fa-solid fa-camera"></i> ACTIVER LE SCANNER</button>
+        
+        <input type="text" id="manualInput" class="form-control rounded-pill border-primary mb-3 shadow-sm" placeholder="Saisir code-barres..." onkeyup="searchProduct(this.value)">
+
         <div id="res-area" class="d-none">
-            <div class="card-restev">
+            <div class="card-custom" id="res-card">
                 <div id="picto-list" class="picto-container"></div>
                 <h4 id="res-n" class="fw-bold text-dark mb-1"></h4>
-                <p id="res-d" class="small text-muted mb-3"></p>
-                
-                <div class="p-3 rounded-3 mb-3" style="background: #f0f7ff; border-left: 4px solid var(--blue-restev);">
-                    <b class="text-primary small">CONSEILS DE PRÉVENTION :</b>
-                    <p id="res-p" class="small mb-0 mt-2" style="white-space: pre-line;"></p>
+                <p id="res-d" class="small text-muted mb-2"></p>
+                <div class="bg-light p-3 rounded-3">
+                    <b class="text-primary small">RÈGLES DE SÉCURITÉ :</b>
+                    <p id="res-p" class="small mb-0 mt-1" style="white-space: pre-line;"></p>
                 </div>
-                <div id="fds-action"></div>
+                <div id="google-btn" class="mt-3"></div>
             </div>
         </div>
     </div>
 
     <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Fiches de Risques Métiers</h5>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-helmet-safety"></i> Fiches Métiers & VLEP</h5>
+        <input type="text" class="form-control mb-3 rounded-pill shadow-sm" placeholder="Chercher un métier..." onkeyup="renderMetiers(this.value)">
         <div id="metiers-list"></div>
     </div>
 
+    <div id="page-diag" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-check"></i> Diagnostic Rapide</h5>
+        <div id="diag-container" class="card-custom">
+            <p id="q-text" class="fw-bold"></p>
+            <button class="btn btn-outline-primary w-100 mb-2" onclick="answer(1)">OUI / CONFORME</button>
+            <button class="btn btn-outline-secondary w-100" onclick="answer(0)">NON / À AMÉLIORER</button>
+            <div class="text-center mt-3 small text-muted">Question <span id="q-idx">1</span>/10</div>
+        </div>
+        <div id="diag-result" class="d-none text-center mt-5">
+            <h2 id="final-score" class="fw-bold text-primary"></h2>
+            <p id="diag-advice" class="mb-4"></p>
+            <button class="btn btn-primary rounded-pill px-5" onclick="resetDiag()">Recommencer</button>
+        </div>
+    </div>
+
+    <div id="job-modal">
+        <button class="btn btn-outline-secondary mb-4 rounded-pill" onclick="closeJob()"><i class="fa-solid fa-arrow-left"></i> Retour</button>
+        <div id="job-content"></div>
+    </div>
+
     <div class="nav-bottom">
-        <button class="nav-item active" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCANNER</button>
-        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-hard-hat"></i>MÉTIERS</button>
+        <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-barcode"></i>Scan</button>
+        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-briefcase"></i>Métiers</button>
+        <button class="nav-item" onclick="nav('page-diag', this)"><i class="fa-solid fa-check-double"></i>Diag</button>
     </div>
 
     <script>
-        // Mapping des fichiers SGH vers leurs noms de fichiers réels
         const ghsMap = {
             "explosif": "SGH01_BombeExplosant.jpg",
             "flamme": "SGH02_Flamme.jpg",
@@ -97,69 +135,123 @@
 
         const db = {
             "3077316291191": { 
-                n: "White Spirit", 
+                n: "White Spirit (Expert)", 
                 pictos: ["flamme", "sante", "environnement"],
-                d: "Solvant hydrocarboné. Risque d'incendie et d'aspiration.", 
-                p: "• Porter des gants en Nitrile (norme EN374).\n• Ne pas rejeter à l'égout.\n• Privilégier une fontaine de dégraissage biologique." 
+                d: "H226: Inflammable. H304: Danger par aspiration.",
+                p: "• VLEP : 1000 mg/m³.\n• GANTS : Nitrile (EN374).\n• CONSEIL : Ne jamais nettoyer la peau avec du White Spirit." 
             },
             "3021000000000": { 
-                n: "Nettoyant Acide", 
-                pictos: ["corrosion", "attention"],
-                d: "Produit corrosif pour les métaux et la peau.", 
-                p: "• Lunettes de protection et visière obligatoires.\n• Rincer immédiatement à l'eau en cas de contact." 
+                n: "Destop (Soude)", 
+                pictos: ["corrosion"],
+                d: "H314: Provoque des brûlures graves.",
+                p: "• EPI : Visière faciale + Gants PVC longs.\n• URGENCE : Douche de sécurité / Rince-œil à proximité." 
             }
         };
 
-        function startApp() { document.getElementById('splash').style.display = 'none'; }
+        const metiersData = [
+            {
+                m: "Menuisier", vlep: "Bois: 1 mg/m³", r: "Poussières de bois (Cancérogène), coupures.",
+                p: "• Aspiration centralisée.\n• Masque FFP3 pour le ponçage.\n• Pas de balayette (Aspirateur M).", source: "INRS / CARSAT"
+            },
+            {
+                m: "Maçon", vlep: "Silice: 0.1 mg/m³", r: "Silicose, TMS.",
+                p: "• Découpe à l'eau.\n• Gants étanches (éviter dermatoses ciment).\n• Aide au levage mécanique.", source: "OPPBTP"
+            }
+        ];
 
+        const questions = ["DUERP à jour ?", "FDS accessibles ?", "EPI portés ?", "Aspiration contrôlée ?", "Formations sécurité ?", "Aides au levage ?", "Rétention produits ?", "SST présents ?", "Arrêts d'urgence ?", "Ergonomie postes ?"];
+        let qIdx = 0, score = 0;
+
+        function startApp() { document.getElementById('splash').style.display='none'; }
+        
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             el.classList.add('active');
+            if(id === 'page-metiers') renderMetiers();
         }
 
         function searchProduct(v) {
             const res = document.getElementById('res-area');
             const k = v.trim();
             const pList = document.getElementById('picto-list');
-            res.classList.remove('d-none');
+            const gBtn = document.getElementById('google-btn');
+            
             pList.innerHTML = "";
+            res.classList.remove('d-none');
             
             if(db[k]) {
                 document.getElementById('res-n').innerText = db[k].n;
                 document.getElementById('res-d').innerText = db[k].d;
                 document.getElementById('res-p').innerText = db[k].p;
-                
-                // Affichage des pictos SGH
-                db[k].pictos.forEach(pKey => {
-                    pList.innerHTML += `<img src="${ghsMap[pKey]}" class="ghs-picto" alt="${pKey}">`;
-                });
-
-                const url = "https://www.google.com/search?q=" + encodeURIComponent(db[k].n + " FDS PDF");
-                document.getElementById('fds-action').innerHTML = `<a href="${url}" target="_blank" class="btn btn-outline-primary w-100 fw-bold">CONSULTER LA FDS COMPLÈTE</a>`;
-            } else {
-                // PRODUIT INCONNU : LIEN GOOGLE AUTOMATIQUE
+                db[k].pictos.forEach(p => pList.innerHTML += `<img src="${ghsMap[p]}" class="ghs-picto">`);
+                const link = "https://www.google.com/search?q="+encodeURIComponent(db[k].n + " FDS PDF");
+                gBtn.innerHTML = `<a href="${link}" target="_blank" class="btn btn-primary w-100 rounded-pill">VOIR FDS COMPLÈTE</a>`;
+            } else if(v.length > 5) {
                 document.getElementById('res-n').innerText = "Produit : " + v;
-                document.getElementById('res-d').innerText = "Non répertorié localement.";
-                document.getElementById('res-p').innerText = "Référez-vous aux pictogrammes présents sur l'étiquette réelle du produit.";
-                const url = "https://www.google.com/search?q=" + encodeURIComponent(v + " FDS PDF");
-                document.getElementById('fds-action').innerHTML = `<a href="${url}" target="_blank" class="btn btn-warning w-100 fw-bold text-white"><i class="fa-solid fa-search me-2"></i>CHERCHER FDS SUR GOOGLE</a>`;
+                document.getElementById('res-d').innerText = "Inconnu en base locale.";
+                document.getElementById('res-p').innerText = "Vérifiez les pictogrammes sur l'étiquette.";
+                const link = "https://www.google.com/search?q="+encodeURIComponent(v + " FDS PDF");
+                gBtn.innerHTML = `<a href="${link}" target="_blank" class="btn btn-warning w-100 text-white rounded-pill">CHERCHER LA FDS SUR GOOGLE</a>`;
             }
         }
+
+        function renderMetiers(filter = "") {
+            const list = document.getElementById('metiers-list');
+            list.innerHTML = "";
+            metiersData.filter(m => m.m.toLowerCase().includes(filter.toLowerCase())).forEach((m, idx) => {
+                list.innerHTML += `
+                    <div class="card-custom" onclick="openJob(${idx})">
+                        <span class="vlep-badge">${m.vlep}</span>
+                        <b class="fs-5">${m.m}</b><br>
+                        <small class="text-muted">Cliquez pour voir les risques...</small>
+                    </div>`;
+            });
+        }
+
+        function openJob(idx) {
+            const m = metiersData[idx];
+            document.getElementById('job-content').innerHTML = `
+                <div class="card-custom" style="border-left-width: 10px;">
+                    <h2 class="fw-bold text-primary">${m.m}</h2>
+                    <span class="badge bg-danger mb-3 p-2">VLEP : ${m.vlep}</span>
+                    <h6 class="fw-bold">RISQUES</h6><p class="small text-muted">${m.r}</p>
+                    <div class="bg-light p-3 rounded-4 mt-2 border-start border-success border-4">
+                        <h6 class="fw-bold text-success">CONSEILS RESTEV</h6>
+                        <p class="small mb-0" style="white-space:pre-line">${m.p}</p>
+                    </div>
+                </div>`;
+            document.getElementById('job-modal').style.display = 'block';
+        }
+        function closeJob() { document.getElementById('job-modal').style.display = 'none'; }
+
+        function answer(v) {
+            score += v;
+            if(qIdx < 9) { qIdx++; updateQ(); }
+            else {
+                document.getElementById('diag-container').classList.add('d-none');
+                document.getElementById('diag-result').classList.remove('d-none');
+                document.getElementById('final-score').innerText = score + "/10";
+                document.getElementById('diag-advice').innerText = score > 7 ? "Excellent niveau !" : "Contactez RESTEV 85 pour un audit.";
+            }
+        }
+        function updateQ() {
+            document.getElementById('q-text').innerText = questions[qIdx];
+            document.getElementById('q-idx').innerText = qIdx + 1;
+        }
+        function resetDiag() { qIdx = 0; score = 0; document.getElementById('diag-container').classList.remove('d-none'); document.getElementById('diag-result').classList.add('d-none'); updateQ(); }
 
         let scanner;
         function toggleCamera() {
             const r = document.getElementById('reader');
-            if(r.style.display === 'none') {
-                r.style.display = 'block';
-                scanner = new Html5Qrcode("reader");
-                scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
-                    searchProduct(txt);
-                    scanner.stop();
-                    r.style.display = 'none';
-                });
-            }
+            r.style.display = 'block';
+            scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
+                searchProduct(txt);
+                scanner.stop();
+                r.style.display = 'none';
+            });
         }
     </script>
 </body>
