@@ -5,233 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --blue: #2c5da7; --green: #8ec641; --violet: #a74b9e; --dark: #1e293b; }
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', system-ui; color: var(--dark); margin-bottom: 80px; }
-        
-        /* --- NAVIGATION --- */
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--green); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #64748b; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; }
+        :root { --blue: #2c5da7; --green: #8ec641; --violet: #a74b9e; --danger: #dc2626; }
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', sans-serif; margin-bottom: 80px; }
+        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--green); position: sticky; top: 0; z-index: 1000; }
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { border: none; background: none; color: #64748b; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: var(--blue); font-weight: bold; }
-        .nav-item i { font-size: 1.4rem; margin-bottom: 4px; }
-
-        /* --- PAGES --- */
-        .app-page { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
+        .app-page { display: none; padding: 20px; animation: fadeIn 0.3s; }
         .active-page { display: block !important; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* --- COMPONENTS --- */
-        .card-custom { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-left: 5px solid var(--blue); }
-        .btn-action { background: var(--blue); color: white; border-radius: 12px; padding: 15px; width: 100%; font-weight: bold; border: none; margin-bottom: 10px; }
-        .expert-badge { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
-        
-        /* SCANNER */
-        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: black; margin-bottom: 15px; }
-        .sds-guide-box { background: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 10px; font-size: 0.9rem; }
-        
-        /* SPLASH SCREEN */
-        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 100%); z-index: 9999; display: flex; flex-direction: center; align-items: center; justify-content: center; color: white; text-align: center; }
+        .card-expert { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 6px solid var(--blue); }
+        .picto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .picto-btn { border: 1px solid #ddd; border-radius: 10px; padding: 10px; background: white; transition: 0.2s; cursor: pointer; }
+        .picto-btn:active { transform: scale(0.9); background: #f8fafc; }
+        .vlep-badge { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="splash">
-        <div>
-            <div style="background:white; padding:20px; border-radius:25px; display:inline-block; margin-bottom:20px;">
-                <h1 style="color:var(--blue); margin:0; font-weight:900;">RESTEV 85</h1>
-            </div>
-            <h3>SANTÉ AU TRAVAIL</h3>
-            <p>La Roche • Les Essarts • Montaigu • Herbiers</p>
-            <button class="btn btn-light mt-4 rounded-pill px-5 fw-bold" onclick="startApp()">ENTRER</button>
-        </div>
-    </div>
-
-    <div class="app-header">
-        <span class="fw-bold" style="color:var(--blue)">RESTEV 85</span> <span class="text-muted">| Prévention Active</span>
-    </div>
+    <div class="app-header"><b style="color:var(--blue)">RESTEV 85</b> <small>V. Expert 2026</small></div>
 
     <div id="page-home" class="app-page active-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-magnifying-glass-chart"></i> Identification Produit</h5>
-        <div id="reader" style="display:none"></div>
-        <button id="btn-scan" class="btn-action" onclick="toggleCamera()"><i class="fa-solid fa-camera"></i> ACTIVER LE SCANNER</button>
-        
-        <div class="input-group mb-4">
-            <input type="text" id="manualInput" class="form-control border-primary" placeholder="Code-barres ou nom..." onkeyup="searchProduct(this.value)">
-            <button class="btn btn-primary" onclick="searchProduct(document.getElementById('manualInput').value)">OK</button>
-        </div>
-
-        <div id="res-area" class="d-none">
-            <div class="card-custom">
-                <span class="expert-badge">Fiche Produit</span>
-                <h4 id="res-n" class="mt-2 fw-bold text-danger"></h4>
-                <p id="res-d" class="small text-muted"></p>
-                <div class="p-3 bg-light rounded-3">
-                    <b class="text-success small">🛡️ PRÉVENTION RESTEV :</b>
-                    <p id="res-p" class="small mb-0" style="white-space: pre-line;"></p>
-                </div>
-                <div id="google-btn" class="mt-3"></div>
+        <h5 class="fw-bold"><i class="fa-solid fa-triangle-exclamation"></i> Décodeur de Risque</h5>
+        <div class="card-expert" style="border-left-color: var(--violet);">
+            <p class="small mb-2">Cliquez sur un symbole pour la <b>Règle d'Or</b> :</p>
+            <div class="picto-grid">
+                <div class="picto-btn" onclick="showRule('🔥 INFLAMMABLE', 'Écarter toute source d\'étincelle. Stocker en armoire coupe-feu ventilée.')">🔥</div>
+                <div class="picto-btn" onclick="showRule('💀 TOXIQUE', 'Danger de mort immédiat. Port du masque à cartouche et gants étanches obligatoire.')">💀</div>
+                <div class="picto-btn" onclick="showRule('🧪 CORROSIF', 'Attaque les tissus. Visière faciale et douche de sécurité à < 10m.')">🧪</div>
+                <div class="picto-btn" onclick="showRule('❗ IRRITANT', 'Risque d\'allergie ou eczéma. Ventilation forcée et crème barrière.')">❗</div>
+                <div class="picto-btn" onclick="showRule('🫁 CANCÉROGÈNE', 'Effet long terme (CMR). Substitution prioritaire. Suivi médical renforcé.')">🫁</div>
+                <div class="picto-btn" onclick="showRule('🐟 POLLUANT', 'Ne pas jeter à l\'égout. Utilisation de bacs de rétention obligatoire.')">🐟</div>
+            </div>
+            <div id="rule-display" class="mt-3 p-3 bg-light rounded d-none">
+                <b id="rule-title" class="text-primary small"></b><br><span id="rule-text" class="small"></span>
             </div>
         </div>
 
-        <div class="card-custom" style="border-left-color: var(--violet);">
-            <h5><i class="fa-solid fa-book-open"></i> Aide Lecture FDS</h5>
-            <p class="small">Comment lire une Fiche de Données de Sécurité ?</p>
-            <div class="sds-guide-box">
-                <b>Sec. 2 :</b> Dangers (Pictogrammes)<br>
-                <b>Sec. 4 :</b> Secours (Urgence)<br>
-                <b>Sec. 8 :</b> EPI (Le type de GANTS exact)
+        <h5 class="fw-bold mt-4"><i class="fa-solid fa-barcode"></i> Vérification Produit</h5>
+        <input type="text" id="manualInput" class="form-control mb-3" placeholder="Ex: 3077316291191" onkeyup="searchExpert(this.value)">
+        <div id="res-expert" class="d-none">
+            <div class="card-expert" style="border-left-color: var(--danger);">
+                <h6 id="exp-n" class="fw-bold text-danger"></h6>
+                <div class="small mt-2">
+                    <b>Incompatibilité :</b> <span id="exp-inc" class="text-muted"></span><br>
+                    <b>EPI Normé :</b> <span id="exp-epi" class="text-primary fw-bold"></span>
+                </div>
+                <div id="google-link" class="mt-3"></div>
             </div>
         </div>
     </div>
 
     <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-helmet-safety"></i> Fiches Métiers (30)</h5>
-        <input type="text" class="form-control mb-3" placeholder="Chercher un métier..." onkeyup="filterMetiers(this.value)">
-        <div id="metiers-list"></div>
-    </div>
-
-    <div id="page-diag" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-check"></i> Auto-Évaluation</h5>
-        <div id="diag-container" class="card-custom">
-            <p id="q-text" class="fw-bold"></p>
-            <button class="btn btn-outline-primary w-100 mb-2" onclick="answer(1)">OUI / CONFORME</button>
-            <button class="btn btn-outline-secondary w-100" onclick="answer(0)">NON / À AMÉLIORER</button>
-            <div class="text-center mt-3 small text-muted">Question <span id="q-idx">1</span>/10</div>
-        </div>
-        <div id="diag-result" class="d-none text-center">
-            <h2 id="final-score"></h2>
-            <p id="diag-advice"></p>
-            <button class="btn btn-primary" onclick="resetDiag()">Recommencer</button>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-user-gear"></i> Référentiel VLEP & Métiers</h5>
+        <div id="metiers-expert"></div>
     </div>
 
     <div class="nav-bottom">
-        <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-barcode"></i>Scan</button>
-        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-briefcase"></i>Métiers</button>
-        <button class="nav-item" onclick="nav('page-diag', this)"><i class="fa-solid fa-check-double"></i>Diagnostic</button>
+        <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-shield-halved"></i>Risques</button>
+        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-vial-circle-check"></i>VLEP Métiers</button>
     </div>
 
     <script>
-        // --- DATA ---
-        const db = {
+        const dbExpert = {
             "3077316291191": { 
-                n: "White Spirit (Distillats)", 
-                d: "H226: Inflammable. H304: Mortel en cas d'ingestion. H336: Somnolence.", 
-                p: "• GANTS: Nitrile (EN374) uniquement.\n• VENTILATION: Travail extérieur ou aspiration forcée.\n• INTERDIT: Ne jamais transvaser dans une bouteille d'eau." 
-            },
-            "3021000000000": { 
-                n: "Destop (Soude)", 
-                d: "H314: Provoque des brûlures de la peau et des lésions oculaires graves.", 
-                p: "• EPI: Visière faciale + Gants PVC longs.\n• URGENCE: Rince-œil à proximité immédiate.\n• STOCKAGE: Armoire de sécurité, séparé des acides." 
+                n: "White Spirit (Expert)", 
+                inc: "Oxydants, Acides forts, Javel.", 
+                epi: "Gants NITRILE (EN374-3) épaisseur > 0.4mm. Temps de passage : 480 min." 
             }
         };
 
-        const metiers = [
-            {m:"Maçon", r:"Silice, TMS", p:"Humidification, levage méca."},
-            {m:"Menuisier", r:"Poussières bois (CMR)", p:"Aspiration 20m/s, FFP3."},
-            {m:"Peintre", r:"Solvants, Chutes", p:"Nitrile, PIRL, sans COV."},
-            {m:"Plaquiste", r:"TMS, Poussières", p:"Lève-plaque, aspirateur M."},
-            {m:"Soudeur", r:"Fumées, UV", p:"Torche aspirante, cagoule."},
-            {m:"Carrossier", r:"Isocyanates", p:"Cabine, adduction d'air."},
-            {m:"Infirmier", r:"AES, TMS", p:"Matériel sécu, aide levage."},
-            {m:"Agent Propreté", r:"Chimique", p:"Doseur, pas de mélanges."},
-            {m:"Cuisinier", r:"Chaleur, Coupures", p:"Gants maille, sol sec."},
-            {m:"Boulanger", r:"Farine (Asthme)", p:"Pas de balayette, aspiration."},
-            {m:"Mécanicien", r:"Huiles, Heurts", p:"Nitrile, chaussures S3."},
-            {m:"Électricien", r:"Arc électrique", p:"Outils isolés, VAT."},
-            {m:"Couvreur", r:"Chute hauteur", p:"Garde-corps, harnais."},
-            {m:"Cariste", r:"Heurts, Vibrations", p:"Plan circulation, siège sus."},
-            {m:"Vétérinaire", r:"Zoonoses, Morsures", p:"Contention, gants cuir."},
-            {m:"Maraîcher", r:"Phyto, UV", p:"Combi étanche, crème UV."},
-            {m:"Coiffeur", r:"Allergies, TMS", p:"Gants Vinyle, tabouret."},
-            {m:"Logisticien", r:"TMS, Chutes", p:"Formation PRAP, convoyeur."},
-            {m:"Secrétaire", r:"Sédentarité", p:"Ergonomie poste, pauses."},
-            {m:"Boucher", r:"Coupures", p:"Tablier inox, couteau garde."}
-            // ... étendre à 30 facilement
+        const metiersVlep = [
+            {m:"Menuisier", vlep:"Bois: 1 mg/m³ (8h)", p:"Aspiration forcée > 20 m/s. Mesurage annuel obligatoire."},
+            {m:"Maçon", vlep:"Silice: 0.1 mg/m³", p:"Travail à l'humide. Masque FFP3 pour toute découpe."},
+            {m:"Peintre", vlep:"Benzène: 0.66 mg/m³", p:"Priorité aux peintures A+. Masque A2P3 si solvants."},
+            {m:"Soudeur", vlep:"Manganèse: 0.2 mg/m³", p:"Captage à la source. Torche aspirante obligatoire."},
+            {m:"Carrossier", vlep:"Isocyanates: 0.02 mg/m³", p:"Aspiration cabine 0.5 m/s. Masque adduction d'air."}
         ];
 
-        const questions = ["DUERP à jour ?", "FDS disponibles ?", "EPI portés ?", "Captage fumées ok ?", "Formations sécu ok ?", "Aides au levage ?", "Stockage rétention ?", "SST présents ?", "Arrêts d'urgence ?", "Eclairage conforme ?"];
-        let qIdx = 0, score = 0;
-
-        // --- LOGIQUE ---
-        function startApp() { document.getElementById('splash').style.display='none'; }
-        
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             el.classList.add('active');
-            if(id === 'page-diag') resetDiag();
-            if(id === 'page-metiers') renderMetiers();
+            if(id === 'page-metiers') renderMetiersExpert();
         }
 
-        let scanner;
-        function toggleCamera() {
-            const r = document.getElementById('reader');
-            if(r.style.display === 'none') {
-                r.style.display = 'block';
-                scanner = new Html5Qrcode("reader");
-                scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
-                    searchProduct(txt);
-                    scanner.stop();
-                    r.style.display = 'none';
-                    document.getElementById('btn-scan').style.display='block';
-                });
-                document.getElementById('btn-scan').style.display='none';
-            }
+        function showRule(title, text) {
+            const d = document.getElementById('rule-display');
+            document.getElementById('rule-title').innerText = title;
+            document.getElementById('rule-text').innerText = text;
+            d.classList.remove('d-none');
         }
 
-        function searchProduct(v) {
-            const res = document.getElementById('res-area');
-            const k = v.trim();
-            if(db[k]) {
-                document.getElementById('res-n').innerText = db[k].n;
-                document.getElementById('res-d').innerText = db[k].d;
-                document.getElementById('res-p').innerText = db[k].p;
-                const link = "https://www.google.com/search?q="+encodeURIComponent(db[k].n + " FDS filetype:pdf");
-                document.getElementById('google-btn').innerHTML = `<a href="${link}" target="_blank" class="btn btn-outline-primary w-100 btn-sm">📄 Consulter FDS complète</a>`;
+        function searchExpert(v) {
+            const res = document.getElementById('res-expert');
+            if(dbExpert[v]) {
+                document.getElementById('exp-n').innerText = dbExpert[v].n;
+                document.getElementById('exp-inc').innerText = dbExpert[v].inc;
+                document.getElementById('exp-epi').innerText = dbExpert[v].epi;
+                const link = "https://www.google.com/search?q="+encodeURIComponent(dbExpert[v].n + " FDS filetype:pdf");
+                document.getElementById('google-link').innerHTML = `<a href="${link}" target="_blank" class="btn btn-sm btn-danger w-100">Ouvrir la FDS (PDF Constructeur)</a>`;
                 res.classList.remove('d-none');
-            } else if(v.length > 3) {
-                document.getElementById('res-n').innerText = "Produit : " + v;
-                document.getElementById('res-d').innerText = "Non répertorié en base locale.";
-                document.getElementById('res-p').innerText = "Vérifiez les pictogrammes sur l'emballage.";
-                const link = "https://www.google.com/search?q="+encodeURIComponent(v + " FDS filetype:pdf");
-                document.getElementById('google-btn').innerHTML = `<a href="${link}" target="_blank" class="btn btn-warning w-100 btn-sm text-white">🚀 Chercher sur Google FDS</a>`;
-                res.classList.remove('d-none');
-            }
+            } else { res.classList.add('d-none'); }
         }
 
-        function renderMetiers(filter = "") {
-            const list = document.getElementById('metiers-list');
+        function renderMetiersExpert() {
+            const list = document.getElementById('metiers-expert');
             list.innerHTML = "";
-            metiers.filter(m => m.m.toLowerCase().includes(filter.toLowerCase())).forEach(m => {
-                list.innerHTML += `<div class="card-custom"><b>${m.m}</b><br><small class="text-danger">Risque: ${m.r}</small><br><small class="text-success">Prév: ${m.p}</small></div>`;
+            metiersVlep.forEach(m => {
+                list.innerHTML += `
+                    <div class="card-expert">
+                        <div class="d-flex justify-content-between"><b>${m.m}</b> <span class="vlep-badge">${m.vlep}</span></div>
+                        <p class="small mt-2 text-muted"><b>Prévention :</b> ${m.p}</p>
+                    </div>`;
             });
-        }
-        function filterMetiers(v) { renderMetiers(v); }
-
-        function resetDiag() {
-            qIdx = 0; score = 0;
-            document.getElementById('diag-container').classList.remove('d-none');
-            document.getElementById('diag-result').classList.add('d-none');
-            updateQ();
-        }
-        function updateQ() {
-            document.getElementById('q-text').innerText = questions[qIdx];
-            document.getElementById('q-idx').innerText = qIdx + 1;
-        }
-        function answer(v) {
-            score += v;
-            if(qIdx < 9) { qIdx++; updateQ(); }
-            else {
-                document.getElementById('diag-container').classList.add('d-none');
-                document.getElementById('diag-result').classList.remove('d-none');
-                document.getElementById('final-score').innerText = score + "/10";
-                document.getElementById('diag-advice').innerText = score > 7 ? "Excellent niveau de prévention !" : "Contactez RESTEV 85 pour un accompagnement.";
-            }
         }
     </script>
 </body>
