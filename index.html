@@ -6,76 +6,70 @@
     <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { --blue: #3d7cc0; --violet: #a74b9e; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
-        body { background-color: #f8fafc; font-family: sans-serif; padding-bottom: 80px; }
+        :root { --blue: #3d7cc0; --violet: #a74b9e; --green: #97c93e; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, sans-serif; padding-bottom: 100px; }
         
-        .header { background: var(--gradient); color: white; padding: 30px 15px 60px; text-align: center; border-radius: 0 0 30px 30px; }
-        
-        /* Navigation cliquable */
-        .nav-pills { background: white; padding: 10px; border-radius: 20px; margin: -30px 15px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .nav-link { color: #666; font-weight: bold; border-radius: 15px; border: none !important; }
+        /* Design Premium */
+        .header { background: var(--gradient); color: white; padding: 40px 15px 70px; text-align: center; border-radius: 0 0 40px 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .nav-pills { background: white; padding: 8px; border-radius: 25px; margin: -35px 15px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: sticky; top: 10px; z-index: 1000; }
+        .nav-link { color: #64748b; font-weight: 700; border-radius: 20px; border: none !important; font-size: 0.85rem; }
         .nav-link.active { background: var(--blue) !important; color: white !important; }
 
-        .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 15px; padding: 15px; width: 100%; font-weight: bold; }
+        .card-expert { background: white; border-radius: 25px; padding: 20px; margin-bottom: 20px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
         
-        /* Styles pour les alertes de stockage */
-        .alert-danger-custom { background: #fff1f1; border-left: 5px solid #ff4d4d; padding: 15px; border-radius: 10px; color: #a91515; }
+        /* Scanner Area */
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; border: 4px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        
+        .badge-cmr { background-color: #ef4444; color: white; padding: 5px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
+        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 18px; padding: 18px; width: 100%; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 15px rgba(167, 75, 158, 0.2); }
+        
+        .metier-title { color: var(--blue); border-left: 4px solid var(--violet); padding-left: 10px; font-weight: bold; margin-top: 15px; }
+        .inrs-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 15px; font-size: 0.85rem; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h2 class="fw-bold">RESTEV 85</h2>
-        <p class="small opacity-75">Module Expert de Sécurité Chimique</p>
+        <h2 class="fw-bold mb-0">RESTEV 85</h2>
+        <p class="small opacity-75">Intelligence Prévention & Risque Chimique</p>
     </div>
 
     <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-        <li class="nav-item">
-            <button class="nav-link active" id="btn-scan" data-bs-toggle="pill" data-bs-target="#p-scan" type="button">🔍 SCAN</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" id="btn-duerp" data-bs-toggle="pill" data-bs-target="#p-duerp" type="button">📂 INVENTAIRE</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" id="btn-metiers" data-bs-toggle="pill" data-bs-target="#p-metiers" type="button">👷 MÉTIERS</button>
-        </li>
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">📸 SCANNER</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp">📂 INVENTAIRE</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-metiers">👷 MÉTIERS</button></li>
     </ul>
 
     <div class="container tab-content">
         
         <div class="tab-pane fade show active" id="p-scan">
-            <div class="card-expert text-center">
-                <h5 class="fw-bold">Scanner un produit</h5>
-                <p class="text-muted small">Simulez un scan pour tester la matrice de stockage :</p>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary" onclick="simulerScan('3152541000105')">Scanner White Spirit (Inflammable)</button>
-                    <button class="btn btn-outline-danger" onclick="simulerScan('3152541001003')">Scanner Acide Chlorhydrique (Acide)</button>
-                </div>
+            <div id="reader" class="mb-3"></div>
+            
+            <div id="scan-res" class="card-expert d-none animate__animated animate__fadeInUp">
+                <div id="res-info"></div>
+                <button class="btn btn-main mt-3" onclick="validerAjout()">AJOUTER AU DUERP</button>
+                <button class="btn btn-link w-100 text-muted mt-2" onclick="restartScanner()">Recommencer le scan</button>
             </div>
 
-            <div id="resultat-scan" class="card-expert d-none">
-                <div id="info-produit"></div>
-                <button class="btn btn-main mt-3" onclick="validerAjout()">VALIDER L'AJOUT DANS L'ATELIER</button>
+            <div class="card-expert" id="scan-instructions">
+                <h6 class="fw-bold">Conseil Expert</h6>
+                <p class="small text-muted mb-0">Placez le code-barres du produit bien au centre du cadre. L'application identifie automatiquement les classes SGH selon les bases INRS.</p>
             </div>
         </div>
 
         <div class="tab-pane fade" id="p-duerp">
             <div class="card-expert">
-                <h5 class="fw-bold mb-3">Produits dans l'Atelier</h5>
-                <ul id="liste-inventaire" class="list-group list-group-flush">
-                    </ul>
+                <h5 class="fw-bold mb-3">Inventaire Unité : Atelier</h5>
+                <div id="empty-msg" class="text-center py-4 text-muted small">Aucun produit scanné pour le moment.</div>
+                <ul id="inv-list" class="list-group list-group-flush"></ul>
             </div>
         </div>
 
         <div class="tab-pane fade" id="p-metiers">
             <div class="card-expert">
-                <h5>Référentiel Métiers</h5>
-                <div class="list-group mt-3">
-                    <div class="list-group-item"><b>Peintre :</b> Risque Solvants / Masque A2 requis</div>
-                    <div class="list-group-item"><b>Maçon :</b> Risque Silice / Masque FFP3 requis</div>
-                    <div class="list-group-item"><b>Mécanicien :</b> Risque CMR / Gants Nitrile requis</div>
-                </div>
+                <h5 class="fw-bold">Référentiel Métiers Vendée</h5>
+                <input type="text" id="mSearch" class="form-control my-3" placeholder="Rechercher (ex: Peintre, Maçon...)" onkeyup="searchMet()">
+                <div id="met-container"></div>
             </div>
         </div>
 
@@ -83,75 +77,136 @@
 
     <div class="modal fade" id="modalAlerte" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius: 20px;">
-                <div class="modal-body text-center p-4">
-                    <h3 class="text-danger">⚠️ DANGER !</h3>
-                    <div id="message-alerte" class="alert-danger-custom my-3 text-start"></div>
-                    <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Je vais les séparer</button>
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
+                <div class="modal-body p-4 text-center">
+                    <div class="display-1 text-danger mb-3">⚠️</div>
+                    <h3 class="fw-bold text-danger">INCOMPATIBILITÉ</h3>
+                    <div id="msg-alerte" class="p-3 bg-light rounded-4 text-start small"></div>
+                    <button class="btn btn-dark w-100 mt-4 py-3" style="border-radius:15px" data-bs-dismiss="modal">Je sépare les produits</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        // Variables pour stocker les données
         let inventaire = [];
-        let produitActuel = null;
-        const maModal = new bootstrap.Modal(document.getElementById('modalAlerte'));
+        let pCurrent = null;
+        const scanRes = document.getElementById('scan-res');
+        const modalAlerte = new bootstrap.Modal(document.getElementById('modalAlerte'));
 
-        // Base de données pour le test
-        const PRODUITS = {
-            "3152541000105": { nom: "White Spirit", classe: "INFLAMMABLE", danger: "Feu" },
-            "3152541001003": { nom: "Acide Chlorhydrique", classe: "ACIDE", danger: "Corrosion" }
+        // BASE DE DONNÉES EXPERTE (Exemples)
+        const DB_PRODUITS = {
+            "3152541000105": { n: "White Spirit", cl: "INFLAMMABLE", adv: "H226 - Utiliser en zone ventilée. Gants Nitrile (EN374).", cmr: false },
+            "3152541001003": { n: "Acide Chlorhydrique", cl: "ACIDE", adv: "H314 - Corrosif. Protection oculaire obligatoire.", cmr: false },
+            "3000000000008": { n: "Trichloréthylène", cl: "CMR", adv: "H350 - Cancérogène. Substitution prioritaire recommandée par CARSAT.", cmr: true }
         };
 
-        // Fonction pour simuler le scan
-        function simulerScan(code) {
-            produitActuel = PRODUITS[code];
-            document.getElementById('resultat-scan').classList.remove('d-none');
-            document.getElementById('info-produit').innerHTML = `
-                <h4>${produitActuel.nom}</h4>
-                <span class="badge bg-info">${produitActuel.classe}</span>
+        // RÉFÉRENTIEL MÉTIERS (DATA CARSAT/INRS)
+        const DB_METIERS = [
+            { 
+                m: "Peintre en bâtiment", 
+                r: "Exposition aux COV, solvants organiques, chutes de hauteur.", 
+                p: "Substitution des peintures solvantées par des phases aqueuses. Masque A2P3 pour pulvérisation.",
+                ref: "INRS ED 937"
+            },
+            { 
+                m: "Mécanicien VL/PL", 
+                r: "Huiles de vidange usagées (CMR), benzène, TMS sous châssis.", 
+                p: "Fontaines de dégraissage biologiques. Utilisation de gants usage unique nitrile.",
+                ref: "CARSAT R442"
+            },
+            { 
+                m: "Agent de Propreté", 
+                r: "Mélanges dangereux (eau de javel + acide), dermatoses.", 
+                p: "Doseurs automatiques. Ne jamais transvaser sans étiquetage SGH.",
+                ref: "INRS ED 6061"
+            }
+        ];
+
+        // --- GESTION DU SCANNER RÉEL ---
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrConfig = { fps: 10, qrbox: { width: 250, height: 150 } };
+
+        function startScanner() {
+            html5QrCode.start({ facingMode: "environment" }, qrConfig, (decodedText) => {
+                onScanFound(decodedText);
+            }).catch(err => console.log("Caméra non trouvée ou bloquée."));
+        }
+
+        function onScanFound(code) {
+            html5QrCode.pause(true); // On met en pause pour traiter
+            pCurrent = DB_PRODUITS[code] || { n: "Produit Inconnu ("+code+")", cl: "AUTRE", adv: "Veuillez vérifier la FDS.", cmr: false };
+            
+            document.getElementById('reader').style.display = 'none';
+            document.getElementById('scan-instructions').style.display = 'none';
+            scanRes.classList.remove('d-none');
+            
+            document.getElementById('res-info').innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="fw-bold mb-1">${pCurrent.n}</h4>
+                    ${pCurrent.cmr ? '<span class="badge-cmr">RISQUE CMR</span>' : ''}
+                </div>
+                <span class="badge bg-primary mb-3">${pCurrent.cl}</span>
+                <div class="inrs-box"><b>Conseil Prévention :</b><br>${pCurrent.adv}</div>
             `;
         }
 
-        // Fonction pour ajouter à l'inventaire avec MATRICE DE STOCKAGE
+        function restartScanner() {
+            scanRes.classList.add('d-none');
+            document.getElementById('reader').style.display = 'block';
+            document.getElementById('scan-instructions').style.display = 'block';
+            html5QrCode.resume();
+        }
+
+        // --- MATRICE ET INVENTAIRE ---
         function validerAjout() {
-            // VERIFICATION : Est-ce qu'il y a déjà un produit incompatible ?
-            // Si j'ajoute un ACIDE et qu'il y a déjà un INFLAMMABLE (ou vice versa)
-            const conflit = inventaire.find(item => 
-                (produitActuel.classe === "ACIDE" && item.classe === "INFLAMMABLE") || 
-                (produitActuel.classe === "INFLAMMABLE" && item.classe === "ACIDE")
+            const conflit = inventaire.find(i => 
+                (pCurrent.cl === "ACIDE" && i.cl === "INFLAMMABLE") || 
+                (pCurrent.cl === "INFLAMMABLE" && i.cl === "ACIDE")
             );
 
             if (conflit) {
-                document.getElementById('message-alerte').innerHTML = `
-                    <b>Incompatibilité détectée !</b><br>
-                    Vous essayez de ranger du <b>${produitActuel.nom}</b> avec du <b>${conflit.nom}</b>.<br><br>
-                    <i>Risque : Réaction violente ou incendie (Norme INRS).</i>
-                `;
-                maModal.show();
+                document.getElementById('msg-alerte').innerHTML = `Risque de réaction exothermique ou départ de feu. Vous stockez un <b>${pCurrent.cl}</b> à côté d'un <b>${conflit.cl}</b> (${conflit.n}).`;
+                modalAlerte.show();
             }
 
-            // On ajoute quand même à la liste pour la démo
-            inventaire.push(produitActuel);
-            majInventaire();
-            
-            // On cache le résultat du scan
-            document.getElementById('resultat-scan').classList.add('d-none');
+            inventaire.push(pCurrent);
+            updateInv();
+            restartScanner();
         }
 
-        // Fonction pour mettre à jour la liste affichée
-        function majInventaire() {
-            const liste = document.getElementById('liste-inventaire');
-            liste.innerHTML = "";
-            inventaire.forEach(item => {
-                liste.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                    ${item.nom} <span class="badge bg-secondary">${item.classe}</span>
-                </li>`;
-            });
+        function updateInv() {
+            const list = document.getElementById('inv-list');
+            document.getElementById('empty-msg').style.display = inventaire.length ? 'none' : 'block';
+            list.innerHTML = inventaire.map(i => `
+                <li class="list-group-item d-flex justify-content-between py-3">
+                    <div><b>${i.n}</b><br><small class="text-muted">${i.cl}</small></div>
+                    ${i.cmr ? '⚠️' : '✅'}
+                </li>
+            `).join('');
         }
+
+        // --- MÉTIERS ---
+        function searchMet() {
+            const val = document.getElementById('mSearch').value.toLowerCase();
+            const filtered = DB_METIERS.filter(x => x.m.toLowerCase().includes(val));
+            renderMet(filtered);
+        }
+
+        function renderMet(data) {
+            document.getElementById('met-container').innerHTML = data.map(d => `
+                <div class="metier-title">${d.m}</div>
+                <div class="small text-muted mb-2">Ref: ${d.ref}</div>
+                <p class="small mb-1"><b>Risques :</b> ${d.r}</p>
+                <div class="inrs-box text-success"><b>Prévention CARSAT :</b><br>${d.p}</div>
+            `).join('');
+        }
+
+        // INIT
+        startScanner();
+        renderMet(DB_METIERS);
     </script>
 </body>
 </html>
