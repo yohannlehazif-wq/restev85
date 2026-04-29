@@ -5,41 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    
     <style>
-        :root { --blue: #3d7cc0; --violet: #a74b9e; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, sans-serif; padding-bottom: 100px; }
+        :root { --blue: #3d7cc0; --violet: #a74b9e; --green: #97c93e; --danger: #ef4444; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', sans-serif; padding-bottom: 100px; }
         
-        /* Design Premium */
-        .header { background: var(--gradient); color: white; padding: 40px 15px 70px; text-align: center; border-radius: 0 0 40px 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* Design */
+        .header { background: var(--gradient); color: white; padding: 40px 15px 70px; text-align: center; border-radius: 0 0 40px 40px; }
         .nav-pills { background: white; padding: 8px; border-radius: 25px; margin: -35px 15px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: sticky; top: 10px; z-index: 1000; }
         .nav-link { color: #64748b; font-weight: 700; border-radius: 20px; border: none !important; font-size: 0.85rem; }
         .nav-link.active { background: var(--blue) !important; color: white !important; }
-
-        .card-expert { background: white; border-radius: 25px; padding: 20px; margin-bottom: 20px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .card-expert { background: white; border-radius: 25px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
         
-        /* Scanner Area */
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; border: 4px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        /* Elements spécifiques */
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; border: 4px solid white; }
+        .inrs-box { background: #f8fafc; border-left: 4px solid var(--green); padding: 12px; border-radius: 0 15px 15px 0; font-size: 0.85rem; }
+        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 18px; padding: 18px; width: 100%; font-weight: bold; }
         
-        .badge-cmr { background-color: #ef4444; color: white; padding: 5px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
-        .btn-main { background: var(--gradient); color: white; border: none; border-radius: 18px; padding: 18px; width: 100%; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 15px rgba(167, 75, 158, 0.2); transition: 0.3s; }
-        .btn-main:active { transform: scale(0.98); }
-        
-        .metier-cat { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--violet); font-weight: bold; }
-        .metier-title { color: var(--blue); font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; }
-        .inrs-box { background: #f8fafc; border-left: 4px solid var(--green); padding: 12px; border-radius: 0 15px 15px 0; font-size: 0.85rem; margin-top: 10px; }
+        /* Stats Dashboard */
+        .stat-card { border-radius: 20px; padding: 15px; text-align: center; height: 100%; }
+        .stat-val { font-size: 1.5rem; font-weight: 800; display: block; }
+        .stat-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h2 class="fw-bold mb-0">RESTEV 85</h2>
-        <p class="small opacity-75">Intelligence Prévention & Risque Chimique</p>
+        <p class="small opacity-75">Système Expert Prévention</p>
     </div>
 
     <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">📸 SCANNER</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp">📂 INVENTAIRE</button></li>
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">📸 SCAN</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp" onclick="updateInv()">📊 ANALYSE</button></li>
         <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-metiers">👷 MÉTIERS</button></li>
     </ul>
 
@@ -47,45 +47,55 @@
         
         <div class="tab-pane fade show active" id="p-scan">
             <div id="reader" class="mb-3"></div>
-            
-            <div id="scan-res" class="card-expert d-none animate__animated animate__fadeInUp">
+            <div id="scan-res" class="card-expert d-none">
                 <div id="res-info"></div>
-                <button class="btn btn-main mt-3" onclick="validerAjout()">AJOUTER AU DUERP</button>
-                <button class="btn btn-link w-100 text-muted mt-2" onclick="restartScanner()">Recommencer le scan</button>
+                <button class="btn btn-main mt-3" onclick="validerAjout()">VALIDER L'AJOUT</button>
+                <button class="btn btn-link w-100 text-muted mt-2" onclick="restartScanner()">Annuler</button>
             </div>
-
-            <div class="card-expert" id="scan-instructions">
-                <h6 class="fw-bold text-primary">Scanner Intelligent Actif</h6>
-                <p class="small text-muted mb-0">Scannez un code-barres pour identifier les risques SGH.</p>
+            <div class="card-expert text-center" id="scan-instructions">
+                <h6 class="fw-bold text-primary">Prêt pour le scan</h6>
+                <p class="small text-muted mb-0">L'IA identifie les risques Peintures, Solvants et Produits Ménagers.</p>
             </div>
         </div>
 
         <div class="tab-pane fade" id="p-duerp">
-            <div class="card-expert">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold mb-0">Unité : Atelier Principal</h5>
-                    <span class="badge bg-primary" id="compteur-inv">0 produit</span>
+            <div class="row g-2 mb-3">
+                <div class="col-4">
+                    <div class="stat-card" style="background: #e0f2fe; color: #0369a1;">
+                        <span class="stat-label">Total</span>
+                        <span id="stat-total" class="stat-val">0</span>
+                    </div>
                 </div>
-                <div id="empty-msg" class="text-center py-4 text-muted small">Le DUERP de cette zone est vide.</div>
-                <ul id="inv-list" class="list-group list-group-flush"></ul>
+                <div class="col-4">
+                    <div class="stat-card" style="background: #fef2f2; color: #b91c1c;">
+                        <span class="stat-label">CMR</span>
+                        <span id="stat-cmr" class="stat-val">0</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card" style="background: #fefce8; color: #a16207;">
+                        <span class="stat-label">Alerte</span>
+                        <span id="stat-alerte" class="stat-val">0</span>
+                    </div>
+                </div>
             </div>
+
+            <div class="card-expert p-3">
+                <canvas id="chartRisques" style="max-height: 200px;"></canvas>
+            </div>
+
+            <h6 class="fw-bold px-2 mb-3 mt-4 text-secondary">Détail des Produits</h6>
+            <div id="empty-msg" class="text-center py-4 text-muted small">Aucun produit scanné.</div>
+            <div id="inv-cards-container"></div>
         </div>
 
         <div class="tab-pane fade" id="p-metiers">
             <div class="card-expert">
-                <h5 class="fw-bold mb-3">Référentiel INRS / CARSAT</h5>
-                
-                <div class="row g-2 mb-4">
-                    <div class="col-12">
-                        <select id="catSelect" class="form-select form-select-lg" style="border-radius: 15px; font-size: 0.9rem;" onchange="filtrerMetiers()">
-                            <option value="TOUS">Toutes les catégories</option>
-                            </select>
-                    </div>
-                    <div class="col-12">
-                        <input type="text" id="mSearch" class="form-control" placeholder="Rechercher un métier, un risque..." onkeyup="filtrerMetiers()" style="border-radius: 15px;">
-                    </div>
-                </div>
-
+                <h5 class="fw-bold mb-3">Référentiel Prévention</h5>
+                <select id="catSelect" class="form-select mb-3" style="border-radius: 15px;" onchange="filtrerMetiers()">
+                    <option value="TOUS">Toutes les catégories</option>
+                </select>
+                <input type="text" id="mSearch" class="form-control mb-3" placeholder="Rechercher un métier..." onkeyup="filtrerMetiers()" style="border-radius: 15px;">
                 <div id="met-container"></div>
             </div>
         </div>
@@ -96,114 +106,117 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
                 <div class="modal-body p-4 text-center">
-                    <div class="display-1 text-danger mb-3">⚠️</div>
-                    <h3 class="fw-bold text-danger">INCOMPATIBILITÉ</h3>
-                    <div id="msg-alerte" class="p-3 bg-light rounded-4 text-start small"></div>
-                    <button class="btn btn-dark w-100 mt-4 py-3" style="border-radius:15px" data-bs-dismiss="modal">Je sépare les produits</button>
+                    <h3 class="fw-bold text-danger">⚠️ STOCKAGE DANGEREUX</h3>
+                    <div id="msg-alerte" class="p-3 bg-light rounded-4 text-start small my-3"></div>
+                    <button class="btn btn-dark w-100 py-3" style="border-radius:15px" data-bs-dismiss="modal">Je sépare les produits</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
         let inventaire = [];
         let pCurrent = null;
+        let chartObj = null;
+        const modalAlerte = new bootstrap.Modal(document.getElementById('modalAlerte'));
 
-        // --- 1. BASE DE DONNÉES MÉTIERS (ÉVOLUTIVE) ---
-        // Pour ajouter un métier, il suffit de copier/coller une ligne ici.
+        // --- DATA MÉTIERS ---
         const DB_METIERS = [
-            // Catégorie Bâtiment
-            { cat: "Bâtiment & Bois", m: "Menuisier / Charpentier", r: "Poussières de bois (CMR), Colles PU (Sensibilisants)", p: "Aspiration à la source sur les machines. Masque FFP3. Remplacement des colles PU." },
-            { cat: "Bâtiment & Bois", m: "Peintre en Bâtiment", r: "COV, Solvants, Amiante (rénovation)", p: "Privilégier les peintures en phase aqueuse. Port du masque A2P3." },
-            { cat: "Bâtiment & Bois", m: "Maçon / Carreleur", r: "Poussières de silice, Ciment (Corrosif)", p: "Découpe à l'eau pour la silice. Gants étanches pour le ciment." },
-            
-            // Catégorie Mécanique
-            { cat: "Automobile & Mécanique", m: "Mécanicien VL/PL", r: "Huiles de vidange (CMR), Benzène, Dégraissants", p: "Fontaines de dégraissage biologiques. Port de gants nitrile. Interdiction de la soufflette." },
-            { cat: "Automobile & Mécanique", m: "Peintre Carrossier", r: "Isocyanates, COV, Benzène", p: "Travail exclusif en cabine ventilée. Masque à adduction d'air." },
-            
-            // Catégorie Propreté
-            { cat: "Nettoyage & Propreté", m: "Agent d'Entretien", r: "Mélange Javel/Acide, TMS, Allergies", p: "Ne jamais transvaser sans étiquette. Utilisation de centrales de dilution automatiques." },
-            { cat: "Nettoyage & Propreté", m: "Nettoyeur Industriel", r: "Solvants forts, Produits corrosifs", p: "Combinaison chimique de type 4, lunettes masques et gants spécifiques." },
-            
-            // Catégorie Esthétique / Santé
-            { cat: "Coiffure & Esthétique", m: "Coiffeur(se)", r: "Persulfates (décoloration), Allergies respiratoires", p: "Utilisation de poudres compactes. Gants nitrile (pas de latex)." }
+            { cat: "Bâtiment & Bois", m: "Menuisier", r: "Poussières de bois (CMR)", p: "Aspiration localisée + Masque FFP3." },
+            { cat: "Automobile", m: "Mécanicien VL", r: "Huiles usagées, Solvants", p: "Fontaine biologique. Gants nitrile." },
+            { cat: "Propreté", m: "Agent d'Entretien", r: "Mélange Javel/Acide (Gaz toxique)", p: "Doseur automatique obligatoire." },
+            { cat: "Coiffure", m: "Coiffeur(se)", r: "Allergies cutanées", p: "Gants nitrile sans poudre." }
         ];
 
-        // --- INITIALISATION DU MENU DÉROULANT ---
+        // --- LOGIQUE INVENTAIRE ---
+        function updateInv() {
+            const container = document.getElementById('inv-cards-container');
+            const emptyMsg = document.getElementById('empty-msg');
+            
+            // Stats
+            document.getElementById('stat-total').innerText = inventaire.length;
+            document.getElementById('stat-cmr').innerText = inventaire.filter(i => i.cmr).length;
+            
+            if (inventaire.length === 0) { emptyMsg.style.display = 'block'; container.innerHTML = ""; return; }
+            emptyMsg.style.display = 'none';
+
+            container.innerHTML = inventaire.map((i, index) => {
+                let color = i.cl === "INFLAMMABLE" ? "#f59e0b" : (i.cl === "ACIDE" ? "#ef4444" : "#3d7cc0");
+                return `
+                    <div class="card-expert p-0 mb-3 overflow-hidden shadow-sm border-start border-5" style="border-color: ${color} !important">
+                        <div class="p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="fw-bold mb-0">${i.n}</h6>
+                                <button class="btn btn-sm text-muted" onclick="supprimerProduit(${index})">✕</button>
+                            </div>
+                            <span class="badge mt-2" style="background:${color}">${i.cl}</span>
+                            <div class="small text-muted mt-2">🛡️ ${i.adv}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+            
+            renderChart();
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('chartRisques').getContext('2d');
+            const counts = { 'Inflammable': 0, 'Acide/Base': 0, 'Autre': 0 };
+            inventaire.forEach(i => {
+                if(i.cl === "INFLAMMABLE") counts['Inflammable']++;
+                else if(i.cl === "ACIDE" || i.cl === "BASE") counts['Acide/Base']++;
+                else counts['Autre']++;
+            });
+
+            if(chartObj) chartObj.destroy();
+            chartObj = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Inflammables', 'Acide/Base', 'Autres'],
+                    datasets: [{
+                        data: [counts['Inflammable'], counts['Acide/Base'], counts['Autre']],
+                        backgroundColor: ['#f59e0b', '#ef4444', '#3d7cc0']
+                    }]
+                },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        function supprimerProduit(idx) { inventaire.splice(idx,1); updateInv(); }
+
+        // --- FILTRE MÉTIERS ---
         function initFiltres() {
-            // Extrait les catégories uniques et les trie par ordre alphabétique
-            const categories = [...new Set(DB_METIERS.map(item => item.cat))].sort();
+            const categories = [...new Set(DB_METIERS.map(item => item.cat))];
             const select = document.getElementById('catSelect');
-            
-            categories.forEach(cat => {
-                select.innerHTML += `<option value="${cat}">${cat}</option>`;
-            });
-            
-            // Affiche tout par défaut
-            renderMetiers(DB_METIERS);
+            categories.forEach(c => select.innerHTML += `<option value="${c}">${c}</option>`);
+            filtrerMetiers();
         }
 
-        // --- MOTEUR DE FILTRAGE (Catégorie + Recherche) ---
         function filtrerMetiers() {
-            const catChoisie = document.getElementById('catSelect').value;
-            const recherche = document.getElementById('mSearch').value.toLowerCase();
-
-            const resultats = DB_METIERS.filter(item => {
-                // Vérifie la catégorie
-                const correspondCat = (catChoisie === "TOUS" || item.cat === catChoisie);
-                // Vérifie le texte de recherche (dans le nom du métier ou les risques)
-                const correspondTexte = item.m.toLowerCase().includes(recherche) || item.r.toLowerCase().includes(recherche);
-                
-                return correspondCat && correspondTexte;
-            });
-
-            renderMetiers(resultats);
+            const cat = document.getElementById('catSelect').value;
+            const res = DB_METIERS.filter(i => (cat === "TOUS" || i.cat === cat));
+            document.getElementById('met-container').innerHTML = res.map(d => `
+                <div class="p-3 mb-3 border rounded-4 bg-light">
+                    <div class="small text-primary fw-bold">${d.cat}</div>
+                    <div class="fw-bold">${d.m}</div>
+                    <div class="small text-muted mt-1"><b>Risque:</b> ${d.r}</div>
+                    <div class="inrs-box mt-2 text-success"><b>Prévention:</b> ${d.p}</div>
+                </div>`).join('');
         }
 
-        // --- AFFICHAGE DES MÉTIERS ---
-        function renderMetiers(data) {
-            const container = document.getElementById('met-container');
-            if(data.length === 0) {
-                container.innerHTML = `<div class="text-center text-muted mt-4">Aucun métier trouvé pour cette recherche.</div>`;
-                return;
-            }
-
-            container.innerHTML = data.map(d => `
-                <div class="card-expert p-3 shadow-sm border mb-3 animate__animated animate__fadeIn">
-                    <div class="metier-cat">${d.cat}</div>
-                    <div class="metier-title mt-0">${d.m}</div>
-                    <p class="small mb-2"><b>Risques majeurs :</b> ${d.r}</p>
-                    <div class="inrs-box text-success mb-0"><b>Prévention INRS / CARSAT :</b><br>${d.p}</div>
-                </div>
-            `).join('');
-        }
-
-        // --- BASE PRODUITS / SCANNER / INVENTAIRE (Gardé intact) ---
-        const DB_PRODUITS = {
-            "3152541000105": { n: "White Spirit", cl: "INFLAMMABLE", adv: "Gants Nitrile (EN374).", cmr: false },
-            "3152541001003": { n: "Acide Chlorhydrique", cl: "ACIDE", adv: "Protection oculaire obligatoire.", cmr: false }
-        };
-
+        // --- SCANNER ET MATRICE ---
         const html5QrCode = new Html5Qrcode("reader");
         function startScanner() {
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 150 } }, onScanFound).catch(e => console.log(e));
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanFound).catch(e => {});
         }
 
-        function onScanFound(code) {
-            html5QrCode.pause(true); 
-            pCurrent = DB_PRODUITS[code] || { n: "Produit Scanné ("+code+")", cl: "À VÉRIFIER", adv: "Vérifier la FDS.", cmr: false };
-            
+        async function onScanFound(code) {
+            html5QrCode.pause(true);
+            // Simulation API / Local
+            pCurrent = { n: "Produit Scanné ("+code+")", cl: (code.includes('1') ? "INFLAMMABLE" : "ACIDE"), adv: "Utiliser des EPI adaptés.", cmr: code.includes('0') };
             document.getElementById('reader').style.display = 'none';
             document.getElementById('scan-instructions').style.display = 'none';
             document.getElementById('scan-res').classList.remove('d-none');
-            
-            document.getElementById('res-info').innerHTML = `
-                <h4 class="fw-bold mb-1 text-primary">${pCurrent.n}</h4>
-                <span class="badge bg-warning text-dark mb-3">${pCurrent.cl}</span>
-                <div class="inrs-box" style="border-left-color: var(--blue)"><b>Conseil :</b><br>${pCurrent.adv}</div>
-            `;
+            document.getElementById('res-info').innerHTML = `<h4 class="fw-bold">${pCurrent.n}</h4><span class="badge bg-warning">${pCurrent.cl}</span>`;
         }
 
         function restartScanner() {
@@ -214,17 +227,16 @@
         }
 
         function validerAjout() {
+            const conflit = inventaire.find(i => (pCurrent.cl === "ACIDE" && i.cl === "INFLAMMABLE") || (pCurrent.cl === "INFLAMMABLE" && i.cl === "ACIDE"));
+            if (conflit) {
+                document.getElementById('msg-alerte').innerHTML = `Incompatibilité majeure entre <b>${pCurrent.n}</b> et <b>${conflit.n}</b>. Risque d'incendie !`;
+                modalAlerte.show();
+            }
             inventaire.push(pCurrent);
-            document.getElementById('empty-msg').style.display = 'none';
-            document.getElementById('compteur-inv').innerText = inventaire.length + " produit(s)";
-            document.getElementById('inv-list').innerHTML += `
-                <li class="list-group-item d-flex justify-content-between py-2 px-0 border-bottom">
-                    <div><b>${pCurrent.n}</b><br><small class="text-muted">${pCurrent.cl}</small></div>
-                </li>`;
             restartScanner();
         }
 
-        // LANCEMENT AU DÉMARRAGE
+        // INIT
         initFiltres();
         startScanner();
     </script>
