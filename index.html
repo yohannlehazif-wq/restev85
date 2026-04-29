@@ -9,153 +9,159 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { --blue: #2c5da7; --violet: #a74b9e; --green: #8ec641; --gradient: linear-gradient(135deg, #2c5da7 0%, #a74b9e 100%); }
-        body { background-color: #f4f7f9; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        body { background-color: #f8fafd; font-family: 'Segoe UI', sans-serif; }
         
-        /* Page de garde dynamique */
+        /* PAGE DE GARDE */
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 9999; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center;
+            align-items: center; justify-content: center;
         }
-        .landing-logo { width: 280px; margin-bottom: 30px; }
-        
-        /* App Layout */
-        .header-app { background: white; padding: 15px; border-radius: 0 0 30px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
-        .logo-small { width: 120px; }
-        
-        .nav-pills { background: #eee; padding: 5px; border-radius: 25px; margin: 15px; }
-        .nav-link { color: #666; font-weight: 600; border-radius: 20px; font-size: 0.75rem; }
-        .nav-link.active { background: var(--blue) !important; color: white !important; }
+        .logo-anim { width: 250px; animation: zoomIn 1.5s; }
 
-        .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
+        /* HEADER FIXE */
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .logo-small { height: 50px; }
+
+        /* SECTIONS (Pages) */
+        .app-page { display: none; padding: 20px; animation: fadeIn 0.5s; }
+        .active-page { display: block !important; }
+
+        /* BOUTONS MENU */
+        .menu-btn { 
+            background: white; border: none; border-radius: 20px; padding: 25px; 
+            margin-bottom: 15px; width: 100%; text-align: left; display: flex; 
+            align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .menu-btn:active { transform: scale(0.95); }
+        .menu-icon { font-size: 2rem; margin-right: 20px; }
+        .menu-text b { display: block; color: var(--blue); font-size: 1.1rem; }
+        .menu-text span { font-size: 0.85rem; color: #666; }
+
+        .btn-back { background: #eee; border: none; border-radius: 10px; padding: 5px 15px; margin-bottom: 20px; font-weight: bold; color: #555; }
         .btn-main { background: var(--gradient); color: white; border: none; border-radius: 15px; padding: 15px; font-weight: bold; width: 100%; }
         
-        /* Guide FDS Simple */
-        .fds-zone { border-left: 4px solid var(--blue); background: #f0f4f8; padding: 10px; border-radius: 0 10px 10px 0; margin-bottom: 10px; font-size: 0.85rem; }
+        .fds-box { background: #f0f4f8; border-left: 5px solid var(--blue); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <div id="landing-page" class="animate__animated">
-        <img src="logo.png" class="landing-logo animate__animated animate__pulse animate__infinite" alt="RESTEV 85">
-        <h4 class="fw-bold text-secondary">Bienvenue dans votre espace <br>Santé & Prévention</h4>
-        <button class="btn btn-primary mt-4 px-5 py-3 rounded-pill fw-bold" onclick="startApp()">COMMENCER</button>
+    <div id="landing-page">
+        <img src="logo.png" class="logo-anim" alt="RESTEV 85" onerror="this.src='https://via.placeholder.com/200?text=RESTEV+85'">
+        <div class="mt-4 text-secondary fw-bold animate__animated animate__fadeInUp animate__delay-1s">
+            Expertise Santé Travail
+        </div>
+        <button class="btn btn-primary mt-5 px-5 py-2 rounded-pill animate__animated animate__fadeInUp animate__delay-2s" onclick="showPage('page-menu')">ENTRER</button>
     </div>
 
-    <div id="main-app" style="display:none;">
-        <div class="header-app">
-            <img src="logo.png" class="logo-small" alt="RESTEV">
+    <div class="app-header">
+        <img src="logo.png" class="logo-small" alt="Logo" onerror="this.src='https://via.placeholder.com/100?text=RESTEV'">
+    </div>
+
+    <div id="page-menu" class="app-page active-page">
+        <h5 class="fw-bold mb-4">Que souhaitez-vous faire ?</h5>
+        
+        <button class="menu-btn" onclick="showPage('page-scan')">
+            <span class="menu-icon">📸</span>
+            <div class="menu-text"><b>Scanner un produit</b><span>Identifier les risques FDS</span></div>
+        </button>
+
+        <button class="menu-btn" onclick="showPage('page-metiers')">
+            <span class="menu-icon">👷</span>
+            <div class="menu-text"><b>Fiches Métiers</b><span>Conseils CARSAT & INRS</span></div>
+        </button>
+
+        <button class="menu-btn" onclick="showPage('page-guide')">
+            <span class="menu-icon">📖</span>
+            <div class="menu-text"><b>Guide de lecture</b><span>Comprendre une FDS simplement</span></div>
+        </button>
+
+        <button class="menu-btn" onclick="showPage('page-transmettre')">
+            <span class="menu-icon">✉️</span>
+            <div class="menu-text"><b>Transmettre</b><span>Envoyer au technicien RESTEV</span></div>
+        </button>
+    </div>
+
+    <div id="page-scan" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+        <div class="card-expert text-center">
+            <div id="reader" style="width:100%; border-radius:15px; overflow:hidden; margin-bottom:15px; display:none;"></div>
+            <button id="btn-scan-action" class="btn btn-main mb-3" onclick="toggleScanner()">ACTIVER LA CAMÉRA</button>
+            <div id="scan-res" class="d-none text-start">
+                <div class="p-3 bg-light rounded-4 border mb-3">
+                    <h5 id="p-name" class="fw-bold"></h5>
+                    <span class="badge bg-danger mb-2">Risque Chimique</span>
+                </div>
+                <input type="number" id="p-nb" class="form-control mb-2" placeholder="Salariés exposés">
+                <button class="btn btn-success w-100" onclick="validerAjout()">Enregistrer</button>
+            </div>
         </div>
+    </div>
 
-        <ul class="nav nav-pills nav-fill" id="pills-tab">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-scan">📸 SCAN</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-metiers">👷 MÉTIERS</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-guide">📖 GUIDE FDS</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-trans">✉️ TRANSMETTRE</button></li>
-        </ul>
+    <div id="page-metiers" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+        <h5 class="fw-bold">Prévention Métiers</h5>
+        <div class="card-expert mt-3">
+            <h6 class="fw-bold text-primary">Boulangerie</h6>
+            <p class="small">Risque de "l'asthme du boulanger" (farine). <br><b>Solution :</b> Ne pas utiliser de soufflette, aspirer les poussières.</p>
+            <hr>
+            <h6 class="fw-bold text-primary">Bâtiment</h6>
+            <p class="small">Risque Silice et COV. <br><b>Solution :</b> Travail à l'humide, masques FFP3 si poussières.</p>
+        </div>
+    </div>
 
-        <div class="container tab-content">
-            
-            <div class="tab-pane fade show active" id="tab-scan">
-                <div class="card-expert text-center">
-                    <div id="reader" style="width:100%; border-radius:15px; overflow:hidden; margin-bottom:15px; display:none;"></div>
-                    <button id="btn-scan" class="btn btn-main mb-3" onclick="toggleScanner()">OUVRIR LE SCANNER</button>
-                    
-                    <div id="scan-res" class="d-none text-start animate__animated animate__fadeIn">
-                        <div class="p-3 bg-light rounded-4 border mb-3">
-                            <h5 id="p-name" class="fw-bold text-primary"></h5>
-                            <span id="p-risk" class="badge bg-danger mb-2"></span>
-                            <p id="p-adv" class="small text-muted mb-0"></p>
-                        </div>
-                        <label class="small fw-bold">Nombre de salariés concernés :</label>
-                        <input type="number" id="p-nb" class="form-control mb-3" placeholder="Ex: 2">
-                        <button class="btn btn-success w-100 py-2 rounded-3" onclick="validerAjout()">AJOUTER À MON LISTING</button>
-                    </div>
-                </div>
-            </div>
+    <div id="page-guide" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+        <h5 class="fw-bold mb-3">La FDS en 3 points :</h5>
+        <div class="fds-box">
+            <b>1. Le nom et le danger</b><br><small>Regardez les pictogrammes en page 1 ou 2.</small>
+        </div>
+        <div class="fds-box">
+            <b>2. Les équipements (EPI)</b><br><small>Section 8 : Vérifiez si vos gants sont compatibles (le latex ne suffit souvent pas).</small>
+        </div>
+        <div class="fds-box">
+            <b>3. Stockage</b><br><small>Section 7 : Ne jamais stocker des acides avec des produits inflammables.</small>
+        </div>
+    </div>
 
-            <div class="tab-pane fade" id="tab-metiers">
-                <div class="card-expert">
-                    <h5 class="fw-bold mb-3">Prévention par Métier</h5>
-                    <div class="list-group list-group-flush">
-                        <div class="py-2 border-bottom">
-                            <h6 class="fw-bold text-primary mb-1">Boulanger / Pâtissier</h6>
-                            <p class="small text-muted mb-1">Risque : Poussières de farine (Asthme).</p>
-                            <div class="small text-success">✔ Conseil : Verser la farine doucement, aspirateur au lieu de balayette.</div>
-                        </div>
-                        <div class="py-2 border-bottom">
-                            <h6 class="fw-bold text-primary mb-1">Peintre / Bâtiment</h6>
-                            <p class="small text-muted mb-1">Risque : COV, Solvants.</p>
-                            <div class="small text-success">✔ Conseil : Choisir des peintures A+, aérer 15min/heure.</div>
-                        </div>
-                        <div class="py-2">
-                            <h6 class="fw-bold text-primary mb-1">Mécanique</h6>
-                            <p class="small text-muted mb-1">Risque : Huiles usagées (CMR).</p>
-                            <div class="small text-success">✔ Conseil : Port de gants nitrile, fontaine de dégraissage bio.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="tab-guide">
-                <div class="card-expert">
-                    <h5 class="fw-bold mb-3">Comment lire une FDS ?</h5>
-                    <div class="fds-zone">
-                        <strong>Section 2 : Dangers</strong><br>
-                        Cherchez les "Mentions H". Ex: H315 = Irritant. C'est ici que l'essentiel est dit.
-                    </div>
-                    <div class="fds-zone">
-                        <strong>Section 4 : Premiers Secours</strong><br>
-                        Que faire en cas de projection dans l'œil ? (Rincer 15 min à l'eau claire).
-                    </div>
-                    <div class="fds-zone">
-                        <strong>Section 8 : Protections (EPI)</strong><br>
-                        Quel type de gant ? (Attention: le cuir ne protège pas des produits chimiques !).
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="tab-trans">
-                <div class="card-expert text-center">
-                    <h5 class="fw-bold mb-3">Transmettre au Technicien</h5>
-                    <p class="small text-muted">Votre inventaire est prêt ? Envoyez-le directement à votre technicien RESTEV pour analyse.</p>
-                    <div id="inv-count" class="h2 fw-bold text-primary mb-3">0</div>
-                    <p class="small">Produit(s) enregistré(s)</p>
-                    <button class="btn btn-main mt-2" onclick="transmettreTechnicien()">ENVOYER L'INVENTAIRE</button>
-                </div>
-            </div>
-
+    <div id="page-transmettre" class="app-page">
+        <button class="btn-back" onclick="showPage('page-menu')">← Retour au sommaire</button>
+        <div class="card-expert text-center">
+            <h1 id="inv-total" class="display-4 fw-bold text-primary">0</h1>
+            <p>Produits dans votre inventaire</p>
+            <button class="btn btn-main py-3" onclick="envoyerTechnicien()">ENVOYER À MON CONSEILLER</button>
+            <p class="small text-muted mt-3">Un email sera généré avec votre liste de produits.</p>
         </div>
     </div>
 
     <script>
         let inventaire = [];
-        let pCurrent = null;
         let isScanning = false;
         const html5QrCode = new Html5Qrcode("reader");
 
-        function startApp() {
-            const landing = document.getElementById('landing-page');
-            landing.classList.add('animate__fadeOutUp');
-            setTimeout(() => {
-                landing.style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-            }, 800);
+        // NAVIGATION ENTRE LES PAGES
+        function showPage(pageId) {
+            // Cacher la page de garde
+            document.getElementById('landing-page').style.display = 'none';
+            // Cacher toutes les pages
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+            // Afficher la page demandée
+            document.getElementById(pageId).classList.add('active-page');
+            // Arrêter le scanner si on quitte la page scan
+            if(pageId !== 'page-scan' && isScanning) stopScanner();
         }
 
+        // LOGIQUE SCANNER
         function toggleScanner() {
-            const btn = document.getElementById('btn-scan');
             if (!isScanning) {
                 document.getElementById('reader').style.display = 'block';
                 html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (code) => {
-                    pCurrent = { n: "Produit Scanné ("+code+")", cl: "DANGER POTENTIEL", adv: "Vérifiez la section 8 de la FDS pour les gants." };
-                    document.getElementById('p-name').innerText = pCurrent.n;
-                    document.getElementById('p-risk').innerText = pCurrent.cl;
-                    document.getElementById('p-adv').innerText = pCurrent.adv;
+                    document.getElementById('p-name').innerText = "Produit " + code;
                     document.getElementById('scan-res').classList.remove('d-none');
                     stopScanner();
                 });
-                btn.innerText = "FERMER LE SCANNER";
+                document.getElementById('btn-scan-action').innerText = "ARRÊTER";
                 isScanning = true;
             } else { stopScanner(); }
         }
@@ -163,27 +169,24 @@
         function stopScanner() {
             html5QrCode.stop().then(() => {
                 document.getElementById('reader').style.display = 'none';
-                document.getElementById('btn-scan').innerText = "OUVRIR LE SCANNER";
+                document.getElementById('btn-scan-action').innerText = "ACTIVER LA CAMÉRA";
                 isScanning = false;
             });
         }
 
         function validerAjout() {
             const nb = document.getElementById('p-nb').value || 0;
-            inventaire.push({...pCurrent, nb: nb});
-            document.getElementById('inv-count').innerText = inventaire.length;
+            inventaire.push({n: document.getElementById('p-name').innerText, nb: nb});
+            document.getElementById('inv-total').innerText = inventaire.length;
             document.getElementById('scan-res').classList.add('d-none');
-            alert("Produit enregistré avec succès !");
+            alert("Enregistré !");
+            showPage('page-menu');
         }
 
-        function transmettreTechnicien() {
-            if(inventaire.length === 0) { alert("Votre inventaire est vide !"); return; }
-            let corps = "Bonjour,\n\nVoici mon inventaire de produits pour analyse :\n\n";
-            inventaire.forEach(i => {
-                corps += `- ${i.n} (${i.nb} salariés exposés)\n`;
-            });
-            corps += "\nMerci de me recontacter pour faire le point sur la prévention.\nCordialement.";
-            window.location.href = `mailto:technique@restev85.fr?subject=Inventaire Prevention Adherent&body=${encodeURIComponent(corps)}`;
+        function envoyerTechnicien() {
+            if(inventaire.length === 0) { alert("Inventaire vide !"); return; }
+            let body = "Bonjour,\n\nVoici mon inventaire :\n" + inventaire.map(i => "- " + i.n + " (" + i.nb + " sal.)").join("\n");
+            window.location.href = "mailto:technicien@restev85.fr?subject=Inventaire Adhérent&body=" + encodeURIComponent(body);
         }
     </script>
 </body>
