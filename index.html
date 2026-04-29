@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Application Prévention</title>
+    <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,40 +16,41 @@
 
         body { background-color: var(--bg); font-family: 'Segoe UI', system-ui; color: var(--dark); margin-bottom: 90px; overflow-x: hidden; }
         
-        /* --- PAGE DE GARDE PREMIUM --- */
+        /* --- PAGE DE GARDE VIOLETTE GLASSMORPHISM --- */
         #splash { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(135deg, #4c1d95 0%, #a74b9e 100%);
+            background: linear-gradient(135deg, #4c1d95 0%, var(--restev-violet) 100%);
             z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
         .bg-icon {
-            position: absolute; color: rgba(255,255,255,0.2); font-size: 5rem; z-index: 0;
+            position: absolute; color: rgba(255,255,255,0.25); font-size: 5.5rem; z-index: 0;
             animation: floatIcon 12s infinite linear;
         }
         @keyframes floatIcon { from { transform: translateY(110vh) rotate(0deg); } to { transform: translateY(-20vh) rotate(360deg); } }
 
         .glass-box {
             background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3); padding: 40px; border-radius: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.3); padding: 45px; border-radius: 40px;
             text-align: center; z-index: 2; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-width: 85%;
         }
 
-        /* --- UI COMPONENTS --- */
+        /* --- UI --- */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--restev-yellow); position: sticky; top: 0; z-index: 1000; }
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; text-decoration: none; width: 20%; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; text-decoration: none; width: 20%; transition: 0.3s; }
         .nav-item.active { color: var(--restev-blue); }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; }
 
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.3s; }
-        .vlep-badge { background: #fee2e2; color: #b91c1c; padding: 3px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; float: right; }
-        .btn-map { background: #e0f2fe; color: #0369a1; border: none; padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; text-decoration: none; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .vlep-badge { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; float: right; }
         
-        .app-page { display: none; padding: 20px; animation: slideIn 0.3s ease-out; }
+        .app-page { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
         .active-page { display: block !important; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         #job-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; overflow-y: auto; padding: 20px; }
+        .prev-box { background: #f0fdf4; border: 1px solid #dcfce7; padding: 15px; border-radius: 15px; white-space: pre-line; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -57,59 +58,60 @@
     <div id="splash">
         <div id="icon-bg"></div>
         <div class="glass-box">
-            <img src="logo-restev.png" style="width: 240px; margin-bottom: 30px;" alt="Logo">
-            <button class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-primary shadow" onclick="startApp()">ENTRER</button>
+            <img src="logo-restev.png" style="width: 260px; margin-bottom: 40px;" alt="RESTEV">
+            <button class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-primary shadow-lg" onclick="startApp()">DÉMARRER</button>
         </div>
     </div>
 
     <div class="app-header">
-        <img src="logo-restev.png" height="40" alt="RESTEV">
+        <img src="logo-restev.png" height="42" alt="RESTEV">
     </div>
 
     <div id="page-home" class="app-page active-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode text-primary me-2"></i>Scanner Produit</h5>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode text-primary me-2"></i>Scanner un produit</h5>
         <div id="reader" style="display:none; width:100%; border-radius:20px; overflow:hidden; margin-bottom:15px;"></div>
-        <button id="btn-scan" class="btn btn-primary w-100 py-3 rounded-4 mb-3 fw-bold" onclick="toggleCamera()">LANCER LE SCAN</button>
+        <button id="btn-scan" class="btn btn-primary w-100 py-3 rounded-4 mb-4 fw-bold shadow-sm" onclick="toggleCamera()">ACTIVER LE SCANNER</button>
         <div id="res-area" class="d-none">
             <div class="card-custom">
                 <div id="picto-list" class="d-flex gap-2 mb-3"></div>
                 <h4 id="res-n" class="fw-bold"></h4>
-                <div class="p-3 rounded-4 bg-light" id="res-p"></div>
+                <div class="p-3 rounded-4 bg-light small" id="res-p" style="white-space: pre-line;"></div>
             </div>
         </div>
     </div>
 
     <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Fiches Risques & VLEP</h5>
-        <input type="text" class="form-control rounded-pill mb-4 px-4 py-3 border-0 shadow-sm" placeholder="Rechercher un métier..." onkeyup="renderMetiers(this.value)">
+        <h5 class="fw-bold mb-3">Base Risques Métiers</h5>
+        <input type="text" class="form-control rounded-pill mb-4 px-4 py-3 border-0 shadow-sm" placeholder="Ex: Soudeur, Agriculteur..." onkeyup="renderMetiers(this.value)">
         <div id="metiers-list"></div>
     </div>
 
     <div id="page-offre" class="app-page">
-        <h5 class="fw-bold mb-4">L'Offre Socle Restev</h5>
+        <h5 class="fw-bold mb-4">L'Offre Socle RESTEV</h5>
         <div class="card-custom">
-            <h6 class="fw-bold text-primary"><i class="fa-solid fa-stethoscope me-2"></i>Suivi Individuel</h6>
-            <p class="small text-muted mb-0">Visites médicales (VIP, périodique, reprise) et entretiens infirmiers adaptés aux risques.</p>
+            <h6 class="fw-bold text-primary"><i class="fa-solid fa-user-doctor me-2"></i>Suivi de Santé Individuel</h6>
+            <p class="small text-muted mb-0">Visites d'information et de prévention (VIP), visites de reprise et de pré-reprise. Suivi adapté selon l'âge et les risques.</p>
         </div>
         <div class="card-custom" style="border-left-color: var(--restev-green);">
-            <h6 class="fw-bold text-success"><i class="fa-solid fa-magnifying-glass-chart me-2"></i>Action en Entreprise</h6>
-            <p class="small text-muted mb-0">Étude de poste, métrologie (bruit, éclairage, chimie) et aide à la rédaction du DUERP.</p>
+            <h6 class="fw-bold text-success"><i class="fa-solid fa-helmet-safety me-2"></i>Prévention en Entreprise</h6>
+            <p class="small text-muted mb-0">Appui technique pour le DUERP, métrologie (bruit, poussières, chimie), et analyse ergonomique des postes.</p>
         </div>
         <div class="card-custom" style="border-left-color: var(--restev-yellow);">
             <h6 class="fw-bold text-warning"><i class="fa-solid fa-handshake-angle me-2"></i>Maintien en Emploi</h6>
-            <p class="small text-muted mb-0">Cellule pluridisciplinaire pour adapter les postes et prévenir l'exclusion professionnelle.</p>
+            <p class="small text-muted mb-0">Accompagnement des salariés en difficulté pour adapter l'environnement de travail et éviter l'inaptitude.</p>
         </div>
         <div class="card-custom" style="border-left-color: var(--restev-violet);">
-            <h6 class="fw-bold text-info"><i class="fa-solid fa-graduation-cap me-2"></i>Information & Sensibilisation</h6>
-            <p class="small text-muted mb-0">Ateliers collectifs (TMS, Risque Chimique, Sommeil) et documentation technique.</p>
+            <h6 class="fw-bold text-info"><i class="fa-solid fa-bullhorn me-2"></i>Veille & Alertes</h6>
+            <p class="small text-muted mb-0">Information continue sur les évolutions réglementaires et les nouveaux risques professionnels.</p>
         </div>
     </div>
 
     <div id="page-diag" class="app-page">
+        <h5 class="fw-bold mb-4 text-center">Auto-Évaluation Prévention</h5>
         <div id="diag-container" class="card-custom">
             <p id="q-text" class="fw-bold fs-5"></p>
             <div class="d-grid gap-2 mt-4">
-                <button class="btn btn-outline-primary py-3 rounded-4" onclick="answer(1)">OUI / CONFORME</button>
+                <button class="btn btn-outline-primary py-3 rounded-4 fw-bold" onclick="answer(1)">OUI / CONFORME</button>
                 <button class="btn btn-outline-secondary py-3 rounded-4" onclick="answer(0)">NON / À AMÉLIORER</button>
             </div>
             <div class="text-center mt-3 small text-muted">Question <span id="q-idx">1</span>/10</div>
@@ -117,55 +119,13 @@
         <div id="diag-result" class="d-none text-center">
             <h1 id="final-score" class="display-1 fw-bold text-primary"></h1>
             <p id="diag-advice" class="mb-4"></p>
-            <button class="btn btn-primary rounded-pill px-5" onclick="resetDiag()">Recommencer</button>
+            <button class="btn btn-primary rounded-pill px-5" onclick="resetDiag()">Recommencer l'évaluation</button>
         </div>
     </div>
 
     <div id="page-contact" class="app-page">
         <h5 class="fw-bold mb-4">Nos Centres en Vendée</h5>
-        
-        <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h6 class="fw-bold mb-1">La Roche-sur-Yon (Siège)</h6>
-                    <p class="small text-muted mb-2">Rue Benjamin Franklin</p>
-                </div>
-                <a href="https://maps.app.goo.gl/YfS7J8n6R1m8qYm66" class="btn-map" target="_blank"><i class="fa-solid fa-location-dot"></i> Maps</a>
-            </div>
-            <a href="tel:0251370000" class="btn btn-sm btn-primary rounded-pill px-3 mt-2">02 51 37 00 00</a>
-        </div>
-
-        <div class="card-custom" style="border-left-color: var(--restev-green);">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h6 class="fw-bold mb-1">Les Herbiers</h6>
-                    <p class="small text-muted mb-2">Avenue de l'Arrivée</p>
-                </div>
-                <a href="https://maps.google.com/?q=Restev+Les+Herbiers" class="btn-map" target="_blank"><i class="fa-solid fa-location-dot"></i> Maps</a>
-            </div>
-            <a href="tel:0251670000" class="btn btn-sm btn-success rounded-pill px-3 mt-2 text-white">02 51 67 00 00</a>
-        </div>
-
-        <div class="card-custom" style="border-left-color: var(--restev-yellow);">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h6 class="fw-bold mb-1">Montaigu-Vendée</h6>
-                    <p class="small text-muted mb-2">Pôle d'activités de la Maine</p>
-                </div>
-                <a href="https://maps.google.com/?q=Restev+Montaigu" class="btn-map" target="_blank"><i class="fa-solid fa-location-dot"></i> Maps</a>
-            </div>
-            <a href="tel:0251940000" class="btn btn-sm btn-warning rounded-pill px-3 mt-2 text-white">02 51 94 00 00</a>
-        </div>
-
-        <div class="card-custom" style="border-left-color: var(--restev-violet);">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h6 class="fw-bold mb-1">Les Essarts</h6>
-                    <p class="small text-muted mb-2">Rue des artisans</p>
-                </div>
-                <a href="https://maps.google.com/?q=Restev+Les+Essarts" class="btn-map" target="_blank"><i class="fa-solid fa-location-dot"></i> Maps</a>
-            </div>
-        </div>
+        <div id="centres-list"></div>
     </div>
 
     <div id="job-modal">
@@ -175,31 +135,38 @@
 
     <div class="nav-bottom">
         <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-qrcode"></i>SCAN</button>
-        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
-        <button class="nav-item" onclick="nav('page-offre', this)"><i class="fa-solid fa-layer-group"></i>OFFRE</button>
-        <button class="nav-item" onclick="nav('page-diag', this)"><i class="fa-solid fa-clipboard-check"></i>DIAG</button>
+        <button class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-briefcase"></i>MÉTIERS</button>
+        <button class="nav-item" onclick="nav('page-offre', this)"><i class="fa-solid fa-shield-halved"></i>OFFRE</button>
+        <button class="nav-item" onclick="nav('page-diag', this)"><i class="fa-solid fa-check-double"></i>ÉVALUATION</button>
         <button class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-map-location-dot"></i>CONTACT</button>
     </div>
 
     <script>
-        const db = { "3077316291191": { n: "White Spirit", pictos: ["SGH02_Flamme.jpg", "SGH08_DangerSante.jpg"], p: "• VLEP : 1000 mg/m³.\n• Gants : Nitrile (épaisseur > 0.4mm).\n• Protection : Aspiration à la source.\n• Conseil : Ne jamais nettoyer la peau avec." } };
-        
+        // BASE DE DONNÉES MÉTIERS & PRÉVENTION
         const metiersData = [
-            { m: "Menuisier / Charpentier", vlep: "1 mg/m³", r: "Poussières de bois (Cancérogène), Bruit, Coupures.", p: "Aspiration centrale M obligatoire. Masque FFP3 si ponçage." },
-            { m: "Soudeur", vlep: "5 mg/m³", r: "Fumées de soudage, Rayonnements UV, Brûlures.", p: "Torche aspirante ou bras articulé. Écran de protection." },
-            { m: "Agent de Propreté", vlep: "Sans objet", r: "Dermatoses, Risque chimique (mélanges), TMS.", p: "Ne jamais mélanger Javel et détartrant. Port de gants adapté." },
-            { m: "Secrétariat / Bureautique", vlep: "Sans objet", r: "Fatigue visuelle, Travail sédentaire, Stress.", p: "Réglage écran (bras tendu). Alterner station assise/debout." },
-            { m: "Maçon / Façadier", vlep: "Silice 0.1", r: "Silicose, Chutes de hauteur, Manutention.", p: "Découpe à l'eau. Utilisation de lève-matériaux." },
-            { m: "Carrossier Peintre", vlep: "Isocya.", r: "Isocyanates, Solvants, Risque ATEX.", p: "Cabine ventilée. Masque à adduction d'air." },
-            { m: "Cuisinier", vlep: "Sans objet", r: "Coupures, Brûlures, Chutes de plain-pied.", p: "Chaussures SRC (anti-glisse). Gants anti-coupure." },
-            { m: "Infirmier / Aide-Soignant", vlep: "Sans objet", r: "AES (piqures), TMS (mobilisation), Stress.", p: "Collecteur d'aiguilles. Matériel d'aide au levage." }
+            { m: "Menuisier / Ébéniste", vlep: "Bois: 1 mg/m³", r: "Poussières (Cancérogène), Bruit, Coupures.", p: "• Aspiration centralisée Classe M.\n• Port du masque FFP3 pour ponçage.\n• Utilisation systématique des capots de protection." },
+            { m: "Soudeur", vlep: "Fumées: 5 mg/m³", r: "Fumées de soudage, UV, Brûlures.", p: "• Torche aspirante ou bras articulé.\n• Cagoule auto-obscurcissante.\n• Tablier et gants cuir." },
+            { m: "Agriculteur / Maraîcher", vlep: "Sans objet", r: "Phytosanitaires, TMS, Risque animal.", p: "• Cabine de tracteur filtrée.\n• Combinaison de protection Type 4 pour traitements.\n• Aide au levage de cagettes." },
+            { m: "Agent de Propreté", vlep: "Sans objet", r: "Chimie (mélanges), Chutes, Dermatoses.", p: "• Ne pas mélanger Javel et acides.\n• Gants nitrile longs.\n• Chaussures SRC anti-glisse." },
+            { m: "Carrossier Peintre", vlep: "Isocyanates", r: "Solvants, Isocyanates (Asthme pro), ATEX.", p: "• Cabine ventilée aux normes.\n• Masque à adduction d'air.\n• Stockage en armoire sécurité." },
+            { m: "Maçon / Façadier", vlep: "Silice: 0.1 mg/m³", r: "Silicose, Chutes de hauteur, Manutention.", p: "• Découpe à l'eau systématique.\n• Échafaudage vérifié.\n• Gants anti-abrasion." },
+            { m: "Boucher / Cuisinier", vlep: "Sans objet", r: "Coupures, Brûlures, Froid.", p: "• Gant en cotte de maille.\n• Chaussures de sécurité avec semelle agrippante.\n• Vêtements grand froid pour chambre froide." },
+            { m: "Paysagiste", vlep: "Sans objet", r: "Bruit, Coupures, Tiques (Lyme).", p: "• Pantalon anti-coupure pour tronçonnage.\n• Casque anti-bruit.\n• Examen cutané après travail en herbe haute." }
         ];
 
-        const questions = ["Le DUERP a-t-il moins d'un an ?", "Les FDS sont-elles accessibles au poste ?", "Les EPI sont-ils fournis ET portés ?", "Les systèmes d'aspiration sont-ils vérifiés ?", "Le personnel est-il formé à la sécurité ?", "Les extincteurs sont-ils vérifiés ?", "Les aides au levage sont-elles utilisées ?", "Y a-t-il au moins un SST pour 20 salariés ?", "Les arrêts d'urgence sont-ils testés ?", "Les produits chimiques sont-ils en rétention ?"];
+        // SITES RESTEV
+        const centres = [
+            { n: "La Roche-sur-Yon (Siège)", a: "Rue Benjamin Franklin", t: "02 51 37 00 00", c: "blue", m: "https://www.google.com/maps/search/RESTEV+La+Roche+sur+Yon" },
+            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00", c: "green", m: "https://www.google.com/maps/search/RESTEV+Les+Herbiers" },
+            { n: "Montaigu-Vendée", a: "Pôle de la Maine", t: "02 51 94 00 00", c: "yellow", m: "https://www.google.com/maps/search/RESTEV+Montaigu" },
+            { n: "Les Essarts", a: "Rue des artisans", t: "02 51 48 00 00", c: "violet", m: "https://www.google.com/maps/search/RESTEV+Les+Essarts" }
+        ];
+
+        const questions = ["Le DUERP a-t-il été mis à jour cette année ?", "Les FDS sont-elles accessibles aux postes de travail ?", "Les EPI sont-ils systématiquement portés ?", "Les systèmes d'aspiration sont-ils contrôlés ?", "Le personnel est-il formé aux risques spécifiques ?", "Les extincteurs sont-ils à jour de contrôle ?", "Les aides à la manutention sont-elles utilisées ?", "Disposez-vous d'un nombre suffisant de SST ?", "Les dispositifs d'arrêt d'urgence sont-ils testés ?", "Les produits dangereux sont-ils sur bac de rétention ?"];
         let qIdx = 0, score = 0;
 
-        // Init Splash
-        const icons = ['fa-helmet-safety', 'fa-shield-halved', 'fa-biohazard', 'fa-fire-extinguisher', 'fa-mask-ventilator'];
+        // INIT SPLASH ICONS
+        const icons = ['fa-helmet-safety', 'fa-shield-halved', 'fa-biohazard', 'fa-mask-ventilator', 'fa-fire-extinguisher'];
         const bg = document.getElementById('icon-bg');
         for(let i=0; i<15; i++) {
             let icon = document.createElement('i');
@@ -209,7 +176,8 @@
             bg.appendChild(icon);
         }
 
-        function startApp() { document.getElementById('splash').style.display='none'; resetDiag(); renderMetiers(); }
+        function startApp() { document.getElementById('splash').style.display='none'; renderCentres(); renderMetiers(); resetDiag(); }
+        
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -220,15 +188,39 @@
         function renderMetiers(f="") {
             const list = document.getElementById('metiers-list'); list.innerHTML = "";
             metiersData.filter(m => m.m.toLowerCase().includes(f.toLowerCase())).forEach((m, i) => {
-                list.innerHTML += `<div class="card-custom" onclick="openJob(${i})"><span class="vlep-badge">${m.vlep}</span><b>${m.m}</b><br><small class="text-muted">Cliquez pour voir les risques</small></div>`;
+                list.innerHTML += `<div class="card-custom" onclick="openJob(${i})"><span class="vlep-badge">${m.vlep}</span><b>${m.m}</b><br><small class="text-muted">Risques et prévention spécifique...</small></div>`;
             });
         }
+
         function openJob(i) {
             const m = metiersData[i];
-            document.getElementById('job-content').innerHTML = `<div class="card-custom"><h3>${m.m}</h3><p class="badge bg-danger">VLEP : ${m.vlep}</p><hr><h5>Risques :</h5><p>${m.r}</p><h5>Prévention :</h5><div class="bg-light p-3 rounded-3">${m.p}</div></div>`;
+            document.getElementById('job-content').innerHTML = `
+                <div class="card-custom">
+                    <h3 class="fw-bold text-primary">${m.m}</h3>
+                    <div class="badge bg-danger mb-3 p-2 px-3">VLEP : ${m.vlep}</div>
+                    <h6 class="fw-bold">RISQUES IDENTIFIÉS :</h6>
+                    <p class="small text-muted mb-3">${m.r}</p>
+                    <h6 class="fw-bold text-success">MESURES DE PRÉVENTION :</h6>
+                    <div class="prev-box">${m.p}</div>
+                </div>`;
             document.getElementById('job-modal').style.display = 'block';
         }
         function closeJob() { document.getElementById('job-modal').style.display = 'none'; }
+
+        function renderCentres() {
+            const list = document.getElementById('centres-list'); list.innerHTML = "";
+            centres.forEach(c => {
+                list.innerHTML += `
+                    <div class="card-custom" style="border-left-color: var(--restev-${c.c})">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold mb-1">${c.n}</h6>
+                            <a href="${c.m}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill">Maps</a>
+                        </div>
+                        <p class="small text-muted mb-2">${c.a}</p>
+                        <a href="tel:${c.t.replace(/ /g,'')}" class="btn btn-sm btn-primary rounded-pill px-3">${c.t}</a>
+                    </div>`;
+            });
+        }
 
         function answer(v) {
             score += v;
@@ -237,7 +229,7 @@
                 document.getElementById('diag-container').classList.add('d-none');
                 document.getElementById('diag-result').classList.remove('d-none');
                 document.getElementById('final-score').innerText = score + "/10";
-                document.getElementById('diag-advice').innerText = score > 7 ? "Excellent niveau !" : "Prenez contact avec nous.";
+                document.getElementById('diag-advice').innerText = score > 7 ? "Votre niveau de prévention est exemplaire !" : "Des points critiques nécessitent une action. Contactez votre conseiller RESTEV.";
             }
         }
         function updateQ() { document.getElementById('q-text').innerText = questions[qIdx]; document.getElementById('q-idx').innerText = qIdx + 1; }
@@ -250,9 +242,8 @@
                 r.style.display = 'block';
                 scanner = new Html5Qrcode("reader");
                 scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
-                    const res = db[txt] || { n: "Produit inconnu", pictos: [], p: "Veuillez consulter l'étiquette." };
-                    document.getElementById('res-n').innerText = res.n;
-                    document.getElementById('res-p').innerText = res.p;
+                    document.getElementById('res-n').innerText = "Code scanné : " + txt;
+                    document.getElementById('res-p').innerText = "Vérification dans la base RESTEV...\nPour plus de détails, rapprochez-vous de votre ingénieur prévention.";
                     document.getElementById('res-area').classList.remove('d-none');
                     scanner.stop(); r.style.display = 'none';
                 });
