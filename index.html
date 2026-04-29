@@ -3,181 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Aide à la Prévention</title>
+    <title>RESTEV 85 - Prévention & Santé</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { --blue: #3d7cc0; --violet: #a74b9e; --green: #2ecc71; --gradient: linear-gradient(135deg, #3d7cc0 0%, #a74b9e 100%); }
-        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; padding-bottom: 100px; }
-        .header { background: var(--gradient); color: white; padding: 40px 15px 70px; text-align: center; border-radius: 0 0 40px 40px; }
-        .nav-pills { background: white; padding: 8px; border-radius: 25px; margin: -35px 15px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: sticky; top: 10px; z-index: 1000; }
-        .nav-link { color: #64748b; font-weight: 700; border-radius: 20px; border: none !important; }
+        body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; padding-bottom: 100px; }
+        
+        /* Header avec Logo */
+        .header { background: var(--gradient); color: white; padding: 30px 15px 60px; text-align: center; border-radius: 0 0 35px 35px; }
+        .logo-placeholder { width: 80px; height: 80px; background: white; border-radius: 18px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .logo-placeholder img { width: 90%; }
+
+        /* Onglets */
+        .nav-pills { background: white; padding: 6px; border-radius: 20px; margin: -30px 15px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border: 1px solid #eee; }
+        .nav-link { color: #64748b; font-weight: 600; border-radius: 15px; font-size: 0.8rem; padding: 10px 5px; }
         .nav-link.active { background: var(--blue) !important; color: white !important; }
-        .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.04); }
-        .badge-risk { font-size: 0.7rem; padding: 5px 10px; border-radius: 10px; text-transform: uppercase; }
-        .btn-check-eval { border-radius: 10px; margin-bottom: 10px; text-align: left; width: 100%; border: 1px solid #ddd; padding: 15px; }
+
+        .card-expert { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #f1f5f9; display: none; }
+        .btn-action { border-radius: 15px; padding: 15px; font-weight: bold; width: 100%; transition: 0.2s; }
+        .inrs-ref { border-left: 3px solid var(--green); padding-left: 12px; margin-top: 10px; font-size: 0.85rem; background: #f0fff4; border-radius: 0 10px 10px 0; padding: 10px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h2 class="fw-bold mb-0">RESTEV 85</h2>
-        <p class="small opacity-75">Mon Partenaire Prévention & Santé</p>
+        <div class="logo-placeholder">
+            <img src="https://via.placeholder.com/150/FFFFFF/3d7cc0?text=RESTEV" alt="Logo RESTEV">
+        </div>
+        <h3 class="fw-bold mb-0">RESTEV 85</h3>
+        <p class="small opacity-75">Accompagnement Santé & Prévention</p>
     </div>
 
-    <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-scan">📸 SCAN</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-duerp">📂 EXPOSITIONS</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-metiers">👷 MÉTIERS</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-eval">📝 AUTO-DIAG</button></li>
-    </ul>
+    <div class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-scan">📸 SCAN</button>
+        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-list">📂 INVENTAIRE</button>
+        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-metiers">👷 MÉTIERS</button>
+        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-contact">✉️ CONTACT</button>
+    </div>
 
     <div class="container tab-content">
         
-        <div class="tab-pane fade show active" id="p-scan">
-            <div id="reader" class="mb-3"></div>
-            <div id="scan-res" class="card-expert d-none">
-                <div id="res-info"></div>
-                <div class="mt-3">
-                    <label class="small fw-bold">Nombre de salariés exposés :</label>
-                    <input type="number" id="nb-salaries" class="form-control mb-3" placeholder="Ex: 3">
+        <div class="tab-pane fade show active" id="tab-scan">
+            <div class="card-expert text-center">
+                <div id="reader" class="mb-3"></div>
+                <button id="btn-start-scan" class="btn btn-primary btn-action mb-3" onclick="toggleScanner()">
+                    OUVRIR LE SCANNER
+                </button>
+                <div id="scan-res" class="d-none text-start animate__animated animate__fadeIn">
+                    <div id="res-info" class="p-3 bg-light rounded-4 border mb-3"></div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Nombre de salariés exposés :</label>
+                        <input type="number" id="nb-salaries" class="form-control" placeholder="0" style="border-radius:10px">
+                    </div>
+                    <button class="btn btn-success btn-action" onclick="validerAjout()">AJOUTER AU LISTING</button>
                 </div>
-                <button class="btn btn-primary w-100 py-3" style="border-radius:15px" onclick="validerAjout()">AJOUTER À L'INVENTAIRE</button>
-            </div>
-            <div class="card-expert text-center text-muted small">
-                Scannez un produit pour identifier son risque et documenter l'exposition de vos équipes.
+                <p class="text-muted small mt-2 mb-0">Scannez un produit pour voir ses dangers et conseils de prévention.</p>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="p-duerp">
+        <div class="tab-pane fade" id="tab-list">
             <div class="card-expert">
-                <h5 class="fw-bold mb-3">Tableau des Expositions</h5>
-                <div id="inv-list"></div>
+                <h5 class="fw-bold mb-3">Listing des Expositions</h5>
+                <div id="inv-container">
+                    <p class="text-center text-muted py-4">Aucun produit listé.</p>
+                </div>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="p-metiers">
+        <div class="tab-pane fade" id="tab-metiers">
             <div class="card-expert">
-                <h5 class="fw-bold">Conseils par Métier</h5>
-                <select id="catSelect" class="form-select my-3" onchange="renderMetiers()">
-                    <option value="Boulangerie">Boulangerie / Pâtisserie</option>
-                    <option value="Bâtiment">Bâtiment / TP</option>
-                    <option value="Garage">Mécanique / Garage</option>
+                <h5 class="fw-bold mb-3">Référentiels CARSAT / INRS</h5>
+                <select id="selectMetier" class="form-select mb-3" style="border-radius: 12px;" onchange="afficherFicheMetier()">
+                    <option value="">Choisir un métier...</option>
+                    <option value="boulanger">Boulanger / Pâtissier</option>
+                    <option value="batiment">Bâtiment (Peintre, Maçon)</option>
+                    <option value="mecanique">Mécanique / Garage</option>
                 </select>
-                <div id="met-container"></div>
+                <div id="fiche-metier"></div>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="p-eval">
-            <div class="card-expert">
-                <h5 class="fw-bold mb-3">Où en êtes-vous ?</h5>
-                <p class="small text-muted mb-4">Répondez à ces 4 points pour faire le point sur votre démarche de prévention.</p>
-                
-                <div id="eval-questions">
-                    <div class="mb-3 p-3 border rounded-4 bg-light">
-                        <p class="small mb-2 fw-bold">1. Avez-vous un inventaire de vos produits chimiques ?</p>
-                        <button class="btn btn-sm btn-outline-primary" onclick="scoreEval(1)">Oui</button>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="scoreEval(0)">Non / Partiel</button>
-                    </div>
-                    <div class="mb-3 p-3 border rounded-4 bg-light">
-                        <p class="small mb-2 fw-bold">2. Les salariés disposent-ils des protections (gants, masques) ?</p>
-                        <button class="btn btn-sm btn-outline-primary" onclick="scoreEval(1)">Oui</button>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="scoreEval(0)">Non / Parfois</button>
-                    </div>
-                </div>
-                <div id="eval-result" class="d-none text-center p-3">
-                    <h3 id="eval-score">0 / 4</h3>
-                    <p id="eval-msg" class="small"></p>
-                    <button class="btn btn-link text-primary" onclick="location.reload()">Recommencer</button>
+        <div class="tab-pane fade" id="tab-contact">
+            <div class="card-expert text-center">
+                <div class="display-4 mb-3">🤝</div>
+                <h5 class="fw-bold">Besoin d'un conseiller ?</h5>
+                <p class="small text-muted">Transmettez votre inventaire ou posez une question à votre équipe RESTEV 85.</p>
+                <button class="btn btn-primary btn-action mb-3" onclick="envoyerEmail()">
+                    TRANSMETTRE MON INVENTAIRE
+                </button>
+                <div class="p-3 bg-light rounded-4 text-start">
+                    <small><b>Pourquoi nous contacter ?</b><br>
+                    • Analyse de vos FDS<br>
+                    • Aide au Document Unique (DUERP)<br>
+                    • Conseils sur les protections (EPI)</small>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let inventaire = [];
         let pCurrent = null;
-        let scoreTotal = 0;
+        let isScanning = false;
+        const html5QrCode = new Html5Qrcode("reader");
 
-        // DATA MÉTIERS CONCRÈTE (INRS / CARSAT)
-        const DB_METIERS = {
-            "Boulangerie": [
-                { m: "Boulanger", r: "Poussières de farine (Asthme), Brûlures, Chaleur.", p: "Favoriser le versement de la farine sans nuage. Nettoyage à l'aspirateur (pas de balayette). Masque de protection respiratoire si besoin.", ref: "INRS ED 6298" }
-            ],
-            "Bâtiment": [
-                { m: "Peintre", r: "Solvants, COV, Chutes.", p: "Peintures à l'eau uniquement. Ventilation naturelle ou forcée. Port de gants nitrile.", ref: "CARSAT R442" }
-            ],
-            "Garage": [
-                { m: "Mécanicien", r: "Huiles vidange (CMR), Benzène.", p: "Fontaine bio. Gants nitrile usage unique. Ne pas fumer à l'atelier.", ref: "INRS ED 6062" }
-            ]
-        };
-
-        const DB_PRODUITS = {
-            "3152541000105": { n: "White Spirit", cl: "Inflammable", adv: "Aérer fortement la zone." }
-        };
-
-        // RENDER MÉTIERS
-        function renderMetiers() {
-            const cat = document.getElementById('catSelect').value;
-            const container = document.getElementById('met-container');
-            container.innerHTML = DB_METIERS[cat].map(d => `
-                <div class="p-3 mb-2 border-start border-4 border-info bg-light rounded-3">
-                    <h6 class="fw-bold">${d.m}</h6>
-                    <p class="small mb-1 text-danger"><b>Risques:</b> ${d.r}</p>
-                    <p class="small mb-1 text-success"><b>Prévention:</b> ${d.p}</p>
-                    <a href="#" class="text-decoration-none small text-muted">🔗 Fiche ${d.ref}</a>
-                </div>
-            `).join('');
+        // --- GESTION DU SCANNER ---
+        function toggleScanner() {
+            const btn = document.getElementById('btn-start-scan');
+            if (!isScanning) {
+                document.getElementById('reader').style.display = 'block';
+                html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanSuccess);
+                btn.innerText = "ARRÊTER LE SCANNER";
+                btn.classList.replace('btn-primary', 'btn-danger');
+                isScanning = true;
+            } else {
+                stopScanner();
+            }
         }
 
-        // SCAN LOGIQUE
-        const html5QrCode = new Html5Qrcode("reader");
-        function startScan() {
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
-                html5QrCode.pause();
-                pCurrent = DB_PRODUITS[t] || { n: "Produit ("+t+")", cl: "À définir", adv: "Consultez l'étiquette." };
-                document.getElementById('scan-res').classList.remove('d-none');
-                document.getElementById('res-info').innerHTML = `<h5 class="fw-bold">${pCurrent.n}</h5><span class="badge bg-warning">${pCurrent.cl}</span>`;
-            }).catch(e => {});
+        function stopScanner() {
+            html5QrCode.stop().then(() => {
+                document.getElementById('reader').style.display = 'none';
+                const btn = document.getElementById('btn-start-scan');
+                btn.innerText = "OUVRIR LE SCANNER";
+                btn.classList.replace('btn-danger', 'btn-primary');
+                isScanning = false;
+            });
+        }
+
+        function onScanSuccess(decodedText) {
+            stopScanner();
+            // Simulation base de données
+            pCurrent = { n: "Produit Scanné ("+decodedText+")", cl: "Inflammable / COV", adv: "Aérer les locaux et porter des gants." };
+            document.getElementById('scan-res').classList.remove('d-none');
+            document.getElementById('res-info').innerHTML = `<strong>${pCurrent.n}</strong><br><span class="badge bg-warning text-dark mt-2">${pCurrent.cl}</span>`;
         }
 
         function validerAjout() {
             const nb = document.getElementById('nb-salaries').value || 0;
             inventaire.push({...pCurrent, nb: nb});
-            updateListing();
+            updateInventoryUI();
             document.getElementById('scan-res').classList.add('d-none');
-            html5QrCode.resume();
+            alert("Produit ajouté à l'inventaire !");
         }
 
-        function updateListing() {
-            const list = document.getElementById('inv-list');
-            list.innerHTML = inventaire.map(i => `
-                <div class="card-expert p-3 border">
+        function updateInventoryUI() {
+            const container = document.getElementById('inv-container');
+            if (inventaire.length === 0) return;
+            container.innerHTML = inventaire.map(i => `
+                <div class="p-3 mb-2 border rounded-4 shadow-sm bg-light">
                     <div class="d-flex justify-content-between">
-                        <span class="fw-bold">${i.n}</span>
-                        <span class="badge bg-primary">${i.nb} salarié(s)</span>
+                        <strong>${i.n}</strong>
+                        <span class="badge bg-primary">${i.nb} exposé(s)</span>
                     </div>
-                    <div class="small text-muted mt-2">🛡️ Conseil: ${i.adv}</div>
+                    <div class="small text-muted mt-1">Conseil: ${i.adv}</div>
                 </div>
             `).join('');
         }
 
-        // AUTO-EVALUATION
-        function scoreEval(s) {
-            scoreTotal += s;
-            document.getElementById('eval-questions').classList.add('d-none');
-            document.getElementById('eval-result').classList.remove('d-none');
-            document.getElementById('eval-score').innerText = scoreTotal + " / 2";
-            document.getElementById('eval-msg').innerText = scoreTotal > 1 ? 
-                "Bravo ! Votre démarche est bien engagée. Le RESTEV peut vous aider à aller plus loin." : 
-                "Pas de panique ! C'est le moment idéal pour solliciter un conseiller RESTEV pour vous accompagner.";
+        // --- MÉTIERS ---
+        const DATA_METIERS = {
+            boulanger: { r: "Poussières de farine, Asthme professionnel.", p: "Favoriser le nettoyage humide ou aspirateur (pas de soufflette). Masque P3 conseillé pour l'empâtage.", ref: "CARSAT / INRS ED 6298" },
+            batiment: { r: "Poussières de silice, Ciment, Chutes.", p: "Découpe à l'eau, gants étanches pour le ciment, vérification des échafaudages.", ref: "CARSAT / INRS R442" },
+            mecanique: { r: "Huiles usagées (CMR), Benzène.", p: "Installation d'une fontaine bio. Utilisation systématique de gants nitrile.", ref: "INRS ED 6062" }
+        };
+
+        function afficherFicheMetier() {
+            const val = document.getElementById('selectMetier').value;
+            const container = document.getElementById('fiche-metier');
+            if(!val) { container.innerHTML = ""; return; }
+            const m = DATA_METIERS[val];
+            container.innerHTML = `
+                <div class="inrs-ref animate__animated animate__fadeIn">
+                    <p class="mb-1 text-danger"><strong>Risques principaux :</strong><br>${m.r}</p>
+                    <p class="mb-1 text-success"><strong>Conseils Prévention :</strong><br>${m.p}</p>
+                    <small class="text-muted">Source: ${m.ref}</small>
+                </div>
+            `;
         }
 
-        // INIT
-        renderMetiers();
-        startScan();
+        // --- CONTACT DIRECT ---
+        function envoyerEmail() {
+            let body = "Bonjour mon conseiller RESTEV 85,\n\nSouhaiterais faire le point sur mon inventaire :\n\n";
+            inventaire.forEach(i => {
+                body += `- ${i.n} (${i.nb} salariés exposés)\n`;
+            });
+            body += "\nMerci de me recontacter pour une aide au DUERP.\nCordialement.";
+            
+            window.location.href = `mailto:conseiller@restev85.fr?subject=Demande de conseil Prevention - Adherent&body=${encodeURIComponent(body)}`;
+        }
     </script>
 </body>
 </html>
