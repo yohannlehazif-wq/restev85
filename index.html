@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <title>RESTEV 85 - Espace Adhérent</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,135 +14,95 @@
             --dark: #1e293b; --bg: #f8fafc;
         }
 
-        body { background-color: var(--bg); font-family: 'Segoe UI', system-ui; color: var(--dark); margin-bottom: 95px; overflow-x: hidden; }
+        body { background-color: var(--bg); font-family: 'Segoe UI', system-ui; color: var(--dark); margin-bottom: 95px; }
         
-        /* --- SPLASH --- */
-        #splash { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(135deg, #4c1d95 0%, var(--restev-violet) 100%);
-            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-        }
-        .glass-box { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 40px; border-radius: 40px; text-align: center; z-index: 2; }
-
-        /* --- UI --- */
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--restev-yellow); position: sticky; top: 0; z-index: 1000; }
-        .welcome-section { padding: 25px 20px; background: white; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-        .menu-card { background: white; padding: 20px; border-radius: 25px; text-align: center; border: 1px solid #f1f5f9; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .menu-card i { font-size: 2.2rem; margin-bottom: 12px; display: block; }
-
-        /* --- SCANNER SOLIDE --- */
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--restev-blue); background: #000; position: relative; }
-        .scan-overlay { position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: red; box-shadow: 0 0 10px red; animation: scanAnim 2s infinite; z-index: 10; }
-        @keyframes scanAnim { 0% { top: 20%; } 50% { top: 80%; } 100% { top: 20%; } }
-
-        /* --- SGH LEXIQUE --- */
-        .sgh-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .sgh-item { background: white; padding: 10px; border-radius: 15px; text-align: center; border-bottom: 3px solid var(--restev-violet); }
-        .sgh-item img { width: 40px; height: 40px; }
-        .sgh-item b { font-size: 0.65rem; display: block; }
-
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; }
-        .vlep-badge { position: absolute; top: 12px; right: 12px; background: #fee2e2; color: #b91c1c; padding: 3px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; }
-        
+        /* --- DESIGN DASHBOARD --- */
+        .welcome-card { background: linear-gradient(135deg, var(--restev-blue), #1e40af); color: white; padding: 25px; border-radius: 0 0 30px 30px; margin-bottom: 20px; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; width: 20%; }
         .nav-item.active { color: var(--restev-blue); }
 
         .app-page { display: none; animation: fadeIn 0.3s ease; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        #job-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; overflow-y: auto; padding: 20px; }
-        .prev-box { background: #f0fdf4; border: 1px solid #dcfce7; padding: 15px; border-radius: 15px; font-size: 0.85rem; white-space: pre-line; }
+        /* --- FORMULAIRE COMPTE --- */
+        .form-user { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .btn-save { background: var(--restev-green); color: white; font-weight: bold; border-radius: 15px; padding: 12px; border: none; width: 100%; }
+
+        .prev-highlight { background: #eff6ff; border: 1px solid var(--restev-blue); padding: 15px; border-radius: 15px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div id="splash">
-        <div class="glass-box">
-            <img src="logo-restev.png" style="width: 220px; margin-bottom: 30px;">
-            <button class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-primary shadow" onclick="startApp()">ACCÉDER</button>
-        </div>
+    <div class="app-header bg-white p-3 text-center border-bottom">
+        <img src="logo-restev.png" height="35">
     </div>
 
-    <div class="app-header"><img src="logo-restev.png" height="35"></div>
+    <div id="page-profile" class="app-page">
+        <div class="p-4">
+            <h4 class="fw-bold mb-4">Mon Profil Adhérent</h4>
+            <div class="form-user">
+                <div class="mb-3">
+                    <label class="small fw-bold">Nom Prénom</label>
+                    <input type="text" id="user-name" class="form-control" placeholder="Jean Dupont">
+                </div>
+                <div class="mb-3">
+                    <label class="small fw-bold">Entreprise</label>
+                    <input type="text" id="user-company" class="form-control" placeholder="Société 85">
+                </div>
+                <div class="mb-4">
+                    <label class="small fw-bold">Mon Métier / Secteur</label>
+                    <select id="user-job" class="form-select">
+                        <option value="">-- Choisir mon métier --</option>
+                        <option value="menuisier">Menuisier / Travail du bois</option>
+                        <option value="soudeur">Soudeur / Métallurgie</option>
+                        <option value="ash">Agent de Propreté / ASH</option>
+                        <option value="batiment">Bâtiment / Gros Oeuvre</option>
+                        <option value="bureau">Tertiaire / Bureautique</option>
+                        <option value="sante">Santé / Soignant</option>
+                    </select>
+                </div>
+                <button class="btn-save" onclick="saveProfile()">ENREGISTRER MON PROFIL</button>
+            </div>
+        </div>
+    </div>
 
     <div id="page-home" class="app-page active-page">
-        <div class="welcome-section text-center">
-            <h4 class="fw-bold mb-1">RESTEV 85</h4>
-            <p class="text-muted small">Votre partenaire Santé au Travail en Vendée.</p>
+        <div class="welcome-card">
+            <h5 class="mb-0">Bonjour <span id="display-name">Adhérent</span> !</h5>
+            <p class="small mb-0 opacity-75" id="display-company">RESTEV vous accompagne</p>
         </div>
-        <div class="grid-menu">
-            <div class="menu-card" onclick="nav('page-scan', document.getElementById('nav-scan'))">
-                <i class="fa-solid fa-barcode text-primary"></i>
-                <b>Scan Produit</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-metiers', document.getElementById('nav-metiers'))">
-                <i class="fa-solid fa-user-shield text-success"></i>
-                <b>Métiers</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-diag', document.getElementById('nav-eval'))">
-                <i class="fa-solid fa-clipboard-check text-warning"></i>
-                <b>Check-up</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-sgh', document.getElementById('nav-sgh'))">
-                <i class="fa-solid fa-triangle-exclamation text-info"></i>
-                <b>Signaux SGH</b>
-            </div>
-        </div>
-    </div>
 
-    <div id="page-scan" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-2">Identification Code-Barres</h5>
-            <p class="small text-muted mb-3">Scannez le code EAN d'un produit chimique pour l'identifier.</p>
-            <div id="reader-container" style="position: relative; display:none;">
-                <div id="reader"></div>
-                <div class="scan-overlay"></div>
+            <div id="personal-prevention">
+                <div class="text-center p-4 border rounded-4 bg-white">
+                    <p class="small text-muted">Complétez votre profil pour recevoir vos préconisations métiers personnalisées.</p>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill" onclick="nav('page-profile', document.getElementById('nav-profile'))">Créer mon compte</button>
+                </div>
             </div>
-            <button id="btn-scan-start" class="btn btn-primary w-100 py-3 rounded-4 fw-bold shadow" onclick="startScanner()">ACTIVER LE LECTEUR</button>
-            
-            <div id="res-area" class="d-none mt-4">
-                <div class="card-custom">
-                    <h5 class="fw-bold text-primary">Produit Détecté</h5>
-                    <p id="res-code" class="fw-bold fs-4 text-center my-3"></p>
-                    <div class="d-grid gap-2">
-                        <a id="fds-link" target="_blank" class="btn btn-violet text-white fw-bold py-2 rounded-pill" style="background: var(--restev-violet)">
-                            <i class="fa-solid fa-file-pdf me-2"></i>RECHERCHER LA FDS
-                        </a>
-                        <button class="btn btn-light btn-sm mt-2" onclick="location.reload()">Réinitialiser</button>
+
+            <h6 class="fw-bold mt-4 mb-3">Outils Rapides</h6>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="p-3 bg-white rounded-4 text-center border shadow-sm" onclick="nav('page-scan', document.getElementById('nav-scan'))">
+                        <i class="fa-solid fa-barcode text-primary mb-2 fs-3"></i><br><b class="small">Scan EAN</b>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 bg-white rounded-4 text-center border shadow-sm" onclick="nav('page-contact', document.getElementById('nav-contact'))">
+                        <i class="fa-solid fa-map-pin text-danger mb-2 fs-3"></i><br><b class="small">Nos Centres</b>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="page-sgh" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3">Lexique SGH</h5>
-            <div class="sgh-grid" id="sgh-list"></div>
-        </div>
-    </div>
-
-    <div id="page-metiers" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3">Prévention Métiers</h5>
-            <input type="text" class="form-control rounded-pill mb-4 px-4 py-3 border-0 shadow-sm" placeholder="Ex: Soudeur..." onkeyup="renderMetiers(this.value)">
-            <div id="metiers-list"></div>
-        </div>
-    </div>
-
-    <div id="page-diag" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-4 text-center">Auto-Évaluation Flash</h5>
-            <div id="diag-container" class="card-custom">
-                <p id="q-text" class="fw-bold fs-5"></p>
-                <div class="d-grid gap-2 mt-4">
-                    <button class="btn btn-outline-primary py-3 rounded-4 fw-bold" onclick="answer(1)">CONFORME</button>
-                    <button class="btn btn-outline-secondary py-3 rounded-4" onclick="answer(0)">NON CONFORME</button>
-                </div>
-            </div>
+    <div id="page-scan" class="app-page">
+        <div class="p-4 text-center">
+            <h5 class="fw-bold">Identification Produit</h5>
+            <div id="reader" class="my-3" style="border-radius:20px; overflow:hidden;"></div>
+            <button class="btn btn-primary w-100 rounded-pill py-3" onclick="startScanner()">Lancer le scan</button>
         </div>
     </div>
 
@@ -156,42 +116,79 @@
     <div class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>HOME</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-user-shield"></i>MÉTIERS</button>
-        <button id="nav-eval" class="nav-item" onclick="nav('page-diag', this)"><i class="fa-solid fa-check-double"></i>ÉVAL</button>
-        <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-map-pin"></i>SITES</button>
-    </div>
-
-    <div id="job-modal">
-        <button class="btn btn-light mb-4 rounded-pill shadow-sm" onclick="closeJob()"><i class="fa-solid fa-arrow-left"></i> Retour</button>
-        <div id="job-content"></div>
+        <button id="nav-profile" class="nav-item" onclick="nav('page-profile', this)"><i class="fa-solid fa-user-circle"></i>COMPTE</button>
+        <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
     </div>
 
     <script>
-        const sghLexique = [
-            { img: "SGH02_Flamme.jpg", t: "Inflammable" }, { img: "SGH05_Corrosion.jpg", t: "Corrosif" },
-            { img: "SGH07_PointExclamation.jpg", t: "Nocif" }, { img: "SGH08_DangerSante.jpg", t: "CMR" },
-            { img: "SGH06_TeteDeMort.jpg", t: "Toxique" }, { img: "SGH09_Environnement.jpg", t: "Polluant" }
-        ];
-
-        const metiersData = [
-            { m: "Menuisier / Ébéniste", vlep: "Bois: 1mg/m³", r: "Cancers (poussières), Bruit, Coupures.", p: "• TECHNIQUE : Aspiration contrôlée.\n• ORGA : Nettoyage à l'aspirateur.\n• EPI : Masque FFP3 + Casque." },
-            { m: "Soudeur (TIG/MIG)", vlep: "Fumées: 5mg/m³", r: "Fumées, UV, Brûlures.", p: "• TECHNIQUE : Torche aspirante.\n• ORGA : Rideaux de soudage.\n• EPI : Cagoule auto." },
-            { m: "Peintre en Carrosserie", vlep: "Isocyanates", r: "Asthme pro, Solvants, Feu.", p: "• TECHNIQUE : Cabine ventilée.\n• ORGA : Stockage armoire sécu.\n• EPI : Masque adduction d'air." },
-            { m: "Agent de Propreté", vlep: "Risque Chimie", r: "Brûlures, TMS, Dermatoses.", p: "• TECHNIQUE : Doseurs automatiques.\n• ORGA : Pas de mélange Javel/Acide.\n• EPI : Gants nitrile longs." },
-            { m: "Bâtiment / Gros Oeuvre", vlep: "Silice: 0.1mg/m³", r: "Silicose, Chutes, Manutention.", p: "• TECHNIQUE : Arrosage ou aspiration.\n• ORGA : Échafaudages vérifiés.\n• EPI : Casque + Chaussures S3." },
-            { m: "Soignant / EHPAD", vlep: "Risque Bio", r: "TMS, AES, Burn-out.", p: "• TECHNIQUE : Lève-malades.\n• ORGA : Tri des déchets AES.\n• PREV : Formation PRAP." }
-        ];
+        // DATA PRÉVENTION DÉTAILLÉE PAR COMPTE
+        const prevData = {
+            menuisier: {
+                title: "Menuisier : Risques Poussières & Coupures",
+                content: "• Aspiration centralisée obligatoire.\n• Port du masque FFP3 lors des ponçages.\n• Contrôle annuel des protecteurs de machines.",
+                alert: "VLEP Poussière de bois : 1 mg/m³"
+            },
+            soudeur: {
+                title: "Soudeur : Risques Fumées & Rayonnements",
+                content: "• Utilisation de torche aspirante.\n• Écrans de soudage pour protéger les collègues.\n• Cagoule opto-électronique obligatoire.",
+                alert: "Surveillance renforcée recommandée."
+            },
+            ash: {
+                title: "Propreté : Risques Chimiques & TMS",
+                content: "• Ne jamais mélanger Javel et détartrant.\n• Utiliser des perches télescopiques pour éviter les extensions.\n• Port de gants nitrile certifiés.",
+                alert: "Consultez vos FDS en un clic via le scan."
+            },
+            bureau: {
+                title: "Tertiaire : Risques Postures & Vision",
+                content: "• Écran à hauteur des yeux.\n• Alternance assis/debout toutes les 2h.\n• Réglage de la luminosité pour éviter les reflets.",
+                alert: "Pensez aux micro-pauses actives."
+            }
+        };
 
         const centres = [
-            { n: "La Roche-sur-Yon (Siège)", a: "Rue Benjamin Franklin", t: "02 51 37 00 00", g: "https://maps.app.goo.gl/uXpUuDny7rS294XW9" },
-            { n: "Les Essarts", a: "15 Rue des Artisans", t: "02 51 48 44 44", g: "https://maps.app.goo.gl/pWj9D8uQZJkCjA8m8" },
-            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00", g: "https://maps.app.goo.gl/P2h8A6S7uK4m8vG6" },
-            { n: "Montaigu-Vendée", a: "Pôle de la Maine", t: "02 51 94 00 00", g: "https://maps.app.goo.gl/Y9E8z5C7rL2p7vR8" }
+            { n: "La Roche-sur-Yon", a: "Rue Benjamin Franklin", t: "02 51 37 00 00", g: "https://goo.gl/maps/1" },
+            { n: "Les Essarts", a: "15 Rue des Artisans", t: "02 51 48 44 44", g: "https://goo.gl/maps/2" },
+            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00", g: "https://goo.gl/maps/3" }
         ];
 
-        let qIdx = 0, score = 0, scanner;
+        // LOGIQUE DU COMPTE
+        function saveProfile() {
+            const user = {
+                name: document.getElementById('user-name').value,
+                company: document.getElementById('user-company').value,
+                job: document.getElementById('user-job').value
+            };
+            localStorage.setItem('restev_user', JSON.stringify(user));
+            applyProfile();
+            nav('page-home', document.getElementById('nav-home'));
+        }
 
-        function startApp() { document.getElementById('splash').style.display='none'; renderSGH(); renderMetiers(); renderCentres(); updateQ(); }
+        function applyProfile() {
+            const stored = localStorage.getItem('restev_user');
+            if(stored) {
+                const user = JSON.parse(stored);
+                document.getElementById('display-name').innerText = user.name || "Adhérent";
+                document.getElementById('display-company').innerText = user.company || "RESTEV Vendée";
+                
+                // Préremplir le formulaire
+                document.getElementById('user-name').value = user.name;
+                document.getElementById('user-company').value = user.company;
+                document.getElementById('user-job').value = user.job;
+
+                // Afficher la prévention dédiée
+                const data = prevData[user.job];
+                if(data) {
+                    document.getElementById('personal-prevention').innerHTML = `
+                        <div class="card-custom">
+                            <span class="badge bg-danger mb-2">MA PRÉVENTION DÉDIÉE</span>
+                            <h6 class="fw-bold">${data.title}</h6>
+                            <div class="prev-highlight small text-muted text-start" style="white-space:pre-line;">${data.content}</div>
+                            <div class="mt-2 text-primary fw-bold small"><i class="fa-solid fa-circle-exclamation"></i> ${data.alert}</div>
+                        </div>
+                    `;
+                }
+            }
+        }
 
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
@@ -200,61 +197,32 @@
             el.classList.add('active');
         }
 
-        function startScanner() {
-            document.getElementById('reader-container').style.display = 'block';
-            document.getElementById('btn-scan-start').classList.add('d-none');
-            
-            scanner = new Html5Qrcode("reader");
-            const config = { fps: 20, qrbox: { width: 300, height: 150 }, formatsToSupport: [ Html5QrcodeSupportedFormats.EAN_13, Html5QrcodeSupportedFormats.EAN_8 ] };
-
-            scanner.start({ facingMode: "environment" }, config, (txt) => {
-                document.getElementById('res-code').innerText = txt;
-                document.getElementById('fds-link').href = `https://www.google.com/search?q=Fiche+de+donnees+de+securite+${txt}`;
-                document.getElementById('res-area').classList.remove('d-none');
-                document.getElementById('reader-container').style.display = 'none';
-                scanner.stop();
-            });
-        }
-
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghLexique.map(s => `
-                <div class="sgh-item"><img src="${s.img}"><b>${s.t}</b></div>
-            `).join('');
-        }
-
-        function renderMetiers(f="") {
-            const list = document.getElementById('metiers-list'); list.innerHTML = "";
-            metiersData.filter(m => m.m.toLowerCase().includes(f.toLowerCase())).forEach((m, i) => {
-                list.innerHTML += `<div class="card-custom" onclick="openJob(${i})"><span class="vlep-badge">${m.vlep}</span><b>${m.m}</b></div>`;
-            });
-        }
-
-        function openJob(i) {
-            const m = metiersData[i];
-            document.getElementById('job-content').innerHTML = `<div class="card-custom"><h3 class="fw-bold text-primary">${m.m}</h3><p class="small"><b>Risques:</b> ${m.r}</p><div class="prev-box">${m.p}</div></div>`;
-            document.getElementById('job-modal').style.display = 'block';
-        }
-        function closeJob() { document.getElementById('job-modal').style.display = 'none'; }
-
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(c => `
                 <div class="card-custom">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <b>${c.n}</b>
-                        <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-success">GPS</a>
+                        <a href="${c.g}" class="btn btn-sm btn-outline-success rounded-pill">GPS</a>
                     </div>
                     <small class="text-muted">${c.a}</small><br>
-                    <a href="tel:${c.t}" class="btn btn-sm btn-primary mt-2 rounded-pill px-4">${c.t}</a>
+                    <a href="tel:${c.t}" class="btn btn-sm btn-primary mt-2 rounded-pill">${c.t}</a>
                 </div>
             `).join('');
         }
 
-        const questions = ["Le DUERP est-il à jour ?", "Les FDS sont-elles accessibles ?", "EPI portés ?", "SST formés ?", "Extincteurs OK ?"];
-        function answer(v) { 
-            if(qIdx < questions.length - 1) { qIdx++; updateQ(); } 
-            else { document.getElementById('diag-container').innerHTML = "<h3 class='text-center'>Merci ! Rapport en attente.</h3>"; }
+        function startScanner() {
+            let scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
+                alert("Code identifié : " + txt);
+                scanner.stop();
+            });
         }
-        function updateQ() { document.getElementById('q-text').innerText = questions[qIdx]; }
+
+        // INIT
+        window.onload = () => {
+            applyProfile();
+            renderCentres();
+        };
     </script>
 </body>
 </html>
