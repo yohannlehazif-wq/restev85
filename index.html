@@ -82,6 +82,32 @@
         <div id="inventory-container"></div>
     </div>
 
+    <!-- QUIZ -->
+    <div id="page-quiz" class="app-page">
+        <h5 class="fw-bold mb-3">Auto-Évaluation</h5>
+        <div class="progress mb-3" style="height: 10px; border-radius: 10px;">
+            <div id="quiz-progress" class="progress-bar bg-primary" style="width: 0%"></div>
+        </div>
+        <div id="quiz-container">
+            <div class="card-custom text-center py-4">
+                <small class="text-muted d-block mb-2" id="quiz-step">Question 1/10</small>
+                <h6 id="quiz-question" class="fw-bold mb-4" style="min-height: 50px;">...</h6>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary py-2 fw-bold" onclick="nextQ(2)">OUI, TOTALEMENT</button>
+                    <button class="btn btn-outline-warning py-2 fw-bold" onclick="nextQ(1)">PARTIELLEMENT</button>
+                    <button class="btn btn-outline-danger py-2 fw-bold" onclick="nextQ(0)">NON, PAS ENCORE</button>
+                </div>
+            </div>
+        </div>
+        <div id="quiz-result" class="d-none card-custom text-center py-4">
+            <div id="result-icon" class="mb-3"></div>
+            <h3 id="result-score" class="fw-bold text-primary"></h3>
+            <p id="result-text" class="small text-muted mb-4"></p>
+            <button class="btn btn-primary w-100 rounded-pill py-2" onclick="nav('page-centres', 'nav-centres')">CONTACTER MON CENTRE</button>
+            <button class="btn btn-link text-muted mt-2" onclick="restartQuiz()">Recommencer</button>
+        </div>
+    </div>
+
     <!-- CENTRES -->
     <div id="page-centres" class="app-page">
         <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
