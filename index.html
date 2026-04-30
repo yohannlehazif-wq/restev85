@@ -4,304 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTEV 85 - Prévention Connectée</title>
-    <!-- Bibliothèques externes -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
-        /* CHARTE GRAPHIQUE EXACTE DU NOUVEAU LOGO */
+        /* CHARTE GRAPHIQUE RESTEV */
         :root { 
-            --r-blue: #3066a7;     /* Bleu du texte RESTEV */
-            --r-teal: #75bba8;     /* Turquoise de la virgule */
-            --r-purple: #9b287b;   /* Violet/Magenta du V */
-            --r-yellow: #f5a800;   /* Jaune/Orange du soleil */
-            --bg-light: #f8fafc;
-        }
-
-        body { 
-            background-color: var(--bg-light); 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            color: #2b3a4a; 
-            margin-bottom: 95px; /* Espace pour la barre du bas */
-        }
-        
-        /* --- ÉCRAN DE DÉMARRAGE (SPLASH) --- */
-        #splash { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: white; z-index: 9999; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-        }
-        .splash-logo { 
-            width: 220px; max-width: 70%; 
-            margin-bottom: 50px; 
-            animation: pulse 2s infinite ease-in-out;
-        }
-        .btn-start { 
-            background: linear-gradient(135deg, var(--r-yellow), #e09400); 
-            color: white; border: none; padding: 15px 60px; 
-            border-radius: 50px; font-weight: bold; font-size: 1.1rem;
-            box-shadow: 0 10px 20px rgba(245, 168, 0, 0.3); 
-            transition: transform 0.2s;
-        }
-        .btn-start:active { transform: scale(0.95); }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* --- EN-TÊTE --- */
-        .app-header { 
-            background: white; padding: 15px; text-align: center; 
-            border-bottom: 4px solid var(--r-teal); 
-            position: sticky; top: 0; z-index: 1000; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-        }
-        .header-logo { height: 45px; object-fit: contain; }
-
-        /* --- ACCUEIL & CARTES --- */
-        .welcome-card { 
-            background: linear-gradient(135deg, var(--r-blue), #1e4575); 
-            color: white; padding: 30px 20px; 
-            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; 
-            margin-bottom: 30px; text-align: center; 
-            box-shadow: 0 8px 20px rgba(48, 102, 167, 0.2);
-        }
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 0 25px; }
-        .menu-card { 
-            background: white; padding: 25px 15px; 
-            border-radius: 25px; text-align: center; 
-            border: 1px solid #edf2f7; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.04); 
-            cursor: pointer; transition: 0.2s; 
-        }
-        .menu-card:active { transform: scale(0.95); }
-        .menu-card i { font-size: 2.5rem; margin-bottom: 15px; display: block; }
-
-        /* --- SGH GRID --- */
-        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .sgh-box { 
-            background: white; border-radius: 18px; padding: 12px; text-align: center; 
-            border-bottom: 4px solid var(--r-purple); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-            font-size: 0.65rem; font-weight: 800; 
-        }
-        .sgh-box img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 10px; }
-
-        /* --- SCANNER --- */
-        #reader { width: 100%; border-radius: 25px; overflow: hidden; border: 5px solid var(--r-blue); background: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-
-        /* --- UI GLOBALE --- */
-        .card-custom { 
-            background: white; border-radius: 20px; padding: 20px; margin-bottom: 18px; 
-            border-left: 6px solid var(--r-blue); 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.04); 
-        }
-        .search-bar { border: 2px solid #e2e8f0; padding: 15px 25px; border-radius: 50px; font-size: 1rem; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
-        
-        /* --- NAVIGATION BASSE --- */
-        .nav-bottom { 
-            position: fixed; bottom: 0; width: 100%; 
-            background: white; display: flex; justify-content: space-around; 
-            padding: 15px 0 10px 0; border-top: 1px solid #edf2f7; 
-            z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.03); 
-        }
-        .nav-item { 
-            border: none; background: none; color: #a0aec0; 
-            font-size: 0.65rem; font-weight: 800; 
-            display: flex; flex-direction: column; align-items: center; width: 20%; 
-            transition: color 0.2s;
-        }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
-        .nav-item.active { color: var(--r-blue); }
-        .nav-item.active i { transform: translateY(-3px); }
-
-        /* GESTION DES PAGES */
-        .app-page { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body>
-
-    <!-- ÉCRAN DE DÉMARRAGE -->
-    <div id="splash">
-        <!-- Remplacer par l'image CARREE -->
-        <img src="logo_restev_carre.png" alt="RESTEV 85" class="splash-logo" onerror="this.src='https://via.placeholder.com/220?text=Logo+Carre'">
-        <button class="btn-start" onclick="startApp()">ENTRER</button>
-    </div>
-
-    <!-- EN-TÊTE -->
-    <div class="app-header">
-        <!-- Remplacer par l'image HORIZONTALE -->
-        <img src="logo_restev_long.png" alt="RESTEV" class="header-logo" onerror="this.src='https://via.placeholder.com/200x50?text=Logo+Long'">
-    </div>
-
-    <!-- 1. ACCUEIL -->
-    <div id="page-home" class="app-page active-page">
-        <div class="welcome-card">
-            <h4 class="fw-bold mb-1">Prévention Santé au Travail</h4>
-            <p class="mb-0 text-white-50">L'application de vos collaborateurs</p>
-        </div>
-        <div class="grid-menu">
-            <div class="menu-card" onclick="nav('page-scan', document.getElementById('nav-scan'))">
-                <i class="fa-solid fa-barcode" style="color: var(--r-blue);"></i>
-                <b style="color: var(--r-blue);">Scanner FDS</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-metiers', document.getElementById('nav-metiers'))">
-                <i class="fa-solid fa-helmet-safety" style="color: var(--r-teal);"></i>
-                <b style="color: var(--r-teal);">Métiers</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-inventory', document.getElementById('nav-inv'))">
-                <i class="fa-solid fa-boxes-stacked" style="color: var(--r-yellow);"></i>
-                <b style="color: var(--r-yellow);">Mon Stock</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-sgh', document.getElementById('nav-sgh'))">
-                <i class="fa-solid fa-triangle-exclamation" style="color: var(--r-purple);"></i>
-                <b style="color: var(--r-purple);">Dangers</b>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. SCANNER -->
-    <div id="page-scan" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-4" style="color: var(--r-blue); text-align: center;">Scan de Produit Chimique</h5>
-            <div id="reader"></div>
-            <button class="btn w-100 py-3 rounded-pill mt-4 fw-bold text-white" style="background: var(--r-blue); font-size: 1.1rem; box-shadow: 0 5px 15px rgba(48,102,167,0.3);" onclick="startScanner()">
-                <i class="fa-solid fa-camera me-2"></i> ACTIVER LE SCANNER
-            </button>
-            
-            <div id="res-area" class="d-none mt-4">
-                <div class="card-custom text-center" style="border-left-color: var(--r-teal);">
-                    <h6 class="text-muted text-uppercase small">Code-barres détecté</h6>
-                    <p id="res-code" class="fw-bold fs-3" style="color: var(--r-blue);"></p>
-                    <a id="fds-link" target="_blank" class="btn text-white w-100 rounded-pill py-2 fw-bold" style="background: var(--r-teal);">LIRE LA FICHE FDS</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. FICHES MÉTIERS -->
-    <div id="page-metiers" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--r-teal);">Prévention par Métier</h5>
-            <input type="text" id="search-input" class="form-control search-bar w-100 mb-4" placeholder="Ex: Peintre, Boucher, Maçon..." onkeyup="searchInternal()">
-            <div id="search-results"></div>
-        </div>
-    </div>
-
-    <!-- 4. INVENTAIRE (STOCK) -->
-    <div id="page-inventory" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--r-yellow);">Mon Inventaire Produit</h5>
-            <div class="input-group mb-4" style="box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-radius: 50px;">
-                <input type="text" id="inv-input" class="form-control border-0 py-3 px-4" style="border-radius: 50px 0 0 50px; background: white;" placeholder="Nom du produit à ajouter...">
-                <button class="btn text-white px-4 fw-bold" style="background: var(--r-yellow); border-radius: 0 50px 5C'est la touche finale parfaite ! On touche effectivement au but. Avec ces deux versions de votre logo, nous allons pouvoir optimiser l'affichage : le logo **carré/vertical** sera parfait pour l'écran de chargement (Splash Screen), et le logo **horizontal** sera idéal pour l'en-tête de l'application (Header) afin de gagner de la place sur l'écran.
-
-J'ai adapté le code pour intégrer ces deux formats et ajusté les proportions pour que le rendu soit impeccable.
-
-### 📂 Ce que vous devez faire avant de copier le code :
-Enregistrez les deux logos que vous venez de m'envoyer dans le même dossier que votre fichier HTML et renommez-les **exactement** ainsi :
-1. Le premier logo (format carré) : renommez-le `logo_carre.jpg` (ou `.png` selon le format d'enregistrement).
-2. Le deuxième logo (format allongé) : renommez-le `logo_horizontal.jpg` (ou `.png`).
-
-*(Si vos images s'enregistrent en `.png`, pensez à modifier les extensions dans le code ci-dessous).*
-
----
-
-### 💻 Code Master Final - Édition RESTEV Officielle
-
-Voici la version ultime. Copiez-collez l'intégralité de ce code :
-```html
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Prévention Connectée</title>
-    <link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css)" rel="stylesheet">
-    <script src="[https://unpkg.com/html5-qrcode](https://unpkg.com/html5-qrcode)"></script>
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
-    <style>
-        /* CHARTE GRAPHIQUE EXACTE RESTEV */
-        :root { 
-            --restev-blue: #3065a8;    /* Bleu principal du texte */
-            --restev-teal: #75bba8;    /* Vert d'eau de la virgule */
-            --restev-purple: #ae227d;  /* Violet/Magenta de la virgule */
-            --restev-yellow: #e6a00f;  /* Jaune/Orange du soleil */
+            --restev-blue: #3065a8;    /* Bleu texte */
+            --restev-teal: #75bba8;    /* Vert d'eau */
+            --restev-purple: #ae227d;  /* Magenta */
+            --restev-yellow: #e6a00f;  /* Jaune soleil */
             --bg: #f8fafc;
         }
 
-        body { background-color: var(--bg); font-family: 'Segoe UI', system-ui, sans-serif; color: #1e293b; margin-bottom: 95px; }
+        body { background-color: var(--bg); font-family: 'Segoe UI', system-ui, sans-serif; color: #1e293b; margin-bottom: 95px; overflow-x: hidden; }
         
-        /* --- ECRAN DE CHARGEMENT (SPLASH) --- */
+        /* --- ECRAN DE CHARGEMENT (SPLASH) AMÉLIORÉ --- */
         #splash { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            background: linear-gradient(-45deg, #ffffff, #f0f7ff, #ffffff, #e6f0f9);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
-        .splash-logo { width: 220px; max-width: 70%; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05)); margin-bottom: 40px; }
-        .btn-start { background: linear-gradient(90deg, var(--restev-blue), var(--restev-teal)); color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 20px rgba(48,101,168,0.2); transition: 0.3s; }
-        .btn-start:active { transform: scale(0.95); }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .splash-logo { 
+            width: 240px; max-width: 75%; 
+            filter: drop-shadow(0 15px 25px rgba(48,101,168,0.15));
+            margin-bottom: 50px;
+            animation: logoPop 1.2s cubic-bezier(0.17, 0.67, 0.83, 1.3) forwards;
+            opacity: 0;
+        }
+
+        @keyframes logoPop {
+            0% { transform: scale(0.5) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .btn-start { 
+            background: linear-gradient(90deg, var(--restev-blue), var(--restev-teal)); 
+            color: white; border: none; padding: 18px 60px; border-radius: 50px; 
+            font-weight: bold; font-size: 1.1rem; letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(48,101,168,0.25); transition: 0.3s; 
+            opacity: 0; animation: buttonFadeIn 0.8s 0.8s ease-out forwards;
+        }
+
+        @keyframes buttonFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-start:active { transform: scale(0.92); }
+
+        .splash-footer { position: absolute; bottom: 30px; font-size: 0.7rem; color: var(--restev-blue); opacity: 0.5; font-weight: bold; }
 
         /* --- EN-TÊTE (HEADER) --- */
         .app-header { background: white; padding: 15px 10px; text-align: center; border-bottom: 4px solid var(--restev-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .header-logo { height: auto; max-height: 45px; max-width: 90%; object-fit: contain; }
 
-        /* --- ACCUEIL --- */
-        .welcome-card { background: linear-gradient(135deg, var(--restev-blue), #1e4578); color: white; padding: 25px; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-        .menu-card { background: white; padding: 20px 10px; border-radius: 20px; text-align: center; border: 1px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; transition: 0.2s; }
-        .menu-card:active { transform: scale(0.95); background-color: #f1f5f9; }
-        .menu-card i { font-size: 2.2rem; margin-bottom: 12px; display: block; }
-        .menu-card b { font-size: 0.9rem; }
-
-        /* --- GRILLE SGH --- */
-        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
-        .sgh-box { background: white; border-radius: 12px; padding: 10px; text-align: center; border-bottom: 3px solid var(--restev-purple); box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.6rem; font-weight: bold; }
-        .sgh-box img { width: 100%; max-width: 50px; height: auto; object-fit: contain; margin-bottom: 8px; }
-
-        /* --- SCANNER --- */
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--restev-teal); background: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-
-        /* --- ELEMENTS COMMUNS --- */
-        .card-custom { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-        .prev-box { background: #f0f7ff; border-radius: 10px; padding: 15px; margin-top: 10px; font-size: 0.85rem; border: 1px solid #dbeafe; white-space: pre-line; color: #334155; }
-        .badge-epi { background: #eef2f6; color: var(--restev-blue); padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; margin-right: 5px; font-weight: bold; display: inline-block; margin-top: 5px; }
-
-        /* --- BARRE DE NAVIGATION --- */
+        /* --- NAVIGATION BASSE --- */
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.03); }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; width: 20%; transition: 0.2s; }
         .nav-item i { font-size: 1.2rem; margin-bottom: 4px; }
         .nav-item.active { color: var(--restev-blue); }
 
-        .app-page { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* --- PAGES ET CARTES --- */
+        .app-page { display: none; animation: fadeIn 0.4s ease-out; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .welcome-card { background: linear-gradient(135deg, var(--restev-blue), #1e4578); color: white; padding: 25px; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; margin-bottom: 25px; text-align: center; }
+        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+        .menu-card { background: white; padding: 20px 10px; border-radius: 20px; text-align: center; border: 1px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; }
+        .menu-card i { font-size: 2.2rem; margin-bottom: 12px; display: block; }
+
+        .card-custom { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--restev-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
+        .sgh-box { background: white; border-radius: 12px; padding: 10px; text-align: center; border-bottom: 3px solid var(--restev-purple); font-size: 0.6rem; font-weight: bold; }
+        .sgh-box img { width: 100%; max-width: 50px; margin-bottom: 8px; }
+        
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--restev-teal); background: #000; }
+        .prev-box { background: #f0f7ff; border-radius: 10px; padding: 15px; margin-top: 10px; font-size: 0.85rem; border: 1px solid #dbeafe; white-space: pre-line; }
     </style>
 </head>
 <body>
 
-    <!-- ECRAN DE CHARGEMENT -->
+    <!-- ECRAN DE CHARGEMENT ANIMÉ -->
     <div id="splash">
-        <!-- ICI LE LOGO CARRE -->
-        <img src="logo_carre.jpg" alt="RESTEV" class="splash-logo" onerror="this.src='[https://via.placeholder.com/200?text=LOGO+CARRE](https://via.placeholder.com/200?text=LOGO+CARRE)'">
-        <button class="btn-start" onclick="startApp()">DÉMARRER</button>
+        <img src="LOGO-RESTEV-DIGITAL-RVB.png" alt="RESTEV" class="splash-logo">
+        <button class="btn-start" onclick="startApp()">
+            DÉMARRER <i class="fa-solid fa-arrow-right ms-2"></i>
+        </button>
+        <div class="splash-footer">PRÉVENTION SANTÉ TRAVAIL VENDÉE</div>
     </div>
 
-    <!-- EN-TÊTE -->
+    <!-- EN-TÊTE FIXE -->
     <div class="app-header">
-        <!-- ICI LE LOGO HORIZONTAL -->
-        <img src="logo_horizontal.jpg" alt="RESTEV" class="header-logo" onerror="this.src='[https://via.placeholder.com/300x60?text=LOGO+HORIZONTAL](https://via.placeholder.com/300x60?text=LOGO+HORIZONTAL)'">
+        <img src="logo-restev_2.png" alt="RESTEV" class="header-logo">
     </div>
 
-    <!-- PAGE: ACCUEIL -->
+    <!-- CONTENU : ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="welcome-card">
-            <h5 class="fw-bold mb-1">Espace Prévention</h5>
-            <p class="small mb-0 opacity-75">Santé & Sécurité au Travail en Vendée</p>
+            <h5 class="fw-bold mb-1">Espace Adhérents</h5>
+            <p class="small mb-0 opacity-75">Votre portail prévention mobile</p>
         </div>
         <div class="grid-menu">
             <div class="menu-card" onclick="nav('page-scan', document.getElementById('nav-scan'))">
@@ -310,66 +122,65 @@ Voici la version ultime. Copiez-collez l'intégralité de ce code :
             </div>
             <div class="menu-card" onclick="nav('page-metiers', document.getElementById('nav-metiers'))">
                 <i class="fa-solid fa-helmet-safety" style="color: var(--restev-teal);"></i>
-                <b>Métiers</b>
+                <b>Fiches Métiers</b>
             </div>
             <div class="menu-card" onclick="nav('page-inventory', document.getElementById('nav-inv'))">
                 <i class="fa-solid fa-boxes-stacked" style="color: var(--restev-yellow);"></i>
-                <b>Inventaire</b>
+                <b>Mon Stock</b>
             </div>
             <div class="menu-card" onclick="nav('page-sgh', document.getElementById('nav-sgh'))">
                 <i class="fa-solid fa-triangle-exclamation" style="color: var(--restev-purple);"></i>
-                <b>Danger SGH</b>
+                <b>Risques SGH</b>
             </div>
         </div>
     </div>
 
-    <!-- PAGE: SCANNER -->
+    <!-- PAGE : SCANNER -->
     <div id="page-scan" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--restev-blue);">Recherche de FDS</h5>
-            <p class="text-muted small">Scannez le code-barres d'un produit chimique pour trouver sa Fiche de Données de Sécurité.</p>
+            <h5 class="fw-bold mb-3" style="color: var(--restev-blue);">Scanner un produit</h5>
             <div id="reader"></div>
-            <button class="btn w-100 py-3 rounded-pill mt-4 fw-bold text-white shadow-sm" style="background: var(--restev-blue);" onclick="startScanner()">LANCER LA CAMÉRA</button>
+            <button class="btn w-100 py-3 rounded-pill mt-4 fw-bold text-white shadow-sm" style="background: var(--restev-blue);" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
             <div id="res-area" class="d-none mt-4">
                 <div class="card-custom text-center" style="border-left-color: var(--restev-teal);">
-                    <h6 class="text-muted">Code détecté :</h6>
-                    <p id="res-code" class="fw-bold fs-4 text-dark"></p>
-                    <a id="fds-link" target="_blank" class="btn text-white w-100 rounded-pill fw-bold" style="background: var(--restev-teal);">VOIR LA FICHE FDS SUR GOOGLE</a>
+                    <h6 class="text-muted small">Code détecté :</h6>
+                    <p id="res-code" class="fw-bold fs-4"></p>
+                    <a id="fds-link" target="_blank" class="btn text-white w-100 rounded-pill fw-bold" style="background: var(--restev-teal);">VOIR LA FDS</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- PAGE: MÉTIERS -->
+    <!-- PAGE : MÉTIERS -->
     <div id="page-metiers" class="app-page">
         <div class="p-4">
             <h5 class="fw-bold mb-3" style="color: var(--restev-teal);">Prévention par Métier</h5>
-            <input type="text" id="search-input" class="form-control rounded-pill mb-4 border-0 shadow-sm px-4 py-3" placeholder="Rechercher (ex: Boucher, Peintre...)" onkeyup="searchInternal()">
+            <input type="text" id="search-input" class="form-control rounded-pill mb-4 border-0 shadow-sm px-4 py-3" placeholder="Rechercher un métier..." onkeyup="searchInternal()">
             <div id="search-results"></div>
         </div>
     </div>
 
-    <!-- PAGE: INVENTAIRE -->
+    <!-- PAGE : INVENTAIRE -->
     <div id="page-inventory" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--restev-yellow);">Mon Inventaire Produit</h5>
-            <div class="input-group mb-4 shadow-sm rounded-pill overflow-hidden border">
-                <input type="text" id="inv-input" class="form-control border-0 py-3 px-4" placeholder="Saisir le nom d'un produit...">
+            <h5 class="fw-bold mb-3" style="color: var(--restev-yellow);">Mon Inventaire</h5>
+            <div class="input-group mb-4 shadow-sm rounded-pill overflow-hidden">
+                <input type="text" id="inv-input" class="form-control border-0 py-3 px-4" placeholder="Nom du produit...">
                 <button class="btn text-white px-4 fw-bold" style="background: var(--restev-yellow);" onclick="addInv()">AJOUTER</button>
             </div>
             <div id="inv-list"></div>
         </div>
     </div>
 
-    <!-- PAGE: SGH -->
+    <!-- PAGE : SGH -->
     <div id="page-sgh" class="app-page">
         <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--restev-purple);">Signalisation SGH</h5>
+            <h5 class="fw-bold mb-3" style="color: var(--restev-purple);">Symboles de Danger (SGH)</h5>
             <div class="sgh-grid" id="sgh-list"></div>
         </div>
     </div>
 
-    <!-- PAGE: CONTACTS -->
+    <!-- PAGE : CONTACTS -->
     <div id="page-contact" class="app-page">
         <div class="p-4">
             <h5 class="fw-bold mb-4" style="color: var(--restev-blue);">Vos Contacts RESTEV</h5>
@@ -377,16 +188,14 @@ Voici la version ultime. Copiez-collez l'intégralité de ce code :
                 <b class="fs-5">Yoann LE HAZIF</b><br>
                 <span class="text-muted">Technicien Prévention (TPRP)</span>
                 <div class="mt-3">
-                    <a href="tel:0251944329" class="btn btn-sm btn-outline-primary rounded-pill me-2 mb-2 px-3" style="color: var(--restev-blue); border-color: var(--restev-blue);">02 51 94 43 29</a>
-                    <a href="tel:0685675246" class="btn btn-sm text-white rounded-pill mb-2 px-3" style="background: var(--restev-blue);">06 85 67 52 46</a>
+                    <a href="tel:0685675246" class="btn btn-sm text-white rounded-pill px-3" style="background: var(--restev-blue);">Appeler le 06 85 67 52 46</a>
                 </div>
             </div>
-            <h6 class="fw-bold mt-4 mb-3 text-muted">Centres de proximité</h6>
             <div id="centres-list"></div>
         </div>
     </div>
 
-    <!-- NAVIGATION BASSE -->
+    <!-- BARRE DE NAVIGATION -->
     <div class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
@@ -396,37 +205,34 @@ Voici la version ultime. Copiez-collez l'intégralité de ce code :
     </div>
 
     <script>
-        // --- BASE DE DONNÉES ---
+        // --- DONNÉES ---
         const dbMetiers = [
-            { m: "Peintre / Carrossier", r: "Solvants, Isocyanates, Incendie.", p: "• Cabine ventilée obligatoire.\n• Stockage en armoire de sécurité.\n• Masque adduction d'air ou A2P3.", epi: ["Masque A2P3", "Gants Nitrile", "Combinaison"] },
-            { m: "Menuisier / Ébéniste", r: "Poussières de bois (Cancérigène), Bruit.", p: "• Aspiration centralisée (filtre classe M).\n• Nettoyage aspirateur (interdire la soufflette).\n• Protections auditives adaptées.", epi: ["Masque FFP3", "Bouchons/Casque", "Lunettes"] },
-            { m: "Boucherie / Charcuterie", r: "Coupures, Machines tranchantes, TMS.", p: "• Maintenance régulière des trancheurs.\n• Poussoirs obligatoires.\n• Alternance des tâches répétitives.", epi: ["Gants cotte mailles", "Tablier protection", "Chaussures SRC"] },
-            { m: "Agent de Propreté", r: "Risques Chimiques, Dermatoses, Chutes.", p: "• Utilisation de doseurs automatiques.\n• Ne JAMAIS mélanger Javel et acides.\n• Signalisation des sols mouillés.", epi: ["Gants à manchettes", "Chaussures SRC"] },
-            { m: "Maçon / Bâtiment", r: "Chutes de hauteur, Silice, Manutention.", p: "• Échafaudages montés par personnel formé.\n• Arrosage/Aspiration pour la silice.\n• Aide à la manutention.", epi: ["Casque", "Chaussures S3", "Gants manutention"] }
+            { m: "Peintre / Carrossier", r: "Solvants, Isocyanates, Incendie.", p: "• Cabine ventilée obligatoire.\n• Masque A2P3.\n• Gants nitrile." },
+            { m: "Menuisier", r: "Poussières de bois, Bruit, Coupures.", p: "• Aspiration à la source.\n• Masque FFP3.\n• Protections auditives." },
+            { m: "Boucher / Charcutier", r: "Coupures, Froid, TMS.", p: "• Gants cotte de mailles.\n• Chaussures antidérapantes.\n• Utilisation des poussoirs." }
         ];
 
         const sghData = [
-            { f: "SGH01_BombeExplosant.jpg", t: "Explosif" },
-            { f: "SGH02_Flamme.jpg", t: "Inflammable" },
-            { f: "SGH03_FlammeCercle.jpg", t: "Comburant" },
-            { f: "SGH04_BouteilleGaz.jpg", t: "Gaz" },
-            { f: "SGH05_Corrosion.jpg", t: "Corrosif" },
-            { f: "SGH06_TeteMort.jpg", t: "Toxique" },
-            { f: "SGH07_PointExclamation.jpg", t: "Nocif" },
-            { f: "SGH08_Silhouette.jpg", t: "Santé" },
-            { f: "SGH09_Environnement.jpg", t: "Polluant" }
+            { f: "SGH01_BombeExplosant_2.jpg", t: "Explosif" },
+            { f: "SGH02_Flamme_2.jpg", t: "Inflammable" },
+            { f: "SGH03_FlammeSurCercle_2.jpg", t: "Comburant" },
+            { f: "SGH04_BouteilleGaz_2.jpg", t: "Gaz" },
+            { f: "SGH05_Corrosion_2.jpg", t: "Corrosif" },
+            { f: "SGH06_TeteDeMort_2.jpg", t: "Toxique" },
+            { f: "SGH07_PointExclamation_2.jpg", t: "Nocif" },
+            { f: "SGH08_DangerSante_2.jpg", t: "Santé" },
+            { f: "SGH09_Environnement_2.jpg", t: "Polluant" }
         ];
 
         const centres = [
-            { n: "Siège La Roche-sur-Yon", a: "1 Impasse Newton, 85007 La Roche-sur-Yon", t: "02 51 37 06 68" },
-            { n: "Les Herbiers", a: "Avenue de l'Arrivée, 85500 Les Herbiers", t: "02 51 67 00 00" },
-            { n: "Montaigu-Vendée", a: "Pôle de la Maine, 85600 Montaigu", t: "02 51 94 00 00" }
+            { n: "Siège La Roche-sur-Yon", a: "1 Impasse Newton", t: "02 51 37 06 68" },
+            { n: "Les Herbiers", a: "Avenue de l'Arrivée", t: "02 51 67 00 00" }
         ];
 
-        // --- FONCTIONS ---
+        // --- LOGIQUE ---
         function startApp() { 
-            document.getElementById('splash').style.display='none'; 
-            renderSGH(); renderInv(); searchInternal(); renderCentres(); 
+            document.getElementById('splash').classList.add('d-none'); 
+            renderSGH(); renderInv(); searchInternal(); renderCentres();
         }
         
         function nav(id, el) {
@@ -439,53 +245,52 @@ Voici la version ultime. Copiez-collez l'intégralité de ce code :
         function renderSGH() {
             document.getElementById('sgh-list').innerHTML = sghData.map(s => `
                 <div class="sgh-box">
-                    <img src="${s.f}" onerror="this.src='[https://via.placeholder.com/50?text=SGH](https://via.placeholder.com/50?text=SGH)'">
+                    <img src="${s.f}" onerror="this.src='https://via.placeholder.com/50?text=SGH'">
                     <div>${s.t}</div>
                 </div>`).join('');
         }
 
         function searchInternal() {
             const v = document.getElementById('search-input').value.toLowerCase();
-            document.getElementById('search-results').innerHTML = dbMetiers.filter(i => i.m.toLowerCase().includes(v) || i.r.toLowerCase().includes(v)).map(item => `
+            document.getElementById('search-results').innerHTML = dbMetiers.filter(i => i.m.toLowerCase().includes(v)).map(item => `
                 <div class="card-custom">
                     <b class="fs-5" style="color: var(--restev-teal);">${item.m}</b><br>
-                    <small class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i> <b>Risques :</b> ${item.r}</small>
-                    <div class="prev-box"><b><i class="fa-solid fa-shield-halved"></i> Prévention :</b><br>${item.p}</div>
-                    <div class="mt-2">${item.epi.map(e => `<span class="badge-epi">${e}</span>`).join('')}</div>
+                    <small class="text-danger"><b>Risques :</b> ${item.r}</small>
+                    <div class="prev-box"><b>Conseils RESTEV :</b>\n${item.p}</div>
                 </div>`).join('');
         }
 
         function renderInv() {
-            const list = JSON.parse(localStorage.getItem('restev_inv_final') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_inv') || "[]");
             document.getElementById('inv-list').innerHTML = list.map((p, i) => `
-                <div class="card-custom d-flex justify-content-between align-items-center py-3" style="border-left-color: var(--restev-yellow);">
-                    <span class="fw-bold">${p}</span>
-                    <button class="btn btn-sm btn-outline-danger border-0" onclick="delInv(${i})"><i class="fa-solid fa-trash fs-5"></i></button>
+                <div class="card-custom d-flex justify-content-between align-items-center py-2" style="border-left-color: var(--restev-yellow);">
+                    <span>${p}</span>
+                    <i class="fa-solid fa-trash text-danger" onclick="delInv(${i})"></i>
                 </div>`).join('');
         }
 
         function addInv() {
-            const v = document.getElementById('inv-input').value.trim();
+            const v = document.getElementById('inv-input').value;
             if(!v) return;
-            const list = JSON.parse(localStorage.getItem('restev_inv_final') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_inv') || "[]");
             list.push(v);
-            localStorage.setItem('restev_inv_final', JSON.stringify(list));
+            localStorage.setItem('restev_inv', JSON.stringify(list));
             document.getElementById('inv-input').value = "";
             renderInv();
         }
 
         function delInv(i) {
-            const list = JSON.parse(localStorage.getItem('restev_inv_final') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_inv') || "[]");
             list.splice(i, 1);
-            localStorage.setItem('restev_inv_final', JSON.stringify(list));
+            localStorage.setItem('restev_inv', JSON.stringify(list));
             renderInv();
         }
 
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(c => `
-                <div class="card-custom py-2 px-3 mt-2" style="border-left-color: var(--restev-teal);">
-                    <b style="color: var(--restev-blue);">${c.n}</b><br><small class="text-muted">${c.a}</small><br>
-                    <a href="tel:${c.t.replace(/ /g,'')}" class="text-decoration-none small fw-bold" style="color: var(--restev-purple);"><i class="fa-solid fa-phone"></i> ${c.t}</a>
+                <div class="card-custom py-2" style="border-left-color: var(--restev-teal);">
+                    <b>${c.n}</b><br><small class="text-muted">${c.a}</small><br>
+                    <a href="tel:${c.t.replace(/ /g,'')}" class="text-decoration-none small fw-bold">${c.t}</a>
                 </div>`).join('');
         }
 
@@ -494,10 +299,10 @@ Voici la version ultime. Copiez-collez l'intégralité de ce code :
             if(!sc) sc = new Html5Qrcode("reader");
             sc.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
                 document.getElementById('res-code').innerText = t;
-                document.getElementById('fds-link').href = `[https://www.google.com/search?q=Fiche+de+donnees+de+securite+code+ean+$](https://www.google.com/search?q=Fiche+de+donnees+de+securite+code+ean+$){t}`;
+                document.getElementById('fds-link').href = `https://www.google.com/search?q=FDS+produit+chimique+${t}`;
                 document.getElementById('res-area').classList.remove('d-none');
                 sc.stop();
-            }).catch(err => alert("Veuillez autoriser l'accès à votre caméra."));
+            }).catch(err => alert("Erreur caméra : " + err));
         }
     </script>
 </body>
