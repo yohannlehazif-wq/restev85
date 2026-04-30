@@ -31,15 +31,23 @@
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
         .map-box { height: 180px; width: 100%; border-radius: 20px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; transition: 0.5s; }
+        
+        /* Style spécifique pour le bouton Excel */
+        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-excel:active { background-color: #155231; }
     </style>
 </head>
 <body>
 
+    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="text-center">
-            <img src="logo_restev_carre.png" alt="Logo" style="width: 100px; border-radius: 20px;" onerror="this.src='https://placehold.co/100x100?text=RESTEV'">
-            <div class="spinner-border text-primary d-block mt-3 mx-auto" role="status"></div>
+            <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);" onerror="this.src='https://placehold.co/120x120/3065a8/ffffff?text=RESTEV'">
+            <div class="mt-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 fw-bold text-primary">Chargement de l'expert...</p>
+            </div>
         </div>
     </div>
 
@@ -80,7 +88,6 @@
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
 
-        <!-- GUIDE FDS PEDAGOGIQUE -->
         <div class="mt-4 p-3 bg-white rounded-4 border shadow-sm">
             <h6 class="fw-bold text-primary"><i class="fa-solid fa-magnifying-glass-chart me-2"></i>Où lire une FDS ?</h6>
             <ul class="small text-muted ps-3 mb-0">
@@ -95,6 +102,12 @@
     <!-- INVENTAIRE -->
     <div id="page-list" class="app-page">
         <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+        
+        <!-- BOUTON EXCEL AJOUTÉ -->
+        <button class="btn-excel" onclick="exportToCSV()">
+            <i class="fa-solid fa-file-excel"></i> EXPORTER VERS EXCEL (CSV)
+        </button>
+
         <div id="inventory-container"></div>
     </div>
 
@@ -173,7 +186,12 @@
         ];
 
         function startApp() {
-            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1000);
+            // Masquage du Splash Screen après 1.5s
+            setTimeout(() => { 
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.display='none', 500);
+            }, 1500);
             renderCentres(); renderSGH(); showQ(); updateStats();
         }
 
@@ -183,6 +201,30 @@
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
             if(id === 'page-list') renderInventory();
+        }
+
+        // FONCTION EXPORT EXCEL (CSV)
+        function exportToCSV() {
+            if (inventory.length === 0) {
+                alert("L'inventaire est vide.");
+                return;
+            }
+            
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "Date;Nom du Produit;Code-Barres;Lien FDS\r\n";
+            
+            inventory.forEach(item => {
+                let row = `${item.date};${item.name};${item.code || 'N/A'};${item.fds}`;
+                csvContent += row + "\r\n";
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Inventaire_Produits_RESTEV85.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function renderSGH() {
