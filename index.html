@@ -141,18 +141,18 @@
 
     <script>
         // DONNÉES SGH FUSIONNÉES (Source: Documents fournis)[cite: 1]
+       // Correction des chemins d'accès aux images (noms système)[cite: 1]
         const sghData = [
-            {id: "SGH01", t: "Explosif", img: "SGH01_BombeExplosant_3.jpg", d: "Substances explosibles ou auto-réactives.", h: "H200: Explosif instable.", p: "Éviter les chocs, les frottements et la chaleur."},
-            {id: "SGH02", t: "Inflammable", img: "SGH02_Flamme_3.jpg", d: "Gaz, liquides ou solides inflammables.", h: "H220: Gaz extrêmement inflammable.", p: "P210: Tenir à l'écart de la chaleur et des flammes. Ne pas fumer."},
-            {id: "SGH03", t: "Comburant", img: "SGH03_FlammeSurCercle_3.jpg", d: "Provoque ou aggrave un incendie.", h: "H270: Peut provoquer un incendie.", p: "Stocker loin des matières inflammables."},
-            {id: "SGH04", t: "Gaz sous pression", img: "SGH04_BouteilleGaz_3.jpg", d: "Gaz comprimé ou liquéfié.", h: "H280: Peut exploser sous la chaleur.", p: "P403: Stocker dans un endroit bien ventilé."},
-            {id: "SGH05", t: "Corrosif", img: "SGH05_Corrosion_3.jpg", d: "Corrosif pour les métaux ou la peau.", h: "H290: Peut être corrosif pour les métaux.", p: "P280: Porter des gants et lunettes de protection."},
-            {id: "SGH06", t: "Toxique Aigu", img: "SGH06_TeteDeMort_3.jpg", d: "Mortel ou toxique par ingestion ou contact.", h: "H300: Mortel en cas d'ingestion.", p: "P301+P310: Appeler immédiatement un centre antipoison."},
-            {id: "SGH07", t: "Irritant / Nocif", img: "SGH07_PointExclamation_3.jpg", d: "Irrite la peau, les yeux ou les voies respiratoires.", h: "H314: Provoque des brûlures graves.", p: "P260: Ne pas respirer les poussières/vapeurs."},
-            {id: "SGH08", t: "Danger Santé", img: "SGH08_DangerSante_3.jpg", d: "Effets CMR (Cancérogène, Mutagène, Reprotoxique).", h: "H330: Mortel par inhalation.", p: "Manipuler sous hotte aspirante ou protection spécifique."},
-            {id: "SGH09", t: "Environnement", img: "SGH09_Environnement_3.jpg", d: "Toxique pour les organismes aquatiques.", h: "H410: Très toxique pour la vie aquatique.", p: "P501: Éliminer selon la réglementation en vigueur."}
+            {id: "SGH08", t: "Danger Santé", img: "input_file_0.png", d: "Effets CMR (Cancérogène, Mutagène, Reprotoxique).", h: "H330: Mortel par inhalation.", p: "Manipuler sous hotte aspirante ou protection spécifique[cite: 1]."},
+            {id: "SGH01", t: "Explosif", img: "input_file_1.png", d: "Substances explosibles ou auto-réactives.", h: "H200: Explosif instable.", p: "Éviter les chocs, les frottements et la chaleur[cite: 1]."},
+            {id: "SGH02", t: "Inflammable", img: "input_file_2.png", d: "Gaz, liquides ou solides inflammables.", h: "H220: Gaz extrêmement inflammable.", p: "P210: Tenir à l'écart de la chaleur et des flammes. Ne pas fumer[cite: 1]."},
+            {id: "SGH03", t: "Comburant", img: "input_file_3.png", d: "Provoque ou aggrave un incendie.", h: "H270: Peut provoquer un incendie.", p: "Stocker loin des matières inflammables[cite: 1]."},
+            {id: "SGH04", t: "Gaz sous pression", img: "input_file_4.png", d: "Gaz comprimé ou liquéfié.", h: "H280: Peut exploser sous la chaleur.", p: "P403: Stocker dans un endroit bien ventilé[cite: 1]."},
+            {id: "SGH05", t: "Corrosif", img: "input_file_5.png", d: "Corrosif pour les métaux ou la peau.", h: "H290: Peut être corrosif pour les métaux.", p: "P280: Porter des gants et lunettes de protection[cite: 1]."},
+            {id: "SGH06", t: "Toxique Aigu", img: "input_file_6.png", d: "Mortel ou toxique par ingestion ou contact.", h: "H300: Mortel en cas d'ingestion.", p: "P301+P310: Appeler immédiatement un centre antipoison[cite: 1]."},
+            {id: "SGH07", t: "Irritant / Nocif", img: "input_file_7.png", d: "Irrite la peau, les yeux ou les voies respiratoires.", h: "H314: Provoque des brûlures graves.", p: "P260: Ne pas respirer les poussières/vapeurs[cite: 1]."},
+            {id: "SGH09", t: "Environnement", img: "input_file_8.png", d: "Toxique pour les organismes aquatiques.", h: "H410: Très toxique pour la vie aquatique.", p: "P501: Éliminer selon la réglementation en vigueur[cite: 1]."}
         ];
-
         const metiers = [
             {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants, chaussures sécu"},
             {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration, gants chaleur"},
