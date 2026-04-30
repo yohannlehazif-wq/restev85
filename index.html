@@ -12,7 +12,7 @@
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; }
         body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin-bottom: 85px; }
         
-        /* SPLASH SCREEN AVEC LOGO CARRÉ */
+        /* SPLASH SCREEN */
         #splash { 
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow));
@@ -21,26 +21,29 @@
         @keyframes gradient { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
         .logo-splash { width: 120px; height: auto; margin-bottom: 20px; border-radius: 15px; }
 
-        /* HEADER AVEC LOGO LONG */
+        /* HEADER */
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; width: auto; }
 
+        /* NAVIGATION */
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
         .nav-item.active { color: var(--r-blue); }
 
+        /* PAGES */
         .app-page { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
         
-        /* GRILLE SGH */
+        /* GRILLE SGH FIXE */
         .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
         .sgh-card img { width: 100%; max-width: 60px; height: 60px; object-fit: contain; margin-bottom: 5px; }
-        .sgh-card b { font-size: 0.6rem; color: #334155; display: block; line-height: 1.1; }
+        .sgh-card b { font-size: 0.6rem; color: #334155; line-height: 1.1; }
 
+        .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; margin-top: 10px; display: block; text-align: center; text-decoration: none; }
         .prevention-badge { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px; font-size: 0.85rem; margin-top: 10px; border-radius: 5px; }
     </style>
 </head>
@@ -49,7 +52,7 @@
     <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="text-center bg-white p-5 rounded-5 shadow">
-            <img src="logo_restev_carre.png" alt="Logo" class="logo-splash" onerror="this.src='https://placehold.co/120x120?text=RESTEV+85'">
+            <img src="logo_restev_carre.png" alt="Logo" class="logo-splash" onerror="this.src='https://placehold.co/120x120?text=RESTEV'">
             <div class="h4 fw-bold mb-4" style="color: var(--r-blue);">Expert Prévention</div>
             <button class="btn btn-primary rounded-pill px-5 fw-bold" onclick="startApp()">LANCER</button>
         </div>
@@ -57,16 +60,14 @@
 
     <!-- HEADER -->
     <div class="app-header">
-        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.style.display='none'">
-        <!-- Fallback texte si le logo ne charge pas -->
-        <div class="fw-bold" id="header-text" style="display:none; color: var(--r-blue);">RESTEV 85</div>
+        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/200x40?text=RESTEV+85'">
     </div>
 
-    <!-- ACCUEIL -->
+    <!-- PAGE ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom" style="background: var(--r-blue); color: white; border: none;">
-            <h5>Bonjour,</h5>
-            <p class="small mb-0">Sélectionnez un outil de prévention :</p>
+            <h5>Espace Prévention</h5>
+            <p class="small mb-0">Sélectionnez un outil ci-dessous :</p>
         </div>
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
@@ -75,13 +76,39 @@
             <div class="col-6" onclick="nav('page-sgh', 'nav-sgh')">
                 <div class="card-custom text-center py-4"><i class="fa-solid fa-biohazard fa-2x mb-2 text-danger"></i><br><b>SGH / DANGER</b></div>
             </div>
+            <div class="col-12" onclick="nav('page-metiers', 'nav-metiers')">
+                <div class="card-custom text-center py-3"><i class="fa-solid fa-helmet-safety fa-xl mb-2 text-success"></i><br><b>GUIDE MÉTIERS (20+)</b></div>
+            </div>
         </div>
     </div>
 
     <!-- PAGE SGH -->
     <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3">Symboles de Danger (SGH)</h5>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>Symboles SGH</h5>
         <div id="sgh-list" class="sgh-container"></div>
+    </div>
+
+    <!-- PAGE SCAN -->
+    <div id="page-scan" class="app-page">
+        <div class="card-custom">
+            <div id="reader" style="width:100%; border-radius: 10px; overflow: hidden;"></div>
+            <button class="btn-restev bg-dark text-white mt-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+        </div>
+        <div id="res-area" class="d-none">
+            <div class="card-custom" style="border-left-color: var(--r-teal);">
+                <p>Produit détecté : <b id="res-code"></b></p>
+                <a id="fds-link" target="_blank" class="btn-restev bg-danger text-white">RECHERCHER LA FDS</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE MÉTIERS -->
+    <div id="page-metiers" class="app-page">
+        <h5 class="fw-bold mb-3">Prévention par Métier</h5>
+        <div class="mb-3">
+            <input type="text" class="form-control rounded-pill" id="searchMetier" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
+        </div>
+        <div id="metiers-list"></div>
     </div>
 
     <!-- MODAL SGH -->
@@ -93,28 +120,16 @@
                     <h4 id="modal-title" class="fw-bold"></h4>
                     <hr>
                     <div class="text-start">
-                        <p class="small"><strong>Risques :</strong> <span id="modal-desc"></span></p>
+                        <p class="small"><strong>Description :</strong> <span id="modal-desc"></span></p>
                         <div id="modal-h" class="mb-2"></div>
                         <div class="prevention-badge">
-                            <strong>Conseils :</strong><br><span id="modal-p"></span>
+                            <strong>Prévention :</strong><br><span id="modal-p"></span>
                         </div>
                     </div>
                     <button type="button" class="btn btn-secondary w-100 mt-4 rounded-pill" data-bs-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- PAGE SCAN -->
-    <div id="page-scan" class="app-page">
-        <div class="card-custom"><div id="reader"></div></div>
-        <p class="text-center mt-3 small text-muted">Scannez le QR Code sur la FDS ou l'étiquette.</p>
-    </div>
-
-    <!-- PAGE METIERS -->
-    <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Fiches par Métier</h5>
-        <div id="metiers-list"></div>
     </div>
 
     <!-- NAV BOTTOM -->
@@ -126,22 +141,35 @@
     </nav>
 
     <script>
-       const sghData = [
-            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles.", h: "H200", p: "Éviter chocs et chaleur."},
-            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz/liquides inflammables.", h: "H220", p: "Tenir à l'écart des flammes."},
+        const sghData = [
+            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles.", h: "H200", p: "Éviter chocs et chaleur[cite: 1]."},
+            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz/liquides inflammables.", h: "H220", p: "Tenir à l'écart des flammes[cite: 1]."},
             {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut aggraver un incendie.", h: "H270", p: "Stocker loin des combustibles[cite: 1]."},
             {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Peut exploser sous la chaleur.", h: "H280", p: "Stocker en lieu ventilé[cite: 1]."},
-            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Brûlures graves de la peau.", h: "H314", p: "Porter gants et lunettes[cite: 1]."},
-            // LIGNE CORRIGÉE : On utilise le nom simplifié SGH06.jpg
-            {t: "Toxique", img: "SGH06.jpg", d: "Mortel en cas d'ingestion/inhalation.", h: "H300", p: "Appeler le centre antipoison[cite: 1]."},
-            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif, irritant ou sensibilisant.", h: "H315", p: "Éviter le contact cutané[cite: 1]."},
+            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Brûlures graves.", h: "H314", p: "Porter gants et lunettes[cite: 1]."},
+            {t: "Toxique", img: "SGH06.jpg", d: "Mortel par ingestion/inhalation.", h: "H300", p: "Appeler le centre antipoison[cite: 1]."},
+            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif ou irritant.", h: "H315", p: "Éviter le contact cutané[cite: 1]."},
             {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Effets CMR (Cancer, etc.).", h: "H350", p: "Protection respiratoire obligatoire[cite: 1]."},
             {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Toxique pour la vie aquatique.", h: "H410", p: "Ne pas jeter à l'égout[cite: 1]."}
+        ];
+
+        const metiers = [
+            {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants nitrile, chaussures sécu"},
+            {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration localisée, gants chaleur"},
+            {m: "Carrossier", r: "Solvants, Poussières", p: "Masque A2P3, lunettes, cabine"},
+            {m: "Coiffeur", r: "Allergies, Postures", p: "Gants sans poudre, tabouret ergonomique"},
+            {m: "Maçon", r: "Manutention, Silice", p: "Casque, gants, genouillères"},
+            {m: "Mécanicien", r: "Huiles, Bruit", p: "Fontaine de lavage, bouchons d'oreilles"},
+            {m: "Peintre", r: "Chutes, Solvants", p: "Masque, échafaudage conforme"},
+            {m: "Soudeur", r: "Fumées, Rayons", p: "Cagoule LCD, aspiration fumées"},
+            {m: "Menuisier", r: "Bruit, Coupures", p: "Protections lames, casque antibruit"},
+            {m: "Infirmier", r: "Bio, TMS", p: "Aide au levage, protocole DASRI"}
         ];
 
         function startApp() { 
             document.getElementById('splash').style.display='none'; 
             renderSGH(); 
+            renderMetiers();
         }
 
         function renderSGH() {
@@ -162,18 +190,38 @@
             new bootstrap.Modal(document.getElementById('sghModal')).show();
         }
 
+        function renderMetiers() {
+            document.getElementById('metiers-list').innerHTML = metiers.map(x => `
+                <div class="card-custom metier-item">
+                    <b class="text-primary">${x.m}</b><br>
+                    <small><b>Risques :</b> ${x.r}<br><b>Prévention :</b> ${x.p}</small>
+                </div>`).join('');
+        }
+
+        function filterMetiers() {
+            let val = document.getElementById('searchMetier').value.toLowerCase();
+            document.querySelectorAll('.metier-item').forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(val) ? "block" : "none";
+            });
+        }
+
+        let scanner;
+        function startScanner() {
+            if(!scanner) scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
+                document.getElementById('res-code').innerText = t;
+                document.getElementById('fds-link').href = `https://www.google.com/search?q=FDS+PDF+${t}`;
+                document.getElementById('res-area').classList.remove('d-none');
+                scanner.stop();
+            }).catch(err => alert("Erreur caméra : " + err));
+        }
+
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
         }
-
-        // Vérification logo header
-        window.onload = () => {
-            const img = document.querySelector('.logo-header');
-            img.onerror = () => { img.style.display='none'; document.getElementById('header-text').style.display='block'; };
-        };
     </script>
 </body>
 </html>
