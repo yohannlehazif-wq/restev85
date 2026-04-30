@@ -22,21 +22,21 @@
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
         body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-        
+
         /* Splash Screen */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
+
         .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
         @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        
+
         .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
         @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
 
         /* Interface */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
-        
+
         .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; padding: 0 2px; }
         .nav-item.active { color: var(--r-blue); }
@@ -75,7 +75,7 @@
             <h5 class="fw-bold mb-1">RESTEV 85</h5>
             <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
         </div>
-        
+
         <div class="row g-2 mt-1">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
                 <div class="card-custom text-center py-4">
@@ -100,49 +100,19 @@
 
     <div id="page-centres" class="app-page">
         <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
-        
-        <div class="card-custom p-0 overflow-hidden mb-4" style="height: 250px; border-left: none;">
-            <iframe src="https://maps.google.com/maps?q=RESTEV%20Vend%C3%A9e&t=&z=9&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div class="card-custom p-0 overflow-hidden mb-4" style="height: 200px; border-left: none;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d175440.06326620595!2d-1.42867825!3d46.6704772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1714500000000!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-
         <div id="centres-list"></div>
     </div>
 
     <div id="page-aide" class="app-page">
         <h5 class="fw-bold mb-3">Guide de lecture FDS</h5>
-        <p class="text-muted small mb-4">La Fiche de Données de Sécurité (FDS) comporte 16 rubriques. Voici les 4 rubriques essentielles pour la prévention :</p>
-        
-        <div class="card-custom d-flex align-items-center mb-3" style="border-left-color: #dc3545;">
-            <div class="fds-section-icon bg-danger text-white"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <div>
-                <h6 class="fw-bold mb-1">Rubrique 2 : Dangers</h6>
-                <p class="small text-muted mb-0">Pictogrammes de danger, mention d'avertissement et phrases H (mentions de danger).</p>
-            </div>
-        </div>
-
-        <div class="card-custom d-flex align-items-center mb-3" style="border-left-color: #198754;">
-            <div class="fds-section-icon bg-success text-white"><i class="fa-solid fa-kit-medical"></i></div>
-            <div>
-                <h6 class="fw-bold mb-1">Rubrique 4 : 1ers Secours</h6>
-                <p class="small text-muted mb-0">Conduite à tenir en cas d'inhalation, contact cutané, oculaire ou ingestion.</p>
-            </div>
-        </div>
-
-        <div class="card-custom d-flex align-items-center mb-3" style="border-left-color: #fd7e14;">
-            <div class="fds-section-icon bg-warning text-dark"><i class="fa-solid fa-box-archive"></i></div>
-            <div>
-                <h6 class="fw-bold mb-1">Rubrique 7 : Stockage</h6>
-                <p class="small text-muted mb-0">Précautions de manipulation et conditions de stockage (incompatibilités chimiques).</p>
-            </div>
-        </div>
-
-        <div class="card-custom d-flex align-items-center mb-3" style="border-left-color: var(--r-blue);">
-            <div class="fds-section-icon bg-primary text-white"><i class="fa-solid fa-shield-halved"></i></div>
-            <div>
-                <h6 class="fw-bold mb-1">Rubrique 8 : EPI</h6>
-                <p class="small text-muted mb-0">Équipements de Protection Individuelle requis (gants adaptés, lunettes, masque).</p>
-            </div>
-        </div>
+        <p class="text-muted small mb-4">Focus sur les 4 rubriques de prévention :</p>
+        <div class="card-custom mb-2" style="border-left-color: #dc3545;"><b>R2 : Dangers</b><br><small>Pictogrammes et phrases H.</small></div>
+        <div class="card-custom mb-2" style="border-left-color: #198754;"><b>R4 : 1ers Secours</b><br><small>Gestes d'urgence.</small></div>
+        <div class="card-custom mb-2" style="border-left-color: #fd7e14;"><b>R7 : Stockage</b><br><small>Incompatibilités.</small></div>
+        <div class="card-custom mb-2" style="border-left-color: #0d6efd;"><b>R8 : EPI</b><br><small>Gants, masques, lunettes.</small></div>
     </div>
 
     <div id="page-scan" class="app-page">
@@ -150,8 +120,13 @@
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
             <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+
             <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres">
+
+            <label class="small fw-bold text-muted mb-1">Joindre la FDS (PDF)</label>
+            <input type="file" id="prod-fds" class="form-control mb-3" accept="application/pdf">
+
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
     </div>
@@ -161,12 +136,19 @@
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-camera"></i>SCAN</button>
         <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
         <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
-        <button id="nav-aide" class="nav-item" onclick="nav('page-aide', this)"><i class="fa-solid fa-book-medical"></i>AIDE FDS</button>
+        <button id="nav-aide" class="nav-item" onclick="nav('page-aide', this)"><i class="fa-solid fa-book-medical"></i>AIDE</button>
     </nav>
 
     <script>
-        // Données
-        let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
+        let db;
+        const request = indexedDB.open("RestevDB", 1);
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains("inventory")) {
+                db.createObjectStore("inventory", { keyPath: "id", autoIncrement: true });
+            }
+        };
+        request.onsuccess = (e) => { db = e.target.result; updateStats(); };
 
         const centres = [
             { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
@@ -175,127 +157,107 @@
             { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" }
         ];
 
-        // Navigation
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            const target = document.getElementById(id);
-            if(target) target.classList.add('active-page');
-            
-            if(typeof el === 'string') {
-                const btn = document.getElementById(el);
-                if(btn) btn.classList.add('active');
-            } else if(el) {
-                el.classList.add('active');
-            }
-            
+            document.getElementById(id).classList.add('active-page');
+            if(typeof el === 'string') document.getElementById(el).classList.add('active');
+            else el.classList.add('active');
             if(id === 'page-list') renderInventory();
             if(id === 'page-centres') renderCentres();
-            window.scrollTo(0, 0);
         }
 
-        // Rendu des Centres (Mise à jour : Appel Formaté + Lien sur texte)
         function renderCentres() {
             const container = document.getElementById('centres-list');
-            if (!container) return;
-            container.innerHTML = centres.map(x => {
-                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("RESTEV " + x.a)}`;
-                // Formatage du numéro de téléphone (xx xx xx xx xx)
-                const formattedPhone = x.t.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5');
-                
-                return `
+            container.innerHTML = centres.map(x => `
                 <div class="card-custom">
-                    <div class="mb-3">
-                        <b style="color: var(--r-blue); font-size: 1.1rem;">${x.n}</b><br>
-                        <a href="${mapsUrl}" target="_blank" class="text-muted small text-decoration-none">
-                            <i class="fa-solid fa-location-dot me-1"></i>${x.a}
-                        </a>
-                    </div>
-                    <a href="tel:${x.t}" class="btn-call w-100 justify-content-center text-white py-2">
-                        <i class="fa-solid fa-phone me-2"></i>Appeler : ${formattedPhone}
+                    <b style="color:var(--r-blue)">${x.n}</b><br><small>${x.a}</small><br>
+                    <a href="tel:${x.t}" class="btn-call w-100 justify-content-center mt-2 py-2 text-white">
+                        <i class="fa-solid fa-phone me-2"></i>${x.t.replace(/(\d{2})/g, '$1 ')}
                     </a>
-                </div>`;
-            }).join('');
-        }
-
-        // Inventaire
-        function renderInventory() {
-            const container = document.getElementById('inventory-container');
-            if(!container) return;
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4"><i class="fa-solid fa-box-open fa-2x mb-2 text-light"></i><br>Aucun produit enregistré.</p>';
-            inventory.forEach(item => {
-                container.innerHTML += `
-                <div class="card-custom d-flex justify-content-between align-items-center">
-                    <div><b style="color: var(--r-blue);">${item.name}</b><br><small class="text-muted"><i class="fa-solid fa-barcode me-1"></i>${item.code || 'Saisi manuellement'}</small></div>
-                    <button onclick="deleteItem(${item.id})" class="btn btn-sm btn-outline-danger" style="border-radius: 10px;"><i class="fa-solid fa-trash"></i></button>
-                </div>`;
-            });
+                </div>`).join('');
         }
 
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            if(!name) return alert("Veuillez saisir un nom de produit.");
-            
-            inventory.push({ id: Date.now(), name: name, code: code });
-            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            
-            document.getElementById('prod-name').value = '';
-            document.getElementById('prod-code').value = '';
-            updateStats();
-            nav('page-list', 'nav-list');
+            const fdsFile = document.getElementById('prod-fds').files[0];
+            if (!name) return alert("Nom requis");
+            const transaction = db.transaction(["inventory"], "readwrite");
+            transaction.objectStore("inventory").add({ name, code, fds: fdsFile, date: new Date().toLocaleDateString() });
+            transaction.oncomplete = () => {
+                document.getElementById('prod-name').value = '';
+                document.getElementById('prod-code').value = '';
+                document.getElementById('prod-fds').value = '';
+                updateStats(); nav('page-list', 'nav-list');
+            };
+        }
+
+        function renderInventory() {
+            const container = document.getElementById('inventory-container');
+            container.innerHTML = "";
+            db.transaction("inventory").objectStore("inventory").openCursor().onsuccess = (e) => {
+                const cursor = e.target.result;
+                if (cursor) {
+                    const item = cursor.value;
+                    const div = document.createElement('div');
+                    div.className = "card-custom d-flex justify-content-between align-items-center";
+                    div.innerHTML = `<div><b>${item.name}</b><br><small>${item.code || 'Manuel'}</small></div>
+                        <div>
+                            ${item.fds ? `<button onclick="viewPDF(${item.id})" class="btn btn-sm btn-outline-primary me-1">FDS</button>` : ''}
+                            <button onclick="deleteItem(${item.id})" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                        </div>`;
+                    container.appendChild(div);
+                    cursor.continue();
+                }
+            };
+        }
+
+        function viewPDF(id) {
+            db.transaction("inventory").objectStore("inventory").get(id).onsuccess = (e) => {
+                const fileURL = URL.createObjectURL(e.target.result.fds);
+                window.open(fileURL, "_blank");
+            };
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ce produit de l'inventaire ?")) {
-                inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-                renderInventory();
-                updateStats();
+            if (confirm("Supprimer ?")) {
+                db.transaction(["inventory"], "readwrite").objectStore("inventory").delete(id).oncomplete = () => renderInventory();
             }
         }
 
         function updateStats() {
-            const el = document.getElementById('inv-stats');
-            if(el) el.innerText = `${inventory.length} produit(s) enregistré(s)`;
+            if(!db) return;
+            db.transaction("inventory").objectStore("inventory").count().onsuccess = (e) => {
+                document.getElementById('inv-stats').innerText = `${e.target.result} produit(s) enregistré(s)`;
+            };
         }
 
-        // Utilitaires
-        function dismissSplash() {
-            const s = document.getElementById('splash');
-            if(s) {
-                s.style.opacity = '0';
-                setTimeout(() => s.style.display = 'none', 800);
-            }
-        }
+        function dismissSplash() { document.getElementById('splash').style.display = 'none'; }
 
         function exportToCSV() {
-            if (inventory.length === 0) return alert("L'inventaire est vide.");
-            let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code-barres\r\n" + 
-                      inventory.map(i => `${i.name};${i.code}`).join("\r\n");
-            const link = document.createElement("a");
-            link.setAttribute("href", encodeURI(csv));
-            link.setAttribute("download", "Inventaire_RESTEV_85.csv");
-            link.click();
+            let data = ["Nom;Code"];
+            db.transaction("inventory").objectStore("inventory").openCursor().onsuccess = (e) => {
+                const cursor = e.target.result;
+                if (cursor) { data.push(`${cursor.value.name};${cursor.value.code}`); cursor.continue(); }
+                else {
+                    const blob = new Blob(["\uFEFF" + data.join("\n")], { type: "text/csv;charset=utf-8" });
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+                    link.download = "Inventaire_RESTEV.csv";
+                    link.click();
+                }
+            };
         }
 
-        // Scanner
         let scanner;
-        async function startScanner() {
-            try {
-                if(!scanner) scanner = new Html5Qrcode("reader");
-                scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-                    document.getElementById('prod-code').value = text;
-                    scanner.stop();
-                });
-            } catch (err) { alert("Erreur caméra : vérifiez les autorisations."); }
+        function startScanner() {
+            if(!scanner) scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
+                document.getElementById('prod-code').value = text;
+                scanner.stop();
+            });
         }
-
-        window.onload = () => {
-            updateStats();
-            renderCentres();
-        };
     </script>
 </body>
 </html>
