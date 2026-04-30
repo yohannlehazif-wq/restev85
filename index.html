@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTEV 85 - Expert Prévention</title>
     
-    <!-- Bibliothèques -->
+    <!-- Bibliothèques externes -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
@@ -81,7 +81,7 @@
             100% { transform: scale(1); }
         }
 
-        /* NAVIGATION BASSE */
+        /* NAVIGATION */
         .nav-bottom { 
             position: fixed; 
             bottom: 15px; 
@@ -108,7 +108,6 @@
             flex: 1; 
             cursor: pointer; 
             transition: 0.2s; 
-            text-decoration: none;
         }
         .nav-item.active { color: var(--r-blue); transform: translateY(-3px); }
         .nav-item i { font-size: 1.2rem; margin-bottom: 4px; }
@@ -130,23 +129,6 @@
         .badge-projet { background: var(--r-blue); color: white; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; margin-bottom: 10px; display: inline-block; }
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
         
-        /* BOUTON EXCEL */
-        .btn-export { 
-            background: #1d6f42; 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            padding: 12px; 
-            width: 100%; 
-            font-weight: bold; 
-            margin-bottom: 20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            box-shadow: 0 4px 10px rgba(29, 111, 66, 0.2);
-        }
-
         /* GRILLES */
         .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; border: 1px solid #eee; }
@@ -164,18 +146,19 @@
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER FIXE -->
     <div class="app-header">
         <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
     </div>
 
+    <!-- CONTENU DES PAGES -->
     <main class="container">
         
         <!-- ACCUEIL -->
         <div id="page-home" class="app-page active-page">
             <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
                 <h5 class="fw-bold mb-1">Expert Prévention</h5>
-                <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
+                <p id="inv-stats" class="small opacity-75 mb-0">Chargement des données...</p>
             </div>
             
             <div class="row g-2 mt-1">
@@ -200,11 +183,11 @@
             <div class="card-custom" style="border-left-color: var(--r-purple);">
                 <span class="badge-projet">Vision Stratégique</span>
                 <h6>Agir pour la santé de demain</h6>
-                <p class="small text-muted">Le RESTEV 85 s'engage pour la performance durable des entreprises de Vendée à travers un accompagnement de proximité.</p>
+                <p class="small text-muted">Le RESTEV 85 s'engage pour la performance durable des entreprises de Vendée.</p>
             </div>
             <div class="p-3 bg-white rounded-4 border-start border-4 border-info shadow-sm mb-2">
                 <h6 class="fw-bold mb-1">Prévention Primaire</h6>
-                <p class="small text-muted mb-0">Évaluer les risques à la source pour éviter l'altération de la santé.</p>
+                <p class="small text-muted mb-0">Évaluer les risques à la source.</p>
             </div>
         </div>
 
@@ -213,30 +196,28 @@
             <h5 class="fw-bold mb-3">Ajouter un produit</h5>
             <div class="card-custom">
                 <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
+                <button class="btn btn-dark w-100 mt-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
                 <div class="mt-4">
-                    <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
-                    <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER DANS LA LISTE</button>
+                    <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+                    <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
                 </div>
             </div>
         </div>
 
-        <!-- INVENTAIRE (LISTE + EXCEL) -->
+        <!-- INVENTAIRE -->
         <div id="page-list" class="app-page">
             <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-            <button class="btn-export" onclick="exportToExcel()">
-                <i class="fa-solid fa-file-excel"></i> EXPORTER POUR EXCEL (.CSV)
-            </button>
             <div id="inventory-container"></div>
         </div>
 
-        <!-- TEST / QUIZ -->
+        <!-- QUIZ -->
         <div id="page-quiz" class="app-page">
             <h5 class="fw-bold mb-3">Auto-Évaluation</h5>
             <div id="quiz-container" class="card-custom text-center py-4">
                 <h6 id="quiz-question" class="fw-bold mb-4">Votre DUERP est-il à jour ?</h6>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary py-2 fw-bold" onclick="nextQ(2)">OUI</button>
-                    <button class="btn btn-outline-danger py-2 fw-bold" onclick="nextQ(0)">NON</button>
+                    <button class="btn btn-outline-primary py-2" onclick="nextQ(2)">OUI</button>
+                    <button class="btn btn-outline-danger py-2" onclick="nextQ(0)">NON</button>
                 </div>
             </div>
         </div>
@@ -252,13 +233,13 @@
 
         <!-- SGH -->
         <div id="page-sgh" class="app-page">
-            <h5 class="fw-bold mb-3">Symboles de Danger (SGH)</h5>
+            <h5 class="fw-bold mb-3">Symboles de Danger</h5>
             <div id="sgh-list" class="sgh-container"></div>
         </div>
 
     </main>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION BASSE -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-projet" class="nav-item" onclick="nav('page-projet', this)"><i class="fa-solid fa-handshake"></i>PROJET</button>
@@ -270,12 +251,12 @@
     </nav>
 
     <script>
-        // Initialisation des données depuis le stockage local du téléphone
-        let inventory = JSON.parse(localStorage.getItem('restev_db_v3')) || [];
+        // --- LOGIQUE CORE ---
+        let inventory = JSON.parse(localStorage.getItem('restev_db')) || [];
         let curQ = 0;
-        const quizQ = ["Votre DUERP est-il à jour ?", "Avez-vous les FDS de vos produits ?", "Vos salariés sont-ils formés aux risques chimiques ?"];
+        const quizQ = ["Votre DUERP est-il à jour ?", "Avez-vous les FDS de vos produits ?", "Vos salariés sont-ils formés ?"];
 
-        // Lancement de l'application
+        // Gestion du Splash
         function launchApp() {
             const splash = document.getElementById('splash');
             splash.style.opacity = '0';
@@ -283,7 +264,7 @@
             setTimeout(() => { splash.style.display = 'none'; }, 600);
         }
 
-        // Navigation entre les pages
+        // Navigation
         function nav(pageId, element) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -295,114 +276,59 @@
             if(pageId === 'page-list') renderInventory();
         }
 
-        // Gestion de l'inventaire
+        // Inventaire
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
-            if(!name) return alert("Veuillez saisir un nom de produit.");
-            
-            const newProd = { 
-                id: Date.now(), 
-                name: name, 
-                date: new Date().toLocaleDateString('fr-FR') 
-            };
-            
-            inventory.push(newProd);
-            localStorage.setItem('restev_db_v3', JSON.stringify(inventory));
+            if(!name) return alert("Nom requis");
+            inventory.push({ id: Date.now(), name: name });
+            localStorage.setItem('restev_db', JSON.stringify(inventory));
             document.getElementById('prod-name').value = '';
-            
-            alert("Produit enregistré !");
+            alert("Produit ajouté !");
             nav('page-list', 'nav-list');
             updateStats();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted mt-4">Votre inventaire est vide.</p>' : '';
-            
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Aucun produit.</p>' : '';
             inventory.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'card-custom d-flex justify-content-between align-items-center';
-                div.innerHTML = `
-                    <div>
-                        <b class="text-dark">${item.name}</b><br>
-                        <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i>${item.date}</small>
-                    </div>
-                    <button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>`;
+                div.innerHTML = `<div><b>${item.name}</b><br><small class="text-muted">FDS disponible</small></div>
+                                 <button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>`;
                 container.appendChild(div);
             });
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ce produit ?")) {
-                inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_db_v3', JSON.stringify(inventory));
-                renderInventory();
-                updateStats();
-            }
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_db', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
         }
 
-        // --- FONCTION EXPORT EXCEL ---
-        function exportToExcel() {
-            if (inventory.length === 0) return alert("Rien à exporter !");
+        // Données SGH & Centres
+        function initData() {
+            const sgh = ["Inflammable", "Toxique", "Corrosif", "Explosif", "Gaz", "Environnement"];
+            document.getElementById('sgh-list').innerHTML = sgh.map(x => `<div class="sgh-card"><i class="fa-solid fa-triangle-exclamation text-danger mb-1"></i><br><b style="font-size:0.6rem">${x}</b></div>`).join('');
             
-            // Entête CSV (séparateur point-virgule pour Excel FR)
-            let csvContent = "data:text/csv;charset=utf-8,ID;NOM DU PRODUIT;DATE D'AJOUT\n";
-            
-            inventory.forEach(item => {
-                csvContent += `${item.id};${item.name};${item.date}\n`;
-            });
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "inventaire_restev85.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Quiz et Stats
-        function nextQ(p) {
-            curQ++;
-            if(curQ < quizQ.length) {
-                document.getElementById('quiz-question').innerText = quizQ[curQ];
-            } else {
-                document.getElementById('quiz-container').innerHTML = `
-                    <i class="fa-solid fa-circle-check text-success fa-3x mb-3"></i>
-                    <h5 class="fw-bold">Test terminé !</h5>
-                    <p class="small text-muted">Vos réponses aident à cibler vos besoins en prévention.</p>
-                    <button class="btn btn-primary rounded-pill px-4" onclick="location.reload()">Recommencer</button>`;
-            }
+            const centres = [{n:"La Roche-sur-Yon", t:"0251370668"}, {n:"Montaigu", t:"0251942014"}];
+            document.getElementById('centres-list').innerHTML = centres.map(c => `
+                <div class="card-custom">
+                    <b>${c.n}</b><br>
+                    <a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                </div>`).join('');
+            updateStats();
         }
 
         function updateStats() {
-            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`;
+            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans votre inventaire`;
         }
 
-        // Chargement des données statiques
-        function initData() {
-            const sgh = ["Inflammable", "Toxique", "Corrosif", "Explosif", "Gaz sous pression", "Comburant", "Cancérogène", "Danger milieu aquatique"];
-            document.getElementById('sgh-list').innerHTML = sgh.map(x => `
-                <div class="sgh-card">
-                    <i class="fa-solid fa-triangle-exclamation text-danger mb-1"></i><br>
-                    <b style="font-size:0.6rem">${x.toUpperCase()}</b>
-                </div>`).join('');
-            
-            const centres = [
-                {n: "La Roche-sur-Yon (Siège)", a: "Impasse Newton", t: "0251370668"},
-                {n: "Montaigu-Vendée", a: "44 rue du 8 mai 1945", t: "0251942014"},
-                {n: "Les Sables d'Olonne", a: "Allée Titouan Lamazou", t: "0251210540"}
-            ];
-            document.getElementById('centres-list').innerHTML = centres.map(c => `
-                <div class="card-custom">
-                    <b class="text-primary">${c.n}</b><br>
-                    <small class="text-muted">${c.a}</small><br>
-                    <a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                </div>`).join('');
-            
-            updateStats();
+        function nextQ(p) {
+            curQ++;
+            if(curQ < quizQ.length) document.getElementById('quiz-question').innerText = quizQ[curQ];
+            else document.getElementById('quiz-container').innerHTML = "<b>Merci ! Vos réponses ont été enregistrées.</b>";
         }
 
         window.onload = initData;
