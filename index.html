@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
         
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo-header { height: 45px; }
@@ -31,15 +31,56 @@
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
         .map-box { height: 180px; width: 100%; border-radius: 20px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
+        /* NOUVEAU SPLASH SCREEN */
+        #splash { 
+            position: fixed; 
+            inset: 0; 
+            z-index: 9999; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(135deg, var(--r-blue), #1e40af); 
+            transition: 0.6s ease-out;
+        }
+        .btn-enter {
+            background: white;
+            color: var(--r-blue);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* BOUTON EXPORT */
+        .btn-excel {
+            background: #1d6f42;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
+    <!-- SPLASH SCREEN AMÉLIORÉ -->
     <div id="splash">
-        <div class="text-center">
-            <img src="logo_restev_carre.png" alt="Logo" style="width: 100px; border-radius: 20px;" onerror="this.src='https://placehold.co/100x100?text=RESTEV'">
-            <div class="spinner-border text-primary d-block mt-3 mx-auto" role="status"></div>
+        <div class="text-center text-white">
+            <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; border: 4px solid white;" onerror="this.src='https://placehold.co/120x120/3065a8/ffffff?text=RESTEV'">
+            <h2 class="fw-bold mt-3">RESTEV 85</h2>
+            <p class="opacity-75">Expert Prévention</p>
+            <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
         </div>
     </div>
 
@@ -79,8 +120,6 @@
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
-
-        <!-- GUIDE FDS PEDAGOGIQUE -->
         <div class="mt-4 p-3 bg-white rounded-4 border shadow-sm">
             <h6 class="fw-bold text-primary"><i class="fa-solid fa-magnifying-glass-chart me-2"></i>Où lire une FDS ?</h6>
             <ul class="small text-muted ps-3 mb-0">
@@ -92,13 +131,16 @@
         </div>
     </div>
 
-    <!-- INVENTAIRE -->
+    <!-- INVENTAIRE AVEC EXPORT EXCEL -->
     <div id="page-list" class="app-page">
         <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+        <button class="btn-excel" onclick="exportToExcel()">
+            <i class="fa-solid fa-file-excel"></i> EXPORTER VERS EXCEL (CSV)
+        </button>
         <div id="inventory-container"></div>
     </div>
 
-    <!-- QUIZ -->
+    <!-- PAGES QUIZ, CENTRES, SGH RESTENT IDENTIQUES... -->
     <div id="page-quiz" class="app-page">
         <h5 class="fw-bold mb-3">Auto-Évaluation</h5>
         <div class="progress mb-3" style="height: 10px; border-radius: 10px;">
@@ -124,7 +166,6 @@
         </div>
     </div>
 
-    <!-- CENTRES -->
     <div id="page-centres" class="app-page">
         <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
         <div class="map-box shadow-sm overflow-hidden">
@@ -133,7 +174,6 @@
         <div id="centres-list"></div>
     </div>
 
-    <!-- SGH -->
     <div id="page-sgh" class="app-page">
         <h5 class="fw-bold mb-3">Symboles de Danger</h5>
         <div id="sgh-list" class="sgh-container"></div>
@@ -173,8 +213,15 @@
         ];
 
         function startApp() {
-            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1000);
             renderCentres(); renderSGH(); showQ(); updateStats();
+        }
+
+        // FONCTION SORTIE SPLASH
+        function dismissSplash() {
+            const splash = document.getElementById('splash');
+            splash.style.opacity = '0';
+            splash.style.transform = 'translateY(-100%)';
+            setTimeout(() => { splash.style.display = 'none'; }, 600);
         }
 
         function nav(id, el) {
@@ -183,6 +230,25 @@
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
             if(id === 'page-list') renderInventory();
+        }
+
+        // EXPORT EXCEL (CSV)
+        function exportToExcel() {
+            if (inventory.length === 0) return alert("L'inventaire est vide.");
+            let csvContent = "\uFEFF"; // BOM pour accents Excel
+            csvContent += "Date;Nom;Code;Lien FDS\n";
+            inventory.forEach(item => {
+                csvContent += `${item.date};${item.name};${item.code};${item.fds}\n`;
+            });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "inventaire_restev_85.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function renderSGH() {
@@ -253,7 +319,6 @@
         function renderInventory() {
             const container = document.getElementById('inventory-container');
             container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Inventaire vide.</p>' : '';
-            
             inventory.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'card-custom d-flex align-items-start';
