@@ -3,197 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <title>RESTEV 85 - Gestion Risque Chimique</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Librairie Scan QR & Code-barres -->
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
         
-        /* HEADER */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo-header { height: 45px; }
-
-        /* NAVIGATION DOCK */
         .nav-bottom { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; border: 1px solid rgba(0,0,0,0.05); }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; transition: 0.3s; }
-        .nav-item.active { color: var(--r-blue); transform: translateY(-3px); }
-        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
-
-        /* PAGES */
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
+        .nav-item.active { color: var(--r-blue); }
+        
         .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: none; border-right: none; border-bottom: none; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; display: block; text-align: center; text-decoration: none; margin-top: 10px; }
         
-        /* SGH GRID - Optimisée pour la lisibilité */
-        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .sgh-card { background: white; border-radius: 15px; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; transition: transform 0.2s; }
-        .sgh-card:active { transform: scale(0.95); }
-        .sgh-card img { width: 100%; height: auto; margin-bottom: 8px; }
-        .sgh-card b { font-size: 0.7rem; display: block; line-height: 1.2; color: #2c3e50; }
-
-        /* SCANNER UI */
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; border: 3px solid var(--r-blue); }
-        #scan-result { border-left: 5px solid var(--r-teal); }
-
-        .btn-restev { border-radius: 50px; font-weight: bold; padding: 14px; width: 100%; border: none; display: block; text-align: center; text-decoration: none; margin-top: 10px; transition: 0.2s; }
-        .btn-restev:active { opacity: 0.8; }
-
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
+        /* Liste Inventaire */
+        .product-item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
+        .product-info { flex-grow: 1; }
+        .badge-sgh { width: 25px; height: 25px; margin-right: 2px; }
+        
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN -->
-    <div id="splash">
-        <div class="text-center">
-            <div class="spinner-grow text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-            <div class="h4 fw-bold mt-3 text-primary">RESTEV 85</div>
-        </div>
-    </div>
-
-    <!-- HEADER -->
     <div class="app-header">
-        <img src="https://placehold.co/200x45?text=RESTEV+85" alt="RESTEV 85" class="logo-header">
+        <b class="text-primary">RESTEV 85</b> <small>- Inventaire Chimique</small>
     </div>
 
-    <!-- ACCUEIL -->
+    <!-- PAGE : ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="card-custom" style="background: linear-gradient(135deg, var(--r-blue), #1e40af); color: white; border: none;">
-            <h5 class="fw-bold mb-1">Portail Prévention</h5>
-            <p class="small opacity-75 mb-0">Sécurité et Santé au Travail en Vendée.</p>
+        <div class="card-custom bg-primary text-white border-0">
+            <h5>Tableau de bord</h5>
+            <p id="stats-count" class="mb-0 small">0 produit(s) dans votre inventaire.</p>
         </div>
-        
-        <div class="row g-2 mt-1">
+        <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4" style="border-left-color: var(--r-blue);"><i class="fa-solid fa-qrcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
+                <div class="card-custom text-center"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER</b></div>
             </div>
-            <div class="col-6" onclick="nav('page-sgh', 'nav-sgh')">
-                <div class="card-custom text-center py-4" style="border-left-color: var(--r-purple);"><i class="fa-solid fa-biohazard fa-2x mb-2 text-danger"></i><br><b>SYMBOLES</b></div>
+            <div class="col-6" onclick="nav('page-list', 'nav-list')">
+                <div class="card-custom text-center"><i class="fa-solid fa-list-ul fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
             </div>
         </div>
     </div>
 
-    <!-- SCAN FDS -->
+    <!-- PAGE : SCANNER -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode me-2"></i>Scanner un produit</h5>
-        <div class="card-custom text-center">
-            <div id="reader" style="position: relative;"></div>
-            <p class="mt-3 small text-muted">Visez le code-barres pour obtenir la Fiche de Données de Sécurité.</p>
-            
-            <div id="scan-controls">
-                <button class="btn-restev bg-primary text-white" onclick="startScanner()">LANCER LA CAMÉRA</button>
-            </div>
-            
-            <div id="scan-result" class="mt-3 p-3 border rounded d-none bg-light text-start">
-                <b class="text-primary"><i class="fa-solid fa-check-circle"></i> Produit détecté</b><br>
-                <small id="scan-data" class="text-break"></small><br>
-                <a href="#" id="fds-link" target="_blank" class="btn btn-sm btn-success mt-2 w-100">Consulter la FDS (PDF)</a>
-                <button class="btn btn-sm btn-outline-secondary mt-2 w-100" onclick="resetScan()">Scanner un autre produit</button>
+        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+        <div class="card-custom">
+            <div id="reader"></div>
+            <button class="btn-restev bg-primary text-white mt-3" onclick="startScanner()">LANCER LE SCAN</button>
+            <hr>
+            <div id="manual-entry">
+                <h6>Saisie manuelle</h6>
+                <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
+                <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres (optionnel)">
+                <label class="small text-muted">Joindre la FDS (PDF/Image) :</label>
+                <input type="file" id="prod-fds" class="form-control mb-3" accept="application/pdf,image/*">
+                <button class="btn-restev bg-success text-white" onclick="saveProduct()">ENREGISTRER DANS L'LISTE</button>
             </div>
         </div>
     </div>
 
-    <!-- SGH -->
-    <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>Risques Chimiques</h5>
-        <div id="sgh-list" class="sgh-container">
-            <!-- Rempli par JavaScript -->
+    <!-- PAGE : INVENTAIRE -->
+    <div id="page-list" class="app-page">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0">Produits Dangereux</h5>
+            <button class="btn btn-sm btn-outline-danger" onclick="clearAll()">Tout effacer</button>
+        </div>
+        <div id="inventory-container">
+            <!-- Rempli par JS -->
         </div>
     </div>
 
     <!-- NAV DOCK -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN FDS</button>
-        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-camera"></i>AJOUTER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTING</button>
     </nav>
 
     <script>
-        // --- DONNÉES SGH (PICTOGRAMMES OFFICIELS HD) ---
-        const sghData = [
-            {t: "Explosif", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/GHS-pictogram-explos.svg/300px-GHS-pictogram-explos.svg.png"},
-            {t: "Inflammable", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/GHS-pictogram-flamme.svg/300px-GHS-pictogram-flamme.svg.png"},
-            {t: "Comburant", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GHS-pictogram-rondflam.svg/300px-GHS-pictogram-rondflam.svg.png"},
-            {t: "Gaz pression", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/GHS-pictogram-bottle.svg/300px-GHS-pictogram-bottle.svg.png"},
-            {t: "Corrosif", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/GHS-pictogram-acid.svg/300px-GHS-pictogram-acid.svg.png"},
-            {t: "Toxique", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/GHS-pictogram-skull.svg/300px-GHS-pictogram-skull.svg.png"},
-            {t: "Nocif / Irritant", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/GHS-pictogram-exclam.svg/300px-GHS-pictogram-exclam.svg.png"},
-            {t: "Danger Santé", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/GHS-pictogram-silhouet.svg/300px-GHS-pictogram-silhouet.svg.png"},
-            {t: "Environnement", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/GHS-pictogram-pollut.svg/300px-GHS-pictogram-pollut.svg.png"}
-        ];
+        let inventory = JSON.parse(localStorage.getItem('restev_inventory')) || [];
 
-        // --- LOGIQUE SCANNER ---
-        let html5QrCode;
-
-        function startScanner() {
-            html5QrCode = new Html5Qrcode("reader");
-            const config = { 
-                fps: 20, 
-                qrbox: { width: 280, height: 180 },
-                aspectRatio: 1.0
-            };
-            
-            document.getElementById('scan-controls').innerHTML = `<button class="btn-restev bg-danger text-white" onclick="stopScanner()">ARRÊTER</button>`;
-            
-            html5QrCode.start(
-                { facingMode: "environment" }, 
-                config, 
-                (decodedText) => {
-                    // Succès du scan
-                    document.getElementById('scan-result').classList.remove('d-none');
-                    document.getElementById('scan-data').innerText = "Code produit : " + decodedText;
-                    // Lien dynamique vers une base de données FDS (exemple QuickFDS ou recherche Google)
-                    document.getElementById('fds-link').href = "https://www.google.com/search?q=FDS+Safety+Data+Sheet+" + decodedText;
-                    stopScanner();
-                }
-            ).catch(err => {
-                alert("Erreur d'accès à la caméra. Autorisez l'accès dans les réglages.");
-                console.error(err);
-            });
-        }
-
-        function stopScanner() {
-            if(html5QrCode) {
-                html5QrCode.stop().then(() => {
-                    document.getElementById('scan-controls').innerHTML = `<button class="btn-restev bg-primary text-white" onclick="startScanner()">LANCER LA CAMÉRA</button>`;
-                }).catch(err => console.log("Erreur arrêt", err));
-            }
-        }
-
-        function resetScan() {
-            document.getElementById('scan-result').classList.add('d-none');
-            startScanner();
-        }
-
-        // --- NAVIGATION & RENDU ---
+        // NAVIGATION
         function nav(id, el) {
-            if(id !== 'page-scan') stopScanner();
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
-            window.scrollTo(0,0);
+            if(id === 'page-list') renderInventory();
+            if(id === 'page-home') updateStats();
         }
 
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map(item => `
-                <div class="sgh-card">
-                    <img src="${item.url}" alt="${item.t}">
-                    <b>${item.t}</b>
+        // SCANNER
+        let html5QrCode;
+        function startScanner() {
+            html5QrCode = new Html5Qrcode("reader");
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
+            (text) => {
+                document.getElementById('prod-code').value = text;
+                html5QrCode.stop();
+                alert("Code détecté : " + text);
+            });
+        }
+
+        // SAUVEGARDE PRODUIT
+        function saveProduct() {
+            const name = document.getElementById('prod-name').value;
+            const code = document.getElementById('prod-code').value;
+            const fileInput = document.getElementById('prod-fds');
+            
+            if(!name) return alert("Veuillez entrer au moins un nom de produit.");
+
+            let fdsData = "";
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fdsData = e.target.result; // Base64 du fichier
+                    finalizeSave(name, code, fdsData);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                finalizeSave(name, code, "");
+            }
+        }
+
+        function finalizeSave(name, code, fds) {
+            const newProduct = {
+                id: Date.now(),
+                name: name,
+                code: code,
+                fds: fds, // Stocké localement (Attention : limité à ~5MB en localStorage)
+                date: new Date().toLocaleDateString()
+            };
+
+            inventory.push(newProduct);
+            localStorage.setItem('restev_inventory', JSON.stringify(inventory));
+            
+            alert("Produit ajouté à l'inventaire !");
+            document.getElementById('prod-name').value = "";
+            document.getElementById('prod-code').value = "";
+            nav('page-list', 'nav-list');
+        }
+
+        // RENDU DE L'INVENTAIRE
+        function renderInventory() {
+            const container = document.getElementById('inventory-container');
+            if(inventory.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted mt-5">Aucun produit enregistré.</p>';
+                return;
+            }
+
+            container.innerHTML = inventory.map(item => `
+                <div class="card-custom">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <b class="text-primary">${item.name}</b><br>
+                            <small class="text-muted">Code: ${item.code || 'N/A'} | Ajouté le: ${item.date}</small>
+                        </div>
+                        <button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="mt-2">
+                        ${item.fds ? 
+                            `<a href="${item.fds}" target="_blank" class="btn btn-sm btn-outline-primary w-100"><i class="fa-solid fa-file-pdf"></i> Voir la FDS</a>` 
+                            : `<span class="badge bg-light text-muted w-100 p-2">Aucune FDS jointe</span>`}
+                    </div>
                 </div>
             `).join('');
         }
 
-        window.onload = () => {
-            renderSGH();
-            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1200);
-        };
+        function deleteItem(id) {
+            if(confirm("Supprimer ce produit ?")) {
+                inventory = inventory.filter(i => i.id !== id);
+                localStorage.setItem('restev_inventory', JSON.stringify(inventory));
+                renderInventory();
+            }
+        }
+
+        function clearAll() {
+            if(confirm("Voulez-vous vider tout l'inventaire ?")) {
+                localStorage.removeItem('restev_inventory');
+                inventory = [];
+                renderInventory();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('stats-count').innerText = `${inventory.length} produit(s) dans votre inventaire.`;
+        }
+
+        window.onload = updateStats;
     </script>
 </body>
 </html>
