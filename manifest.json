@@ -1,0 +1,20 @@
+{
+  "name": "RESTEV 85 - Expert Prévention",
+  "short_name": "RESTEV 85",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#3065a8",
+  "theme_color": "#3065a8",
+  "icons": [
+    {
+      "src": "logo_restev_carre.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_restev_carre.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
