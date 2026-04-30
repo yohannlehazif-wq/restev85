@@ -218,16 +218,29 @@
 
        function renderSGH() {
     const sghData = [
-        {t: "Explosif", img: "SGH01_BombeExplosant.jpg"},
-        {t: "Inflammable", img: "SGH02_Flamme.jpg"},
-        {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg"},
-        {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg"},
-        {t: "Corrosif", img: "SGH05_Corrosion.jpg"},
-        {t: "Toxique", img: "SGH06.jpg"},
-        {t: "Irritant", img: "SGH07_PointExclamation.jpg"},
-        {t: "Danger Santé", img: "SGH08_DangerSante.jpg"},
-        {t: "Environnement", img: "SGH09_Environnement.jpg"}
+        {t: "Explosif", img: "SGH01_BombeExplosant.jpg", p: "Éloigner de la chaleur, des étincelles et des flammes. Ne pas fumer."},
+        {t: "Inflammable", img: "SGH02_Flamme.jpg", p: "Stocker dans un endroit bien ventilé. Tenir au frais. Éviter tout contact avec l'air."},
+        {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", p: "Tenir à l'écart des vêtements et matières combustibles. Stocker loin des sources de chaleur."},
+        {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", p: "Protéger du rayonnement solaire. Stocker dans un endroit bien ventilé."},
+        {t: "Corrosif", img: "SGH05_Corrosion.jpg", p: "Porter des gants et des lunettes de protection. Ne pas respirer les poussières/vapeurs."},
+        {t: "Toxique", img: "SGH06.jpg", p: "Porter un équipement de protection. En cas de malaise, appeler immédiatement un centre antipoison."},
+        {t: "Irritant", img: "SGH07_PointExclamation.jpg", p: "Éviter le contact avec les yeux et la peau. Laver soigneusement les mains après manipulation."},
+        {t: "Danger Santé", img: "SGH08_DangerSante.jpg", p: "Ne pas manipuler avant d'avoir lu toutes les précautions. Utiliser les EPI recommandés."},
+        {t: "Environnement", img: "SGH09_Environnement.jpg", p: "Éviter le rejet dans l'environnement. Récupérer tout produit répandu."}
     ];
+
+    document.getElementById('sgh-list').innerHTML = sghData.map(x => `
+        <div class="sgh-card shadow-sm border" onclick="showSGHPrevention('${x.t}', '${x.p}')" style="cursor: pointer;">
+            <img src="${x.img}" alt="${x.t}" style="width: 100%; max-width: 60px; height: 60px; object-fit: contain;" onerror="this.src='https://placehold.co/60x60?text=ERR'">
+            <b class="d-block mt-2" style="font-size: 0.6rem; text-transform: uppercase;">${x.t}</b>
+            <small class="text-primary" style="font-size: 0.5rem;">Cliquer pour l'aide</small>
+        </div>`).join('');
+}
+
+// Nouvelle fonction pour afficher la prévention
+function showSGHPrevention(titre, texte) {
+    alert("🛡️ PRÉVENTION - " + titre.toUpperCase() + "\n\nConseils : " + texte);
+}
 
     document.getElementById('sgh-list').innerHTML = sghData.map(x => `
         <div class="sgh-card shadow-sm border">
