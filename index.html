@@ -199,33 +199,54 @@
             {t: "Environnement", img: "SGH09_Environnement.jpg", p: "Récupérer tout produit répandu. Ne pas rejeter."}
         ];
 
-       const centres = [
+       // --- LISTE DES CENTRES AVEC LIENS GPS FIABLES ---
+const centres = [
     { 
         n: "La Roche-sur-Yon (Siège)", 
         t: "0251370668", 
         a: "Impasse Newton, 85000 La Roche-sur-Yon", 
-        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+La+Roche+sur+Yon" 
+        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+Impasse+Newton+La+Roche-sur-Yon" 
     },
     { 
         n: "Montaigu-Vendée", 
         t: "0251942014", 
         a: "44 rue du 8 mai 1945, 85600 Montaigu", 
-        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+Montaigu+Vendee" 
+        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+44+rue+du+8+mai+1945+Montaigu" 
     },
     { 
         n: "Les Herbiers", 
         t: "0251671203", 
         a: "18 rue Olivier de Serres, 85500 Les Herbiers", 
-        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+Les+Herbiers" 
+        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+18+rue+Olivier+de+Serres+Les+Herbiers" 
     },
     { 
         n: "Les Essarts", 
         t: "0251080601", 
         a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", 
-        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+Les+Essarts" 
+        m: "https://www.google.com/maps/search/?api=1&query=RESTEV+85+Rue+Louis+Lumiere+Les+Essarts-en-Bocage" 
     }
 ];
 
+// --- FONCTION DE RENDU ---
+function renderCentres() {
+    const container = document.getElementById('centres-list');
+    if (!container) return; // Sécurité si l'élément n'existe pas encore au chargement
+
+    container.innerHTML = centres.map(x => `
+        <div class="card-custom">
+            <b>${x.n}</b><br>
+            <small class="text-muted">${x.a}</small>
+            <div class="d-flex gap-2 mt-2">
+                <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none">
+                    <i class="fa-solid fa-phone me-2"></i>Appeler
+                </a>
+                <a href="${x.m}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center text-decoration-none">
+                    <i class="fa-solid fa-route me-1"></i> Itinéraire
+                </a>
+            </div>
+        </div>`).join('');
+}
+        
         const quizQ = ["DUERP à jour ?", "Visites médicales OK ?", "FDS disponibles ?", "EPI portés ?", "Risques chimiques identifiés ?", "Formés SST ?", "Affichage visible ?", "Risques chutes analysés ?", "Contrôles machines OK ?", "Protocole accident existant ?"];
 
         function dismissSplash() {
