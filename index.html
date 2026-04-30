@@ -1,19 +1,13 @@
 // --- LOGIQUE DE RECHERCHE AUTOMATISÉE ---
-function searchFDS(code, name) {
+function getFDSLinks(code, name) {
     const query = name ? `${name} ${code}` : code;
     
-    // On propose 2 sources solides :
-    // 1. SDS Manager (Excellent pour le scan direct)
-    const sdsUrl = `https://www.sdsmanager.com/fr/search?q=${encodeURIComponent(query)}`;
-    
-    // 2. Recherche ciblée Google (Force le PDF et le domaine FDS)
-    const googleUrl = `https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(query)}`;
-
-    // On ouvre SDS Manager par défaut car c'est le plus "pro" pour les codes-barres
-    window.open(sdsUrl, '_blank');
-    
-    // On affiche aussi le lien Google dans l'interface au cas où
-    return googleUrl;
+    // On génère les URLs de recherche
+    return {
+        sds: `https://www.sdsmanager.com/fr/search?q=${encodeURIComponent(query)}`,
+        google: `https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(query)}`,
+        quickfds: `https://www.quickfds.com/fr/` // QuickFDS nécessite souvent une entrée manuelle du fournisseur
+    };
 }
 
 // --- MODIFICATION DE LA SAUVEGARDE ---
@@ -24,36 +18,51 @@ function saveProduct() {
     
     if(!name && !code) return alert("Veuillez scanner un code ou entrer un nom.");
 
-    // Si pas de fichier uploadé, on génère un lien de recherche auto
-    let fdsLink = "";
-    if (fileInput.files.length === 0) {
-        fdsLink = searchFDS(code, name); 
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        finalizeSave(name, code, e.target.result);
-    };
-
+    // Si l'utilisateur a mis un fichier (PDF ou Photo)
     if (fileInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            finalizeSave(name, code, e.target.result, true); // true = c'est un fichier
+        };
         reader.readAsDataURL(fileInput.files[0]);
     } else {
-        finalizeSave(name, code, fdsLink);
+        // Sinon, on enregistre les liens de recherche automatique
+        const links = getFDSLinks(code, name);
+        finalizeSave(name, code, links.sds, false); // false = c'est un lien
     }
 }
 
-function finalizeSave(name, code, fds) {
+function finalizeSave(name, code, fdsData, isFile) {
     const newProduct = {
         id: Date.now(),
         name: name || "Produit Inconnu",
-        code: code,
-        fds: fds, // Soit le Base64 du fichier, soit le lien de recherche Google
+        code: code || "Non scanné",
+        fds: fdsData,
+        isFile: isFile,
         date: new Date().toLocaleDateString()
     };
 
     inventory.push(newProduct);
     localStorage.setItem('restev_inventory', JSON.stringify(inventory));
     
-    alert("Produit enregistré !");
+    alert("Produit ajouté à l'inventaire !");
+    
+    // Reset du formulaire
+    document.getElementById('prod-name').value = "";
+    document.getElementById('prod-code').value = "";
+    document.getElementById('prod-fds').value = "";
+    
     nav('page-list', 'nav-list');
 }
+
+// --- MISE À JOUR DE L'AFFICHAGE (Dans renderInventory) ---
+// Dans ta fonction renderInventory(), remplace la partie du bouton par :
+/*
+    ${item.isFile ? 
+        `<a href="${item.fds}" target="_blank" class="btn btn-sm btn-success w-100"><i class="fa-solid fa-file-shield"></i> Ouvrir la FDS enregistrée</a>` : 
+        `<div class="btn-group w-100">
+            <a href="${item.fds}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i> SDS Manager</a>
+            <a href="https://www.google.com/search?q=filetype:pdf+FDS+${item.name}" target="_blank" class="btn btn-sm btn-outline-secondary">Google</a>
+         </div>`
+    }
+*/
