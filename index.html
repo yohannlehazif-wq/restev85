@@ -12,17 +12,19 @@
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; }
         body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin-bottom: 85px; }
         
+        /* SPLASH SCREEN AVEC LOGO CARRÉ */
         #splash { 
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow));
             background-size: 400% 400%; animation: gradient 8s ease infinite;
         }
         @keyframes gradient { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+        .logo-splash { width: 120px; height: auto; margin-bottom: 20px; border-radius: 15px; }
 
-        .header-brand { display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .logo-box { background: var(--r-blue); color: white; padding: 2px 8px; border-radius: 5px; font-weight: 900; }
+        /* HEADER AVEC LOGO LONG */
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .logo-header { height: 40px; width: auto; }
 
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
         .nav-item.active { color: var(--r-blue); }
@@ -33,47 +35,38 @@
 
         .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
         
-        /* GRILLE SGH RÉPARÉE */
+        /* GRILLE SGH */
         .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .sgh-card:active { background: #f0f7ff; transform: scale(0.95); }
-        
-        /* Taille des icônes contrôlée */
-        .sgh-card img { 
-            width: 100%; 
-            max-width: 60px; 
-            height: 60px; 
-            object-fit: contain; 
-            margin-bottom: 5px; 
-        }
+        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .sgh-card img { width: 100%; max-width: 60px; height: 60px; object-fit: contain; margin-bottom: 5px; }
         .sgh-card b { font-size: 0.6rem; color: #334155; display: block; line-height: 1.1; }
 
         .prevention-badge { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px; font-size: 0.85rem; margin-top: 10px; border-radius: 5px; }
-        .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; margin-top: 10px; display: block; text-align: center; text-decoration: none; }
     </style>
 </head>
 <body>
 
+    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="text-center bg-white p-5 rounded-5 shadow">
-            <div class="header-brand h2 mb-3">
-                <span class="logo-box">R</span><span style="color: var(--r-blue); font-weight: 800;">ESTEV 85</span>
-            </div>
+            <img src="logo_restev_carre.png" alt="Logo" class="logo-splash" onerror="this.src='https://placehold.co/120x120?text=RESTEV+85'">
+            <div class="h4 fw-bold mb-4" style="color: var(--r-blue);">Expert Prévention</div>
             <button class="btn btn-primary rounded-pill px-5 fw-bold" onclick="startApp()">LANCER</button>
         </div>
     </div>
 
+    <!-- HEADER -->
     <div class="app-header">
-        <div class="header-brand">
-            <span class="logo-box">R</span><span style="color: var(--r-blue); font-weight: 800;">ESTEV</span><span style="color: var(--r-yellow); font-weight: 800;">85</span>
-        </div>
+        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.style.display='none'">
+        <!-- Fallback texte si le logo ne charge pas -->
+        <div class="fw-bold" id="header-text" style="display:none; color: var(--r-blue);">RESTEV 85</div>
     </div>
 
     <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom" style="background: var(--r-blue); color: white; border: none;">
-            <h5>Espace Prévention</h5>
-            <p class="small mb-0">Outils disponibles :</p>
+            <h5>Bonjour,</h5>
+            <p class="small mb-0">Sélectionnez un outil de prévention :</p>
         </div>
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
@@ -87,11 +80,11 @@
 
     <!-- PAGE SGH -->
     <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>Symboles SGH</h5>
+        <h5 class="fw-bold mb-3">Symboles de Danger (SGH)</h5>
         <div id="sgh-list" class="sgh-container"></div>
     </div>
 
-    <!-- MODAL DÉTAILS SGH -->
+    <!-- MODAL SGH -->
     <div class="modal fade" id="sghModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow" style="border-radius: 20px;">
@@ -100,11 +93,10 @@
                     <h4 id="modal-title" class="fw-bold"></h4>
                     <hr>
                     <div class="text-start">
-                        <p class="small"><strong>Description :</strong> <span id="modal-desc"></span></p>
+                        <p class="small"><strong>Risques :</strong> <span id="modal-desc"></span></p>
                         <div id="modal-h" class="mb-2"></div>
                         <div class="prevention-badge">
-                            <strong>Prévention :</strong><br>
-                            <span id="modal-p"></span>
+                            <strong>Conseils :</strong><br><span id="modal-p"></span>
                         </div>
                     </div>
                     <button type="button" class="btn btn-secondary w-100 mt-4 rounded-pill" data-bs-dismiss="modal">Fermer</button>
@@ -116,57 +108,45 @@
     <!-- PAGE SCAN -->
     <div id="page-scan" class="app-page">
         <div class="card-custom"><div id="reader"></div></div>
+        <p class="text-center mt-3 small text-muted">Scannez le QR Code sur la FDS ou l'étiquette.</p>
     </div>
 
     <!-- PAGE METIERS -->
     <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Prévention Métiers</h5>
+        <h5 class="fw-bold mb-3">Fiches par Métier</h5>
         <div id="metiers-list"></div>
     </div>
 
+    <!-- NAV BOTTOM -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>DANGERS</button>
+        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
         <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
     </nav>
 
     <script>
-        // Données avec noms de fichiers exacts et encodage pour l'accent[cite: 1]
         const sghData = [
-            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles ou auto-réactives.", h: "H200: Explosif instable.", p: "Éviter les chocs, les frottements et la chaleur[cite: 1]."},
-            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz, aérosols, liquides ou solides inflammables.", h: "H220: Gaz extrêmement inflammable.", p: "P210: Tenir à l'écart de la chaleur et des flammes. Ne pas fumer[cite: 1]."},
-            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut provoquer ou aggrave un incendie.", h: "H270: Peut provoquer un incendie.", p: "Stocker loin des matières inflammables[cite: 1]."},
-            {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Gaz comprimé ou liquéfié, peut exploser sous la chaleur.", h: "H280: Contient un gaz sous pression.", p: "P403: Stocker dans un endroit bien ventilé[cite: 1]."},
-            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Provoque des brûlures cutanées et des lésions oculaires graves.", h: "H314: Provoque des brûlures graves.", p: "P280: Porter des gants et une protection oculaire[cite: 1]."},
-            // Correction encodage accent ê -> %C3%AA
-            {t: "Toxique", img: "SGH06_T%C3%AAteDeMort.jpg", d: "Mortel ou toxique en cas d'ingestion ou d'inhalation.", h: "H300: Mortel en cas d'ingestion.", p: "Appeler immédiatement un CENTRE ANTIPOISON[cite: 1]."},
-            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif pour la santé ou la couche d'ozone.", h: "H315/H319: Provoque une irritation.", p: "P260: Ne pas respirer les poussières ou vapeurs[cite: 1]."},
-            {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Cancérogène, mutagène ou toxique pour la reproduction.", h: "H350: Peut provoquer le cancer.", p: "Utiliser avec une ventilation spécifique[cite: 1]."},
-            {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Très toxique pour les organismes aquatiques.", h: "H410: Toxique pour la vie aquatique.", p: "P501: Éliminer le contenu selon la réglementation[cite: 1]."}
-        ];
-
-        const metiers = [
-            {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants, chaussures sécu"},
-            {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration, gants chaleur"},
-            {m: "Carrossier", r: "Solvants, Poussières", p: "Masque A2P3, lunettes"},
-            {m: "Coiffeur", r: "Allergies, Postures", p: "Gants, tabouret ergonomique"},
-            {m: "Maçon", r: "Manutention, Silice", p: "Casque, gants, genouillères"},
-            {m: "Mécanicien", r: "Huiles, Bruit", p: "Fontaine de lavage, bouchons"},
-            {m: "Peintre", r: "Chutes, Solvants", p: "Masque, échafaudage conforme"},
-            {m: "Soudeur", r: "Fumées, Rayons", p: "Cagoule LCD, aspiration"}
+            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles.", h: "H200", p: "Éviter chocs et chaleur[cite: 1]."},
+            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz/liquides inflammables.", h: "H220", p: "Tenir à l'écart des flammes[cite: 1]."},
+            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut aggraver un incendie.", h: "H270", p: "Stocker loin des combustibles[cite: 1]."},
+            {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Peut exploser sous la chaleur.", h: "H280", p: "Stocker en lieu ventilé[cite: 1]."},
+            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Brûlures graves de la peau.", h: "H314", p: "Porter gants et lunettes[cite: 1]."},
+            {t: "Toxique", img: "SGH06_T%C3%AAteDeMort.jpg", d: "Mortel en cas d'ingestion/inhalation.", h: "H300", p: "Appeler le centre antipoison[cite: 1]."},
+            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif, irritant ou sensibilisant.", h: "H315", p: "Éviter le contact cutané[cite: 1]."},
+            {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Effets CMR (Cancer, etc.).", h: "H350", p: "Protection respiratoire obligatoire[cite: 1]."},
+            {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Toxique pour la vie aquatique.", h: "H410", p: "Ne pas jeter à l'égout[cite: 1]."}
         ];
 
         function startApp() { 
             document.getElementById('splash').style.display='none'; 
             renderSGH(); 
-            renderMetiers();
         }
 
         function renderSGH() {
             document.getElementById('sgh-list').innerHTML = sghData.map((x, i) => `
                 <div class="sgh-card" onclick="showSghDetail(${i})">
-                    <img src="${x.img}" alt="${x.t}" onerror="this.src='https://placehold.co/100x100?text=SGH'">
+                    <img src="${x.img}" onerror="this.src='https://placehold.co/100x100?text=SGH'">
                     <b>${x.t}</b>
                 </div>`).join('');
         }
@@ -181,20 +161,18 @@
             new bootstrap.Modal(document.getElementById('sghModal')).show();
         }
 
-        function renderMetiers() {
-            document.getElementById('metiers-list').innerHTML = metiers.map(x => `
-                <div class="card-custom">
-                    <b class="text-primary">${x.m}</b><br>
-                    <small>Risques : ${x.r} | Prévention : ${x.p}</small>
-                </div>`).join('');
-        }
-
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
         }
+
+        // Vérification logo header
+        window.onload = () => {
+            const img = document.querySelector('.logo-header');
+            img.onerror = () => { img.style.display='none'; document.getElementById('header-text').style.display='block'; };
+        };
     </script>
 </body>
 </html>
