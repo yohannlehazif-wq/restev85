@@ -3,218 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Expert</title>
+    <title>RESTEV 85 - Expert V6</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { 
-            --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f;
-        }
-
-        body { background-color: #f0f2f5; font-family: 'Segoe UI', sans-serif; margin-bottom: 80px; }
-
-        /* --- SPLASH ANIMÉ --- */
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; }
+        body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin-bottom: 85px; }
+        
+        /* SPLASH ANIMÉ */
         #splash { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow));
-            background-size: 400% 400%;
-            animation: restevGradient 10s ease infinite;
-            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            background-size: 400% 400%; animation: gradient 10s ease infinite;
         }
-        @keyframes restevGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes gradient { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+        .splash-card { background: white; padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 
-        .splash-card {
-            background: white; padding: 30px; border-radius: 30px; text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 80%; max-width: 300px;
-        }
-
-        /* --- UI --- */
-        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .header-logo { height: 35px; }
-
+        /* UI */
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: var(--r-blue); }
-
-        .app-page { display: none; padding: 15px; animation: fadeIn 0.3s ease; }
+        .app-page { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-
-        /* --- SGH SYMBOLS --- */
+        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        
+        /* SGH FIX */
         .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-box { background: white; border-radius: 12px; padding: 8px; text-align: center; border: 1px solid #eee; font-size: 0.55rem; font-weight: bold; }
-        .sgh-box img { width: 100%; height: auto; margin-bottom: 5px; }
+        .sgh-box { background: white; border-radius: 12px; padding: 12px 5px; text-align: center; border: 1px solid #eee; }
+        .sgh-box i { font-size: 2rem; margin-bottom: 8px; display: block; }
 
-        /* --- SCANNER --- */
         #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #000; }
-        .btn-action { border-radius: 50px; font-weight: bold; padding: 12px; transition: 0.3s; width: 100%; border: none; margin-top: 10px; }
+        .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; margin-top: 10px; transition: 0.2s; }
+        .search-bar { border-radius: 50px; padding: 12px 20px; border: 1px solid #ddd; margin-bottom: 15px; width: 100%; }
     </style>
 </head>
 <body>
 
-    <!-- ECRAN D'ACCUEIL -->
     <div id="splash">
         <div class="splash-card">
-            <h4 class="fw-bold" style="color: var(--r-blue);">RESTEV 85</h4>
-            <p class="small text-muted">Prévention & Santé</p>
-            <button class="btn btn-primary rounded-pill w-100 fw-bold py-2" onclick="startApp()">ENTRER</button>
+            <h3 class="fw-bold" style="color: var(--r-blue);">RESTEV 85</h3>
+            <p class="small text-muted">VOTRE PRÉVENTION CONNECTÉE</p>
+            <button class="btn btn-primary rounded-pill w-100 fw-bold" onclick="startApp()">ACCÉDER</button>
         </div>
     </div>
 
-    <!-- HEADER -->
     <div class="app-header">
-        <img src="logo-restev_2.png" alt="RESTEV" class="header-logo" onerror="this.style.display='none'">
-        <span class="fw-bold" id="header-title">RESTEV CONNECT</span>
+        <span class="fw-bold" style="color: var(--r-blue);">RESTEV</span><span class="fw-bold" style="color: var(--r-yellow);">85</span>
     </div>
 
     <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="card-custom" style="background: var(--r-blue); color: white; border: none;">
-            <h5>Bonjour !</h5>
-            <p class="small mb-0">Scannez un produit pour trouver sa FDS rapidement.</p>
+        <div class="card-custom" style="background: linear-gradient(to right, var(--r-blue), var(--r-teal)); color: white; border: none;">
+            <h5>Bonjour,</h5>
+            <p class="small mb-0">Sécurité et Santé au Travail en Vendée.</p>
         </div>
-        
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER</b></div>
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-qrcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
             </div>
-            <div class="col-6" onclick="nav('page-sgh', 'nav-sgh')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><b>DANGERS</b></div>
+            <div class="col-6" onclick="nav('page-metiers', 'nav-metiers')">
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-user-gear fa-2x mb-2 text-success"></i><br><b>MÉTIERS</b></div>
             </div>
         </div>
+    </div>
+
+    <!-- METIERS (20+) -->
+    <div id="page-metiers" class="app-page">
+        <input type="text" class="search-bar" id="m-search" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
+        <div id="metiers-list"></div>
     </div>
 
     <!-- SCANNER -->
     <div id="page-scan" class="app-page">
-        <div class="card-custom">
-            <h6 class="fw-bold mb-3">Recherche FDS Rapide</h6>
+        <div class="card-custom text-center">
             <div id="reader"></div>
-            <button class="btn btn-dark btn-action" onclick="startScanner()">ACTIVER LA CAMERA</button>
+            <button class="btn-restev bg-dark text-white" onclick="startScanner()">SCANNER LE PRODUIT</button>
         </div>
-
         <div id="res-area" class="d-none">
             <div class="card-custom" style="border-left-color: var(--r-teal);">
-                <p class="mb-1 small">Produit détecté : <b id="res-code"></b></p>
-                
-                <a id="fds-link" target="_blank" class="btn btn-danger btn-action">
-                    <i class="fa-solid fa-file-pdf me-2"></i>TROUVER LA FDS
+                <p>Code détecté : <b id="res-code"></b></p>
+                <a id="fds-link" target="_blank" class="btn-restev bg-danger text-white d-block text-center text-decoration-none">
+                    <i class="fa-solid fa-file-pdf me-2"></i>OUVRIR LA FDS
                 </a>
-
-                <button class="btn btn-success btn-action" onclick="saveAuto()">
-                    <i class="fa-solid fa-bookmark me-2"></i>MEMORISER CE PRODUIT
-                </button>
+                <button class="btn-restev bg-success text-white" onclick="saveAuto()">MÉMORISER CE PRODUIT</button>
             </div>
         </div>
     </div>
 
-    <!-- STOCK / MES FDS -->
+    <!-- MES FDS -->
     <div id="page-inventory" class="app-page">
-        <h5 class="fw-bold mb-3">Mes FDS Enregistrées</h5>
+        <h5 class="fw-bold mb-3">Ma Bibliothèque FDS</h5>
         <div id="inv-list"></div>
     </div>
 
-    <!-- SGH SYMBOLES -->
+    <!-- SGH (ICONES INCASSABLES) -->
     <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3">Symboles SGH Officiels</h5>
-        <div class="sgh-grid" id="sgh-list"></div>
+        <h5 class="fw-bold mb-3">Dangers Chimiques (SGH)</h5>
+        <div class="sgh-grid">
+            <div class="sgh-box"><i class="fa-solid fa-burst text-dark"></i><b>Explosif</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-fire text-danger"></i><b>Inflammable</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-circle-dot text-warning"></i><b>Comburant</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-bottle-water text-secondary"></i><b>Gaz</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-vial text-dark"></i><b>Corrosif</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-skull-crossbones text-dark"></i><b>Toxique</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-triangle-exclamation text-warning"></i><b>Nocif</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-lungs text-danger"></i><b>Santé</b></div>
+            <div class="sgh-box"><i class="fa-solid fa-fish-fins text-primary"></i><b>Polluant</b></div>
+        </div>
     </div>
 
-    <!-- SITES / CONTACT -->
+    <!-- CONTACTS -->
     <div id="page-contact" class="app-page">
-        <h5 class="fw-bold mb-3">Nos Centres RESTEV</h5>
+        <h5 class="fw-bold mb-3">Nos Centres</h5>
         <div id="centres-list"></div>
     </div>
 
-    <!-- NAVIGATION -->
-    <div class="nav-bottom">
+    <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-file-pdf"></i>MES FDS</button>
-        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>DANGERS</button>
+        <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
+        <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-folder-open"></i>MES FDS</button>
         <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-location-dot"></i>SITES</button>
-    </div>
+    </nav>
 
     <script>
-        // Liens Wikimedia directs pour les symboles SGH
-        const sghLinks = [
-            { t: "Explosif", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/GHS-pictogram-explos.svg/150px-GHS-pictogram-explos.svg.png" },
-            { t: "Inflammable", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/GHS-pictogram-flamme.svg/150px-GHS-pictogram-flamme.svg.png" },
-            { t: "Comburant", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GHS-pictogram-rondflam.svg/150px-GHS-pictogram-rondflam.svg.png" },
-            { t: "Gaz", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/GHS-pictogram-silind.svg/150px-GHS-pictogram-silind.svg.png" },
-            { t: "Corrosif", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/GHS-pictogram-acid.svg/150px-GHS-pictogram-acid.svg.png" },
-            { t: "Toxique", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-skull.svg/150px-GHS-pictogram-skull.svg.png" },
-            { t: "Nocif", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/GHS-pictogram-exclam.svg/150px-GHS-pictogram-exclam.svg.png" },
-            { t: "Santé", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/GHS-pictogram-silhouette.svg/150px-GHS-pictogram-silhouette.svg.png" },
-            { t: "Polluant", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/GHS-pictogram-pollut.svg/150px-GHS-pictogram-pollut.svg.png" }
+        const metiers = [
+            {m: "Agent d'entretien", r: "Produits chimiques, chutes", p: "Gants, chaussures antidérapantes"},
+            {m: "Boucher", r: "Coupures, froid", p: "Gant cotte de maille, tablier"},
+            {m: "Boulanger", r: "Poussières de farine, brûlures", p: "Masque, gants anti-chaleur"},
+            {m: "Carrossier", r: "Solvants, isocyanates", p: "Masque A2P3, cabine ventilée"},
+            {m: "Charpentier", r: "Chutes de hauteur, machines", p: "Harnais, casque, lunettes"},
+            {m: "Coiffeur", r: "Allergies cutanées, TMS", p: "Gants vinyle, sièges réglables"},
+            {m: "Comptable", r: "Travail sur écran, sédentarité", p: "Réglage siège/écran, pauses"},
+            {m: "Cuisinier", r: "Brûlures, coupures", p: "Chaussures sécu, gants chaleur"},
+            {m: "Électricien", r: "Électrisation, chutes", p: "Outils isolés, VAT, EPI"},
+            {m: "Infirmier", r: "Risque bio, TMS, stress", p: "Gants, aide au levage"},
+            {m: "Jardinier", r: "Bruit, produits phyto", p: "Casque antibruit, gants"},
+            {m: "Maçon", r: "Manutention, poussières", p: "Chaussures S3, ceinture lombaire"},
+            {m: "Mécanicien", r: "Huiles, coupures", p: "Gants nitrile, fontaine de lavage"},
+            {m: "Menuisier", r: "Poussières de bois, bruit", p: "Aspiration, bouchons d'oreille"},
+            {m: "Peintre", r: "Travail en hauteur, solvants", p: "Échafaudage stable, masque"},
+            {m: "Plombier", r: "Postures pénibles, brûlures", p: "Genouillères, gants"},
+            {m: "Secrétaire", r: "TMS, fatigue visuelle", p: "Ergonomie poste, éclairage"},
+            {m: "Soudeur", r: "Fumées, rayons UV", p: "Cagoule auto-obscurcissante, gants"},
+            {m: "Vendeur", r: "Station debout, agression", p: "Chaussures confort, formation"},
+            {m: "Vétérinaire", r: "Morsures, agents bio", p: "Contentions adaptées, gants"}
         ];
 
         const centres = [
-            { n: "La Roche-sur-Yon", a: "1 Impasse Newton", m: "https://www.google.com/maps/search/RESTEV+La+Roche+sur+Yon" },
-            { n: "Les Herbiers", a: "Avenue de l'Arrivée", m: "https://www.google.com/maps/search/RESTEV+Les+Herbiers" },
-            { n: "Les Essarts", a: "Rue G. Clemenceau", m: "https://www.google.com/maps/search/RESTEV+Les+Essarts" },
-            { n: "Montaigu", a: "Avenue de l'Europe", m: "https://www.google.com/maps/search/RESTEV+Montaigu" }
+            {n: "La Roche-sur-Yon", a: "1 Impasse Newton"},
+            {n: "Les Herbiers", a: "Avenue de l'Arrivée"},
+            {n: "Les Essarts", a: "Rue G. Clemenceau"},
+            {n: "Montaigu", a: "Avenue de l'Europe"}
         ];
 
-        function startApp() { 
-            document.getElementById('splash').style.display='none'; 
-            renderSGH(); renderInv(); renderCentres();
-        }
+        function startApp() { document.getElementById('splash').style.display='none'; renderMetiers(); renderCentres(); renderInv(); }
         
-        function nav(pageId, btn) {
+        function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active-page');
-            if(typeof btn === 'string') document.getElementById(btn).classList.add('active');
-            else btn.classList.add('active');
+            document.getElementById(id).classList.add('active-page');
+            if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
         }
 
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghLinks.map(s => `
-                <div class="sgh-box">
-                    <img src="${s.u}">
-                    <div>${s.t}</div>
+        function renderMetiers() {
+            document.getElementById('metiers-list').innerHTML = metiers.map(x => `
+                <div class="card-custom m-item">
+                    <b class="text-primary">${x.m}</b><br>
+                    <small><b>Risques:</b> ${x.r}</small><br>
+                    <small class="text-success"><b>Prévention:</b> ${x.p}</small>
                 </div>`).join('');
+        }
+
+        function filterMetiers() {
+            let q = document.getElementById('m-search').value.toLowerCase();
+            document.querySelectorAll('.m-item').forEach(i => {
+                i.style.display = i.innerText.toLowerCase().includes(q) ? 'block' : 'none';
+            });
         }
 
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(c => `
-                <div class="card-custom">
-                    <b class="text-primary">${c.n}</b><br><small>${c.a}</small><br>
-                    <a href="${c.m}" target="_blank" class="btn btn-sm btn-outline-primary mt-2 rounded-pill">Itinéraire</a>
-                </div>`).join('');
+                <div class="card-custom"><b>${c.n}</b><br><small>${c.a}</small><br>
+                <a href="https://www.google.com/maps/search/RESTEV+${c.n}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">Maps</a></div>`).join('');
         }
 
         function renderInv() {
-            const list = JSON.parse(localStorage.getItem('restev_v5_stock') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_stock_v6') || "[]");
             document.getElementById('inv-list').innerHTML = list.length ? list.map((item, i) => `
-                <div class="card-custom d-flex justify-content-between align-items-center">
-                    <div>
-                        <b>Produit : ${item.code}</b><br>
-                        <a href="${item.url}" target="_blank" class="btn btn-sm btn-danger mt-1">VOIR FDS</a>
-                    </div>
+                <div class="card-custom d-flex justify-content-between">
+                    <div><b>${item.code}</b><br><a href="${item.url}" target="_blank" class="small text-danger">Voir FDS</a></div>
                     <i class="fa-solid fa-trash text-muted" onclick="delInv(${i})"></i>
-                </div>`).join('') : '<p class="text-center mt-5">Aucun produit mémorisé.</p>';
+                </div>`).join('') : '<p class="text-center p-4">Vide</p>';
         }
 
         function saveAuto() {
             const code = document.getElementById('res-code').innerText;
             const url = document.getElementById('fds-link').href;
-            const list = JSON.parse(localStorage.getItem('restev_v5_stock') || "[]");
-            list.push({ code, url });
-            localStorage.setItem('restev_v5_stock', JSON.stringify(list));
-            alert("Produit mémorisé dans 'MES FDS' !");
-            renderInv();
-            nav('page-inventory', 'nav-inv');
+            const list = JSON.parse(localStorage.getItem('restev_stock_v6') || "[]");
+            list.push({code, url});
+            localStorage.setItem('restev_stock_v6', JSON.stringify(list));
+            renderInv(); alert("Enregistré !");
         }
 
         function delInv(i) {
-            const list = JSON.parse(localStorage.getItem('restev_v5_stock') || "[]");
-            list.splice(i, 1);
-            localStorage.setItem('restev_v5_stock', JSON.stringify(list));
-            renderInv();
+            const list = JSON.parse(localStorage.getItem('restev_stock_v6') || "[]");
+            list.splice(i,1); localStorage.setItem('restev_stock_v6', JSON.stringify(list)); renderInv();
         }
 
         let sc;
@@ -222,11 +220,10 @@
             if(!sc) sc = new Html5Qrcode("reader");
             sc.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
                 document.getElementById('res-code').innerText = t;
-                // REQUETE AMELIOREE : On cherche directement le PDF en français
                 document.getElementById('fds-link').href = `https://www.google.com/search?q=Fiche+donnees+securite+${t}+filetype:pdf`;
                 document.getElementById('res-area').classList.remove('d-none');
                 sc.stop();
-            }).catch(err => alert("Erreur caméra"));
+            });
         }
     </script>
 </body>
