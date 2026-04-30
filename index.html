@@ -3,80 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Gestion FDS</title>
+    <title>RESTEV 85 - Expert Prévention & FDS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --r-blue: #3065a8; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; padding-bottom: 80px; }
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #64748b; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-        .nav-item.active { color: var(--r-blue); font-weight: bold; }
-        .app-page { display: none; padding: 15px; }
-        .active-page { display: block; }
-        #reader { width: 100%; border-radius: 10px; overflow: hidden; background: #000; }
-        .btn-fds { font-size: 0.8rem; margin-top: 5px; }
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 90px; }
+        
+        /* HEADER */
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-header { height: 45px; }
+
+        /* NAVIGATION DOCK */
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.5rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; transition: 0.3s; }
+        .nav-item.active { color: var(--r-blue); transform: translateY(-3px); }
+        .nav-item i { font-size: 1.1rem; margin-bottom: 3px; }
+
+        /* PAGES */
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
+        .active-page { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        /* QUIZ */
+        .quiz-card { background: white; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .quiz-option { background: var(--r-light); padding: 15px; border-radius: 15px; margin-bottom: 10px; font-weight: 600; cursor: pointer; border: 2px solid transparent; }
+        .progress-bar-container { background: #e2e8f0; height: 8px; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+        #quiz-progress { background: var(--r-blue); transition: 0.4s; }
+
+        /* SGH GRID */
+        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .sgh-card { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .sgh-card img { width: 100%; max-width: 50px; height: 50px; object-fit: contain; }
+        .sgh-card b { font-size: 0.55rem; display: block; margin-top: 5px; }
+
+        /* BUTTONS */
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
+        .btn-restev { border-radius: 50px; font-weight: bold; padding: 14px; width: 100%; border: none; display: block; text-align: center; text-decoration: none; margin-top: 10px; }
+
+        /* SPLASH */
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
     </style>
 </head>
 <body>
 
-    <div class="app-header">
-        <b class="text-primary">RESTEV 85</b> <small>Prévention Chimique</small>
+    <div id="splash">
+        <div class="text-center">
+            <img src="logo_restev_carre.png" alt="Logo" style="width: 100px; border-radius: 20px;" onerror="this.src='https://placehold.co/100x100?text=RESTEV'">
+            <div class="h5 fw-bold mt-3 text-primary">RESTEV 85</div>
+            <div class="spinner-border text-primary mt-2" role="status"></div>
+        </div>
     </div>
 
-    <!-- PAGE ACCUEIL -->
-    <div id="page-home" class="app-page active-page text-center">
-        <div class="card-custom bg-primary text-white text-start">
-            <h5>Bienvenue</h5>
-            <p id="stats" class="mb-0 small">0 produit enregistré.</p>
+    <div class="app-header">
+        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+    </div>
+
+    <!-- ACCUEIL -->
+    <div id="page-home" class="app-page active-page">
+        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+            <h5 class="fw-bold mb-1">Expert Prévention</h5>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
         </div>
-        <div class="row g-2 mt-2">
+        
+        <div class="row g-2 mt-1">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom py-4"><i class="fa-solid fa-camera fa-2x text-primary mb-2"></i><br>Scanner</div>
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER</b></div>
             </div>
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom py-4"><i class="fa-solid fa-list fa-2x text-success mb-2"></i><br>Inventaire</div>
+                <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
+            </div>
+            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
+                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
+                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION RISQUES</b></span>
+                    <i class="fa-solid fa-chevron-right text-muted"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- PAGE SCAN / AJOUT -->
+    <!-- SCAN & AJOUT -->
     <div id="page-scan" class="app-page">
-        <h6 class="fw-bold">Ajouter un produit</h6>
+        <h5 class="fw-bold mb-3">Enregistrer un produit</h5>
         <div class="card-custom">
-            <div id="reader"></div>
-            <button class="btn btn-primary w-100 mt-2 mb-3" onclick="startScanner()">Lancer le Scan</button>
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000;"></div>
+            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
             
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom / Marque (ex: Sika)">
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit / Marque">
             <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres">
-            <label class="small text-muted">Ou joindre une photo de la FDS :</label>
+            <label class="small text-muted">Joindre la FDS (PDF ou Photo) :</label>
             <input type="file" id="prod-fds" class="form-control mb-3" accept="image/*,application/pdf">
             
-            <button class="btn btn-success w-100 fw-bold" onclick="saveProduct()">ENREGISTRER</button>
+            <button class="btn-restev bg-primary text-white" onclick="saveProduct()">ENREGISTRER DANS LA LISTE</button>
         </div>
     </div>
 
-    <!-- PAGE LISTE -->
+    <!-- LISTING PRODUITS -->
     <div id="page-list" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="fw-bold m-0">Mon Inventaire</h6>
-            <button class="btn btn-sm btn-outline-danger" onclick="clearAll()">Vider</button>
+            <h5 class="fw-bold m-0">Produits Enregistrés</h5>
+            <button class="btn btn-sm btn-outline-danger border-0" onclick="clearAll()"><i class="fa-solid fa-trash-can"></i></button>
         </div>
         <div id="inventory-container"></div>
     </div>
 
-    <!-- NAVIGATION -->
+    <!-- AUTO-ÉVALUATION -->
+    <div id="page-quiz" class="app-page">
+        <div class="progress-bar-container"><div id="quiz-progress" class="h-100" style="width: 0%"></div></div>
+        <div id="quiz-container">
+            <div class="quiz-card">
+                <small class="text-muted d-block mb-2" id="quiz-step">Question 1/10</small>
+                <h5 id="quiz-question" class="fw-bold mb-4">Avez-vous un document unique (DUERP) à jour ?</h5>
+                <div class="quiz-option" onclick="nextQ(2)">Oui, tout à fait</div>
+                <div class="quiz-option" onclick="nextQ(1)">Partiellement / En cours</div>
+                <div class="quiz-option" onclick="nextQ(0)">Non, pas encore</div>
+            </div>
+        </div>
+        <div id="quiz-result" class="d-none">
+            <div class="quiz-card">
+                <div id="result-icon" class="mb-3"></div>
+                <h2 id="result-score" class="fw-bold"></h2>
+                <p id="result-text" class="text-muted"></p>
+                <button class="btn-restev bg-primary text-white" onclick="nav('page-centres', 'nav-home')">CONTACTER LE RESTEV</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SGH & MÉTIERS (AUTRES PAGES) -->
+    <div id="page-sgh" class="app-page">
+        <h5 class="fw-bold mb-3">Symboles SGH</h5>
+        <div id="sgh-list" class="sgh-container"></div>
+    </div>
+
+    <div id="page-metiers" class="app-page">
+        <h5 class="fw-bold mb-3">Prévention Métiers</h5>
+        <input type="text" class="form-control rounded-pill mb-3" id="searchMetier" placeholder="Rechercher..." onkeyup="filterMetiers()">
+        <div id="metiers-list"></div>
+    </div>
+
+    <div id="page-centres" class="app-page">
+        <h5 class="fw-bold mb-3">Nos Centres</h5>
+        <div id="centres-list"></div>
+    </div>
+
+    <!-- NAVIGATION DOCK -->
     <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>Accueil</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle"></i>Ajouter</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>Liste</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle"></i>AJOUTER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>TEST</button>
+        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
     </nav>
 
     <script>
+        // --- DONNÉES & ÉTAT ---
         let inventory = JSON.parse(localStorage.getItem('restev_inventory')) || [];
+        const sghData = [
+            {t: "Explosif", img: "SGH01.jpg"}, {t: "Inflammable", img: "SGH02.jpg"},
+            {t: "Comburant", img: "SGH03.jpg"}, {t: "Gaz Pression", img: "SGH04.jpg"},
+            {t: "Corrosif", img: "SGH05.jpg"}, {t: "Toxique", img: "SGH06.jpg"},
+            {t: "Irritant", img: "SGH07.jpg"}, {t: "Danger Santé", img: "SGH08.jpg"},
+            {t: "Environnement", img: "SGH09.jpg"}
+        ];
+        const metiers = [
+            {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants, chaussures sécu"},
+            {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration, gants chaleur"},
+            {m: "Carrossier", r: "Solvants, Poussières", p: "Masque A2P3, cabine"},
+            {m: "Maçon", r: "Manutention, Silice", p: "Casque, gants, genouillères"}
+        ];
+        const centres = [
+            {n: "La Roche-sur-Yon", t: "0251370668"}, {n: "Montaigu-Vendée", t: "0251942014"},
+            {n: "Les Herbiers", t: "0251671203"}, {n: "Les Essarts", t: "0251080601"}
+        ];
+        const quizQ = ["DUERP à jour ?", "Visites médicales OK ?", "Matériel ergonomique ?", "EPI portés ?", "Risque chimique évalué ?"];
+        let curQ = 0; let score = 0;
+
+        // --- NAVIGATION & INITIALISATION ---
+        function startApp() {
+            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1500);
+            renderSGH(); renderMetiers(); renderCentres(); showQ(); updateStats();
+        }
 
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
@@ -84,118 +194,99 @@
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
             if(id === 'page-list') renderInventory();
-            updateStats();
         }
 
-        // SCANNER
-        let html5QrCode;
+        // --- MODULE SCAN & INVENTAIRE ---
+        let scanner;
         function startScanner() {
-            html5QrCode = new Html5Qrcode("reader");
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-            (text) => {
-                document.getElementById('prod-code').value = text;
-                html5QrCode.stop();
-                alert("Code capturé : " + text);
+            if(!scanner) scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
+                document.getElementById('prod-code').value = t;
+                scanner.stop();
             }).catch(err => alert("Erreur caméra : " + err));
         }
 
-        // SAUVEGARDE
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
             const fileInput = document.getElementById('prod-fds');
-
-            if(!name && !code) return alert("Saisissez au moins un nom ou un scan.");
+            if(!name && !code) return alert("Veuillez saisir un nom ou scanner un code.");
 
             if (fileInput.files.length > 0) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    finalizeSave(name, code, e.target.result, true);
-                };
+                reader.onload = (e) => finalizeSave(name, code, e.target.result, true);
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                // Si pas de fichier, on met le lien de recherche SDS Manager par défaut
                 const searchLink = `https://www.sdsmanager.com/fr/search?q=${encodeURIComponent(name + ' ' + code)}`;
                 finalizeSave(name, code, searchLink, false);
             }
         }
 
-        function finalizeSave(name, code, fdsData, isFile) {
-            const prod = {
-                id: Date.now(),
-                name: name || "Produit sans nom",
-                code: code || "",
-                fds: fdsData,
-                isFile: isFile,
-                date: new Date().toLocaleDateString()
-            };
-            inventory.push(prod);
+        function finalizeSave(name, code, fds, isFile) {
+            inventory.push({ id: Date.now(), name: name || "Produit", code: code, fds: fds, isFile: isFile, date: new Date().toLocaleDateString() });
             localStorage.setItem('restev_inventory', JSON.stringify(inventory));
-            
-            // Reset
+            alert("Produit enregistré !");
             document.getElementById('prod-name').value = "";
             document.getElementById('prod-code').value = "";
-            document.getElementById('prod-fds').value = "";
-            
+            updateStats();
             nav('page-list', 'nav-list');
         }
 
-        // AFFICHAGE DE LA LISTE (C'est ici que le bouton se génère !)
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center mt-5 text-muted">Liste vide</p>' : '';
-            
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted mt-5">Aucun produit.</p>' : '';
             inventory.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card-custom';
-                
-                // On crée le contenu selon si c'est un fichier ou un lien
-                let fdsButton = "";
-                if(item.isFile) {
-                    fdsButton = `<a href="${item.fds}" target="_blank" class="btn btn-success btn-sm w-100 mt-2"><i class="fa-solid fa-file-pdf"></i> Ouvrir la FDS</a>`;
-                } else {
-                    fdsButton = `
-                        <div class="d-flex gap-1 mt-2">
-                            <a href="${item.fds}" target="_blank" class="btn btn-outline-primary btn-sm flex-grow-1"><i class="fa-solid fa-magnifying-glass"></i> SDS Manager</a>
-                            <a href="https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(item.name)}" target="_blank" class="btn btn-outline-secondary btn-sm"><i class="fa-brands fa-google"></i></a>
-                        </div>`;
-                }
-
-                card.innerHTML = `
-                    <div class="d-flex justify-content-between">
-                        <b>${item.name}</b>
-                        <button class="btn btn-link btn-sm text-danger p-0" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <small class="text-muted">Code: ${item.code || 'N/A'}</small><br>
-                    ${fdsButton}
-                `;
-                container.appendChild(card);
+                const div = document.createElement('div');
+                div.className = 'card-custom';
+                const fdsHtml = item.isFile ? 
+                    `<a href="${item.fds}" target="_blank" class="btn btn-sm btn-success w-100 mt-2"><i class="fa-solid fa-file-pdf"></i> Ouvrir FDS</a>` :
+                    `<div class="d-flex gap-1 mt-2">
+                        <a href="${item.fds}" target="_blank" class="btn btn-sm btn-outline-primary flex-grow-1">SDS Manager</a>
+                        <a href="https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(item.name)}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="fa-brands fa-google"></i></a>
+                    </div>`;
+                div.innerHTML = `<b>${item.name}</b> <small class="text-muted float-end">${item.date}</small><br>
+                                 <small class="text-muted">Code: ${item.code || 'N/A'}</small>${fdsHtml}
+                                 <button class="btn btn-link btn-sm text-danger mt-1 p-0" onclick="deleteItem(${item.id})">Supprimer</button>`;
+                container.appendChild(div);
             });
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ?")) {
-                inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_inventory', JSON.stringify(inventory));
-                renderInventory();
-                updateStats();
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_inventory', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
+        }
+
+        function clearAll() { if(confirm("Vider l'inventaire ?")) { localStorage.clear(); inventory=[]; renderInventory(); updateStats(); } }
+
+        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans votre parc.`; }
+
+        // --- AUTRES LOGIQUES ---
+        function showQ() {
+            if(curQ < quizQ.length) {
+                document.getElementById('quiz-progress').style.width = ((curQ + 1) * 20) + "%";
+                document.getElementById('quiz-step').innerText = `Question ${curQ + 1}/5`;
+                document.getElementById('quiz-question').innerText = quizQ[curQ];
+            } else {
+                document.getElementById('quiz-container').classList.add('d-none');
+                document.getElementById('quiz-result').classList.remove('d-none');
+                document.getElementById('result-score').innerText = `${score} / 10`;
             }
         }
+        function nextQ(pts) { score += pts; curQ++; showQ(); }
 
-        function clearAll() {
-            if(confirm("Tout effacer ?")) {
-                localStorage.clear();
-                inventory = [];
-                renderInventory();
-                updateStats();
-            }
+        function renderSGH() {
+            document.getElementById('sgh-list').innerHTML = sghData.map(x => `<div class="sgh-card"><img src="https://placehold.co/50x50?text=SGH" onerror=""><b>${x.t}</b></div>`).join('');
+        }
+        function renderMetiers() {
+            document.getElementById('metiers-list').innerHTML = metiers.map(x => `<div class="card-custom metier-item"><b>${x.m}</b><br><small>Risques: ${x.r}</small></div>`).join('');
+        }
+        function renderCentres() {
+            document.getElementById('centres-list').innerHTML = centres.map(x => `<div class="card-custom d-flex justify-content-between"><div><b>${x.n}</b></div><a href="tel:${x.t}" class="btn-call">Appeler</a></div>`).join('');
         }
 
-        function updateStats() {
-            document.getElementById('stats').innerText = `${inventory.length} produit(s) enregistré(s).`;
-        }
-
-        window.onload = updateStats;
+        window.onload = startApp;
     </script>
 </body>
 </html>
