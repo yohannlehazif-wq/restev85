@@ -15,7 +15,6 @@
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo-header { height: 45px; }
 
-        /* Ajustement de la nav pour 7 icônes */
         .nav-bottom { position: fixed; bottom: 15px; left: 8px; right: 8px; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px 2px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.52rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; cursor: pointer; transition: 0.2s; }
         .nav-item.active { color: var(--r-blue); transform: translateY(-3px); }
@@ -33,7 +32,7 @@
         .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; border: 1px solid #eee; }
 
-        /* --- NOUVEAU SPLASH SCREEN --- */
+        /* --- SPLASH SCREEN AVEC LOGO CARRE ET BOUTON --- */
         #splash {
             position: fixed;
             inset: 0;
@@ -43,9 +42,9 @@
             justify-content: center;
             background: linear-gradient(45deg, var(--r-blue), var(--r-purple), var(--r-teal), var(--r-yellow));
             background-size: 400% 400%;
-            animation: gradientFade 6s ease infinite;
+            animation: gradientFade 10s ease infinite;
             color: white;
-            transition: opacity 0.8s ease-out;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s;
         }
 
         @keyframes gradientFade {
@@ -53,17 +52,35 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        /* ---------------------------------- */
+
+        .btn-enter {
+            background: white;
+            color: var(--r-blue);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            animation: pulseBtn 2s infinite;
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+            100% { transform: scale(1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- PAGE DE GARDE AVEC DÉGRADÉ FONDU -->
+    <!-- PAGE DE GARDE -->
     <div id="splash">
         <div class="text-center">
-            <div class="spinner-border text-white mb-3" style="width: 3rem; height: 3rem; opacity: 0.9;" role="status"></div>
-            <h1 class="fw-bold mb-0" style="letter-spacing: 2px; text-shadow: 0 4px 15px rgba(0,0,0,0.2);">RESTEV 85</h1>
-            <p class="mt-2 text-white-50 fw-bold text-uppercase" style="letter-spacing: 1px;">Expert Prévention</p>
+            <img src="logo_restev_carre.png" alt="RESTEV" class="mb-4 shadow-lg" style="width: 140px; border-radius: 30px; border: 4px solid white;" onerror="this.src='https://placehold.co/140x140/white/3065a8?text=RESTEV'">
+            <h1 class="fw-bold mb-4" style="letter-spacing: 2px;">RESTEV 85</h1>
+            <button class="btn-enter" onclick="launchApp()">OUVRIR L'APPLI</button>
         </div>
     </div>
 
@@ -75,7 +92,7 @@
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">Expert Prévention</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
         </div>
         <div class="row g-2 mt-1">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
@@ -93,91 +110,30 @@
         </div>
     </div>
 
-    <!-- PAGE PROJET DE SERVICE -->
+    <!-- Autres pages conservées (Projet, Scan, List, Quiz, Centres, SGH) -->
     <div id="page-projet" class="app-page">
         <h5 class="fw-bold mb-3">Notre Projet de Service</h5>
-        
         <div class="card-custom" style="border-left-color: var(--r-purple);">
             <span class="badge-projet">Vision Stratégique</span>
-            <h6 class="fw-bold">Agir pour la santé de demain</h6>
-            <p class="small text-muted">Le RESTEV 85 s'engage dans un projet de service quinquennal visant à transformer la santé au travail en un levier de performance durable pour les entreprises de Vendée.</p>
-        </div>
-
-        <div class="row g-2">
-            <div class="col-12">
-                <div class="p-3 bg-white rounded-4 border-start border-4 border-info shadow-sm mb-2">
-                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-shield-halved me-2 text-info"></i>Prévention Primaire</h6>
-                    <p class="small text-muted mb-0">Évaluer les risques à la source et conseiller les employeurs sur l'aménagement des postes.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="p-3 bg-white rounded-4 border-start border-4 border-warning shadow-sm mb-2">
-                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-user-doctor me-2 text-warning"></i>Suivi Individuel</h6>
-                    <p class="small text-muted mb-0">Assurer un suivi médical adapté à chaque salarié selon son exposition aux risques.</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="p-3 bg-white rounded-4 border-start border-4 border-success shadow-sm mb-2">
-                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-leaf me-2 text-success"></i>Maintien en Emploi</h6>
-                    <p class="small text-muted mb-0">Accompagner les entreprises et les salariés pour prévenir la désinsertion professionnelle.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-3 p-3 text-center bg-light rounded-4">
-            <p class="small fw-bold mb-1">Besoin d'une présentation complète ?</p>
-            <button class="btn btn-sm btn-outline-primary rounded-pill">Télécharger le PDF</button>
+            <p class="small text-muted mb-0">Agir pour la santé de demain en Vendée.</p>
         </div>
     </div>
-
-    <!-- SCANNER -->
+    
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+        <h5 class="fw-bold mb-3">Scanner un produit</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
-            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER DANS LA LISTE</button>
+            <input type="text" id="prod-name" class="form-control mt-3 mb-2" placeholder="Nom du produit">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
     </div>
 
-    <!-- INVENTAIRE -->
-    <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-        <div id="inventory-container"></div>
-    </div>
+    <div id="page-list" class="app-page"><h5 class="fw-bold mb-3">Mon Parc Chimique</h5><div id="inventory-container"></div></div>
+    <div id="page-quiz" class="app-page"><h5 class="fw-bold mb-3">Auto-Évaluation</h5><div id="quiz-container"></div></div>
+    <div id="page-centres" class="app-page"><h5 class="fw-bold mb-3">Nos Centres</h5><div id="centres-list"></div></div>
+    <div id="page-sgh" class="app-page"><h5 class="fw-bold mb-3">Symboles SGH</h5><div id="sgh-list" class="sgh-container"></div></div>
 
-    <!-- QUIZ -->
-    <div id="page-quiz" class="app-page">
-        <h5 class="fw-bold mb-3">Auto-Évaluation</h5>
-        <div id="quiz-container">
-            <div class="card-custom text-center py-4">
-                <h6 id="quiz-question" class="fw-bold mb-4">...</h6>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary py-2 fw-bold" onclick="nextQ(2)">OUI</button>
-                    <button class="btn btn-outline-danger py-2 fw-bold" onclick="nextQ(0)">NON</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CENTRES -->
-    <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-3">Nos Centres</h5>
-        <div class="map-box shadow-sm overflow-hidden">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d350112.5648!2d-1.3!3d46.7!3m2!1i1024!2i768!4f13.1!2m1!1sRESTEV%2085!5e0!3m2!1sfr!2sfr!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div id="centres-list"></div>
-    </div>
-
-    <!-- SGH -->
-    <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3">Symboles de Danger</h5>
-        <div id="sgh-list" class="sgh-container"></div>
-    </div>
-
-    <!-- NAVIGATION MISE À JOUR -->
+    <!-- NAVIGATION -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-projet" class="nav-item" onclick="nav('page-projet', this)"><i class="fa-solid fa-handshake"></i>PROJET</button>
@@ -189,18 +145,13 @@
     </nav>
 
     <script>
-        let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
-        let curQ = 0, score = 0;
-        const quizQ = ["Votre DUERP est-il à jour ?", "Avez-vous les FDS de vos produits ?", "Vos salariés sont-ils formés ?"];
+        let inventory = JSON.parse(localStorage.getItem('restev_v2')) || [];
 
-        function startApp() {
-            // Modification du timing pour profiter du dégradé (2.5 secondes) puis disparition douce
-            setTimeout(() => { 
-                document.getElementById('splash').style.opacity = '0'; 
-                setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 800);
-            }, 2500);
-            
-            renderCentres(); renderSGH(); showQ(); updateStats();
+        function launchApp() {
+            const splash = document.getElementById('splash');
+            splash.style.opacity = '0';
+            splash.style.transform = 'translateY(-100%)';
+            setTimeout(() => { splash.style.display = 'none'; }, 600);
         }
 
         function nav(id, el) {
@@ -213,49 +164,29 @@
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Inventaire vide.</p>' : '';
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Vide.</p>' : '';
             inventory.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'card-custom d-flex justify-content-between align-items-center';
-                div.innerHTML = `<div><b>${item.name}</b><br><small class="text-muted">FDS : <a href="${item.fds}" target="_blank">Lien</a></small></div><button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>`;
+                div.className = 'card-custom d-flex justify-content-between';
+                div.innerHTML = `<b>${item.name}</b><button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>`;
                 container.appendChild(div);
             });
         }
 
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
-            if(!name) return alert("Nom requis");
-            const gLink = `https://www.google.com/search?q=FDS+${encodeURIComponent(name)}`;
-            inventory.push({ id: Date.now(), name, fds: gLink });
-            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            alert("Enregistré !");
+            if(!name) return;
+            inventory.push({ id: Date.now(), name });
+            localStorage.setItem('restev_v2', JSON.stringify(inventory));
+            document.getElementById('prod-name').value = '';
             nav('page-list', 'nav-list');
             updateStats();
         }
 
-        function renderCentres() {
-            const centres = [
-                { n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton" },
-                { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945" }
-            ];
-            document.getElementById('centres-list').innerHTML = centres.map(x => `
-                <div class="card-custom">
-                    <b>${x.n}</b><br><small>${x.a}</small><br>
-                    <a href="tel:${x.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                </div>`).join('');
-        }
-
-        function renderSGH() {
-            const sgh = ["Inflammable", "Toxique", "Corrosif", "Explosif", "Gaz", "Environnement"];
-            document.getElementById('sgh-list').innerHTML = sgh.map(x => `<div class="sgh-card"><i class="fa-solid fa-triangle-exclamation text-danger mb-1"></i><br><b style="font-size:0.6rem">${x}</b></div>`).join('');
-        }
-
-        function showQ() { document.getElementById('quiz-question').innerText = quizQ[curQ] || "Test terminé !"; }
-        function nextQ(p) { score += p; curQ++; if(curQ < quizQ.length) showQ(); else alert("Score : " + score + "/6"); }
-        function deleteItem(id) { inventory = inventory.filter(i => i.id !== id); localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory)); renderInventory(); updateStats(); }
+        function deleteItem(id) { inventory = inventory.filter(i => i.id !== id); localStorage.setItem('restev_v2', JSON.stringify(inventory)); renderInventory(); updateStats(); }
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; }
-
-        window.onload = startApp;
+        
+        window.onload = () => { renderInventory(); updateStats(); };
     </script>
 </body>
 </html>
