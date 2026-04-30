@@ -1,206 +1,59 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Gestion Risque Chimique</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
-        
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .nav-bottom { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; border: 1px solid rgba(0,0,0,0.05); }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
-        .nav-item.active { color: var(--r-blue); }
-        
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+// --- LOGIQUE DE RECHERCHE AUTOMATISÉE ---
+function searchFDS(code, name) {
+    const query = name ? `${name} ${code}` : code;
+    
+    // On propose 2 sources solides :
+    // 1. SDS Manager (Excellent pour le scan direct)
+    const sdsUrl = `https://www.sdsmanager.com/fr/search?q=${encodeURIComponent(query)}`;
+    
+    // 2. Recherche ciblée Google (Force le PDF et le domaine FDS)
+    const googleUrl = `https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(query)}`;
 
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; display: block; text-align: center; text-decoration: none; margin-top: 10px; }
-        
-        /* Liste Inventaire */
-        .product-item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .product-info { flex-grow: 1; }
-        .badge-sgh { width: 25px; height: 25px; margin-right: 2px; }
-        
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; background: #000; }
-    </style>
-</head>
-<body>
+    // On ouvre SDS Manager par défaut car c'est le plus "pro" pour les codes-barres
+    window.open(sdsUrl, '_blank');
+    
+    // On affiche aussi le lien Google dans l'interface au cas où
+    return googleUrl;
+}
 
-    <div class="app-header">
-        <b class="text-primary">RESTEV 85</b> <small>- Inventaire Chimique</small>
-    </div>
+// --- MODIFICATION DE LA SAUVEGARDE ---
+function saveProduct() {
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value;
+    const fileInput = document.getElementById('prod-fds');
+    
+    if(!name && !code) return alert("Veuillez scanner un code ou entrer un nom.");
 
-    <!-- PAGE : ACCUEIL -->
-    <div id="page-home" class="app-page active-page">
-        <div class="card-custom bg-primary text-white border-0">
-            <h5>Tableau de bord</h5>
-            <p id="stats-count" class="mb-0 small">0 produit(s) dans votre inventaire.</p>
-        </div>
-        <div class="row g-2">
-            <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER</b></div>
-            </div>
-            <div class="col-6" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center"><i class="fa-solid fa-list-ul fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
-            </div>
-        </div>
-    </div>
+    // Si pas de fichier uploadé, on génère un lien de recherche auto
+    let fdsLink = "";
+    if (fileInput.files.length === 0) {
+        fdsLink = searchFDS(code, name); 
+    }
 
-    <!-- PAGE : SCANNER -->
-    <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
-        <div class="card-custom">
-            <div id="reader"></div>
-            <button class="btn-restev bg-primary text-white mt-3" onclick="startScanner()">LANCER LE SCAN</button>
-            <hr>
-            <div id="manual-entry">
-                <h6>Saisie manuelle</h6>
-                <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
-                <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres (optionnel)">
-                <label class="small text-muted">Joindre la FDS (PDF/Image) :</label>
-                <input type="file" id="prod-fds" class="form-control mb-3" accept="application/pdf,image/*">
-                <button class="btn-restev bg-success text-white" onclick="saveProduct()">ENREGISTRER DANS L'LISTE</button>
-            </div>
-        </div>
-    </div>
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        finalizeSave(name, code, e.target.result);
+    };
 
-    <!-- PAGE : INVENTAIRE -->
-    <div id="page-list" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold m-0">Produits Dangereux</h5>
-            <button class="btn btn-sm btn-outline-danger" onclick="clearAll()">Tout effacer</button>
-        </div>
-        <div id="inventory-container">
-            <!-- Rempli par JS -->
-        </div>
-    </div>
+    if (fileInput.files.length > 0) {
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        finalizeSave(name, code, fdsLink);
+    }
+}
 
-    <!-- NAV DOCK -->
-    <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-camera"></i>AJOUTER</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTING</button>
-    </nav>
+function finalizeSave(name, code, fds) {
+    const newProduct = {
+        id: Date.now(),
+        name: name || "Produit Inconnu",
+        code: code,
+        fds: fds, // Soit le Base64 du fichier, soit le lien de recherche Google
+        date: new Date().toLocaleDateString()
+    };
 
-    <script>
-        let inventory = JSON.parse(localStorage.getItem('restev_inventory')) || [];
-
-        // NAVIGATION
-        function nav(id, el) {
-            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active-page');
-            if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
-            if(id === 'page-list') renderInventory();
-            if(id === 'page-home') updateStats();
-        }
-
-        // SCANNER
-        let html5QrCode;
-        function startScanner() {
-            html5QrCode = new Html5Qrcode("reader");
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-            (text) => {
-                document.getElementById('prod-code').value = text;
-                html5QrCode.stop();
-                alert("Code détecté : " + text);
-            });
-        }
-
-        // SAUVEGARDE PRODUIT
-        function saveProduct() {
-            const name = document.getElementById('prod-name').value;
-            const code = document.getElementById('prod-code').value;
-            const fileInput = document.getElementById('prod-fds');
-            
-            if(!name) return alert("Veuillez entrer au moins un nom de produit.");
-
-            let fdsData = "";
-            if (fileInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    fdsData = e.target.result; // Base64 du fichier
-                    finalizeSave(name, code, fdsData);
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                finalizeSave(name, code, "");
-            }
-        }
-
-        function finalizeSave(name, code, fds) {
-            const newProduct = {
-                id: Date.now(),
-                name: name,
-                code: code,
-                fds: fds, // Stocké localement (Attention : limité à ~5MB en localStorage)
-                date: new Date().toLocaleDateString()
-            };
-
-            inventory.push(newProduct);
-            localStorage.setItem('restev_inventory', JSON.stringify(inventory));
-            
-            alert("Produit ajouté à l'inventaire !");
-            document.getElementById('prod-name').value = "";
-            document.getElementById('prod-code').value = "";
-            nav('page-list', 'nav-list');
-        }
-
-        // RENDU DE L'INVENTAIRE
-        function renderInventory() {
-            const container = document.getElementById('inventory-container');
-            if(inventory.length === 0) {
-                container.innerHTML = '<p class="text-center text-muted mt-5">Aucun produit enregistré.</p>';
-                return;
-            }
-
-            container.innerHTML = inventory.map(item => `
-                <div class="card-custom">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <b class="text-primary">${item.name}</b><br>
-                            <small class="text-muted">Code: ${item.code || 'N/A'} | Ajouté le: ${item.date}</small>
-                        </div>
-                        <button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div class="mt-2">
-                        ${item.fds ? 
-                            `<a href="${item.fds}" target="_blank" class="btn btn-sm btn-outline-primary w-100"><i class="fa-solid fa-file-pdf"></i> Voir la FDS</a>` 
-                            : `<span class="badge bg-light text-muted w-100 p-2">Aucune FDS jointe</span>`}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function deleteItem(id) {
-            if(confirm("Supprimer ce produit ?")) {
-                inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_inventory', JSON.stringify(inventory));
-                renderInventory();
-            }
-        }
-
-        function clearAll() {
-            if(confirm("Voulez-vous vider tout l'inventaire ?")) {
-                localStorage.removeItem('restev_inventory');
-                inventory = [];
-                renderInventory();
-            }
-        }
-
-        function updateStats() {
-            document.getElementById('stats-count').innerText = `${inventory.length} produit(s) dans votre inventaire.`;
-        }
-
-        window.onload = updateStats;
-    </script>
-</body>
-</html>
+    inventory.push(newProduct);
+    localStorage.setItem('restev_inventory', JSON.stringify(inventory));
+    
+    alert("Produit enregistré !");
+    nav('page-list', 'nav-list');
+}
