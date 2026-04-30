@@ -10,51 +10,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', Roboto, sans-serif; margin-bottom: 90px; overflow-x: hidden; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 90px; }
         
-        /* HEADER MODERNE */
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-        .logo-header { height: 45px; width: auto; }
+        /* HEADER */
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-header { height: 45px; }
 
-        /* NAVIGATION BASSE STYLE "DOCK" */
-        .nav-bottom { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 5px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; transition: 0.3s; }
-        .nav-item.active { color: var(--r-blue); transform: translateY(-5px); }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
+        /* NAVIGATION DOCK */
+        .nav-bottom { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; transition: 0.3s; }
+        .nav-item.active { color: var(--r-blue); transform: translateY(-3px); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
-        /* CARTES ET PAGES */
-        .app-page { display: none; padding: 20px 15px; animation: slideUp 0.4s ease-out; }
+        /* PAGES */
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
         .active-page { display: block !important; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .card-custom { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
-        
-        /* STYLE QUESTIONNAIRE MODERNE */
-        #quiz-container { perspective: 1000px; }
-        .quiz-card { background: white; border-radius: 25px; padding: 30px 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--r-blue); }
-        .quiz-option { background: var(--r-light); border: 2px solid transparent; padding: 15px; border-radius: 15px; margin-bottom: 12px; font-weight: 600; transition: 0.2s; cursor: pointer; color: #475569; }
-        .quiz-option:hover { border-color: var(--r-blue); background: #eff6ff; color: var(--r-blue); }
-        .progress-container { background: #e2e8f0; height: 10px; border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
-        #quiz-progress { background: linear-gradient(90deg, var(--r-blue), var(--r-teal)); transition: 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* BOUTONS APPEL */
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; margin-top: 10px; text-decoration: none; }
-        .btn-call i { margin-right: 8px; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        /* SPLASH SCREEN */
+        /* QUIZ */
+        .quiz-card { background: white; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .quiz-option { background: var(--r-light); padding: 15px; border-radius: 15px; margin-bottom: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
+        .quiz-option:active { border-color: var(--r-blue); background: #eff6ff; }
+        .progress-bar-container { background: #e2e8f0; height: 8px; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+        #quiz-progress { background: var(--r-blue); transition: 0.4s; }
+
+        /* SGH GRID */
+        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .sgh-card { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .sgh-card img { width: 100%; max-width: 60px; height: 60px; object-fit: contain; }
+        .sgh-card b { font-size: 0.6rem; display: block; margin-top: 5px; }
+
+        /* BUTTONS */
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
+        .btn-restev { border-radius: 50px; font-weight: bold; padding: 14px; width: 100%; border: none; display: block; text-align: center; text-decoration: none; margin-top: 10px; }
+
+        /* SPLASH */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
-        .splash-content { text-align: center; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN -->
     <div id="splash">
-        <div class="splash-content">
-            <img src="logo_restev_carre.png" alt="Logo" style="width: 130px; border-radius: 20px;" onerror="this.src='https://placehold.co/130x130?text=RESTEV'">
-            <div class="h4 fw-bold mt-4" style="color: var(--r-blue);">RESTEV 85</div>
-            <div class="spinner-border text-primary mt-3" role="status"></div>
+        <div class="text-center">
+            <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 20px;" onerror="this.src='https://placehold.co/120x120?text=RESTEV'">
+            <div class="h4 fw-bold mt-3 text-primary">RESTEV 85</div>
+            <div class="spinner-border text-primary mt-2" role="status"></div>
         </div>
     </div>
 
@@ -62,189 +64,191 @@
         <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/200x45?text=RESTEV+85'">
     </div>
 
-    <!-- PAGE ACCUEIL -->
+    <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="card-custom" style="background: linear-gradient(135deg, var(--r-blue), #1e40af); color: white;">
-            <h4 class="fw-bold">Expert Prévention</h4>
-            <p class="small opacity-75">Votre partenaire santé au travail en Vendée.</p>
+        <div class="card-custom" style="background: linear-gradient(135deg, var(--r-blue), #1e40af); color: white; border: none;">
+            <h5 class="fw-bold mb-1">Expert Prévention</h5>
+            <p class="small opacity-75 mb-0">Votre santé, notre mission en Vendée.</p>
         </div>
         
-        <div class="row g-3">
-            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
-                <div class="card-custom d-flex align-items: center; justify-content: space-between; border-left: 5px solid var(--r-yellow);">
-                    <div>
-                        <b class="d-block">Auto-Évaluation</b>
-                        <small class="text-muted">Testez votre niveau de prévention</small>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-muted"></i>
-                </div>
-            </div>
+        <div class="card-custom py-3 text-center" style="border-left-color: var(--r-purple); cursor: pointer;" onclick="nav('page-projet', 'nav-home')">
+            <i class="fa-solid fa-bullseye text-purple mb-2"></i> <b style="color: var(--r-purple);">NOTRE PROJET DE SERVICE</b>
+        </div>
+
+        <div class="row g-2 mt-1">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
                 <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
             </div>
-            <div class="col-6" onclick="nav('page-centres', 'nav-centres')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-phone-flip fa-2x mb-2 text-success"></i><br><b>CONTACT</b></div>
+            <div class="col-6" onclick="nav('page-centres', 'nav-home')">
+                <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-phone-flip fa-2x mb-2 text-success"></i><br><b>CONTACT</b></div>
+            </div>
+            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
+                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
+                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION</b></span>
+                    <i class="fa-solid fa-chevron-right text-muted"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- PAGE AUTO-ÉVALUATION (MODERNE) -->
+    <!-- AUTO-ÉVALUATION -->
     <div id="page-quiz" class="app-page">
-        <div class="progress-container">
-            <div id="quiz-progress" class="h-100" style="width: 0%"></div>
-        </div>
-        
+        <div class="progress-bar-container"><div id="quiz-progress" class="h-100" style="width: 0%"></div></div>
         <div id="quiz-container">
             <div class="quiz-card">
-                <span class="badge bg-light text-primary mb-3" id="quiz-step">Question 1/10</span>
+                <small class="text-muted d-block mb-2" id="quiz-step">Question 1/10</small>
                 <h5 id="quiz-question" class="fw-bold mb-4">Avez-vous un document unique (DUERP) à jour ?</h5>
-                <div id="quiz-options">
-                    <div class="quiz-option" onclick="nextQ(2)">Oui, tout à fait</div>
-                    <div class="quiz-option" onclick="nextQ(1)">Partiellement / En cours</div>
-                    <div class="quiz-option" onclick="nextQ(0)">Non, pas encore</div>
-                </div>
+                <div class="quiz-option" onclick="nextQ(2)">Oui, tout à fait</div>
+                <div class="quiz-option" onclick="nextQ(1)">Partiellement / En cours</div>
+                <div class="quiz-option" onclick="nextQ(0)">Non, pas encore</div>
             </div>
         </div>
-
         <div id="quiz-result" class="d-none">
             <div class="quiz-card">
                 <div id="result-icon" class="mb-3"></div>
-                <h3 id="result-score" class="fw-bold mb-2">00 / 20</h3>
-                <p id="result-text" class="text-muted mb-4"></p>
-                <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold" onclick="nav('page-centres', 'nav-centres')">DEMANDER UN ACCOMPAGNEMENT</button>
-                <button class="btn btn-link text-muted mt-3" onclick="restartQuiz()">Recommencer le test</button>
+                <h2 id="result-score" class="fw-bold"></h2>
+                <p id="result-text" class="text-muted"></p>
+                <button class="btn-restev bg-primary text-white" onclick="nav('page-centres', 'nav-home')">CONTACTER LE RESTEV</button>
+                <button class="btn btn-link text-muted mt-2" onclick="restartQuiz()">Recommencer</button>
             </div>
         </div>
     </div>
 
-    <!-- PAGE CENTRES (APPEL DIRECT) -->
+    <!-- CENTRES -->
     <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-4">Nos Centres en Vendée</h5>
-        
+        <h5 class="fw-bold mb-3">Nos Centres RESTEV</h5>
         <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <b class="d-block text-primary">La Roche-sur-Yon (Siège)</b>
-                    <small class="text-muted">Impasse Newton – Les Oudairies</small>
-                </div>
-                <a href="tel:0251370668" class="btn-call"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div><b>La Roche-sur-Yon</b><br><small>Impasse Newton – Les Oudairies</small></div>
+                <a href="tel:0251370668" class="btn-call"><i class="fa-solid fa-phone me-1"></i> Appeler</a>
             </div>
         </div>
-
         <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <b class="d-block text-primary">Montaigu-Vendée</b>
-                    <small class="text-muted">44 rue du 8 mai 1945</small>
-                </div>
-                <a href="tel:0251942014" class="btn-call"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div><b>Montaigu-Vendée</b><br><small>44 rue du 8 mai 1945</small></div>
+                <a href="tel:0251942014" class="btn-call"><i class="fa-solid fa-phone me-1"></i> Appeler</a>
             </div>
         </div>
-
         <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <b class="d-block text-primary">Les Herbiers</b>
-                    <small class="text-muted">18 rue Olivier de Serres</small>
-                </div>
-                <a href="tel:0251671203" class="btn-call"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div><b>Les Herbiers</b><br><small>18 rue Olivier de Serres</small></div>
+                <a href="tel:0251671203" class="btn-call"><i class="fa-solid fa-phone me-1"></i> Appeler</a>
             </div>
         </div>
-
         <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <b class="d-block text-primary">Les Essarts</b>
-                    <small class="text-muted">Rue Louis Lumière (ZI)</small>
-                </div>
-                <a href="tel:0251080601" class="btn-call"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div><b>Les Essarts</b><br><small>Rue Louis Lumière (ZI)</small></div>
+                <a href="tel:0251080601" class="btn-call"><i class="fa-solid fa-phone me-1"></i> Appeler</a>
             </div>
         </div>
     </div>
 
-    <!-- PAGE SCAN -->
+    <!-- SGH -->
+    <div id="page-sgh" class="app-page">
+        <h5 class="fw-bold mb-3">Symboles SGH</h5>
+        <div id="sgh-list" class="sgh-container"></div>
+    </div>
+
+    <!-- SCAN -->
     <div id="page-scan" class="app-page">
         <div class="card-custom text-center">
-            <div id="reader" style="width:100%; border-radius: 20px; overflow: hidden; background: #000;"></div>
-            <p class="mt-3 small text-muted">Scannez le code-barres d'un produit pour trouver sa FDS.</p>
-            <button class="btn btn-dark w-100 rounded-pill py-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000;"></div>
+            <button class="btn-restev bg-dark text-white" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
         </div>
     </div>
 
-    <!-- NAVIGATION DOCK -->
+    <!-- MÉTIERS -->
+    <div id="page-metiers" class="app-page">
+        <h5 class="fw-bold mb-3">Prévention Métiers</h5>
+        <input type="text" class="form-control rounded-pill mb-3" id="searchMetier" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
+        <div id="metiers-list"></div>
+    </div>
+
+    <!-- PROJET -->
+    <div id="page-projet" class="app-page">
+        <h5 class="fw-bold mb-3">Projet de Service</h5>
+        <div class="card-custom">
+            <p class="small">Le RESTEV accompagne les entreprises de Vendée à travers 4 axes : Risques professionnels, Maintien en emploi, Soutien aux TPE/PME et Suivi santé individuel.</p>
+        </div>
+        <button class="btn-restev bg-primary text-white" onclick="nav('page-home', 'nav-home')">RETOUR ACCUEIL</button>
+    </div>
+
+    <!-- NAV DOCK -->
     <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house-chimney"></i>ACCUEIL</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>TEST</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-location-dot"></i>CENTRES</button>
+        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
+        <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
     </nav>
 
     <script>
-        // CONFIGURATION QUIZ
-        const questions = [
-            "Le Document Unique (DUERP) est-il à jour ?",
-            "Les salariés ont-ils leurs visites médicales ?",
-            "Utilisez-vous des équipements ergonomiques ?",
-            "Les EPI sont-ils fournis et portés ?",
-            "Le risque chimique est-il évalué ?",
-            "L'éclairage et le bruit sont-ils adaptés ?",
-            "Le personnel est-il formé aux premiers secours ?",
-            "Les pauses et rythmes sont-ils respectés ?",
-            "Le dialogue social sur la santé est-il actif ?",
-            "Les accidents sont-ils analysés pour agir ?"
+        // DONNÉES
+        const sghData = [
+            {t: "Explosif", img: "SGH01_BombeExplosant.jpg"}, {t: "Inflammable", img: "SGH02_Flamme.jpg"},
+            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg"}, {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg"},
+            {t: "Corrosif", img: "SGH05_Corrosion.jpg"}, {t: "Toxique", img: "SGH06.jpg"},
+            {t: "Irritant", img: "SGH07_PointExclamation.jpg"}, {t: "Danger Santé", img: "SGH08_DangerSante.jpg"},
+            {t: "Environnement", img: "SGH09_Environnement.jpg"}
         ];
-        let currentQ = 0; let score = 0;
 
-        function showQuestion() {
-            if(currentQ < questions.length) {
-                document.getElementById('quiz-progress').style.width = ((currentQ + 1) * 10) + "%";
-                document.getElementById('quiz-step').innerText = `Question ${currentQ + 1}/10`;
-                document.getElementById('quiz-question').innerText = questions[currentQ];
-            } else {
-                showResult();
-            }
-        }
+        const metiers = [
+            {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants, chaussures sécu"},
+            {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration, gants chaleur"},
+            {m: "Carrossier", r: "Solvants, Poussières", p: "Masque A2P3, cabine"},
+            {m: "Maçon", r: "Manutention, Silice", p: "Casque, gants, genouillères"},
+            {m: "Infirmier", r: "Bio, TMS", p: "Aide au levage, DASRI"}
+        ];
 
-        function nextQ(pts) {
-            score += pts;
-            currentQ++;
-            showQuestion();
-        }
+        const quizQ = [
+            "DUERP à jour ?", "Visites médicales OK ?", "Matériel ergonomique ?", 
+            "EPI portés ?", "Risque chimique évalué ?", "Bruit/Éclairage adaptés ?", 
+            "Formations Secourisme ?", "Pauses respectées ?", "Dialogue social actif ?", "Analyse des accidents ?"
+        ];
 
-        function showResult() {
-            document.getElementById('quiz-container').classList.add('d-none');
-            document.getElementById('quiz-result').classList.remove('d-none');
-            document.getElementById('result-score').innerText = `${score} / 20`;
-            
-            let icon = document.getElementById('result-icon');
-            let text = document.getElementById('result-text');
-            
-            if(score >= 16) {
-                icon.innerHTML = '<i class="fa-solid fa-circle-check fa-4x text-success"></i>';
-                text.innerText = "Excellent ! Votre démarche de prévention est exemplaire.";
-            } else if(score >= 10) {
-                icon.innerHTML = '<i class="fa-solid fa-circle-exclamation fa-4x text-warning"></i>';
-                text.innerText = "Bonne base, mais certains axes de sécurité doivent être renforcés.";
-            } else {
-                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation fa-4x text-danger"></i>';
-                text.innerText = "Attention : votre établissement présente des risques. Contactez-nous pour un diagnostic.";
-            }
-        }
+        let curQ = 0; let score = 0;
 
-        function restartQuiz() {
-            currentQ = 0; score = 0;
-            document.getElementById('quiz-container').classList.remove('d-none');
-            document.getElementById('quiz-result').classList.add('d-none');
-            showQuestion();
-        }
-
-        // NAVIGATION & BOOT
+        // LOGIQUE
         function startApp() {
-            setTimeout(() => {
-                document.getElementById('splash').style.opacity = '0';
-                setTimeout(() => document.getElementById('splash').style.display = 'none', 500);
-            }, 1500);
-            showQuestion();
+            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1500);
+            renderSGH(); renderMetiers(); showQ();
+        }
+
+        function showQ() {
+            if(curQ < quizQ.length) {
+                document.getElementById('quiz-progress').style.width = ((curQ + 1) * 10) + "%";
+                document.getElementById('quiz-step').innerText = `Question ${curQ + 1}/10`;
+                document.getElementById('quiz-question').innerText = quizQ[curQ];
+            } else { showRes(); }
+        }
+
+        function nextQ(pts) { score += pts; curQ++; showQ(); }
+
+        function showRes() {
+            document.getElementById('quiz-container').classList.add('d-none');
+            const res = document.getElementById('quiz-result');
+            res.classList.remove('d-none');
+            document.getElementById('result-score').innerText = `${score} / 20`;
+            const icon = document.getElementById('result-icon');
+            const txt = document.getElementById('result-text');
+            if(score >= 15) { icon.innerHTML='<i class="fa-solid fa-circle-check fa-4x text-success"></i>'; txt.innerText="Excellente prévention !"; }
+            else if(score >= 10) { icon.innerHTML='<i class="fa-solid fa-circle-exclamation fa-4x text-warning"></i>'; txt.innerText="A améliorer sur certains points."; }
+            else { icon.innerHTML='<i class="fa-solid fa-triangle-exclamation fa-4x text-danger"></i>'; txt.innerText="Risques élevés détectés."; }
+        }
+
+        function restartQuiz() { curQ=0; score=0; document.getElementById('quiz-container').classList.remove('d-none'); document.getElementById('quiz-result').classList.add('d-none'); showQ(); }
+
+        function renderSGH() {
+            document.getElementById('sgh-list').innerHTML = sghData.map(x => `<div class="sgh-card"><img src="${x.img}" onerror="this.src='https://placehold.co/60x60?text=SGH'"><b>${x.t}</b></div>`).join('');
+        }
+
+        function renderMetiers() {
+            document.getElementById('metiers-list').innerHTML = metiers.map(x => `<div class="card-custom metier-item"><b>${x.m}</b><br><small>Risques: ${x.r}<br>Prév: ${x.p}</small></div>`).join('');
+        }
+
+        function filterMetiers() {
+            let val = document.getElementById('searchMetier').value.toLowerCase();
+            document.querySelectorAll('.metier-item').forEach(el => el.style.display = el.innerText.toLowerCase().includes(val) ? "block" : "none");
         }
 
         function nav(id, el) {
@@ -252,16 +256,12 @@
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
-            window.scrollTo(0,0);
         }
 
         let scanner;
         function startScanner() {
             if(!scanner) scanner = new Html5Qrcode("reader");
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
-                alert("Code détecté : " + t + "\nRecherche de la FDS en cours...");
-                scanner.stop();
-            }).catch(err => alert("Erreur caméra : " + err));
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => { alert("Code: " + t); scanner.stop(); });
         }
 
         window.onload = startApp;
