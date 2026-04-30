@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Prévention</title>
+    <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,257 +12,205 @@
             --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f;
         }
 
-        body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin-bottom: 95px; }
+        body { background-color: #f4f7f9; font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 90px; }
 
-        /* --- SPLASH SCREEN ANIMÉ (Vibrant) --- */
+        /* --- SPLASH SCREEN MULTICOLORE --- */
         #splash { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow));
             background-size: 400% 400%;
-            animation: gradientBG 8s ease infinite;
+            animation: restevGradient 12s ease infinite;
             z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
-
-        @keyframes gradientBG {
+        @keyframes restevGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        .splash-logo { 
-            width: 250px; background: white; padding: 20px; border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            animation: popIn 1s cubic-bezier(0.17, 0.67, 0.83, 1.3);
+        .splash-card {
+            background: white; padding: 30px; border-radius: 40px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); width: 85%; max-width: 320px;
+            animation: bounceIn 1s cubic-bezier(0.17, 0.67, 0.83, 1.3);
         }
-        @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes bounceIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .btn-start { 
-            margin-top: 40px; background: white; color: var(--r-blue); border: none; 
-            padding: 15px 50px; border-radius: 50px; font-weight: bold; font-size: 1.2rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
+            background: var(--r-blue); color: white; border: none; width: 100%;
+            padding: 15px; border-radius: 50px; font-weight: bold; font-size: 1.1rem;
+            margin-top: 25px; transition: 0.3s;
         }
 
-        /* --- HEADER --- */
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .header-logo { height: 45px; }
+        /* --- UI COMPONENTS --- */
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .header-logo { height: 40px; }
 
-        /* --- NAVIGATION --- */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; width: 20%; }
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: var(--r-blue); }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 3px; }
 
-        /* --- UI --- */
-        .app-page { display: none; animation: fadeIn 0.4s; }
+        .app-page { display: none; padding: 20px; animation: slideUp 0.4s ease-out; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .card-custom { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border-left: 6px solid var(--r-blue); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .welcome-card { background: linear-gradient(135deg, var(--r-blue), var(--r-teal)); color: white; padding: 25px; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; text-align: center; margin-bottom: 20px; }
-        
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-        .menu-card { background: white; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #eee; }
-        .menu-card i { font-size: 2rem; margin-bottom: 10px; display: block; }
+        .card-custom { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .welcome-banner { background: linear-gradient(135deg, var(--r-blue), var(--r-teal)); color: white; border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px; }
 
-        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
-        .sgh-box { background: white; border-radius: 12px; padding: 10px; text-align: center; border-bottom: 3px solid var(--r-purple); font-size: 0.6rem; font-weight: bold; }
-        .sgh-box img { width: 100%; max-width: 50px; margin-bottom: 5px; }
+        /* --- SPECIAL SCAN & PDF --- */
+        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--r-teal); background: black; }
+        .btn-pdf { background: #e11d48; color: white; border-radius: 50px; padding: 12px; font-weight: bold; text-decoration: none; display: block; text-align: center; margin-top: 10px; }
+        .btn-save-link { background: var(--r-teal); color: white; border-radius: 50px; padding: 8px; font-size: 0.8rem; border: none; width: 100%; margin-top: 10px; }
 
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--r-teal); }
-        
-        /* Bouton Maps */
-        .btn-maps { background: #f1f5f9; color: var(--r-blue); border: none; padding: 8px 15px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; }
+        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .sgh-box { background: white; border-radius: 10px; padding: 8px; text-align: center; border-bottom: 3px solid var(--r-purple); font-size: 0.55rem; font-weight: bold; }
+        .sgh-box img { width: 100%; max-width: 45px; }
+
+        .btn-maps { background: #f1f5f9; color: var(--r-blue); border-radius: 12px; padding: 8px 15px; text-decoration: none; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-top: 5px; border: 1px solid #cbd5e1; }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN -->
+    <!-- SPLASH SCREEN AMÉLIORÉ -->
     <div id="splash">
-        <img src="LOGO-RESTEV-DIGITAL-RVB.png" alt="RESTEV" class="splash-logo">
-        <button class="btn-start" onclick="startApp()">ACCÉDER <i class="fa-solid fa-chevron-right ms-2"></i></button>
-        <p class="mt-4 text-white small fw-bold">RESTEV 85 - Prévention Santé Travail</p>
+        <div class="splash-card">
+            <img src="LOGO-RESTEV-DIGITAL-RVB.png" alt="RESTEV" style="width: 180px;" onerror="this.src='https://via.placeholder.com/150?text=RESTEV+LOGO'">
+            <button class="btn-start" onclick="startApp()">DEMARRER L'APPLI</button>
+            <p class="small text-muted mt-3">Santé au Travail - Vendée</p>
+        </div>
     </div>
 
-    <!-- HEADER -->
     <div class="app-header">
         <img src="logo-restev_2.png" alt="RESTEV" class="header-logo">
     </div>
 
-    <!-- ACCUEIL -->
+    <!-- PAGE ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="welcome-card">
-            <h5 class="fw-bold mb-1">Portail Adhérents</h5>
-            <p class="small mb-0 opacity-75">La prévention en Vendée</p>
+        <div class="welcome-banner">
+            <h5 class="fw-bold mb-0">Bienvenue chez RESTEV</h5>
+            <small>Votre assistant prévention 85</small>
         </div>
-        <div class="grid-menu">
-            <div class="menu-card" onclick="nav('page-scan', document.getElementById('nav-scan'))">
-                <i class="fa-solid fa-barcode" style="color: var(--r-blue);"></i>
-                <b>Scanner FDS</b>
+        <div class="row g-3">
+            <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
             </div>
-            <div class="menu-card" onclick="nav('page-metiers', document.getElementById('nav-metiers'))">
-                <i class="fa-solid fa-helmet-safety" style="color: var(--r-teal);"></i>
-                <b>Fiches Métiers</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-inventory', document.getElementById('nav-inv'))">
-                <i class="fa-solid fa-boxes-stacked" style="color: var(--r-yellow);"></i>
-                <b>Inventaire</b>
-            </div>
-            <div class="menu-card" onclick="nav('page-sgh', document.getElementById('nav-sgh'))">
-                <i class="fa-solid fa-triangle-exclamation" style="color: var(--r-purple);"></i>
-                <b>Dangers SGH</b>
+            <div class="col-6" onclick="nav('page-inventory', 'nav-inv')">
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-file-pdf fa-2x mb-2 text-danger"></i><br><b>MES PDF</b></div>
             </div>
         </div>
     </div>
 
-    <!-- SCANNER -->
+    <!-- PAGE SCANNER -->
     <div id="page-scan" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold text-primary mb-3">Recherche FDS (PDF)</h5>
+        <div class="card-custom">
+            <h6 class="fw-bold"><i class="fa-solid fa-camera me-2"></i>Scanner un produit</h6>
             <div id="reader"></div>
-            <button class="btn btn-primary w-100 rounded-pill py-3 mt-4 fw-bold" style="background: var(--r-blue);" onclick="startScanner()">OUVRIR LA CAMÉRA</button>
-            
-            <div id="res-area" class="d-none mt-4">
-                <div class="card-custom text-center" style="border-left-color: var(--r-teal);">
-                    <h6 class="text-muted small">Produit détecté :</h6>
-                    <p id="res-code" class="fw-bold fs-4"></p>
-                    <!-- LOGIQUE PDF : Google cherche directement le fichier PDF -->
-                    <a id="fds-link" target="_blank" class="btn text-white w-100 rounded-pill py-3 fw-bold" style="background: var(--r-teal);">
-                        <i class="fa-solid fa-file-pdf me-2"></i>OUVRIR / ENREGISTRER LE PDF
-                    </a>
+            <button class="btn btn-dark w-100 rounded-pill mt-3 py-3 fw-bold" onclick="startScanner()">LANCER LE SCAN</button>
+        </div>
+
+        <div id="res-area" class="d-none">
+            <div class="card-custom" style="border-left-color: var(--r-teal);">
+                <span class="badge bg-light text-dark mb-2">Code : <span id="res-code"></span></span>
+                <p class="small text-muted mb-3">Cliquez ci-dessous pour trouver le PDF officiel sur Google, puis copiez le lien pour l'enregistrer ici.</p>
+                
+                <a id="fds-link" target="_blank" class="btn-pdf">
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>TROUVER LE PDF
+                </a>
+
+                <div class="mt-4 pt-3 border-top">
+                    <input type="text" id="link-to-save" class="form-control form-control-sm mb-2" placeholder="Collez l'URL du PDF ici...">
+                    <button class="btn-save-link" onclick="savePdfFull()">ENREGISTRER DANS MON STOCK</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- INVENTAIRE -->
+    <!-- PAGE INVENTAIRE / PDF -->
     <div id="page-inventory" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--r-yellow);">Mon Stock Produits</h5>
-            <div class="input-group mb-4 shadow-sm rounded-pill overflow-hidden border">
-                <input type="text" id="inv-input" class="form-control border-0 py-3 px-4" placeholder="Ajouter manuellement...">
-                <button class="btn text-white px-4 fw-bold" style="background: var(--r-yellow);" onclick="addInv()">OK</button>
-            </div>
-            <div id="inv-list"></div>
-        </div>
+        <h5 class="fw-bold mb-3">Mes FDS Enregistrées</h5>
+        <div id="inv-list"></div>
     </div>
 
-    <!-- SGH -->
-    <div id="page-sgh" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--r-purple);">Symboles de Danger</h5>
-            <div class="sgh-grid" id="sgh-list"></div>
-        </div>
-    </div>
-
-    <!-- MÉTIERS (Simplifié pour l'exemple) -->
-    <div id="page-metiers" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-3" style="color: var(--r-teal);">Métiers & Prévention</h5>
-            <div id="metiers-list">
-                <div class="card-custom"><b>Peintre</b><br><small>Risques : Vapeurs, incendie. EPI : Masque A2P3.</small></div>
-                <div class="card-custom"><b>Boucher</b><br><small>Risques : Coupures. EPI : Gant cotte de mailles.</small></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONTACTS (4 SITES + MAPS) -->
+    <!-- PAGE CONTACTS (4 SITES) -->
     <div id="page-contact" class="app-page">
-        <div class="p-4">
-            <h5 class="fw-bold mb-4" style="color: var(--r-blue);">Centres RESTEV 85</h5>
-            
-            <div id="centres-list">
-                <!-- Les sites seront générés par le script -->
-            </div>
-
-            <div class="card-custom mt-4" style="border-left-color: var(--r-purple);">
-                <b class="text-primary">Yoann LE HAZIF</b><br>
-                <small>Technicien Prévention</small><br>
-                <a href="tel:0685675246" class="btn-maps mt-2"><i class="fa-solid fa-phone me-2"></i>06 85 67 52 46</a>
-            </div>
+        <h5 class="fw-bold mb-4">Nos Centres en Vendée</h5>
+        <div id="centres-list"></div>
+        <div class="card-custom mt-3" style="background: var(--r-blue); color: white;">
+            <b>Besoin d'aide ?</b><br><small>Contactez votre TPRP (Yoann LE HAZIF)</small><br>
+            <a href="tel:0685675246" class="btn btn-light btn-sm mt-2 rounded-pill fw-bold">06 85 67 52 46</a>
         </div>
     </div>
 
-    <!-- NAVIGATION BASSE -->
+    <!-- NAVIGATION -->
     <div class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
-        <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-boxes-stacked"></i>STOCK</button>
-        <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-location-dot"></i>CONTACT</button>
+        <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-folder-open"></i>MES FDS</button>
+        <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-location-dot"></i>SITES</button>
     </div>
 
     <script>
-        const sghData = [
-            { f: "SGH01_BombeExplosant_2.jpg", t: "Explosif" },
-            { f: "SGH02_Flamme_2.jpg", t: "Inflammable" },
-            { f: "SGH03_FlammeSurCercle_2.jpg", t: "Comburant" },
-            { f: "SGH04_BouteilleGaz_2.jpg", t: "Gaz" },
-            { f: "SGH05_Corrosion_2.jpg", t: "Corrosif" },
-            { f: "SGH06_TeteDeMort_2.jpg", t: "Toxique" },
-            { f: "SGH07_PointExclamation_2.jpg", t: "Nocif" },
-            { f: "SGH08_DangerSante_2.jpg", t: "Santé" },
-            { f: "SGH09_Environnement_2.jpg", t: "Polluant" }
-        ];
-
         const centres = [
-            { n: "La Roche-sur-Yon (Siège)", a: "1 Impasse Newton", m: "https://www.google.com/maps/search/RESTEV+1+Impasse+Newton+La+Roche+sur+Yon" },
-            { n: "Les Herbiers", a: "Avenue de l'Arrivée", m: "https://www.google.com/maps/search/RESTEV+Avenue+de+l+Arrivée+Les+Herbiers" },
-            { n: "Les Essarts en Bocage", a: "Rue Georges Clemenceau", m: "https://www.google.com/maps/search/RESTEV+Les+Essarts+en+Bocage" },
-            { n: "Montaigu-Vendée", a: "Avenue de l'Europe", m: "https://www.google.com/maps/search/RESTEV+Montaigu+Vendee" }
+            { n: "La Roche-sur-Yon", a: "1 Impasse Newton", m: "https://www.google.com/maps/search/RESTEV+La+Roche+sur+Yon" },
+            { n: "Les Herbiers", a: "Avenue de l'Arrivée", m: "https://www.google.com/maps/search/RESTEV+Les+Herbiers" },
+            { n: "Les Essarts", a: "Rue G. Clemenceau", m: "https://www.google.com/maps/search/RESTEV+Les+Essarts" },
+            { n: "Montaigu", a: "Avenue de l'Europe", m: "https://www.google.com/maps/search/RESTEV+Montaigu" }
         ];
 
         function startApp() { 
             document.getElementById('splash').style.display='none'; 
-            renderSGH(); renderInv(); renderCentres();
+            renderInv(); renderCentres();
         }
         
-        function nav(id, el) {
+        function nav(pageId, btn) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active-page');
-            el.classList.add('active');
-        }
-
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-                <div class="sgh-box">
-                    <img src="${s.f}" onerror="this.src='https://via.placeholder.com/50?text=SGH'">
-                    <div>${s.t}</div>
-                </div>`).join('');
+            document.getElementById(pageId).classList.add('active-page');
+            if(typeof btn === 'string') document.getElementById(btn).classList.add('active');
+            else btn.classList.add('active');
         }
 
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(c => `
                 <div class="card-custom">
-                    <b style="color:var(--r-blue)">${c.n}</b><br>
-                    <small class="text-muted">${c.a}</small><br>
-                    <a href="${c.m}" target="_blank" class="btn-maps"><i class="fa-solid fa-map-location-dot me-2"></i>ITINÉRAIRE MAPS</a>
+                    <b class="text-primary">${c.n}</b><br><small>${c.a}</small><br>
+                    <a href="${c.m}" target="_blank" class="btn-maps"><i class="fa-solid fa-route me-1"></i>Y ALLER</a>
                 </div>
             `).join('');
         }
 
         function renderInv() {
-            const list = JSON.parse(localStorage.getItem('restev_inv_v3') || "[]");
-            document.getElementById('inv-list').innerHTML = list.map((p, i) => `
+            const list = JSON.parse(localStorage.getItem('restev_pro_fds') || "[]");
+            document.getElementById('inv-list').innerHTML = list.length ? list.map((item, i) => `
                 <div class="card-custom d-flex justify-content-between align-items-center">
-                    <span>${p}</span>
-                    <i class="fa-solid fa-trash text-danger" onclick="delInv(${i})"></i>
-                </div>`).join('');
+                    <div>
+                        <b class="small">Produit: ${item.code}</b><br>
+                        <a href="${item.url}" target="_blank" class="text-danger small fw-bold text-decoration-none">
+                            <i class="fa-solid fa-file-pdf"></i> VOIR LE PDF
+                        </a>
+                    </div>
+                    <i class="fa-solid fa-trash text-muted" onclick="delFds(${i})"></i>
+                </div>`).join('') : '<p class="text-center text-muted mt-5">Aucun PDF enregistré.</p>';
         }
 
-        function addInv() {
-            const v = document.getElementById('inv-input').value;
-            if(!v) return;
-            const list = JSON.parse(localStorage.getItem('restev_inv_v3') || "[]");
-            list.push(v);
-            localStorage.setItem('restev_inv_v3', JSON.stringify(list));
-            document.getElementById('inv-input').value = "";
+        function savePdfFull() {
+            const code = document.getElementById('res-code').innerText;
+            const url = document.getElementById('link-to-save').value;
+            if(!url.startsWith('http')) return alert("Veuillez coller un lien valide");
+            
+            const list = JSON.parse(localStorage.getItem('restev_pro_fds') || "[]");
+            list.push({ code, url });
+            localStorage.setItem('restev_pro_fds', JSON.stringify(list));
+            alert("FDS enregistrée dans 'MES FDS' !");
+            document.getElementById('link-to-save').value = "";
             renderInv();
+            nav('page-inventory', 'nav-inv');
         }
 
-        function delInv(i) {
-            const list = JSON.parse(localStorage.getItem('restev_inv_v3') || "[]");
+        function delFds(i) {
+            const list = JSON.parse(localStorage.getItem('restev_pro_fds') || "[]");
             list.splice(i, 1);
-            localStorage.setItem('restev_inv_v3', JSON.stringify(list));
+            localStorage.setItem('restev_pro_fds', JSON.stringify(list));
             renderInv();
         }
 
@@ -271,14 +219,11 @@
             if(!sc) sc = new Html5Qrcode("reader");
             sc.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
                 document.getElementById('res-code').innerText = t;
-                
-                // LA SOLUTION GENIALE : Chercher "Fiche de données de sécurité" + code + "filetype:pdf"
-                // Cela force Google à ne proposer que des documents PDF directs.
+                // Recherche optimisée : Code + "FDS" + "PDF"
                 document.getElementById('fds-link').href = `https://www.google.com/search?q=Fiche+donnees+securite+${t}+filetype:pdf`;
-                
                 document.getElementById('res-area').classList.remove('d-none');
                 sc.stop();
-            }).catch(err => alert("Erreur : Autorisez la caméra."));
+            }).catch(err => console.log(err));
         }
     </script>
 </body>
