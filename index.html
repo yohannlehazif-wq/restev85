@@ -83,15 +83,37 @@
     </div>
 
     <!-- ACCUEIL -->
+   <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">RESTEV 85</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement des statistiques...</p>
+            <p id="inv-stats" class="small opacity-75 mb-0">Expert Prévention</p>
         </div>
+        
         <div class="row g-2 mt-1">
-            <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER FDS</b></div></div>
-            <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div></div>
-            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);"><span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION RISQUES</b></span><i class="fa-solid fa-chevron-right text-muted"></i></div></div>
+            <!-- Clic sur Scanner -->
+            <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+                <div class="card-custom text-center py-4">
+                    <i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br>
+                    <b>SCANNER FDS</b>
+                </div>
+            </div>
+            
+            <!-- Clic sur Inventaire -->
+            <div class="col-6" onclick="nav('page-list', 'nav-list')">
+                <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);">
+                    <i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br>
+                    <b>INVENTAIRE</b>
+                </div>
+            </div>
+            
+            <!-- Clic sur Auto-évaluation -->
+            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
+                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
+                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION RISQUES</b></span>
+                    <i class="fa-solid fa-chevron-right text-muted"></i>
+                </div>
+            </div>
         </div>
     </div>
 
