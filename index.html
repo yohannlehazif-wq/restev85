@@ -1,30 +1,217 @@
-function renderSGH() {
-    const sghData = [
-        {t: "Explosif", img: "SGH01_BombeExplosant.jpg", p: "Éloigner de la chaleur, des étincelles et des flammes. Ne pas fumer."},
-        {t: "Inflammable", img: "SGH02_Flamme.jpg", p: "Stocker dans un endroit bien ventilé. Tenir au frais. Éviter tout contact avec l'air."},
-        {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", p: "Tenir à l'écart des vêtements et matières combustibles. Stocker loin des sources de chaleur."},
-        {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", p: "Protéger du rayonnement solaire. Stocker dans un endroit bien ventilé."},
-        {t: "Corrosif", img: "SGH05_Corrosion.jpg", p: "Porter des gants et des lunettes de protection. Ne pas respirer les poussières/vapeurs."},
-        {t: "Toxique", img: "SGH06.jpg", p: "Porter un équipement de protection. En cas de malaise, appeler immédiatement un centre antipoison."},
-        {t: "Irritant", img: "SGH07_PointExclamation.jpg", p: "Éviter le contact avec les yeux et la peau. Laver soigneusement les mains après manipulation."},
-        {t: "Danger Santé", img: "SGH08_DangerSante.jpg", p: "Ne pas manipuler avant d'avoir lu toutes les précautions. Utiliser les EPI recommandés."},
-        {t: "Environnement", img: "SGH09_Environnement.jpg", p: "Éviter le rejet dans l'environnement. Récupérer tout produit répandu."}
-    ];
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESTEV 85 - Expert Prévention</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 90px; }
+        
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-header { height: 45px; }
 
-    document.getElementById('sgh-list').innerHTML = sghData.map(x => {
-        // On nettoie le texte pour éviter que les apostrophes ne cassent le HTML
-        const cleanP = x.p.replace(/'/g, "\\'"); 
-        const cleanT = x.t.replace(/'/g, "\\'");
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
+        .nav-item.active { color: var(--r-blue); transform: translateY(-3px); transition: 0.3s; }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
-        return `
-        <div class="sgh-card shadow-sm border" onclick="showSGHPrevention('${cleanT}', '${cleanP}')" style="cursor: pointer;">
-            <img src="${x.img}" alt="${x.t}" style="width: 100%; max-width: 60px; height: 60px; object-fit: contain;" onerror="this.src='https://placehold.co/60x60?text=ERR'">
-            <b class="d-block mt-2" style="font-size: 0.6rem; text-transform: uppercase;">${x.t}</b>
-            <small class="text-primary" style="font-size: 0.5rem;">Cliquer pour l'aide</small>
-        </div>`;
-    }).join('');
-}
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
+        .active-page { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-function showSGHPrevention(titre, texte) {
-    alert("🛡️ PRÉVENTION - " + titre.toUpperCase() + "\n\nConseils : " + texte);
-}
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
+        .map-box { height: 180px; width: 100%; border-radius: 20px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
+    </style>
+</head>
+<body>
+
+    <div id="splash">
+        <div class="text-center">
+            <img src="logo_restev_carre.png" alt="Logo" style="width: 100px; border-radius: 20px;" onerror="this.src='https://placehold.co/100x100?text=RESTEV'">
+            <div class="spinner-border text-primary d-block mt-3 mx-auto" role="status"></div>
+        </div>
+    </div>
+
+    <div class="app-header">
+        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+    </div>
+
+    <!-- ACCUEIL -->
+    <div id="page-home" class="app-page active-page">
+        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+            <h5 class="fw-bold mb-1">Expert Prévention</h5>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
+        </div>
+        <div class="row g-2 mt-1">
+            <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER FDS</b></div>
+            </div>
+            <div class="col-6" onclick="nav('page-list', 'nav-list')">
+                <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCANNER -->
+    <div id="page-scan" class="app-page">
+        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+        <div class="card-custom">
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
+            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (Ex: Acétone)">
+            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
+        </div>
+    </div>
+
+    <!-- INVENTAIRE -->
+    <div id="page-list" class="app-page">
+        <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+        <div id="inventory-container"></div>
+    </div>
+
+    <!-- CENTRES -->
+    <div id="page-centres" class="app-page">
+        <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+        <div class="map-box shadow-sm overflow-hidden">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d350112.5648!2d-1.3!3d46.7!3m2!1i1024!2i768!4f13.1!2m1!1sRESTEV%2085!5e0!3m2!1sfr!2sfr!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div id="centres-list"></div>
+    </div>
+
+    <!-- SGH -->
+    <div id="page-sgh" class="app-page">
+        <h5 class="fw-bold mb-3">Symboles de Danger</h5>
+        <div id="sgh-list" class="sgh-container"></div>
+    </div>
+
+    <nav class="nav-bottom">
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-circle-plus"></i>AJOUTER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
+        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-location-dot"></i>CENTRES</button>
+        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
+    </nav>
+
+    <script>
+        let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
+        
+        const centres = [
+            { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", m: "https://maps.app.goo.gl/uP9f6U6H9Z9TfXpA7" },
+            { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu", m: "https://maps.app.goo.gl/3Hh2t7Z5K5m8Q5L18" },
+            { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", m: "https://maps.app.goo.gl/L8T6N9S4B2V3R5K16" },
+            { n: "Les Essarts", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", m: "https://maps.app.goo.gl/E4X8G1H9J6L3M5N27" }
+        ];
+
+        function startApp() {
+            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1000);
+            renderCentres(); renderSGH(); updateStats();
+        }
+
+        function nav(id, el) {
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active-page');
+            if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
+            if(id === 'page-list') renderInventory();
+        }
+
+        function renderCentres() {
+            document.getElementById('centres-list').innerHTML = centres.map(x => `
+                <div class="card-custom">
+                    <b class="text-primary">${x.n}</b><br><small class="text-muted">${x.a}</small>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                        <a href="${x.m}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center" style="border-radius:12px;">Itinéraire</a>
+                    </div>
+                </div>`).join('');
+        }
+
+        function renderSGH() {
+            const sghData = [
+                {t: "Explosif", img: "SGH01_BombeExplosant.jpg", p: "Éloigner de la chaleur, des étincelles et des flammes. Ne pas fumer."},
+                {t: "Inflammable", img: "SGH02_Flamme.jpg", p: "Stocker dans un endroit bien ventilé. Tenir au frais. Éviter tout contact avec l'air."},
+                {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", p: "Tenir à l'écart des vêtements et matières combustibles. Stocker loin des sources de chaleur."},
+                {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", p: "Protéger du rayonnement solaire. Stocker dans un endroit bien ventilé."},
+                {t: "Corrosif", img: "SGH05_Corrosion.jpg", p: "Porter des gants et des lunettes de protection. Ne pas respirer les poussières/vapeurs."},
+                {t: "Toxique", img: "SGH06.jpg", p: "Porter un équipement de protection. En cas de malaise, appeler immédiatement un centre antipoison."},
+                {t: "Irritant", img: "SGH07_PointExclamation.jpg", p: "Éviter le contact avec les yeux et la peau. Laver soigneusement les mains après manipulation."},
+                {t: "Danger Santé", img: "SGH08_DangerSante.jpg", p: "Ne pas manipuler avant d'avoir lu toutes les précautions. Utiliser les EPI recommandés."},
+                {t: "Environnement", img: "SGH09_Environnement.jpg", p: "Éviter le rejet dans l'environnement. Récupérer tout produit répandu."}
+            ];
+
+            document.getElementById('sgh-list').innerHTML = sghData.map(x => {
+                const cleanP = x.p.replace(/'/g, "\\'"); // Sécurité pour les apostrophes
+                return `
+                <div class="sgh-card shadow-sm border" onclick="showSGHPrevention('${x.t}', '${cleanP}')" style="cursor: pointer;">
+                    <img src="${x.img}" alt="${x.t}" style="width: 100%; max-width: 60px; height: 60px; object-fit: contain;" onerror="this.src='https://placehold.co/60x60?text=ERR'">
+                    <b class="d-block mt-2" style="font-size: 0.6rem; text-transform: uppercase;">${x.t}</b>
+                    <small class="text-primary" style="font-size: 0.5rem;">Cliquer pour l'aide</small>
+                </div>`;
+            }).join('');
+        }
+
+        function showSGHPrevention(titre, texte) {
+            alert("🛡️ PRÉVENTION - " + titre.toUpperCase() + "\n\nConseils : " + texte);
+        }
+
+        function saveProduct() {
+            const name = document.getElementById('prod-name').value;
+            const code = document.getElementById('prod-code').value;
+            if(!name) return alert("Nom requis");
+            const gLink = `https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(name)}+${code}`;
+            inventory.push({ id: Date.now(), name, code, fds: gLink, date: new Date().toLocaleDateString() });
+            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
+            alert("Produit enregistré !");
+            nav('page-list', 'nav-list');
+            updateStats();
+        }
+
+        function renderInventory() {
+            const container = document.getElementById('inventory-container');
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted mt-5">Votre inventaire est vide.</p>' : '';
+            inventory.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'card-custom';
+                div.innerHTML = `<div class="d-flex justify-content-between"><b>${item.name}</b><small class="text-muted">${item.date}</small></div>
+                                <small class="text-muted">${item.code || 'Pas de code'}</small>
+                                <a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary w-100 mt-2">Voir la FDS (Google)</a>
+                                <button class="btn btn-link btn-sm text-danger w-100 mt-1" onclick="deleteItem(${item.id})">Supprimer</button>`;
+                container.appendChild(div);
+            });
+        }
+
+        function deleteItem(id) {
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
+        }
+
+        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; }
+
+        let scanner;
+        function startScanner() {
+            if(!scanner) scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
+                document.getElementById('prod-code').value = t;
+                scanner.stop();
+            }).catch(e => alert("Erreur caméra : " + e));
+        }
+
+        window.onload = startApp;
+    </script>
+</body>
+</html>
