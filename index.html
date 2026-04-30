@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <title>RESTEV 85 - Expert</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,144 +12,145 @@
             --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f;
         }
 
-        body { background-color: #f4f7f9; font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 90px; }
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', sans-serif; margin-bottom: 80px; }
 
-        /* --- SPLASH SCREEN MULTICOLORE --- */
+        /* --- SPLASH ANIMÉ --- */
         #splash { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow));
             background-size: 400% 400%;
-            animation: restevGradient 12s ease infinite;
+            animation: restevGradient 10s ease infinite;
             z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
-        @keyframes restevGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        @keyframes restevGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         .splash-card {
-            background: white; padding: 30px; border-radius: 40px; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3); width: 85%; max-width: 320px;
-            animation: bounceIn 1s cubic-bezier(0.17, 0.67, 0.83, 1.3);
-        }
-        @keyframes bounceIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .btn-start { 
-            background: var(--r-blue); color: white; border: none; width: 100%;
-            padding: 15px; border-radius: 50px; font-weight: bold; font-size: 1.1rem;
-            margin-top: 25px; transition: 0.3s;
+            background: white; padding: 30px; border-radius: 30px; text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 80%; max-width: 300px;
         }
 
-        /* --- UI COMPONENTS --- */
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .header-logo { height: 40px; }
+        /* --- UI --- */
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .header-logo { height: 35px; }
 
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 3px; }
 
-        .app-page { display: none; padding: 20px; animation: slideUp 0.4s ease-out; }
+        .app-page { display: none; padding: 15px; animation: fadeIn 0.3s ease; }
         .active-page { display: block !important; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card-custom { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .welcome-banner { background: linear-gradient(135deg, var(--r-blue), var(--r-teal)); color: white; border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        /* --- SPECIAL SCAN & PDF --- */
-        #reader { width: 100%; border-radius: 20px; overflow: hidden; border: 4px solid var(--r-teal); background: black; }
-        .btn-pdf { background: #e11d48; color: white; border-radius: 50px; padding: 12px; font-weight: bold; text-decoration: none; display: block; text-align: center; margin-top: 10px; }
-        .btn-save-link { background: var(--r-teal); color: white; border-radius: 50px; padding: 8px; font-size: 0.8rem; border: none; width: 100%; margin-top: 10px; }
+        /* --- SGH SYMBOLS --- */
+        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .sgh-box { background: white; border-radius: 12px; padding: 8px; text-align: center; border: 1px solid #eee; font-size: 0.55rem; font-weight: bold; }
+        .sgh-box img { width: 100%; height: auto; margin-bottom: 5px; }
 
-        .sgh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .sgh-box { background: white; border-radius: 10px; padding: 8px; text-align: center; border-bottom: 3px solid var(--r-purple); font-size: 0.55rem; font-weight: bold; }
-        .sgh-box img { width: 100%; max-width: 45px; }
-
-        .btn-maps { background: #f1f5f9; color: var(--r-blue); border-radius: 12px; padding: 8px 15px; text-decoration: none; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-top: 5px; border: 1px solid #cbd5e1; }
+        /* --- SCANNER --- */
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #000; }
+        .btn-action { border-radius: 50px; font-weight: bold; padding: 12px; transition: 0.3s; width: 100%; border: none; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN AMÉLIORÉ -->
+    <!-- ECRAN D'ACCUEIL -->
     <div id="splash">
         <div class="splash-card">
-            <img src="LOGO-RESTEV-DIGITAL-RVB.png" alt="RESTEV" style="width: 180px;" onerror="this.src='https://via.placeholder.com/150?text=RESTEV+LOGO'">
-            <button class="btn-start" onclick="startApp()">DEMARRER L'APPLI</button>
-            <p class="small text-muted mt-3">Santé au Travail - Vendée</p>
+            <h4 class="fw-bold" style="color: var(--r-blue);">RESTEV 85</h4>
+            <p class="small text-muted">Prévention & Santé</p>
+            <button class="btn btn-primary rounded-pill w-100 fw-bold py-2" onclick="startApp()">ENTRER</button>
         </div>
     </div>
 
+    <!-- HEADER -->
     <div class="app-header">
-        <img src="logo-restev_2.png" alt="RESTEV" class="header-logo">
+        <img src="logo-restev_2.png" alt="RESTEV" class="header-logo" onerror="this.style.display='none'">
+        <span class="fw-bold" id="header-title">RESTEV CONNECT</span>
     </div>
 
-    <!-- PAGE ACCUEIL -->
+    <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="welcome-banner">
-            <h5 class="fw-bold mb-0">Bienvenue chez RESTEV</h5>
-            <small>Votre assistant prévention 85</small>
+        <div class="card-custom" style="background: var(--r-blue); color: white; border: none;">
+            <h5>Bonjour !</h5>
+            <p class="small mb-0">Scannez un produit pour trouver sa FDS rapidement.</p>
         </div>
-        <div class="row g-3">
+        
+        <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER</b></div>
             </div>
-            <div class="col-6" onclick="nav('page-inventory', 'nav-inv')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-file-pdf fa-2x mb-2 text-danger"></i><br><b>MES PDF</b></div>
+            <div class="col-6" onclick="nav('page-sgh', 'nav-sgh')">
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><b>DANGERS</b></div>
             </div>
         </div>
     </div>
 
-    <!-- PAGE SCANNER -->
+    <!-- SCANNER -->
     <div id="page-scan" class="app-page">
         <div class="card-custom">
-            <h6 class="fw-bold"><i class="fa-solid fa-camera me-2"></i>Scanner un produit</h6>
+            <h6 class="fw-bold mb-3">Recherche FDS Rapide</h6>
             <div id="reader"></div>
-            <button class="btn btn-dark w-100 rounded-pill mt-3 py-3 fw-bold" onclick="startScanner()">LANCER LE SCAN</button>
+            <button class="btn btn-dark btn-action" onclick="startScanner()">ACTIVER LA CAMERA</button>
         </div>
 
         <div id="res-area" class="d-none">
             <div class="card-custom" style="border-left-color: var(--r-teal);">
-                <span class="badge bg-light text-dark mb-2">Code : <span id="res-code"></span></span>
-                <p class="small text-muted mb-3">Cliquez ci-dessous pour trouver le PDF officiel sur Google, puis copiez le lien pour l'enregistrer ici.</p>
+                <p class="mb-1 small">Produit détecté : <b id="res-code"></b></p>
                 
-                <a id="fds-link" target="_blank" class="btn-pdf">
-                    <i class="fa-solid fa-magnifying-glass me-2"></i>TROUVER LE PDF
+                <a id="fds-link" target="_blank" class="btn btn-danger btn-action">
+                    <i class="fa-solid fa-file-pdf me-2"></i>TROUVER LA FDS
                 </a>
 
-                <div class="mt-4 pt-3 border-top">
-                    <input type="text" id="link-to-save" class="form-control form-control-sm mb-2" placeholder="Collez l'URL du PDF ici...">
-                    <button class="btn-save-link" onclick="savePdfFull()">ENREGISTRER DANS MON STOCK</button>
-                </div>
+                <button class="btn btn-success btn-action" onclick="saveAuto()">
+                    <i class="fa-solid fa-bookmark me-2"></i>MEMORISER CE PRODUIT
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- PAGE INVENTAIRE / PDF -->
+    <!-- STOCK / MES FDS -->
     <div id="page-inventory" class="app-page">
         <h5 class="fw-bold mb-3">Mes FDS Enregistrées</h5>
         <div id="inv-list"></div>
     </div>
 
-    <!-- PAGE CONTACTS (4 SITES) -->
+    <!-- SGH SYMBOLES -->
+    <div id="page-sgh" class="app-page">
+        <h5 class="fw-bold mb-3">Symboles SGH Officiels</h5>
+        <div class="sgh-grid" id="sgh-list"></div>
+    </div>
+
+    <!-- SITES / CONTACT -->
     <div id="page-contact" class="app-page">
-        <h5 class="fw-bold mb-4">Nos Centres en Vendée</h5>
+        <h5 class="fw-bold mb-3">Nos Centres RESTEV</h5>
         <div id="centres-list"></div>
-        <div class="card-custom mt-3" style="background: var(--r-blue); color: white;">
-            <b>Besoin d'aide ?</b><br><small>Contactez votre TPRP (Yoann LE HAZIF)</small><br>
-            <a href="tel:0685675246" class="btn btn-light btn-sm mt-2 rounded-pill fw-bold">06 85 67 52 46</a>
-        </div>
     </div>
 
     <!-- NAVIGATION -->
     <div class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-folder-open"></i>MES FDS</button>
+        <button id="nav-inv" class="nav-item" onclick="nav('page-inventory', this)"><i class="fa-solid fa-file-pdf"></i>MES FDS</button>
+        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>DANGERS</button>
         <button id="nav-contact" class="nav-item" onclick="nav('page-contact', this)"><i class="fa-solid fa-location-dot"></i>SITES</button>
     </div>
 
     <script>
+        // Liens Wikimedia directs pour les symboles SGH
+        const sghLinks = [
+            { t: "Explosif", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/GHS-pictogram-explos.svg/150px-GHS-pictogram-explos.svg.png" },
+            { t: "Inflammable", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/GHS-pictogram-flamme.svg/150px-GHS-pictogram-flamme.svg.png" },
+            { t: "Comburant", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GHS-pictogram-rondflam.svg/150px-GHS-pictogram-rondflam.svg.png" },
+            { t: "Gaz", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/GHS-pictogram-silind.svg/150px-GHS-pictogram-silind.svg.png" },
+            { t: "Corrosif", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/GHS-pictogram-acid.svg/150px-GHS-pictogram-acid.svg.png" },
+            { t: "Toxique", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-skull.svg/150px-GHS-pictogram-skull.svg.png" },
+            { t: "Nocif", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/GHS-pictogram-exclam.svg/150px-GHS-pictogram-exclam.svg.png" },
+            { t: "Santé", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/GHS-pictogram-silhouette.svg/150px-GHS-pictogram-silhouette.svg.png" },
+            { t: "Polluant", u: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/GHS-pictogram-pollut.svg/150px-GHS-pictogram-pollut.svg.png" }
+        ];
+
         const centres = [
             { n: "La Roche-sur-Yon", a: "1 Impasse Newton", m: "https://www.google.com/maps/search/RESTEV+La+Roche+sur+Yon" },
             { n: "Les Herbiers", a: "Avenue de l'Arrivée", m: "https://www.google.com/maps/search/RESTEV+Les+Herbiers" },
@@ -159,7 +160,7 @@
 
         function startApp() { 
             document.getElementById('splash').style.display='none'; 
-            renderInv(); renderCentres();
+            renderSGH(); renderInv(); renderCentres();
         }
         
         function nav(pageId, btn) {
@@ -170,47 +171,49 @@
             else btn.classList.add('active');
         }
 
+        function renderSGH() {
+            document.getElementById('sgh-list').innerHTML = sghLinks.map(s => `
+                <div class="sgh-box">
+                    <img src="${s.u}">
+                    <div>${s.t}</div>
+                </div>`).join('');
+        }
+
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(c => `
                 <div class="card-custom">
                     <b class="text-primary">${c.n}</b><br><small>${c.a}</small><br>
-                    <a href="${c.m}" target="_blank" class="btn-maps"><i class="fa-solid fa-route me-1"></i>Y ALLER</a>
-                </div>
-            `).join('');
+                    <a href="${c.m}" target="_blank" class="btn btn-sm btn-outline-primary mt-2 rounded-pill">Itinéraire</a>
+                </div>`).join('');
         }
 
         function renderInv() {
-            const list = JSON.parse(localStorage.getItem('restev_pro_fds') || "[]");
+            const list = JSON.parse(localStorage.getItem('restev_v5_stock') || "[]");
             document.getElementById('inv-list').innerHTML = list.length ? list.map((item, i) => `
                 <div class="card-custom d-flex justify-content-between align-items-center">
                     <div>
-                        <b class="small">Produit: ${item.code}</b><br>
-                        <a href="${item.url}" target="_blank" class="text-danger small fw-bold text-decoration-none">
-                            <i class="fa-solid fa-file-pdf"></i> VOIR LE PDF
-                        </a>
+                        <b>Produit : ${item.code}</b><br>
+                        <a href="${item.url}" target="_blank" class="btn btn-sm btn-danger mt-1">VOIR FDS</a>
                     </div>
-                    <i class="fa-solid fa-trash text-muted" onclick="delFds(${i})"></i>
-                </div>`).join('') : '<p class="text-center text-muted mt-5">Aucun PDF enregistré.</p>';
+                    <i class="fa-solid fa-trash text-muted" onclick="delInv(${i})"></i>
+                </div>`).join('') : '<p class="text-center mt-5">Aucun produit mémorisé.</p>';
         }
 
-        function savePdfFull() {
+        function saveAuto() {
             const code = document.getElementById('res-code').innerText;
-            const url = document.getElementById('link-to-save').value;
-            if(!url.startsWith('http')) return alert("Veuillez coller un lien valide");
-            
-            const list = JSON.parse(localStorage.getItem('restev_pro_fds') || "[]");
+            const url = document.getElementById('fds-link').href;
+            const list = JSON.parse(localStorage.getItem('restev_v5_stock') || "[]");
             list.push({ code, url });
-            localStorage.setItem('restev_pro_fds', JSON.stringify(list));
-            alert("FDS enregistrée dans 'MES FDS' !");
-            document.getElementById('link-to-save').value = "";
+            localStorage.setItem('restev_v5_stock', JSON.stringify(list));
+            alert("Produit mémorisé dans 'MES FDS' !");
             renderInv();
             nav('page-inventory', 'nav-inv');
         }
 
-        function delFds(i) {
-            const list = JSON.parse(localStorage.getItem('restev_pro_fds') || "[]");
+        function delInv(i) {
+            const list = JSON.parse(localStorage.getItem('restev_v5_stock') || "[]");
             list.splice(i, 1);
-            localStorage.setItem('restev_pro_fds', JSON.stringify(list));
+            localStorage.setItem('restev_v5_stock', JSON.stringify(list));
             renderInv();
         }
 
@@ -219,11 +222,11 @@
             if(!sc) sc = new Html5Qrcode("reader");
             sc.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
                 document.getElementById('res-code').innerText = t;
-                // Recherche optimisée : Code + "FDS" + "PDF"
+                // REQUETE AMELIOREE : On cherche directement le PDF en français
                 document.getElementById('fds-link').href = `https://www.google.com/search?q=Fiche+donnees+securite+${t}+filetype:pdf`;
                 document.getElementById('res-area').classList.remove('d-none');
                 sc.stop();
-            }).catch(err => console.log(err));
+            }).catch(err => alert("Erreur caméra"));
         }
     </script>
 </body>
