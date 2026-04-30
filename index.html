@@ -216,10 +216,23 @@
             });
         }
 
-        function renderSGH() {
-            const sgh = ["Explosif", "Inflammable", "Comburant", "Gaz", "Corrosif", "Toxique", "Irritant", "Santé", "Environnement"];
-            document.getElementById('sgh-list').innerHTML = sgh.map((s, i) => `<div class="sgh-card"><b>SGH 0${i+1}</b><br><small>${s}</small></div>`).join('');
-        }
+       function renderSGH() {
+    const sghData = [
+        {t: "Explosif", n: "01"}, {t: "Inflammable", n: "02"},
+        {t: "Comburant", n: "03"}, {t: "Gaz Pression", n: "04"},
+        {t: "Corrosif", n: "05"}, {t: "Toxique", n: "06"},
+        {t: "Irritant", n: "07"}, {t: "Danger Santé", n: "08"},
+        {t: "Environnement", n: "09"}
+    ];
+
+    document.getElementById('sgh-list').innerHTML = sghData.map(x => `
+        <div class="sgh-card shadow-sm border">
+            <img src="https://placehold.co/60x60/white/red?text=SGH${x.n}" 
+                 alt="${x.t}" 
+                 style="width: 100%; max-width: 50px; height: 50px; object-fit: contain;">
+            <b class="d-block mt-1" style="font-size: 0.55rem; text-transform: uppercase;">${x.t}</b>
+        </div>`).join('');
+}
 
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans le parc`; }
 
