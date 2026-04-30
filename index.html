@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTEV 85 - Expert Prévention</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
         body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 110px; }
@@ -15,71 +17,38 @@
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo-header { height: 45px; }
 
-        .nav-bottom { position: fixed; bottom: 15px; left: 8px; right: 8px; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px 2px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.52rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; cursor: pointer; transition: 0.2s; }
-        .nav-item.active { color: var(--r-blue); transform: translateY(-3px); }
-        .nav-item i { font-size: 1.1rem; margin-bottom: 4px; }
+        /* SPLASH SCREEN */
+        #splash {
+            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(45deg, var(--r-blue), var(--r-purple), var(--r-teal), var(--r-yellow));
+            background-size: 400% 400%; animation: gradientBG 10s ease infinite; color: white;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 45px; border-radius: 50px; font-weight: 800; animation: pulseBtn 2s infinite; }
+        @keyframes pulseBtn { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
+        /* NAVIGATION */
+        .nav-bottom { position: fixed; bottom: 15px; left: 8px; right: 8px; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; cursor: pointer; }
+        .nav-item.active { color: var(--r-blue); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 4px; }
+
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s ease; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .badge-projet { background: var(--r-blue); color: white; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; margin-bottom: 10px; display: inline-block; }
-        
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
-        .map-box { height: 180px; width: 100%; border-radius: 20px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; border: 1px solid #eee; }
-
-        /* --- SPLASH SCREEN AVEC LOGO CARRE ET BOUTON --- */
-        #splash {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(45deg, var(--r-blue), var(--r-purple), var(--r-teal), var(--r-yellow));
-            background-size: 400% 400%;
-            animation: gradientFade 10s ease infinite;
-            color: white;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s;
-        }
-
-        @keyframes gradientFade {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .btn-enter {
-            background: white;
-            color: var(--r-blue);
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: 0.3s;
-            animation: pulseBtn 2s infinite;
-        }
-
-        @keyframes pulseBtn {
-            0% { transform: scale(1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-            50% { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
-            100% { transform: scale(1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        }
+        .btn-export { background: #1d6f42; color: white; border: none; border-radius: 12px; padding: 10px; width: 100%; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- PAGE DE GARDE -->
+    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="text-center">
-            <img src="logo_restev_carre.png" alt="RESTEV" class="mb-4 shadow-lg" style="width: 140px; border-radius: 30px; border: 4px solid white;" onerror="this.src='https://placehold.co/140x140/white/3065a8?text=RESTEV'">
-            <h1 class="fw-bold mb-4" style="letter-spacing: 2px;">RESTEV 85</h1>
+            <img src="logo_restev_carre.png" alt="RESTEV" class="mb-4 shadow-lg" style="width: 140px; border-radius: 30px; border: 4px solid white;" onerror="this.src='https://placehold.co/140x140/3065a8/ffffff?text=RESTEV'">
+            <h1 class="fw-bold mb-4">RESTEV 85</h1>
             <button class="btn-enter" onclick="launchApp()">OUVRIR L'APPLI</button>
         </div>
     </div>
@@ -88,52 +57,46 @@
         <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
     </div>
 
-    <!-- ACCUEIL -->
-    <div id="page-home" class="app-page active-page">
-        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold mb-1">Expert Prévention</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
-        </div>
-        <div class="row g-2 mt-1">
-            <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER FDS</b></div>
+    <main class="container">
+        <!-- ACCUEIL -->
+        <div id="page-home" class="app-page active-page">
+            <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+                <h5 class="fw-bold mb-1">Expert Prévention</h5>
+                <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
             </div>
-            <div class="col-6" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
-            </div>
-            <div class="col-12" onclick="nav('page-projet', 'nav-projet')">
-                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-purple);">
-                    <span><i class="fa-solid fa-handshake text-primary me-2"></i> <b>PROJET DE SERVICE 2024-2029</b></span>
-                    <i class="fa-solid fa-chevron-right text-muted"></i>
-                </div>
+            <div class="row g-2 mt-2">
+                <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br>SCANNER</div></div>
+                <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-4"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br>INVENTAIRE</div></div>
             </div>
         </div>
-    </div>
 
-    <!-- Autres pages conservées (Projet, Scan, List, Quiz, Centres, SGH) -->
-    <div id="page-projet" class="app-page">
-        <h5 class="fw-bold mb-3">Notre Projet de Service</h5>
-        <div class="card-custom" style="border-left-color: var(--r-purple);">
-            <span class="badge-projet">Vision Stratégique</span>
-            <p class="small text-muted mb-0">Agir pour la santé de demain en Vendée.</p>
+        <!-- INVENTAIRE AVEC BOUTON EXCEL -->
+        <div id="page-list" class="app-page">
+            <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+            <button class="btn-export" onclick="exportToExcel()">
+                <i class="fa-solid fa-file-excel"></i> EXPORTER POUR EXCEL (.CSV)
+            </button>
+            <div id="inventory-container"></div>
         </div>
-    </div>
-    
-    <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Scanner un produit</h5>
-        <div class="card-custom">
-            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
-            <input type="text" id="prod-name" class="form-control mt-3 mb-2" placeholder="Nom du produit">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
+
+        <!-- SCANNER -->
+        <div id="page-scan" class="app-page">
+            <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+            <div class="card-custom">
+                <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000;"></div>
+                <input type="text" id="prod-name" class="form-control mt-3 mb-2" placeholder="Nom du produit">
+                <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
+            </div>
         </div>
-    </div>
 
-    <div id="page-list" class="app-page"><h5 class="fw-bold mb-3">Mon Parc Chimique</h5><div id="inventory-container"></div></div>
-    <div id="page-quiz" class="app-page"><h5 class="fw-bold mb-3">Auto-Évaluation</h5><div id="quiz-container"></div></div>
-    <div id="page-centres" class="app-page"><h5 class="fw-bold mb-3">Nos Centres</h5><div id="centres-list"></div></div>
-    <div id="page-sgh" class="app-page"><h5 class="fw-bold mb-3">Symboles SGH</h5><div id="sgh-list" class="sgh-container"></div></div>
+        <!-- AUTRES PAGES (Quiz, Centres, SGH) -->
+        <div id="page-projet" class="app-page"><h5>Projet de Service</h5><p>Contenu du projet...</p></div>
+        <div id="page-quiz" class="app-page"><h5>Auto-Évaluation</h5><p>Testez votre conformité...</p></div>
+        <div id="page-centres" class="app-page"><h5>Nos Centres</h5><div id="centres-list"></div></div>
+        <div id="page-sgh" class="app-page"><h5>Danger SGH</h5><div id="sgh-list" class="sgh-container"></div></div>
+    </main>
 
-    <!-- NAVIGATION -->
+    <!-- NAV -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-projet" class="nav-item" onclick="nav('page-projet', this)"><i class="fa-solid fa-handshake"></i>PROJET</button>
@@ -145,13 +108,11 @@
     </nav>
 
     <script>
-        let inventory = JSON.parse(localStorage.getItem('restev_v2')) || [];
+        let inventory = JSON.parse(localStorage.getItem('restev_db')) || [];
 
         function launchApp() {
-            const splash = document.getElementById('splash');
-            splash.style.opacity = '0';
-            splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { splash.style.display = 'none'; }, 600);
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 600);
         }
 
         function nav(id, el) {
@@ -162,31 +123,61 @@
             if(id === 'page-list') renderInventory();
         }
 
-        function renderInventory() {
-            const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Vide.</p>' : '';
-            inventory.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'card-custom d-flex justify-content-between';
-                div.innerHTML = `<b>${item.name}</b><button class="btn btn-sm text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>`;
-                container.appendChild(div);
-            });
-        }
-
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
-            if(!name) return;
-            inventory.push({ id: Date.now(), name });
-            localStorage.setItem('restev_v2', JSON.stringify(inventory));
+            if(!name) return alert("Nom requis");
+            inventory.push({ id: Date.now(), name: name, date: new Date().toLocaleDateString() });
+            localStorage.setItem('restev_db', JSON.stringify(inventory));
             document.getElementById('prod-name').value = '';
             nav('page-list', 'nav-list');
             updateStats();
         }
 
-        function deleteItem(id) { inventory = inventory.filter(i => i.id !== id); localStorage.setItem('restev_v2', JSON.stringify(inventory)); renderInventory(); updateStats(); }
-        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; }
-        
-        window.onload = () => { renderInventory(); updateStats(); };
+        function renderInventory() {
+            const container = document.getElementById('inventory-container');
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center">Aucun produit.</p>' : '';
+            inventory.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'card-custom d-flex justify-content-between align-items-center';
+                div.innerHTML = `<div><b>${item.name}</b><br><small class="text-muted">Ajouté le ${item.date || 'N/A'}</small></div>
+                <button class="btn text-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>`;
+                container.appendChild(div);
+            });
+        }
+
+        // --- FONCTION EXPORT EXCEL (CSV) ---
+        function exportToExcel() {
+            if (inventory.length === 0) return alert("L'inventaire est vide !");
+            
+            // Création du contenu CSV (avec séparateur point-virgule pour Excel FR)
+            let csvContent = "data:text/csv;charset=utf-8,ID;NOM DU PRODUIT;DATE AJOUT\n";
+            
+            inventory.forEach(item => {
+                csvContent += `${item.id};${item.name};${item.date || 'N/A'}\n`;
+            });
+
+            // Téléchargement
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "inventaire_chimique_restev.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function deleteItem(id) {
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_db', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`;
+        }
+
+        window.onload = updateStats;
     </script>
 </body>
 </html>
