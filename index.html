@@ -27,6 +27,29 @@
             color: #1e293b;
         }
 
+        /* --- NOUVELLE PAGE DE GARDE (SPLASH SCREEN) ANIMÉE --- */
+        #splash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Dégradé géant avec les 4 couleurs RESTEV */
+            background: linear-gradient(45deg, var(--r-blue), var(--r-purple), var(--r-teal), var(--r-yellow));
+            background-size: 400% 400%;
+            animation: gradientFade 6s ease infinite;
+            color: white;
+            transition: opacity 0.8s ease-out;
+        }
+
+        @keyframes gradientFade {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        /* ---------------------------------------------------- */
+
         /* Header avec effet de flou */
         .app-header {
             background: var(--glass);
@@ -78,7 +101,7 @@
             bottom: 20px;
             left: 15px;
             right: 15px;
-            background: #1e293b; /* Sombre pour le contraste */
+            background: #1e293b;
             display: flex;
             justify-content: space-around;
             padding: 12px 5px;
@@ -102,8 +125,6 @@
         .nav-item.active { color: white; }
         .nav-item.active i { transform: translateY(-5px); color: var(--r-yellow); }
 
-        /* Quiz & SGH */
-        .progress { height: 8px; border-radius: 10px; background-color: #e2e8f0; margin-bottom: 20px; }
         .sgh-card {
             background: white;
             border-radius: 18px;
@@ -130,10 +151,12 @@
 </head>
 <body>
 
-    <div id="splash" style="position: fixed; inset: 0; z-index: 9999; background: white; display: flex; align-items: center; justify-content: center;">
+    <!-- PAGE DE GARDE AVEC DÉGRADÉ FONDU -->
+    <div id="splash">
         <div class="text-center">
-            <div class="spinner-grow text-primary" role="status"></div>
-            <p class="mt-3 fw-bold text-muted">RESTEV 85</p>
+            <div class="spinner-border text-white mb-3" style="width: 3rem; height: 3rem; opacity: 0.9;" role="status"></div>
+            <h1 class="fw-bold mb-0" style="letter-spacing: 2px; text-shadow: 0 4px 15px rgba(0,0,0,0.2);">RESTEV 85</h1>
+            <p class="mt-2 text-white-50 fw-bold text-uppercase" style="letter-spacing: 1px;">Expert Prévention</p>
         </div>
     </div>
 
@@ -182,7 +205,7 @@
         </div>
     </div>
 
-    <!-- PAGE PROJET DE SERVICE (ESTHÉTIQUE AMÉLIORÉE) -->
+    <!-- PAGE PROJET DE SERVICE -->
     <div id="page-projet" class="app-page">
         <h5 class="fw-bold mb-3">Vision Stratégique</h5>
         <div class="card-custom" style="background: var(--r-purple-grad); color: white; border: none;">
@@ -247,7 +270,11 @@
         let inventory = JSON.parse(localStorage.getItem('restev_premium_v1')) || [];
 
         function startApp() {
-            setTimeout(() => { document.getElementById('splash').style.opacity='0'; setTimeout(()=> document.getElementById('splash').remove(), 500); }, 1200);
+            // Temps légèrement augmenté (2.5 secondes) pour bien voir le dégradé animé
+            setTimeout(() => { 
+                document.getElementById('splash').style.opacity = '0'; 
+                setTimeout(() => document.getElementById('splash').remove(), 800); 
+            }, 2500);
             renderCentres(); renderSGH(); updateStats();
         }
 
