@@ -29,22 +29,14 @@
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        /* QUIZ */
-        .quiz-card { background: white; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-        .quiz-option { background: var(--r-light); padding: 15px; border-radius: 15px; margin-bottom: 10px; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
-        .quiz-option:active { background: #e0e7ff; border-color: var(--r-blue); }
-        .progress-bar-container { background: #e2e8f0; height: 8px; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
-        #quiz-progress { background: var(--r-blue); transition: 0.4s; }
+        /* BUTTONS & MAPS */
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
+        .map-box { height: 180px; width: 100%; border-radius: 20px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         /* SGH GRID */
         .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border-radius: 15px; padding: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .sgh-card img { width: 100%; max-width: 50px; height: 50px; object-fit: contain; }
-        .sgh-card b { font-size: 0.6rem; display: block; margin-top: 5px; }
-
-        /* BUTTONS */
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
-        .btn-restev { border-radius: 50px; font-weight: bold; padding: 14px; width: 100%; border: none; display: block; text-align: center; text-decoration: none; margin-top: 10px; }
+        .sgh-card { background: white; border-radius: 15px; padding: 10px; text-align: center; }
+        .sgh-card img { width: 100%; max-width: 50px; }
 
         /* SPLASH */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: white; }
@@ -55,8 +47,7 @@
     <div id="splash">
         <div class="text-center">
             <img src="logo_restev_carre.png" alt="Logo" style="width: 100px; border-radius: 20px;" onerror="this.src='https://placehold.co/100x100?text=RESTEV'">
-            <div class="h5 fw-bold mt-3 text-primary">RESTEV 85</div>
-            <div class="spinner-border text-primary mt-2" role="status"></div>
+            <div class="spinner-border text-primary d-block mt-3 mx-auto" role="status"></div>
         </div>
     </div>
 
@@ -68,7 +59,7 @@
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">Expert Prévention</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement de vos données...</p>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
         </div>
         
         <div class="row g-2 mt-1">
@@ -78,133 +69,96 @@
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
                 <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
             </div>
-            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
-                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
-                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION RISQUES</b></span>
+            <div class="col-12" onclick="nav('page-centres', 'nav-home')">
+                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-purple);">
+                    <span><i class="fa-solid fa-map-location-dot text-danger me-2"></i> <b>TROUVER UN CENTRE</b></span>
                     <i class="fa-solid fa-chevron-right text-muted"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SCAN & AJOUT -->
+    <!-- SCANNER -->
     <div id="page-scan" class="app-page">
         <h5 class="fw-bold mb-3">Ajouter un produit</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
             <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
-            
-            <div class="mb-3">
-                <label class="small fw-bold">Nom du produit / Marque</label>
-                <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone, Loxeal...">
-            </div>
-            <div class="mb-3">
-                <label class="small fw-bold">Code-barres (optionnel)</label>
-                <input type="text" id="prod-code" class="form-control" placeholder="Scannez ou saisissez">
-            </div>
-            <div class="mb-3">
-                <label class="small fw-bold">Importer la FDS (Gratuit)</label>
-                <input type="file" id="prod-fds" class="form-control" accept="image/*,application/pdf">
-                <p class="text-muted" style="font-size: 0.7rem; margin-top: 4px;">Si vide, un lien de recherche Google PDF sera créé.</p>
-            </div>
-            
-            <button class="btn-restev bg-primary text-white" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+            <button class="btn-restev bg-primary text-white py-3 w-100 border-0 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
     </div>
 
-    <!-- LISTING PRODUITS -->
+    <!-- LISTE -->
     <div id="page-list" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold m-0">Mon Parc Chimique</h5>
-            <button class="btn btn-sm btn-outline-danger border-0" onclick="clearAll()"><i class="fa-solid fa-trash-can"></i></button>
-        </div>
+        <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
         <div id="inventory-container"></div>
     </div>
 
-    <!-- AUTO-ÉVALUATION -->
-    <div id="page-quiz" class="app-page">
-        <div class="progress-bar-container"><div id="quiz-progress" class="h-100" style="width: 0%"></div></div>
-        <div id="quiz-container">
-            <div class="quiz-card">
-                <small class="text-muted d-block mb-2" id="quiz-step">Question 1/5</small>
-                <h5 id="quiz-question" class="fw-bold mb-4">...</h5>
-                <div class="quiz-option" onclick="nextQ(2)">Oui, tout à fait</div>
-                <div class="quiz-option" onclick="nextQ(1)">Partiellement / En cours</div>
-                <div class="quiz-option" onclick="nextQ(0)">Non, pas encore</div>
-            </div>
+    <!-- NOS CENTRES -->
+    <div id="page-centres" class="app-page">
+        <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+        
+        <!-- Carte Global Vendée -->
+        <div class="map-box shadow-sm overflow-hidden">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d350112.5648!2d-1.3!3d46.7!3m2!1i1024!2i768!4f13.1!2m1!1sRESTEV%2085!5e0!3m2!1sfr!2sfr!4v1700000000000" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
         </div>
-        <div id="quiz-result" class="d-none">
-            <div class="quiz-card">
-                <div id="result-icon" class="mb-3"></div>
-                <h2 id="result-score" class="fw-bold"></h2>
-                <p id="result-text" class="text-muted"></p>
-                <button class="btn-restev bg-primary text-white" onclick="nav('page-centres', 'nav-home')">CONTACTER MON CENTRE</button>
-                <button class="btn btn-link text-muted mt-2" onclick="restartQuiz()">Recommencer</button>
-            </div>
-        </div>
+
+        <div id="centres-list"></div>
     </div>
 
     <!-- SGH -->
     <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3">Symboles de Danger (SGH)</h5>
+        <h5 class="fw-bold mb-3">Symboles SGH</h5>
         <div id="sgh-list" class="sgh-container"></div>
     </div>
 
-    <!-- MÉTIERS -->
-    <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Fiches Métiers</h5>
-        <input type="text" class="form-control rounded-pill mb-3" id="searchMetier" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
-        <div id="metiers-list"></div>
-    </div>
-
-    <!-- CENTRES -->
-    <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-3">Centres de Santé Travail</h5>
-        <div id="centres-list"></div>
-    </div>
-
-    <!-- NAVIGATION DOCK -->
+    <!-- NAVIGATION -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-circle-plus"></i>AJOUTER</button>
         <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
-        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>RISQUES</button>
+        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-location-dot"></i>CENTRES</button>
         <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
     </nav>
 
     <script>
-        // --- ÉTAT ET DONNÉES ---
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
         
-        const sghData = [
-            {t: "Explosif", img: "SGH01.jpg"}, {t: "Inflammable", img: "SGH02.jpg"},
-            {t: "Comburant", img: "SGH03.jpg"}, {t: "Gaz Pression", img: "SGH04.jpg"},
-            {t: "Corrosif", img: "SGH05.jpg"}, {t: "Toxique", img: "SGH06.jpg"},
-            {t: "Irritant", img: "SGH07.jpg"}, {t: "Danger Santé", img: "SGH08.jpg"},
-            {t: "Environnement", img: "SGH09.jpg"}
-        ];
-
-        const quizQ = [
-            "Avez-vous un document unique (DUERP) à jour ?",
-            "Vos salariés ont-ils passé leur visite médicale ?",
-            "Portez-vous les EPI recommandés sur vos produits ?",
-            "Avez-vous évalué vos risques chimiques ?",
-            "Vos salariés sont-ils formés aux premiers secours ?"
-        ];
-
         const centres = [
-            {n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton"},
-            {n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945"},
-            {n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres"},
-            {n: "Les Essarts", t: "0251080601", a: "Rue Louis Lumière"}
+            {
+                n: "La Roche-sur-Yon (Siège)", 
+                t: "0251370668", 
+                a: "Impasse Newton, 85000 La Roche-sur-Yon",
+                m: "https://maps.app.goo.gl/uP9f6U6H9Z9TfXpA7"
+            },
+            {
+                n: "Montaigu-Vendée", 
+                t: "0251942014", 
+                a: "44 rue du 8 mai 1945, 85600 Montaigu",
+                m: "https://maps.app.goo.gl/3Hh2t7Z5K5m8Q5L18"
+            },
+            {
+                n: "Les Herbiers", 
+                t: "0251671203", 
+                a: "18 rue Olivier de Serres, 85500 Les Herbiers",
+                m: "https://maps.app.goo.gl/L8T6N9S4B2V3R5K16"
+            },
+            {
+                n: "Les Essarts", 
+                t: "0251080601", 
+                a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage",
+                m: "https://maps.app.goo.gl/E4X8G1H9J6L3M5N27"
+            }
         ];
 
-        let curQ = 0; let score = 0;
-
-        // --- CORE APP LOGIC ---
         function startApp() {
-            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1500);
-            renderSGH(); renderCentres(); renderMetiers(); showQ(); updateStats();
+            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1000);
+            renderCentres(); renderSGH(); updateStats();
         }
 
         function nav(id, el) {
@@ -215,123 +169,51 @@
             if(id === 'page-list') renderInventory();
         }
 
-        // --- SCAN & INVENTAIRE (100% GRATUIT) ---
-        let scanner;
-        function startScanner() {
-            if(!scanner) scanner = new Html5Qrcode("reader");
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
-                document.getElementById('prod-code').value = t;
-                scanner.stop();
-            }).catch(err => console.error(err));
+        function renderCentres() {
+            document.getElementById('centres-list').innerHTML = centres.map(x => `
+                <div class="card-custom">
+                    <div class="mb-2">
+                        <b class="text-primary">${x.n}</b><br>
+                        <small class="text-muted"><i class="fa-solid fa-map-pin me-1"></i> ${x.a}</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                        <a href="${x.m}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center" style="border-radius:12px;"><i class="fa-solid fa-route me-2"></i>Y aller</a>
+                    </div>
+                </div>`).join('');
         }
 
+        // --- INVENTAIRE & SCAN (Logique simplifiée) ---
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            const fileInput = document.getElementById('prod-fds');
-            
-            if(!name && !code) return alert("Nom ou Code requis.");
-
-            if (fileInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = (e) => finalizeSave(name, code, e.target.result, true);
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                // RECHERCHE GOOGLE PDF (GRATUIT)
-                const query = encodeURIComponent(`filetype:pdf FDS "${name}" ${code}`);
-                const gLink = `https://www.google.com/search?q=${query}`;
-                finalizeSave(name, code, gLink, false);
-            }
-        }
-
-        function finalizeSave(name, code, fds, isFile) {
-            inventory.push({ 
-                id: Date.now(), 
-                name: name || "Produit", 
-                code: code, 
-                fds: fds, 
-                isFile: isFile, 
-                date: new Date().toLocaleDateString() 
-            });
+            if(!name) return alert("Nom requis");
+            const gLink = `https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(name)}+${code}`;
+            inventory.push({ id: Date.now(), name, code, fds: gLink, date: new Date().toLocaleDateString() });
             localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
             alert("Enregistré !");
-            updateStats();
             nav('page-list', 'nav-list');
+            updateStats();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted mt-5">Liste vide.</p>' : '';
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Aucun produit.</p>' : '';
             inventory.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'card-custom';
-                const actionBtn = item.isFile ? 
-                    `<a href="${item.fds}" target="_blank" class="btn btn-sm btn-success w-100 mt-2"><i class="fa-solid fa-file-pdf"></i> Ouvrir mon PDF</a>` :
-                    `<a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary w-100 mt-2"><i class="fa-solid fa-magnifying-glass"></i> Trouver la FDS (Google PDF)</a>`;
-                
-                div.innerHTML = `
-                    <div class="d-flex justify-content-between align-items-start">
-                        <b>${item.name}</b>
-                        <button class="btn btn-sm text-danger p-0" onclick="deleteItem(${item.id})"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                    <small class="text-muted d-block">Code: ${item.code || '-'}</small>
-                    ${actionBtn}
-                `;
+                div.innerHTML = `<b>${item.name}</b><br><small>${item.code || ''}</small>
+                                <a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary w-100 mt-2">Trouver la FDS</a>`;
                 container.appendChild(div);
             });
         }
 
-        function deleteItem(id) {
-            inventory = inventory.filter(i => i.id !== id);
-            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            renderInventory();
-            updateStats();
-        }
-
-        function updateStats() {
-            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`;
-        }
-
-        function clearAll() { if(confirm("Vider tout l'inventaire ?")) { inventory = []; localStorage.removeItem('restev_inventory_v2'); renderInventory(); updateStats(); } }
-
-        // --- QUIZ & AUTRES ---
-        function showQ() {
-            if(curQ < quizQ.length) {
-                document.getElementById('quiz-progress').style.width = ((curQ + 1) * 20) + "%";
-                document.getElementById('quiz-step').innerText = `Question ${curQ + 1}/5`;
-                document.getElementById('quiz-question').innerText = quizQ[curQ];
-            } else {
-                document.getElementById('quiz-container').classList.add('d-none');
-                const res = document.getElementById('quiz-result');
-                res.classList.remove('d-none');
-                document.getElementById('result-score').innerText = `${score} / 10`;
-                const txt = document.getElementById('result-text');
-                if(score >= 8) txt.innerText = "Excellent ! Votre prévention est solide.";
-                else if(score >= 5) txt.innerText = "Des points d'amélioration sont possibles.";
-                else txt.innerText = "Attention : Contactez le RESTEV pour un accompagnement.";
-            }
-        }
-
-        function nextQ(pts) { score += pts; curQ++; showQ(); }
-        function restartQuiz() { curQ = 0; score = 0; document.getElementById('quiz-container').classList.remove('d-none'); document.getElementById('quiz-result').classList.add('d-none'); showQ(); }
-
         function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map(x => `<div class="sgh-card"><img src="https://placehold.co/50x50?text=SGH" alt="${x.t}"><b>${x.t}</b></div>`).join('');
+            const sgh = ["Explosif", "Inflammable", "Comburant", "Gaz", "Corrosif", "Toxique", "Irritant", "Santé", "Environnement"];
+            document.getElementById('sgh-list').innerHTML = sgh.map((s, i) => `<div class="sgh-card"><b>SGH 0${i+1}</b><br><small>${s}</small></div>`).join('');
         }
-        function renderCentres() {
-            document.getElementById('centres-list').innerHTML = centres.map(x => `
-                <div class="card-custom d-flex justify-content-between align-items-center">
-                    <div><b>${x.n}</b><br><small>${x.a}</small></div>
-                    <a href="tel:${x.t}" class="btn-call"><i class="fa-solid fa-phone me-1"></i></a>
-                </div>`).join('');
-        }
-        function renderMetiers() {
-            const mData = [
-                {m: "Boulanger", r: "Farine, Brûlures"}, {m: "Mécanicien", r: "Huiles, Solvants"}, 
-                {m: "Bâtiment", r: "Chutes, Poussières"}, {m: "Agent d'entretien", r: "Chimique"}
-            ];
-            document.getElementById('metiers-list').innerHTML = mData.map(x => `<div class="card-custom"><b>${x.m}</b><br><small>Risques : ${x.r}</small></div>`).join('');
-        }
+
+        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans le parc`; }
 
         window.onload = startApp;
     </script>
