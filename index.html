@@ -173,13 +173,55 @@
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
         let curQ = 0, score = 0;
 
-        const centres = [
-            { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
-            { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu" },
-            { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers" },
-            { n: "Les Essarts", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" }
-        ];
+        // --- LISTE DES CENTRES AVEC ADRESSES RÉELLES ---
+const centres = [
+    { 
+        n: "La Roche-sur-Yon (Siège)", 
+        t: "0251370668", 
+        a: "Impasse Newton, 85000 La Roche-sur-Yon" 
+    },
+    { 
+        n: "Montaigu-Vendée", 
+        t: "0251942014", 
+        a: "44 rue du 8 mai 1945, 85600 Montaigu" 
+    },
+    { 
+        n: "Les Herbiers", 
+        t: "0251671203", 
+        a: "18 rue Olivier de Serres, 85500 Les Herbiers" 
+    },
+    { 
+        n: "Les Essarts", 
+        t: "0251080601", 
+        a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" 
+    }
+];
 
+// --- FONCTION DE RENDU CORRIGÉE ---
+function renderCentres() {
+    const container = document.getElementById('centres-list');
+    if (!container) return;
+
+    container.innerHTML = centres.map(x => {
+        // On crée une URL Google Maps propre pour l'itinéraire (destination = l'adresse)
+        const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(x.a)}`;
+        
+        return `
+        <div class="card-custom">
+            <b>${x.n}</b><br>
+            <small class="text-muted">${x.a}</small>
+            <div class="d-flex gap-2 mt-2">
+                <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none text-white">
+                    <i class="fa-solid fa-phone me-2"></i>Appeler
+                </a>
+                <a href="${googleMapsUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center text-decoration-none">
+                    <i class="fa-solid fa-route me-1"></i> Itinéraire
+                </a>
+            </div>
+        </div>`;
+    }).join('');
+}
+        
         const quizQ = ["DUERP à jour ?", "Visites médicales à jour ?", "FDS disponibles ?", "EPI portés ?", "Risques chimiques identifiés ?", "Formés SST ?", "Affichage sécurité visible ?", "Risques chutes analysés ?", "Contrôles machines OK ?", "Protocole accident existant ?"];
         
         const sghData = [
