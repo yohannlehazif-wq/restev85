@@ -12,290 +12,202 @@
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; }
         body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin-bottom: 85px; }
         
-        /* SPLASH SCREEN */
-        #splash { 
-            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow));
-            background-size: 400% 400%; animation: gradient 8s ease infinite;
-        }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, var(--r-blue), var(--r-teal), var(--r-purple), var(--r-yellow)); background-size: 400% 400%; animation: gradient 8s ease infinite; }
         @keyframes gradient { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
-        .logo-splash { width: 120px; height: auto; margin-bottom: 20px; border-radius: 15px; }
+        .logo-splash { width: 120px; border-radius: 15px; }
 
-        /* HEADER */
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .logo-header { height: 40px; width: auto; }
+        .logo-header { height: 40px; }
 
-        /* NAVIGATION (5 onglets) */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-between; padding: 10px 5px; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; text-decoration: none; flex: 1; }
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-between; padding: 10px 2px; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
         .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+        .nav-item i { font-size: 1.1rem; margin-bottom: 2px; }
 
-        /* PAGES */
         .app-page { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
-        
-        /* GRILLE SGH FIXE */
-        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-        .sgh-card img { width: 100%; max-width: 60px; height: 60px; object-fit: contain; margin-bottom: 5px; }
-        .sgh-card b { font-size: 0.6rem; color: #334155; line-height: 1.1; }
-
         .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; margin-top: 10px; display: block; text-align: center; text-decoration: none; }
-        .prevention-badge { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px; font-size: 0.85rem; margin-top: 10px; border-radius: 5px; }
+        
+        /* Styles Quiz */
+        .quiz-option { border: 1px solid #ddd; padding: 10px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+        .quiz-option:active { background-color: #f0f4f8; }
+        .progress { height: 8px; border-radius: 10px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="text-center bg-white p-5 rounded-5 shadow">
             <img src="logo_restev_carre.png" alt="Logo" class="logo-splash" onerror="this.src='https://placehold.co/120x120?text=RESTEV'">
-            <div class="h4 fw-bold mb-4" style="color: var(--r-blue);">Expert Prévention</div>
+            <div class="h4 fw-bold mt-3 mb-4" style="color: var(--r-blue);">Expert Prévention</div>
             <button class="btn btn-primary rounded-pill px-5 fw-bold" onclick="startApp()">LANCER</button>
         </div>
     </div>
 
-    <!-- HEADER -->
     <div class="app-header">
         <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/200x40?text=RESTEV+85'">
     </div>
 
-    <!-- PAGE ACCUEIL -->
+    <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom" style="background: var(--r-blue); color: white; border: none;">
             <h5>Espace Prévention</h5>
-            <p class="small mb-0">Sélectionnez un outil ci-dessous :</p>
+            <p class="small mb-0">Sélectionnez un outil :</p>
         </div>
-        
-        <!-- BOUTON : PROJET DE SERVICE -->
-        <div class="card-custom text-center py-3 mb-3" style="border-left-color: var(--r-purple); cursor: pointer;" onclick="nav('page-projet', 'nav-home')">
-            <i class="fa-solid fa-bullseye fa-xl mb-2" style="color: var(--r-purple);"></i>
-            <br><b style="color: var(--r-purple);">NOTRE PROJET DE SERVICE</b>
+        <div class="card-custom text-center py-3" style="border-left-color: var(--r-purple); cursor: pointer;" onclick="nav('page-projet', 'nav-home')">
+            <i class="fa-solid fa-bullseye fa-xl mb-2" style="color: var(--r-purple);"></i><br><b>NOTRE PROJET DE SERVICE</b>
         </div>
-
-        <div class="row g-2">
+        <div class="row g-2 mt-1">
+            <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
+                <div class="card-custom text-center py-4" style="border-left-color: var(--r-yellow);"><i class="fa-solid fa-clipboard-check fa-2x mb-2 text-warning"></i><br><b>AUTO-TEST</b></div>
+            </div>
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
                 <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
             </div>
-            <div class="col-6" onclick="nav('page-sgh', 'nav-sgh')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-biohazard fa-2x mb-2 text-danger"></i><br><b>SGH / DANGER</b></div>
+        </div>
+    </div>
+
+    <!-- AUTO-ÉVALUATION (QUIZ) -->
+    <div id="page-quiz" class="app-page">
+        <h5 class="fw-bold mb-3">Auto-Évaluation Prévention</h5>
+        <div id="quiz-container">
+            <div class="progress"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 0%"></div></div>
+            <div class="card-custom">
+                <p id="quiz-question" class="fw-bold"></p>
+                <div id="quiz-options"></div>
             </div>
-            <div class="col-12" onclick="nav('page-metiers', 'nav-metiers')">
-                <div class="card-custom text-center py-3"><i class="fa-solid fa-helmet-safety fa-xl mb-2 text-success"></i><br><b>GUIDE MÉTIERS (20+)</b></div>
+        </div>
+        <div id="quiz-result" class="d-none text-center">
+            <div class="card-custom" id="result-card">
+                <h3 id="result-score"></h3>
+                <p id="result-text"></p>
+                <hr>
+                <p class="small">Besoin d'aide pour améliorer votre prévention ?</p>
+                <button class="btn-restev bg-primary text-white" onclick="nav('page-centres', 'nav-centres')">CONTACTER LE RESTEV</button>
             </div>
+            <button class="btn btn-sm btn-outline-secondary mt-3" onclick="restartQuiz()">Recommencer le test</button>
         </div>
     </div>
 
-    <!-- PAGE : PROJET DE SERVICE -->
-    <div id="page-projet" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-bullseye me-2" style="color: var(--r-purple);"></i>Projet de Service</h5>
-        <div class="card-custom" style="border-left-color: var(--r-purple);">
-            <b class="text-primary">Notre Mission</b>
-            <p class="small mt-2">Le RESTEV s'engage au quotidien pour préserver la santé physique et mentale des travailleurs tout au long de leur parcours professionnel en Vendée.</p>
-            <hr>
-            <b class="text-primary">Nos 4 Axes Prioritaires</b>
-            <ul class="small ps-3 mt-2 mb-0" style="line-height: 1.6;">
-                <li><b>Axe 1 :</b> Prévention des risques professionnels (RPS, TMS, risque chimique).</li>
-                <li><b>Axe 2 :</b> Maintien en emploi et prévention de la désinsertion professionnelle (PDP).</li>
-                <li><b>Axe 3 :</b> Accompagnement spécifique des TPE/PME.</li>
-                <li><b>Axe 4 :</b> Suivi individuel adapté et traçabilité des expositions.</li>
-            </ul>
-        </div>
-        <button class="btn-restev bg-primary text-white" onclick="nav('page-home', 'nav-home')">RETOUR ACCUEIL</button>
-    </div>
-
-   <!-- PAGE : CENTRES & MAP -->
-    <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-location-dot me-2 text-primary"></i>Nos 4 Centres RESTEV</h5>
-        
-        <!-- MAP INTEGRATION -->
-        <div class="card-custom p-0 mb-3" style="overflow: hidden; border-radius: 15px; border-left: none;">
-            <iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=RESTEV+Vendée&t=&z=9&ie=UTF8&iwloc=&output=embed"></iframe>
-        </div>
-
-        <div class="card-custom">
-            <b class="text-primary"><i class="fa-solid fa-building me-2"></i>La Roche-sur-Yon (Siège)</b><br>
-            <small class="text-muted">
-                📍 Impasse Newton – Les Oudairies – CS 80267<br>
-                85007 LA ROCHE SUR YON<br>
-                📞 02 51 37 06 68
-            </small>
-        </div>
-        <div class="card-custom">
-            <b class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>Montaigu</b><br>
-            <small class="text-muted">
-                📍 44 rue du 8 mai 1945 – BP 231<br>
-                85600 MONTAIGU-VENDÉE<br>
-                📞 02 51 94 20 14
-            </small>
-        </div>
-        <div class="card-custom">
-            <b class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>Les Herbiers</b><br>
-            <small class="text-muted">
-                📍 18 rue Olivier de Serres – CS 60104<br>
-                85501 LES HERBIERS<br>
-                📞 02 51 67 12 03
-            </small>
-        </div>
-        <div class="card-custom">
-            <b class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>Les Essarts</b><br>
-            <small class="text-muted">
-                📍 ZI La Belle Entrée Sud – Rue Louis Lumière<br>
-                85140 ESSARTS-EN-BOCAGE<br>
-                📞 02 51 08 06 01
-            </small>
-        </div>
-    </div>
-
-           <!-- PAGE SGH -->
-    <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>Symboles SGH</h5>
-        <div id="sgh-list" class="sgh-container"></div>
-    </div>
-
-    <!-- PAGE SCAN -->
+    <!-- SCAN -->
     <div id="page-scan" class="app-page">
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 10px; overflow: hidden;"></div>
             <button class="btn-restev bg-dark text-white mt-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
         </div>
-        <div id="res-area" class="d-none">
-            <div class="card-custom" style="border-left-color: var(--r-teal);">
-                <p>Produit détecté : <b id="res-code"></b></p>
-                <a id="fds-link" target="_blank" class="btn-restev bg-danger text-white">RECHERCHER LA FDS</a>
-            </div>
-        </div>
     </div>
 
-    <!-- PAGE MÉTIERS -->
-    <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Prévention par Métier</h5>
-        <div class="mb-3">
-            <input type="text" class="form-control rounded-pill" id="searchMetier" placeholder="Rechercher un métier..." onkeyup="filterMetiers()">
-        </div>
-        <div id="metiers-list"></div>
+    <!-- CENTRES -->
+    <div id="page-centres" class="app-page">
+        <h5 class="fw-bold mb-3">Nos 4 Centres RESTEV</h5>
+        <div class="card-custom"><b>La Roche-sur-Yon (Siège)</b><br><small>Impasse Newton • 02 51 37 06 68</small></div>
+        <div class="card-custom"><b>Montaigu</b><br><small>44 rue du 8 mai 1945 • 02 51 94 20 14</small></div>
+        <div class="card-custom"><b>Les Herbiers</b><br><small>18 rue Olivier de Serres • 02 51 67 12 03</small></div>
+        <div class="card-custom"><b>Les Essarts</b><br><small>Rue Louis Lumière • 02 51 08 06 01</small></div>
+        <a href="tel:0251370668" class="btn-restev bg-success text-white"><i class="fa-solid fa-phone me-2"></i>APPELER LE SIÈGE</a>
     </div>
 
-    <!-- MODAL SGH -->
-    <div class="modal fade" id="sghModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow" style="border-radius: 20px;">
-                <div class="modal-body text-center p-4">
-                    <img id="modal-img" src="" style="width: 80px;" class="mb-3">
-                    <h4 id="modal-title" class="fw-bold"></h4>
-                    <hr>
-                    <div class="text-start">
-                        <p class="small"><strong>Description :</strong> <span id="modal-desc"></span></p>
-                        <div id="modal-h" class="mb-2"></div>
-                        <div class="prevention-badge">
-                            <strong>Prévention :</strong><br><span id="modal-p"></span>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-secondary w-100 mt-4 rounded-pill" data-bs-dismiss="modal">Fermer</button>
-                </div>
-            </div>
+    <!-- PROJET -->
+    <div id="page-projet" class="app-page">
+        <h5 class="fw-bold mb-3">Projet de Service</h5>
+        <div class="card-custom" style="border-left-color: var(--r-purple);">
+            <p class="small">Le RESTEV accompagne les entreprises vendéennes dans la préservation de la santé au travail via 4 axes clés : Risques professionnels, Maintien en emploi, Accompagnement TPE/PME et Suivi individuel.</p>
         </div>
+        <button class="btn-restev bg-primary text-white" onclick="nav('page-home', 'nav-home')">RETOUR</button>
     </div>
 
-    <!-- NAV BOTTOM -->
+    <!-- NAVIGATION BAS -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>TEST</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
-        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
         <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
-        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
+        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-marker-alt"></i>CENTRES</button>
     </nav>
 
     <script>
-        const sghData = [
-            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles.", h: "H200", p: "Éviter chocs et chaleur."},
-            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz/liquides inflammables.", h: "H220", p: "Tenir à l'écart des flammes."},
-            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut aggraver un incendie.", h: "H270", p: "Stocker loin des combustibles."},
-            {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Peut exploser sous la chaleur.", h: "H280", p: "Stocker en lieu ventilé."},
-            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Brûlures graves.", h: "H314", p: "Porter gants et lunettes."},
-            {t: "Toxique", img: "SGH06.jpg", d: "Mortel par ingestion/inhalation.", h: "H300", p: "Appeler le centre antipoison."},
-            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif ou irritant.", h: "H315", p: "Éviter le contact cutané."},
-            {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Effets CMR (Cancer, etc.).", h: "H350", p: "Protection respiratoire obligatoire."},
-            {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Toxique pour la vie aquatique.", h: "H410", p: "Ne pas jeter à l'égout."}
+        // LOGIQUE DU QUIZ
+        const questions = [
+            "Avez-vous un document unique (DUERP) à jour ?",
+            "Vos salariés sont-ils formés aux risques de leur poste ?",
+            "Le matériel est-il ergonomique (sièges, outils) ?",
+            "Portez-vous vos EPI systématiquement ?",
+            "Les produits chimiques sont-ils répertoriés ?",
+            "L'éclairage et le bruit sont-ils sous contrôle ?",
+            "Existe-t-il un protocole en cas d'accident ?",
+            "Les pauses sont-elles respectées ?",
+            "L'ambiance de travail est-elle sereine ?",
+            "Réalisez-vous des visites de sécurité régulières ?"
         ];
+        let currentQ = 0;
+        let score = 0;
 
-        const metiers = [
-            {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants nitrile, chaussures sécu"},
-            {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration localisée, gants chaleur"},
-            {m: "Carrossier", r: "Solvants, Poussières", p: "Masque A2P3, lunettes, cabine"},
-            {m: "Coiffeur", r: "Allergies, Postures", p: "Gants sans poudre, tabouret ergonomique"},
-            {m: "Maçon", r: "Manutention, Silice", p: "Casque, gants, genouillères"},
-            {m: "Mécanicien", r: "Huiles, Bruit", p: "Fontaine de lavage, bouchons d'oreilles"},
-            {m: "Peintre", r: "Chutes, Solvants", p: "Masque, échafaudage conforme"},
-            {m: "Soudeur", r: "Fumées, Rayons", p: "Cagoule LCD, aspiration fumées"},
-            {m: "Menuisier", r: "Bruit, Coupures", p: "Protections lames, casque antibruit"},
-            {m: "Infirmier", r: "Bio, TMS", p: "Aide au levage, protocole DASRI"}
-        ];
-
-        function startApp() { 
-            document.getElementById('splash').style.display='none'; 
-            renderSGH(); 
-            renderMetiers();
+        function showQuestion() {
+            if(currentQ < questions.length) {
+                document.getElementById('quiz-progress').style.width = (currentQ * 10) + "%";
+                document.getElementById('quiz-question').innerText = (currentQ + 1) + ". " + questions[currentQ];
+                document.getElementById('quiz-options').innerHTML = `
+                    <div class="quiz-option" onclick="nextQ(2)">Oui, tout à fait</div>
+                    <div class="quiz-option" onclick="nextQ(1)">Partiellement / Parfois</div>
+                    <div class="quiz-option" onclick="nextQ(0)">Non, pas encore</div>
+                `;
+            } else {
+                showResult();
+            }
         }
 
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map((x, i) => `
-                <div class="sgh-card" onclick="showSghDetail(${i})">
-                    <img src="${x.img}" onerror="this.src='https://placehold.co/100x100?text=SGH'">
-                    <b>${x.t}</b>
-                </div>`).join('');
+        function nextQ(points) {
+            score += points;
+            currentQ++;
+            showQuestion();
         }
 
-        function showSghDetail(i) {
-            const d = sghData[i];
-            document.getElementById('modal-img').src = d.img;
-            document.getElementById('modal-title').innerText = d.t;
-            document.getElementById('modal-desc').innerText = d.d;
-            document.getElementById('modal-h').innerHTML = `<span class="badge bg-danger">${d.h}</span>`;
-            document.getElementById('modal-p').innerText = d.p;
-            new bootstrap.Modal(document.getElementById('sghModal')).show();
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('d-none');
+            document.getElementById('quiz-result').classList.remove('d-none');
+            let resText = "";
+            let card = document.getElementById('result-card');
+            
+            if(score >= 15) {
+                resText = "Bravo ! Votre niveau de prévention est solide. Continuez ainsi.";
+                card.style.borderLeftColor = "var(--r-teal)";
+            } else if(score >= 8) {
+                resText = "Attention : des points d'amélioration sont nécessaires pour garantir la sécurité.";
+                card.style.borderLeftColor = "var(--r-yellow)";
+            } else {
+                resText = "Urgent : Votre structure présente des risques importants. Un accompagnement est fortement conseillé.";
+                card.style.borderLeftColor = "var(--r-purple)";
+            }
+            document.getElementById('result-score').innerText = score + " / 20";
+            document.getElementById('result-text').innerText = resText;
         }
 
-        function renderMetiers() {
-            document.getElementById('metiers-list').innerHTML = metiers.map(x => `
-                <div class="card-custom metier-item">
-                    <b class="text-primary">${x.m}</b><br>
-                    <small><b>Risques :</b> ${x.r}<br><b>Prévention :</b> ${x.p}</small>
-                </div>`).join('');
+        function restartQuiz() {
+            currentQ = 0; score = 0;
+            document.getElementById('quiz-container').classList.remove('d-none');
+            document.getElementById('quiz-result').classList.add('d-none');
+            showQuestion();
         }
 
-        function filterMetiers() {
-            let val = document.getElementById('searchMetier').value.toLowerCase();
-            document.querySelectorAll('.metier-item').forEach(item => {
-                item.style.display = item.innerText.toLowerCase().includes(val) ? "block" : "none";
-            });
+        function startApp() { document.getElementById('splash').style.display='none'; showQuestion(); }
+
+        function nav(id, el) {
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active-page');
+            if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
         }
 
         let scanner;
         function startScanner() {
             if(!scanner) scanner = new Html5Qrcode("reader");
             scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
-                document.getElementById('res-code').innerText = t;
-                document.getElementById('fds-link').href = `https://www.google.com/search?q=FDS+PDF+${t}`;
-                document.getElementById('res-area').classList.remove('d-none');
+                alert("Produit détecté : " + t);
                 scanner.stop();
-            }).catch(err => alert("Erreur caméra : " + err));
-        }
-
-        function nav(id, el) {
-            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active-page');
-            if(typeof el === 'string') {
-                const targetBtn = document.getElementById(el);
-                if(targetBtn) targetBtn.classList.add('active');
-            } else {
-                el.classList.add('active');
-            }
+            });
         }
     </script>
 </body>
