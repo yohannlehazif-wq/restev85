@@ -21,33 +21,17 @@
 
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { 
-            background-color: var(--r-light); 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            margin-bottom: 100px; 
-            overflow-x: hidden;
-            user-select: none; /* Empêche la sélection de texte style "web" */
-        }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
         
-        /* --- SPLASH SCREEN --- */
-        #splash { 
-            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f);
-            background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s;
-        }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        .btn-enter {
-            background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; 
-            font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: breathing 2.5s ease-in-out infinite; cursor: pointer;
-        }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; cursor: pointer; }
         @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         
         .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
         @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
 
-        /* --- UI STRUCTURE --- */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
         .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
@@ -59,10 +43,7 @@
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 0; border-right: 0; border-bottom: 0; }
-        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; border: 1px solid #eee; cursor: pointer; }
-        
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
     </style>
@@ -87,7 +68,7 @@
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">RESTEV 85</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement des données...</p>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
         </div>
         
         <div class="row g-2 mt-1">
@@ -103,23 +84,6 @@
                     <small class="fw-bold">INVENTAIRE</small>
                 </div>
             </div>
-            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
-                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
-                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION RISQUES</b></span>
-                    <i class="fa-solid fa-chevron-right text-muted"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Scanner un produit</h5>
-        <div class="card-custom">
-            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
-            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
         </div>
     </div>
 
@@ -129,106 +93,37 @@
         <div id="inventory-container"></div>
     </div>
 
-    <div id="page-quiz" class="app-page">
-        <h5 class="fw-bold mb-3">Auto-Évaluation</h5>
-        <div class="progress mb-3" style="height: 8px; border-radius: 10px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 0%"></div></div>
-        <div id="quiz-container">
-            <div class="card-custom text-center py-4">
-                <small class="text-muted d-block mb-2" id="quiz-step">Question 1/10</small>
-                <h6 id="quiz-question" class="fw-bold mb-4">...</h6>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary py-2 fw-bold" onclick="nextQ(2)">OUI, TOTALEMENT</button>
-                    <button class="btn btn-outline-warning py-2 fw-bold" onclick="nextQ(1)">PARTIELLEMENT</button>
-                    <button class="btn btn-outline-danger py-2 fw-bold" onclick="nextQ(0)">NON / PAS ENCORE</button>
-                </div>
-            </div>
-        </div>
-        <div id="quiz-result" class="d-none card-custom text-center py-4">
-            <h3 id="result-score" class="fw-bold text-primary"></h3>
-            <p>Nous vous conseillons de faire le point avec votre conseiller RESTEV.</p>
-            <button class="btn btn-primary w-100 rounded-pill" onclick="nav('page-centres', 'nav-centres')">CONTACTER MON CENTRE</button>
-        </div>
-    </div>
-
     <div id="page-centres" class="app-page">
         <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
         <div id="centres-list"></div>
     </div>
 
-    <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3">Symboles de Danger (SGH)</h5>
-        <div id="sgh-list" class="sgh-container"></div>
+    <div id="page-scan" class="app-page">
+        <h5 class="fw-bold mb-3">Scanner un produit</h5>
+        <div class="card-custom">
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
+            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
+        </div>
     </div>
 
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-camera"></i>AJOUTER</button>
         <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
-        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-vial"></i>TEST</button>
         <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
-        <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
     </nav>
 
     <script>
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
-        let curQ = 0, score = 0;
 
-        // --- LISTE DES CENTRES AVEC ADRESSES RÉELLES ---
-const centres = [
-    { 
-        n: "La Roche-sur-Yon (Siège)", 
-        t: "0251370668", 
-        a: "Impasse Newton, 85000 La Roche-sur-Yon" 
-    },
-    { 
-        n: "Montaigu-Vendée", 
-        t: "0251942014", 
-        a: "44 rue du 8 mai 1945, 85600 Montaigu" 
-    },
-    { 
-        n: "Les Herbiers", 
-        t: "0251671203", 
-        a: "18 rue Olivier de Serres, 85500 Les Herbiers" 
-    },
-    { 
-        n: "Les Essarts", 
-        t: "0251080601", 
-        a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" 
-    }
-];
-
-// --- FONCTION DE RENDU CORRIGÉE ---
-function renderCentres() {
-    const container = document.getElementById('centres-list');
-    if (!container) return;
-
-    container.innerHTML = centres.map(x => {
-        // On crée une URL Google Maps propre pour l'itinéraire (destination = l'adresse)
-        const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(x.a)}`;
-        
-        return `
-        <div class="card-custom">
-            <b>${x.n}</b><br>
-            <small class="text-muted">${x.a}</small>
-            <div class="d-flex gap-2 mt-2">
-                <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none text-white">
-                    <i class="fa-solid fa-phone me-2"></i>Appeler
-                </a>
-                <a href="${googleMapsUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center text-decoration-none">
-                    <i class="fa-solid fa-route me-1"></i> Itinéraire
-                </a>
-            </div>
-        </div>`;
-    }).join('');
-}
-        
-        const quizQ = ["DUERP à jour ?", "Visites médicales à jour ?", "FDS disponibles ?", "EPI portés ?", "Risques chimiques identifiés ?", "Formés SST ?", "Affichage sécurité visible ?", "Risques chutes analysés ?", "Contrôles machines OK ?", "Protocole accident existant ?"];
-        
-        const sghData = [
-            {t: "Explosif", img: "sgh01.png", p: "Éloigner de la chaleur."},
-            {t: "Inflammable", img: "sgh02.png", p: "Stocker en lieu ventilé."},
-            {t: "Corrosif", img: "sgh05.png", p: "Porter des gants/lunettes."}
-            // ... Ajoute le reste ici
+        const centres = [
+            { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
+            { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu" },
+            { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers" },
+            { n: "Les Essarts", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" }
         ];
 
         function dismissSplash() {
@@ -240,23 +135,39 @@ function renderCentres() {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
-            
             if(typeof el === 'string') document.getElementById(el).classList.add('active');
             else el.classList.add('active');
-
             if(id === 'page-list') renderInventory();
+        }
+
+        function renderCentres() {
+            const container = document.getElementById('centres-list');
+            if (!container) return;
+            container.innerHTML = centres.map(x => {
+                // Utilisation de l'API de direction officielle de Google Maps
+                const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(x.a)}`;
+                return `
+                <div class="card-custom">
+                    <b>${x.n}</b><br><small class="text-muted">${x.a}</small>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-white text-decoration-none">
+                            <i class="fa-solid fa-phone me-2"></i>Appeler
+                        </a>
+                        <a href="${googleMapsUrl}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center text-decoration-none">
+                            <i class="fa-solid fa-route me-1"></i> Itinéraire
+                        </a>
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function renderInventory() {
             const c = document.getElementById('inventory-container');
-            c.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Aucun produit enregistré.</p>';
+            c.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Vide.</p>';
             inventory.forEach(i => {
                 c.innerHTML += `<div class="card-custom d-flex justify-content-between align-items-center">
-                    <div><b>${i.name}</b><br><small class="text-muted">${i.code || 'Sans code'}</small></div>
-                    <div class="d-flex gap-2">
-                        <a href="https://www.google.com/search?q=FDS+${i.name}" target="_blank" class="btn btn-sm btn-primary">FDS</a>
-                        <button onclick="deleteItem(${i.id})" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
-                    </div>
+                    <div><b>${i.name}</b><br><small>${i.code || ''}</small></div>
+                    <button onclick="deleteItem(${i.id})" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
                 </div>`;
             });
         }
@@ -264,11 +175,9 @@ function renderCentres() {
         function saveProduct() {
             const n = document.getElementById('prod-name').value;
             const c = document.getElementById('prod-code').value;
-            if(!n) return alert("Veuillez saisir le nom du produit");
-            inventory.push({ id: Date.now(), name: n, code: c, date: new Date().toLocaleDateString() });
+            if(!n) return alert("Nom requis");
+            inventory.push({ id: Date.now(), name: n, code: c });
             localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            document.getElementById('prod-name').value = "";
-            document.getElementById('prod-code').value = "";
             updateStats(); nav('page-list', 'nav-list');
         }
 
@@ -280,31 +189,7 @@ function renderCentres() {
 
         function updateStats() {
             const el = document.getElementById('inv-stats');
-            if(el) el.innerText = `${inventory.length} produit(s) dans l'inventaire`;
-        }
-
-        function renderCentres() {
-            document.getElementById('centres-list').innerHTML = centres.map(x => `
-                <div class="card-custom">
-                    <b>${x.n}</b><br><small>${x.a}</small>
-                    <div class="d-flex gap-2 mt-2">
-                        <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-white"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(x.a)}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-route me-1"></i> Itinéraire</a>
-                    </div>
-                </div>`).join('');
-        }
-
-        function nextQ(p) {
-            score += p; curQ++;
-            if(curQ < quizQ.length) {
-                document.getElementById('quiz-progress').style.width = ((curQ + 1) * 10) + "%";
-                document.getElementById('quiz-step').innerText = `Question ${curQ + 1}/10`;
-                document.getElementById('quiz-question').innerText = quizQ[curQ];
-            } else {
-                document.getElementById('quiz-container').classList.add('d-none');
-                document.getElementById('quiz-result').classList.remove('d-none');
-                document.getElementById('result-score').innerText = `Score : ${score} / 20`;
-            }
+            if(el) el.innerText = `${inventory.length} produit(s) enregistré(s)`;
         }
 
         let scanner;
@@ -314,13 +199,11 @@ function renderCentres() {
                 scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
                     document.getElementById('prod-code').value = t;
                     scanner.stop();
-                    alert("Code détecté : " + t);
                 });
-            } catch (err) { alert("Erreur caméra : " + err); }
+            } catch (err) { alert("Erreur caméra"); }
         }
 
-        window.onload = () => { renderCentres(); showQ(); updateStats(); };
-        function showQ() { document.getElementById('quiz-question').innerText = quizQ[0]; }
+        window.onload = () => { renderCentres(); updateStats(); };
     </script>
 </body>
 </html>
