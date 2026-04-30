@@ -218,19 +218,24 @@
 
        function renderSGH() {
     const sghData = [
-        {t: "Explosif", n: "01"}, {t: "Inflammable", n: "02"},
-        {t: "Comburant", n: "03"}, {t: "Gaz Pression", n: "04"},
-        {t: "Corrosif", n: "05"}, {t: "Toxique", n: "06"},
-        {t: "Irritant", n: "07"}, {t: "Danger Santé", n: "08"},
-        {t: "Environnement", n: "09"}
+        {t: "Explosif", img: "SGH01_BombeExplosant.jpg"},
+        {t: "Inflammable", img: "SGH02_Flamme.jpg"},
+        {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg"},
+        {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg"},
+        {t: "Corrosif", img: "SGH05_Corrosion.jpg"},
+        {t: "Toxique", img: "SGH06.jpg"},
+        {t: "Irritant", img: "SGH07_PointExclamation.jpg"},
+        {t: "Danger Santé", img: "SGH08_DangerSante.jpg"},
+        {t: "Environnement", img: "SGH09_Environnement.jpg"}
     ];
 
     document.getElementById('sgh-list').innerHTML = sghData.map(x => `
         <div class="sgh-card shadow-sm border">
-            <img src="https://placehold.co/60x60/white/red?text=SGH${x.n}" 
+            <img src="${x.img}" 
                  alt="${x.t}" 
-                 style="width: 100%; max-width: 50px; height: 50px; object-fit: contain;">
-            <b class="d-block mt-1" style="font-size: 0.55rem; text-transform: uppercase;">${x.t}</b>
+                 style="width: 100%; max-width: 60px; height: 60px; object-fit: contain;"
+                 onerror="this.src='https://placehold.co/60x60?text=ERR'">
+            <b class="d-block mt-2" style="font-size: 0.6rem; text-transform: uppercase;">${x.t}</b>
         </div>`).join('');
 }
 
