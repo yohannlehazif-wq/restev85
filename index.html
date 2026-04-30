@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 90px; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
         
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo-header { height: 45px; }
 
         .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; cursor: pointer; }
         .nav-item.active { color: var(--r-blue); transform: translateY(-3px); transition: 0.3s; }
         .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
@@ -25,9 +25,8 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        
         .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #eee; }
         
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
         .map-box { height: 180px; width: 100%; border-radius: 20px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -61,6 +60,12 @@
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
                 <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
             </div>
+            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
+                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
+                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION RISQUES</b></span>
+                    <i class="fa-solid fa-chevron-right text-muted"></i>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -70,7 +75,7 @@
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
             <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (Ex: Acétone)">
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
@@ -127,13 +132,28 @@
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-circle-plus"></i>AJOUTER</button>
         <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>TEST</button>
         <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-location-dot"></i>CENTRES</button>
         <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
     </nav>
 
     <script>
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
-        
+        let curQ = 0, score = 0;
+
+        const quizQ = [
+            "Votre Document Unique (DUERP) a-t-il été mis à jour il y a moins d'un an ?",
+            "Tous vos salariés ont-ils passé leur visite médicale de suivi ?",
+            "Disposez-vous des Fiches de Données de Sécurité (FDS) de vos produits ?",
+            "Les Équipements de Protection (EPI) sont-ils portés et en bon état ?",
+            "Avez-vous identifié les produits chimiques dangereux utilisés ?",
+            "Le personnel est-il formé aux gestes de premiers secours (SST) ?",
+            "L'affichage obligatoire est-il visible dans vos locaux ?",
+            "Avez-vous analysé les risques de chutes ou mauvaises postures ?",
+            "Le matériel et les machines sont-ils contrôlés périodiquement ?",
+            "Existe-t-il un protocole clair en cas d'accident ou d'urgence ?"
+        ];
+
         const centres = [
             { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", m: "https://maps.app.goo.gl/uP9f6U6H9Z9TfXpA7" },
             { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu", m: "https://maps.app.goo.gl/3Hh2t7Z5K5m8Q5L18" },
@@ -143,7 +163,7 @@
 
         function startApp() {
             setTimeout(() => { document.getElementById('splash').style.display='none'; }, 1000);
-            renderCentres(); renderSGH(); updateStats();
+            renderCentres(); renderSGH(); showQ(); updateStats();
         }
 
         function nav(id, el) {
@@ -153,6 +173,48 @@
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
             if(id === 'page-list') renderInventory();
         }
+
+        function renderSGH() {
+            const sghData = [
+                {t: "Explosif", img: "SGH01_BombeExplosant.jpg", p: "Éloigner de la chaleur et des flammes. Ne pas fumer."},
+                {t: "Inflammable", img: "SGH02_Flamme.jpg", p: "Stocker dans un endroit ventilé. Tenir au frais."},
+                {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", p: "Tenir à l'écart des matières combustibles."},
+                {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", p: "Protéger du rayonnement solaire direct."},
+                {t: "Corrosif", img: "SGH05_Corrosion.jpg", p: "Porter des gants et des lunettes de protection."},
+                {t: "Toxique", img: "SGH06.jpg", p: "Appeler immédiatement un centre antipoison en cas de malaise."},
+                {t: "Irritant", img: "SGH07_PointExclamation.jpg", p: "Laver soigneusement les mains après manipulation."},
+                {t: "Danger Santé", img: "SGH08_DangerSante.jpg", p: "Utiliser les EPI recommandés. Lire les précautions."},
+                {t: "Environnement", img: "SGH09_Environnement.jpg", p: "Récupérer tout produit répandu. Ne pas rejeter."}
+            ];
+            document.getElementById('sgh-list').innerHTML = sghData.map(x => {
+                const cleanP = x.p.replace(/'/g, "\\'");
+                return `<div class="sgh-card shadow-sm" onclick="alert('🛡️ ${x.t.toUpperCase()}\\n\\nConseil : ${cleanP}')">
+                    <img src="${x.img}" alt="${x.t}" style="width: 50px; height: 50px; object-fit: contain;" onerror="this.src='https://placehold.co/50x50/red/white?text=SGH'">
+                    <b class="d-block mt-1" style="font-size: 0.5rem;">${x.t}</b>
+                </div>`;
+            }).join('');
+        }
+
+        function showQ() {
+            if(curQ < quizQ.length) {
+                document.getElementById('quiz-progress').style.width = ((curQ + 1) * 10) + "%";
+                document.getElementById('quiz-step').innerText = `Question ${curQ + 1}/10`;
+                document.getElementById('quiz-question').innerText = quizQ[curQ];
+            } else {
+                document.getElementById('quiz-container').classList.add('d-none');
+                const res = document.getElementById('quiz-result');
+                res.classList.remove('d-none');
+                document.getElementById('result-score').innerText = `${score} / 20`;
+                const txt = document.getElementById('result-text');
+                const icon = document.getElementById('result-icon');
+                if(score >= 16) { icon.innerHTML = '<i class="fa-solid fa-check-circle text-success fa-3x"></i>'; txt.innerText = "Excellent ! Votre prévention est solide."; }
+                else if(score >= 10) { icon.innerHTML = '<i class="fa-solid fa-exclamation-circle text-warning fa-3x"></i>'; txt.innerText = "Bonne base, mais des points sont à améliorer."; }
+                else { icon.innerHTML = '<i class="fa-solid fa-times-circle text-danger fa-3x"></i>'; txt.innerText = "Attention : Contactez le RESTEV pour un accompagnement."; }
+            }
+        }
+
+        function nextQ(pts) { score += pts; curQ++; showQ(); }
+        function restartQuiz() { curQ = 0; score = 0; document.getElementById('quiz-container').classList.remove('d-none'); document.getElementById('quiz-result').classList.add('d-none'); showQ(); }
 
         function renderCentres() {
             document.getElementById('centres-list').innerHTML = centres.map(x => `
@@ -165,34 +227,6 @@
                 </div>`).join('');
         }
 
-        function renderSGH() {
-            const sghData = [
-                {t: "Explosif", img: "SGH01_BombeExplosant.jpg", p: "Éloigner de la chaleur, des étincelles et des flammes. Ne pas fumer."},
-                {t: "Inflammable", img: "SGH02_Flamme.jpg", p: "Stocker dans un endroit bien ventilé. Tenir au frais. Éviter tout contact avec l'air."},
-                {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", p: "Tenir à l'écart des vêtements et matières combustibles. Stocker loin des sources de chaleur."},
-                {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", p: "Protéger du rayonnement solaire. Stocker dans un endroit bien ventilé."},
-                {t: "Corrosif", img: "SGH05_Corrosion.jpg", p: "Porter des gants et des lunettes de protection. Ne pas respirer les poussières/vapeurs."},
-                {t: "Toxique", img: "SGH06.jpg", p: "Porter un équipement de protection. En cas de malaise, appeler immédiatement un centre antipoison."},
-                {t: "Irritant", img: "SGH07_PointExclamation.jpg", p: "Éviter le contact avec les yeux et la peau. Laver soigneusement les mains après manipulation."},
-                {t: "Danger Santé", img: "SGH08_DangerSante.jpg", p: "Ne pas manipuler avant d'avoir lu toutes les précautions. Utiliser les EPI recommandés."},
-                {t: "Environnement", img: "SGH09_Environnement.jpg", p: "Éviter le rejet dans l'environnement. Récupérer tout produit répandu."}
-            ];
-
-            document.getElementById('sgh-list').innerHTML = sghData.map(x => {
-                const cleanP = x.p.replace(/'/g, "\\'"); // Sécurité pour les apostrophes
-                return `
-                <div class="sgh-card shadow-sm border" onclick="showSGHPrevention('${x.t}', '${cleanP}')" style="cursor: pointer;">
-                    <img src="${x.img}" alt="${x.t}" style="width: 100%; max-width: 60px; height: 60px; object-fit: contain;" onerror="this.src='https://placehold.co/60x60?text=ERR'">
-                    <b class="d-block mt-2" style="font-size: 0.6rem; text-transform: uppercase;">${x.t}</b>
-                    <small class="text-primary" style="font-size: 0.5rem;">Cliquer pour l'aide</small>
-                </div>`;
-            }).join('');
-        }
-
-        function showSGHPrevention(titre, texte) {
-            alert("🛡️ PRÉVENTION - " + titre.toUpperCase() + "\n\nConseils : " + texte);
-        }
-
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
@@ -200,32 +234,25 @@
             const gLink = `https://www.google.com/search?q=filetype:pdf+FDS+${encodeURIComponent(name)}+${code}`;
             inventory.push({ id: Date.now(), name, code, fds: gLink, date: new Date().toLocaleDateString() });
             localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            alert("Produit enregistré !");
+            alert("Enregistré !");
             nav('page-list', 'nav-list');
             updateStats();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted mt-5">Votre inventaire est vide.</p>' : '';
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Inventaire vide.</p>' : '';
             inventory.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'card-custom';
-                div.innerHTML = `<div class="d-flex justify-content-between"><b>${item.name}</b><small class="text-muted">${item.date}</small></div>
-                                <small class="text-muted">${item.code || 'Pas de code'}</small>
-                                <a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary w-100 mt-2">Voir la FDS (Google)</a>
-                                <button class="btn btn-link btn-sm text-danger w-100 mt-1" onclick="deleteItem(${item.id})">Supprimer</button>`;
+                div.innerHTML = `<b>${item.name}</b><br><small>${item.code || ''}</small>
+                    <a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary w-100 mt-2">FDS Google</a>
+                    <button class="btn btn-link btn-sm text-danger p-0 mt-1" onclick="deleteItem(${item.id})">Supprimer</button>`;
                 container.appendChild(div);
             });
         }
 
-        function deleteItem(id) {
-            inventory = inventory.filter(i => i.id !== id);
-            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            renderInventory();
-            updateStats();
-        }
-
+        function deleteItem(id) { inventory = inventory.filter(i => i.id !== id); localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory)); renderInventory(); updateStats(); }
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; }
 
         let scanner;
