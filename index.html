@@ -9,24 +9,17 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        :root { 
+            --r-blue: #3065a8; 
+            --r-teal: #75bba8; 
+            --r-purple: #ae227d; 
+            --r-yellow: #e6a00f; 
+            --r-light: #f8fafc; 
+        }
+        
         body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
         
-        /* HEADER & NAV */
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo-header { height: 45px; }
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; cursor: pointer; }
-        .nav-item.active { color: var(--r-blue); transform: translateY(-3px); transition: 0.3s; }
-        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
-
-        /* PAGES & CARDS */
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s; }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        
-        /* SPLASH SCREEN AVEC DÉGRADÉ MOUVANT */
+        /* --- SPLASH SCREEN AVEC DÉGRADÉ COMPLET MOUVANT --- */
         #splash { 
             position: fixed; 
             inset: 0; 
@@ -34,9 +27,10 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            background: linear-gradient(-45deg, #3065a8, #75bba8, #e6a00f, #3065a8);
+            /* Mix de toutes les couleurs RESTEV : Bleu, Violet, Teal, Jaune */
+            background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f);
             background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            animation: gradientBG 8s ease infinite;
             transition: 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
@@ -46,35 +40,34 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* BOUTON PALPITANT */
+        /* --- BOUTON EFFET RESPIRATION --- */
         .btn-enter {
             background: white;
             color: var(--r-blue);
             border: none;
-            padding: 15px 50px;
+            padding: 16px 55px;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-top: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: heartBeat 1.5s infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: breathing 3s ease-in-out infinite;
             position: relative;
             z-index: 2;
+            cursor: pointer;
         }
 
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.1); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.1); }
-            70% { transform: scale(1); }
+        @keyframes breathing {
+            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.08); box-shadow: 0 15px 45px rgba(0,0,0,0.3); }
+            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         }
 
-        /* EFFET TRACÉ ECG */
+        /* --- EFFET TRACÉ ECG --- */
         .ecg-container {
-            width: 200px;
-            height: 40px;
-            margin: 10px auto;
+            width: 220px;
+            height: 50px;
+            margin: 15px auto;
             position: relative;
             overflow: hidden;
         }
@@ -87,7 +80,7 @@
             stroke-linejoin: round;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            animation: drawECG 3s linear infinite;
+            animation: drawECG 4s linear infinite;
         }
 
         @keyframes drawECG {
@@ -95,11 +88,19 @@
             100% { stroke-dashoffset: 0; }
         }
 
-        /* EXPORT EXCEL */
-        .btn-excel { background: #1d6f42; color: white; border: none; border-radius: 12px; padding: 10px; width: 100%; margin-bottom: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* --- STYLES GENERAUX APP --- */
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-header { height: 45px; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border-radius: 15px; padding: 12px 5px; text-align: center; border: 1px solid #eee; }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
+        .nav-item.active { color: var(--r-blue); }
+
+        .btn-excel { background: #1d6f42; color: white; border: none; border-radius: 12px; padding: 12px; width: 100%; margin-bottom: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .app-page { display: none; padding: 20px 15px; }
+        .active-page { display: block !important; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -109,11 +110,10 @@
         <div class="text-center text-white">
             <img src="logo_restev_carre.png" alt="Logo" style="width: 130px; border-radius: 30px; border: 5px solid white; background: white;" onerror="this.src='https://placehold.co/130x130/ffffff/3065a8?text=RESTEV'">
             <h1 class="fw-bold mt-4 mb-0" style="letter-spacing: 2px;">RESTEV 85</h1>
-            <p class="opacity-75 mb-4">Votre santé, notre mission.</p>
+            <p class="opacity-75 mb-4">Prévention & Santé au Travail</p>
             
             <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
             
-            <!-- TRACÉ ECG SOUS LE BOUTON -->
             <div class="ecg-container">
                 <svg width="100%" height="100%" viewBox="0 0 200 40">
                     <path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
@@ -122,64 +122,45 @@
         </div>
     </div>
 
-    <!-- HEADER APP -->
+    <!-- HEADER -->
     <div class="app-header">
         <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
     </div>
 
     <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold mb-1">Expert Prévention</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
+        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), var(--r-purple));">
+            <h5 class="fw-bold mb-1">Tableau de bord</h5>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement des données...</p>
         </div>
         <div class="row g-2 mt-1">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER FDS</b></div>
+                <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCANNER</b></div>
             </div>
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
                 <div class="card-custom text-center py-4" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><b>INVENTAIRE</b></div>
-            </div>
-            <div class="col-12" onclick="nav('page-quiz', 'nav-quiz')">
-                <div class="card-custom d-flex justify-content-between align-items-center" style="border-left-color: var(--r-yellow);">
-                    <span><i class="fa-solid fa-clipboard-check text-warning me-2"></i> <b>AUTO-ÉVALUATION</b></span>
-                    <i class="fa-solid fa-chevron-right text-muted"></i>
-                </div>
             </div>
         </div>
     </div>
 
     <!-- INVENTAIRE -->
     <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+        <h5 class="fw-bold mb-3">Inventaire Produits</h5>
         <button class="btn-excel" onclick="exportToExcel()">
-            <i class="fa-solid fa-file-excel"></i> EXPORTER EXCEL (CSV)
+            <i class="fa-solid fa-file-excel"></i> EXPORTER EN EXCEL (CSV)
         </button>
         <div id="inventory-container"></div>
     </div>
 
-    <!-- LE RESTE DES PAGES (SCAN, QUIZ, SGH, etc.) -->
+    <!-- AJOUT / SCAN -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+        <h5 class="fw-bold mb-3">Scanner un produit</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
-            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+            <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER CAMÉRA</button>
             <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
-        </div>
-    </div>
-
-    <div id="page-quiz" class="app-page">
-        <h5 class="fw-bold mb-3">Évaluation Risques</h5>
-        <div id="quiz-container">
-            <div class="card-custom text-center py-4">
-                <h6 id="quiz-question" class="fw-bold mb-4">...</h6>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary py-2 fw-bold" onclick="nextQ(2)">OUI</button>
-                    <button class="btn btn-outline-danger py-2 fw-bold" onclick="nextQ(0)">NON</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -188,18 +169,15 @@
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-circle-plus"></i>AJOUTER</button>
         <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
-        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>TEST</button>
     </nav>
 
     <script>
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
-        let curQ = 0, score = 0;
-        const quizQ = ["DUERP à jour ?", "Visites médicales OK ?", "FDS disponibles ?", "EPI portés ?", "Formations SST faites ?"];
 
         function dismissSplash() {
             const splash = document.getElementById('splash');
             splash.style.opacity = '0';
-            splash.style.transform = 'scale(1.2)';
+            splash.style.transform = 'scale(1.1) translateY(-20px)';
             setTimeout(() => { splash.style.display = 'none'; }, 800);
         }
 
@@ -214,35 +192,63 @@
         function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            if(!name) return alert("Nom requis");
-            inventory.push({ id: Date.now(), name, code, fds: "Lien Google Search...", date: new Date().toLocaleDateString() });
+            if(!name) return alert("Veuillez saisir un nom");
+            inventory.push({ id: Date.now(), name, code, date: new Date().toLocaleDateString('fr-FR') });
             localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            alert("Enregistré !");
+            alert("Produit ajouté !");
+            document.getElementById('prod-name').value = "";
+            document.getElementById('prod-code').value = "";
             nav('page-list', 'nav-list');
             updateStats();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length === 0 ? '<p class="text-center">Vide.</p>' : '';
+            container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Aucun produit enregistré.</p>' : '';
             inventory.forEach(item => {
-                container.innerHTML += `<div class="card-custom"><b>${item.name}</b><br><small>${item.date}</small></div>`;
+                container.innerHTML += `
+                    <div class="card-custom d-flex justify-content-between align-items-center">
+                        <div>
+                            <b class="text-dark">${item.name}</b><br>
+                            <small class="text-muted">Code : ${item.code || 'N/A'} - Le ${item.date}</small>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
             });
         }
 
-        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; }
+        function deleteItem(id) {
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
+        }
+
+        function updateStats() { 
+            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans votre inventaire`; 
+        }
 
         function exportToExcel() {
+            if(inventory.length === 0) return alert("Inventaire vide");
             let csv = "\uFEFFDate;Nom;Code\n";
             inventory.forEach(i => csv += `${i.date};${i.name};${i.code}\n`);
-            const blob = new Blob([csv], { type: 'text/csv' });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'inventaire_restev.csv';
+            a.download = 'inventaire_restev_85.csv';
             a.click();
         }
 
-        window.onload = () => { updateStats(); };
+        let scanner;
+        function startScanner() {
+            if(!scanner) scanner = new Html5Qrcode("reader");
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
+                document.getElementById('prod-code').value = t;
+                scanner.stop();
+            }).catch(e => alert("Erreur caméra : " + e));
+        }
+
+        window.onload = updateStats;
     </script>
 </body>
 </html>
