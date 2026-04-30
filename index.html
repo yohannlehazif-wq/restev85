@@ -23,7 +23,6 @@
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
         body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
         
-        /* Splash Screen */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
@@ -33,7 +32,6 @@
         .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
         @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
 
-        /* UI Elements */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
         .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
@@ -131,28 +129,37 @@
 
         function dismissSplash() {
             const s = document.getElementById('splash');
-            s.style.opacity = '0';
-            setTimeout(() => s.style.display = 'none', 800);
+            if(s) {
+                s.style.opacity = '0';
+                setTimeout(() => s.style.display = 'none', 800);
+            }
         }
 
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active-page');
             
-            if(typeof el === 'string') document.getElementById(el).classList.add('active');
-            else el.classList.add('active');
+            const targetPage = document.getElementById(id);
+            if(targetPage) targetPage.classList.add('active-page');
+            
+            if(typeof el === 'string') {
+                const btn = document.getElementById(el);
+                if(btn) btn.classList.add('active');
+            } else if(el) {
+                el.classList.add('active');
+            }
             
             if(id === 'page-list') renderInventory();
             if(id === 'page-centres') renderCentres();
+            window.scrollTo(0, 0);
         }
 
         function renderCentres() {
             const container = document.getElementById('centres-list');
             if (!container) return;
             container.innerHTML = centres.map(x => {
-                // Lien universel vers Google Maps
-                const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("RESTEV " + x.a)}`;
+                // CORRECTION DU LIEN ICI (Utilisation de l'API de recherche propre)
+                const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("RESTEV " + x.a);
                 return `
                 <div class="card-custom">
                     <b>${x.n}</b><br><small class="text-muted">${x.a}</small>
@@ -160,7 +167,7 @@
                         <a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-white">
                             <i class="fa-solid fa-phone me-2"></i>Appeler
                         </a>
-                        <a href="${googleMapsUrl}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center btn-route">
+                        <a href="${mapsUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center btn-route">
                             <i class="fa-solid fa-route me-1"></i> Itinéraire
                         </a>
                     </div>
@@ -170,6 +177,7 @@
 
         function renderInventory() {
             const c = document.getElementById('inventory-container');
+            if(!c) return;
             c.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Inventaire vide.</p>';
             inventory.forEach(i => {
                 c.innerHTML += `<div class="card-custom d-flex justify-content-between align-items-center">
@@ -195,42 +203,19 @@
             if(confirm("Supprimer ce produit ?")) {
                 inventory = inventory.filter(i => i.id !== id);
                 localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-                renderInventory(); updateStats();
+                renderInventory(); 
+                updateStats();
             }
         }
 
         function updateStats() {
             const el = document.getElementById('inv-stats');
-            if(el) el.innerText = `${inventory.length} produit(s) enregistré(s)`;
+            if(el) el.innerText = inventory.length + " produit(s) enregistré(s)";
         }
 
         function exportToCSV() {
             if (inventory.length === 0) return alert("Inventaire vide.");
             let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code\r\n" + 
-                      inventory.map(i => `${i.name};${i.code}`).join("\r\n");
+                      inventory.map(i => i.name + ";" + i.code).join("\r\n");
             const link = document.createElement("a");
-            link.setAttribute("href", encodeURI(csv));
-            link.setAttribute("download", "Inventaire_RESTEV.csv");
-            link.click();
-        }
-
-        let scanner;
-        async function startScanner() {
-            try {
-                if(!scanner) scanner = new Html5Qrcode("reader");
-                scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
-                    document.getElementById('prod-code').value = t;
-                    scanner.stop();
-                });
-            } catch (err) { alert("Erreur accès caméra. Vérifiez les autorisations."); }
-        }
-
-        // PWA Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
-        }
-
-        window.onload = () => { renderCentres(); updateStats(); };
-    </script>
-</body>
-</html>
+            link.setAttribute("href", encodeURI
