@@ -25,10 +25,11 @@
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; width: auto; }
 
-        /* NAVIGATION */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
+        /* NAVIGATION (Modifiée pour 5 onglets) */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-between; padding: 10px 5px; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; text-decoration: none; flex: 1; }
         .nav-item.active { color: var(--r-blue); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
         /* PAGES */
         .app-page { display: none; padding: 15px; animation: fadeIn 0.3s; }
@@ -69,6 +70,13 @@
             <h5>Espace Prévention</h5>
             <p class="small mb-0">Sélectionnez un outil ci-dessous :</p>
         </div>
+        
+        <!-- NOUVEAU BOUTON : PROJET DE SERVICE -->
+        <div class="card-custom text-center py-3 mb-3" style="border-left-color: var(--r-purple); cursor: pointer;" onclick="nav('page-projet', 'nav-home')">
+            <i class="fa-solid fa-bullseye fa-xl mb-2" style="color: var(--r-purple);"></i>
+            <br><b style="color: var(--r-purple);">NOTRE PROJET DE SERVICE</b>
+        </div>
+
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
                 <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
@@ -79,6 +87,51 @@
             <div class="col-12" onclick="nav('page-metiers', 'nav-metiers')">
                 <div class="card-custom text-center py-3"><i class="fa-solid fa-helmet-safety fa-xl mb-2 text-success"></i><br><b>GUIDE MÉTIERS (20+)</b></div>
             </div>
+        </div>
+    </div>
+
+    <!-- NOUVELLE PAGE : PROJET DE SERVICE -->
+    <div id="page-projet" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-bullseye me-2" style="color: var(--r-purple);"></i>Projet de Service</h5>
+        <div class="card-custom" style="border-left-color: var(--r-purple);">
+            <b class="text-primary">Notre Mission</b>
+            <p class="small mt-2">Le RESTEV s'engage au quotidien pour préserver la santé physique et mentale des travailleurs tout au long de leur parcours professionnel en Vendée.</p>
+            <hr>
+            <b class="text-primary">Nos 4 Axes Prioritaires</b>
+            <ul class="small ps-3 mt-2 mb-0" style="line-height: 1.6;">
+                <li><b>Axe 1 :</b> Prévention des risques professionnels (RPS, TMS, risque chimique).</li>
+                <li><b>Axe 2 :</b> Maintien en emploi et prévention de la désinsertion professionnelle (PDP).</li>
+                <li><b>Axe 3 :</b> Accompagnement spécifique des TPE/PME.</li>
+                <li><b>Axe 4 :</b> Suivi individuel adapté et traçabilité des expositions.</li>
+            </ul>
+        </div>
+        <button class="btn-restev bg-primary text-white" onclick="nav('page-home', 'nav-home')">RETOUR ACCUEIL</button>
+    </div>
+
+    <!-- NOUVELLE PAGE : CENTRES & MAP -->
+    <div id="page-centres" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-location-dot me-2 text-primary"></i>Nos 4 Centres RESTEV</h5>
+        
+        <!-- MAP INTEGRATION -->
+        <div class="card-custom p-0 mb-3" style="overflow: hidden; border-radius: 15px; border-left: none;">
+            <iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=RESTEV+Vendée&t=&z=9&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+
+        <div class="card-custom">
+            <b class="text-primary"><i class="fa-solid fa-building me-2"></i>La Roche-sur-Yon (Siège)</b><br>
+            <small class="text-muted">📍 123 Rue de la Prévention, 85000<br>📞 02 51 00 00 00</small>
+        </div>
+        <div class="card-custom">
+            <b class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>Challans</b><br>
+            <small class="text-muted">📍 45 Avenue du Travail, 85300<br>📞 02 51 00 00 01</small>
+        </div>
+        <div class="card-custom">
+            <b class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>Les Herbiers</b><br>
+            <small class="text-muted">📍 67 Boulevard de la Santé, 85500<br>📞 02 51 00 00 02</small>
+        </div>
+        <div class="card-custom">
+            <b class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>Fontenay-le-Comte</b><br>
+            <small class="text-muted">📍 89 Route de l'Ergonomie, 85200<br>📞 02 51 00 00 03</small>
         </div>
     </div>
 
@@ -138,19 +191,20 @@
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
         <button id="nav-sgh" class="nav-item" onclick="nav('page-sgh', this)"><i class="fa-solid fa-biohazard"></i>SGH</button>
         <button id="nav-metiers" class="nav-item" onclick="nav('page-metiers', this)"><i class="fa-solid fa-helmet-safety"></i>MÉTIERS</button>
+        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
     </nav>
 
     <script>
         const sghData = [
-            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles.", h: "H200", p: "Éviter chocs et chaleur[cite: 1]."},
-            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz/liquides inflammables.", h: "H220", p: "Tenir à l'écart des flammes[cite: 1]."},
-            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut aggraver un incendie.", h: "H270", p: "Stocker loin des combustibles[cite: 1]."},
-            {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Peut exploser sous la chaleur.", h: "H280", p: "Stocker en lieu ventilé[cite: 1]."},
-            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Brûlures graves.", h: "H314", p: "Porter gants et lunettes[cite: 1]."},
-            {t: "Toxique", img: "SGH06.jpg", d: "Mortel par ingestion/inhalation.", h: "H300", p: "Appeler le centre antipoison[cite: 1]."},
-            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif ou irritant.", h: "H315", p: "Éviter le contact cutané[cite: 1]."},
-            {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Effets CMR (Cancer, etc.).", h: "H350", p: "Protection respiratoire obligatoire[cite: 1]."},
-            {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Toxique pour la vie aquatique.", h: "H410", p: "Ne pas jeter à l'égout[cite: 1]."}
+            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles.", h: "H200", p: "Éviter chocs et chaleur."},
+            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz/liquides inflammables.", h: "H220", p: "Tenir à l'écart des flammes."},
+            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut aggraver un incendie.", h: "H270", p: "Stocker loin des combustibles."},
+            {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Peut exploser sous la chaleur.", h: "H280", p: "Stocker en lieu ventilé."},
+            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Brûlures graves.", h: "H314", p: "Porter gants et lunettes."},
+            {t: "Toxique", img: "SGH06.jpg", d: "Mortel par ingestion/inhalation.", h: "H300", p: "Appeler le centre antipoison."},
+            {t: "Irritant", img: "SGH07_PointExclamation.jpg", d: "Nocif ou irritant.", h: "H315", p: "Éviter le contact cutané."},
+            {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Effets CMR (Cancer, etc.).", h: "H350", p: "Protection respiratoire obligatoire."},
+            {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Toxique pour la vie aquatique.", h: "H410", p: "Ne pas jeter à l'égout."}
         ];
 
         const metiers = [
@@ -220,7 +274,12 @@
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
-            if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
+            if(typeof el === 'string') {
+                const targetBtn = document.getElementById(el);
+                if(targetBtn) targetBtn.classList.add('active');
+            } else {
+                el.classList.add('active');
+            }
         }
     </script>
 </body>
