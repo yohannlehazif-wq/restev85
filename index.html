@@ -33,19 +33,20 @@
 
         .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
         
-        /* SGH STYLE MISE À JOUR */
-        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: transform 0.2s; }
-        .sgh-card:active { transform: scale(0.95); }
-        .sgh-card img { width: 100%; max-width: 60px; height: auto; margin-bottom: 5px; }
-        .sgh-card b { font-size: 0.65rem; color: #334155; display: block; line-height: 1.1; }
+        /* GRILLE SGH CORRIGÉE */
+        .sgh-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .sgh-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .sgh-card:hover { border-color: var(--r-blue); background: #f0f7ff; }
+        .sgh-card img { width: 100%; height: auto; aspect-ratio: 1/1; object-fit: contain; margin-bottom: 5px; }
+        .sgh-card b { font-size: 0.6rem; color: #334155; display: block; line-height: 1.1; }
 
+        .prevention-badge { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px; font-size: 0.85rem; margin-top: 10px; border-radius: 5px; }
         .btn-restev { border-radius: 50px; font-weight: bold; padding: 12px; width: 100%; border: none; margin-top: 10px; display: block; text-align: center; text-decoration: none; }
-        .prevention-badge { background: #fff3e0; border-left: 3px solid #ff9800; padding: 5px 10px; font-size: 0.85rem; margin-top: 10px; }
     </style>
 </head>
 <body>
 
+    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="text-center bg-white p-5 rounded-5 shadow">
             <div class="header-brand h2 mb-3">
@@ -55,9 +56,9 @@
         </div>
     </div>
 
+    <!-- HEADER -->
     <div class="app-header">
         <div class="header-brand">
-            <img src="logo-restev_2.png" height="30" alt="" onerror="this.style.display='none'">
             <span class="logo-box">R</span><span style="color: var(--r-blue); font-weight: 800;">ESTEV</span><span style="color: var(--r-yellow); font-weight: 800;">85</span>
         </div>
     </div>
@@ -66,9 +67,8 @@
     <div id="page-home" class="app-page active-page">
         <div class="card-custom" style="background: var(--r-blue); color: white; border: none;">
             <h5>Espace Prévention</h5>
-            <p class="small mb-0">Sélectionnez un outil ci-dessous :</p>
+            <p class="small mb-0">Sélectionnez un outil :</p>
         </div>
-        
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
                 <div class="card-custom text-center py-4"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><b>SCAN FDS</b></div>
@@ -76,32 +76,28 @@
             <div class="col-6" onclick="nav('page-sgh', 'nav-sgh')">
                 <div class="card-custom text-center py-4"><i class="fa-solid fa-biohazard fa-2x mb-2 text-danger"></i><br><b>SGH / DANGER</b></div>
             </div>
-            <div class="col-12" onclick="nav('page-metiers', 'nav-metiers')">
-                <div class="card-custom text-center py-3"><i class="fa-solid fa-helmet-safety fa-xl mb-2 text-success"></i><br><b>GUIDE MÉTIERS (20+)</b></div>
-            </div>
         </div>
     </div>
 
-    <!-- PAGE SGH INTEGRÉE -->
+    <!-- PAGE SGH AVEC TES IMAGES -->
     <div id="page-sgh" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>Symboles SGH</h5>
-        <p class="small text-muted mb-3">Cliquez sur un symbole pour voir les mesures de prévention.</p>
         <div id="sgh-list" class="sgh-container"></div>
     </div>
 
-    <!-- MODAL POUR DÉTAILS SGH -->
+    <!-- MODAL DÉTAILS -->
     <div class="modal fade" id="sghModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow" style="border-radius: 20px;">
                 <div class="modal-body text-center p-4">
-                    <img id="modal-img" src="" style="width: 80px;" class="mb-3">
+                    <img id="modal-img" src="" style="width: 100px;" class="mb-3">
                     <h4 id="modal-title" class="fw-bold"></h4>
                     <hr>
                     <div class="text-start">
-                        <p class="small"><strong>Description :</strong> <span id="modal-desc"></span></p>
+                        <p class="small"><strong>Risques :</strong> <span id="modal-desc"></span></p>
                         <div id="modal-h" class="mb-2"></div>
                         <div class="prevention-badge">
-                            <strong>Prévention :</strong><br>
+                            <strong>Conseils de Prévention :</strong><br>
                             <span id="modal-p"></span>
                         </div>
                     </div>
@@ -111,27 +107,17 @@
         </div>
     </div>
 
-    <!-- PAGE SCAN -->
+    <!-- AUTRES PAGES (SCAN / METIERS) -->
     <div id="page-scan" class="app-page">
-        <div class="card-custom">
-            <div id="reader" style="width:100%; border-radius: 10px;"></div>
-            <button class="btn-restev bg-dark text-white mt-3" onclick="startScanner()">SCANNER UN CODE</button>
-        </div>
-        <div id="res-area" class="d-none">
-            <div class="card-custom" style="border-left-color: var(--r-teal);">
-                <p>Produit : <b id="res-code"></b></p>
-                <a id="fds-link" target="_blank" class="btn-restev bg-danger text-white">VOIR LA FDS (PDF)</a>
-            </div>
-        </div>
+        <div class="card-custom"><div id="reader"></div></div>
     </div>
 
-    <!-- PAGE METIERS -->
     <div id="page-metiers" class="app-page">
-        <h5 class="fw-bold mb-3">Prévention par Métier</h5>
+        <h5 class="fw-bold mb-3">Prévention Métiers</h5>
         <div id="metiers-list"></div>
     </div>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION BOTTOM -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCAN</button>
@@ -140,78 +126,44 @@
     </nav>
 
     <script>
-        // DONNÉES SGH FUSIONNÉES (Source: Documents fournis)[cite: 1]
-       // Correction des chemins d'accès aux images (noms système)[cite: 1]
+        // BASE DE DONNÉES AVEC TES NOMS DE FICHIERS EXACTS[cite: 1]
         const sghData = [
-            {id: "SGH08", t: "Danger Santé", img: "input_file_0.png", d: "Effets CMR (Cancérogène, Mutagène, Reprotoxique).", h: "H330: Mortel par inhalation.", p: "Manipuler sous hotte aspirante ou protection spécifique[cite: 1]."},
-            {id: "SGH01", t: "Explosif", img: "input_file_1.png", d: "Substances explosibles ou auto-réactives.", h: "H200: Explosif instable.", p: "Éviter les chocs, les frottements et la chaleur[cite: 1]."},
-            {id: "SGH02", t: "Inflammable", img: "input_file_2.png", d: "Gaz, liquides ou solides inflammables.", h: "H220: Gaz extrêmement inflammable.", p: "P210: Tenir à l'écart de la chaleur et des flammes. Ne pas fumer[cite: 1]."},
-            {id: "SGH03", t: "Comburant", img: "input_file_3.png", d: "Provoque ou aggrave un incendie.", h: "H270: Peut provoquer un incendie.", p: "Stocker loin des matières inflammables[cite: 1]."},
-            {id: "SGH04", t: "Gaz sous pression", img: "input_file_4.png", d: "Gaz comprimé ou liquéfié.", h: "H280: Peut exploser sous la chaleur.", p: "P403: Stocker dans un endroit bien ventilé[cite: 1]."},
-            {id: "SGH05", t: "Corrosif", img: "input_file_5.png", d: "Corrosif pour les métaux ou la peau.", h: "H290: Peut être corrosif pour les métaux.", p: "P280: Porter des gants et lunettes de protection[cite: 1]."},
-            {id: "SGH06", t: "Toxique Aigu", img: "input_file_6.png", d: "Mortel ou toxique par ingestion ou contact.", h: "H300: Mortel en cas d'ingestion.", p: "P301+P310: Appeler immédiatement un centre antipoison[cite: 1]."},
-            {id: "SGH07", t: "Irritant / Nocif", img: "input_file_7.png", d: "Irrite la peau, les yeux ou les voies respiratoires.", h: "H314: Provoque des brûlures graves.", p: "P260: Ne pas respirer les poussières/vapeurs[cite: 1]."},
-            {id: "SGH09", t: "Environnement", img: "input_file_8.png", d: "Toxique pour les organismes aquatiques.", h: "H410: Très toxique pour la vie aquatique.", p: "P501: Éliminer selon la réglementation en vigueur[cite: 1]."}
-        ];
-        const metiers = [
-            {m: "Agent d'entretien", r: "Chimique, Chutes", p: "Gants, chaussures sécu"},
-            {m: "Boulanger", r: "Farine, Brûlures", p: "Aspiration, gants chaleur"},
-            {m: "Carrossier", r: "Solvants, Poussières", p: "Masque A2P3, lunettes"},
-            {m: "Coiffeur", r: "Allergies, Postures", p: "Gants, tabouret ergonomique"},
-            {m: "Maçon", r: "Manutention, Silice", p: "Casque, gants, genouillères"},
-            {m: "Mécanicien", r: "Huiles, Bruit", p: "Fontaine de lavage, bouchons"},
-            {m: "Peintre", r: "Chutes, Solvants", p: "Masque, échafaudage conforme"},
-            {m: "Soudeur", r: "Fumées, Rayons", p: "Cagoule LCD, aspiration"}
+            {t: "Explosif", img: "SGH01_BombeExplosant.jpg", d: "Matières explosibles, auto-réactives.", h: "H200: Explosif instable.", p: "Éviter chocs et chaleur[cite: 1]."},
+            {t: "Inflammable", img: "SGH02_Flamme.jpg", d: "Gaz, liquides ou solides inflammables.", h: "H220: Extrêmement inflammable.", p: "P210: Éloigner des flammes/étincelles[cite: 1]."},
+            {t: "Comburant", img: "SGH03_FlammeSurCercle.jpg", d: "Peut aggraver un incendie.", h: "H270: Gaz comburant.", p: "Stocker loin des combustibles[cite: 1]."},
+            {t: "Gaz Pression", img: "SGH04_BouteilleGaz.jpg", d: "Gaz sous pression, peut exploser.", h: "H280: Gaz sous pression.", p: "Protéger du rayonnement solaire[cite: 1]."},
+            {t: "Corrosif", img: "SGH05_Corrosion.jpg", d: "Provoque des brûlures graves.", h: "H290/H314: Corrosif.", p: "P280: Porter gants et lunettes[cite: 1]."},
+            {t: "Toxique", img: "SGH06_TêteDeMort.jpg", d: "Mortel en cas d'ingestion/inhalation.", h: "H300: Mortel.", p: "P301: Appeler le CENTRE ANTIPOISON[cite: 1]."},
+            {t: "Nocif", img: "SGH07_PointExclamation.jpg", d: "Irritant pour la peau et les yeux.", h: "H315/H319: Irritant.", p: "P260: Ne pas respirer les poussières[cite: 1]."},
+            {t: "Danger Santé", img: "SGH08_DangerSante.jpg", d: "Effets graves (cancer, mutation).", h: "H350: Peut provoquer le cancer.", p: "Utiliser avec ventilation spécifique[cite: 1]."},
+            {t: "Environnement", img: "SGH09_Environnement.jpg", d: "Toxique pour la vie aquatique.", h: "H400: Très toxique.", p: "P501: Ne pas jeter à l'égout[cite: 1]."}
         ];
 
-        function startApp() { 
-            document.getElementById('splash').style.display='none'; 
-            renderSGH(); 
-            renderMetiers(); 
+        function startApp() { document.getElementById('splash').style.display='none'; renderSGH(); }
+
+        function renderSGH() {
+            document.getElementById('sgh-list').innerHTML = sghData.map((x, i) => `
+                <div class="sgh-card" onclick="showSghDetail(${i})">
+                    <img src="${x.img}" alt="${x.t}" onerror="this.src='https://placehold.co/100x100?text=Erreur+Image'">
+                    <b>${x.t}</b>
+                </div>`).join('');
         }
-        
+
+        function showSghDetail(i) {
+            const d = sghData[i];
+            document.getElementById('modal-img').src = d.img;
+            document.getElementById('modal-title').innerText = d.t;
+            document.getElementById('modal-desc').innerText = d.d;
+            document.getElementById('modal-h').innerHTML = `<span class="badge bg-danger">${d.h}</span>`;
+            document.getElementById('modal-p').innerText = d.p;
+            new bootstrap.Modal(document.getElementById('sghModal')).show();
+        }
+
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             if(typeof el === 'string') document.getElementById(el).classList.add('active'); else el.classList.add('active');
-        }
-
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map((x, index) => `
-                <div class="sgh-card" onclick="showSghDetail(${index})">
-                    <img src="${x.img}" alt="${x.id}">
-                    <b>${x.t}</b>
-                </div>`).join('');
-        }
-
-        function showSghDetail(index) {
-            const data = sghData[index];
-            document.getElementById('modal-img').src = data.img;
-            document.getElementById('modal-title').innerText = data.t;
-            document.getElementById('modal-desc').innerText = data.d;
-            document.getElementById('modal-h').innerHTML = `<span class="badge bg-danger">${data.h}</span>`;
-            document.getElementById('modal-p').innerText = data.p;
-            new bootstrap.Modal(document.getElementById('sghModal')).show();
-        }
-
-        function renderMetiers() {
-            document.getElementById('metiers-list').innerHTML = metiers.map(x => `
-                <div class="card-custom">
-                    <b class="text-primary">${x.m}</b><br>
-                    <small>Risques : ${x.r} | Prévention : ${x.p}</small>
-                </div>`).join('');
-        }
-
-        let sc;
-        function startScanner() {
-            if(!sc) sc = new Html5Qrcode("reader");
-            sc.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (t) => {
-                document.getElementById('res-code').innerText = t;
-                document.getElementById('fds-link').href = `https://www.google.com/search?q=FDS+PDF+${t}`;
-                document.getElementById('res-area').classList.remove('d-none');
-                sc.stop();
-            }).catch(err => alert("Erreur caméra : " + err));
         }
     </script>
 </body>
