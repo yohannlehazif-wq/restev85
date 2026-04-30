@@ -280,4 +280,22 @@
             link.click();
         }
 
-        //
+        // Scanner
+        let scanner;
+        async function startScanner() {
+            try {
+                if(!scanner) scanner = new Html5Qrcode("reader");
+                scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
+                    document.getElementById('prod-code').value = text;
+                    scanner.stop();
+                });
+            } catch (err) { alert("Erreur caméra : vérifiez les autorisations."); }
+        }
+
+        window.onload = () => {
+            updateStats();
+            renderCentres();
+        };
+    </script>
+</body>
+</html>
