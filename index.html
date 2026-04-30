@@ -79,6 +79,17 @@
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
+
+        <!-- GUIDE FDS PEDAGOGIQUE -->
+        <div class="mt-4 p-3 bg-white rounded-4 border shadow-sm">
+            <h6 class="fw-bold text-primary"><i class="fa-solid fa-magnifying-glass-chart me-2"></i>Où lire une FDS ?</h6>
+            <ul class="small text-muted ps-3 mb-0">
+                <li><b>Section 2 :</b> Dangers (Phrases H & P)</li>
+                <li><b>Section 4 :</b> Premiers secours</li>
+                <li><b>Section 8 :</b> EPI (Gants, masques...)</li>
+            </ul>
+            <button class="btn btn-sm btn-link text-primary p-0 mt-2 fw-bold" onclick="showFDSHelp()">VOIR LE GUIDE COMPLET</button>
+        </div>
     </div>
 
     <!-- INVENTAIRE -->
@@ -242,18 +253,35 @@
         function renderInventory() {
             const container = document.getElementById('inventory-container');
             container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Inventaire vide.</p>' : '';
+            
             inventory.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'card-custom';
-                div.innerHTML = `<b>${item.name}</b><br><small>${item.code || ''}</small>
-                    <a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary w-100 mt-2">FDS Google</a>
-                    <button class="btn btn-link btn-sm text-danger p-0 mt-1" onclick="deleteItem(${item.id})">Supprimer</button>`;
+                div.className = 'card-custom d-flex align-items-start';
+                div.innerHTML = `
+                    <div class="me-3 mt-1 text-center">
+                        <i class="fa-solid fa-file-pdf fa-2x text-danger"></i>
+                        <span class="d-block text-muted mt-1" style="font-size:0.5rem">FDS</span>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                            <b class="text-dark">${item.name}</b>
+                        </div>
+                        <small class="text-muted d-block mb-2">Code: ${item.code || 'N/A'}</small>
+                        <div class="d-flex gap-2">
+                            <a href="${item.fds}" target="_blank" class="btn btn-sm btn-primary flex-grow-1" style="border-radius:10px;">Consulter FDS</a>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>`;
                 container.appendChild(div);
             });
         }
 
         function deleteItem(id) { inventory = inventory.filter(i => i.id !== id); localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory)); renderInventory(); updateStats(); }
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; }
+
+        function showFDSHelp() {
+            alert(`📑 GUIDE RAPIDE FDS\n\nUne FDS contient 16 sections. Voici les 4 plus importantes :\n\n1️⃣ SECTION 2 : Identification des dangers\nC'est ici que vous trouverez les mentions de danger (ex: H315) et les conseils de prudence.\n\n2️⃣ SECTION 4 : Premiers secours\nQue faire en cas d'accident ? À lire AVANT la manipulation.\n\n3️⃣ SECTION 8 : EPI\nIndique précisément quel type de gants ou de masque utiliser.\n\n4️⃣ SECTION 13 : Élimination\nComment recycler le produit sans polluer.`);
+        }
 
         let scanner;
         function startScanner() {
