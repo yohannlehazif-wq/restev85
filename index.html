@@ -329,9 +329,6 @@
                         <a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mb-1">
                             <i class="fa-solid fa-magnifying-glass me-1"></i> Rechercher la FDS
                         </a>
-                        <p class="small text-muted mt-1 mb-0" style="font-size: 0.7rem;">
-                            <i class="fa-solid fa-circle-info me-1"></i> FDS introuvable ? Contactez votre fournisseur ou votre conseiller RESTEV.
-                        </p>
                     </div>
                 </div>`;
             });
@@ -368,7 +365,6 @@
                     <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
                     <div class="d-flex gap-2">
                         <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.n + ' ' + c.a)}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Y aller</a>
                     </div>
                 </div>`).join('');
         }
@@ -411,59 +407,41 @@
         function dismissSplash() { document.getElementById('splash').style.opacity = '0'; setTimeout(() => document.getElementById('splash').style.display = 'none', 800); }
         window.onload = () => { updateStats(); showQuestion(); };
 
+        // FONCTION PDF AVEC OUVERTURE DIRECTE
         function generatePDFProof() {
             if (inventory.length === 0) {
-                return alert("Votre inventaire est vide. Ajoutez au moins un produit pour générer l'attestation.");
+                return alert("Votre inventaire est vide.");
             }
             
-            const companyName = prompt("Entrez le nom de votre entreprise pour l'attestation officielle :");
+            const companyName = prompt("Nom de l'entreprise :");
             if (!companyName) return; 
 
-            // Initialisation corrigée pour la version UMD de jsPDF
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
             doc.setFontSize(16);
             doc.setTextColor(48, 101, 168); 
-            doc.text("ATTESTATION D'INVENTAIRE - RISQUES CHIMIQUES", 14, 20);
+            doc.text("ATTESTATION D'INVENTAIRE - RESTEV 85", 14, 20);
 
             doc.setFontSize(11);
             doc.setTextColor(0, 0, 0);
             doc.text(`Entreprise : ${companyName}`, 14, 32);
-            const date = new Date().toLocaleDateString('fr-FR');
-            doc.text(`Date d'édition : ${date}`, 14, 38);
-            doc.text(`Produits recensés : ${inventory.length} produit(s)`, 14, 44);
+            doc.text(`Date d'édition : ${new Date().toLocaleDateString('fr-FR')}`, 14, 38);
 
-            doc.setFontSize(10);
-            doc.setTextColor(80, 80, 80);
-            doc.text("Ce document atteste que l'entreprise a procédé à l'inventaire de ses produits", 14, 55);
-            doc.text("chimiques dans le cadre de sa démarche de prévention et de mise à jour du DUERP.", 14, 60);
+            const tableData = inventory.map((item, index) => [index + 1, item.name.toUpperCase(), item.code || "-"]);
 
-            const tableData = inventory.map((item, index) => [
-                index + 1,
-                item.name,
-                item.code || "Saisie manuelle"
-            ]);
-
-            // Utilisation du plugin autotable
             doc.autoTable({
-                startY: 68,
-                head: [['N°', 'Nom du produit identifié', 'Référence / Code barre']],
+                startY: 50,
+                head: [['N°', 'Nom du produit', 'Code barre']],
                 body: tableData,
                 theme: 'striped',
-                headStyles: { fillColor: [48, 101, 168] },
-                styles: { fontSize: 9 }
+                headStyles: { fillColor: [48, 101, 168] }
             });
 
-            const pageCount = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) {
-                doc.setPage(i);
-                doc.setFontSize(8);
-                doc.setTextColor(150, 150, 150);
-                doc.text("Document généré via l'application RESTEV 85 - Preuve d'action de prévention", 14, doc.internal.pageSize.height - 10);
-            }
-
-            doc.save(`Attestation_Inventaire_${companyName.replace(/\s+/g, '_')}.pdf`);
+            // Conversion en Blob pour ouverture directe
+            const blob = doc.output('blob');
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
         }
     </script>
 </body>
