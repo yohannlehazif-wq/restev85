@@ -368,7 +368,7 @@
                     <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
                     <div class="d-flex gap-2">
                         <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                        <a href="https://www.google.com/maps/search/${encodeURIComponent(c.n + ' ' + c.a)}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Y aller</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.n + ' ' + c.a)}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Y aller</a>
                     </div>
                 </div>`).join('');
         }
@@ -411,25 +411,22 @@
         function dismissSplash() { document.getElementById('splash').style.opacity = '0'; setTimeout(() => document.getElementById('splash').style.display = 'none', 800); }
         window.onload = () => { updateStats(); showQuestion(); };
 
-        // Ajout de la fonction pour générer l'attestation PDF
         function generatePDFProof() {
             if (inventory.length === 0) {
                 return alert("Votre inventaire est vide. Ajoutez au moins un produit pour générer l'attestation.");
             }
             
             const companyName = prompt("Entrez le nom de votre entreprise pour l'attestation officielle :");
-            if (!companyName) return; // Annulation si vide
+            if (!companyName) return; 
 
-            // Initialisation du PDF
+            // Initialisation corrigée pour la version UMD de jsPDF
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            // Titre officiel
             doc.setFontSize(16);
-            doc.setTextColor(48, 101, 168); // Bleu RESTEV
+            doc.setTextColor(48, 101, 168); 
             doc.text("ATTESTATION D'INVENTAIRE - RISQUES CHIMIQUES", 14, 20);
 
-            // Informations de l'entreprise et date
             doc.setFontSize(11);
             doc.setTextColor(0, 0, 0);
             doc.text(`Entreprise : ${companyName}`, 14, 32);
@@ -437,19 +434,18 @@
             doc.text(`Date d'édition : ${date}`, 14, 38);
             doc.text(`Produits recensés : ${inventory.length} produit(s)`, 14, 44);
 
-            // Phrase de déclaration pour les contrôles
             doc.setFontSize(10);
             doc.setTextColor(80, 80, 80);
             doc.text("Ce document atteste que l'entreprise a procédé à l'inventaire de ses produits", 14, 55);
             doc.text("chimiques dans le cadre de sa démarche de prévention et de mise à jour du DUERP.", 14, 60);
 
-            // Tableau des produits
             const tableData = inventory.map((item, index) => [
                 index + 1,
                 item.name,
                 item.code || "Saisie manuelle"
             ]);
 
+            // Utilisation du plugin autotable
             doc.autoTable({
                 startY: 68,
                 head: [['N°', 'Nom du produit identifié', 'Référence / Code barre']],
@@ -459,7 +455,6 @@
                 styles: { fontSize: 9 }
             });
 
-            // Pied de page
             const pageCount = doc.internal.getNumberOfPages();
             for (let i = 1; i <= pageCount; i++) {
                 doc.setPage(i);
@@ -468,7 +463,6 @@
                 doc.text("Document généré via l'application RESTEV 85 - Preuve d'action de prévention", 14, doc.internal.pageSize.height - 10);
             }
 
-            // Sauvegarde automatique du fichier
             doc.save(`Attestation_Inventaire_${companyName.replace(/\s+/g, '_')}.pdf`);
         }
     </script>
