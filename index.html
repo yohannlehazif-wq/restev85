@@ -17,6 +17,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -190,7 +194,16 @@
 
     <div id="page-list" class="app-page">
         <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-        <button class="btn-excel" onclick="exportToCSV()"><i class="fa-solid fa-file-excel"></i> EXPORTER (CSV)</button>
+        
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn-excel flex-grow-1 mb-0" onclick="exportToCSV()" style="border-radius: 12px; font-size: 0.85rem;">
+                <i class="fa-solid fa-file-csv"></i> EXPORT (CSV)
+            </button>
+            <button class="btn btn-danger flex-grow-1 fw-bold text-white shadow-sm mb-0" onclick="generatePDFProof()" style="border-radius: 12px; font-size: 0.85rem;">
+                <i class="fa-solid fa-file-pdf"></i> ATTESTATION
+            </button>
+        </div>
+
         <div id="inventory-container"></div>
     </div>
 
@@ -397,6 +410,67 @@
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`; }
         function dismissSplash() { document.getElementById('splash').style.opacity = '0'; setTimeout(() => document.getElementById('splash').style.display = 'none', 800); }
         window.onload = () => { updateStats(); showQuestion(); };
+
+        // Ajout de la fonction pour générer l'attestation PDF
+        function generatePDFProof() {
+            if (inventory.length === 0) {
+                return alert("Votre inventaire est vide. Ajoutez au moins un produit pour générer l'attestation.");
+            }
+            
+            const companyName = prompt("Entrez le nom de votre entreprise pour l'attestation officielle :");
+            if (!companyName) return; // Annulation si vide
+
+            // Initialisation du PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Titre officiel
+            doc.setFontSize(16);
+            doc.setTextColor(48, 101, 168); // Bleu RESTEV
+            doc.text("ATTESTATION D'INVENTAIRE - RISQUES CHIMIQUES", 14, 20);
+
+            // Informations de l'entreprise et date
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Entreprise : ${companyName}`, 14, 32);
+            const date = new Date().toLocaleDateString('fr-FR');
+            doc.text(`Date d'édition : ${date}`, 14, 38);
+            doc.text(`Produits recensés : ${inventory.length} produit(s)`, 14, 44);
+
+            // Phrase de déclaration pour les contrôles
+            doc.setFontSize(10);
+            doc.setTextColor(80, 80, 80);
+            doc.text("Ce document atteste que l'entreprise a procédé à l'inventaire de ses produits", 14, 55);
+            doc.text("chimiques dans le cadre de sa démarche de prévention et de mise à jour du DUERP.", 14, 60);
+
+            // Tableau des produits
+            const tableData = inventory.map((item, index) => [
+                index + 1,
+                item.name,
+                item.code || "Saisie manuelle"
+            ]);
+
+            doc.autoTable({
+                startY: 68,
+                head: [['N°', 'Nom du produit identifié', 'Référence / Code barre']],
+                body: tableData,
+                theme: 'striped',
+                headStyles: { fillColor: [48, 101, 168] },
+                styles: { fontSize: 9 }
+            });
+
+            // Pied de page
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text("Document généré via l'application RESTEV 85 - Preuve d'action de prévention", 14, doc.internal.pageSize.height - 10);
+            }
+
+            // Sauvegarde automatique du fichier
+            doc.save(`Attestation_Inventaire_${companyName.replace(/\s+/g, '_')}.pdf`);
+        }
     </script>
 </body>
 </html>
