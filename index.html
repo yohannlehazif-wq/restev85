@@ -47,10 +47,11 @@
         .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
         
-        /* Questionnaire styles */
-        .q-step { display: none; }
-        .q-step.active { display: block; }
         .score-badge { font-size: 2rem; font-weight: bold; color: var(--r-blue); }
+
+        /* Style spécifique pour l'import de fichier */
+        .file-input-wrapper { background: #f1f5f9; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; }
+        .file-input-wrapper:active { background: #e2e8f0; }
     </style>
 </head>
 <body>
@@ -163,9 +164,17 @@
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
             <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+            
             <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
+            
+            <div class="mb-3">
+                <label class="small fw-bold text-muted mb-1">Joindre la FDS (PDF)</label>
+                <input type="file" id="prod-fds" class="form-control" accept="application/pdf">
+                <small class="text-muted" style="font-size: 0.7rem;">Stockage local pour accès hors-ligne.</small>
+            </div>
+
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
         </div>
     </div>
 
@@ -178,7 +187,9 @@
     </nav>
 
     <script>
-        let inventory = JSON.parse(localStorage.getItem('restev_inventory_v2')) || [];
+        // Utilisation de la version 3 pour forcer le rafraîchissement si besoin
+        let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+        
         const centres = [
             { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
             { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée" },
@@ -186,7 +197,6 @@
             { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" }
         ];
 
-        // Questionnaire
         const questions = [
             "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
             "Les salariés sont-ils formés aux risques spécifiques de leur poste ?",
@@ -199,8 +209,7 @@
             "Existe-t-il des sauveteurs secouristes du travail (SST) à jour ?",
             "La prévention est-elle vécue comme une valeur et non une contrainte ?"
         ];
-        let currentQ = 0;
-        let totalScore = 0;
+        let currentQ = 0, totalScore = 0;
 
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
@@ -213,93 +222,95 @@
             } else if(el) el.classList.add('active');
             if(id === 'page-list') renderInventory();
             if(id === 'page-centres') renderCentres();
-            if(id === 'page-quiz' && currentQ === 0) resetQuiz();
             window.scrollTo(0, 0);
         }
 
-        function resetQuiz() {
-            currentQ = 0; totalScore = 0;
-            document.getElementById('q-box').style.display = 'block';
-            document.getElementById('q-result').style.display = 'none';
-            showQuestion();
+        // --- GESTION INVENTAIRE ET FDS ---
+
+        function saveProduct() {
+            const name = document.getElementById('prod-name').value;
+            const code = document.getElementById('prod-code').value;
+            const fileInput = document.getElementById('prod-fds');
+            const file = fileInput.files[0];
+
+            if(!name) return alert("Veuillez saisir un nom de produit.");
+
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const productData = {
+                        id: Date.now(),
+                        name: name,
+                        code: code,
+                        fdsFile: e.target.result // Base64 du PDF
+                    };
+                    inventory.push(productData);
+                    finalizeSave();
+                };
+                reader.readAsDataURL(file);
+            } else {
+                inventory.push({ id: Date.now(), name: name, code: code, fdsFile: null });
+                finalizeSave();
+            }
         }
 
-        function showQuestion() {
-            document.getElementById('q-text').innerText = questions[currentQ];
-            document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
-        }
-
-        function quizAnswer(points) {
-            totalScore += points;
-            currentQ++;
-            if(currentQ < questions.length) showQuestion();
-            else showResult();
-        }
-
-        function showResult() {
-            document.getElementById('q-box').style.display = 'none';
-            document.getElementById('q-result').style.display = 'block';
-            document.getElementById('quiz-score').innerText = totalScore + "/30";
-            let label = ""; let advice = "";
-            if(totalScore > 24) { label = "Excellente culture !"; advice = "Votre entreprise a intégré la prévention comme un axe stratégique."; }
-            else if(totalScore > 15) { label = "Bons fondamentaux"; advice = "Des actions sont en place, mais la vigilance doit être maintenue au quotidien."; }
-            else { label = "Mise à niveau nécessaire"; advice = "Contactez votre centre RESTEV pour un accompagnement personnalisé."; }
-            document.getElementById('quiz-label').innerText = label;
-            document.getElementById('quiz-advice').innerText = advice;
-        }
-
-        function renderCentres() {
-            const container = document.getElementById('centres-list');
-            if (!container) return;
-            container.innerHTML = centres.map(x => {
-                const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent("RESTEV " + x.a)}`;
-                return `<div class="card-custom"><b>${x.n}</b><br><small class="text-muted">${x.a}</small><div class="d-flex gap-2 mt-2"><a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-white text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a><a href="${mapsUrl}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-route me-1"></i> Itinéraire</a></div></div>`;
-            }).join('');
+        function finalizeSave() {
+            localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+            document.getElementById('prod-name').value = '';
+            document.getElementById('prod-code').value = '';
+            document.getElementById('prod-fds').value = '';
+            updateStats();
+            nav('page-list', 'nav-list');
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
             if(!container) return;
             container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Aucun produit enregistré.</p>';
+            
             inventory.forEach(item => {
-                // Fonction de recherche automatique intelligente
-                const googleSearch = `https://www.google.com/search?q=fds+pdf+${item.code}+${encodeURIComponent(item.name)}+filetype:pdf`;
+                const searchUrl = `https://www.google.com/search?q=fds+pdf+${item.code}+${encodeURIComponent(item.name)}+filetype:pdf`;
                 
                 container.innerHTML += `
                 <div class="card-custom">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <b>${item.name}</b><br>
-                            <small class="text-muted">${item.code || 'Saisie manuelle'}</small>
+                            <b style="color:var(--r-blue)">${item.name}</b><br>
+                            <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Manuelle'}</small>
                         </div>
-                        <button onclick="deleteItem(${item.id})" class="btn btn-sm btn-outline-danger border-0"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger p-0"><i class="fa-solid fa-trash"></i></button>
                     </div>
                     <div class="mt-3">
-                        <a href="${googleSearch}" target="_blank" class="btn btn-sm btn-outline-primary w-100 py-2">
-                            <i class="fa-solid fa-magnifying-glass me-2"></i>Récupérer la FDS (PDF)
-                        </a>
+                        ${item.fdsFile ? 
+                            `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100 py-2">
+                                <i class="fa-solid fa-file-pdf"></i> VOIR LA FDS STOCKÉE
+                            </button>` : 
+                            `<a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-100 py-2">
+                                <i class="fa-solid fa-magnifying-glass"></i> RÉCUPÉRER LA FDS
+                            </a>`
+                        }
                     </div>
                 </div>`;
             });
         }
 
-        function saveProduct() {
-            const name = document.getElementById('prod-name').value;
-            const code = document.getElementById('prod-code').value;
-            if(!name) return alert("Veuillez saisir un nom de produit.");
-            inventory.push({ id: Date.now(), name: name, code: code });
-            localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
-            document.getElementById('prod-name').value = ''; document.getElementById('prod-code').value = '';
-            updateStats(); nav('page-list', 'nav-list');
+        function viewPDF(id) {
+            const product = inventory.find(i => i.id == id);
+            if(product && product.fdsFile) {
+                const newTab = window.open();
+                newTab.document.write(`<iframe src="${product.fdsFile}" frameborder="0" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>`);
+            }
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ce produit ?")) {
+            if(confirm("Supprimer ce produit et sa FDS ?")) {
                 inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_inventory_v2', JSON.stringify(inventory));
+                localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
                 renderInventory(); updateStats();
             }
         }
+
+        // --- AUTRES FONCTIONS ---
 
         function updateStats() {
             const el = document.getElementById('inv-stats');
@@ -309,6 +320,15 @@
         function dismissSplash() {
             const s = document.getElementById('splash');
             if(s) { s.style.opacity = '0'; setTimeout(() => s.style.display = 'none', 800); }
+        }
+
+        function renderCentres() {
+            const container = document.getElementById('centres-list');
+            if (!container) return;
+            container.innerHTML = centres.map(x => {
+                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("RESTEV " + x.a)}`;
+                return `<div class="card-custom"><b>${x.n}</b><br><small class="text-muted">${x.a}</small><div class="d-flex gap-2 mt-2"><a href="tel:${x.t}" class="btn-call flex-grow-1 justify-content-center text-white text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a><a href="${mapsUrl}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-route me-1"></i> Itinéraire</a></div></div>`;
+            }).join('');
         }
 
         function exportToCSV() {
@@ -327,9 +347,32 @@
                 scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                     document.getElementById('prod-code').value = text;
                     scanner.stop();
-                    // On pourrait aussi déclencher une recherche auto ici
+                    alert("Produit identifié ! Vous pouvez maintenant ajouter son nom et joindre la FDS.");
                 });
             } catch (err) { alert("Erreur caméra : vérifiez les autorisations."); }
+        }
+
+        // Quiz Logic
+        function resetQuiz() {
+            currentQ = 0; totalScore = 0;
+            document.getElementById('q-box').style.display = 'block';
+            document.getElementById('q-result').style.display = 'none';
+            showQuestion();
+        }
+        function showQuestion() {
+            document.getElementById('q-text').innerText = questions[currentQ];
+            document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+        }
+        function quizAnswer(p) {
+            totalScore += p; currentQ++;
+            if(currentQ < questions.length) showQuestion(); else showResult();
+        }
+        function showResult() {
+            document.getElementById('q-box').style.display = 'none';
+            document.getElementById('q-result').style.display = 'block';
+            document.getElementById('quiz-score').innerText = totalScore + "/30";
+            let l = totalScore > 24 ? "Excellente culture !" : totalScore > 15 ? "Bons fondamentaux" : "Mise à niveau nécessaire";
+            document.getElementById('quiz-label').innerText = l;
         }
 
         window.onload = () => { updateStats(); renderCentres(); };
