@@ -463,8 +463,6 @@
                 doc.text("Document généré via l'application RESTEV 85 - Preuve d'action de prévention", 14, doc.internal.pageSize.height - 10);
             }
 
-            doc.save(`Attestation_Inventaire_${companyName.replace(/\s+/g, '_')}.pdf`);
-        }
-    </script>
+            window.open(doc.output('bloburl'), '_blank');
 </body>
 </html>
