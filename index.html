@@ -91,7 +91,7 @@
         
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER PRODUIT</small></div>
             </div>
             <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
@@ -303,15 +303,22 @@
             const container = document.getElementById('inventory-container');
             container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
             inventory.forEach(item => {
+                const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}`;
                 container.innerHTML += `
                 <div class="card-custom">
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
                             <b style="color:var(--r-blue)">${item.name}</b><br>
                             <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
                         </div>
                         <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger p-0"><i class="fa-solid fa-trash"></i></button>
                     </div>
+                    <a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-secondary w-100 mt-1" style="border-radius: 10px;">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>Chercher la FDS sur le web
+                    </a>
+                    <p class="small text-muted mt-2 mb-0" style="font-size: 0.7rem; font-style: italic;">
+                        *Si vous ne trouvez pas la FDS en ligne, demandez-la directement à votre fournisseur (obligation réglementaire).
+                    </p>
                 </div>`;
             });
         }
