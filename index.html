@@ -50,20 +50,20 @@
             color: #0d6efd !important; 
         }
 
-        /* Tuiles Accueil avec couleurs différenciées */
+        /* Tuiles Accueil */
         .tile-blue { background-color: #f0f7ff !important; border-left-color: var(--r-blue) !important; }
         .tile-red { background-color: #fff5f5 !important; border-left-color: #dc3545 !important; }
         .tile-yellow { background-color: #fffbeb !important; border-left-color: var(--r-yellow) !important; }
-        .tile-green { background-color: #f0fdf4 !important; border-left-color: #22c55e !important; } /* Vert Inventaire */
+        .tile-green { background-color: #f0fdf4 !important; border-left-color: var(--r-teal) !important; }
         .tile-purple { background-color: #faf5ff !important; border-left-color: var(--r-purple) !important; }
-        .tile-orange { background-color: #fff7ed !important; border-left-color: #ea580c !important; } /* Orange Aides */
+        .tile-teal { background-color: #f0fdfa !important; border-left-color: #0d9488 !important; }
         .tile-gray { background-color: #f8fafc !important; border-left-color: #64748b !important; }
         .tile-dark { background-color: #f1f5f9 !important; border-left-color: #475569 !important; }
 
         .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .sgh-card { display: flex; gap: 15px; align-items: center; }
         .sgh-img { width: 65px; height: 65px; object-fit: contain; }
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
         .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
     </style>
 </head>
@@ -97,13 +97,9 @@
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-3 mb-0 tile-blue"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold">SCANNER FDS</small></div></div>
             <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom text-center py-3 mb-0 tile-red"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold">AUTO-DIAG</small></div></div>
             <div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-yellow"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">LEXIQUE SGH</small></div></div>
-            
             <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-3 mb-0 tile-green"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div></div>
-            
             <div class="col-6" onclick="nav('page-services', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-purple"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color:var(--r-purple)"></i><br><small class="fw-bold">OFFRE RESTEV</small></div></div>
-            
-            <div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-orange"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color:#ea580c"></i><br><small class="fw-bold">AIDES & ACTUS</small></div></div>
-            
+            <div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-teal"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color:#0d9488"></i><br><small class="fw-bold">AIDES & ACTUS</small></div></div>
             <div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-gray"><i class="fa-solid fa-file-shield fa-2x mb-2 text-secondary"></i><br><small class="fw-bold">GUIDE FDS</small></div></div>
             <div class="col-6" onclick="nav('page-centres', 'nav-centres')"><div class="card-custom text-center py-3 mb-0 tile-dark"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-dark"></i><br><small class="fw-bold">NOS CENTRES</small></div></div>
         </div>
@@ -153,7 +149,7 @@
 
     <div id="page-services" class="app-page">
         <h5 class="fw-bold mb-3">L'offre Socle RESTEV</h5>
-        <div class="card-custom" style="border-left-color: var(--r-blue)">
+        <div class="card-custom">
             <div class="badge-service">INCLUS</div>
             <h6>Accompagnement IPRP</h6>
             <p class="small text-muted mb-0">Aide à la rédaction de votre DUERP et conseil en prévention des risques.</p>
@@ -175,12 +171,11 @@
         <div class="card-custom" style="border-left-color: #e6a00f">
             <h6>CARSAT : Subventions TPE</h6>
             <p class="small text-muted">Aides pour l'achat de matériel de captage, levage ou protection chimique.</p>
-            <a href="https://www.carsat-pdl.fr/" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-dark w-100">Voir les aides CARSAT</a>
+            <a href="https://www.carsat-pdl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Voir les aides</a>
         </div>
         <div class="card-custom" style="border-left-color: #dc3545">
             <h6>OPPBTP / PRO BTP</h6>
             <p class="small text-muted">Aides spécifiques aux métiers du bâtiment et des travaux publics.</p>
-            <a href="https://www.preventionbtp.fr/" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-dark w-100">Voir les aides OPPBTP</a>
         </div>
     </div>
 
@@ -260,7 +255,7 @@
             const c = document.getElementById('inventory-container');
             c.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
             inventory.forEach(item => {
-                c.innerHTML += `<div class="card-custom" style="border-left-color: var(--r-teal);"><div class="d-flex justify-content-between"><div><b>${item.name}</b><br><small>Code: ${item.code || 'N/A'}</small></div><button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button></div><div class="mt-3">${item.fdsFile ? `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100">VOIR FDS</button>` : `<button onclick="triggerFileInput(${item.id})" class="btn btn-sm btn-outline-secondary w-100">JOINDRE FDS (PDF)</button>`}</div></div>`;
+                c.innerHTML += `<div class="card-custom"><div class="d-flex justify-content-between"><div><b>${item.name}</b><br><small>Code: ${item.code || 'N/A'}</small></div><button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button></div><div class="mt-3">${item.fdsFile ? `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100">VOIR FDS</button>` : `<button onclick="triggerFileInput(${item.id})" class="btn btn-sm btn-outline-secondary w-100">JOINDRE FDS (PDF)</button>`}</div></div>`;
             });
         }
 
@@ -329,24 +324,11 @@
         }
 
         function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-                <div class="card-custom sgh-card" style="border-left-color: var(--r-yellow)">
-                    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=SGH'">
-                    <div><b>${s.title}</b><br><small>${s.desc}</small></div>
-                </div>
-            `).join('');
+            document.getElementById('sgh-list').innerHTML = sghData.map(s => `<div class="card-custom sgh-card"><img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=SGH'"><div><b>${s.title}</b><br><small>${s.desc}</small></div></div>`).join('');
         }
 
         function renderCentres() {
-            document.getElementById('centres-list').innerHTML = centres.map(c => `
-                <div class="card-custom" style="border-left-color: #475569">
-                    <b>${c.n}</b><br><small>${c.a}</small><br>
-                    <div class="d-flex gap-2 mt-3">
-                        <a href="tel:${c.t}" class="btn-call flex-fill"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.a)}" target="_blank" class="btn-call flex-fill" style="background:#0d9488;"><i class="fa-solid fa-route me-2"></i>Y aller</a>
-                    </div>
-                </div>
-            `).join('');
+            document.getElementById('centres-list').innerHTML = centres.map(c => `<div class="card-custom"><b>${c.n}</b><br><small>${c.a}</small><br><a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a></div>`).join('');
         }
 
         function startScanner() {
