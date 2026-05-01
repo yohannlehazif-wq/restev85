@@ -41,15 +41,16 @@
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        /* FIX BOUTONS QUIZ */
-        .quiz-btn { transition: background 0.2s; }
+        /* FIX BOUTONS QUIZ SANS FOCUS PERSISTANT */
+        .quiz-btn { transition: all 0.2s ease; }
         .quiz-btn:focus, .quiz-btn:active, .quiz-btn:focus-visible { 
             outline: none !important; 
             box-shadow: none !important; 
             background-color: transparent !important; 
-            color: #0d6efd !important;
+            color: #0d6efd !important; 
         }
 
+        /* Tuiles Accueil */
         .tile-blue { background-color: #f0f7ff !important; border-left-color: var(--r-blue) !important; }
         .tile-red { background-color: #fff5f5 !important; border-left-color: #dc3545 !important; }
         .tile-yellow { background-color: #fffbeb !important; border-left-color: var(--r-yellow) !important; }
@@ -63,6 +64,7 @@
         .sgh-card { display: flex; gap: 15px; align-items: center; }
         .sgh-img { width: 65px; height: 65px; object-fit: contain; }
         .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
+        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -110,13 +112,13 @@
     </div>
 
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Identifier un produit</h5>
+        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
             <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
             <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">AJOUTER À L'INVENTAIRE</button>
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
         </div>
     </div>
 
@@ -146,26 +148,46 @@
     </div>
 
     <div id="page-services" class="app-page">
-        <h5 class="fw-bold mb-3">Offre de Services RESTEV</h5>
-        <div class="card-custom"><h6>Conseil en Prévention</h6><p class="small">Accompagnement IPRP pour votre DUERP.</p></div>
-        <div class="card-custom"><h6>Suivi Individuel</h6><p class="small">Visites médicales et entretiens infirmiers.</p></div>
-        <div class="card-custom"><h6>Actions en Milieu de Travail</h6><p class="small">Études de postes et métrologie.</p></div>
+        <h5 class="fw-bold mb-3">L'offre Socle RESTEV</h5>
+        <div class="card-custom">
+            <div class="badge-service">INCLUS</div>
+            <h6>Accompagnement IPRP</h6>
+            <p class="small text-muted mb-0">Aide à la rédaction de votre DUERP et conseil en prévention des risques.</p>
+        </div>
+        <div class="card-custom" style="border-left-color: var(--r-purple)">
+            <div class="badge-service">INCLUS</div>
+            <h6>Suivi Individuel Santé</h6>
+            <p class="small text-muted mb-0">Visites médicales, entretiens infirmiers et suivi vaccinal selon les risques.</p>
+        </div>
+        <div class="card-custom" style="border-left-color: var(--r-teal)">
+            <div class="badge-service">INCLUS</div>
+            <h6>Actions AMT</h6>
+            <p class="small text-muted mb-0">Métrologie (bruit, lumière), études de postes et sensibilisations collectives.</p>
+        </div>
     </div>
 
     <div id="page-aides" class="app-page">
         <h5 class="fw-bold mb-3">Aides Financières</h5>
-        <div class="card-custom"><h6>CARSAT Pays de la Loire</h6><p class="small">Subventions TPE pour vos équipements.</p></div>
-        <div class="card-custom"><h6>INRS</h6><p class="small">Guides techniques et documentation gratuite.</p></div>
+        <div class="card-custom" style="border-left-color: #e6a00f">
+            <h6>CARSAT : Subventions TPE</h6>
+            <p class="small text-muted">Aides pour l'achat de matériel de captage, levage ou protection chimique.</p>
+            <a href="https://www.carsat-pdl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Voir les aides</a>
+        </div>
+        <div class="card-custom" style="border-left-color: #dc3545">
+            <h6>OPPBTP / PRO BTP</h6>
+            <p class="small text-muted">Aides spécifiques aux métiers du bâtiment et des travaux publics.</p>
+        </div>
     </div>
 
     <div id="page-fds-guide" class="app-page">
-        <h5 class="fw-bold mb-3">Comprendre une FDS</h5>
-        <div class="card-custom"><h6>Rubrique 2</h6><p class="small">Identification des dangers.</p></div>
-        <div class="card-custom"><h6>Rubrique 8</h6><p class="small">Contrôle de l'exposition et EPI.</p></div>
+        <h5 class="fw-bold mb-3">Décrypter une FDS</h5>
+        <div class="card-custom" style="border-left-color: #dc3545"><h6>Rubrique 2 : Dangers</h6><p class="small mb-0">Phrases H (dangers) et P (prévention).</p></div>
+        <div class="card-custom" style="border-left-color: #198754"><h6>Rubrique 4 : Secours</h6><p class="small mb-0">Gestes d'urgence en cas d'inhalation ou contact.</p></div>
+        <div class="card-custom" style="border-left-color: #3065a8"><h6>Rubrique 8 : EPI</h6><p class="small mb-0">Types de gants ou masques obligatoires.</p></div>
     </div>
 
     <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+        <h5 class="fw-bold mb-3">Nos Centres Médicaux</h5>
         <div id="centres-list"></div>
     </div>
 
@@ -178,27 +200,30 @@
     </nav>
 
     <script>
-        // DONNÉES COMPLÈTES
+        // --- DONNÉES COMPLÈTES ---
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+        
         const centres = [
             { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
             { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée" },
             { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers" },
-            { n: "Fontenay-le-Comte", t: "0251691452", a: "Rue de l'Innovation, 85200 Fontenay" },
-            { n: "Challans", t: "0251682312", a: "Parc d'Activités, 85300 Challans" },
-            { n: "Les Sables d'Olonne", t: "0251320505", a: "Zone d'Activité, 85100 Les Sables" }
+            { n: "Fontenay-le-Comte", t: "0251691452", a: "3 rue de l'Innovation, 85200 Fontenay" },
+            { n: "Challans", t: "0251682312", a: "Parc d'Activités des Mariniers, 85300 Challans" },
+            { n: "Les Sables d'Olonne", t: "0251320505", a: "Allée Titouan Lamazou, 85100 Les Sables" }
         ];
+
         const sghData = [
-            { id: "SGH01", title: "Explosif", img: "SGH01.jpg", desc: "S'enflamme ou explose sous l'effet de la chaleur." },
-            { id: "SGH02", title: "Inflammable", img: "SGH02.jpg", desc: "Produit pouvant s'enflammer facilement." },
-            { id: "SGH03", title: "Comburant", img: "SGH03.jpg", desc: "Peut provoquer ou aggraver un incendie." },
-            { id: "SGH04", title: "Gaz sous pression", img: "SGH04.jpg", desc: "Peut exploser sous l'effet de la chaleur." },
-            { id: "SGH05", title: "Corrosif", img: "SGH05.jpg", desc: "Ronge la peau et les métaux." },
-            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Empoisonne rapidement même à faible dose." },
-            { id: "SGH07", title: "Nocif / Irritant", img: "SGH07.jpg", desc: "Provoque des démangeaisons ou allergies." },
-            { id: "SGH08", title: "Danger Santé", img: "SGH08.jpg", desc: "Effets graves à long terme (Cancer, etc)." },
-            { id: "SGH09", title: "Environnement", img: "SGH09.jpg", desc: "Pollue l'eau et les organismes aquatiques." }
+            { id: "SGH01", title: "Explosif", img: "SGH01.jpg", desc: "Produit pouvant exploser au contact d'une flamme ou d'un choc." },
+            { id: "SGH02", title: "Inflammable", img: "SGH02.jpg", desc: "S'enflamme facilement au contact d'une source de chaleur." },
+            { id: "SGH03", title: "Comburant", img: "SGH03.jpg", desc: "Peut provoquer ou aggraver un incendie ou une explosion." },
+            { id: "SGH04", title: "Gaz sous pression", img: "SGH04.jpg", desc: "Peut exploser sous l'effet de la chaleur (gaz comprimés)." },
+            { id: "SGH05", title: "Corrosif", img: "SGH05.jpg", desc: "Attaque les métaux et provoque des brûlures sur la peau." },
+            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Empoisonne rapidement, même à faible dose." },
+            { id: "SGH07", title: "Nocif / Irritant", img: "SGH07.jpg", desc: "Provoque des allergies, des somnolences ou des irritations." },
+            { id: "SGH08", title: "Danger Santé", img: "SGH08.jpg", desc: "Effets graves à long terme (Cancer, mutations, fertilité)." },
+            { id: "SGH09", title: "Environnement", img: "SGH09.jpg", desc: "Effets néfastes sur les organismes aquatiques." }
         ];
+
         const questions = [
             "Votre DUERP est-il mis à jour chaque année ?",
             "Vos salariés sont-ils formés aux risques chimiques ?",
@@ -213,6 +238,7 @@
         ];
         let currentQ = 0, totalScore = 0;
 
+        // --- FONCTIONS ---
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -229,51 +255,42 @@
             const c = document.getElementById('inventory-container');
             c.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
             inventory.forEach(item => {
-                c.innerHTML += `
-                <div class="card-custom">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div><b>${item.name}</b><br><small class="text-muted">Code: ${item.code || 'N/A'}</small></div>
-                        <button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div class="mt-3">
-                        ${item.fdsFile ? `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100">VOIR LA FDS</button>` : `<button onclick="triggerFileInput(${item.id})" class="btn btn-sm btn-outline-secondary w-100">JOINDRE FDS (PDF)</button>`}
-                    </div>
-                </div>`;
+                c.innerHTML += `<div class="card-custom"><div class="d-flex justify-content-between"><div><b>${item.name}</b><br><small>Code: ${item.code || 'N/A'}</small></div><button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button></div><div class="mt-3">${item.fdsFile ? `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100">VOIR FDS</button>` : `<button onclick="triggerFileInput(${item.id})" class="btn btn-sm btn-outline-secondary w-100">JOINDRE FDS (PDF)</button>`}</div></div>`;
             });
         }
 
         function saveProduct() {
-            const name = document.getElementById('prod-name').value;
-            if(!name) return alert("Nom requis");
-            inventory.push({ id: Date.now(), name, code: document.getElementById('prod-code').value, fdsFile: null });
+            const n = document.getElementById('prod-name').value;
+            if(!n) return alert("Saisissez un nom.");
+            inventory.push({ id: Date.now(), name: n, code: document.getElementById('prod-code').value, fdsFile: null });
             localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
             document.getElementById('prod-name').value = ''; document.getElementById('prod-code').value = '';
             updateStats(); nav('page-list', 'nav-list');
         }
 
         function triggerFileInput(id) {
-            const input = document.createElement('input'); input.type = 'file'; input.accept = 'application/pdf';
-            input.onchange = (e) => {
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    const idx = inventory.findIndex(i => i.id === id);
+            const i = document.createElement('input'); i.type = 'file'; i.accept = 'application/pdf';
+            i.onchange = (e) => {
+                const r = new FileReader();
+                r.onload = (ev) => {
+                    const idx = inventory.findIndex(p => p.id === id);
                     inventory[idx].fdsFile = ev.target.result;
                     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
                     renderInventory();
                 };
-                reader.readAsDataURL(e.target.files[0]);
+                r.readAsDataURL(e.target.files[0]);
             };
-            input.click();
+            i.click();
         }
 
         function viewPDF(id) {
-            const p = inventory.find(i => i.id == id);
+            const p = inventory.find(x => x.id == id);
             const w = window.open();
             w.document.write(`<iframe src="${p.fdsFile}" frameborder="0" style="width:100%; height:100%;"></iframe>`);
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ?")) { inventory = inventory.filter(i => i.id !== id); localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory)); renderInventory(); updateStats(); }
+            if(confirm("Supprimer ?")) { inventory = inventory.filter(x => x.id !== id); localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory)); renderInventory(); updateStats(); }
         }
 
         function exportToCSV() {
@@ -283,7 +300,7 @@
 
         function quizAnswer(p) {
             totalScore += p; currentQ++;
-            document.querySelectorAll('.quiz-btn').forEach(b => b.blur());
+            document.querySelectorAll('.quiz-btn').forEach(btn => btn.blur()); // FIX FOCUS
             if(currentQ < questions.length) showQuestion(); else showResult();
         }
 
@@ -303,7 +320,7 @@
             document.getElementById('q-box').style.display = 'none';
             document.getElementById('q-result').style.display = 'block';
             document.getElementById('quiz-score').innerText = totalScore + "/30";
-            document.getElementById('quiz-advice').innerText = totalScore > 18 ? "Bonne gestion globale." : "Contactez le RESTEV pour sécuriser votre prévention.";
+            document.getElementById('quiz-advice').innerText = totalScore > 18 ? "Bonne gestion. Continuez vos efforts de prévention." : "Des points d'amélioration existent. Contactez le RESTEV pour un accompagnement.";
         }
 
         function renderSGH() {
@@ -311,7 +328,7 @@
         }
 
         function renderCentres() {
-            document.getElementById('centres-list').innerHTML = centres.map(c => `<div class="card-custom"><b>${c.n}</b><br><small>${c.a}</small><br><a href="tel:${c.t}" class="btn-call mt-2">Appeler</a></div>`).join('');
+            document.getElementById('centres-list').innerHTML = centres.map(c => `<div class="card-custom"><b>${c.n}</b><br><small>${c.a}</small><br><a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a></div>`).join('');
         }
 
         function startScanner() {
@@ -322,7 +339,6 @@
         function dismissSplash() { document.getElementById('splash').style.display = 'none'; }
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`; }
 
-        document.addEventListener('touchend', (e) => { if(e.target.tagName === 'BUTTON') e.target.blur(); });
         window.onload = updateStats;
     </script>
 </body>
