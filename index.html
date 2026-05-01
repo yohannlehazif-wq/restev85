@@ -18,39 +18,33 @@
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
         body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
         
+        /* Splash Screen */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
+        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
+        /* Header & Banner */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
-        
-        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; }
+        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .ticker { display: inline-block; animation: ticker 25s linear infinite; }
+        .ticker span { padding-right: 50px; }
         @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
+        /* Navigation */
         .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
         .nav-item.active { color: var(--r-blue); }
         .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
+        /* Pages & Cards */
         .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        /* FIX BOUTONS QUIZ SANS FOCUS PERSISTANT */
-        .quiz-btn { transition: all 0.2s ease; }
-        .quiz-btn:focus, .quiz-btn:active, .quiz-btn:focus-visible { 
-            outline: none !important; 
-            box-shadow: none !important; 
-            background-color: transparent !important; 
-            color: #0d6efd !important; 
-        }
-
-        /* Tuiles Accueil */
+        /* Boutons Accueil - Teintes légères */
         .tile-blue { background-color: #f0f7ff !important; border-left-color: var(--r-blue) !important; }
         .tile-red { background-color: #fff5f5 !important; border-left-color: #dc3545 !important; }
         .tile-yellow { background-color: #fffbeb !important; border-left-color: var(--r-yellow) !important; }
@@ -60,48 +54,110 @@
         .tile-gray { background-color: #f8fafc !important; border-left-color: #64748b !important; }
         .tile-dark { background-color: #f1f5f9 !important; border-left-color: #475569 !important; }
 
+        /* Fix Quiz Buttons */
+        .quiz-btn:focus, .quiz-btn:active { background-color: transparent !important; color: var(--bs-primary) !important; outline: none !important; box-shadow: none !important; }
+        
+        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
         .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .sgh-card { display: flex; gap: 15px; align-items: center; }
         .sgh-img { width: 65px; height: 65px; object-fit: contain; }
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
         .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
     </style>
 </head>
 <body>
 
     <div id="splash">
         <div class="text-center text-white">
-            <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;">
+            <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
             <h2 class="fw-bold mt-3">RESTEV 85</h2>
             <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
         </div>
     </div>
 
     <div class="app-header">
-        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header">
+        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
     </div>
 
     <div class="info-banner">
         <div class="ticker">
-            <span><i class="fa-solid fa-bullhorn"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-helmet-safety"></i> PRO BTP : Aides financières équipements | <i class="fa-solid fa-circle-info"></i> RESTEV : Accompagnement gratuit DUERP !</span>
+            <span><i class="fa-solid fa-bullhorn me-1"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-helmet-safety me-1"></i> PRO BTP : Aides financières équipements | <i class="fa-solid fa-circle-info me-1"></i> RESTEV : Accompagnement gratuit pour votre DUERP !</span>
         </div>
     </div>
 
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">Espace Employeur</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
         </div>
         
         <div class="row g-2">
-            <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-3 mb-0 tile-blue"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold">SCANNER FDS</small></div></div>
-            <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom text-center py-3 mb-0 tile-red"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold">AUTO-DIAG</small></div></div>
-            <div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-yellow"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">LEXIQUE SGH</small></div></div>
-            <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-3 mb-0 tile-green"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div></div>
-            <div class="col-6" onclick="nav('page-services', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-purple"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color:var(--r-purple)"></i><br><small class="fw-bold">OFFRE RESTEV</small></div></div>
-            <div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-teal"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color:#0d9488"></i><br><small class="fw-bold">AIDES & ACTUS</small></div></div>
-            <div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0 tile-gray"><i class="fa-solid fa-file-shield fa-2x mb-2 text-secondary"></i><br><small class="fw-bold">GUIDE FDS</small></div></div>
-            <div class="col-6" onclick="nav('page-centres', 'nav-centres')"><div class="card-custom text-center py-3 mb-0 tile-dark"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-dark"></i><br><small class="fw-bold">NOS CENTRES</small></div></div>
+            <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+                <div class="card-custom text-center py-3 mb-0 tile-blue"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold">SCANNER FDS</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
+                <div class="card-custom text-center py-3 mb-0 tile-red"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold">AUTO-DIAG</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')">
+                <div class="card-custom text-center py-3 mb-0 tile-yellow"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">LEXIQUE SGH</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-list', 'nav-list')">
+                <div class="card-custom text-center py-3 mb-0 tile-green"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
+                <div class="card-custom text-center py-3 mb-0 tile-purple"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color:var(--r-purple)"></i><br><small class="fw-bold">OFFRE RESTEV</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
+                <div class="card-custom text-center py-3 mb-0 tile-teal"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color:#0d9488"></i><br><small class="fw-bold">AIDES & ACTUS</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
+                <div class="card-custom text-center py-3 mb-0 tile-gray"><i class="fa-solid fa-file-shield fa-2x mb-2 text-secondary"></i><br><small class="fw-bold">GUIDE FDS</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-centres', 'nav-centres')">
+                <div class="card-custom text-center py-3 mb-0 tile-dark"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-dark"></i><br><small class="fw-bold">NOS CENTRES</small></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-services" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>Votre Accompagnement</h5>
+        <div class="card-custom">
+            <div class="badge-service">INCLUS</div>
+            <h6>Conseil en Prévention</h6>
+            <p class="small text-muted mb-0">Nos experts (IPRP) vous aident à réaliser votre <b>DUERP</b> et vos études de postes sans frais supplémentaires.</p>
+        </div>
+        <div class="card-custom" style="border-left-color: var(--r-purple)">
+            <h6>Ateliers Sensibilisation</h6>
+            <p class="small text-muted mb-0">Sessions sur le Risque Chimique, les RPS ou l'Analyse des Accidents pour vos équipes.</p>
+        </div>
+        <div class="card-custom" style="border-left-color: var(--r-teal)">
+            <h6>Maintien dans l'emploi</h6>
+            <p class="small text-muted mb-0">Cellule dédiée pour prévenir l'inaptitude et aménager les postes de vos salariés.</p>
+        </div>
+    </div>
+
+    <div id="page-aides" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides Financières</h5>
+        <div class="card-custom" style="border-left-color: #e6a00f">
+            <h6>CARSAT Pays de la Loire</h6>
+            <p class="small text-muted">Subventions pour l'achat de matériel de sécurité (EPI, levage, captage fumées).</p>
+            <a href="https://www.carsat-pdl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Voir les aides</a>
+        </div>
+        <div class="card-custom" style="border-left-color: #dc3545">
+            <h6>OPPBTP / PRO BTP</h6>
+            <p class="small text-muted">Aides spécifiques au secteur de la construction et du bâtiment.</p>
+            <a href="https://www.preventionbtp.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Espace BTP</a>
+        </div>
+    </div>
+
+    <div id="page-scan" class="app-page">
+        <h5 class="fw-bold mb-3">Identifier un produit</h5>
+        <div class="card-custom">
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
+            <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">AJOUTER À L'INVENTAIRE</button>
         </div>
     </div>
 
@@ -109,17 +165,6 @@
         <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
         <button class="btn-excel" onclick="exportToCSV()"><i class="fa-solid fa-file-excel"></i> EXPORTER L'INVENTAIRE (CSV)</button>
         <div id="inventory-container"></div>
-    </div>
-
-    <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
-        <div class="card-custom">
-            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
-            <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
-        </div>
     </div>
 
     <div id="page-quiz" class="app-page">
@@ -147,47 +192,15 @@
         <div id="sgh-list"></div>
     </div>
 
-    <div id="page-services" class="app-page">
-        <h5 class="fw-bold mb-3">L'offre Socle RESTEV</h5>
-        <div class="card-custom">
-            <div class="badge-service">INCLUS</div>
-            <h6>Accompagnement IPRP</h6>
-            <p class="small text-muted mb-0">Aide à la rédaction de votre DUERP et conseil en prévention des risques.</p>
-        </div>
-        <div class="card-custom" style="border-left-color: var(--r-purple)">
-            <div class="badge-service">INCLUS</div>
-            <h6>Suivi Individuel Santé</h6>
-            <p class="small text-muted mb-0">Visites médicales, entretiens infirmiers et suivi vaccinal selon les risques.</p>
-        </div>
-        <div class="card-custom" style="border-left-color: var(--r-teal)">
-            <div class="badge-service">INCLUS</div>
-            <h6>Actions AMT</h6>
-            <p class="small text-muted mb-0">Métrologie (bruit, lumière), études de postes et sensibilisations collectives.</p>
-        </div>
-    </div>
-
-    <div id="page-aides" class="app-page">
-        <h5 class="fw-bold mb-3">Aides Financières</h5>
-        <div class="card-custom" style="border-left-color: #e6a00f">
-            <h6>CARSAT : Subventions TPE</h6>
-            <p class="small text-muted">Aides pour l'achat de matériel de captage, levage ou protection chimique.</p>
-            <a href="https://www.carsat-pdl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Voir les aides</a>
-        </div>
-        <div class="card-custom" style="border-left-color: #dc3545">
-            <h6>OPPBTP / PRO BTP</h6>
-            <p class="small text-muted">Aides spécifiques aux métiers du bâtiment et des travaux publics.</p>
-        </div>
-    </div>
-
     <div id="page-fds-guide" class="app-page">
         <h5 class="fw-bold mb-3">Décrypter une FDS</h5>
-        <div class="card-custom" style="border-left-color: #dc3545"><h6>Rubrique 2 : Dangers</h6><p class="small mb-0">Phrases H (dangers) et P (prévention).</p></div>
-        <div class="card-custom" style="border-left-color: #198754"><h6>Rubrique 4 : Secours</h6><p class="small mb-0">Gestes d'urgence en cas d'inhalation ou contact.</p></div>
-        <div class="card-custom" style="border-left-color: #3065a8"><h6>Rubrique 8 : EPI</h6><p class="small mb-0">Types de gants ou masques obligatoires.</p></div>
+        <div class="card-custom" style="border-left-color: #dc3545;"><h6>Rubrique 2</h6><p class="small mb-0">Dangers identifiés et étiquetage.</p></div>
+        <div class="card-custom" style="border-left-color: #198754;"><h6>Rubrique 4</h6><p class="small mb-0">Premiers secours à prodiguer.</p></div>
+        <div class="card-custom" style="border-left-color: #3065a8;"><h6>Rubrique 8</h6><p class="small mb-0">EPI obligatoires (Gants, masques).</p></div>
     </div>
 
     <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-3">Nos Centres Médicaux</h5>
+        <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
         <div id="centres-list"></div>
     </div>
 
@@ -200,28 +213,23 @@
     </nav>
 
     <script>
-        // --- DONNÉES COMPLÈTES ---
+        // --- DONNÉES ET ÉTAT ---
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
         
         const centres = [
             { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
             { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée" },
             { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers" },
-            { n: "Fontenay-le-Comte", t: "0251691452", a: "3 rue de l'Innovation, 85200 Fontenay" },
-            { n: "Challans", t: "0251682312", a: "Parc d'Activités des Mariniers, 85300 Challans" },
-            { n: "Les Sables d'Olonne", t: "0251320505", a: "Allée Titouan Lamazou, 85100 Les Sables" }
+            { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" }
         ];
 
         const sghData = [
-            { id: "SGH01", title: "Explosif", img: "SGH01.jpg", desc: "Produit pouvant exploser au contact d'une flamme ou d'un choc." },
-            { id: "SGH02", title: "Inflammable", img: "SGH02.jpg", desc: "S'enflamme facilement au contact d'une source de chaleur." },
-            { id: "SGH03", title: "Comburant", img: "SGH03.jpg", desc: "Peut provoquer ou aggraver un incendie ou une explosion." },
-            { id: "SGH04", title: "Gaz sous pression", img: "SGH04.jpg", desc: "Peut exploser sous l'effet de la chaleur (gaz comprimés)." },
-            { id: "SGH05", title: "Corrosif", img: "SGH05.jpg", desc: "Attaque les métaux et provoque des brûlures sur la peau." },
-            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Empoisonne rapidement, même à faible dose." },
-            { id: "SGH07", title: "Nocif / Irritant", img: "SGH07.jpg", desc: "Provoque des allergies, des somnolences ou des irritations." },
-            { id: "SGH08", title: "Danger Santé", img: "SGH08.jpg", desc: "Effets graves à long terme (Cancer, mutations, fertilité)." },
-            { id: "SGH09", title: "Environnement", img: "SGH09.jpg", desc: "Effets néfastes sur les organismes aquatiques." }
+            { id: "SGH01", title: "Explosif", img: "SGH01.jpg", desc: "S'enflamme ou explose sous l'effet de la chaleur ou chocs." },
+            { id: "SGH02", title: "Inflammable", img: "SGH02.jpg", desc: "S'enflamme facilement (étincelles, flammes)." },
+            { id: "SGH05", title: "Corrosif", img: "SGH05.jpg", desc: "Ronge la peau, les yeux ou les métaux." },
+            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Empoisonne rapidement (mortel)." },
+            { id: "SGH07", title: "Nocif / Irritant", img: "SGH07.jpg", desc: "Provoque allergies, irritations ou somnolence." },
+            { id: "SGH08", title: "Danger Santé", img: "SGH08.jpg", desc: "Effets graves à long terme (Cancer, mutations)." }
         ];
 
         const questions = [
@@ -238,12 +246,14 @@
         ];
         let currentQ = 0, totalScore = 0;
 
-        // --- FONCTIONS ---
+        // --- NAVIGATION ---
         function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
-            if(el) (typeof el === 'string' ? document.getElementById(el) : el).classList.add('active');
+            if(typeof el === 'string') document.getElementById(el).classList.add('active');
+            else if(el) el.classList.add('active');
+
             if(id === 'page-list') renderInventory();
             if(id === 'page-sgh') renderSGH();
             if(id === 'page-centres') renderCentres();
@@ -251,46 +261,70 @@
             window.scrollTo(0, 0);
         }
 
+        // --- INVENTAIRE & PDF ---
         function renderInventory() {
-            const c = document.getElementById('inventory-container');
-            c.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
+            const container = document.getElementById('inventory-container');
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
             inventory.forEach(item => {
-                c.innerHTML += `<div class="card-custom"><div class="d-flex justify-content-between"><div><b>${item.name}</b><br><small>Code: ${item.code || 'N/A'}</small></div><button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button></div><div class="mt-3">${item.fdsFile ? `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100">VOIR FDS</button>` : `<button onclick="triggerFileInput(${item.id})" class="btn btn-sm btn-outline-secondary w-100">JOINDRE FDS (PDF)</button>`}</div></div>`;
+                const searchUrl = `https://www.google.com/search?q=fds+pdf+${item.code}+${encodeURIComponent(item.name)}+filetype:pdf`;
+                container.innerHTML += `
+                <div class="card-custom">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div><b>${item.name}</b><br><small class="text-muted">Code: ${item.code || 'N/A'}</small></div>
+                        <button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="mt-3">
+                        ${item.fdsFile ? 
+                            `<button onclick="viewPDF('${item.id}')" class="btn btn-sm btn-success w-100 py-2"><i class="fa-solid fa-file-pdf"></i> VOIR LA FDS</button>` : 
+                            `<div class="d-flex gap-2">
+                                <a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-50">1. CHERCHER</a>
+                                <button onclick="triggerFileInput(${item.id})" class="btn btn-sm btn-outline-secondary w-50">2. JOINDRE</button>
+                            </div>`
+                        }
+                    </div>
+                </div>`;
             });
         }
 
         function saveProduct() {
-            const n = document.getElementById('prod-name').value;
-            if(!n) return alert("Saisissez un nom.");
-            inventory.push({ id: Date.now(), name: n, code: document.getElementById('prod-code').value, fdsFile: null });
+            const name = document.getElementById('prod-name').value;
+            const code = document.getElementById('prod-code').value;
+            if(!name) return alert("Saisissez un nom.");
+            inventory.push({ id: Date.now(), name, code, fdsFile: null });
             localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-            document.getElementById('prod-name').value = ''; document.getElementById('prod-code').value = '';
+            document.getElementById('prod-name').value = ''; 
+            document.getElementById('prod-code').value = '';
             updateStats(); nav('page-list', 'nav-list');
         }
 
         function triggerFileInput(id) {
-            const i = document.createElement('input'); i.type = 'file'; i.accept = 'application/pdf';
-            i.onchange = (e) => {
-                const r = new FileReader();
-                r.onload = (ev) => {
-                    const idx = inventory.findIndex(p => p.id === id);
+            const input = document.createElement('input');
+            input.type = 'file'; input.accept = 'application/pdf';
+            input.onchange = (e) => {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const idx = inventory.findIndex(i => i.id === id);
                     inventory[idx].fdsFile = ev.target.result;
                     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
                     renderInventory();
                 };
-                r.readAsDataURL(e.target.files[0]);
+                reader.readAsDataURL(e.target.files[0]);
             };
-            i.click();
+            input.click();
         }
 
         function viewPDF(id) {
-            const p = inventory.find(x => x.id == id);
-            const w = window.open();
-            w.document.write(`<iframe src="${p.fdsFile}" frameborder="0" style="width:100%; height:100%;"></iframe>`);
+            const product = inventory.find(i => i.id == id);
+            const win = window.open();
+            win.document.write(`<iframe src="${product.fdsFile}" frameborder="0" style="width:100%; height:100%;"></iframe>`);
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ?")) { inventory = inventory.filter(x => x.id !== id); localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory)); renderInventory(); updateStats(); }
+            if(confirm("Supprimer ?")) {
+                inventory = inventory.filter(i => i.id !== id);
+                localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+                renderInventory(); updateStats();
+            }
         }
 
         function exportToCSV() {
@@ -298,44 +332,54 @@
             const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
         }
 
+        // --- QUIZ ---
         function quizAnswer(p) {
             totalScore += p; currentQ++;
-            document.querySelectorAll('.quiz-btn').forEach(btn => btn.blur()); // FIX FOCUS
+            document.querySelectorAll('.quiz-btn').forEach(b => b.blur()); // Fix focus
             if(currentQ < questions.length) showQuestion(); else showResult();
         }
-
         function showQuestion() {
             document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
             document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
         }
-
         function resetQuiz() {
             currentQ = 0; totalScore = 0;
             document.getElementById('q-box').style.display = 'block';
             document.getElementById('q-result').style.display = 'none';
             showQuestion();
         }
-
         function showResult() {
             document.getElementById('q-box').style.display = 'none';
             document.getElementById('q-result').style.display = 'block';
             document.getElementById('quiz-score').innerText = totalScore + "/30";
-            document.getElementById('quiz-advice').innerText = totalScore > 18 ? "Bonne gestion. Continuez vos efforts de prévention." : "Des points d'amélioration existent. Contactez le RESTEV pour un accompagnement.";
+            let a = totalScore > 20 ? "Bravo, bonne gestion." : "Contactez le RESTEV pour un accompagnement.";
+            document.getElementById('quiz-advice').innerText = a;
         }
 
+        // --- AUTRES ---
         function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map(s => `<div class="card-custom sgh-card"><img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=SGH'"><div><b>${s.title}</b><br><small>${s.desc}</small></div></div>`).join('');
+            document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+                <div class="card-custom sgh-card">
+                    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=SGH'">
+                    <div><b>${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+                </div>
+            `).join('');
         }
-
         function renderCentres() {
-            document.getElementById('centres-list').innerHTML = centres.map(c => `<div class="card-custom"><b>${c.n}</b><br><small>${c.a}</small><br><a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a></div>`).join('');
+            document.getElementById('centres-list').innerHTML = centres.map(c => `
+                <div class="card-custom">
+                    <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
+                    <a href="tel:${c.t}" class="btn-call"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                </div>
+            `).join('');
         }
-
         function startScanner() {
             const scanner = new Html5Qrcode("reader");
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => { document.getElementById('prod-code').value = txt; scanner.stop(); });
+            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
+                document.getElementById('prod-code').value = txt;
+                scanner.stop();
+            });
         }
-
         function dismissSplash() { document.getElementById('splash').style.display = 'none'; }
         function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`; }
 
