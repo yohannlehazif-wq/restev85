@@ -263,11 +263,23 @@
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
         
         const centres = [
-            { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon" },
-            { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée" },
-            { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers" },
-            { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage" }
-        ];
+    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+La+Roche+sur+Yon" },
+    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+Montaigu" },
+    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+Les+Herbiers" },
+    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+Les+Essarts" }
+];
+
+// Et modifie la fonction renderCentres pour afficher le bouton itinéraire :
+function renderCentres() {
+    document.getElementById('centres-list').innerHTML = centres.map(c => `
+        <div class="card-custom">
+            <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
+            <div class="d-flex gap-2">
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Itinéraire</a>
+            </div>
+        </div>`).join('');
+}
 
         const sghData = [
             { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
@@ -409,9 +421,75 @@
 
         // FONCTION PDF AVEC OUVERTURE DIRECTE
         function generatePDFProof() {
-            if (inventory.length === 0) {
-                return alert("Votre inventaire est vide.");
-            }
+    if (inventory.length === 0) return alert("Votre inventaire est vide.");
+    
+    const companyName = prompt("Nom de l'entreprise :");
+    if (!companyName) return; 
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // En-tête
+    doc.setFontSize(18);
+    doc.setTextColor(48, 101, 168); 
+    doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
+
+    // Cadre Réglementaire
+    doc.setFontSize(9);
+    doc.setTextColor(100);
+    doc.text("Conformément aux articles R4412-1 à R4412-57 du Code du Travail", 14, 28);
+
+    doc.setDrawColor(230, 160, 15); // Couleur jaune RESTEV
+    doc.line(14, 32, 196, 32);
+
+    // Infos Entreprise
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+    doc.setFont(undefined, 'bold');
+    doc.text(`Entreprise : ${companyName}`, 14, 40);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Date d'inventaire : ${new Date().toLocaleDateString('fr-FR')}`, 14, 47);
+
+    // Tableau
+    const tableData = inventory.map((item, index) => [index + 1, item.name.toUpperCase(), item.code || "Saisie manuelle", "A vérifier"]);
+
+    doc.autoTable({
+        startY: 55,
+        head: [['N°', 'Nom du produit', 'Référence', 'Validité FDS']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: { fillColor: [48, 101, 168] },
+        styles: { fontSize: 9 }
+    });
+
+    // Notes de prévention
+    let finalY = doc.lastAutoTable.finalY + 15;
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.text("Actions de prévention recommandées :", 14, finalY);
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(9);
+    doc.text("- Intégrer cet inventaire dans votre Document Unique (DUERP).", 14, finalY + 7);
+    doc.text("- Vérifier la présence des FDS papier ou numériques sur les lieux d'utilisation.", 14, finalY + 12);
+
+    // Zones de signature
+    doc.setDrawColor(200);
+    doc.rect(14, finalY + 20, 80, 25);
+    doc.text("Cachet Entreprise", 16, finalY + 25);
+    
+    doc.rect(116, finalY + 20, 80, 25);
+    doc.text("Signature Employeur", 118, finalY + 25);
+
+    // Bas de page
+    doc.setFontSize(8);
+    doc.setTextColor(150);
+    doc.text("Document généré par l'application RESTEV 85 - Support à la conformité réglementaire.", 14, doc.internal.pageSize.height - 10);
+
+    const blob = doc.output('blob');
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+}
+
             
             const companyName = prompt("Nom de l'entreprise :");
             if (!companyName) return; 
