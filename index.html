@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <title>RESTEV 85 - Espace Employeur</title>
 
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3065a8">
@@ -35,7 +35,6 @@
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
         
-        /* NOUVEAU : BANDEAU DÉFILANT */
         .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .ticker { display: inline-block; animation: ticker 25s linear infinite; }
         .ticker span { padding-right: 50px; }
@@ -86,41 +85,41 @@
 
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold mb-1">RESTEV 85</h5>
+            <h5 class="fw-bold mb-1">Espace Employeur</h5>
             <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
         </div>
         
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-3 mb-0"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold" style="font-size:0.75rem;">SCANNER FDS</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="background-color: #f0f6ff;"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold" style="font-size:0.75rem;">SCANNER FDS</small></div>
             </div>
             <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-purple);"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold" style="font-size:0.75rem;">AUTO-DIAG</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-purple); background-color: #fcf4f8;"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold" style="font-size:0.75rem;">AUTO-DIAG</small></div>
             </div>
             <div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-yellow);"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold" style="font-size:0.75rem;">LEXIQUE SGH</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-yellow); background-color: #fffbf0;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold" style="font-size:0.75rem;">LEXIQUE SGH</small></div>
             </div>
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-teal);"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold" style="font-size:0.75rem;">INVENTAIRE</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-teal); background-color: #f0fcf8;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold" style="font-size:0.75rem;">INVENTAIRE</small></div>
             </div>
             <div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-purple); background-color: #fdf4ff;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color:var(--r-purple)"></i><br><small class="fw-bold" style="font-size:0.75rem;">OFFRE RESTEV</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-purple); background-color: #fcf4ff;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color:var(--r-purple)"></i><br><small class="fw-bold" style="font-size:0.75rem;">OFFRE RESTEV</small></div>
             </div>
             <div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: #198754; background-color: #f6fcf9;"><i class="fa-solid fa-piggy-bank fa-2x mb-2 text-success"></i><br><small class="fw-bold" style="font-size:0.75rem;">AIDES & ACTUS</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: #198754; background-color: #f2fcf6;"><i class="fa-solid fa-piggy-bank fa-2x mb-2 text-success"></i><br><small class="fw-bold" style="font-size:0.75rem;">AIDES & ACTUS</small></div>
             </div>
             <div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-blue);"><i class="fa-solid fa-file-shield fa-2x mb-2 text-info"></i><br><small class="fw-bold" style="font-size:0.75rem;">GUIDE FDS</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: var(--r-blue); background-color: #f0f8ff;"><i class="fa-solid fa-file-shield fa-2x mb-2 text-info"></i><br><small class="fw-bold" style="font-size:0.75rem;">GUIDE FDS</small></div>
             </div>
             <div class="col-6" onclick="nav('page-centres', 'nav-centres')">
-                <div class="card-custom text-center py-3 mb-0" style="border-left-color: grey;"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-secondary"></i><br><small class="fw-bold" style="font-size:0.75rem;">NOS CENTRES</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="border-left-color: grey; background-color: #f8f9fa;"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-secondary"></i><br><small class="fw-bold" style="font-size:0.75rem;">NOS CENTRES</small></div>
             </div>
         </div>
     </div>
 
     <div id="page-services" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L'Offre RESTEV 85</h5>
-        <p class="small text-muted mb-4">Votre adhésion comprend un ensemble de services "Offre Socle" pour vous accompagner au quotidien. L'équipe pluridisciplinaire (médecins, ergonomes, psychologues, ingénieurs) est à votre disposition.</p>
+        <p class="small text-muted mb-4">Votre adhésion comprend un ensemble de services "Offre Socle" pour accompagner votre entreprise. L'équipe pluridisciplinaire (médecins, ergonomes, psychologues) est à votre disposition.</p>
         
         <div class="card-custom" style="border-left-color: var(--r-blue);">
             <div class="badge-service">PRÉVENTION</div>
@@ -128,37 +127,35 @@
             <p class="small mb-2">Nos IPRP (Intervenants en Prévention) vous accompagnent <b>sans surcoût</b> pour :</p>
             <ul class="small text-muted ps-3 mb-0">
                 <li>Réalisation ou mise à jour de votre DUERP.</li>
-                <li>Études ergonomiques de postes de travail (TMS).</li>
+                <li>Études ergonomiques de postes de travail.</li>
                 <li>Métrologie (bruit, éclairage, poussières).</li>
             </ul>
         </div>
 
         <div class="card-custom" style="border-left-color: var(--r-purple);">
             <div class="badge-service" style="background-color: var(--r-purple)">SENSIBILISATION</div>
-            <h6>Ateliers et Formations</h6>
-            <p class="small text-muted mb-0">Nous organisons régulièrement des ateliers pour vos équipes : Risques Psycho-Sociaux (RPS), manipulation des produits chimiques (CMR), analyse des accidents du travail, et sensibilisation au sommeil/addictions.</p>
+            <h6>Ateliers pour vos équipes</h6>
+            <p class="small text-muted mb-0">Nous organisons régulièrement des ateliers pour vos salariés : Risques Psycho-Sociaux (RPS), manipulation des produits chimiques, et analyse des accidents du travail.</p>
         </div>
 
         <div class="card-custom" style="border-left-color: var(--r-teal);">
             <div class="badge-service" style="background-color: var(--r-teal)">MAINTIEN DANS L'EMPLOI</div>
             <h6>Cellule PDP</h6>
-            <p class="small text-muted mb-0">La cellule de Prévention de la Désinsertion Professionnelle (PDP) accompagne les salariés rencontrant des problèmes de santé impactant leur travail, afin d'anticiper et d'éviter l'inaptitude (aménagements de poste, reconversion).</p>
+            <p class="small text-muted mb-0">La cellule de Prévention de la Désinsertion Professionnelle (PDP) accompagne vos salariés rencontrant des problèmes de santé impactant leur travail, afin d'éviter l'inaptitude.</p>
         </div>
-
-        <a href="https://www.restev.fr/vous-etes-employeur/loffre-de-service/" target="_blank" class="btn btn-outline-primary w-100 rounded-pill fw-bold mt-2 py-2">Découvrir l'offre détaillée sur le site</a>
     </div>
 
     <div id="page-aides" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides & Partenaires</h5>
-        <p class="small text-muted mb-4">Bénéficiez d'aides financières et d'outils sectoriels pour investir dans la sécurité de vos salariés.</p>
+        <p class="small text-muted mb-4">Bénéficiez d'aides financières pour investir dans la sécurité de votre entreprise.</p>
 
         <div class="card-custom" style="border-left-color: #e6a00f;">
             <div class="d-flex align-items-center mb-2">
                 <i class="fa-solid fa-euro-sign fa-2x text-warning me-3"></i>
                 <h6 class="mb-0 fw-bold">Subventions CARSAT</h6>
             </div>
-            <p class="small text-muted mb-2">Aides financières pour les TPE/PME (Subventions Prévention TPE) permettant de financer du matériel réduisant les risques (TMS, risques chimiques, chutes).</p>
-            <a href="https://www.carsat-pdl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat Pays de la Loire</a>
+            <p class="small text-muted mb-2">Aides financières pour les TPE/PME permettant de financer du matériel réduisant les risques de vos employés.</p>
+            <a href="https://www.carsat-pdl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat</a>
         </div>
 
         <div class="card-custom" style="border-left-color: #3065a8;">
@@ -166,8 +163,8 @@
                 <i class="fa-solid fa-book-open-reader fa-2x text-primary me-3"></i>
                 <h6 class="mb-0 fw-bold">Documentation INRS</h6>
             </div>
-            <p class="small text-muted mb-2">L'Institut National de Recherche et de Sécurité propose des guides, des affiches et des outils gratuits (Seirich pour le risque chimique, Mavimplant).</p>
-            <a href="https://www.inrs.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Accéder aux ressources INRS</a>
+            <p class="small text-muted mb-2">L'Institut National de Recherche et de Sécurité propose des guides et affiches gratuits pour vos locaux.</p>
+            <a href="https://www.inrs.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Ressources INRS</a>
         </div>
 
         <div class="card-custom" style="border-left-color: #dc3545;">
@@ -175,7 +172,7 @@
                 <i class="fa-solid fa-helmet-safety fa-2x text-danger me-3"></i>
                 <h6 class="mb-0 fw-bold">OPPBTP / PRO BTP</h6>
             </div>
-            <p class="small text-muted mb-2">Pour les professionnels de la construction : aides spécifiques pour l'achat d'échafaudages, de bases vie ou d'outils anti-vibrations.</p>
+            <p class="small text-muted mb-2">Pour les professionnels du BTP : aides spécifiques pour l'achat de matériel sécurisé.</p>
             <a href="https://www.preventionbtp.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Visiter Prévention BTP</a>
         </div>
     </div>
@@ -192,15 +189,15 @@
     </div>
 
     <div id="page-quiz" class="app-page">
-        <h5 class="fw-bold mb-3 text-center">Auto-Diag Prévention</h5>
+        <h5 class="fw-bold mb-3 text-center">Auto-Diag Employeur</h5>
         <div class="card-custom" id="quiz-container">
             <div id="q-box">
                 <div class="progress mb-3" style="height: 8px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 10%;"></div></div>
                 <p id="q-text" class="fw-bold mb-4" style="min-height: 60px;">Chargement...</p>
-                <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Oui, tout à fait</button>
-                <button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt oui</button>
-                <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt non</button>
-                <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-3 fw-bold">Pas du tout</button>
+                <button onclick="quizAnswer(3, this)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold quiz-btn">Oui, tout à fait</button>
+                <button onclick="quizAnswer(2, this)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold quiz-btn">Plutôt oui</button>
+                <button onclick="quizAnswer(1, this)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold quiz-btn">Plutôt non</button>
+                <button onclick="quizAnswer(0, this)" class="btn btn-outline-primary w-100 mb-4 py-3 fw-bold quiz-btn">Pas du tout</button>
             </div>
             <div id="q-result" style="display: none;" class="text-center">
                 <div class="score-badge mb-2" id="quiz-score">0</div>
@@ -265,17 +262,18 @@
             { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Pollue l'eau et empoisonne les organismes aquatiques." }
         ];
 
+        // Questions adaptées pour le chef d'entreprise
         const questions = [
-            "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
-            "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
-            "Les FDS sont-elles accessibles à tous les postes de travail ?",
-            "Les équipements de protection (EPI) sont-ils portés et en bon état ?",
-            "Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
-            "Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
-            "Les salariés connaissent-ils les gestes de premiers secours ?",
-            "Les produits chimiques sont-ils tous identifiés par une étiquette ?",
-            "Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
-            "La prévention est-elle discutée lors de réunions régulières ?"
+            "Votre Document Unique (DUERP) est-il mis à jour chaque année ?",
+            "Vos salariés sont-ils formés aux risques chimiques (lecture des FDS) ?",
+            "Vos FDS sont-elles accessibles par vos équipes à tous les postes de travail ?",
+            "Les équipements de protection (EPI) que vous fournissez sont-ils portés et en bon état ?",
+            "Le stockage de vos produits respecte-t-il les compatibilités (ex: Acide / Base) ?",
+            "Les accidents ou 'presque accidents' de votre entreprise sont-ils tracés et analysés ?",
+            "Vos salariés connaissent-ils les gestes de premiers secours ?",
+            "Vos produits chimiques (y compris transvasés) sont-ils tous identifiés par une étiquette ?",
+            "Votre matériel de sécurité (douche, extincteurs, kit anti-pollution) est-il vérifié régulièrement ?",
+            "La prévention santé-sécurité est-elle abordée lors de vos réunions avec les salariés ?"
         ];
         let currentQ = 0, totalScore = 0;
 
@@ -402,22 +400,38 @@
             document.getElementById('q-result').style.display = 'none';
             showQuestion();
         }
+        
         function showQuestion() {
             document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
             document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
         }
-        function quizAnswer(p) {
+        
+        function quizAnswer(p, btnElement) {
             totalScore += p; currentQ++;
+            
+            // Corrige le problème du bouton qui reste allumé en retirant le focus de tous les boutons du quiz
+            document.querySelectorAll('.quiz-btn').forEach(b => b.blur());
+            
             if(currentQ < questions.length) showQuestion(); else showResult();
         }
+        
         function showResult() {
             document.getElementById('q-box').style.display = 'none';
             document.getElementById('q-result').style.display = 'block';
             document.getElementById('quiz-score').innerText = totalScore + "/30";
             let l = "", a = "";
-            if(totalScore >= 25) { l = "Excellent !"; a = "Votre culture sécurité est exemplaire. Continuez ainsi."; }
-            else if(totalScore >= 15) { l = "Bon niveau"; a = "Quelques points à renforcer pour une sécurité optimale. Pensez à solliciter l'accompagnement RESTEV."; }
-            else { l = "Action urgente !"; a = "Rapprochez-vous vite de votre conseiller RESTEV 85 (IPRP ou médecin) pour un accompagnement sur la mise à jour de votre DUERP."; }
+            if(totalScore >= 25) { 
+                l = "Excellent !"; 
+                a = "Votre culture sécurité est exemplaire. Vous remplissez pleinement vos obligations d'employeur."; 
+            }
+            else if(totalScore >= 15) { 
+                l = "Bon niveau"; 
+                a = "Quelques points à renforcer pour sécuriser totalement votre entreprise. Pensez à solliciter l'accompagnement gratuit du RESTEV."; 
+            }
+            else { 
+                l = "Action conseillée !"; 
+                a = "Pour protéger vos salariés et votre responsabilité d'employeur, rapprochez-vous vite de votre conseiller RESTEV 85 (IPRP ou médecin) pour un accompagnement sur mesure."; 
+            }
             document.getElementById('quiz-label').innerText = l;
             document.getElementById('quiz-advice').innerText = a;
         }
