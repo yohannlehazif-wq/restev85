@@ -1,6 +1,3 @@
-Désolé pour cette simplification, j'avais réduit le texte pour la lisibilité du code, mais je comprends que tu as besoin de la version complète.
-Voici le HTML intégral : j'ai restauré **tous les textes d'origine** (Offre RESTEV, Guide FDS, descriptions SGH), conservé les **8 boutons en couleurs pastels** et gardé la correction du **lien CARSAT**.
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -146,6 +143,12 @@ Voici le HTML intégral : j'ai restauré **tous les textes d'origine** (Offre RE
             <h6>Cellule PDP</h6>
             <p class="small text-muted mb-0">La cellule de Prévention de la Désinsertion Professionnelle (PDP) accompagne les salariés rencontrant des problèmes de santé impactant leur travail, afin d'anticiper et d'éviter l'inaptitude (aménagements de poste, reconversion).</p>
         </div>
+
+        <div class="mt-4">
+            <a href="https://www.restev.fr/" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
+                <i class="fa-solid fa-globe me-2"></i> CONSULTER LE SITE OFFICIEL
+            </a>
+        </div>
     </div>
 
     <div id="page-aides" class="app-page">
@@ -254,15 +257,15 @@ Voici le HTML intégral : j'ai restauré **tous les textes d'origine** (Offre RE
         ];
 
         const sghData = [
-            { id: "SGH01", title: "Explosif", img: "SGH01.jpg", desc: "S'enflamme ou explose sous l'effet de la chaleur, chocs ou frottements." },
-            { id: "SGH02", title: "Inflammable", img: "SGH02.jpg", desc: "Peut s'enflammer au contact d'étincelles, flammes ou chaleur." },
-            { id: "SGH03", title: "Comburant", img: "SGH03.jpg", desc: "Provoque ou aggrave un incendie en libérant de l'oxygène." },
-            { id: "SGH04", title: "Gaz sous pression", img: "SGH04.jpg", desc: "Gaz comprimés ou liquéfiés. Risque d'explosion sous la chaleur." },
-            { id: "SGH05", title: "Corrosif", img: "SGH05.jpg", desc: "Attaque les métaux et ronge la peau ou les yeux en cas de contact." },
-            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Empoisonne rapidement même à faible dose (inhalation, ingestion, peau)." },
-            { id: "SGH07", title: "Irritant / Nocif", img: "SGH07.jpg", desc: "Provoque irritations, allergies ou somnolence. Moins grave que SGH06." },
-            { id: "SGH08", title: "Danger Santé", img: "SGH08.jpg", desc: "Effets graves à long terme (Cancer, mutations, asthme, toxicité organes)." },
-            { id: "SGH09", title: "Environnement", img: "SGH09.jpg", desc: "Pollue l'eau et empoisonne les organismes aquatiques." }
+            { id: "SGH01", title: "Bombe Explosant", img: "SGH01 Bombe Explosant.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH02", title: "Flamme", img: "SGH02 Flamme.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "Ajouter des fichiers par téléchargement" },
+            { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Ajouter des fichiers par téléchargement" }
         ];
 
         const questions = [
@@ -334,7 +337,7 @@ Voici le HTML intégral : j'ai restauré **tous les textes d'origine** (Offre RE
             document.getElementById('sgh-list').innerHTML = sghData.map(s => `
                 <div class="card-custom sgh-card">
                     <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
-                    <div><b class="text-dark">${s.id} : ${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+                    <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
                 </div>`).join('');
         }
 
@@ -344,7 +347,7 @@ Voici le HTML intégral : j'ai restauré **tous les textes d'origine** (Offre RE
                     <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
                     <div class="d-flex gap-2">
                         <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-                        <a href="http://maps.google.com/maps?q=${encodeURIComponent(c.n + ' ' + c.a)}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Y aller</a>
+                        <a href="https://www.google.com/maps/search/${encodeURIComponent(c.n + ' ' + c.a)}" target="_blank" class="btn btn-sm btn-outline-info flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Y aller</a>
                     </div>
                 </div>`).join('');
         }
@@ -389,5 +392,3 @@ Voici le HTML intégral : j'ai restauré **tous les textes d'origine** (Offre RE
     </script>
 </body>
 </html>
-
-```
