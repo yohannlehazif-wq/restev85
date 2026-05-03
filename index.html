@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESTEV 85 - Inventaire FDS</title>
+    <title>RESTEV 85 - Gestion FDS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --bleu: #005596; --jaune: #ffdd00; --gris: #f4f4f4; }
-        body { font-family: sans-serif; background: var(--gris); margin: 0; padding: 15px; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; padding: 15px; }
         .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; border-top: 8px solid var(--bleu); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h1 { color: var(--bleu); text-align: center; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 20px; }
@@ -16,93 +16,118 @@
         label { font-weight: bold; color: var(--bleu); display: block; margin-bottom: 5px; }
         input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         
-        button { width: 100%; background: var(--bleu); color: white; border: none; padding: 14px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        button { width: 100%; background: var(--bleu); color: white; border: none; padding: 14px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #003d6b; }
         
         .produit-card { background: white; border-left: 6px solid var(--jaune); padding: 15px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .fds-link { background: var(--bleu); color: white; text-decoration: none; padding: 8px 12px; border-radius: 4px; font-size: 0.85em; font-weight: bold; }
+        .no-fds { color: #f39c12; font-size: 0.8em; font-style: italic; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>RESTEV 85</h1>
-    <div class="subtitle">Gestion Simplifiée des FDS</div>
+    <div class="subtitle">Inventaire des Produits & FDS</div>
 
     <div class="search-box">
         <label>🔍 Rechercher un produit :</label>
-        <input type="text" id="searchInput" oninput="filtrerProduits()" placeholder="Ex: Acétone...">
+        <input type="text" id="searchInput" oninput="filtrerProduits()" placeholder="Tapez le nom d'un produit...">
     </div>
 
-    <details style="margin-bottom: 20px; color: var(--bleu); cursor: pointer;">
-        <summary>➕ Ajouter un produit (Admin)</summary>
-        <div style="padding-top: 10px;">
-            <input type="text" id="nomProduit" placeholder="Nom du produit" style="margin-bottom: 10px;">
-            <input type="text" id="fdsUrl" placeholder="Lien URL de la FDS">
-            <button onclick="ajouterProduit()">Enregistrer</button>
+    <details style="margin-bottom: 20px; color: var(--bleu); cursor: pointer; font-size: 0.9em;">
+        <summary>⚙️ Administration (Ajouter un produit)</summary>
+        <div style="padding-top: 10px; background: #fafafa; padding: 10px; border-radius: 5px; margin-top: 5px;">
+            <input type="text" id="nomProduit" placeholder="Nom du produit (ex: Acétone)" style="margin-bottom: 10px;">
+            <input type="text" id="fdsUrl" placeholder="Lien vers la FDS (URL PDF)">
+            <button onclick="ajouterProduit()">Enregistrer en base de données</button>
         </div>
     </details>
 
-    <div id="listeProduits">Chargement...</div>
+    <div id="listeProduits" style="min-height: 50px;">Chargement de l'inventaire...</div>
 </div>
 
 <script>
-    // --- TES IDENTIFIANTS SUPABASE ---
+    // --- CONNEXION SUPABASE ---
     const SUPABASE_URL = 'https://sbvccjnwxvfmcfadfngc.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_RiUKUCrRehNumDIlsNourA_hDzj_QgX';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNidmNjam53eHZmbWNmYWRmbmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjk0NjksImV4cCI6MjA5MzMwNTQ2OX0.BVeMHt7urx04XSaHrp5jq7ro1YcB9_391wRwWaHcves';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let tousLesProduits = []; 
 
-    // 1. Charger les produits
+    // 1. Charger les produits au démarrage
     async function chargerProduits() {
-        const { data, error } = await supabase.from('produits').select('*').order('nom', { ascending: true });
+        const { data, error } = await supabase
+            .from('produits')
+            .select('*')
+            .order('nom', { ascending: true });
+
         if (error) {
-            document.getElementById('listeProduits').innerHTML = "Erreur de connexion";
+            console.error("Erreur Supabase:", error);
+            document.getElementById('listeProduits').innerHTML = "⚠️ Erreur de connexion : " + error.message;
             return;
         }
+        
         tousLesProduits = data;
         afficherListe(tousLesProduits);
     }
 
-    // 2. Afficher la liste
+    // 2. Afficher la liste formatée
     function afficherListe(liste) {
         const divListe = document.getElementById('listeProduits');
         divListe.innerHTML = '';
+        
         if (liste.length === 0) {
-            divListe.innerHTML = '<p style="text-align:center;color:#999;">Aucun produit.</p>';
+            divListe.innerHTML = '<p style="text-align:center;color:#999; margin-top:20px;">Aucun produit trouvé.</p>';
             return;
         }
+
         liste.forEach(p => {
             divListe.innerHTML += `
                 <div class="produit-card">
-                    <strong>${p.nom}</strong>
-                    ${p.fds_url ? `<a href="${p.fds_url}" target="_blank" class="fds-link">VOIR FDS</a>` : ''}
+                    <div>
+                        <strong>${p.nom}</strong>
+                    </div>
+                    <div>
+                        ${p.fds_url 
+                            ? `<a href="${p.fds_url}" target="_blank" class="fds-link">VOIR FDS</a>` 
+                            : '<span class="no-fds">FDS manquante</span>'}
+                    </div>
                 </div>`;
         });
     }
 
-    // 3. Filtrer (La recherche)
+    // 3. Système de recherche instantanée
     function filtrerProduits() {
         const texte = document.getElementById('searchInput').value.toLowerCase();
-        const resultats = tousLesProduits.filter(p => p.nom.toLowerCase().includes(texte));
+        const resultats = tousLesProduits.filter(p => 
+            p.nom.toLowerCase().includes(texte)
+        );
         afficherListe(resultats);
     }
 
-    // 4. Ajouter
+    // 4. Ajouter un produit
     async function ajouterProduit() {
         const nom = document.getElementById('nomProduit').value;
         const fds = document.getElementById('fdsUrl').value;
-        if (!nom) return alert("Nom obligatoire");
+        
+        if (!nom) return alert("Le nom du produit est obligatoire.");
 
-        const { error } = await supabase.from('produits').insert([{ nom: nom, fds_url: fds }]);
-        if (error) alert("Erreur : " + error.message);
-        else {
+        const { error } = await supabase
+            .from('produits')
+            .insert([{ nom: nom, fds_url: fds }]);
+        
+        if (error) {
+            alert("Erreur lors de l'ajout : " + error.message);
+        } else {
+            alert("✅ Produit ajouté avec succès !");
             document.getElementById('nomProduit').value = '';
             document.getElementById('fdsUrl').value = '';
-            chargerProduits();
+            chargerProduits(); // On recharge la liste
         }
     }
 
+    // Lancement
     chargerProduits();
 </script>
 
