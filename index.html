@@ -5,103 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85 - Expert Prévention</title>
 
-    <meta name="theme-color" content="#3065a8">
     <link rel="icon" type="image/png" href="logo_restev_carre.png">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; }
         
         /* Splash Screen */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 
-        /* UI */
+        /* Navigation & UI */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .logo-header { height: 40px; }
-        
-        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; }
-        .ticker { display: inline-block; animation: ticker 25s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; outline: none; }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; }
         .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 3px; }
 
         .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-fds { background: var(--r-blue); color: white; border: none; border-radius: 10px; padding: 5px 12px; font-size: 0.8rem; font-weight: 600; text-decoration: none; }
     </style>
 </head>
 <body>
 
     <div id="splash">
         <div class="text-center text-white">
-            <img src="logo_restev_carre.png" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120?text=RESTEV'">
             <h2 class="fw-bold mt-3">RESTEV 85</h2>
-            <p>Mise en situation - Inventaire Chimique</p>
-            <button class="btn-enter" onclick="dismissSplash()">DÉMARRER LE SCAN</button>
+            <p>Inventaire Chimique Connecté</p>
+            <button class="btn-enter" onclick="dismissSplash()">DÉMARRER</button>
         </div>
     </div>
 
     <div class="app-header">
-        <img src="logo_restev_long.png" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
-    </div>
-
-    <div class="info-banner">
-        <div class="ticker">
-            <span><i class="fa-solid fa-triangle-exclamation"></i> Rappel : Toute nouvelle FDS doit être intégrée au DUERP | <i class="fa-solid fa-shield-halved"></i> Port des EPI obligatoire selon rubrique 8.</span>
-        </div>
+        <h4 class="fw-bold mb-0" style="color: var(--r-blue)">RESTEV 85</h4>
     </div>
 
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold">Statut du Parc Chimique</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Synchronisation cloud...</p>
+            <h5 class="fw-bold">Statut Cloud</h5>
+            <p id="inv-stats" class="small opacity-75 mb-0">Connexion en cours...</p>
         </div>
-        
-        <div class="row g-2 mt-2">
+        <div class="row g-2 mt-3">
             <div class="col-12" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4" style="background-color: #e3f2fd;"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b class="text-primary">SCANNER UN PRODUIT</b></div>
+                <div class="card-custom text-center py-4" style="background-color: #e3f2fd;"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER UN PRODUIT</b></div>
             </div>
-            <div class="col-6" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-3"><i class="fa-solid fa-list fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div>
-            </div>
-            <div class="col-6">
-                <div class="card-custom text-center py-3" style="opacity: 0.5;"><i class="fa-solid fa-book-medical fa-lg mb-2 text-danger"></i><br><small class="fw-bold">URGENCES</small></div>
+            <div class="col-12" onclick="nav('page-list', 'nav-list')">
+                <div class="card-custom text-center py-3"><i class="fa-solid fa-database fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE CENTRALISÉ</small></div>
             </div>
         </div>
     </div>
 
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Nouveau scan terrain</h5>
+        <h5 class="fw-bold mb-3">Saisie Terrain</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
             <div class="d-flex gap-2 mt-3 mb-4">
-                <button id="btn-start-scan" class="btn btn-dark flex-grow-1 py-2" onclick="startScanner()"><i class="fa-solid fa-video me-2"></i>ACTIVER CAMÉRA</button>
+                <button id="btn-start-scan" class="btn btn-dark flex-grow-1" onclick="startScanner()">ACTIVER CAMÉRA</button>
                 <button id="btn-stop-scan" class="btn btn-danger" onclick="stopScanner()" style="display:none;">ARRÊTER</button>
             </div>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (Ex: Sika...)">
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
             <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres détecté">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER EN BASE</button>
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">SAUVEGARDER SUR LE CLOUD</button>
         </div>
     </div>
 
     <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Inventaire Centralisé</h5>
+        <h5 class="fw-bold mb-3">Base de données Cloud</h5>
         <div id="inventory-container"></div>
     </div>
 
@@ -112,29 +91,33 @@
     </nav>
 
     <script>
-        // --- CONFIGURATION SUPABASE ---
-        const SUPABASE_URL = 'TA_URL_SUPABASE'; // REMPLACER PAR TON URL
-        const SUPABASE_KEY = 'TA_CLE_ANON';    // REMPLACER PAR TA CLÉ
+        // --- CONNEXION SUPABASE ---
+        const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNidmNjam53eHZmbWNmYWRmbmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjk0NjksImV4cCI6MjA5MzMwNTQ2OX0.BVeMHt7urx04XSaHrp5jq7ro1YcB9_391wRwWaHcves';
+        
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let inventory = [];
         let html5QrCode = null;
 
-        // Charger depuis Supabase
+        // Charger les données
         async function loadInventory() {
-            const { data, error } = await _supabase.from('produits').select('*').order('created_at', { ascending: false });
-            if (!error) {
+            try {
+                const { data, error } = await _supabase.from('produits').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
                 inventory = data;
                 renderInventory();
                 updateStats();
+            } catch (e) {
+                document.getElementById('inv-stats').innerText = "Erreur de synchronisation";
             }
         }
 
-        // Sauvegarder sur Supabase
+        // Sauvegarder
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            if(!name) return alert("Le nom est obligatoire pour l'inventaire.");
+            if(!name) return alert("Veuillez entrer un nom.");
 
             const { error } = await _supabase.from('produits').insert([{ name, code }]);
             if (!error) {
@@ -143,46 +126,41 @@
                 await loadInventory();
                 nav('page-list', 'nav-list');
             } else {
-                alert("Erreur de connexion base de données.");
+                alert("Erreur lors de l'enregistrement.");
             }
         }
 
-        // Rendu de la liste
+        // Supprimer
+        async function deleteItem(id) {
+            if(!confirm("Supprimer ce produit définitivement ?")) return;
+            const { error } = await _supabase.from('produits').delete().eq('id', id);
+            if(!error) await loadInventory();
+        }
+
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Aucun produit en base.</p>';
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Aucun produit enregistré.</p>';
             inventory.forEach(item => {
-                const searchFds = `https://www.google.com/search?q=FDS+PDF+${encodeURIComponent(item.name)}`;
                 container.innerHTML += `
-                <div class="card-custom">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <b style="color:var(--r-blue)">${item.name.toUpperCase()}</b><br>
-                            <small class="text-muted"><i class="fa-solid fa-tag"></i> ${item.code || 'Manuel'}</small>
-                        </div>
-                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash-can"></i></button>
-                    </div>
-                    <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
-                        <span class="small text-muted">FDS :</span>
-                        <a href="${searchFds}" target="_blank" class="btn-fds"><i class="fa-solid fa-magnifying-glass me-1"></i>TROUVER LE PDF</a>
-                    </div>
+                <div class="card-custom d-flex justify-content-between align-items-center">
+                    <div><b>${item.name}</b><br><small class="text-muted">${item.code || 'Saisie manuelle'}</small></div>
+                    <button onclick="deleteItem(${item.id})" class="btn text-danger"><i class="fa-solid fa-trash-can"></i></button>
                 </div>`;
             });
         }
 
-        // Gestion du Scanner
+        // Scanner
         async function startScanner() {
             if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
-            const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
             document.getElementById('btn-start-scan').style.display = 'none';
             document.getElementById('btn-stop-scan').style.display = 'block';
 
-            html5QrCode.start({ facingMode: "environment" }, config, (text) => {
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
                 if (navigator.vibrate) navigator.vibrate(100);
                 stopScanner();
-            }).catch(err => {
-                alert("Vérifiez que vous avez autorisé la caméra dans le petit cadenas en haut.");
+            }).catch(() => {
+                alert("Caméra indisponible.");
                 stopScanner();
             });
         }
@@ -196,25 +174,18 @@
             }
         }
 
-        // Autres fonctions
-        async function deleteItem(id) {
-            if(confirm("Supprimer ce produit définitivement ?")) {
-                const { error } = await _supabase.from('produits').delete().eq('id', id);
-                if(!error) await loadInventory();
-            }
-        }
-
+        // Navigation
         function nav(id, el) {
             if (html5QrCode && html5QrCode.isScanning) stopScanner();
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
-            if(typeof el === 'string') document.getElementById(el).classList.add('active');
-            else el.classList.add('active');
+            if(el) (typeof el === 'string' ? document.getElementById(el) : el).classList.add('active');
+            if(id === 'page-list') loadInventory();
         }
 
         function updateStats() {
-            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés en base cloud`;
+            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) en base de données`;
         }
 
         function dismissSplash() {
