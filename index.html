@@ -265,9 +265,18 @@
         // --- CONFIGURATION SUPABASE ---
         const SUPABASE_URL = 'https://sbvccjnwxvfmcfadfngc.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNidmNjam53eHZmbWNmYWRmbmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjk0NjksImV4cCI6MjA5MzMwNTQ2OX0.BVeMHt7urx04XSaHrp5jq7ro1YcB9_391wRwWaHcves';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        let inventory = []; // Remplacé le localStorage par un tableau vide qui sera rempli par Supabase
+        
+        let supabase = null;
+        let inventory = []; 
+        
+        // --- PROTECTION ANTI-PLANTAGE MOBILE ---
+        try {
+            if (window.supabase) {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch (err) {
+            console.warn("Supabase n'a pas pu s'initialiser car le téléphone bloque les scripts.");
+        }
         
         const centres = [
             { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+85000+La+Roche-sur-Yon" },
@@ -304,18 +313,24 @@
 
         // --- FONCTION SUPABASE : Charger les produits ---
         async function loadSupabase() {
+            if (!supabase) {
+                document.getElementById('inv-stats').innerText = "⚠️ Téléphone bloque la connexion (Mettez le fichier en ligne)";
+                renderInventory();
+                return;
+            }
+
             try {
                 const { data, error } = await supabase.from('produits').select('*').order('nom', { ascending: true });
                 if (error) throw error;
                 
-                // On adapte les données Supabase pour qu'elles collent avec ton code d'origine
                 inventory = data.map(item => ({
                     id: item.id,
                     name: item.nom,
-                    code: item.fds_url || "" // On utilise fds_url pour stocker le code-barres pour le moment
+                    code: item.fds_url || "" 
                 }));
                 
-                updateStats();
+                document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans la base`;
+                
                 if(document.getElementById('page-list').classList.contains('active-page')) {
                     renderInventory();
                 }
@@ -343,7 +358,7 @@
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans l\'inventaire.</p>';
             inventory.forEach(item => {
                 const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}`;
                 container.innerHTML += `
@@ -366,11 +381,14 @@
 
         // --- FONCTION SUPABASE : Ajouter un produit ---
         async function saveProduct() {
+            if (!supabase) {
+                return alert("⚠️ Connexion bloquée.\n\nVotre smartphone refuse d'envoyer les données car vous lisez le fichier localement.\n\nMettez votre fichier sur Tiiny.host pour que cela fonctionne !");
+            }
+
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
             if(!name) return alert("Veuillez saisir au moins le nom du produit.");
             
-            // Envoi à Supabase
             const { error } = await supabase.from('produits').insert([{ nom: name, fds_url: code }]);
             
             if (error) {
@@ -381,19 +399,21 @@
             document.getElementById('prod-name').value = ''; 
             document.getElementById('prod-code').value = '';
             
-            await loadSupabase(); // Rafraîchit la liste avec le nouveau produit
+            await loadSupabase(); 
             nav('page-list', 'nav-list');
         }
 
         // --- FONCTION SUPABASE : Supprimer un produit ---
         async function deleteItem(id) {
+            if (!supabase) return alert("Action bloquée. Mettez le site en ligne.");
+
             if(confirm("Supprimer ce produit définitivement de la base ?")) {
                 const { error } = await supabase.from('produits').delete().eq('id', id);
                 if(error) {
                     alert("Erreur lors de la suppression : " + error.message);
                     return;
                 }
-                await loadSupabase(); // Rafraîchit la liste
+                await loadSupabase(); 
             }
         }
 
@@ -450,10 +470,12 @@
             const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
         }
 
-        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans la base`; }
-        function dismissSplash() { document.getElementById('splash').style.opacity = '0'; setTimeout(() => document.getElementById('splash').style.display = 'none', 800); }
+        function dismissSplash() { 
+            document.getElementById('splash').style.opacity = '0'; 
+            setTimeout(() => document.getElementById('splash').style.display = 'none', 800); 
+        }
         
-        // Au chargement de la page : on lance Supabase et le quiz
+        // Au chargement de la page
         window.onload = () => { 
             loadSupabase(); 
             showQuestion(); 
