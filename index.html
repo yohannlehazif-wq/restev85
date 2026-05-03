@@ -46,9 +46,9 @@
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    const SUPABASE_URL = 'https://TON_URL.supabase.co';
-    const SUPABASE_KEY = 'TA_CLE_ANON';
+    // --- TES IDENTIFIANTS SUPABASE ---
+    const SUPABASE_URL = 'https://sbvccjnwxvfmcfadfngc.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_RiUKUCrRehNumDIlsNourA_hDzj_QgX';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let tousLesProduits = []; 
@@ -81,7 +81,7 @@
         });
     }
 
-    // 3. Filtrer (La recherche corrigée)
+    // 3. Filtrer (La recherche)
     function filtrerProduits() {
         const texte = document.getElementById('searchInput').value.toLowerCase();
         const resultats = tousLesProduits.filter(p => p.nom.toLowerCase().includes(texte));
