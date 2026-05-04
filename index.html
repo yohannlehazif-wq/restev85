@@ -37,7 +37,7 @@
     <div id="splash">
         <div class="text-center text-white">
             <h2 class="fw-bold mt-3">RESTEV 85</h2>
-            <p>Inventaire & FDS Adhérents</p>
+            <p>Inventaire Intelligent</p>
             <button class="btn-enter" onclick="dismissSplash()">DÉMARRER</button>
         </div>
     </div>
@@ -71,14 +71,18 @@
                 <button id="btn-start-scan" class="btn btn-dark flex-grow-1" onclick="startScanner()">OUVRIR CAMÉRA</button>
                 <button id="btn-stop-scan" class="btn btn-danger" onclick="stopScanner()" style="display:none;">FERMER</button>
             </div>
-            <label class="small fw-bold text-muted">NOM DU PRODUIT</label>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Acétone">
             
             <label class="small fw-bold text-muted">CODE-BARRES</label>
-            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Scanné ou manuel">
+            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Scanné ou manuel" oninput="checkIfProductExists(this.value)">
+
+            <label class="small fw-bold text-muted mt-2">NOM DU PRODUIT</label>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Acétone">
             
-            <label class="small fw-bold text-muted">LIEN FDS (URL)</label>
-            <input type="text" id="prod-fds" class="form-control mb-3" placeholder="https://lien-de-la-fds.pdf">
+            <label class="small fw-bold text-muted mt-2">LIEN FDS (URL)</label>
+            <div class="input-group mb-3">
+                <input type="text" id="prod-fds" class="form-control" placeholder="https://...">
+                <button class="btn btn-outline-primary fw-bold" type="button" onclick="searchGoogleFDS()"><i class="fa-brands fa-google"></i> Web</button>
+            </div>
             
             <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
@@ -117,6 +121,33 @@
             }
         }
 
+        // --- NOUVEAUTÉ : Vérifier si le code existe déjà dans la base ---
+        function checkIfProductExists(code) {
+            if(!code || code.length < 3) return;
+            // On cherche dans l'inventaire déjà chargé si ce code existe
+            const existingProduct = inventory.find(item => item.code === code);
+            
+            if(existingProduct) {
+                // Si on le trouve, on auto-remplit les champs !
+                document.getElementById('prod-name').value = existingProduct.name;
+                if(existingProduct.fds_url) {
+                    document.getElementById('prod-fds').value = existingProduct.fds_url;
+                }
+            }
+        }
+
+        // --- NOUVEAUTÉ : Bouton de recherche magique sur Google ---
+        function searchGoogleFDS() {
+            const name = document.getElementById('prod-name').value;
+            if(!name) {
+                alert("Veuillez d'abord taper le nom du produit pour lancer la recherche.");
+                return;
+            }
+            // Crée une recherche parfaite pour trouver un PDF
+            const query = encodeURIComponent("FDS " + name + " filetype:pdf");
+            window.open("https://www.google.com/search?q=" + query, "_blank");
+        }
+
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
@@ -131,7 +162,6 @@
             }]);
 
             if (!error) {
-                // Reset formulaire
                 document.getElementById('prod-name').value = '';
                 document.getElementById('prod-code').value = '';
                 document.getElementById('prod-fds').value = '';
@@ -191,6 +221,7 @@
             html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
                 stopScanner();
+                checkIfProductExists(text); // On vérifie dès que c'est scanné !
             }).catch(() => {
                 alert("Caméra indisponible.");
                 stopScanner();
