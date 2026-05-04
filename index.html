@@ -3,142 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85</title>
+    <title>RESTEV 85 - Expert Prévention</title>
 
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3065a8">
+    
+    <!-- Bibliothèques -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/html5-qrcode.min.js"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
     <style>
-        :root { --r-blue: #3065a8; --r-yellow: #e6a00f; }
-        body { background-color: #f8fafc; font-family: sans-serif; padding-bottom: 100px; }
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); }
-        .card-custom { background: white; border-radius: 15px; padding: 20px; margin: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: white; display: flex; justify-content: space-around; padding: 15px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        .app-page { display: none; padding: 10px; }
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
+        
+        /* Splash Screen Animé */
+        #splash { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.6s; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; }
+
+        /* Header & Banner */
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 999; }
+        .info-banner { background: var(--r-yellow); color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-size: 0.8rem; font-weight: bold; }
+        .ticker { display: inline-block; animation: ticker 30s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* Navigation */
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 5px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.65rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; transition: 0.3s; }
+        .nav-item.active { color: var(--r-blue); transform: translateY(-5px); }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
+
+        /* Pages & Cards */
+        .app-page { display: none; padding: 15px; animation: fadeIn 0.4s ease-out; }
         .active-page { display: block !important; }
-        #reader { width: 100%; border-radius: 10px; overflow: hidden; background: #000; }
-        .btn-search { background-color: #ffca28; color: #000; font-weight: bold; border: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-custom { background: white; border-radius: 18px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #000; border: 2px solid var(--r-blue); }
+        .btn-action { border-radius: 12px; padding: 12px; font-weight: bold; transition: 0.2s; }
     </style>
 </head>
 <body>
 
-    <div class="app-header"><h4 class="fw-bold mb-0" style="color: var(--r-blue)">RESTEV 85</h4></div>
+    <!-- Splash Screen -->
+    <div id="splash">
+        <div class="text-center text-white">
+            <div class="bg-white p-3 d-inline-block rounded-4 mb-3">
+                <h1 class="text-primary fw-black m-0">R85</h1>
+            </div>
+            <h2 class="fw-bold">RESTEV 85</h2>
+            <p class="opacity-75">Expert Prévention Santé Travail</p>
+            <button class="btn-enter mt-3" onclick="dismissSplash()">DÉMARRER</button>
+        </div>
+    </div>
 
-    <!-- PAGE AJOUT -->
-    <div id="page-scan" class="app-page active-page">
-        <div class="card-custom shadow-sm">
+    <div class="app-header">
+        <span class="fw-bold text-primary">RESTEV 85</span> <small class="text-muted">| Prévention Pro</small>
+    </div>
+    
+    <div class="info-banner">
+        <div class="ticker">
+            <span>⚠️ CARSAT : Subventions TPE dispo ! | 🧪 INRS : Mise à jour Seirich | 👷 PDP : Prévenir l'inaptitude | 📞 Contactez votre TPRP habituel</span>
+        </div>
+    </div>
+
+    <!-- ACCUEIL -->
+    <div id="page-home" class="app-page active-page">
+        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+            <h5 class="fw-bold">Tableau de Bord</h5>
+            <p id="inv-stats" class="small mb-0">Connexion Supabase...</p>
+        </div>
+        
+        <div class="row g-2 mt-2">
+            <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-4 bg-white"><i class="fa-solid fa-camera fa-2x text-primary mb-2"></i><br><small class="fw-bold">NOUVEAU SCAN</small></div></div>
+            <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-4 bg-white"><i class="fa-solid fa-boxes-stacked fa-2x text-success mb-2"></i><br><small class="fw-bold">INVENTAIRE</small></div></div>
+            <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom text-center py-4 bg-white"><i class="fa-solid fa-vial-circle-check fa-2x text-danger mb-2"></i><br><small class="fw-bold">AUTO-DIAG</small></div></div>
+            <div class="col-6" onclick="nav('page-services', 'nav-home')"><div class="card-custom text-center py-4 bg-white"><i class="fa-solid fa-briefcase-medical fa-2x text-info mb-2"></i><br><small class="fw-bold">NOS SERVICES</small></div></div>
+        </div>
+    </div>
+
+    <!-- SCANNER -->
+    <div id="page-scan" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode me-2"></i>Saisie Produit</h5>
+        <div class="card-custom">
             <div id="reader"></div>
-            <button id="btn-start" class="btn btn-dark w-100 py-3 mt-2 fw-bold" onclick="startScanner()">SCANNER UN CODE</button>
-            <button id="btn-stop" class="btn btn-danger w-100 py-3 mt-2 fw-bold" onclick="stopScanner()" style="display:none;">ARRÊTER</button>
+            <div class="d-flex gap-2 mt-3 mb-4">
+                <button class="btn btn-dark flex-grow-1 fw-bold py-2" onclick="startScanner()"><i class="fa-solid fa-video me-2"></i>ACTIVER</button>
+                <button class="btn btn-outline-danger" onclick="stopScanner()"><i class="fa-solid fa-stop"></i></button>
+            </div>
 
-            <div class="mt-4">
-                <label class="small fw-bold">NOM DU PRODUIT</label>
-                <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Acétone Onyx">
-                
-                <!-- LE BOUTON DE RECHERCHE PDF -->
-                <button class="btn btn-search w-100 mb-3" onclick="trouverFDS()">
-                    <i class="fa-solid fa-file-pdf"></i> 🔍 TROUVER LE PDF EN LIGNE
-                </button>
+            <label class="small fw-bold text-muted mt-2">NOM DU PRODUIT</label>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Diluant">
+            
+            <button class="btn btn-sm btn-warning w-100 mb-3 fw-bold" onclick="findFDS()">
+                <i class="fa-solid fa-file-pdf"></i> TROUVER LA FDS PDF SUR LE WEB
+            </button>
 
-                <label class="small fw-bold text-muted">CODE PRODUIT (Optionnel)</label>
-                <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+            <label class="small fw-bold text-muted">L’URL DU PDF (À COLLER)</label>
+            <input type="text" id="prod-fds" class="form-control mb-4" placeholder="https://...">
 
-                <label class="small fw-bold text-success">LIEN DE LA FDS (À coller ici)</label>
-                <input type="text" id="prod-fds" class="form-control mb-4" placeholder="https://...">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">
+                <i class="fa-solid fa-floppy-disk me-2"></i>ENREGISTRER EN BASE
+            </button>
+        </div>
+    </div>
 
-                <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill" onclick="saveProduct()">
-                    <i class="fa-solid fa-cloud-upload"></i> ENREGISTRER L'INVENTAIRE
-                </button>
+    <!-- LISTE -->
+    <div id="page-list" class="app-page">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0">Mon Inventaire</h5>
+            <button class="btn btn-sm btn-danger" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+        </div>
+        <div id="inventory-container"></div>
+    </div>
+
+    <!-- AUTO-DIAG -->
+    <div id="page-quiz" class="app-page">
+        <div class="card-custom" id="quiz-container">
+            <div id="q-box">
+                <div class="progress mb-3" style="height: 6px;"><div id="quiz-progress" class="progress-bar" style="width: 10%;"></div></div>
+                <h6 id="q-text" class="fw-bold mb-4">...</h6>
+                <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold text-start">✅ Oui, tout à fait</button>
+                <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold text-start">⚠️ Partiellement</button>
+                <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-3 py-3 fw-bold text-start">❌ Pas du tout</button>
+            </div>
+            <div id="q-result" style="display: none;" class="text-center py-4">
+                <div class="display-3 fw-black text-primary" id="quiz-score">0</div>
+                <h4 id="quiz-label" class="fw-bold">Analyse...</h4>
+                <p id="quiz-advice" class="small text-muted px-3"></p>
+                <button onclick="resetQuiz()" class="btn btn-dark rounded-pill px-5">RECOMMENCER</button>
             </div>
         </div>
     </div>
 
-    <!-- PAGE LISTE -->
-    <div id="page-list" class="app-page">
-        <h5 class="fw-bold px-3">Inventaire Enregistré</h5>
-        <div id="inventory-container"></div>
+    <!-- SERVICES -->
+    <div id="page-services" class="app-page">
+        <h5 class="fw-bold mb-3">Accompagnement RESTEV</h5>
+        <div class="card-custom" style="border-left-color: var(--r-teal);">
+            <h6>🏬 Visite d'Entreprise</h6>
+            <p class="small text-muted">Aide à l'évaluation des risques et conseils sur les équipements de protection.</p>
+        </div>
+        <div class="card-custom" style="border-left-color: var(--r-purple);">
+            <h6>🤝 Maintien en Emploi</h6>
+            <p class="small text-muted">La cellule PDP vous aide à adapter les postes pour éviter les inaptitudes.</p>
+        </div>
     </div>
 
+    <!-- MENU BAS -->
     <nav class="nav-bottom">
-        <button class="btn fw-bold text-primary" onclick="nav('page-scan')"><i class="fa-solid fa-plus-circle"></i> AJOUTER</button>
-        <button class="btn fw-bold text-secondary" onclick="nav('page-list')"><i class="fa-solid fa-list"></i> LISTE</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCANNER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-clipboard-list"></i>LISTE</button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-stethoscope"></i>DIAG</button>
     </nav>
 
     <script>
-        const SUPABASE_URL = 'https://khhktchihkyojiuewyva.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_hXeBEfzyVMM5PxwdZPlnjw_6xTwlP3T';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        let scanner = null;
+        // -- CONFIG & INIT --
+        const SUPABASE_URL = 'https://sbvccjnwxvfmcfadfngc.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNidmNjam53eHZmbWNmYWRmbmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjk0NjksImV4cCI6MjA5MzMwNTQ2OX0.BVeMHt7urx04XSaHrp5jq7ro1YcB9_391wRwWaHcves';
+        let _sb = null;
+        let inventory = [];
+        let html5QrCode = null;
 
-        // Fonction pour chercher le PDF sur le web
-        function trouverFDS() {
-            const nom = document.getElementById('prod-name').value;
-            if(!nom) {
-                alert("Veuillez d'abord taper le nom du produit.");
-                return;
-            }
-            // Ouvre une recherche ciblée sur les fichiers PDF
-            const urlRecherche = `https://www.google.com/search?q=FDS+${encodeURIComponent(nom)}+filetype:pdf`;
-            window.open(urlRecherche, '_blank');
+        window.onload = () => {
+            _sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            loadData();
+            showQuestion();
+        };
+
+        function dismissSplash() {
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 600);
         }
 
-        function nav(id) {
+        // -- NAVIGATION --
+        function nav(id, el) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
-            if(id === 'page-list') loadInventory();
+            if(typeof el === 'object') el.classList.add('active');
+            else if(el) document.getElementById(el).classList.add('active');
+            
+            if(id === 'page-list') renderInventory();
+            if(id !== 'page-scan' && html5QrCode) stopScanner();
         }
 
-        async function startScanner() {
-            if (!scanner) scanner = new Html5Qrcode("reader");
-            document.getElementById('btn-start').style.display = 'none';
-            document.getElementById('btn-stop').style.display = 'block';
+        // -- LOGIQUE DATA --
+        async function loadData() {
+            const { data } = await _sb.from('produits').select('*').order('nom');
+            inventory = data || [];
+            document.getElementById('inv-stats').innerText = inventory.length + " produits dans votre base";
+        }
 
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-                (text) => {
-                    document.getElementById('prod-code').value = text;
-                    stopScanner();
-                }
-            ).catch(() => {
-                alert("Erreur Caméra. Vérifiez les autorisations.");
-                stopScanner();
+        function renderInventory() {
+            const cont = document.getElementById('inventory-container');
+            cont.innerHTML = inventory.length ? '' : '<div class="text-center p-5 text-muted">Aucun produit enregistré.</div>';
+            inventory.forEach(p => {
+                cont.innerHTML += `
+                    <div class="card-custom d-flex justify-content-between align-items-center">
+                        <div style="max-width: 65%;">
+                            <b class="text-primary">${p.nom}</b><br>
+                            <a href="${p.fds_url}" target="_blank" class="small text-truncate d-block text-muted">
+                                ${p.fds_url ? '<i class="fa-solid fa-file-pdf text-danger"></i> Voir FDS' : 'Aucun lien'}
+                            </a>
+                        </div>
+                        <button onclick="deleteProduct(${p.id})" class="btn btn-sm text-danger px-3"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
             });
-        }
-
-        function stopScanner() {
-            if (scanner) {
-                scanner.stop().then(() => {
-                    document.getElementById('btn-start').style.display = 'block';
-                    document.getElementById('btn-stop').style.display = 'none';
-                });
-            }
         }
 
         async function saveProduct() {
-            const n = document.getElementById('prod-name').value;
-            const c = document.getElementById('prod-code').value;
-            const f = document.getElementById('prod-fds').value;
-            if(!n) return alert("Nom obligatoire");
+            const nom = document.getElementById('prod-name').value;
+            const fds = document.getElementById('prod-fds').value;
+            if(!nom) return alert("Le nom est obligatoire !");
 
-            const { error } = await _supabase.from('produits').insert([{ name: n, code: c, fds_url: f }]);
-            if (!error) {
-                alert("Enregistré avec succès !");
+            const { error } = await _sb.from('produits').insert([{ nom: nom, fds_url: fds }]);
+            if(!error) {
+                alert("Enregistré !");
                 document.getElementById('prod-name').value = '';
-                document.getElementById('prod-code').value = '';
                 document.getElementById('prod-fds').value = '';
-                nav('page-list');
+                loadData();
+                nav('page-list', 'nav-list');
             }
         }
 
-        async function loadInventory() {
-            const { data } = await _supabase.from('produits').select('*').order('created_at', { ascending: false });
-            const cont = document.getElementById('inventory-container');
-            cont.innerHTML = '';
-            data.forEach(item => {
-                const link = item.fds_url ? `<a href="${item.fds_url}" target="_blank" class="btn btn-sm btn-info text-white">VOIR PDF</a>` : '';
-                cont.innerHTML += `<div class="card-custom py-2"><div class="d-flex justify-content-between align-items-center"><b>${item.name}</b> ${link}</div></div>`;
-            });
+        async function deleteProduct(id) {
+            if(!confirm("Supprimer ce produit ?")) return;
+            await _sb.from('produits').delete().eq('id', id);
+            loadData().then(renderInventory);
+        }
+
+        function findFDS() {
+            const nom = document.getElementById('prod-name').value;
+            if(!nom) return alert("Tapez d'abord le nom du produit");
+            window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(nom)}+filetype:pdf`, '_blank');
+        }
+
+        // -- SCANNER --
+        function startScanner() {
+            if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
+                (txt) => {
+                    // Si le texte est un code-barres, on peut tenter d'identifier, mais ici on l'affiche simplement
+                    alert("Scanné : " + txt);
+                    stopScanner();
+                }
+            ).catch(() => alert("Caméra bloquée ou HTTPS manquant."));
+        }
+
+        function stopScanner() {
+            if(html5QrCode) {
+                html5QrCode.stop().then(() => { html5QrCode = null; });
+            }
+        }
+
+        // -- QUIZ --
+        const questions = [
+            "Le DUERP a-t-il été mis à jour dans les 12 derniers mois ?",
+            "Les FDS sont-elles accessibles par tous les salariés ?",
+            "Les salariés ont-ils une formation aux risques chimiques ?",
+            "Le stockage des produits respecte-t-il les compatibilités ?",
+            "Les produits CMR sont-ils identifiés séparément ?"
+        ];
+        let curQ = 0, score = 0;
+
+        function showQuestion() {
+            document.getElementById('q-text').innerText = (curQ + 1) + ". " + questions[curQ];
+            document.getElementById('quiz-progress').style.width = ((curQ + 1) / questions.length * 100) + "%";
+        }
+
+        function quizAnswer(pts) {
+            score += pts; curQ++;
+            if(curQ < questions.length) showQuestion();
+            else {
+                document.getElementById('q-box').style.display='none';
+                document.getElementById('q-result').style.display='block';
+                document.getElementById('quiz-score').innerText = score + "/15";
+                document.getElementById('quiz-label').innerText = score > 10 ? "Bonne maîtrise" : "Urgence Prévention";
+                document.getElementById('quiz-advice').innerText = score > 10 ? "Continuez vos efforts de traçabilité." : "Contactez RESTEV pour un diagnostic Risque Chimique.";
+            }
+        }
+        
+        function resetQuiz() { curQ=0; score=0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
+
+        // -- PDF --
+        function generatePDFProof() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.text("INVENTAIRE CHIMIQUE - RESTEV 85", 14, 20);
+            const rows = inventory.map(p => [p.nom, p.fds_url || "Non renseigné"]);
+            doc.autoTable({ head: [['Produit', 'Lien FDS']], body: rows, startY: 30 });
+            doc.save("Inventaire_RESTEV85.pdf");
         }
     </script>
 </body>
