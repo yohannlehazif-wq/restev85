@@ -82,6 +82,7 @@
         </div>
     </div>
 
+    <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">RESTEV 85</h5>
@@ -100,6 +101,7 @@
         </div>
     </div>
 
+    <!-- SERVICES -->
     <div id="page-services" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L'Offre RESTEV 85</h5>
         <div class="card-custom">
@@ -119,6 +121,7 @@
         </div>
     </div>
 
+    <!-- AIDES -->
     <div id="page-aides" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides & Partenaires</h5>
         <div class="card-custom" style="border-left-color: #e6a00f;">
@@ -133,11 +136,13 @@
         </div>
     </div>
 
+    <!-- LEXIQUE SGH -->
     <div id="page-sgh" class="app-page">
         <h5 class="fw-bold mb-3">Classification SGH</h5>
         <div id="sgh-list"></div>
     </div>
 
+    <!-- LISTE / INVENTAIRE -->
     <div id="page-list" class="app-page">
         <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
         <div class="d-flex gap-2 mb-3">
@@ -147,6 +152,7 @@
         <div id="inventory-container"></div>
     </div>
 
+    <!-- AUTO DIAG -->
     <div id="page-quiz" class="app-page">
         <h5 class="fw-bold mb-3 text-center">Auto-Diag (10 pts)</h5>
         <div class="card-custom" id="quiz-container">
@@ -166,40 +172,40 @@
         </div>
     </div>
 
+    <!-- GUIDE FDS -->
     <div id="page-fds-guide" class="app-page">
         <h5 class="fw-bold mb-3">Décrypter une FDS</h5>
-        <div class="card-custom" style="border-left-color: #dc3545;"><h6>Rubrique 2 : Dangers</h6><p class="small mb-0">Pictogrammes et phrases H/P.</p></div>
-        <div class="card-custom" style="border-left-color: #198754;"><h6>Rubrique 4 : Secours</h6><p class="small mb-0">Gestes immédiats avant secours.</p></div>
-        <div class="card-custom" style="border-left-color: #3065a8;"><h6>Rubrique 8 : EPI</h6><p class="small mb-0">Type de gants et masques requis.</p></div>
+        <div class="card-custom" style="border-left-color: #dc3545;"><h6>Rubrique 2 : Dangers</h6><p class="small mb-0">Identification des dangers (pictogrammes, phrases H et P).</p></div>
+        <div class="card-custom" style="border-left-color: #198754;"><h6>Rubrique 4 : Secours</h6><p class="small mb-0">Premiers secours à prodiguer immédiatement avant l'arrivée des secours.</p></div>
+        <div class="card-custom" style="border-left-color: #3065a8;"><h6>Rubrique 8 : EPI</h6><p class="small mb-0">Contrôle de l'exposition et protection individuelle (gants, masques, lunettes).</p></div>
     </div>
 
+    <!-- CENTRES -->
     <div id="page-centres" class="app-page">
         <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
         <div id="centres-list"></div>
     </div>
 
-    <!-- SECTION SCAN MODIFIÉE -->
+    <!-- PAGE SCAN (AMÉLIORÉE) -->
     <div id="page-scan" class="app-page">
         <h5 class="fw-bold mb-3">Ajouter un produit</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
-            <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA (SCAN)</button>
+            <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
             
-            <label class="small fw-bold text-muted">Nom du produit</label>
-            <input type="text" id="prod-name" class="form-control mb-3" placeholder="Ex: Acétone">
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
+            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres (scanné ou manuel)">
             
-            <label class="small fw-bold text-muted">Code-barres / Référence</label>
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Scanné ou manuel">
-            
-            <label class="small fw-bold text-muted">Document FDS (PDF)</label>
-            <input type="file" id="prod-file" class="form-control mb-4" accept=".pdf">
-            
-            <button id="save-btn" class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">
-                <i class="fa-solid fa-cloud-arrow-up me-2"></i>ENREGISTRER SUR SUPABASE
-            </button>
+            <div class="mt-3">
+                <label class="form-label small fw-bold"><i class="fa-solid fa-file-pdf me-1"></i>Joindre la FDS (PDF)</label>
+                <input type="file" id="prod-pdf" class="form-control mb-3" accept="application/pdf">
+            </div>
+
+            <button id="btn-save" class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
     </div>
 
+    <!-- NAVIGATION BAS -->
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
         <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
@@ -209,7 +215,7 @@
     </nav>
 
     <script>
-        // 1. SPLASH & BOUTON ENTRER
+        // 1. SPLASH
         function dismissSplash() {
             const splash = document.getElementById('splash');
             if(splash) {
@@ -247,13 +253,14 @@
             window.scrollTo(0,0);
         }
 
-        // 4. SUPABASE LOGIQUE
+        // 4. LOGIQUE INVENTAIRE & SUPABASE
         async function loadSupabase() {
             if(!supabaseClient) return;
             const { data, error } = await supabaseClient.from('produits').select('*').order('nom');
             if(!error) {
                 inventory = data;
-                document.getElementById('inv-stats').innerText = inventory.length + " produit(s) enregistrés";
+                const stats = document.getElementById('inv-stats');
+                if(stats) stats.innerText = inventory.length + " produit(s) enregistrés";
             }
         }
 
@@ -261,77 +268,57 @@
             const cont = document.getElementById('inventory-container');
             cont.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Inventaire vide.</p>';
             inventory.forEach(p => {
-                const fdsLink = p.fds_url && p.fds_url.startsWith('http') ? 
-                    `<a href="${p.fds_url}" target="_blank" class="btn btn-sm btn-light text-danger"><i class="fa-solid fa-file-pdf"></i> FDS</a>` : 
-                    `<small class="text-muted">${p.fds_url || 'N/A'}</small>`;
-
+                const isPdf = p.fds_url && p.fds_url.includes('supabase.co/storage');
                 cont.innerHTML += `
                     <div class="card-custom d-flex justify-content-between align-items-center">
                         <div>
                             <b style="color:var(--r-blue)">${p.nom}</b><br>
-                            ${fdsLink}
+                            <small class="text-muted">${p.fds_url && !isPdf ? p.fds_url : 'Réf. RESTEV'}</small>
                         </div>
                         <div class="d-flex gap-2">
-                             <a href="https://www.google.com/search?q=FDS+${p.nom}" target="_blank" class="btn btn-sm btn-light text-primary"><i class="fa-solid fa-search"></i></a>
+                             ${isPdf ? `<a href="${p.fds_url}" target="_blank" class="btn btn-sm btn-light text-danger"><i class="fa-solid fa-file-pdf"></i></a>` : `<a href="https://www.google.com/search?q=FDS+${p.nom}" target="_blank" class="btn btn-sm btn-light text-primary"><i class="fa-solid fa-search"></i></a>`}
                              <button onclick="deleteProduct(${p.id})" class="btn btn-sm btn-light text-danger"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>`;
             });
         }
 
-        // FONCTION SAUVEGARDE AMELIORÉE (SCAN + PDF)
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            const fileInput = document.getElementById('prod-file');
-            const saveBtn = document.getElementById('save-btn');
+            const pdfFile = document.getElementById('prod-pdf').files[0];
+            const btn = document.getElementById('btn-save');
 
             if(!name || !supabaseClient) return alert("Nom du produit requis.");
             
-            saveBtn.disabled = true;
-            saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Envoi...';
+            btn.disabled = true;
+            btn.innerText = "CHARGEMENT...";
 
-            try {
-                let finalUrl = code;
+            let finalUrl = code; 
 
-                // Si un fichier PDF est sélectionné, on l'upload d'abord
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const fileName = `${Date.now()}_${file.name}`;
-                    
-                    const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                        .from('fds') // Assurez-vous qu'un bucket nommé 'fds' existe sur Supabase
-                        .upload(fileName, file);
-
-                    if (uploadError) throw uploadError;
-
-                    const { data: publicUrlData } = supabaseClient.storage
-                        .from('fds')
-                        .getPublicUrl(fileName);
-                    
-                    finalUrl = publicUrlData.publicUrl;
+            // Upload PDF si présent
+            if (pdfFile) {
+                const fileName = Date.now() + "_" + pdfFile.name;
+                const { data, error } = await supabaseClient.storage.from('fds_files').upload(fileName, pdfFile);
+                if (error) {
+                    alert("Erreur upload PDF : " + error.message);
+                } else {
+                    const { data: urlData } = supabaseClient.storage.from('fds_files').getPublicUrl(fileName);
+                    finalUrl = urlData.publicUrl;
                 }
-
-                // Enregistrement final en base
-                const { error } = await supabaseClient.from('produits').insert([
-                    { nom: name, fds_url: finalUrl }
-                ]);
-
-                if (error) throw error;
-
-                // Reset et retour
-                document.getElementById('prod-name').value = ''; 
-                document.getElementById('prod-code').value = '';
-                fileInput.value = '';
-                await loadSupabase();
-                nav('page-list', 'nav-list');
-
-            } catch (err) {
-                alert("Erreur lors de l'enregistrement : " + err.message);
-            } finally {
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up me-2"></i>ENREGISTRER SUR SUPABASE';
             }
+
+            await supabaseClient.from('produits').insert([{ nom: name, fds_url: finalUrl }]);
+            
+            // Reset
+            document.getElementById('prod-name').value = ''; 
+            document.getElementById('prod-code').value = '';
+            document.getElementById('prod-pdf').value = '';
+            btn.disabled = false;
+            btn.innerText = "ENREGISTRER";
+            
+            await loadSupabase();
+            nav('page-list', 'nav-list');
         }
 
         async function deleteProduct(id) {
@@ -343,16 +330,10 @@
 
         // 5. QUIZ
         const questions = [
-            "DUERP mis à jour cette année ?",
-            "Salariés formés aux Risques Chimiques ?",
-            "FDS accessibles à tous ?",
-            "EPI portés et en bon état ?",
-            "Stockage conforme (compatibilités) ?",
-            "Accidents tracés et analysés ?",
-            "Salariés formés aux 1ers secours ?",
-            "Étiquetage conforme sur tous les pots ?",
-            "Matériel de sécurité (douche/kit) testé ?",
-            "Prévention discutée régulièrement ?"
+            "DUERP mis à jour cette année ?", "Salariés formés aux Risques Chimiques ?", "FDS accessibles à tous ?",
+            "EPI portés et en bon état ?", "Stockage conforme (compatibilités) ?", "Accidents tracés et analysés ?",
+            "Salariés formés aux 1ers secours ?", "Étiquetage conforme sur tous les pots ?",
+            "Matériel de sécurité (douche/kit) testé ?", "Prévention discutée régulièrement ?"
         ];
         let curQ = 0, score = 0;
         function showQuestion() {
@@ -367,11 +348,12 @@
                 document.getElementById('q-result').style.display='block';
                 document.getElementById('quiz-score').innerText = score + "/30";
                 document.getElementById('quiz-label').innerText = score > 20 ? "Bon niveau" : "À améliorer";
+                document.getElementById('quiz-advice').innerText = score > 20 ? "Continuez vos efforts de prévention." : "Contactez votre TPRP RESTEV pour un accompagnement.";
             }
         }
         function resetQuiz() { curQ=0; score=0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
-        // 6. EXPORTS & AUTRES
+        // 6. EXPORTS & RENDU
         function exportToCSV() {
             let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Reference\r\n" + inventory.map(i => `${i.nom};${i.fds_url}`).join("\r\n");
             const link = document.createElement("a"); link.href = encodeURI(csv); link.download = "Inventaire_RESTEV.csv"; link.click();
@@ -382,20 +364,24 @@
             const doc = new jsPDF();
             doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE - RESTEV 85", 14, 20);
             const data = inventory.map((p, index) => [index + 1, p.nom, p.fds_url || "-"]);
-            doc.autoTable({ head: [['N°', 'Produit', 'Ref/Lien']], body: data, startY: 30 });
+            doc.autoTable({ head: [['N°', 'Produit', 'Lien/Réf']], body: data, startY: 30 });
             doc.save("Attestation_RESTEV.pdf");
         }
 
         function renderCentres() {
-            const list = [{n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton"}, {n: "Montaigu", t: "0251942014", a: "Rue du 8 Mai"}];
+            const list = [
+                {n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton"}, 
+                {n: "Montaigu", t: "0251942014", a: "Rue du 8 Mai"},
+                {n: "Les Herbiers", t: "0251668412", a: "Av. de l'Arrivée"}
+            ];
             document.getElementById('centres-list').innerHTML = list.map(c => `<div class="card-custom"><b>${c.n}</b><br><small>${c.a}</small><br><a href="tel:${c.t}" class="btn btn-primary btn-sm mt-2">Appeler</a></div>`).join('');
         }
 
         function renderSGH() {
             const sghData = [
-                { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-                { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-                { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" }
+                { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives pour les métaux et la peau." },
+                { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables, auto-échauffantes." },
+                { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Cancérogène, mutagène, toxique pour la reproduction." }
             ];
             document.getElementById('sgh-list').innerHTML = sghData.map(s => `<div class="card-custom sgh-card"><img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'"><div><b>${s.title}</b><br><small>${s.desc}</small></div></div>`).join('');
         }
@@ -405,7 +391,6 @@
             scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
                 document.getElementById('prod-code').value = txt;
                 scanner.stop();
-                alert("Code scanné : " + txt);
             }).catch(err => alert("Erreur caméra : " + err));
         }
 
