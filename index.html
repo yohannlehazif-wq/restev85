@@ -30,6 +30,10 @@
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .btn-fds { padding: 5px 12px; border-radius: 10px; font-size: 0.8rem; text-decoration: none; display: inline-block; }
+        
+        /* Bouton Google très visible */
+        .btn-google { background-color: #fbbc05; color: #000; border: none; border-radius: 12px; font-weight: bold; box-shadow: 0 4px 10px rgba(251, 188, 5, 0.3); }
+        .btn-google:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
@@ -54,37 +58,54 @@
         </div>
         <div class="row g-2 mt-3">
             <div class="col-12" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4" style="background-color: #e3f2fd;"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER UN PRODUIT</b></div>
+                <div class="card-custom text-center py-4" style="background-color: #e3f2fd; cursor: pointer;">
+                    <i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER UN PRODUIT</b>
+                </div>
             </div>
             <div class="col-12" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-3"><i class="fa-solid fa-file-medical fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE & FDS</small></div>
+                <div class="card-custom text-center py-3" style="cursor: pointer;">
+                    <i class="fa-solid fa-file-medical fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE & FDS</small>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- PAGE SCANNER -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Nouvelle Entrée</h5>
-        <div class="card-custom">
-            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-plus-circle text-primary"></i> Nouvelle Entrée</h5>
+        <div class="card-custom border-0 shadow-sm">
+            
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #1e293b; min-height: 250px; display: flex; align-items: center; justify-content: center;">
+                <span class="text-white opacity-50 small" id="cam-placeholder">La caméra s'affichera ici</span>
+            </div>
+            
             <div class="d-flex gap-2 mt-3 mb-4">
-                <button id="btn-start-scan" class="btn btn-dark flex-grow-1" onclick="startScanner()">OUVRIR CAMÉRA</button>
-                <button id="btn-stop-scan" class="btn btn-danger" onclick="stopScanner()" style="display:none;">FERMER</button>
+                <button id="btn-start-scan" class="btn btn-dark flex-grow-1 py-3 fw-bold rounded-3" onclick="startScanner()"><i class="fa-solid fa-camera"></i> OUVRIR CAMÉRA</button>
+                <button id="btn-stop-scan" class="btn btn-danger py-3 rounded-3" onclick="stopScanner()" style="display:none;"><i class="fa-solid fa-times"></i> FERMER</button>
             </div>
             
-            <label class="small fw-bold text-muted">CODE-BARRES</label>
-            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Scanné ou manuel" oninput="checkIfProductExists(this.value)">
+            <div id="form-saisie" style="background: #f8fafc; padding: 15px; border-radius: 15px; border: 1px solid #e2e8f0;">
+                <label class="small fw-bold text-muted mb-1"><i class="fa-solid fa-barcode"></i> CODE-BARRES</label>
+                <input type="text" id="prod-code" class="form-control form-control-lg mb-3" placeholder="Scannez ou tapez..." oninput="checkIfProductExists(this.value)">
 
-            <label class="small fw-bold text-muted mt-2">NOM DU PRODUIT</label>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Acétone">
-            
-            <label class="small fw-bold text-muted mt-2">LIEN FDS (URL)</label>
-            <div class="input-group mb-3">
-                <input type="text" id="prod-fds" class="form-control" placeholder="https://...">
-                <button class="btn btn-outline-primary fw-bold" type="button" onclick="searchGoogleFDS()"><i class="fa-brands fa-google"></i> Web</button>
+                <label class="small fw-bold text-muted mb-1"><i class="fa-solid fa-tag"></i> NOM DU PRODUIT</label>
+                <input type="text" id="prod-name" class="form-control form-control-lg mb-3" placeholder="Ex: Acétone Onyx">
+                
+                <hr class="text-muted">
+
+                <label class="small fw-bold text-muted mb-2"><i class="fa-solid fa-file-pdf"></i> FICHE DE SÉCURITÉ (FDS)</label>
+                
+                <!-- LE NOUVEAU BOUTON ERGONOMIQUE ET VISIBLE -->
+                <button class="btn btn-google w-100 py-3 mb-3" type="button" onclick="searchGoogleFDS()">
+                    <i class="fa-brands fa-google fa-lg"></i> Chercher la FDS sur Internet
+                </button>
+
+                <input type="text" id="prod-fds" class="form-control form-control-lg mb-4" placeholder="Collez le lien (https://...) ici">
+                
+                <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm" onclick="saveProduct()" style="font-size: 1.1rem;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> ENREGISTRER
+                </button>
             </div>
-            
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
     </div>
 
@@ -95,9 +116,9 @@
     </div>
 
     <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle"></i>AJOUTER</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-clipboard-list"></i>LISTE</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house fa-lg mb-1"></i>ACCUEIL</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle fa-lg mb-1"></i>AJOUTER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-clipboard-list fa-lg mb-1"></i>LISTE</button>
     </nav>
 
     <script>
@@ -121,29 +142,28 @@
             }
         }
 
-        // --- NOUVEAUTÉ : Vérifier si le code existe déjà dans la base ---
+        // Vérification intelligente
         function checkIfProductExists(code) {
             if(!code || code.length < 3) return;
-            // On cherche dans l'inventaire déjà chargé si ce code existe
             const existingProduct = inventory.find(item => item.code === code);
             
             if(existingProduct) {
-                // Si on le trouve, on auto-remplit les champs !
                 document.getElementById('prod-name').value = existingProduct.name;
                 if(existingProduct.fds_url) {
                     document.getElementById('prod-fds').value = existingProduct.fds_url;
                 }
+                // Petit retour visuel pour l'adhérent
+                alert(`✅ Produit reconnu : ${existingProduct.name} ! Vérifiez et enregistrez.`);
             }
         }
 
-        // --- NOUVEAUTÉ : Bouton de recherche magique sur Google ---
         function searchGoogleFDS() {
             const name = document.getElementById('prod-name').value;
             if(!name) {
-                alert("Veuillez d'abord taper le nom du produit pour lancer la recherche.");
+                alert("⚠️ Veuillez d'abord taper le nom du produit dans la case au-dessus pour lancer la recherche.");
+                document.getElementById('prod-name').focus();
                 return;
             }
-            // Crée une recherche parfaite pour trouver un PDF
             const query = encodeURIComponent("FDS " + name + " filetype:pdf");
             window.open("https://www.google.com/search?q=" + query, "_blank");
         }
@@ -153,7 +173,13 @@
             const code = document.getElementById('prod-code').value;
             const fds = document.getElementById('prod-fds').value;
 
-            if(!name) return alert("Veuillez saisir au moins le nom du produit.");
+            if(!name) return alert("Le nom du produit est obligatoire.");
+
+            // Changement visuel du bouton pendant la sauvegarde
+            const btn = document.querySelector('button[onclick="saveProduct()"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ENREGISTREMENT...';
+            btn.disabled = true;
 
             const { error } = await _supabase.from('produits').insert([{ 
                 name: name, 
@@ -166,37 +192,43 @@
                 document.getElementById('prod-code').value = '';
                 document.getElementById('prod-fds').value = '';
                 await loadInventory();
+                
+                // Remettre le bouton à la normale et changer de page
+                btn.innerHTML = originalText;
+                btn.disabled = false;
                 nav('page-list', 'nav-list');
             } else {
-                alert("Erreur Supabase : " + error.message);
+                alert("Erreur réseau : " + error.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         }
 
         async function deleteItem(id) {
-            if(!confirm("Supprimer ce produit ?")) return;
+            if(!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return;
             const { error } = await _supabase.from('produits').delete().eq('id', id);
             if(!error) await loadInventory();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit.</p>';
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Votre inventaire est vide.</p>';
             
             inventory.forEach(item => {
                 const fdsBtn = item.fds_url 
-                    ? `<a href="${item.fds_url}" target="_blank" class="btn-fds btn-primary text-white"><i class="fa-solid fa-file-pdf"></i> FDS</a>`
-                    : `<span class="btn-fds bg-light text-muted"><i class="fa-solid fa-times"></i> Pas de FDS</span>`;
+                    ? `<a href="${item.fds_url}" target="_blank" class="btn-fds btn-primary text-white shadow-sm"><i class="fa-solid fa-file-pdf"></i> Voir FDS</a>`
+                    : `<span class="btn-fds bg-light text-muted border"><i class="fa-solid fa-search"></i> Pas de FDS</span>`;
 
                 container.innerHTML += `
                 <div class="card-custom">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                            <h6 class="fw-bold mb-0">${item.name}</h6>
-                            <small class="text-muted">Code : ${item.code || '-'}</small>
+                            <h6 class="fw-bold mb-0 text-dark">${item.name}</h6>
+                            <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
                         </div>
-                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash-can fa-lg"></i></button>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                         ${fdsBtn}
                         <small class="text-muted" style="font-size:0.7rem;">${new Date(item.created_at).toLocaleDateString()}</small>
                     </div>
@@ -215,15 +247,17 @@
 
         async function startScanner() {
             if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
+            
+            document.getElementById('cam-placeholder').style.display = 'none';
             document.getElementById('btn-start-scan').style.display = 'none';
             document.getElementById('btn-stop-scan').style.display = 'block';
 
             html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
                 stopScanner();
-                checkIfProductExists(text); // On vérifie dès que c'est scanné !
+                checkIfProductExists(text);
             }).catch(() => {
-                alert("Caméra indisponible.");
+                alert("Impossible d'accéder à la caméra. Vérifiez les autorisations de votre navigateur.");
                 stopScanner();
             });
         }
@@ -231,6 +265,7 @@
         function stopScanner() {
             if (html5QrCode) {
                 html5QrCode.stop().then(() => {
+                    document.getElementById('cam-placeholder').style.display = 'block';
                     document.getElementById('btn-start-scan').style.display = 'block';
                     document.getElementById('btn-stop-scan').style.display = 'none';
                 });
@@ -238,7 +273,7 @@
         }
 
         function updateStats() {
-            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) en base Cloud`;
+            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) synchronisés`;
         }
 
         function dismissSplash() {
