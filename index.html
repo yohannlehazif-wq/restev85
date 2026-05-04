@@ -5,31 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85 - Expert Prévention</title>
 
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
         
-        /* Splash Screen */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 
-        /* Navigation & UI */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; }
         .nav-item.active { color: var(--r-blue); }
 
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -41,7 +36,7 @@
     <div id="splash">
         <div class="text-center text-white">
             <h2 class="fw-bold mt-3">RESTEV 85</h2>
-            <p>Inventaire Chimique Connecté</p>
+            <p>Système Inventaire Cloud</p>
             <button class="btn-enter" onclick="dismissSplash()">DÉMARRER</button>
         </div>
     </div>
@@ -50,9 +45,10 @@
         <h4 class="fw-bold mb-0" style="color: var(--r-blue)">RESTEV 85</h4>
     </div>
 
+    <!-- PAGE ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold">Statut Cloud</h5>
+            <h5 class="fw-bold">Statut de la Base</h5>
             <p id="inv-stats" class="small opacity-75 mb-0">Connexion en cours...</p>
         </div>
         <div class="row g-2 mt-3">
@@ -60,27 +56,29 @@
                 <div class="card-custom text-center py-4" style="background-color: #e3f2fd;"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER UN PRODUIT</b></div>
             </div>
             <div class="col-12" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-3"><i class="fa-solid fa-database fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE CENTRALISÉ</small></div>
+                <div class="card-custom text-center py-3"><i class="fa-solid fa-database fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE COMPLET</small></div>
             </div>
         </div>
     </div>
 
+    <!-- PAGE SCANNER -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Saisie Terrain</h5>
+        <h5 class="fw-bold mb-3">Nouveau Scan</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
             <div class="d-flex gap-2 mt-3 mb-4">
-                <button id="btn-start-scan" class="btn btn-dark flex-grow-1" onclick="startScanner()">ACTIVER CAMÉRA</button>
-                <button id="btn-stop-scan" class="btn btn-danger" onclick="stopScanner()" style="display:none;">ARRÊTER</button>
+                <button id="btn-start-scan" class="btn btn-dark flex-grow-1" onclick="startScanner()">OUVRIR CAMÉRA</button>
+                <button id="btn-stop-scan" class="btn btn-danger" onclick="stopScanner()" style="display:none;">FERMER</button>
             </div>
             <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres détecté">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">SAUVEGARDER SUR LE CLOUD</button>
+            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code détecté">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER DANS LE CLOUD</button>
         </div>
     </div>
 
+    <!-- PAGE LISTE -->
     <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Base de données Cloud</h5>
+        <h5 class="fw-bold mb-3">Produits Enregistrés</h5>
         <div id="inventory-container"></div>
     </div>
 
@@ -91,33 +89,31 @@
     </nav>
 
     <script>
-        // --- CONNEXION SUPABASE ---
-        const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNidmNjam53eHZmbWNmYWRmbmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjk0NjksImV4cCI6MjA5MzMwNTQ2OX0.BVeMHt7urx04XSaHrp5jq7ro1YcB9_391wRwWaHcves';
+        // --- CONFIGURATION FINALE ---
+        const SUPABASE_URL = 'https://khhktchihkyojiuewyva.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_hXeBEfzyVMM5PxwdZPlnjw_6xTwlP3T';
         
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
         let inventory = [];
         let html5QrCode = null;
 
-        // Charger les données
         async function loadInventory() {
             try {
                 const { data, error } = await _supabase.from('produits').select('*').order('created_at', { ascending: false });
                 if (error) throw error;
-                inventory = data;
+                inventory = data || [];
                 renderInventory();
                 updateStats();
             } catch (e) {
-                document.getElementById('inv-stats').innerText = "Erreur de synchronisation";
+                console.error("Erreur:", e);
+                document.getElementById('inv-stats').innerText = "Vérifiez vos colonnes SQL";
             }
         }
 
-        // Sauvegarder
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            if(!name) return alert("Veuillez entrer un nom.");
+            if(!name) return alert("Saisir un nom de produit.");
 
             const { error } = await _supabase.from('produits').insert([{ name, code }]);
             if (!error) {
@@ -126,20 +122,19 @@
                 await loadInventory();
                 nav('page-list', 'nav-list');
             } else {
-                alert("Erreur lors de l'enregistrement.");
+                alert("Erreur Cloud : " + error.message);
             }
         }
 
-        // Supprimer
         async function deleteItem(id) {
-            if(!confirm("Supprimer ce produit définitivement ?")) return;
+            if(!confirm("Supprimer ?")) return;
             const { error } = await _supabase.from('produits').delete().eq('id', id);
             if(!error) await loadInventory();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted">Aucun produit enregistré.</p>';
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit en base.</p>';
             inventory.forEach(item => {
                 container.innerHTML += `
                 <div class="card-custom d-flex justify-content-between align-items-center">
@@ -149,7 +144,15 @@
             });
         }
 
-        // Scanner
+        function nav(id, el) {
+            if (html5QrCode && html5QrCode.isScanning) stopScanner();
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active-page');
+            if(el) (typeof el === 'string' ? document.getElementById(el) : el).classList.add('active');
+            if(id === 'page-list') loadInventory();
+        }
+
         async function startScanner() {
             if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
             document.getElementById('btn-start-scan').style.display = 'none';
@@ -157,10 +160,9 @@
 
             html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
-                if (navigator.vibrate) navigator.vibrate(100);
                 stopScanner();
             }).catch(() => {
-                alert("Caméra indisponible.");
+                alert("Problème de caméra.");
                 stopScanner();
             });
         }
@@ -174,18 +176,8 @@
             }
         }
 
-        // Navigation
-        function nav(id, el) {
-            if (html5QrCode && html5QrCode.isScanning) stopScanner();
-            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active-page');
-            if(el) (typeof el === 'string' ? document.getElementById(el) : el).classList.add('active');
-            if(id === 'page-list') loadInventory();
-        }
-
         function updateStats() {
-            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) en base de données`;
+            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) en base Cloud`;
         }
 
         function dismissSplash() {
