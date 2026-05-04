@@ -12,39 +12,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
+        :root { --r-blue: #3065a8; --r-yellow: #fbbc05; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
         
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn-google { 
+            background-color: #fbbc05 !important; 
+            color: #000 !important; 
+            border: 2px solid #ceae00 !important; 
+            border-radius: 12px; 
+            font-weight: 800 !important;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
 
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .btn-save {
+            background-color: #3065a8 !important;
+            color: #fff !important;
+            border-radius: 50px;
+            font-weight: bold;
+            padding: 15px;
+            width: 100%;
+        }
+
+        .btn-fds { 
+            background-color: #dc3545 !important; 
+            color: #fff !important; 
+            padding: 8px 15px; 
+            border-radius: 8px; 
+            text-decoration: none !important;
+            font-weight: bold;
+        }
+
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: white; display: flex; justify-content: space-around; padding: 12px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #64748b; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: var(--r-blue); }
-
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s; }
+        .app-page { display: none; padding: 20px 15px; }
         .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-fds { padding: 5px 12px; border-radius: 10px; font-size: 0.8rem; text-decoration: none; display: inline-block; }
-        
-        /* Bouton Google très visible */
-        .btn-google { background-color: #fbbc05; color: #000; border: none; border-radius: 12px; font-weight: bold; box-shadow: 0 4px 10px rgba(251, 188, 5, 0.3); }
-        .btn-google:active { transform: scale(0.98); }
+        .form-label { font-weight: bold; color: #475569; font-size: 0.85rem; margin-top: 10px; }
     </style>
 </head>
 <body>
-
-    <div id="splash">
-        <div class="text-center text-white">
-            <h2 class="fw-bold mt-3">RESTEV 85</h2>
-            <p>Inventaire Intelligent</p>
-            <button class="btn-enter" onclick="dismissSplash()">DÉMARRER</button>
-        </div>
-    </div>
 
     <div class="app-header">
         <h4 class="fw-bold mb-0" style="color: var(--r-blue)">RESTEV 85</h4>
@@ -52,212 +63,171 @@
 
     <!-- PAGE ACCUEIL -->
     <div id="page-home" class="app-page active-page">
-        <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold">Tableau de Bord</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Connexion Cloud...</p>
+        <div class="card-custom bg-primary text-white border-0">
+            <h5 class="fw-bold">Base de Données Cloud</h5>
+            <p id="inv-stats" class="small mb-0">Chargement...</p>
         </div>
-        <div class="row g-2 mt-3">
-            <div class="col-12" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-4" style="background-color: #e3f2fd; cursor: pointer;">
-                    <i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER UN PRODUIT</b>
-                </div>
-            </div>
-            <div class="col-12" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-3" style="cursor: pointer;">
-                    <i class="fa-solid fa-file-medical fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE & FDS</small>
-                </div>
-            </div>
+        <div class="mt-4">
+            <button class="btn btn-light w-100 py-4 shadow-sm mb-3 border" onclick="nav('page-scan', 'nav-scan')">
+                <i class="fa-solid fa-plus-circle fa-2x text-primary mb-2"></i><br><b>AJOUTER UN PRODUIT</b>
+            </button>
+            <button class="btn btn-light w-100 py-4 shadow-sm border" onclick="nav('page-list', 'nav-list')">
+                <i class="fa-solid fa-list fa-2x text-success mb-2"></i><br><b>INVENTAIRE COMPLET</b>
+            </button>
         </div>
     </div>
 
-    <!-- PAGE SCANNER -->
+    <!-- PAGE SCANNER / AJOUT -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-plus-circle text-primary"></i> Nouvelle Entrée</h5>
         <div class="card-custom border-0 shadow-sm">
-            
-            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #1e293b; min-height: 250px; display: flex; align-items: center; justify-content: center;">
-                <span class="text-white opacity-50 small" id="cam-placeholder">La caméra s'affichera ici</span>
-            </div>
-            
-            <div class="d-flex gap-2 mt-3 mb-4">
-                <button id="btn-start-scan" class="btn btn-dark flex-grow-1 py-3 fw-bold rounded-3" onclick="startScanner()"><i class="fa-solid fa-camera"></i> OUVRIR CAMÉRA</button>
-                <button id="btn-stop-scan" class="btn btn-danger py-3 rounded-3" onclick="stopScanner()" style="display:none;"><i class="fa-solid fa-times"></i> FERMER</button>
-            </div>
-            
-            <div id="form-saisie" style="background: #f8fafc; padding: 15px; border-radius: 15px; border: 1px solid #e2e8f0;">
-                <label class="small fw-bold text-muted mb-1"><i class="fa-solid fa-barcode"></i> CODE-BARRES</label>
-                <input type="text" id="prod-code" class="form-control form-control-lg mb-3" placeholder="Scannez ou tapez..." oninput="checkIfProductExists(this.value)">
+            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 150px;"></div>
+            <button id="btn-start-scan" class="btn btn-dark w-100 py-2 mt-2 fw-bold" onclick="startScanner()">SCANNER CODE-BARRES</button>
+            <button id="btn-stop-scan" class="btn btn-danger w-100 py-2 mt-2 fw-bold" onclick="stopScanner()" style="display:none;">ARRÊTER LE SCAN</button>
 
-                <label class="small fw-bold text-muted mb-1"><i class="fa-solid fa-tag"></i> NOM DU PRODUIT</label>
-                <input type="text" id="prod-name" class="form-control form-control-lg mb-3" placeholder="Ex: Acétone Onyx">
-                
-                <hr class="text-muted">
+            <div class="mt-4">
+                <label class="form-label">NOM DU PRODUIT (Recherche intuitive)</label>
+                <!-- list="produits-list" active la recherche intuitive -->
+                <input type="text" id="prod-name" class="form-control form-control-lg" list="produits-list" placeholder="Tapez les premières lettres..." oninput="onNameInput(this.value)">
+                <datalist id="produits-list"></datalist>
 
-                <label class="small fw-bold text-muted mb-2"><i class="fa-solid fa-file-pdf"></i> FICHE DE SÉCURITÉ (FDS)</label>
-                
-                <!-- LE NOUVEAU BOUTON ERGONOMIQUE ET VISIBLE -->
-                <button class="btn btn-google w-100 py-3 mb-3" type="button" onclick="searchGoogleFDS()">
-                    <i class="fa-brands fa-google fa-lg"></i> Chercher la FDS sur Internet
-                </button>
+                <label class="form-label">CODE-BARRES</label>
+                <input type="text" id="prod-code" class="form-control form-control-lg" oninput="onCodeInput(this.value)">
 
-                <input type="text" id="prod-fds" class="form-control form-control-lg mb-4" placeholder="Collez le lien (https://...) ici">
-                
-                <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm" onclick="saveProduct()" style="font-size: 1.1rem;">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> ENREGISTRER
-                </button>
+                <label class="form-label">LIEN FDS</label>
+                <button class="btn-google" onclick="searchGoogleFDS()">🔍 Trouver la FDS sur Google</button>
+                <input type="text" id="prod-fds" class="form-control form-control-lg mb-4" placeholder="Lien https://... du PDF">
+
+                <button class="btn-save" onclick="saveProduct()">💾 ENREGISTRER LE PRODUIT</button>
             </div>
         </div>
     </div>
 
     <!-- PAGE LISTE -->
     <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Inventaire de l'adhérent</h5>
+        <h5 class="fw-bold mb-3">Produits en Base</h5>
         <div id="inventory-container"></div>
     </div>
 
     <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house fa-lg mb-1"></i>ACCUEIL</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle fa-lg mb-1"></i>AJOUTER</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-clipboard-list fa-lg mb-1"></i>LISTE</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle"></i>AJOUTER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-database"></i>BASE</button>
     </nav>
 
     <script>
         const SUPABASE_URL = 'https://khhktchihkyojiuewyva.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_hXeBEfzyVMM5PxwdZPlnjw_6xTwlP3T';
-        
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         let inventory = [];
         let html5QrCode = null;
 
         async function loadInventory() {
-            try {
-                const { data, error } = await _supabase.from('produits').select('*').order('created_at', { ascending: false });
-                if (error) throw error;
-                inventory = data || [];
+            const { data, error } = await _supabase.from('produits').select('*').order('name', { ascending: true });
+            if (!error) {
+                inventory = data;
+                updateDatalist();
                 renderInventory();
-                updateStats();
-            } catch (e) {
-                console.error(e);
-                document.getElementById('inv-stats').innerText = "Erreur de connexion";
+                document.getElementById('inv-stats').innerText = inventory.length + " produits disponibles";
             }
         }
 
-        // Vérification intelligente
-        function checkIfProductExists(code) {
-            if(!code || code.length < 3) return;
-            const existingProduct = inventory.find(item => item.code === code);
-            
-            if(existingProduct) {
-                document.getElementById('prod-name').value = existingProduct.name;
-                if(existingProduct.fds_url) {
-                    document.getElementById('prod-fds').value = existingProduct.fds_url;
+        // Remplit la liste de suggestions pour la recherche intuitive
+        function updateDatalist() {
+            const list = document.getElementById('produits-list');
+            list.innerHTML = "";
+            // On crée une liste de noms uniques
+            const nomsUniques = [...new Set(inventory.map(item => item.name))];
+            nomsUniques.forEach(nom => {
+                if(nom) {
+                    let option = document.createElement('option');
+                    option.value = nom;
+                    list.appendChild(option);
                 }
-                // Petit retour visuel pour l'adhérent
-                alert(`✅ Produit reconnu : ${existingProduct.name} ! Vérifiez et enregistrez.`);
+            });
+        }
+
+        // Quand l'utilisateur tape un nom
+        function onNameInput(val) {
+            const found = inventory.find(i => i.name && i.name.toLowerCase() === val.toLowerCase());
+            if(found) {
+                document.getElementById('prod-code').value = found.code || '';
+                document.getElementById('prod-fds').value = found.fds_url || '';
+            }
+        }
+
+        // Quand l'utilisateur tape un code
+        function onCodeInput(val) {
+            const found = inventory.find(i => i.code === val);
+            if(found) {
+                document.getElementById('prod-name').value = found.name;
+                document.getElementById('prod-fds').value = found.fds_url || '';
             }
         }
 
         function searchGoogleFDS() {
             const name = document.getElementById('prod-name').value;
-            if(!name) {
-                alert("⚠️ Veuillez d'abord taper le nom du produit dans la case au-dessus pour lancer la recherche.");
-                document.getElementById('prod-name').focus();
-                return;
-            }
-            const query = encodeURIComponent("FDS " + name + " filetype:pdf");
-            window.open("https://www.google.com/search?q=" + query, "_blank");
+            if(!name) return alert("Veuillez saisir un nom de produit.");
+            window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+filetype:pdf`, "_blank");
         }
 
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            const fds = document.getElementById('prod-fds').value;
+            const fds_url = document.getElementById('prod-fds').value;
+            if(!name) return alert("Le nom est obligatoire.");
 
-            if(!name) return alert("Le nom du produit est obligatoire.");
-
-            // Changement visuel du bouton pendant la sauvegarde
-            const btn = document.querySelector('button[onclick="saveProduct()"]');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ENREGISTREMENT...';
-            btn.disabled = true;
-
-            const { error } = await _supabase.from('produits').insert([{ 
-                name: name, 
-                code: code, 
-                fds_url: fds 
-            }]);
-
+            const { error } = await _supabase.from('produits').insert([{ name, code, fds_url }]);
             if (!error) {
+                alert("Produit enregistré !");
                 document.getElementById('prod-name').value = '';
                 document.getElementById('prod-code').value = '';
                 document.getElementById('prod-fds').value = '';
-                await loadInventory();
-                
-                // Remettre le bouton à la normale et changer de page
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                loadInventory();
                 nav('page-list', 'nav-list');
-            } else {
-                alert("Erreur réseau : " + error.message);
-                btn.innerHTML = originalText;
-                btn.disabled = false;
             }
-        }
-
-        async function deleteItem(id) {
-            if(!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return;
-            const { error } = await _supabase.from('produits').delete().eq('id', id);
-            if(!error) await loadInventory();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Votre inventaire est vide.</p>';
-            
+            container.innerHTML = '';
             inventory.forEach(item => {
-                const fdsBtn = item.fds_url 
-                    ? `<a href="${item.fds_url}" target="_blank" class="btn-fds btn-primary text-white shadow-sm"><i class="fa-solid fa-file-pdf"></i> Voir FDS</a>`
-                    : `<span class="btn-fds bg-light text-muted border"><i class="fa-solid fa-search"></i> Pas de FDS</span>`;
-
+                const btn = item.fds_url ? `<a href="${item.fds_url}" target="_blank" class="btn-fds">📄 FDS</a>` : `<small class="text-muted">Sans FDS</small>`;
                 container.innerHTML += `
-                <div class="card-custom">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div>
-                            <h6 class="fw-bold mb-0 text-dark">${item.name}</h6>
-                            <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
+                    <div class="card-custom">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold mb-1">${item.name}</h6>
+                            <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
                         </div>
-                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash-can fa-lg"></i></button>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-                        ${fdsBtn}
-                        <small class="text-muted" style="font-size:0.7rem;">${new Date(item.created_at).toLocaleDateString()}</small>
-                    </div>
-                </div>`;
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <small class="text-muted">Code: ${item.code || '-'}</small>
+                            ${btn}
+                        </div>
+                    </div>`;
             });
         }
 
+        async function deleteItem(id) {
+            if(confirm("Supprimer ce produit de la base commune ?")) {
+                await _supabase.from('produits').delete().eq('id', id);
+                loadInventory();
+            }
+        }
+
         function nav(id, el) {
-            if (html5QrCode && html5QrCode.isScanning) stopScanner();
+            if (html5QrCode) stopScanner();
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
             if(el) (typeof el === 'string' ? document.getElementById(el) : el).classList.add('active');
-            if(id === 'page-list') loadInventory();
         }
 
-        async function startScanner() {
-            if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
-            
-            document.getElementById('cam-placeholder').style.display = 'none';
+        function startScanner() {
+            html5QrCode = new Html5Qrcode("reader");
             document.getElementById('btn-start-scan').style.display = 'none';
             document.getElementById('btn-stop-scan').style.display = 'block';
-
             html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
-                stopScanner();
-                checkIfProductExists(text);
-            }).catch(() => {
-                alert("Impossible d'accéder à la caméra. Vérifiez les autorisations de votre navigateur.");
+                onCodeInput(text);
                 stopScanner();
             });
         }
@@ -265,20 +235,10 @@
         function stopScanner() {
             if (html5QrCode) {
                 html5QrCode.stop().then(() => {
-                    document.getElementById('cam-placeholder').style.display = 'block';
                     document.getElementById('btn-start-scan').style.display = 'block';
                     document.getElementById('btn-stop-scan').style.display = 'none';
                 });
             }
-        }
-
-        function updateStats() {
-            document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) synchronisés`;
-        }
-
-        function dismissSplash() {
-            document.getElementById('splash').style.opacity = '0';
-            setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
         }
 
         window.onload = loadInventory;
