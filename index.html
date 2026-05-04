@@ -29,6 +29,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-fds { padding: 5px 12px; border-radius: 10px; font-size: 0.8rem; text-decoration: none; display: inline-block; }
     </style>
 </head>
 <body>
@@ -36,7 +37,7 @@
     <div id="splash">
         <div class="text-center text-white">
             <h2 class="fw-bold mt-3">RESTEV 85</h2>
-            <p>Système Inventaire Cloud</p>
+            <p>Inventaire & FDS Adhérents</p>
             <button class="btn-enter" onclick="dismissSplash()">DÉMARRER</button>
         </div>
     </div>
@@ -48,48 +49,54 @@
     <!-- PAGE ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold">Statut de la Base</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Connexion en cours...</p>
+            <h5 class="fw-bold">Tableau de Bord</h5>
+            <p id="inv-stats" class="small opacity-75 mb-0">Connexion Cloud...</p>
         </div>
         <div class="row g-2 mt-3">
             <div class="col-12" onclick="nav('page-scan', 'nav-scan')">
                 <div class="card-custom text-center py-4" style="background-color: #e3f2fd;"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><b>SCANNER UN PRODUIT</b></div>
             </div>
             <div class="col-12" onclick="nav('page-list', 'nav-list')">
-                <div class="card-custom text-center py-3"><i class="fa-solid fa-database fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE COMPLET</small></div>
+                <div class="card-custom text-center py-3"><i class="fa-solid fa-file-medical fa-lg mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE & FDS</small></div>
             </div>
         </div>
     </div>
 
     <!-- PAGE SCANNER -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Nouveau Scan</h5>
+        <h5 class="fw-bold mb-3">Nouvelle Entrée</h5>
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
             <div class="d-flex gap-2 mt-3 mb-4">
                 <button id="btn-start-scan" class="btn btn-dark flex-grow-1" onclick="startScanner()">OUVRIR CAMÉRA</button>
                 <button id="btn-stop-scan" class="btn btn-danger" onclick="stopScanner()" style="display:none;">FERMER</button>
             </div>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code détecté">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER DANS LE CLOUD</button>
+            <label class="small fw-bold text-muted">NOM DU PRODUIT</label>
+            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Acétone">
+            
+            <label class="small fw-bold text-muted">CODE-BARRES</label>
+            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Scanné ou manuel">
+            
+            <label class="small fw-bold text-muted">LIEN FDS (URL)</label>
+            <input type="text" id="prod-fds" class="form-control mb-3" placeholder="https://lien-de-la-fds.pdf">
+            
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
         </div>
     </div>
 
     <!-- PAGE LISTE -->
     <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Produits Enregistrés</h5>
+        <h5 class="fw-bold mb-3">Inventaire de l'adhérent</h5>
         <div id="inventory-container"></div>
     </div>
 
     <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>TABLEAU</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCANNER</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle"></i>AJOUTER</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-clipboard-list"></i>LISTE</button>
     </nav>
 
     <script>
-        // --- CONFIGURATION FINALE ---
         const SUPABASE_URL = 'https://khhktchihkyojiuewyva.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_hXeBEfzyVMM5PxwdZPlnjw_6xTwlP3T';
         
@@ -105,41 +112,64 @@
                 renderInventory();
                 updateStats();
             } catch (e) {
-                console.error("Erreur:", e);
-                document.getElementById('inv-stats').innerText = "Vérifiez vos colonnes SQL";
+                console.error(e);
+                document.getElementById('inv-stats').innerText = "Erreur de connexion";
             }
         }
 
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
-            if(!name) return alert("Saisir un nom de produit.");
+            const fds = document.getElementById('prod-fds').value;
 
-            const { error } = await _supabase.from('produits').insert([{ name, code }]);
+            if(!name) return alert("Veuillez saisir au moins le nom du produit.");
+
+            const { error } = await _supabase.from('produits').insert([{ 
+                name: name, 
+                code: code, 
+                fds_url: fds 
+            }]);
+
             if (!error) {
+                // Reset formulaire
                 document.getElementById('prod-name').value = '';
                 document.getElementById('prod-code').value = '';
+                document.getElementById('prod-fds').value = '';
                 await loadInventory();
                 nav('page-list', 'nav-list');
             } else {
-                alert("Erreur Cloud : " + error.message);
+                alert("Erreur Supabase : " + error.message);
             }
         }
 
         async function deleteItem(id) {
-            if(!confirm("Supprimer ?")) return;
+            if(!confirm("Supprimer ce produit ?")) return;
             const { error } = await _supabase.from('produits').delete().eq('id', id);
             if(!error) await loadInventory();
         }
 
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit en base.</p>';
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit.</p>';
+            
             inventory.forEach(item => {
+                const fdsBtn = item.fds_url 
+                    ? `<a href="${item.fds_url}" target="_blank" class="btn-fds btn-primary text-white"><i class="fa-solid fa-file-pdf"></i> FDS</a>`
+                    : `<span class="btn-fds bg-light text-muted"><i class="fa-solid fa-times"></i> Pas de FDS</span>`;
+
                 container.innerHTML += `
-                <div class="card-custom d-flex justify-content-between align-items-center">
-                    <div><b>${item.name}</b><br><small class="text-muted">${item.code || 'Saisie manuelle'}</small></div>
-                    <button onclick="deleteItem(${item.id})" class="btn text-danger"><i class="fa-solid fa-trash-can"></i></button>
+                <div class="card-custom">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <h6 class="fw-bold mb-0">${item.name}</h6>
+                            <small class="text-muted">Code : ${item.code || '-'}</small>
+                        </div>
+                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        ${fdsBtn}
+                        <small class="text-muted" style="font-size:0.7rem;">${new Date(item.created_at).toLocaleDateString()}</small>
+                    </div>
                 </div>`;
             });
         }
@@ -162,7 +192,7 @@
                 document.getElementById('prod-code').value = text;
                 stopScanner();
             }).catch(() => {
-                alert("Problème de caméra.");
+                alert("Caméra indisponible.");
                 stopScanner();
             });
         }
