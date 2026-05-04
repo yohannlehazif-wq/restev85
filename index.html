@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85</title>
 
-    <!-- Bibliothèques externes en liens directs (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/html5-qrcode.min.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -20,6 +19,7 @@
         .app-page { display: none; padding: 10px; }
         .active-page { display: block !important; }
         #reader { width: 100%; border-radius: 10px; overflow: hidden; background: #000; }
+        .btn-search { background-color: #ffca28; color: #000; font-weight: bold; border: none; }
     </style>
 </head>
 <body>
@@ -28,28 +28,42 @@
 
     <!-- PAGE AJOUT -->
     <div id="page-scan" class="app-page active-page">
-        <div class="card-custom">
+        <div class="card-custom shadow-sm">
             <div id="reader"></div>
-            <button id="btn-start" class="btn btn-dark w-100 py-3 mt-3 fw-bold" onclick="startScanner()">SCANNER UN CODE</button>
-            <button id="btn-stop" class="btn btn-danger w-100 py-3 mt-3 fw-bold" onclick="stopScanner()" style="display:none;">ARRÊTER</button>
+            <button id="btn-start" class="btn btn-dark w-100 py-3 mt-2 fw-bold" onclick="startScanner()">SCANNER UN CODE</button>
+            <button id="btn-stop" class="btn btn-danger w-100 py-3 mt-2 fw-bold" onclick="stopScanner()" style="display:none;">ARRÊTER</button>
 
             <div class="mt-4">
-                <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres">
-                <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-                <input type="text" id="prod-fds" class="form-control mb-3" placeholder="Lien FDS (URL)">
-                <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill" onclick="saveProduct()">ENREGISTRER</button>
+                <label class="small fw-bold">NOM DU PRODUIT</label>
+                <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Acétone Onyx">
+                
+                <!-- LE BOUTON DE RECHERCHE PDF -->
+                <button class="btn btn-search w-100 mb-3" onclick="trouverFDS()">
+                    <i class="fa-solid fa-file-pdf"></i> 🔍 TROUVER LE PDF EN LIGNE
+                </button>
+
+                <label class="small fw-bold text-muted">CODE PRODUIT (Optionnel)</label>
+                <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
+
+                <label class="small fw-bold text-success">LIEN DE LA FDS (À coller ici)</label>
+                <input type="text" id="prod-fds" class="form-control mb-4" placeholder="https://...">
+
+                <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill" onclick="saveProduct()">
+                    <i class="fa-solid fa-cloud-upload"></i> ENREGISTRER L'INVENTAIRE
+                </button>
             </div>
         </div>
     </div>
 
     <!-- PAGE LISTE -->
     <div id="page-list" class="app-page">
+        <h5 class="fw-bold px-3">Inventaire Enregistré</h5>
         <div id="inventory-container"></div>
     </div>
 
     <nav class="nav-bottom">
-        <button class="btn" onclick="nav('page-scan')"><i class="fa-solid fa-plus-circle"></i> AJOUTER</button>
-        <button class="btn" onclick="nav('page-list')"><i class="fa-solid fa-list"></i> LISTE</button>
+        <button class="btn fw-bold text-primary" onclick="nav('page-scan')"><i class="fa-solid fa-plus-circle"></i> AJOUTER</button>
+        <button class="btn fw-bold text-secondary" onclick="nav('page-list')"><i class="fa-solid fa-list"></i> LISTE</button>
     </nav>
 
     <script>
@@ -57,6 +71,18 @@
         const SUPABASE_KEY = 'sb_publishable_hXeBEfzyVMM5PxwdZPlnjw_6xTwlP3T';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         let scanner = null;
+
+        // Fonction pour chercher le PDF sur le web
+        function trouverFDS() {
+            const nom = document.getElementById('prod-name').value;
+            if(!nom) {
+                alert("Veuillez d'abord taper le nom du produit.");
+                return;
+            }
+            // Ouvre une recherche ciblée sur les fichiers PDF
+            const urlRecherche = `https://www.google.com/search?q=FDS+${encodeURIComponent(nom)}+filetype:pdf`;
+            window.open(urlRecherche, '_blank');
+        }
 
         function nav(id) {
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
@@ -73,10 +99,9 @@
                 (text) => {
                     document.getElementById('prod-code').value = text;
                     stopScanner();
-                },
-                (err) => { /* Erreur silencieuse pendant la recherche */ }
-            ).catch(err => {
-                alert("Erreur Caméra (vérifiez HTTPS et autorisations)");
+                }
+            ).catch(() => {
+                alert("Erreur Caméra. Vérifiez les autorisations.");
                 stopScanner();
             });
         }
@@ -98,8 +123,11 @@
 
             const { error } = await _supabase.from('produits').insert([{ name: n, code: c, fds_url: f }]);
             if (!error) {
-                alert("Enregistré !");
-                location.reload();
+                alert("Enregistré avec succès !");
+                document.getElementById('prod-name').value = '';
+                document.getElementById('prod-code').value = '';
+                document.getElementById('prod-fds').value = '';
+                nav('page-list');
             }
         }
 
@@ -108,8 +136,8 @@
             const cont = document.getElementById('inventory-container');
             cont.innerHTML = '';
             data.forEach(item => {
-                const link = item.fds_url ? `<a href="${item.fds_url}" target="_blank" class="btn btn-sm btn-info text-white">FDS</a>` : '';
-                cont.innerHTML += `<div class="card-custom"><div class="d-flex justify-content-between"><b>${item.name}</b> ${link}</div></div>`;
+                const link = item.fds_url ? `<a href="${item.fds_url}" target="_blank" class="btn btn-sm btn-info text-white">VOIR PDF</a>` : '';
+                cont.innerHTML += `<div class="card-custom py-2"><div class="d-flex justify-content-between align-items-center"><b>${item.name}</b> ${link}</div></div>`;
             });
         }
     </script>
