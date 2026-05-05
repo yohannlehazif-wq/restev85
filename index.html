@@ -1,192 +1,459 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RESTEV 85 - Expert Prévention</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RESTEV 85 - Expert Prévention</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3065a8">
-<link rel="icon" type="image/png" href="logo_restev_carre.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3065a8">
+    <link class="rounded" rel="icon" type="image/png" href="logo_restev_carre.png">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RESTEV 85">
-<link rel="apple-touch-icon" href="logo_restev_carre.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
+    <link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
-<!-- =====================================================
-     STYLES : INCHANGÉS (identiques à ton original)
-===================================================== -->
-<style>
-/* (styles identiques à ton fichier, non modifiés) */
-</style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
+        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
+        @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .logo-header { height: 40px; }
+
+        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .ticker { display: inline-block; animation: ticker 25s linear infinite; }
+        .ticker span { padding-right: 50px; }
+        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
+        .nav-item.active { color: var(--r-blue); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
+        .active-page { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .sgh-card { display: flex; gap: 15px; align-items: center; }
+        .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+
+        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
+        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+
+        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+    </style>
 </head>
-
 <body>
 
-<!-- ================= SPLASH ================= -->
 <div id="splash">
-  <div class="text-center text-white">
-    <img src="logo_restev_carre.png" style="width:120px;border-radius:25px;background:#fff">
-    <h2 class="fw-bold mt-3">RESTEV 85</h2>
-    <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
-  </div>
+    <div class="text-center text-white">
+        <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
+        <h2 class="fw-bold mt-3">RESTEV 85</h2>
+        <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
+        <div class="mt-4" style="width: 150px; margin: auto;">
+            <svg viewBox="0 0 200 40"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
+        </div>
+    </div>
 </div>
 
-<!-- ================= HEADER ================= -->
 <div class="app-header">
-  <img src="logo_restev_long.png" class="logo-header">
+    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
 </div>
 
-<!-- ================= HOME ================= -->
+<div class="info-banner">
+    <div class="ticker">
+        <span><i class="fa-solid fa-bullhorn me-1"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-book-medical me-1"></i> INRS : Nouveaux outils d'évaluation des Risques Chimiques | <i class="fa-solid fa-helmet-safety me-1"></i> PRO BTP : Aides financières pour équipements de sécurité | <i class="fa-solid fa-circle-info me-1"></i> RESTEV : Pensez à mettre à jour votre DUERP !</span>
+    </div>
+</div>
+
 <div id="page-home" class="app-page active-page">
-  <div class="card-custom text-white" style="background:linear-gradient(135deg,#3065a8,#1e40af)">
-    <h5 class="fw-bold">RESTEV 85</h5>
-    <p id="inv-stats" class="small opacity-75">Chargement…</p>
-  </div>
+    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+        <h5 class="fw-bold mb-1">RESTEV 85</h5>
+        <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+    </div>
+
+    <div class="row g-2">
+        <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-sgh', 'nav-home')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-list', 'nav-list')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-services', 'nav-home')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-aides', 'nav-home')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
+        </div>
+    </div>
 </div>
 
-<!-- ================= SCAN ================= -->
-<div id="page-scan" class="app-page">
-  <h5 class="fw-bold mb-3">Ajouter un produit</h5>
-
-  <div class="card-custom">
-    <div id="reader" style="min-height:250px;background:#000;border-radius:15px"></div>
-    <button class="btn btn-dark w-100 mt-3" onclick="startScanner()">
-      <i class="fa fa-camera me-2"></i>ACTIVER LA CAMÉRA
-    </button>
-
-    <input id="prod-name" class="form-control mt-3" placeholder="Nom du produit">
-    <input id="prod-code" class="form-control mt-2" placeholder="Code-barres">
-    <input id="prod-fds" class="form-control mt-2" placeholder="Lien PDF FDS">
-
-    <button id="btn-save" class="btn btn-primary w-100 mt-3 fw-bold" onclick="saveProduct()">
-      ENREGISTRER LE PRODUIT
-    </button>
-  </div>
+<div id="page-services" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L'Offre RESTEV 85</h5>
+    <p class="small text-muted mb-4">Votre adhésion comprend un ensemble de services pour vous accompagner au quotidien.</p>
+    <div class="card-custom"><div class="badge-service">PRÉVENTION</div><h6>Accompagnement en entreprise</h6><p class="small text-muted mb-0">DUERP, études ergonomiques, métrologie sans surcoût.</p></div>
 </div>
 
-<!-- ================= INVENTAIRE ================= -->
+<div id="page-aides" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides & Partenaires</h5>
+    <div class="card-custom" style="border-left-color: #e6a00f;"><h6>Subventions CARSAT</h6><p class="small text-muted">Aides financières pour les TPE/PME.</p></div>
+</div>
+
+<div id="page-sgh" class="app-page">
+    <h5 class="fw-bold mb-3">Classification SGH</h5>
+    <div id="sgh-list"></div>
+</div>
+
 <div id="page-list" class="app-page">
-  <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-  <div id="inventory-container"></div>
+    <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+    <div class="d-flex gap-2 mb-3">
+        <button class="btn-excel flex-grow-1 mb-0" onclick="exportToCSV()"><i class="fa-solid fa-file-csv"></i> EXPORT (CSV)</button>
+        <button class="btn btn-danger flex-grow-1 fw-bold text-white shadow-sm mb-0" style="border-radius:12px;" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf"></i> ATTESTATION</button>
+    </div>
+    <div id="inventory-container"></div>
 </div>
 
-<!-- ================= NAV ================= -->
+<div id="page-quiz" class="app-page">
+    <h5 class="fw-bold mb-3 text-center">Auto-Diag Prévention</h5>
+    <div class="card-custom" id="quiz-container">
+        <div id="q-box">
+            <div class="progress mb-3" style="height: 8px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 10%;"></div></div>
+            <p id="q-text" class="fw-bold mb-4" style="min-height: 60px;">Chargement...</p>
+            <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-2 fw-bold">Oui, tout à fait</button>
+            <button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-2 fw-bold">Plutôt oui</button>
+            <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-2 fw-bold">Plutôt non</button>
+            <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-2 fw-bold">Pas du tout</button>
+        </div>
+        <div id="q-result" style="display: none;" class="text-center">
+            <div class="score-badge mb-2" id="quiz-score">0</div>
+            <h5 class="fw-bold mb-3" id="quiz-label">Calcul...</h5>
+            <p class="small text-muted mb-4" id="quiz-advice"></p>
+            <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5 py-2">Recommencer</button>
+        </div>
+    </div>
+</div>
+
+<div id="page-centres" class="app-page">
+    <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+    <div id="centres-list"></div>
+</div>
+
+<div id="page-scan" class="app-page">
+    <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+    <div class="card-custom">
+        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
+        <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
+
+        <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
+        <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres (facultatif)">
+
+        <div class="input-group mb-3">
+            <input type="url" id="prod-fds" class="form-control" placeholder="Lien FDS (URL)">
+            <button class="btn btn-outline-secondary" type="button" onclick="pasteFromClipboard()"><i class="fa-solid fa-paste"></i></button>
+            <button class="btn btn-outline-primary" type="button" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <button id="btn-save" class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+    </div>
+</div>
+
 <nav class="nav-bottom">
-  <button id="nav-home" class="nav-item active" onclick="nav('page-home',this)">
-    <i class="fa fa-house"></i>ACCUEIL
-  </button>
-  <button id="nav-scan" class="nav-item" onclick="nav('page-scan',this)">
-    <i class="fa fa-plus"></i>AJOUTER
-  </button>
-  <button id="nav-list" class="nav-item" onclick="nav('page-list',this)">
-    <i class="fa fa-list-check"></i>LISTE
-  </button>
+    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
+    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
+    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+    <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
 </nav>
 
-<!-- =====================================================
-     SCRIPT UNIQUE, NETTOYÉ, STABLE
-===================================================== -->
 <script>
-const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
-const SUPABASE_KEY = 'TA_CLE_SUPABASE_EXISTANTE';
+// --- CONFIGURATION SUPABASE ---
+const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
-const normalizeCode = c => c ? c.trim().replace(/\s+/g,'') : '';
+// --- DONNEES COMPLÉMENTAIRES ---
+const sghData = [
+    { id: "SGH01", title: "Explosif", desc: "Danger d'explosion de masse", img: "https://upload.wikimedia.org/wikipedia/commons/3/30/GHS-pictogram-explos.svg" },
+    { id: "SGH02", title: "Inflammable", desc: "Gaz, aérosols, liquides très inflammables", img: "https://upload.wikimedia.org/wikipedia/commons/a/a2/GHS-pictogram-flamme.svg" }
+];
+const centres = [
+    { n: "RESTEV - La Roche sur Yon", a: "Rue Marechal Ney, 85000 La Roche-sur-Yon", t: "0251370000", g: "https://maps.google.com" }
+];
+const questions = [
+    "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
+    "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
+    "Les FDS sont-elles accessibles à tous les postes de travail ?"
+];
+let currentQ = 0, totalScore = 0;
 
-async function checkCloud(raw) {
-  const code = normalizeCode(raw);
-  if (!code) return;
+// --- FONCTION DE RECHERCHE CLOUD (UNIQUE) ---
+async function checkCloud(code) {
+    const cleanCode = code.trim();
+    if(!cleanCode) return;
+    
+    try {
+        const { data, error } = await sb
+            .from('produits_partages')
+            .select('nom, url_fds')
+            .eq('code', cleanCode)
+            .maybeSingle();
 
-  const { data } = await sb
-    .from('produits_partages')
-    .select('nom,url_fds')
-    .eq('code',code)
-    .maybeSingle();
-
-  if (data) {
-    prod-name.value = data.nom;
-    prod-fds.value = data.url_fds || '';
-
-    btn-save.innerText = "✅ PRODUIT RECONNU (CLOUD)";
-    btn-save.classList.replace('btn-primary','btn-success');
-
-    setTimeout(()=>{
-      btn-save.innerText="ENREGISTRER LE PRODUIT";
-      btn-save.classList.replace('btn-success','btn-primary');
-    },2000);
-  }
-}
-
-function startScanner() {
-  const scanner = new Html5Qrcode("reader");
-  scanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 250 },
-    txt => {
-      prod-code.value = normalizeCode(txt);
-      checkCloud(txt);
-      scanner.stop();
+        if (data) {
+            document.getElementById('prod-name').value = data.nom;
+            document.getElementById('prod-fds').value = data.url_fds || '';
+            
+            const btn = document.getElementById('btn-save');
+            btn.innerHTML = "✅ PRODUIT TROUVÉ DANS LE CLOUD";
+            btn.classList.replace('btn-primary', 'btn-success');
+            setTimeout(() => {
+                btn.innerHTML = "ENREGISTRER DANS MON INVENTAIRE";
+                btn.classList.replace('btn-success', 'btn-primary');
+            }, 2500);
+        } else {
+            console.log("Produit non référencé sur le cloud.");
+        }
+    } catch (e) { 
+        console.error("Erreur Supabase Cloud:", e); 
     }
-  ).catch(()=>alert("Autorisation caméra refusée"));
 }
 
+// Écouteur sur perte de focus du code barre
+document.getElementById('prod-code').addEventListener('blur', function() {
+    checkCloud(this.value);
+});
+
+// --- NAVIGATION ---
+function nav(id, el) {
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active-page');
+    
+    if(typeof el === 'string') {
+        const btn = document.getElementById(el);
+        if(btn) btn.classList.add('active');
+    } else if(el) {
+        el.classList.add('active');
+    }
+
+    if(id === 'page-list') renderInventory();
+    if(id === 'page-sgh') renderSGH();
+    if(id === 'page-centres') renderCentres();
+    window.scrollTo(0, 0);
+}
+
+// --- SCANNER ---
+function startScanner() {
+    const scanner = new Html5Qrcode("reader");
+    scanner.start(
+        { facingMode: "environment" }, 
+        { fps: 10, qrbox: 250 }, 
+        (text) => {
+            document.getElementById('prod-code').value = text;
+            checkCloud(text); // Cherche automatiquement sur Supabase après scan !
+            scanner.stop();
+        }
+    ).catch(err => alert("Erreur caméra : vérifiez les autorisations."));
+}
+
+// --- ACTIONS UTILS ---
+async function pasteFromClipboard() {
+    try {
+        const text = await navigator.clipboard.readText();
+        document.getElementById('prod-fds').value = text;
+    } catch (err) {
+        alert("Action impossible. Collez manuellement.");
+    }
+}
+
+function searchFDS() {
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez d'abord un nom de produit.");
+    const query = encodeURIComponent(`FDS ${name} filetype:pdf`);
+    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+}
+
+// --- SAUVEGARDE PRODUIT ---
 async function saveProduct() {
-  const name = prod-name.value.trim();
-  const code = normalizeCode(prod-code.value);
-  const url = prod-fds.value.trim();
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value.trim();
+    const fdsUrl = document.getElementById('prod-fds').value.trim();
 
-  if (!name) return alert("Nom obligatoire");
+    if(!name) return alert("Le nom du produit est obligatoire.");
 
-  inventory.push({ id: Date.now(), name, code, url_fds:url });
-  localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+    const newProd = { 
+        id: Date.now(), 
+        name, 
+        code, 
+        url_fds: fdsUrl, 
+        date: new Date().toLocaleDateString('fr-FR') 
+    };
 
-  if (code) {
-    await sb.from('produits_partages')
-      .upsert({ code, nom:name, url_fds:url });
-  }
+    inventory.push(newProd);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-  prod-name.value = prod-code.value = prod-fds.value = '';
-  updateStats();
-  nav('page-list','nav-list');
+    if(code) {
+        try {
+            await sb.from('produits_partages').upsert({ 
+                code: code, 
+                nom: name, 
+                url_fds: fdsUrl 
+            });
+        } catch(e) {
+            console.error("Erreur lors de l'envoi cloud:", e);
+        }
+    }
+    
+    document.getElementById('prod-name').value = '';
+    document.getElementById('prod-code').value = '';
+    document.getElementById('prod-fds').value = '';
+    
+    alert("Produit ajouté avec succès !");
+    updateStats();
+    nav('page-list', 'nav-list');
 }
 
+// --- AFFICHAGES DYNAMIQUES ---
 function renderInventory() {
-  inventory-container.innerHTML = inventory.length ? '' :
-    '<p class="text-muted text-center">Inventaire vide</p>';
-
-  inventory.sort((a,b)=>a.name.localeCompare(b.name))
-    .forEach(i=>{
-      inventory-container.innerHTML += `
-      <div class="card-custom">
-        <b>${i.name}</b><br>
-        <small class="text-muted">${i.code || 'Saisie manuelle'}</small>
-        ${i.url_fds ? `<a class="btn btn-success btn-sm w-100 mt-2" target="_blank" href="${i.url_f);
-  btn.classList.add('active');
-  if (id==='page-list') renderInventory();
+    const container = document.getElementById('inventory-container');
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
+    
+    inventory.sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
+        const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}`;
+        container.innerHTML += `
+        <div class="card-custom">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="fw-bold mb-0" style="color:var(--r-blue)">${item.name}</h6>
+                    <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
+                </div>
+                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="mt-3">
+                ${item.url_fds ? 
+                    `<a href="${item.url_fds}" target="_blank" class="btn btn-success btn-sm w-100 shadow-sm">
+                        <i class="fa-solid fa-file-pdf me-2"></i>CONSULTER LA FDS
+                     </a>` : 
+                    `<a href="${searchUrl}" target="_blank" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>RECHERCHER LA FDS
+                     </a>`
+                }
+            </div>
+        </div>`;
+    });
 }
 
-function updateStats(){
-  inv-stats.innerText = inventory.length+" produit(s) enregistrés";
+function deleteItem(id) {
+    if(confirm("Supprimer ce produit de votre inventaire ?")) {
+        inventory = inventory.filter(i => i.id !== id);
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+        renderInventory();
+        updateStats();
+    }
 }
 
-function dismissSplash(){
-  splash.style.display="none";
+function renderSGH() {
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+    <div class="card-custom sgh-card">
+        <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=SGH'">
+        <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+    </div>`).join('');
 }
 
-prod-code.addEventListener('blur',e=>checkCloud(e.target.value));
-window.onload = updateStats;
+function renderCentres() {
+    document.getElementById('centres-list').innerHTML = centres.map(c => `
+    <div class="card-custom">
+        <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
+        <div class="d-flex gap-2">
+            <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+        </div>
+    </div>`).join('');
+}
+
+// --- QUIZ ---
+function resetQuiz() { currentQ = 0; totalScore = 0; showQuestion(); document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; }
+function showQuestion() {
+    if(questions.length === 0) return;
+    document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
+    document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+}
+function quizAnswer(p) {
+    totalScore += p; currentQ++;
+    if(currentQ < questions.length) showQuestion(); else showResult();
+}
+function showResult() {
+    document.getElementById('q-box').style.display = 'none';
+    document.getElementById('q-result').style.display = 'block';
+    document.getElementById('quiz-score').innerText = totalScore + "/" + (questions.length * 3);
+    let l = "", a = "";
+    if(totalScore >= 7) { l = "Excellent !"; a = "Votre culture sécurité est bonne."; }
+    else { l = "Action requise"; a = "Contactez RESTEV 85 pour faire le point."; }
+    document.getElementById('quiz-label').innerText = l;
+    document.getElementById('quiz-advice').innerText = a;
+}
+
+// --- UTILS & GENERATION ATTESTATION PDF ---
+function updateStats() { 
+    document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistré(s)`; 
+}
+
+function dismissSplash() { 
+    document.getElementById('splash').style.opacity = '0'; 
+    setTimeout(() => document.getElementById('splash').style.display = 'none', 800); 
+}
+
+function exportToCSV() {
+    let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;FDS\r\n" + inventory.map(i => `"${i.name}";"${i.code || ''}";"${i.url_fds || ''}"`).join("\r\n");
+    const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
+}
+
+function generatePDFProof() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Attestation d'Inventaire Chimique - RESTEV 85", 14, 20);
+    
+    const rows = inventory.map(i => [i.name, i.code || 'Saisie manuelle', i.url_fds || 'Non renseignée']);
+    doc.autoTable({
+        head: [['Nom du Produit', 'Code-barres', 'Lien FDS']],
+        body: rows,
+        startY: 30
+    });
+    doc.save("Attestation_Inventaire.pdf");
+}
+
+window.onload = () => { updateStats(); showQuestion(); };
 </script>
-
 </body>
 </html>
