@@ -14,18 +14,18 @@
 <meta name="apple-mobile-web-app-title" content="RESTEV 85">
 <link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode"></script>
+<link href="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css)" rel="stylesheet">
+<script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js)"></script>
+<script src="[unpkg.com](https://unpkg.com/html5-qrcode)"></script>
 
 <!-- Scripts jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js)"></script>
+<script src="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js)"></script>
 
 <!-- Script Supabase (Requis pour la connexion au Cloud) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2)"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
 
 <style>
 :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
@@ -58,7 +58,9 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.sgh-card { display: flex; gap: 15px; align-items: center; }
+.sgh-card { display: flex; gap: 15px; align-items: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.sgh-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.sgh-card:active { transform: scale(0.98); }
 .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
 
 .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
@@ -66,13 +68,24 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
 
 .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+
+/* Styles pour la modale SGH */
+.sgh-modal-img { width: 120px; height: 120px; object-fit: contain; }
+.sgh-info-section { background: #f8f9fa; border-radius: 12px; padding: 15px; margin-bottom: 12px; }
+.sgh-info-section h6 { color: var(--r-blue); margin-bottom: 8px; font-weight: 700; }
+.sgh-info-section ul { margin-bottom: 0; padding-left: 20px; }
+.sgh-info-section li { font-size: 0.9rem; margin-bottom: 4px; }
+.danger-level { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+.danger-high { background: #fee2e2; color: #dc2626; }
+.danger-medium { background: #fef3c7; color: #d97706; }
+.danger-low { background: #dbeafe; color: #2563eb; }
 </style>
 </head>
 <body>
 
 <div id="splash">
 <div class="text-center text-white">
-<img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
+<img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='[placehold.co](https://placehold.co/120x120/ffffff/3065a8?text=RESTEV)'">
 <h2 class="fw-bold mt-3">RESTEV 85</h2>
 <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
 <div class="mt-4" style="width: 150px; margin: auto;">
@@ -82,7 +95,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </div>
 
 <div class="app-header">
-<img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+<img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='[placehold.co](https://placehold.co/180x40?text=RESTEV+85)'">
 </div>
 
 <div class="info-banner">
@@ -153,7 +166,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </div>
 
 <div class="mt-4">
-<a href="https://www.restev.fr/" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
+<a href="[restev.fr](https://www.restev.fr/)" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
 <i class="fa-solid fa-globe me-2"></i> CONSULTER LE SITE OFFICIEL
 </a>
 </div>
@@ -169,7 +182,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <h6 class="mb-0 fw-bold">Subventions CARSAT</h6>
 </div>
 <p class="small text-muted mb-2">Aides financières pour les TPE/PME (Subventions Prévention TPE) permettant de financer du matériel réduisant les risques (TMS, risques chimiques, chutes).</p>
-<a href="https://www.carsat-pl.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat Pays de la Loire</a>
+<a href="[carsat-pl.fr](https://www.carsat-pl.fr/)" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat Pays de la Loire</a>
 </div>
 
 <div class="card-custom" style="border-left-color: #3065a8;">
@@ -178,7 +191,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <h6 class="mb-0 fw-bold">Documentation INRS</h6>
 </div>
 <p class="small text-muted mb-2">L'Institut National de Recherche et de Sécurité propose des guides, des affiches et des outils gratuits (Seirich pour le risque chimique, Mavimplant).</p>
-<a href="https://www.inrs.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Accéder aux ressources INRS</a>
+<a href="[inrs.fr](https://www.inrs.fr/)" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Accéder aux ressources INRS</a>
 </div>
 
 <div class="card-custom" style="border-left-color: #dc3545;">
@@ -187,13 +200,57 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <h6 class="mb-0 fw-bold">OPPBTP / PRO BTP</h6>
 </div>
 <p class="small text-muted mb-2">Pour les professionnels de la construction : aides spécifiques pour l'achat d'échafaudages, de bases vie ou d'outils anti-vibrations.</p>
-<a href="https://www.preventionbtp.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Visiter Prévention BTP</a>
+<a href="[preventionbtp.fr](https://www.preventionbtp.fr/)" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Visiter Prévention BTP</a>
 </div>
 </div>
 
 <div id="page-sgh" class="app-page">
 <h5 class="fw-bold mb-3">Classification SGH</h5>
+<p class="small text-muted mb-3"><i class="fa-solid fa-hand-pointer me-1"></i> Cliquez sur un pictogramme pour plus d'informations</p>
 <div id="sgh-list"></div>
+</div>
+
+<!-- Modale SGH -->
+<div class="modal fade" id="sghModal" tabindex="-1" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content" style="border-radius: 20px; border: none;">
+<div class="modal-header border-0 pb-0">
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+</div>
+<div class="modal-body pt-0">
+<div class="text-center mb-3">
+<img id="modal-sgh-img" src="" class="sgh-modal-img mb-2" alt="Pictogramme SGH">
+<h5 id="modal-sgh-title" class="fw-bold mb-1"></h5>
+<span id="modal-sgh-danger" class="danger-level"></span>
+</div>
+
+<div class="sgh-info-section">
+<h6><i class="fa-solid fa-triangle-exclamation me-2"></i>Signification</h6>
+<p id="modal-sgh-meaning" class="small mb-0"></p>
+</div>
+
+<div class="sgh-info-section">
+<h6><i class="fa-solid fa-skull-crossbones me-2"></i>Dangers associés</h6>
+<ul id="modal-sgh-dangers"></ul>
+</div>
+
+<div class="sgh-info-section">
+<h6><i class="fa-solid fa-shield-halved me-2"></i>Précautions</h6>
+<ul id="modal-sgh-precautions"></ul>
+</div>
+
+<div class="sgh-info-section">
+<h6><i class="fa-solid fa-flask me-2"></i>Exemples de produits</h6>
+<p id="modal-sgh-examples" class="small mb-0"></p>
+</div>
+</div>
+<div class="modal-footer border-0 pt-0">
+<button type="button" class="btn btn-primary w-100 rounded-pill" data-bs-dismiss="modal">
+<i class="fa-solid fa-check me-2"></i>Compris
+</button>
+</div>
+</div>
+</div>
 </div>
 
 <div id="page-list" class="app-page">
@@ -273,29 +330,210 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 
 <script>
 // --- INITIALISATION SUPABASE ---
-const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+const SUPABASE_URL = '[nklarbzamffhiwasxoph.supabase.co](https://nklarbzamffhiwasxoph.supabase.co)'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
 const centres = [
-{ n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+85000+La+Roche-sur-Yon" },
-{ n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+85600+Montaigu-Vendée" },
-{ n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+85500+Les+Herbiers" },
-{ n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+85140+Les+Essarts-en-Bocage" }
+{ n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "[maps.google.com](https://maps.google.com/?q=Impasse+Newton+85000+La+Roche-sur-Yon)" },
+{ n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "[maps.google.com](https://maps.google.com/?q=44+rue+du+8+mai+1945+85600+Montaigu-Vendée)" },
+{ n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "[maps.google.com](https://maps.google.com/?q=18+rue+Olivier+de+Serres+85500+Les+Herbiers)" },
+{ n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "[maps.google.com](https://maps.google.com/?q=Rue+Louis+Lumiere+85140+Les+Essarts-en-Bocage)" }
 ];
 
+// --- DONNÉES SGH ENRICHIES ---
 const sghData = [
-{ id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
-{ id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-{ id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
-{ id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
-{ id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-{ id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
-{ id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
-{ id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
-{ id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
+{ 
+    id: "SGH01", 
+    title: "Explosif", 
+    img: "SGH01_BombeExplosant.jpg", 
+    desc: "Matières explosives",
+    dangerLevel: "high",
+    meaning: "Ce pictogramme signale des substances ou mélanges qui peuvent exploser sous l'effet de la chaleur, d'un choc, de frottements ou d'une étincelle.",
+    dangers: [
+        "Explosion massive",
+        "Projection de débris",
+        "Onde de choc",
+        "Incendie consécutif"
+    ],
+    precautions: [
+        "Manipuler avec précaution, éviter les chocs",
+        "Stocker dans un local ventilé et isolé",
+        "Éloigner de toute source de chaleur ou d'ignition",
+        "Porter des EPI adaptés (lunettes, gants)"
+    ],
+    examples: "Nitroglycérine, TNT, feux d'artifice, détonateurs, certains peroxydes organiques."
+},
+{ 
+    id: "SGH02", 
+    title: "Inflammable", 
+    img: "SGH02_Flamme.jpg", 
+    desc: "Matières inflammables",
+    dangerLevel: "high",
+    meaning: "Indique des substances qui s'enflamment facilement au contact d'une flamme, d'une étincelle ou par auto-échauffement.",
+    dangers: [
+        "Incendie rapide",
+        "Brûlures graves",
+        "Propagation du feu",
+        "Dégagement de fumées toxiques"
+    ],
+    precautions: [
+        "Stocker loin des sources de chaleur et flammes",
+        "Utiliser dans des locaux ventilés",
+        "Interdire de fumer à proximité",
+        "Avoir un extincteur adapté à portée"
+    ],
+    examples: "Acétone, essence, alcool à brûler, white-spirit, éther, propane."
+},
+{ 
+    id: "SGH03", 
+    title: "Comburant", 
+    img: "SGH03_FlammeSurCercle.jpg", 
+    desc: "Matières comburantes",
+    dangerLevel: "high",
+    meaning: "Substance qui peut provoquer ou aggraver un incendie en libérant de l'oxygène ou en favorisant la combustion d'autres matières.",
+    dangers: [
+        "Aggravation des incendies",
+        "Réaction violente avec des combustibles",
+        "Auto-inflammation possible",
+        "Explosion en mélange"
+    ],
+    precautions: [
+        "Ne jamais stocker avec des produits inflammables",
+        "Éviter tout contact avec des matières organiques",
+        "Manipuler avec des outils propres et secs",
+        "Stocker dans un local frais et ventilé"
+    ],
+    examples: "Eau oxygénée concentrée, chlorates, permanganate de potassium, acide nitrique."
+},
+{ 
+    id: "SGH04", 
+    title: "Gaz sous pression", 
+    img: "SGH04_BouteilleGaz.jpg", 
+    desc: "Gaz sous pression",
+    dangerLevel: "medium",
+    meaning: "Gaz contenus sous pression dans un récipient. Risque d'éclatement en cas de choc ou de chaleur.",
+    dangers: [
+        "Éclatement du récipient",
+        "Projection de débris",
+        "Brûlures par le froid (gaz liquéfiés)",
+        "Asphyxie en espace confiné"
+    ],
+    precautions: [
+        "Stocker debout, attachées et à l'abri du soleil",
+        "Ne jamais chauffer les bouteilles",
+        "Vérifier l'état des détendeurs",
+        "Manipuler avec précaution, éviter les chocs"
+    ],
+    examples: "Bouteilles d'oxygène, azote, CO2, propane, acétylène, aérosols."
+},
+{ 
+    id: "SGH05", 
+    title: "Corrosif", 
+    img: "SGH05_Corrosion.jpg", 
+    desc: "Matières corrosives",
+    dangerLevel: "high",
+    meaning: "Substance qui attaque et détruit les tissus vivants (peau, yeux) et/ou les métaux.",
+    dangers: [
+        "Brûlures chimiques graves",
+        "Lésions oculaires irréversibles",
+        "Destruction des équipements",
+        "Dégagement de vapeurs irritantes"
+    ],
+    precautions: [
+        "Porter gants, lunettes et tablier adaptés",
+        "Ne jamais ajouter d'eau à l'acide",
+        "Stocker dans des bacs de rétention",
+        "Avoir une douche de sécurité à proximité"
+    ],
+    examples: "Acide sulfurique, soude caustique, acide chlorhydrique, eau de Javel concentrée."
+},
+{ 
+    id: "SGH06", 
+    title: "Toxicité aiguë", 
+    img: "SGH06.jpg", 
+    desc: "Toxicité aiguë mortelle",
+    dangerLevel: "high",
+    meaning: "Substance mortelle ou très toxique même à faible dose, par ingestion, inhalation ou contact cutané.",
+    dangers: [
+        "Intoxication mortelle",
+        "Défaillance d'organes",
+        "Coma",
+        "Décès rapide possible"
+    ],
+    precautions: [
+        "Manipuler uniquement avec EPI complets",
+        "Travailler sous hotte ou en zone ventilée",
+        "Stocker sous clé avec accès restreint",
+        "Connaître les antidotes et les procédures d'urgence"
+    ],
+    examples: "Cyanure, méthanol, pesticides concentrés, arsenic, mercure."
+},
+{ 
+    id: "SGH07", 
+    title: "Attention", 
+    img: "SGH07_PointExclamation.jpg", 
+    desc: "Irritant / Sensibilisant cutané",
+    dangerLevel: "low",
+    meaning: "Substance irritante pour la peau, les yeux ou les voies respiratoires, ou pouvant provoquer une allergie cutanée.",
+    dangers: [
+        "Irritation des yeux et de la peau",
+        "Réactions allergiques",
+        "Somnolence ou vertiges",
+        "Effets narcotiques"
+    ],
+    precautions: [
+        "Porter des gants et des lunettes",
+        "Assurer une bonne ventilation",
+        "Éviter tout contact prolongé",
+        "Se laver les mains après manipulation"
+    ],
+    examples: "Détergents, certaines peintures, eau de Javel diluée, encres, colles."
+},
+{ 
+    id: "SGH08", 
+    title: "Danger pour la santé", 
+    img: "SGH08_DangerSante.jpg", 
+    desc: "CMR / Danger grave pour la santé",
+    dangerLevel: "high",
+    meaning: "Substance cancérogène, mutagène, toxique pour la reproduction (CMR), ou causant des dommages graves aux organes.",
+    dangers: [
+        "Cancer",
+        "Mutations génétiques",
+        "Atteinte à la fertilité",
+        "Lésions d'organes à long terme"
+    ],
+    precautions: [
+        "Substituer si possible par un produit moins dangereux",
+        "Travailler en circuit fermé ou sous aspiration",
+        "Suivi médical renforcé obligatoire",
+        "Traçabilité des expositions"
+    ],
+    examples: "Benzène, amiante, formaldéhyde, certains solvants chlorés, poussières de bois."
+},
+{ 
+    id: "SGH09", 
+    title: "Danger pour l'environnement", 
+    img: "SGH09_Environnement.jpg", 
+    desc: "Toxicité aquatique",
+    dangerLevel: "medium",
+    meaning: "Substance toxique pour les organismes aquatiques, avec des effets à court ou long terme sur l'environnement.",
+    dangers: [
+        "Pollution des eaux",
+        "Mort de la faune aquatique",
+        "Contamination des sols",
+        "Accumulation dans la chaîne alimentaire"
+    ],
+    precautions: [
+        "Ne jamais rejeter dans l'évier ou la nature",
+        "Collecter et éliminer via des filières agréées",
+        "Stocker sur rétention étanche",
+        "Signaler immédiatement tout déversement"
+    ],
+    examples: "Huiles usagées, pesticides, solvants, métaux lourds, certains détergents."
+}
 ];
 
 const questions = [
@@ -384,7 +622,7 @@ async function pasteFromClipboard() {
 function searchFDS() {
     const name = document.getElementById('prod-name').value;
     if(!name) return alert("Saisissez d'abord un nom de produit.");
-    window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+2024+filetype:pdf`, '_blank');
+    window.open(`[google.com](https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+2024+filetype:pdf)`, '_blank');
 }
 
 async function saveProduct() {
@@ -415,7 +653,7 @@ function renderInventory() {
     container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
     
     inventory.forEach(item => {
-        const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}`;
+        const searchUrl = `[google.com](https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)})`;
         container.innerHTML += `
         <div class="card-custom">
             <div class="d-flex justify-content-between align-items-start mb-2">
@@ -445,15 +683,42 @@ function deleteItem(id) {
     }
 }
 
-// --- AFFICHAGE SGH & CENTRES ---
+// --- AFFICHAGE SGH AVEC POP-UP ---
 function renderSGH() {
-    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-    <div class="card-custom sgh-card">
-    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
-    <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+    document.getElementById('sgh-list').innerHTML = sghData.map((s, index) => `
+    <div class="card-custom sgh-card" onclick="openSGHModal(${index})">
+        <img src="${s.img}" class="sgh-img" onerror="this.src='[placehold.co](https://placehold.co/65x65?text=${s.id})'">
+        <div>
+            <b class="text-dark">${s.title}</b>
+            <span class="danger-level danger-${s.dangerLevel} ms-2">${s.dangerLevel === 'high' ? 'Élevé' : s.dangerLevel === 'medium' ? 'Moyen' : 'Modéré'}</span>
+            <br><small class="text-muted">${s.desc}</small>
+            <br><small class="text-primary"><i class="fa-solid fa-circle-info me-1"></i>Cliquez pour en savoir plus</small>
+        </div>
     </div>`).join('');
 }
 
+function openSGHModal(index) {
+    const s = sghData[index];
+    
+    document.getElementById('modal-sgh-img').src = s.img;
+    document.getElementById('modal-sgh-img').onerror = function() { this.src = `[placehold.co](https://placehold.co/120x120?text=${s.id})`; };
+    document.getElementById('modal-sgh-title').textContent = s.title + " (" + s.id + ")";
+    
+    const dangerBadge = document.getElementById('modal-sgh-danger');
+    dangerBadge.className = `danger-level danger-${s.dangerLevel}`;
+    dangerBadge.textContent = s.dangerLevel === 'high' ? '⚠️ Danger élevé' : s.dangerLevel === 'medium' ? '⚡ Danger moyen' : 'ℹ️ Danger modéré';
+    
+    document.getElementById('modal-sgh-meaning').textContent = s.meaning;
+    
+    document.getElementById('modal-sgh-dangers').innerHTML = s.dangers.map(d => `<li>${d}</li>`).join('');
+    document.getElementById('modal-sgh-precautions').innerHTML = s.precautions.map(p => `<li>${p}</li>`).join('');
+    document.getElementById('modal-sgh-examples').textContent = s.examples;
+    
+    const modal = new bootstrap.Modal(document.getElementById('sghModal'));
+    modal.show();
+}
+
+// --- AFFICHAGE CENTRES ---
 function renderCentres() {
     document.getElementById('centres-list').innerHTML = centres.map(c => `
     <div class="card-custom">
@@ -487,9 +752,9 @@ function showResult() {
     document.getElementById('quiz-advice').innerText = a;
 }
 
-// --- EXPORT & UTILITAIRES ---
+// --- EXPORT CSV ---
 function exportToCSV() {
-    let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;FDS\r\n" + inventory.map(i => `${i.name};${i.code || ''};${i.url_fds || ''}`).join("\r\n");
+    let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;FDS;Date\r\n" + inventory.map(i => `${i.name};${i.code || ''};${i.url_fds || ''};${i.date || ''}`).join("\r\n");
     const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
 }
 
@@ -504,49 +769,204 @@ function dismissSplash() {
 
 window.onload = () => { updateStats(); showQuestion(); };
 
-// --- GENERATION DU PDF ---
+// --- GENERATION DU PDF PROFESSIONNEL ---
 function generatePDFProof() {
     if (inventory.length === 0) return alert("Votre inventaire est vide.");
+    
     const companyName = prompt("Nom de l'entreprise :");
     if (!companyName) return;
+    
+    const signatoryName = prompt("Nom et fonction du signataire :", "Le Responsable");
+    if (!signatoryName) return;
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    
+    // Numéro unique d'attestation
+    const attestationNumber = `ATT-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+    const formattedTime = currentDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
-    doc.setFontSize(18);
+    // --- EN-TÊTE ---
+    // Bordure décorative en haut
+    doc.setDrawColor(48, 101, 168);
+    doc.setLineWidth(3);
+    doc.line(10, 10, 200, 10);
+    doc.setDrawColor(230, 160, 15);
+    doc.setLineWidth(1.5);
+    doc.line(10, 14, 200, 14);
+
+    // Logo placeholder (texte stylisé)
+    doc.setFillColor(48, 101, 168);
+    doc.roundedRect(14, 20, 45, 18, 3, 3, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(14);
+    doc.setFont(undefined, 'bold');
+    doc.text("RESTEV 85", 36.5, 31, { align: 'center' });
+
+    // Titre du document
     doc.setTextColor(48, 101, 168);
-    doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
+    doc.setFontSize(20);
+    doc.setFont(undefined, 'bold');
+    doc.text("ATTESTATION D'INVENTAIRE", 130, 26, { align: 'center' });
+    doc.setFontSize(14);
+    doc.text("PRODUITS CHIMIQUES", 130, 34, { align: 'center' });
 
+    // Numéro d'attestation
     doc.setFontSize(9);
     doc.setTextColor(100);
-    doc.text("Conformément aux articles R4412-1 à R4412-57 du Code du Travail", 14, 28);
-    doc.setDrawColor(230, 160, 15);
-    doc.line(14, 32, 196, 32);
-
-    doc.setFontSize(11);
-    doc.setTextColor(0);
-    doc.setFont(undefined, 'bold');
-    doc.text(`Entreprise : ${companyName}`, 14, 40);
     doc.setFont(undefined, 'normal');
-    doc.text(`Date d'inventaire : ${new Date().toLocaleDateString('fr-FR')}`, 14, 47);
+    doc.text(`N° ${attestationNumber}`, 196, 44, { align: 'right' });
 
-    // Préparation des données pour le tableau
-    const tableData = inventory.map(item => [
+    // Ligne de séparation
+    doc.setDrawColor(200);
+    doc.setLineWidth(0.5);
+    doc.line(14, 48, 196, 48);
+
+    // --- BLOC ENTREPRISE ---
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(14, 52, 182, 28, 3, 3, 'F');
+    
+    doc.setTextColor(48, 101, 168);
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.text("ENTREPRISE CONCERNÉE", 20, 60);
+    
+    doc.setTextColor(0);
+    doc.setFontSize(14);
+    doc.text(companyName.toUpperCase(), 20, 70);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(100);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Date de l'inventaire : ${formattedDate} à ${formattedTime}`, 20, 76);
+
+    // --- TEXTE D'ATTESTATION ---
+    doc.setTextColor(0);
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    
+    const attestText = `Je soussigné(e), ${signatoryName}, atteste sur l'honneur que l'inventaire ci-dessous représente la liste complète et exacte des produits chimiques présents dans les locaux de l'entreprise à la date mentionnée.`;
+    
+    const splitText = doc.splitTextToSize(attestText, 176);
+    doc.text(splitText, 14, 90);
+
+    // Référence réglementaire
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+    doc.setFont(undefined, 'italic');
+    doc.text("Conformément aux articles R4412-1 à R4412-57 du Code du Travail relatifs à la prévention du risque chimique.", 14, 102);
+
+    // --- TABLEAU DES PRODUITS ---
+    const tableData = inventory.map((item, index) => [
+        (index + 1).toString(),
         item.name, 
-        item.code || 'Manuel', 
-        item.date || new Date().toLocaleDateString('fr-FR')
+        item.code || '—', 
+        item.date || formattedDate,
+        item.url_fds ? '✓' : '—'
     ]);
 
-    // Génération du tableau
     doc.autoTable({
-        startY: 55,
-        head: [['Nom du Produit', 'Code-barres', 'Date d\'ajout']],
+        startY: 108,
+        head: [['N°', 'Désignation du produit', 'Code-barres', 'Date d\'enregistrement', 'FDS']],
         body: tableData,
-        headStyles: { fillColor: [48, 101, 168] },
+        headStyles: { 
+            fillColor: [48, 101, 168],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center'
+        },
+        columnStyles: {
+            0: { halign: 'center', cellWidth: 12 },
+            1: { cellWidth: 70 },
+            2: { halign: 'center', cellWidth: 40 },
+            3: { halign: 'center', cellWidth: 40 },
+            4: { halign: 'center', cellWidth: 15 }
+        },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+        styles: { fontSize: 9, cellPadding: 4 },
+        margin: { left: 14, right: 14 }
     });
 
-    // Sauvegarde du fichier
-    doc.save(`Attestation_RESTEV_${companyName.replace(/\s+/g, '_')}.pdf`);
+    const finalY = doc.lastAutoTable.finalY + 10;
+
+    // --- BLOC SIGNATURE ET CACHET ---
+    // Cadre signature à droite
+    doc.setDrawColor(48, 101, 168);
+    doc.setLineWidth(1);
+    doc.roundedRect(110, finalY, 86, 55, 3, 3);
+    
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(111, finalY + 1, 84, 12, 2, 2, 'F');
+    
+    doc.setTextColor(48, 101, 168);
+    doc.setFontSize(9);
+    doc.setFont(undefined, 'bold');
+    doc.text("SIGNATURE ET CACHET", 153, finalY + 8, { align: 'center' });
+
+    // Zone de signature (ligne pointillée)
+    doc.setDrawColor(180);
+    doc.setLineDashPattern([2, 2], 0);
+    doc.line(120, finalY + 40, 186, finalY + 40);
+    doc.setLineDashPattern([], 0);
+    
+    doc.setTextColor(150);
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'italic');
+    doc.text("Signature précédée de la mention", 153, finalY + 46, { align: 'center' });
+    doc.text("« Lu et approuvé »", 153, finalY + 51, { align: 'center' });
+
+    // Cachet stylisé (cercle)
+    doc.setDrawColor(48, 101, 168);
+    doc.setLineWidth(2);
+    doc.circle(50, finalY + 30, 22);
+    doc.setLineWidth(0.5);
+    doc.circle(50, finalY + 30, 18);
+    
+    doc.setTextColor(48, 101, 168);
+    doc.setFontSize(7);
+    doc.setFont(undefined, 'bold');
+    doc.text("RESTEV 85", 50, finalY + 25, { align: 'center' });
+    doc.setFontSize(5);
+    doc.setFont(undefined, 'normal');
+    doc.text("Service de Prévention", 50, finalY + 29, { align: 'center' });
+    doc.text("et de Santé au Travail", 50, finalY + 33, { align: 'center' });
+    doc.setFontSize(6);
+    doc.text("VENDÉE", 50, finalY + 38, { align: 'center' });
+
+    // Date sous le cachet
+    doc.setTextColor(100);
+    doc.setFontSize(8);
+    doc.text(`Fait à La Roche-sur-Yon`, 50, finalY + 50, { align: 'center' });
+    doc.text(`Le ${formattedDate}`, 50, finalY + 55, { align: 'center' });
+
+    // --- PIED DE PAGE ---
+    const pageHeight = doc.internal.pageSize.height;
+    
+    // Ligne de séparation
+    doc.setDrawColor(200);
+    doc.setLineWidth(0.3);
+    doc.line(14, pageHeight - 25, 196, pageHeight - 25);
+
+    // Mentions légales
+    doc.setTextColor(130);
+    doc.setFontSize(7);
+    doc.setFont(undefined, 'normal');
+    doc.text("Ce document est généré automatiquement par l'application RESTEV 85 - Expert Prévention.", 105, pageHeight - 20, { align: 'center' });
+    doc.text("Il atteste de la bonne foi de l'entreprise dans sa démarche de prévention du risque chimique.", 105, pageHeight - 16, { align: 'center' });
+    doc.text(`RESTEV 85 • Impasse Newton, 85000 La Roche-sur-Yon • Tél : 02 51 37 06 68 • www.restev.fr`, 105, pageHeight - 10, { align: 'center' });
+
+    // Bordure décorative en bas
+    doc.setDrawColor(230, 160, 15);
+    doc.setLineWidth(1.5);
+    doc.line(10, pageHeight - 5, 200, pageHeight - 5);
+    doc.setDrawColor(48, 101, 168);
+    doc.setLineWidth(3);
+    doc.line(10, pageHeight - 2, 200, pageHeight - 2);
+
+    // Sauvegarde
+    doc.save(`Attestation_Inventaire_${companyName.replace(/\s+/g, '_')}_${currentDate.toISOString().slice(0,10)}.pdf`);
 }
 </script>
 </body>
