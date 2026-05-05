@@ -272,31 +272,123 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </nav>
 
 <script>
-// --- INITIALISATION SUPABASE ---
+// --- CONFIGURATION SUPABASE ---
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
-const centres = [
-{ n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+85000+La+Roche-sur-Yon" },
-{ n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+85600+Montaigu-Vendée" },
-{ n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+85500+Les+Herbiers" },
-{ n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+85140+Les+Essarts-en-Bocage" }
-];
+// --- RECONNAISSANCE & CLOUD ---
 
-const sghData = [
-{ id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
-{ id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-{ id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
-{ id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
-{ id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-{ id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
-{ id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
-{ id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
-{ id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
-];
+// 1. Chercher si le produit existe déjà dans la base partagée Supabase
+async function checkCloud(code) {
+    if(!code.trim()) return;
+    
+    try {
+        const { data, error } = await sb
+            .from('produits_partages')
+            .select('nom, url_fds')
+            .eq('code', code.trim())
+            .maybeSingle();
+
+        if (data) {
+            document.getElementById('prod-name').value = data.nom;
+            document.getElementById('prod-fds').value = data.url_fds || '';
+            
+            // Animation visuelle de succès
+            const btn = document.getElementById('btn-save');
+            btn.innerHTML = "✅ PRODUIT TROUVÉ DANS LE CLOUD";
+            btn.classList.replace('btn-primary', 'btn-success');
+            setTimeout(() => {
+                btn.innerHTML = "ENREGISTRER DANS MON INVENTAIRE";
+                btn.classList.replace('btn-success', 'btn-primary');
+            }, 2500);
+        }
+    } catch (e) { console.error("Erreur Cloud:", e); }
+}
+
+// 2. Recherche assistée de la FDS sur Google
+function searchFDS() {
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez d'abord un nom de produit.");
+    // Ouvre Google avec les bons filtres pour trouver un PDF récent
+    const query = encodeURIComponent(`FDS ${name} 2024 2025 filetype:pdf`);
+    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+}
+
+// 3. Enregistrement (Local + Cloud)
+async function saveProduct() {
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value.trim();
+    const fdsUrl = document.getElementById('prod-fds').value.trim();
+
+    if(!name) return alert("Le nom du produit est obligatoire.");
+
+    const newProd = { 
+        id: Date.now(), 
+        name, 
+        code, 
+        url_fds: fdsUrl, 
+        date: new Date().toLocaleDateString('fr-FR') 
+    };
+
+    // Sauvegarde Locale
+    inventory.push(newProd);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+
+    // Sauvegarde/Mise à jour sur Supabase pour la communauté
+    if(code) {
+        await sb.from('produits_partages').upsert({ 
+            code: code, 
+            nom: name, 
+            url_fds: fdsUrl 
+        });
+    }
+    
+    // Reset et redirection
+    document.getElementById('prod-name').value = '';
+    document.getElementById('prod-code').value = '';
+    document.getElementById('prod-fds').value = '';
+    alert("Produit ajouté et synchronisé !");
+    nav('page-list', 'nav-list');
+}
+
+// --- AFFICHAGE ---
+
+function renderInventory() {
+    const container = document.getElementById('inventory-container');
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
+    
+    // Tri par nom
+    inventory.sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
+        container.innerHTML += `
+        <div class="card-custom">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="fw-bold mb-0">${item.name}</h6>
+                    <small class="text-muted">${item.code || 'Saisie manuelle'}</small>
+                </div>
+                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="mt-3">
+                ${item.url_fds ? 
+                    `<a href="${item.url_fds}" target="_blank" class="btn btn-primary btn-sm w-100 shadow-sm">
+                        <i class="fa-solid fa-file-pdf me-2"></i>CONSULTER LA FDS
+                     </a>` : 
+                    `<button onclick="nav('page-scan','nav-scan')" class="btn btn-outline-warning btn-sm w-100">
+                        <i class="fa-solid fa-link-slash me-2"></i>LIEN FDS MANQUANT
+                     </button>`
+                }
+            </div>
+        </div>`;
+    });
+}
+
+// Relier l'input code-barres à la recherche Cloud automatique
+document.getElementById('prod-code').addEventListener('blur', function() {
+    checkCloud(this.value);
+});
 
 const questions = [
 "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
