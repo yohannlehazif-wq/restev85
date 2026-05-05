@@ -19,57 +19,124 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <!-- Scripts jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+// --- CONFIGURATION SUPABASE ---
+const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<!-- Script Supabase (Requis pour la connexion au Cloud) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+// --- RECONNAISSANCE & CLOUD ---
 
-<style>
-:root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+// 1. Chercher si le produit existe déjà dans la base partagée Supabase
+async function checkCloud(code) {
+    if(!code.trim()) return;
+    
+    try {
+        const { data, error } = await sb
+            .from('produits_partages')
+            .select('nom, url_fds')
+            .eq('code', code.trim())
+            .maybeSingle();
 
-#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        if (data) {
+            document.getElementById('prod-name').value = data.nom;
+            document.getElementById('prod-fds').value = data.url_fds || '';
+            
+            // Animation visuelle de succès
+            const btn = document.getElementById('btn-save');
+            btn.innerHTML = "✅ PRODUIT TROUVÉ DANS LE CLOUD";
+            btn.classList.replace('btn-primary', 'btn-success');
+            setTimeout(() => {
+                btn.innerHTML = "ENREGISTRER DANS MON INVENTAIRE";
+                btn.classList.replace('btn-success', 'btn-primary');
+            }, 2500);
+        }
+    } catch (e) { console.error("Erreur Cloud:", e); }
+}
 
-.btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-@keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+// 2. Recherche assistée de la FDS sur Google
+function searchFDS() {
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez d'abord un nom de produit.");
+    // Ouvre Google avec les bons filtres pour trouver un PDF récent
+    const query = encodeURIComponent(`FDS ${name} 2024 2025 filetype:pdf`);
+    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+}
 
-.ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+// 3. Enregistrement (Local + Cloud)
+async function saveProduct() {
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value.trim();
+    const fdsUrl = document.getElementById('prod-fds').value.trim();
 
-.app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-.logo-header { height: 40px; }
+    if(!name) return alert("Le nom du produit est obligatoire.");
 
-.info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.ticker { display: inline-block; animation: ticker 25s linear infinite; }
-.ticker span { padding-right: 50px; }
-@keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+    const newProd = { 
+        id: Date.now(), 
+        name, 
+        code, 
+        url_fds: fdsUrl, 
+        date: new Date().toLocaleDateString('fr-FR') 
+    };
 
-.nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-.nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
-.nav-item.active { color: var(--r-blue); }
-.nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+    // Sauvegarde Locale
+    inventory.push(newProd);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-.app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
-.active-page { display: block !important; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    // Sauvegarde/Mise à jour sur Supabase pour la communauté
+    if(code) {
+        await sb.from('produits_partages').upsert({ 
+            code: code, 
+            nom: name, 
+            url_fds: fdsUrl 
+        });
+    }
+    
+    // Reset et redirection
+    document.getElementById('prod-name').value = '';
+    document.getElementById('prod-code').value = '';
+    document.getElementById('prod-fds').value = '';
+    alert("Produit ajouté et synchronisé !");
+    nav('page-list', 'nav-list');
+}
 
-.card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.sgh-card { display: flex; gap: 15px; align-items: center; }
-.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+// --- AFFICHAGE ---
 
-.btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+function renderInventory() {
+    const container = document.getElementById('inventory-container');
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
+    
+    // Tri par nom
+    inventory.sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
+        container.innerHTML += `
+        <div class="card-custom">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="fw-bold mb-0">${item.name}</h6>
+                    <small class="text-muted">${item.code || 'Saisie manuelle'}</small>
+                </div>
+                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="mt-3">
+                ${item.url_fds ? 
+                    `<a href="${item.url_fds}" target="_blank" class="btn btn-primary btn-sm w-100 shadow-sm">
+                        <i class="fa-solid fa-file-pdf me-2"></i>CONSULTER LA FDS
+                     </a>` : 
+                    `<button onclick="nav('page-scan','nav-scan')" class="btn btn-outline-warning btn-sm w-100">
+                        <i class="fa-solid fa-link-slash me-2"></i>LIEN FDS MANQUANT
+                     </button>`
+                }
+            </div>
+        </div>`;
+    });
+}
 
-.badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-</style>
-</head>
-<body>
-
+// Relier l'input code-barres à la recherche Cloud automatique
+document.getElementById('prod-code').addEventListener('blur', function() {
+    checkCloud(this.value);
+});
+    
 <div id="splash">
 <div class="text-center text-white">
 <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
