@@ -1010,56 +1010,33 @@ window.onload = () => { updateStats(); showQuestion(); };
 
 
 
-// --- GENERATION DU PDF ---
-
+/ --- ATTESTATION PRO ---
 function generatePDFProof() {
-
-    if (inventory.length === 0) return alert("Votre inventaire est vide.");
-
-    const companyName = prompt("Nom de l'entreprise :");
-
-    if (!companyName) return;
-
-
-
+    if (inventory.length === 0) return alert("Inventaire vide.");
+    const company = prompt("Entreprise :") || "Non spécifié";
     const { jsPDF } = window.jspdf;
-
     const doc = new jsPDF();
-
-
-
-    doc.setFontSize(18);
-
-    doc.setTextColor(48, 101, 168);
-
-    doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
-
-
-
-    doc.setFontSize(9);
-
-    doc.setTextColor(100);
-
-    doc.text("Conformément aux articles R4412-1 à R4412-57 du Code du Travail", 14, 28);
-
-    doc.setDrawColor(230, 160, 15);
-
-    doc.line(14, 32, 196, 32);
-
-
-
-    doc.setFontSize(11);
-
-    doc.setTextColor(0);
-
-    doc.setFont(undefined, 'bold');
-
-    doc.text(`Entreprise : ${companyName}`, 14, 40);
-
-    doc.setFont(undefined, 'normal');
-
-    doc.text(`Date d'inventaire : ${new Date().toLocaleDateString('fr-FR')}`, 14, 47);
-
+    doc.setFillColor(48, 101, 168); doc.rect(0, 0, 210, 20, 'F');
+    doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(255);
+    doc.text("INVENTAIRE DES PRODUITS CHIMIQUES", 15, 13);
+    doc.setFontSize(11); doc.setTextColor(0);
+    doc.text(`Structure : ${company}`, 15, 30);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Date : ${new Date().toLocaleDateString('fr-FR')}`, 15, 37);
+    const fdsCount = inventory.filter(i => i.url_fds).length;
+    doc.setDrawColor(230, 160, 15); doc.line(15, 42, 195, 42);
+    doc.setFontSize(10); doc.text(`${inventory.length} produits | ${fdsCount} FDS liées`, 15, 48);
+    doc.autoTable({
+        startY: 55,
+        head: [['Produit', 'Code', 'FDS', 'Date']],
+        body: inventory.map(i => [i.name, i.code || '-', i.url_fds ? 'OK' : 'Manquante', i.date]),
+        theme: 'striped', headStyles: { fillColor: [48, 101, 168] }
+    });
+    const finalY = doc.lastAutoTable.finalY + 15;
+    doc.setFontSize(8); doc.setTextColor(100);
+    doc.text("Document généré via l'outil RESTEV 85 conforme au Code du Travail.", 15, finalY);
+    doc.save(`Inventaire_RESTEV_${company}.pdf`);
+}
 
 
     // Préparation des données pour le tableau
