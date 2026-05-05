@@ -3,165 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Gestion FDS</title>
-    
-    <!-- Bibliothèques -->
+    <title>RESTEV 85 - Expert Prévention</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 80px; }
-        
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        
-        .nav-bottom { position: fixed; bottom: 10px; left: 10px; right: 10px; background: white; display: flex; justify-content: space-around; padding: 12px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.7rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
         .nav-item.active { color: var(--r-blue); }
-
-        .app-page { display: none; padding: 20px; }
+        .app-page { display: none; padding: 20px 15px; }
         .active-page { display: block !important; }
-        
-        .card-custom { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .btn-upload { background: var(--r-blue); color: white; border-radius: 10px; font-weight: bold; }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .sgh-img { width: 65px; height: 65px; object-fit: contain; }
     </style>
 </head>
 <body>
 
+<div id="splash">
+    <div class="text-center text-white">
+        <h2 class="fw-bold mt-3">RESTEV 85</h2>
+        <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
+    </div>
+</div>
+
 <div class="app-header">
-    <h5 class="mb-0 fw-bold" style="color: var(--r-blue)">RESTEV 85 - Expert Prévention</h5>
+    <h5 class="mb-0 fw-bold" style="color: var(--r-blue)">RESTEV 85</h5>
 </div>
 
 <!-- ACCUEIL -->
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0" style="background: var(--r-blue);">
-        <h6>Bienvenue</h6>
-        <p class="small mb-0">Utilisez l'onglet <b>AJOUTER</b> pour numériser vos FDS.</p>
+    <div class="card-custom text-white border-0 mb-3" style="background: var(--r-blue);">
+        <h5 class="fw-bold mb-1">Tableau de Bord</h5>
+        <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
     </div>
-    <div id="quick-stats" class="mt-3"></div>
+    <div class="row g-2">
+        <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-3"><i class="fa-solid fa-plus fa-2x mb-2 text-primary"></i><br><small class="fw-bold">AJOUTER FDS</small></div></div>
+        <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom text-center py-3"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold">AUTO-DIAG</small></div></div>
+        <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-3"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div></div>
+        <div class="col-6" onclick="nav('page-sgh')"><div class="card-custom text-center py-3"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">LEXIQUE SGH</small></div></div>
+    </div>
 </div>
 
-<!-- AJOUTER PRODUIT + PDF -->
-<div id="page-add" class="app-page">
-    <h5 class="fw-bold mb-3">Nouvelle FDS</h5>
+<!-- SCAN / AJOUT AVEC SUPABASE -->
+<div id="page-scan" class="app-page">
+    <h5 class="fw-bold mb-3">Enregistrer un produit</h5>
     <div class="card-custom">
-        <div class="mb-3">
-            <label class="form-label small fw-bold">Nom du produit chimique</label>
-            <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone, Alcool...">
-        </div>
-        <div class="mb-4">
-            <label class="form-label small fw-bold">Fichier FDS (PDF uniquement)</label>
-            <input type="file" id="prod-fds" class="form-control" accept=".pdf">
-        </div>
-        <button class="btn btn-upload w-100 py-3" onclick="uploadToSupabase()">
-            <i class="fa-solid fa-cloud-arrow-up me-2"></i>ENREGISTRER SUR SUPABASE
-        </button>
+        <div id="reader" class="mb-3" style="width:100%; border-radius:15px; overflow:hidden;"></div>
+        <button class="btn btn-dark w-100 mb-3" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>Scanner Code-barres</button>
+        <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+        <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres (optionnel)">
+        <label class="small fw-bold mb-1">Document FDS (PDF)</label>
+        <input type="file" id="prod-fds" class="form-control mb-4" accept=".pdf">
+        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="uploadProduct()">SAUVEGARDER SUR LE CLOUD</button>
     </div>
 </div>
 
-<!-- LISTE DES PRODUITS -->
+<!-- LISTE -->
 <div id="page-list" class="app-page">
-    <h5 class="fw-bold mb-3">Mon Inventaire FDS</h5>
-    <div id="inventory-container">
-        <p class="text-center text-muted">Chargement de la base...</p>
+    <h5 class="fw-bold mb-3">Inventaire Connecté</h5>
+    <div class="d-flex gap-2 mb-3">
+        <button class="btn btn-success flex-grow-1" onclick="exportToCSV()"><i class="fa-solid fa-file-csv"></i> CSV</button>
+        <button class="btn btn-danger flex-grow-1" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf"></i> ATTESTATION</button>
+    </div>
+    <div id="inventory-container"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="page-quiz" class="app-page">
+    <h5 class="fw-bold mb-3">Auto-Diag Prévention</h5>
+    <div class="card-custom" id="quiz-box">
+        <p id="q-text" class="fw-bold mb-4">Chargement...</p>
+        <div id="quiz-options"></div>
     </div>
 </div>
 
-<!-- NAVIGATION -->
+<!-- SGH -->
+<div id="page-sgh" class="app-page">
+    <h5 class="fw-bold mb-3">Classification SGH</h5>
+    <div id="sgh-list"></div>
+</div>
+
+<!-- NAV BASSE -->
 <nav class="nav-bottom">
-    <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-    <button class="nav-item" onclick="nav('page-add', this)"><i class="fa-solid fa-file-circle-plus"></i>AJOUTER</button>
-    <button class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-box-archive"></i>INVENTAIRE</button>
+    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
+    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>DIAG</button>
 </nav>
 
 <script>
-    // INITIALISATION SUPABASE AVEC VOS CLES
     const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Tgg9yt8SX24GN-gWIyEI_g_LAA76ABI';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let inventory = [];
 
     function nav(id, el) {
         document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
         document.getElementById(id).classList.add('active-page');
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        if(el) el.classList.add('active');
+        if(typeof el === 'object') el.classList.add('active');
         if(id === 'page-list') loadData();
+        if(id === 'page-sgh') renderSGH();
     }
 
-    // FONCTION POUR ENVOYER LE PDF ET LES INFOS
-    async function uploadToSupabase() {
+    async function uploadProduct() {
         const name = document.getElementById('prod-name').value;
+        const code = document.getElementById('prod-code').value;
         const file = document.getElementById('prod-fds').files[0];
 
-        if (!name || !file) return alert("Veuillez remplir le nom et choisir un PDF.");
+        if(!name) return alert("Nom requis");
 
-        try {
-            // 1. Envoyer le fichier PDF dans le Storage (Bucket: fds_files)
-            const fileName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
-            const { data: storageData, error: storageError } = await supabaseClient.storage
-                .from('fds_files')
-                .upload(fileName, file);
+        let fdsUrl = "";
+        if(file) {
+            const fileName = `${Date.now()}_${file.name}`;
+            const { data: stData, error: stErr } = await supabaseClient.storage.from('fds_files').upload(fileName, file);
+            if(!stErr) {
+                const { data: urlData } = supabaseClient.storage.from('fds_files').getPublicUrl(fileName);
+                fdsUrl = urlData.publicUrl;
+            }
+        }
 
-            if (storageError) throw storageError;
-
-            // 2. Récupérer l'URL du fichier
-            const { data: urlData } = supabaseClient.storage.from('fds_files').getPublicUrl(fileName);
-            const publicUrl = urlData.publicUrl;
-
-            // 3. Insérer les données dans la table 'produits_partages'
-            const { error: dbError } = await supabaseClient
-                .from('produits_partages')
-                .insert([{ nom: name, fds_url: publicUrl }]);
-
-            if (dbError) throw dbError;
-
-            alert("FDS enregistrée avec succès !");
-            document.getElementById('prod-name').value = '';
-            document.getElementById('prod-fds').value = '';
-            nav('page-list');
-        } catch (err) {
-            console.error(err);
-            alert("Erreur : Vérifiez que vous avez bien créé le bucket 'fds_files' en mode Public sur Supabase.");
+        const { error } = await supabaseClient.from('produits_partages').insert([{ nom: name, code: code, fds_url: fdsUrl }]);
+        if(!error) {
+            alert("Enregistré !");
+            nav('page-list', document.getElementById('nav-list'));
         }
     }
 
-    // CHARGER LA LISTE DEPUIS SUPABASE
     async function loadData() {
         const container = document.getElementById('inventory-container');
-        container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
-
-        const { data, error } = await supabaseClient
-            .from('produits_partages')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) {
-            container.innerHTML = "Erreur de connexion à la base.";
-            return;
-        }
-
-        if (data.length === 0) {
-            container.innerHTML = '<p class="text-center text-muted mt-4">Aucun produit enregistré.</p>';
-            return;
-        }
-
-        container.innerHTML = data.map(item => `
-            <div class="card-custom">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <b class="text-dark">${item.nom}</b><br>
-                        <small class="text-muted">Ajouté le ${new Date(item.created_at).toLocaleDateString()}</small>
+        container.innerHTML = "Chargement...";
+        const { data, error } = await supabaseClient.from('produits_partages').select('*').order('created_at', {ascending: false});
+        if(!error) {
+            inventory = data;
+            document.getElementById('inv-stats').innerText = `${data.length} produit(s) synchronisés`;
+            container.innerHTML = data.map(item => `
+                <div class="card-custom">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div><b>${item.nom}</b><br><small class="text-muted">${item.code || 'Sans code'}</small></div>
+                        <button onclick="deleteItem(${item.id})" class="btn text-danger p-0"><i class="fa-solid fa-trash"></i></button>
                     </div>
-                    <a href="${item.fds_url}" target="_blank" class="btn btn-sm btn-outline-primary">
-                        <i class="fa-solid fa-file-pdf"></i> Ouvrir FDS
-                    </a>
+                    ${item.fds_url ? `<a href="${item.fds_url}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mt-2">Ouvrir la FDS</a>` : ''}
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
     }
 
+    async function deleteItem(id) {
+        if(confirm("Supprimer ?")) {
+            await supabaseClient.from('produits_partages').delete().eq('id', id);
+            loadData();
+        }
+    }
+
+    function renderSGH() {
+        const sghs = [
+            {t: "Inflammable", d: "SGH02 - Flamme"},
+            {t: "Toxique", d: "SGH06 - Tête de mort"},
+            {t: "Corrosif", d: "SGH05 - Corrosion"},
+            {t: "Danger Santé", d: "SGH08 - CMR"}
+        ];
+        document.getElementById('sgh-list').innerHTML = sghs.map(s => `<div class="card-custom"><b>${s.t}</b><br><small>${s.d}</small></div>`).join('');
+    }
+
+    function dismissSplash() { document.getElementById('splash').style.display = 'none'; }
     window.onload = () => { loadData(); };
 </script>
 
