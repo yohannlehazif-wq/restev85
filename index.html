@@ -1,205 +1,1097 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Expert Prévention</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RESTEV 85 - Expert Prévention</title>
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3065a8">
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3065a8">
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
+<link rel="icon" type="image/png" href="logo_restev_carre.png">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <!-- Scripts jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
-    <!-- Script Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-        @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .logo-header { height: 40px; }
-        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .ticker { display: inline-block; animation: ticker 25s linear infinite; }
-        .ticker span { padding-right: 50px; }
-        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
-        .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .sgh-card { display: flex; gap: 15px; align-items: center; }
-        .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
-        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-    </style>
+<meta name="apple-mobile-web-app-title" content="RESTEV 85">
+
+<link rel="apple-touch-icon" href="logo_restev_carre.png">
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+
+
+<!-- Scripts jsPDF -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+
+
+<!-- Script Supabase (Requis pour la connexion au Cloud) -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+<style>
+
+:root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+
+body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+
+
+
+#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+
+@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+
+
+.btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
+
+@keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+
+
+.ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
+
+@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+
+
+
+.app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+
+.logo-header { height: 40px; }
+
+
+
+.info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+.ticker { display: inline-block; animation: ticker 25s linear infinite; }
+
+.ticker span { padding-right: 50px; }
+
+@keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+
+
+.nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+
+.nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
+
+.nav-item.active { color: var(--r-blue); }
+
+.nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+
+
+
+.app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
+
+.active-page { display: block !important; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+.card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
+.sgh-card { display: flex; gap: 15px; align-items: center; }
+
+.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+
+
+
+.btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+
+.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
+
+.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+
+
+
+.badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+
+</style>
+
 </head>
+
 <body>
 
+
+
 <div id="splash">
-    <div class="text-center text-white">
-        <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
-        <h2 class="fw-bold mt-3">RESTEV 85</h2>
-        <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
-        <div class="mt-4" style="width: 150px; margin: auto;">
-            <svg viewBox="0 0 200 40"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
-        </div>
-    </div>
+
+<div class="text-center text-white">
+
+<img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
+
+<h2 class="fw-bold mt-3">RESTEV 85</h2>
+
+<button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
+
+<div class="mt-4" style="width: 150px; margin: auto;">
+
+<svg viewBox="0 0 200 40"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
+
 </div>
+
+</div>
+
+</div>
+
+
 
 <div class="app-header">
-    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+
+<img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+
 </div>
+
+
 
 <div class="info-banner">
-    <div class="ticker">
-        <span><i class="fa-solid fa-bullhorn me-1"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-book-medical me-1"></i> INRS : Nouveaux outils d'évaluation des Risques Chimiques | <i class="fa-solid fa-helmet-safety me-1"></i> PRO BTP : Aides financières pour équipements de sécurité | <i class="fa-solid fa-circle-info me-1"></i> RESTEV : Pensez à mettre à jour votre DUERP !</span>
-    </div>
+
+<div class="ticker">
+
+<span><i class="fa-solid fa-bullhorn me-1"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-book-medical me-1"></i> INRS : Nouveaux outils d'évaluation des Risques Chimiques | <i class="fa-solid fa-helmet-safety me-1"></i> PRO BTP : Aides financières pour équipements de sécurité | <i class="fa-solid fa-circle-info me-1"></i> RESTEV : Pensez à mettre à jour votre DUERP !</span>
+
 </div>
+
+</div>
+
+
 
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-        <h5 class="fw-bold mb-1">RESTEV 85</h5>
-        <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
-    </div>
-    <div class="row g-2">
-        <div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-3 mb-0"><i class="fa-solid fa-barcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold">SCANNER FDS</small></div></div>
-        <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom text-center py-3 mb-0"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold">AUTO-DIAG</small></div></div>
-        <div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">LEXIQUE SGH</small></div></div>
-        <div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-3 mb-0"><i class="fa-solid fa-boxes-stacked fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div></div>
-    </div>
+
+<div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+
+<h5 class="fw-bold mb-1">RESTEV 85</h5>
+
+<p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+
 </div>
 
-<!-- Page Liste -->
+
+
+<div class="row g-2">
+
+<div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-list', 'nav-list')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
+
+</div>
+
+<div class="col-6" onclick="nav('page-centres', 'nav-centres')">
+
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div id="page-services" class="app-page">
+
+<h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L'Offre RESTEV 85</h5>
+
+<p class="small text-muted mb-4">Votre adhésion comprend un ensemble de services "Offre Socle" pour vous accompagner au quotidien. L'équipe pluridisciplinaire (médecins, ergonomes, psychologues, ingénieurs) est à votre disposition.</p>
+
+
+
+<div class="card-custom" style="border-left-color: var(--r-blue);">
+
+<div class="badge-service">PRÉVENTION</div>
+
+<h6>Accompagnement en entreprise</h6>
+
+<p class="small mb-2">Nos <b>TPRP</b> (Techniciens en Prévention) vous accompagnent <b>sans surcoût</b> pour :</p>
+
+<ul class="small text-muted ps-3 mb-0">
+
+<li>Réalisation ou mise à jour de votre DUERP.</li>
+
+<li>Études ergonomiques de postes de travail (TMS).</li>
+
+<li>Métrologie (bruit, éclairage, poussières).</li>
+
+</ul>
+
+</div>
+
+
+
+<div class="card-custom" style="border-left-color: var(--r-purple);">
+
+<div class="badge-service" style="background-color: var(--r-purple)">SENSIBILISATION</div>
+
+<h6>Ateliers et Formations</h6>
+
+<p class="small text-muted mb-0">Nous organisons régulièrement des ateliers pour vos équipes : Risques Psycho-Sociaux (RPS), manipulation des produits chimiques (CMR), analyse des accidents du travail, et sensibilisation au sommeil/addictions.</p>
+
+</div>
+
+
+
+<div class="card-custom" style="border-left-color: var(--r-teal);">
+
+<div class="badge-service" style="background-color: var(--r-teal)">MAINTIEN DANS L'EMPLOI</div>
+
+<h6>Cellule PDP</h6>
+
+<p class="small text-muted mb-0">La cellule de Prévention de la Désinsertion Professionnelle (PDP) accompagne les salariés rencontrant des problèmes de santé impactant leur travail, afin d'anticiper et d'éviter l'inaptitude (aménagements de poste, reconversion).</p>
+
+</div>
+
+
+
+<div class="mt-4">
+
+<a href="https://www.restev.fr/" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
+
+<i class="fa-solid fa-globe me-2"></i> CONSULTER LE SITE OFFICIEL
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<div id="page-aides" class="app-page">
+
+<h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides & Partenaires</h5>
+
+<p class="small text-muted mb-4">Bénéficiez d'aides financières et d'outils sectoriels pour investir dans la sécurité de vos salariés.</p>
+
+
+
+<div class="card-custom" style="border-left-color: #e6a00f;">
+
+<div class="d-flex align-items-center mb-2">
+
+<i class="fa-solid fa-euro-sign fa-2x text-warning me-3"></i>
+
+<h6 class="mb-0 fw-bold">Subventions CARSAT</h6>
+
+</div>
+
+<p class="small text-muted mb-2">Aides financières pour les TPE/PME (Subventions Prévention TPE) permettant de financer du matériel réduisant les risques (TMS, risques chimiques, chutes).</p>
+
+<a href="https://www.carsat-pl.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat Pays de la Loire</a>
+
+</div>
+
+
+
+<div class="card-custom" style="border-left-color: #3065a8;">
+
+<div class="d-flex align-items-center mb-2">
+
+<i class="fa-solid fa-book-open-reader fa-2x text-primary me-3"></i>
+
+<h6 class="mb-0 fw-bold">Documentation INRS</h6>
+
+</div>
+
+<p class="small text-muted mb-2">L'Institut National de Recherche et de Sécurité propose des guides, des affiches et des outils gratuits (Seirich pour le risque chimique, Mavimplant).</p>
+
+<a href="https://www.inrs.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Accéder aux ressources INRS</a>
+
+</div>
+
+
+
+<div class="card-custom" style="border-left-color: #dc3545;">
+
+<div class="d-flex align-items-center mb-2">
+
+<i class="fa-solid fa-helmet-safety fa-2x text-danger me-3"></i>
+
+<h6 class="mb-0 fw-bold">OPPBTP / PRO BTP</h6>
+
+</div>
+
+<p class="small text-muted mb-2">Pour les professionnels de la construction : aides spécifiques pour l'achat d'échafaudages, de bases vie ou d'outils anti-vibrations.</p>
+
+<a href="https://www.preventionbtp.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Visiter Prévention BTP</a>
+
+</div>
+
+</div>
+
+
+
+<div id="page-sgh" class="app-page">
+
+<h5 class="fw-bold mb-3">Classification SGH</h5>
+
+<div id="sgh-list"></div>
+
+</div>
+
+
+
 <div id="page-list" class="app-page">
-    <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-    <div class="d-flex gap-2 mb-3">
-        <button class="btn-excel flex-grow-1" onclick="exportToCSV()"><i class="fa-solid fa-file-csv"></i> EXPORT</button>
-        <button class="btn btn-danger flex-grow-1 fw-bold text-white" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf"></i> ATTESTATION</button>
-    </div>
-    <div id="inventory-container"></div>
+
+<h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+
+
+
+<div class="d-flex gap-2 mb-3">
+
+<button class="btn-excel flex-grow-1 mb-0" onclick="exportToCSV()" style="border-radius: 12px; font-size: 0.85rem;">
+
+<i class="fa-solid fa-file-csv"></i> EXPORT (CSV)
+
+</button>
+
+<button class="btn btn-danger flex-grow-1 fw-bold text-white shadow-sm mb-0" onclick="generatePDFProof()" style="border-radius: 12px; font-size: 0.85rem;">
+
+<i class="fa-solid fa-file-pdf"></i> ATTESTATION
+
+</button>
+
 </div>
 
-<!-- Page Scan -->
-<div id="page-scan" class="app-page">
-    <h5 class="fw-bold mb-3">Ajouter un produit</h5>
-    <div class="card-custom">
-        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
-        <button class="btn btn-dark w-100 mt-3 mb-4" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
-        <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
-        <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres">
-        <input type="url" id="prod-fds" class="form-control mb-3" placeholder="Lien FDS (URL)">
-        <button id="btn-save" class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER</button>
-    </div>
+
+
+<div id="inventory-container"></div>
+
 </div>
+
+
+
+<div id="page-quiz" class="app-page">
+
+<h5 class="fw-bold mb-3 text-center">Auto-Diag Prévention</h5>
+
+<div class="card-custom" id="quiz-container">
+
+<div id="q-box">
+
+<div class="progress mb-3" style="height: 8px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 10%;"></div></div>
+
+<p id="q-text" class="fw-bold mb-4" style="min-height: 60px;">Chargement...</p>
+
+<button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Oui, tout à fait</button>
+
+<button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt oui</button>
+
+<button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt non</button>
+
+<button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-3 fw-bold">Pas du tout</button>
+
+</div>
+
+<div id="q-result" style="display: none;" class="text-center">
+
+<div class="score-badge mb-2" id="quiz-score">0</div>
+
+<h5 class="fw-bold mb-3" id="quiz-label">Calcul...</h5>
+
+<p class="small text-muted mb-4" id="quiz-advice"></p>
+
+<button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5 py-2">Recommencer</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div id="page-fds-guide" class="app-page">
+
+<h5 class="fw-bold mb-3">Décrypter une FDS</h5>
+
+<div class="card-custom" style="border-left-color: #dc3545;"><h6><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Rubrique 2</h6><p class="small mb-0"><b>Dangers :</b> Les pictogrammes et phrases H (Risques) et P (Prudence).</p></div>
+
+<div class="card-custom" style="border-left-color: #198754;"><h6><i class="fa-solid fa-kit-medical text-success me-2"></i> Rubrique 4</h6><p class="small mb-0"><b>Premiers secours :</b> Gestes immédiats avant l'arrivée du SAMU.</p></div>
+
+<div class="card-custom" style="border-left-color: #3065a8;"><h6><i class="fa-solid fa-mask-ventilator text-primary me-2"></i> Rubrique 8</h6><p class="small mb-0"><b>Protections (EPI) :</b> Type exact de gants ou masques nécessaires.</p></div>
+
+<div class="card-custom" style="border-left-color: #fd7e14;"><h6><i class="fa-solid fa-fire-extinguisher text-warning me-2"></i> Rubrique 5</h6><p class="small mb-0"><b>Incendie :</b> Quels extincteurs utiliser (poudre, CO2, eau ?).</p></div>
+
+</div>
+
+
+
+<div id="page-centres" class="app-page">
+
+<h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+
+<div id="centres-list"></div>
+
+</div>
+
+
+
+<div id="page-scan" class="app-page">
+
+<h5 class="fw-bold mb-3">Ajouter un produit</h5>
+
+<div class="card-custom">
+
+<div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
+
+<button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
+
+
+
+<input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
+
+<input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres (facultatif)">
+
+
+
+<div class="input-group mb-3">
+
+    <input type="url" id="prod-fds" class="form-control" placeholder="Lien FDS (URL)">
+
+    <button class="btn btn-outline-secondary" type="button" onclick="pasteFromClipboard()" title="Coller depuis le presse-papiers"><i class="fa-solid fa-paste"></i></button>
+
+    <button class="btn btn-outline-primary" type="button" onclick="searchFDS()" title="Chercher sur Google"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+</div>
+
+
+
+<button id="btn-save" class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+
+</div>
+
+</div>
+
+
 
 <nav class="nav-bottom">
-    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
-    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
-    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+
+<button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+
+<button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
+
+<button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
+
+<button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+
+<button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
+
 </nav>
 
+
+
 <script>
-    const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+// --- INITIALISATION SUPABASE ---
 
-    function nav(id, el) {
-        document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active-page');
-        if(el) (typeof el === 'string' ? document.getElementById(el) : el).classList.add('active');
-        if(id === 'page-list') renderInventory();
-        window.scrollTo(0,0);
+const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+
+let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+
+
+
+const centres = [
+
+{ n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+85000+La+Roche-sur-Yon" },
+
+{ n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+85600+Montaigu-Vendée" },
+
+{ n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+85500+Les+Herbiers" },
+
+{ n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+85140+Les+Essarts-en-Bocage" }
+
+];
+
+
+
+const sghData = [
+
+{ id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
+
+{ id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
+
+{ id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
+
+{ id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
+
+{ id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
+
+{ id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
+
+{ id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
+
+{ id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
+
+{ id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
+
+];
+
+
+
+const questions = [
+
+"Le Document Unique (DUERP) est-il mis à jour chaque année ?",
+
+"Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
+
+"Les FDS sont-elles accessibles à tous les postes de travail ?",
+
+"Les équipements de protection (EPI) sont-ils portés et en bon état ?",
+
+"Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
+
+"Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
+
+"Les salariés connaissent-ils les gestes de premiers secours ?",
+
+"Les produits chimiques sont-ils tous identifiés par une étiquette ?",
+
+"Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
+
+"La prévention est-elle discutée lors de réunions régulières ?"
+
+];
+
+let currentQ = 0, totalScore = 0;
+
+
+
+// --- NAVIGATION ---
+
+function nav(id, el) {
+
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    const target = document.getElementById(id);
+
+    if(target) target.classList.add('active-page');
+
+    
+
+    if(typeof el === 'string') {
+
+        const btn = document.getElementById(el);
+
+        if(btn) btn.classList.add('active');
+
+    } else if(el) {
+
+        el.classList.add('active');
+
     }
 
-    function dismissSplash() {
-        document.getElementById('splash').style.opacity = '0';
-        setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
+
+
+    if(id === 'page-list') renderInventory();
+
+    if(id === 'page-sgh') renderSGH();
+
+    if(id === 'page-centres') renderCentres();
+
+    window.scrollTo(0, 0);
+
+}
+
+
+
+// --- RECHERCHE ET RECONNAISSANCE SUPABASE ---
+
+async function checkCloud(code) {
+
+    const cleanCode = code.trim();
+
+    if(!cleanCode) return;
+
+
+
+    const { data, error } = await sb
+
+        .from('produits_partages')
+
+        .select('nom, url_fds')
+
+        .eq('code', cleanCode)
+
+        .maybeSingle();
+
+
+
+    if (data) {
+
+        document.getElementById('prod-name').value = data.nom;
+
+        document.getElementById('prod-fds').value = data.url_fds || '';
+
+        
+
+        const btn = document.getElementById('btn-save');
+
+        const originalText = btn.innerText;
+
+        btn.innerHTML = "✅ PRODUIT RECONNU !";
+
+        btn.classList.replace('btn-primary', 'btn-success');
+
+        setTimeout(() => {
+
+            btn.innerHTML = originalText;
+
+            btn.classList.replace('btn-success', 'btn-primary');
+
+        }, 2000);
+
     }
 
-    async function saveProduct() {
-        const name = document.getElementById('prod-name').value;
-        const code = document.getElementById('prod-code').value;
-        const fds = document.getElementById('prod-fds').value;
-        if(!name) return alert("Nom requis");
-        const newProd = { id: Date.now(), name, code, url_fds: fds, date: new Date().toLocaleDateString() };
-        inventory.push(newProd);
-        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-        updateStats();
-        nav('page-list', 'nav-list');
+}
+
+
+
+document.getElementById('prod-code').addEventListener('blur', function() {
+
+    checkCloud(this.value);
+
+});
+
+
+
+// --- FONCTIONS SCANNER ET UTILITAIRES ---
+
+function startScanner() {
+
+    const scanner = new Html5Qrcode("reader");
+
+    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
+
+        document.getElementById('prod-code').value = text;
+
+        checkCloud(text);
+
+        scanner.stop();
+
+    }).catch(err => alert("Erreur caméra : vérifiez les autorisations."));
+
+}
+
+
+
+async function pasteFromClipboard() {
+
+    try {
+
+        const text = await navigator.clipboard.readText();
+
+        document.getElementById('prod-fds').value = text;
+
+    } catch (err) {
+
+        alert("Appuyez longuement sur le champ pour coller.");
+
     }
 
-    function renderInventory() {
-        const container = document.getElementById('inventory-container');
-        container.innerHTML = inventory.map(item => `
-            <div class="card-custom">
-                <h6 class="fw-bold">${item.name}</h6>
-                <small class="text-muted">${item.code || 'Manuel'}</small>
-                <div class="mt-2">
-                    ${item.url_fds ? `<a href="${item.url_fds}" target="_blank" class="btn btn-sm btn-success w-100">FDS PDF</a>` : ''}
+}
+
+
+
+function searchFDS() {
+
+    const name = document.getElementById('prod-name').value;
+
+    if(!name) return alert("Saisissez d'abord un nom de produit.");
+
+    window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+2024+filetype:pdf`, '_blank');
+
+}
+
+
+
+async function saveProduct() {
+
+    const name = document.getElementById('prod-name').value;
+
+    const code = document.getElementById('prod-code').value.trim();
+
+    const fdsUrl = document.getElementById('prod-fds').value;
+
+
+
+    if(!name) return alert("Nom requis.");
+
+
+
+    const newProd = { id: Date.now(), name, code, url_fds: fdsUrl, date: new Date().toLocaleDateString() };
+
+    inventory.push(newProd);
+
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+
+
+
+    if(code) {
+
+        await sb.from('produits_partages').upsert({ code, nom: name, url_fds: fdsUrl });
+
+    }
+
+    
+
+    document.getElementById('prod-name').value = '';
+
+    document.getElementById('prod-code').value = '';
+
+    document.getElementById('prod-fds').value = '';
+
+    
+
+    updateStats();
+
+    nav('page-list', 'nav-list');
+
+}
+
+
+
+function renderInventory() {
+
+    const container = document.getElementById('inventory-container');
+
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
+
+    
+
+    inventory.forEach(item => {
+
+        const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}`;
+
+        container.innerHTML += `
+
+        <div class="card-custom">
+
+            <div class="d-flex justify-content-between align-items-start mb-2">
+
+                <div>
+
+                    <h6 class="fw-bold mb-0" style="color:var(--r-blue)">${item.name}</h6>
+
+                    <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
+
                 </div>
+
+                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger p-0"><i class="fa-solid fa-trash"></i></button>
+
             </div>
-        `).join('');
+
+            <div class="mt-2 pt-2 border-top">
+
+                ${item.url_fds ? 
+
+                    `<a href="${item.url_fds}" target="_blank" class="btn btn-success btn-sm w-100"><i class="fa-solid fa-file-pdf me-1"></i> VOIR PDF FDS</a>` 
+
+                    : 
+
+                    `<a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-100"><i class="fa-solid fa-magnifying-glass me-1"></i> Rechercher la FDS</a>`
+
+                }
+
+            </div>
+
+        </div>`;
+
+    });
+
+}
+
+
+
+function deleteItem(id) {
+
+    if(confirm("Supprimer ce produit définitivement ?")) {
+
+        inventory = inventory.filter(i => i.id !== id);
+
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+
+        renderInventory();
+
+        updateStats();
+
     }
 
-    function updateStats() {
-        document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`;
-    }
+}
 
-    function generatePDFProof() {
-        if (inventory.length === 0) return alert("Inventaire vide.");
-        const company = prompt("Nom de l'entreprise :") || "Non spécifié";
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        
-        doc.setFillColor(48, 101, 168); doc.rect(0, 0, 210, 20, 'F');
-        doc.setFont("helvetica", "bold"); doc.setTextColor(255);
-        doc.text("INVENTAIRE DES PRODUITS CHIMIQUES - RESTEV 85", 15, 13);
-        
-        doc.setTextColor(0); doc.setFontSize(10);
-        doc.text(`Entreprise : ${company}`, 15, 30);
-        doc.text(`Date : ${new Date().toLocaleDateString()}`, 15, 37);
 
-        const tableData = inventory.map(i => [i.name, i.code || '-', i.date]);
-        doc.autoTable({
-            startY: 45,
-            head: [['Produit', 'Code', 'Date']],
-            body: tableData,
-            headStyles: { fillColor: [48, 101, 168] }
-        });
 
-        doc.save(`Inventaire_${company}.pdf`);
-    }
+// --- AFFICHAGE SGH & CENTRES ---
 
-    window.onload = updateStats;
+function renderSGH() {
+
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+
+    <div class="card-custom sgh-card">
+
+    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
+
+    <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+
+    </div>`).join('');
+
+}
+
+
+
+function renderCentres() {
+
+    document.getElementById('centres-list').innerHTML = centres.map(c => `
+
+    <div class="card-custom">
+
+    <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
+
+    <div class="d-flex gap-2">
+
+    <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+
+    <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Itinéraire</a>
+
+    </div>
+
+    </div>`).join('');
+
+}
+
+
+
+// --- AUTO-DIAG (QUIZ) ---
+
+function resetQuiz() { currentQ = 0; totalScore = 0; showQuestion(); document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; }
+
+function showQuestion() {
+
+    document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
+
+    document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+
+}
+
+function quizAnswer(p) {
+
+    totalScore += p; currentQ++;
+
+    if(currentQ < questions.length) showQuestion(); else showResult();
+
+}
+
+function showResult() {
+
+    document.getElementById('q-box').style.display = 'none';
+
+    document.getElementById('q-result').style.display = 'block';
+
+    document.getElementById('quiz-score').innerText = totalScore + "/30";
+
+    let l = "", a = "";
+
+    if(totalScore >= 25) { l = "Excellent !"; a = "Votre culture sécurité est exemplaire. Continuez ainsi."; }
+
+    else if(totalScore >= 15) { l = "Bon niveau"; a = "Quelques points à renforcer pour une sécurité optimale."; }
+
+    else { l = "Action urgente !"; a = "Rapprochez-vous de votre conseiller RESTEV 85."; }
+
+    document.getElementById('quiz-label').innerText = l;
+
+    document.getElementById('quiz-advice').innerText = a;
+
+}
+
+
+
+// --- EXPORT & UTILITAIRES ---
+
+function exportToCSV() {
+
+    let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;FDS\r\n" + inventory.map(i => `${i.name};${i.code || ''};${i.url_fds || ''}`).join("\r\n");
+
+    const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
+
+}
+
+
+
+function updateStats() { 
+
+    document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`; 
+
+}
+
+
+
+function dismissSplash() { 
+
+    document.getElementById('splash').style.opacity = '0'; 
+
+    setTimeout(() => document.getElementById('splash').style.display = 'none', 800); 
+
+}
+
+
+
+window.onload = () => { updateStats(); showQuestion(); };
+
+
+
+// --- GENERATION DU PDF ---
+
+function generatePDFProof() {
+
+    if (inventory.length === 0) return alert("Votre inventaire est vide.");
+
+    const companyName = prompt("Nom de l'entreprise :");
+
+    if (!companyName) return;
+
+
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+
+
+    doc.setFontSize(18);
+
+    doc.setTextColor(48, 101, 168);
+
+    doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
+
+
+
+    doc.setFontSize(9);
+
+    doc.setTextColor(100);
+
+    doc.text("Conformément aux articles R4412-1 à R4412-57 du Code du Travail", 14, 28);
+
+    doc.setDrawColor(230, 160, 15);
+
+    doc.line(14, 32, 196, 32);
+
+
+
+    doc.setFontSize(11);
+
+    doc.setTextColor(0);
+
+    doc.setFont(undefined, 'bold');
+
+    doc.text(`Entreprise : ${companyName}`, 14, 40);
+
+    doc.setFont(undefined, 'normal');
+
+    doc.text(`Date d'inventaire : ${new Date().toLocaleDateString('fr-FR')}`, 14, 47);
+
+
+
+    // Préparation des données pour le tableau
+
+    const tableData = inventory.map(item => [
+
+        item.name, 
+
+        item.code || 'Manuel', 
+
+        item.date || new Date().toLocaleDateString('fr-FR')
+
+    ]);
+
+
+
+    // Génération du tableau
+
+    doc.autoTable({
+
+        startY: 55,
+
+        head: [['Nom du Produit', 'Code-barres', 'Date d\'ajout']],
+
+        body: tableData,
+
+        headStyles: { fillColor: [48, 101, 168] },
+
+    });
+
+
+
+    // Sauvegarde du fichier
+
+    doc.save(`Attestation_RESTEV_${companyName.replace(/\s+/g, '_')}.pdf`);
+
+}
+
 </script>
+
 </body>
+
 </html>
