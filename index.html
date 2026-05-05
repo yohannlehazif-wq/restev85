@@ -5,411 +5,266 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85 - Expert Prévention</title>
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3065a8">
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
-
-    <!-- Scripts jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-
-    <!-- Script Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f1f5f9; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-
-        /* Splash Screen */
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-        /* Header & Nav */
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo-header { height: 35px; }
-
-        .info-banner { background: #1e293b; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 600; font-size: 0.8rem; }
-        .ticker { display: inline-block; animation: ticker 30s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; border: 1px solid rgba(0,0,0,0.05); }
-        .nav-item { border: none; background: none; color: #64748b; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; transition: 0.2s; }
-        .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
-
-        /* Pages */
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.4s ease-out; }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* UI Components */
-        .card-custom { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-        .search-bar { background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 10px 15px; width: 100%; margin-bottom: 15px; outline: none; transition: 0.3s; }
-        .search-bar:focus { border-color: var(--r-blue); box-shadow: 0 0 0 3px rgba(48, 101, 168, 0.1); }
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
         
-        .badge-status { font-size: 0.65rem; padding: 3px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; }
-        .status-ok { background: #dcfce7; color: #166534; }
-        .status-missing { background: #fee2e2; color: #991b1b; }
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .logo-header { height: 40px; }
 
-        .btn-action { border-radius: 12px; font-weight: 700; font-size: 0.85rem; padding: 10px; border: none; transition: 0.2s; }
-        .btn-action:active { transform: scale(0.96); }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: white; display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; }
+        .nav-item.active { color: var(--r-blue); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
-        /* SGH */
-        .sgh-card { display: flex; gap: 15px; align-items: center; border-left: 5px solid var(--r-yellow); }
-        .sgh-img { width: 55px; height: 55px; object-fit: contain; }
+        .app-page { display: none; padding: 20px 15px; }
+        .active-page { display: block !important; }
+
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+        
+        .sgh-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .sgh-item { background: white; border-radius: 15px; padding: 10px; text-align: center; border: 1px solid #eee; }
+        .sgh-img { width: 60px; height: 60px; margin-bottom: 8px; object-fit: contain; }
+        .sgh-title { font-size: 0.75rem; font-weight: 800; color: #333; display: block; }
+        
+        .btn-action { border-radius: 10px; font-weight: 600; font-size: 0.8rem; padding: 8px; text-decoration: none !important; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
     </style>
 </head>
 <body>
-
-<!-- SPLASH SCREEN -->
-<div id="splash">
-    <div class="text-center text-white">
-        <img src="logo_restev_carre.png" alt="Logo" style="width: 100px; border-radius: 20px; background: white; padding: 5px;" onerror="this.src='https://placehold.co/100x100?text=RESTEV'">
-        <h2 class="fw-bold mt-3">RESTEV 85</h2>
-        <p class="small opacity-75">Expertise & Prévention</p>
-        <button class="btn-enter" onclick="dismissSplash()">COMMENCER</button>
-    </div>
-</div>
 
 <div class="app-header">
     <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
 </div>
 
-<div class="info-banner">
-    <div class="ticker">
-        <span><i class="fa-solid fa-circle-info me-2"></i> CARSAT : Subventions disponibles | <i class="fa-solid fa-shield-halved me-2"></i> Pensez à mettre à jour votre DUERP | <i class="fa-solid fa-flask me-2"></i> Nouveau lexique SGH disponible | <i class="fa-solid fa-phone me-2"></i> Une question ? Appelez votre centre RESTEV !</span>
-    </div>
-</div>
-
-<!-- PAGE ACCUEIL -->
+<!-- ACCUEIL -->
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-4" style="background: linear-gradient(135deg, var(--r-blue), #1e3a8a);">
-        <h5 class="fw-bold mb-1">Tableau de bord</h5>
-        <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
+    <div class="card-custom text-white border-0" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+        <h5 class="fw-bold mb-1">RESTEV 85</h5>
+        <p class="small opacity-75 mb-0" id="count-badge">Chargement...</p>
     </div>
 
-    <div class="row g-3">
-        <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-            <div class="card-custom text-center py-4" style="border-bottom: 4px solid #3b82f6;"><i class="fa-solid fa-qrcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold">SCANNER</small></div>
+    <div class="row g-2 mt-2">
+        <div class="col-6" onclick="nav('page-scan')">
+            <div class="card-custom text-center py-3"><i class="fa-solid fa-qrcode fa-2x mb-2 text-primary"></i><br><small class="fw-bold">SCANNER</small></div>
         </div>
-        <div class="col-6" onclick="nav('page-list', 'nav-list')">
-            <div class="card-custom text-center py-4" style="border-bottom: 4px solid #10b981;"><i class="fa-solid fa-list-check fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div>
+        <div class="col-6" onclick="nav('page-list')">
+            <div class="card-custom text-center py-3"><i class="fa-solid fa-list-check fa-2x mb-2 text-success"></i><br><small class="fw-bold">INVENTAIRE</small></div>
         </div>
-        <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
-            <div class="card-custom text-center py-4" style="border-bottom: 4px solid #ef4444;"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small class="fw-bold">AUTO-DIAG</small></div>
+        <div class="col-6" onclick="nav('page-sgh')">
+            <div class="card-custom text-center py-3"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">SGH</small></div>
         </div>
-        <div class="col-6" onclick="nav('page-sgh', 'nav-list')">
-            <div class="card-custom text-center py-4" style="border-bottom: 4px solid #f59e0b;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2 text-warning"></i><br><small class="fw-bold">LEXIQUE SGH</small></div>
+        <div class="col-6" onclick="nav('page-centres')">
+            <div class="card-custom text-center py-3"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-info"></i><br><small class="fw-bold">CENTRES</small></div>
         </div>
     </div>
+
+    <a href="https://www.restev.fr" target="_blank" class="btn btn-outline-primary w-100 mt-3 rounded-pill fw-bold">WWW.RESTEV.FR</a>
 </div>
 
-<!-- PAGE INVENTAIRE (LISTE) -->
-<div id="page-list" class="app-page">
-    <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-    
-    <input type="text" id="search-inv" class="search-bar" placeholder="Rechercher un produit..." onkeyup="filterInventory()">
-
-    <div class="d-flex gap-2 mb-3">
-        <button class="btn btn-dark btn-action flex-grow-1" onclick="exportToCSV()"><i class="fa-solid fa-file-csv me-1"></i> CSV</button>
-        <button class="btn btn-primary btn-action flex-grow-1" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf me-1"></i> PDF</button>
-        <button class="btn btn-outline-danger btn-action" onclick="clearAllData()" title="Vider"><i class="fa-solid fa-trash-can"></i></button>
-    </div>
-
-    <div id="inventory-container"></div>
-</div>
-
-<!-- PAGE SCANNER (AJOUT) -->
+<!-- SCANNER -->
 <div id="page-scan" class="app-page">
     <h5 class="fw-bold mb-3">Ajouter un produit</h5>
     <div class="card-custom">
-        <div id="reader" style="width:100%; border-radius: 12px; overflow: hidden; background: #000;"></div>
-        <div class="d-flex gap-2 mt-3 mb-4">
-            <button id="btn-start-cam" class="btn btn-dark w-100 py-2 fw-bold" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER</button>
-            <button id="btn-stop-cam" class="btn btn-outline-danger d-none" onclick="stopScanner()">ARRÊTER</button>
+        <div id="reader" style="width:100%; background: #000; border-radius: 10px; overflow: hidden;"></div>
+        <button class="btn btn-dark w-100 mt-2 mb-3" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>Scanner le code</button>
+        
+        <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+        <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres">
+        
+        <div class="input-group mb-3">
+            <input type="text" id="prod-fds" class="form-control" placeholder="Lien FDS PDF">
+            <button class="btn btn-outline-secondary" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
-
-        <div class="mb-3">
-            <label class="small fw-bold text-muted">NOM DU PRODUIT</label>
-            <input type="text" id="prod-name" class="form-control" placeholder="ex: Nettoyant Freins">
-        </div>
-        <div class="mb-3">
-            <label class="small fw-bold text-muted">CODE-BARRES</label>
-            <input type="text" id="prod-code" class="form-control" placeholder="Automatique via Scan" onblur="checkCloud(this.value)">
-        </div>
-        <div class="mb-4">
-            <label class="small fw-bold text-muted">LIEN VERS FDS (URL)</label>
-            <div class="input-group">
-                <input type="url" id="prod-fds" class="form-control" placeholder="https://...">
-                <button class="btn btn-outline-primary" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
-        </div>
-
-        <button id="btn-save" class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+        <button class="btn btn-primary w-100 py-3 fw-bold" onclick="saveProduct()">ENREGISTRER</button>
     </div>
 </div>
 
-<!-- AUTRES PAGES (SGH, QUIZ, CENTRES) - Gardées pour la structure -->
-<div id="page-sgh" class="app-page"><h5 class="fw-bold mb-3">Lexique SGH</h5><div id="sgh-list"></div></div>
-<div id="page-quiz" class="app-page">
-    <h5 class="fw-bold mb-3 text-center">Auto-Diag</h5>
-    <div id="quiz-container" class="card-custom">
-        <div id="q-box">
-            <div class="progress mb-3" style="height: 6px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 0%;"></div></div>
-            <p id="q-text" class="fw-bold mb-4" style="min-height: 50px;">Chargement...</p>
-            <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-2 fw-bold">Oui</button>
-            <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-2 fw-bold">Partiellement</button>
-            <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-2 py-2 fw-bold">Non</button>
+<!-- LISTE -->
+<div id="page-list" class="app-page">
+    <h5 class="fw-bold mb-3">Inventaire</h5>
+    <div id="inventory-container"></div>
+</div>
+
+<!-- SGH -->
+<div id="page-sgh" class="app-page">
+    <h5 class="fw-bold mb-3">Pictogrammes SGH</h5>
+    <div class="sgh-grid">
+        <div class="sgh-item"><img src="SGH01_BombeExplosant.jpg" class="sgh-img"><span class="sgh-title">Explosif</span></div>
+        <div class="sgh-item"><img src="SGH02_Flamme.jpg" class="sgh-img"><span class="sgh-title">Inflammable</span></div>
+        <div class="sgh-item"><img src="SGH03_FlammeSurCercle.jpg" class="sgh-img"><span class="sgh-title">Comburant</span></div>
+        <div class="sgh-item"><img src="SGH04_BouteilleGaz.jpg" class="sgh-img"><span class="sgh-title">Gaz sous pression</span></div>
+        <div class="sgh-item"><img src="SGH05_Corrosion.jpg" class="sgh-img"><span class="sgh-title">Corrosif</span></div>
+        <div class="sgh-item"><img src="SGH06_TeteDeMort.jpg" class="sgh-img"><span class="sgh-title">Toxique</span></div>
+        <div class="sgh-item"><img src="SGH07_PointExclamation.jpg" class="sgh-img"><span class="sgh-title">Irritant / Sensibilisant</span></div>
+        <div class="sgh-item"><img src="SGH08_DangerSante.jpg" class="sgh-img"><span class="sgh-title">Danger Santé</span></div>
+        <div class="sgh-item"><img src="SGH09_Environnement.jpg" class="sgh-img"><span class="sgh-title">Polluant</span></div>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<div id="page-services" class="app-page">
+    <h5 class="fw-bold mb-3">Notre Offre de Service</h5>
+    <div class="card-custom">
+        <span class="badge-service">SOCLE</span>
+        <h6>Prévention & Conseil</h6>
+        <p class="small text-muted mb-0">Accompagnement DUERP, métrologie (bruit, lumière), fiches d'entreprise.</p>
+    </div>
+    <div class="card-custom">
+        <span class="badge-service">SOCLE</span>
+        <h6>Suivi Santé Individuel</h6>
+        <p class="small text-muted mb-0">Visites médicales, entretiens infirmiers, suivi adapté selon les risques.</p>
+    </div>
+</div>
+
+<!-- CENTRES -->
+<div id="page-centres" class="app-page">
+    <h5 class="fw-bold mb-3">Nos 4 Centres</h5>
+    <div class="card-custom">
+        <h6 class="fw-bold">La Roche-sur-Yon</h6>
+        <p class="small text-muted">Impasse Newton, 85000</p>
+        <div class="d-flex gap-2">
+            <a href="tel:0251370668" class="btn btn-primary btn-action flex-grow-1"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <a href="https://www.google.com/maps/search/RESTEV+La+Roche+sur+Yon" target="_blank" class="btn btn-success btn-action flex-grow-1"><i class="fa-solid fa-location-arrow"></i> Itinéraire</a>
         </div>
-        <div id="q-result" style="display: none;" class="text-center">
-            <div class="score-badge h1 fw-bold text-primary" id="quiz-score">0</div>
-            <p id="quiz-label" class="fw-bold"></p>
-            <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-4 mt-3">Recommencer</button>
+    </div>
+    <div class="card-custom">
+        <h6 class="fw-bold">Montaigu-Vendée</h6>
+        <p class="small text-muted">44 rue du 8 mai 1945, 85600</p>
+        <div class="d-flex gap-2">
+            <a href="tel:0251942014" class="btn btn-primary btn-action flex-grow-1"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <a href="https://www.google.com/maps/search/RESTEV+Montaigu" target="_blank" class="btn btn-success btn-action flex-grow-1"><i class="fa-solid fa-location-arrow"></i> Itinéraire</a>
+        </div>
+    </div>
+    <div class="card-custom">
+        <h6 class="fw-bold">Les Essarts</h6>
+        <p class="small text-muted">Rue des Artisans, 85140</p>
+        <div class="d-flex gap-2">
+            <a href="tel:0251628121" class="btn btn-primary btn-action flex-grow-1"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <a href="https://www.google.com/maps/search/RESTEV+Les+Essarts" target="_blank" class="btn btn-success btn-action flex-grow-1"><i class="fa-solid fa-location-arrow"></i> Itinéraire</a>
+        </div>
+    </div>
+    <div class="card-custom">
+        <h6 class="fw-bold">Les Herbiers</h6>
+        <p class="small text-muted">Rue de l'Étoile, 85500</p>
+        <div class="d-flex gap-2">
+            <a href="tel:0251670126" class="btn btn-primary btn-action flex-grow-1"><i class="fa-solid fa-phone"></i> Appeler</a>
+            <a href="https://www.google.com/maps/search/RESTEV+Les+Herbiers" target="_blank" class="btn btn-success btn-action flex-grow-1"><i class="fa-solid fa-location-arrow"></i> Itinéraire</a>
         </div>
     </div>
 </div>
-<div id="page-centres" class="app-page"><h5 class="fw-bold mb-3">Nos Centres</h5><div id="centres-list"></div></div>
 
-<!-- NAVIGATION BOTTOM -->
 <nav class="nav-bottom">
-    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle"></i>AJOUTER</button>
-    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>LISTE</button>
-    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-check-double"></i>DIAG</button>
-    <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-pin"></i>CENTRES</button>
+    <button class="nav-item active" id="nav-home" onclick="nav('page-home')"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+    <button class="nav-item" id="nav-scan" onclick="nav('page-scan')"><i class="fa-solid fa-qrcode"></i>AJOUT</button>
+    <button class="nav-item" id="nav-list" onclick="nav('page-list')"><i class="fa-solid fa-box"></i>STOCK</button>
+    <button class="nav-item" id="nav-services" onclick="nav('page-services')"><i class="fa-solid fa-shield-heart"></i>OFFRE</button>
+    <button class="nav-item" id="nav-centres" onclick="nav('page-centres')"><i class="fa-solid fa-location-dot"></i>LIEUX</button>
 </nav>
 
 <script>
-// --- INITIALISATION & DONNÉES ---
-const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
-let scanner = null;
+    let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
-const sghData = [
-    { id: "SGH05", title: "Corrosif", img: "SGH05_Corrosion.jpg", desc: "Attaque les métaux et la peau." },
-    { id: "SGH02", title: "Inflammable", img: "SGH02_Flamme.jpg", desc: "Peut s'enflammer au contact d'une flamme." },
-    { id: "SGH07", title: "Irritant", img: "SGH07_PointExclamation.jpg", desc: "Effets moins graves mais réels sur la santé." },
-    { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Effets graves (CMR, asthme, etc)." }
-];
-
-const centres = [
-    { n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton" },
-    { n: "Montaigu", t: "0251942014", a: "44 rue du 8 mai 1945" }
-];
-
-const questions = ["DUERP à jour ?", "Salariés formés aux FDS ?", "Stockage conforme ?", "EPI portés ?", "Traçabilité des accidents ?"];
-let currentQ = 0, totalScore = 0;
-
-// --- NAVIGATION ---
-function nav(id, el) {
-    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(id).classList.add('active-page');
-    if(el) el.classList.add('active');
-    
-    if(id === 'page-list') renderInventory();
-    if(id === 'page-sgh') renderSGH();
-    if(id === 'page-centres') renderCentres();
-    if(scanner) stopScanner();
-    window.scrollTo(0,0);
-}
-
-// --- LOGIQUE INVENTAIRE ---
-function renderInventory(filter = "") {
-    const container = document.getElementById('inventory-container');
-    const filtered = inventory.filter(i => i.name.toLowerCase().includes(filter.toLowerCase()));
-    
-    container.innerHTML = filtered.length ? '' : '<p class="text-center text-muted mt-5">Aucun produit trouvé.</p>';
-    
-    filtered.forEach(item => {
-        container.innerHTML += `
-        <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <div class="mb-1">
-                        ${item.url_fds ? '<span class="badge-status status-ok">FDS OK</span>' : '<span class="badge-status status-missing">FDS Manquante</span>'}
-                    </div>
-                    <h6 class="fw-bold mb-0">${item.name}</h6>
-                    <small class="text-muted">${item.code || 'Saisie manuelle'}</small>
-                </div>
-                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
-            </div>
-            <div class="mt-3">
-                ${item.url_fds ? 
-                    `<a href="${item.url_fds}" target="_blank" class="btn btn-sm btn-success w-100">OUVRIR LA FDS</a>` : 
-                    `<button onclick="searchFDSFromList('${item.name}')" class="btn btn-sm btn-outline-primary w-100">TROUVER LA FDS</button>`
-                }
-            </div>
-        </div>`;
-    });
-}
-
-function filterInventory() {
-    const val = document.getElementById('search-inv').value;
-    renderInventory(val);
-}
-
-async function saveProduct() {
-    const name = document.getElementById('prod-name').value;
-    const code = document.getElementById('prod-code').value.trim();
-    const fds = document.getElementById('prod-fds').value;
-
-    if(!name) return alert("Veuillez saisir un nom.");
-
-    const newProd = { id: Date.now(), name, code, url_fds: fds, date: new Date().toLocaleDateString() };
-    inventory.push(newProd);
-    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-
-    if(code) {
-        await sb.from('produits_partages').upsert({ code, nom: name, url_fds: fds });
+    function nav(id) {
+        document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active-page');
+        const navId = 'nav-' + id.split('-')[1];
+        if(document.getElementById(navId)) document.getElementById(navId).classList.add('active');
+        if(id === 'page-list') renderInventory();
+        if(id === 'page-home') updateCount();
     }
 
-    // Reset formulaire
-    document.getElementById('prod-name').value = '';
-    document.getElementById('prod-code').value = '';
-    document.getElementById('prod-fds').value = '';
-    
-    updateStats();
-    nav('page-list', document.getElementById('nav-list'));
-}
-
-function deleteItem(id) {
-    if(confirm("Supprimer ce produit ?")) {
-        inventory = inventory.filter(i => i.id !== id);
-        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-        renderInventory();
-        updateStats();
-    }
-}
-
-function clearAllData() {
-    if(confirm("⚠️ VOULEZ-VOUS TOUT SUPPRIMER ?")) {
-        if(confirm("Confirmation finale : cette action est irréversible.")) {
-            inventory = [];
-            localStorage.removeItem('restev_inventory_v3');
-            renderInventory();
-            updateStats();
+    async function checkCloud(code) {
+        const cleanCode = code.trim();
+        if(!cleanCode) return;
+        const { data } = await sb.from('produits_partages').select('nom, url_fds').eq('code', cleanCode).maybeSingle();
+        if (data) {
+            document.getElementById('prod-name').value = data.nom;
+            document.getElementById('prod-fds').value = data.url_fds || '';
+            const btn = document.querySelector('#page-scan .btn-primary');
+            btn.innerHTML = "✅ PRODUIT RECONNU !";
+            btn.classList.replace('btn-primary', 'btn-success');
+            setTimeout(() => {
+                btn.innerHTML = "ENREGISTRER";
+                btn.classList.replace('btn-success', 'btn-primary');
+            }, 2000);
         }
     }
-}
 
-// --- SCANNER ---
-function startScanner() {
-    scanner = new Html5Qrcode("reader");
-    document.getElementById('btn-start-cam').classList.add('d-none');
-    document.getElementById('btn-stop-cam').classList.remove('d-none');
+    document.getElementById('prod-code').addEventListener('blur', function() { checkCloud(this.value); });
 
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-        document.getElementById('prod-code').value = text;
-        checkCloud(text);
-        stopScanner();
-    }).catch(err => alert("Erreur caméra."));
-}
-
-function stopScanner() {
-    if(scanner) {
-        scanner.stop().then(() => {
-            document.getElementById('btn-start-cam').classList.remove('d-none');
-            document.getElementById('btn-stop-cam').classList.add('d-none');
-        });
+    function startScanner() {
+        const scanner = new Html5Qrcode("reader");
+        scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
+            document.getElementById('prod-code').value = text;
+            checkCloud(text);
+            scanner.stop();
+        }).catch(err => console.error(err));
     }
-}
 
-async function checkCloud(code) {
-    const { data } = await sb.from('produits_partages').select('*').eq('code', code).maybeSingle();
-    if (data) {
-        document.getElementById('prod-name').value = data.nom;
-        document.getElementById('prod-fds').value = data.url_fds || '';
-        alert("Produit reconnu dans la base !");
+    function searchFDS() {
+        const name = document.getElementById('prod-name').value;
+        if(!name) return alert("Saisissez un nom.");
+        window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+2024+filetype:pdf`, '_blank');
     }
-}
 
-// --- UTILITAIRES ---
-function searchFDS() {
-    const name = document.getElementById('prod-name').value;
-    if(!name) return alert("Saisissez un nom d'abord.");
-    window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+filetype:pdf`, '_blank');
-}
-
-function searchFDSFromList(name) {
-    window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+filetype:pdf`, '_blank');
-}
-
-function updateStats() {
-    document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) dans votre parc`;
-}
-
-function dismissSplash() {
-    document.getElementById('splash').style.opacity = '0';
-    setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
-}
-
-function renderSGH() {
-    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-    <div class="card-custom sgh-card">
-        <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/60x60?text=SGH'">
-        <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
-    </div>`).join('');
-}
-
-function renderCentres() {
-    document.getElementById('centres-list').innerHTML = centres.map(c => `
-    <div class="card-custom">
-        <h6 class="fw-bold mb-1">${c.n}</h6>
-        <p class="small text-muted mb-2">${c.a}</p>
-        <a href="tel:${c.t}" class="btn btn-sm btn-primary w-100">Appeler le centre</a>
-    </div>`).join('');
-}
-
-// --- EXPORT PDF ---
-function generatePDFProof() {
-    if (!inventory.length) return alert("Inventaire vide.");
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.text("INVENTAIRE CHIMIQUE - RESTEV 85", 14, 20);
-    const rows = inventory.map(i => [i.name, i.code || '-', i.date]);
-    doc.autoTable({ head: [['Produit', 'Code', 'Date']], body: rows, startY: 30 });
-    doc.save("Inventaire_RESTEV.pdf");
-}
-
-function exportToCSV() {
-    let csv = "data:text/csv;charset=utf-8,Nom;Code;Date\r\n" + inventory.map(i => `${i.name};${i.code};${i.date}`).join("\r\n");
-    const link = document.createElement("a"); link.href = encodeURI(csv); link.download = "Export_RESTEV.csv"; link.click();
-}
-
-// Quiz simple
-function showQuestion() {
-    document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
-    document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
-}
-function quizAnswer(p) {
-    totalScore += p; currentQ++;
-    if(currentQ < questions.length) showQuestion(); else {
-        document.getElementById('q-box').style.display='none';
-        document.getElementById('q-result').style.display='block';
-        document.getElementById('quiz-score').innerText = totalScore + "/15";
+    async function saveProduct() {
+        const name = document.getElementById('prod-name').value;
+        const code = document.getElementById('prod-code').value.trim();
+        const fdsUrl = document.getElementById('prod-fds').value;
+        if(!name) return alert("Nom requis.");
+        const newProd = { id: Date.now(), name, code, url_fds: fdsUrl, date: new Date().toLocaleDateString() };
+        inventory.push(newProd);
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+        if(code) await sb.from('produits_partages').upsert({ code, nom: name, url_fds: fdsUrl });
+        alert("Enregistré !");
+        document.getElementById('prod-name').value = '';
+        document.getElementById('prod-code').value = '';
+        document.getElementById('prod-fds').value = '';
+        nav('page-list');
     }
-}
-function resetQuiz() { currentQ=0; totalScore=0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
-window.onload = () => { updateStats(); showQuestion(); };
+    function renderInventory() {
+        const container = document.getElementById('inventory-container');
+        updateCount();
+        container.innerHTML = inventory.length === 0 ? '<p class="text-center text-muted">Aucun produit.</p>' : inventory.map(item => `
+            <div class="card-custom">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="fw-bold mb-0">${item.name}</h6>
+                        <small class="text-muted">${item.code || 'Manuel'}</small>
+                    </div>
+                    <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                ${item.url_fds ? `<a href="${item.url_fds}" target="_blank" class="btn btn-success btn-sm w-100 mt-2">VOIR FDS (PDF)</a>` : ''}
+            </div>
+        `).join('');
+    }
+
+    function deleteItem(id) {
+        if(confirm("Supprimer ce produit ?")) {
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+            renderInventory();
+        }
+    }
+
+    function updateCount() {
+        document.getElementById('count-badge').innerText = `${inventory.length} Produit(s) enregistrés`;
+    }
+
+    window.onload = updateCount;
 </script>
 </body>
 </html>
