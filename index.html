@@ -197,7 +197,8 @@
 <script>
 // --- CONFIGURATION SUPABASE ---
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
+// Utilise bien la clé que tu m'as donnée :
+const SUPABASE_KEY = 'sb_publishable_Tgg9yt8SX24GN-gWIyEI_g_LAA76AB'; 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
