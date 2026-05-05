@@ -257,9 +257,21 @@
         <div class="card-custom">
             <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
             <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit (ex: Acétone)">
-            <input type="text" id="prod-code" class="form-control mb-3" placeholder="Code-barres (facultatif)">
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+            
+            <div class="mb-3">
+                <label class="small fw-bold text-muted mb-1">Désignation du produit</label>
+                <div class="input-group">
+                    <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone, White Spirit...">
+                    <button class="btn btn-warning text-white" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> PDF</button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="small fw-bold text-muted mb-1">Code-barres (facultatif)</label>
+                <input type="text" id="prod-code" class="form-control" placeholder="Code numérisé">
+            </div>
+
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER DANS L'INVENTAIRE</button>
         </div>
     </div>
 
@@ -332,7 +344,7 @@
             const container = document.getElementById('inventory-container');
             container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
             inventory.forEach(item => {
-                const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}`;
+                const searchUrl = `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
                 container.innerHTML += `
                 <div class="card-custom">
                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -344,7 +356,7 @@
                     </div>
                     <div class="mt-2 pt-2 border-top">
                         <a href="${searchUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mb-1">
-                            <i class="fa-solid fa-magnifying-glass me-1"></i> Rechercher la FDS
+                            <i class="fa-solid fa-magnifying-glass me-1"></i> Voir la FDS (PDF)
                         </a>
                     </div>
                 </div>`;
@@ -444,6 +456,13 @@
             localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
             document.getElementById('prod-name').value = ''; document.getElementById('prod-code').value = '';
             updateStats(); nav('page-list', 'nav-list');
+        }
+
+        function searchFDS() {
+            const name = document.getElementById('prod-name').value;
+            if(!name) return alert("Veuillez saisir le nom du produit pour rechercher la FDS.");
+            const query = encodeURIComponent(name + " FDS filetype:pdf");
+            window.open(`https://www.google.com/search?q=${query}`, '_blank');
         }
 
         function deleteItem(id) {
