@@ -5,33 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85 - Expert Prévention</title>
 
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3065a8">
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
-
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; }
         
+        /* Splash Screen */
         #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 
+        /* UI Elements */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .logo-header { height: 40px; }
         
-        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; }
         .ticker { display: inline-block; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
@@ -45,79 +44,76 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        
-        /* Style pour les produits trouvés dans le Cloud */
         .cloud-badge { background: #dcfce7; color: #166534; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+        
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #000; }
     </style>
 </head>
 <body>
 
     <div id="splash">
         <div class="text-center text-white">
-            <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;">
-            <h2 class="fw-bold mt-3">RESTEV 85</h2>
+            <h2 class="fw-bold">RESTEV 85</h2>
             <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
         </div>
     </div>
 
     <div class="app-header">
-        <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header">
+        <span class="fw-bold text-primary">RESTEV 85 - EXPERT PRÉVENTION</span>
     </div>
 
     <div class="info-banner">
         <div class="ticker">
-            <span><i class="fa-solid fa-bullhorn me-1"></i> Base de données partagée activée : Scannez, partagez, protégez !</span>
+            <span><i class="fa-solid fa-cloud me-1"></i> Mode collaboratif activé : Vos PDF sont partagés avec l'équipe !</span>
         </div>
     </div>
 
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-            <h5 class="fw-bold mb-1">Mon Espace Prévention</h5>
-            <p id="inv-stats" class="small opacity-75 mb-0">Calcul des produits...</p>
+            <h5 class="fw-bold mb-1">Tableau de bord</h5>
+            <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
         </div>
         
         <div class="row g-2">
             <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-                <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold">SCANNER FDS</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold">SCANNER</small></div>
             </div>
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold">INVENTAIRE</small></div>
             </div>
-            </div>
-    </div>
-
-    <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-        <div class="d-flex gap-2 mb-3">
-            <button class="btn-excel flex-grow-1 mb-0" onclick="exportToCSV()"><i class="fa-solid fa-file-csv"></i> EXPORT</button>
-            <button class="btn btn-danger flex-grow-1 fw-bold text-white shadow-sm mb-0" onclick="generatePDFProof()" style="border-radius: 12px;"><i class="fa-solid fa-file-pdf"></i> ATTESTATION</button>
         </div>
-        <div id="inventory-container"></div>
     </div>
 
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+        <h5 class="fw-bold mb-3">Nouveau Produit</h5>
         <div class="card-custom">
-            <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
-            <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMERA</button>
+            <div id="reader"></div>
+            <button class="btn btn-dark w-100 mt-3 mb-4" onclick="startScanner()">ACTIVER CAMERA</button>
             
             <div id="scan-feedback" class="mb-3 text-center d-none">
-                <span class="cloud-badge"><i class="fa-solid fa-cloud"></i> Produit déjà connu dans la base RESTEV</span>
+                <span class="cloud-badge"><i class="fa-solid fa-check-circle"></i> Produit reconnu dans le Cloud</span>
             </div>
 
             <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
             <input type="text" id="prod-code" class="form-control mb-2" placeholder="Code-barres">
-            <input type="text" id="prod-fds" class="form-control mb-3" placeholder="Lien URL de la FDS (optionnel)">
+            <input type="text" id="prod-fds" class="form-control mb-3" placeholder="URL du PDF (FDS)">
             
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER & PARTAGER</button>
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER & SYNCHRONISER</button>
         </div>
+    </div>
+
+    <div id="page-list" class="app-page">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Mon Inventaire</h5>
+            <button class="btn btn-sm btn-danger fw-bold" onclick="generatePDFProof()">PDF GLOBAL</button>
+        </div>
+        <div id="inventory-container"></div>
     </div>
 
     <nav class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>SCAN</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list"></i>LISTE</button>
     </nav>
 
     <script>
@@ -135,11 +131,9 @@
             if(id === 'page-list') renderInventory();
         }
 
-        // 1. VERIFIER DANS LE CLOUD LORS DU SCAN
         async function checkCloudProduct(code) {
             const feedback = document.getElementById('scan-feedback');
-            const { data, error } = await sb.from('produits_partages').select('*').eq('code', code).single();
-            
+            const { data } = await sb.from('produits_partages').select('*').eq('code', code).single();
             if (data) {
                 document.getElementById('prod-name').value = data.nom;
                 document.getElementById('prod-fds').value = data.url_fds || '';
@@ -153,12 +147,11 @@
             const scanner = new Html5Qrcode("reader");
             scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
-                checkCloudProduct(text); // On vérifie si RESTEV connait déjà ce produit
+                checkCloudProduct(text);
                 scanner.stop();
-            }).catch(e => console.error(e));
+            }).catch(e => alert("Erreur caméra"));
         }
 
-        // 2. ENREGISTRER LOCALEMENT + PARTAGER DANS LE CLOUD
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
@@ -166,43 +159,70 @@
 
             if(!name) return alert("Saisir un nom.");
 
-            // Sauvegarde locale
             const newProd = { id: Date.now(), name, code, url_fds: fdsUrl };
             inventory.push(newProd);
             localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-            // Partage Cloud (si code présent)
             if(code) {
-                await sb.from('produits_partages').upsert({ 
-                    code: code, 
-                    nom: name, 
-                    url_fds: fdsUrl 
-                });
+                await sb.from('produits_partages').upsert({ code, nom: name, url_fds: fdsUrl });
             }
 
-            // Reset et Navigation
-            document.getElementById('prod-name').value = '';
-            document.getElementById('prod-code').value = '';
-            document.getElementById('prod-fds').value = '';
+            document.querySelectorAll('input').forEach(i => i.value = '');
             updateStats();
             nav('page-list', 'nav-list');
         }
 
+        async function generatePDFProof() {
+            const company = prompt("Nom de l'entreprise pour l'attestation :");
+            if (!company || !inventory.length) return;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text(`ATTESTATION RESTEV - ${company}`, 14, 20);
+            doc.autoTable({ head: [['Produit', 'Code-barres']], body: inventory.map(i => [i.name, i.code || '-']) });
+
+            const pdfBlob = doc.output('blob');
+            const fileName = `attestation_${Date.now()}.pdf`;
+
+            try {
+                // 1. Upload dans le storage
+                await sb.storage.from('fds_files').upload(fileName, pdfBlob);
+                const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(fileName);
+                const publicUrl = urlData.publicUrl;
+
+                // 2. Historique des audits
+                await sb.from('historique_pdf').insert([{ entreprise: company, url_pdf: publicUrl, nb_produits: inventory.length }]);
+
+                // 3. MISE A JOUR DES PRODUITS POUR RECONNAISSANCE FUTURE
+                for (const item of inventory) {
+                    if (item.code) {
+                        await sb.from('produits_partages').upsert({ 
+                            code: item.code, 
+                            nom: item.name, 
+                            url_fds: publicUrl // On stocke l'URL du PDF généré comme FDS de référence
+                        });
+                    }
+                }
+                alert("Attestation générée ! Les produits seront reconnus lors du prochain scan.");
+                window.open(publicUrl, '_blank');
+            } catch (err) {
+                console.error(err);
+                window.open(URL.createObjectURL(pdfBlob), '_blank');
+            }
+        }
+
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit.</p>';
+            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Inventaire vide.</p>';
             inventory.forEach(item => {
                 container.innerHTML += `
                     <div class="card-custom">
                         <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <b>${item.name}</b><br>
-                                <small class="text-muted">${item.code || 'Saisie manuelle'}</small>
-                            </div>
-                            ${item.url_fds ? '<span class="cloud-badge">FDS DISPO</span>' : ''}
+                            <div><b>${item.name}</b><br><small class="text-muted">${item.code || 'Saisie manuelle'}</small></div>
+                            ${item.url_fds ? '<span class="cloud-badge">FDS DISPONIBLE</span>' : ''}
                         </div>
-                        <div class="mt-2 pt-2 border-top d-flex gap-2">
-                            ${item.url_fds ? `<a href="${item.url_fds}" target="_blank" class="btn btn-sm btn-success flex-grow-1"><i class="fa-solid fa-file-pdf"></i> VOIR FDS</a>` : `<a href="https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}" target="_blank" class="btn btn-sm btn-outline-primary flex-grow-1"><i class="fa-solid fa-magnifying-glass"></i> CHERCHER</a>`}
+                        <div class="mt-2 d-flex gap-2">
+                            ${item.url_fds ? `<a href="${item.url_fds}" target="_blank" class="btn btn-sm btn-success flex-grow-1"><i class="fa-solid fa-file-pdf"></i> VOIR PDF</a>` : ''}
                             <button onclick="deleteItem(${item.id})" class="btn btn-sm btn-light text-danger"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>`;
@@ -216,9 +236,9 @@
             updateStats();
         }
 
-        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`; }
+        function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produits enregistrés`; }
         function dismissSplash() { document.getElementById('splash').style.opacity = '0'; setTimeout(() => document.getElementById('splash').style.display = 'none', 800); }
-        window.onload = () => { updateStats(); };
+        window.onload = updateStats;
     </script>
 </body>
 </html>
