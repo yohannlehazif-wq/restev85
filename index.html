@@ -3,79 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <title>RESTEV 85 - Smart FDS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
 
     <style>
-        :root { --r-blue: #3065a8; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; }
-        
-        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top:0; z-index:100; }
-        
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: white; display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-        .nav-item.active { color: var(--r-blue); }
-
-        .app-page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+        :root { --r-blue: #3065a8; --r-yellow: #e6a00f; --r-light: #f1f5f9; }
+        body { background-color: var(--r-light); font-family: system-ui, -apple-system, sans-serif; margin-bottom: 90px; }
+        .app-header { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--r-yellow); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .card-custom { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; border-left: 6px solid var(--r-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: white; display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.75rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
+        .nav-item.active { color: var(--r-blue); transform: translateY(-5px); }
+        .app-page { display: none; padding: 20px; animation: slideUp 0.4s ease-out; }
         .active-page { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: black; }
-        .cloud-info { background: #e0f2fe; color: #0369a1; padding: 10px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 15px; display: none; border: 1px solid #bae6fd; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #reader { width: 100%; border-radius: 15px; overflow: hidden; background: #000; }
+        .input-group-text { background: var(--r-blue); color: white; border: none; cursor: pointer; }
+        .btn-update { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; margin-top: 5px; display: inline-block; text-decoration: none; }
     </style>
 </head>
 <body>
 
     <div class="app-header">
-        <h5 class="fw-bold mb-0" style="color: var(--r-blue)">RESTEV 85 <span style="color: var(--r-yellow)">CLOUD</span></h5>
+        <h5 class="fw-bold mb-0" style="color: var(--r-blue)">RESTEV 85 <small class="text-muted" style="font-size: 0.6em">V5 PRO</small></h5>
     </div>
 
     <div id="page-scan" class="app-page active-page">
-        <h5 class="fw-bold mb-3">Scanner un produit</h5>
+        <h6 class="fw-bold text-muted mb-3 uppercase">Identification Produit</h6>
         <div class="card-custom">
             <div id="reader"></div>
-            <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()">
-                <i class="fa-solid fa-camera me-2"></i>ACTIVER LE SCANNER
+            <button class="btn btn-dark w-100 mt-3 mb-4 fw-bold" onclick="startScanner()">
+                <i class="fa-solid fa-expand me-2"></i>LANCER LE SCAN
             </button>
             
-            <div id="cloud-status" class="cloud-info">
-                <i class="fa-solid fa-cloud-check me-2"></i> <b>Produit connu !</b> Le lien FDS a été récupéré automatiquement.
+            <div class="mb-3">
+                <label class="small fw-bold mb-1">Nom du produit</label>
+                <input type="text" id="prod-name" class="form-control" placeholder="Nom commercial">
             </div>
 
-            <label class="small fw-bold">Nom du produit</label>
-            <input type="text" id="prod-name" class="form-control mb-2" placeholder="Ex: Nettoyant Freins">
-            
-            <label class="small fw-bold">Code-barres</label>
-            <input type="text" id="prod-code" class="form-control mb-2" placeholder="Scannez ou saisissez">
-            
-            <label class="small fw-bold text-primary">URL de la FDS (Lien direct fabriquant)</label>
-            <input type="url" id="prod-fds" class="form-control mb-4" placeholder="https://www.site.com/fds.pdf" style="border: 2px solid var(--r-blue)">
+            <div class="mb-3">
+                <label class="small fw-bold mb-1">Code-barres</label>
+                <input type="text" id="prod-code" class="form-control bg-light" placeholder="Scanné automatiquement">
+            </div>
 
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">
-                ENREGISTRER & PARTAGER LE LIEN
+            <div class="mb-4">
+                <label class="small fw-bold text-primary mb-1">Lien URL de la FDS</label>
+                <div class="input-group">
+                    <input type="url" id="prod-fds" class="form-control" placeholder="https://...">
+                    <span class="input-group-text" onclick="pasteFromClipboard()" title="Coller le lien">
+                        <i class="fa-solid fa-paste"></i>
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <button class="btn btn-link btn-sm p-0 text-decoration-none" onclick="searchFDS()">
+                        <i class="fa-solid fa-magnifying-glass"></i> Trouver la FDS
+                    </button>
+                    <small class="text-muted">Copiez le lien puis cliquez sur <i class="fa-solid fa-paste"></i></small>
+                </div>
+            </div>
+
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">
+                ENREGISTRER & SYNCHRONISER
             </button>
         </div>
     </div>
 
     <div id="page-list" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Inventaire Local</h5>
-            <button class="btn btn-sm btn-outline-danger" onclick="clearLocal()">Vider</button>
+            <h6 class="fw-bold text-muted mb-0">INVENTAIRE ACTIF</h6>
+            <span id="count-badge" class="badge bg-blue text-white" style="background: var(--r-blue)">0</span>
         </div>
         <div id="inventory-container"></div>
     </div>
 
     <nav class="nav-bottom">
-        <button id="btn-nav-scan" onclick="nav('page-scan')" class="nav-item active"><i class="fa-solid fa-barcode fa-lg"></i>SCAN</button>
-        <button id="btn-nav-list" onclick="nav('page-list')" class="nav-item"><i class="fa-solid fa-list-ul fa-lg"></i>LISTE</button>
+        <button id="nav-scan" onclick="nav('page-scan')" class="nav-item active"><i class="fa-solid fa-plus-circle fa-2x"></i>AJOUT</button>
+        <button id="nav-list" onclick="nav('page-list')" class="nav-item"><i class="fa-solid fa-boxes-stacked fa-2x"></i>LISTE</button>
     </nav>
 
     <script>
@@ -89,116 +96,104 @@
             document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active-page');
-            
-            if(id === 'page-scan') document.getElementById('btn-nav-scan').classList.add('active');
-            if(id === 'page-list') {
-                document.getElementById('btn-nav-list').classList.add('active');
-                renderInventory();
+            document.getElementById('nav-' + id.split('-')[1]).classList.add('active');
+            if(id === 'page-list') renderInventory();
+        }
+
+        // 1. SIMPLIFICATION : COLLER AUTOMATIQUEMENT
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('prod-fds').value = text;
+            } catch (err) {
+                alert("Pour coller, autorisez l'accès au presse-papier ou faites un appui long dans le champ.");
             }
         }
 
-        // --- SCANNER ET VERIFICATION CLOUD ---
+        // 2. SIMPLIFICATION : RECHERCHE INTELLIGENTE
+        function searchFDS() {
+            const name = document.getElementById('prod-name').value;
+            if(!name) return alert("Saisissez d'abord le nom du produit.");
+            // Ouvre Google avec les bons mots clés pour tomber sur les versions récentes
+            const query = encodeURIComponent(`FDS ${name} 2024 2025 filetype:pdf`);
+            window.open(`https://www.google.com/search?q=${query}`, '_blank');
+        }
+
         function startScanner() {
             const scanner = new Html5Qrcode("reader");
             scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
                 document.getElementById('prod-code').value = text;
-                checkCloudProduct(text);
+                checkCloud(text);
                 scanner.stop();
-            }).catch(err => alert("Erreur caméra"));
+            });
         }
 
-        async function checkCloudProduct(code) {
-            const statusDiv = document.getElementById('cloud-status');
-            // On cherche si quelqu'un a déjà mis un lien pour ce code
-            const { data, error } = await sb.from('produits_partages').select('*').eq('code', code).single();
-            
+        async function checkCloud(code) {
+            const { data } = await sb.from('produits_partages').select('*').eq('code', code).single();
             if (data) {
                 document.getElementById('prod-name').value = data.nom;
                 document.getElementById('prod-fds').value = data.url_fds || '';
-                statusDiv.style.display = 'block';
-            } else {
-                statusDiv.style.display = 'none';
             }
         }
 
-        // --- SAUVEGARDE ET PARTAGE ---
         async function saveProduct() {
             const name = document.getElementById('prod-name').value;
             const code = document.getElementById('prod-code').value;
             const fdsUrl = document.getElementById('prod-fds').value;
 
-            if(!name) return alert("Veuillez saisir au moins le nom du produit.");
+            if(!name) return alert("Nom requis.");
 
-            // 1. Sauvegarde locale pour l'utilisateur
-            const newProd = { id: Date.now(), name, code, url_fds: fdsUrl };
+            const newProd = { id: Date.now(), name, code, url_fds: fdsUrl, date: new Date().toLocaleDateString() };
             inventory.push(newProd);
             localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-            // 2. Partage sur le Cloud RESTEV (si code-barres présent)
-            // Comme ça, si un collègue scanne le même produit, il a l'URL direct
             if(code) {
-                await sb.from('produits_partages').upsert({ 
-                    code: code, 
-                    nom: name, 
-                    url_fds: fdsUrl 
-                });
+                await sb.from('produits_partages').upsert({ code, nom: name, url_fds: fdsUrl });
             }
-
-            // Nettoyage et redirection
-            document.getElementById('prod-name').value = "";
-            document.getElementById('prod-code').value = "";
-            document.getElementById('prod-fds').value = "";
-            document.getElementById('cloud-status').style.display = 'none';
             
-            alert("Produit enregistré et lien partagé !");
+            document.querySelectorAll('input').forEach(i => i.value='');
             nav('page-list');
         }
 
-        // --- AFFICHAGE LISTE ---
         function renderInventory() {
             const container = document.getElementById('inventory-container');
-            if(inventory.length === 0) {
-                container.innerHTML = '<div class="text-center text-muted mt-5">Aucun produit dans votre liste.</div>';
-                return;
-            }
-
+            document.getElementById('count-badge').innerText = inventory.length;
+            
             container.innerHTML = inventory.map(item => `
                 <div class="card-custom">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <b class="text-uppercase">${item.name}</b><br>
-                            <small class="text-muted">Code: ${item.code || 'Saisie manuelle'}</small>
+                            <span class="badge bg-light text-dark mb-1" style="font-size:0.6rem">Ajouté le ${item.date || 'NC'}</span>
+                            <h6 class="fw-bold mb-0 text-uppercase">${item.name}</h6>
+                            <small class="text-muted">${item.code || 'Saisie manuelle'}</small>
                         </div>
-                        <button onclick="deleteItem(${item.id})" class="btn btn-link text-danger p-0"><i class="fa-solid fa-trash-can"></i></button>
+                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
                     </div>
+                    
                     <div class="mt-3">
-                        ${item.url_fds 
-                            ? `<a href="${item.url_fds}" target="_blank" class="btn btn-success w-100 fw-bold">
-                                <i class="fa-solid fa-file-pdf me-2"></i>DERNIÈRE VERSION FDS
-                               </a>` 
-                            : `<a href="https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}" target="_blank" class="btn btn-outline-primary w-100 btn-sm">
-                                <i class="fa-solid fa-magnifying-glass me-2"></i>RECHERCHER LA FDS
-                               </a>`
-                        }
+                        ${item.url_fds ? `
+                            <a href="${item.url_fds}" target="_blank" class="btn btn-success w-100 fw-bold shadow-sm">
+                                <i class="fa-solid fa-file-pdf me-2"></i>OUVRIR LA FDS
+                            </a>
+                            <div class="text-center">
+                                <a href="https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+2025" target="_blank" class="btn-update">
+                                    <i class="fa-solid fa-sync"></i> Vérifier si une version 2025 existe
+                                </a>
+                            </div>
+                        ` : `
+                            <button onclick="nav('page-scan')" class="btn btn-outline-warning w-100 btn-sm fw-bold">
+                                <i class="fa-solid fa-link-slash me-2"></i>ASSOCIER UN LIEN PDF
+                            </button>
+                        `}
                     </div>
                 </div>
             `).join('');
         }
 
         function deleteItem(id) {
-            if(confirm("Supprimer ce produit de votre liste ?")) {
-                inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-                renderInventory();
-            }
-        }
-
-        function clearLocal() {
-            if(confirm("Vider tout votre inventaire local ?")) {
-                inventory = [];
-                localStorage.removeItem('restev_inventory_v3');
-                renderInventory();
-            }
+            inventory = inventory.filter(i => i.id !== id);
+            localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+            renderInventory();
         }
     </script>
 </body>
