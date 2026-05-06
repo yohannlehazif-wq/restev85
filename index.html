@@ -284,168 +284,98 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+
 const centres = [
-{ n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+La+Roche+sur+Yon" },
-{ n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+Montaigu" },
-{ n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+Les+Herbiers" },
-{ n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+Les+Essarts" }
+    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+La+Roche+sur+Yon" },
+    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+Montaigu" },
+    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+Les+Herbiers" },
+    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+Les+Essarts" }
 ];
 
 const sghData = [
-{ id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
-{ id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-{ id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
-{ id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
-{ id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-{ id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
-{ id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
-{ id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
-{ id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
+    { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
+    { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
+    { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
+    { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
+    { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
+    { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
+    { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
+    { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
+    { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
 ];
 
 const questions = [
-"Le Document Unique (DUERP) est-il mis à jour chaque année ?",
-"Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
-"Les FDS sont-elles accessibles à tous les postes de travail ?",
-"Les équipements de protection (EPI) sont-ils portés et en bon état ?",
-"Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
-"Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
-"Les salariés connaissent-ils les gestes de premiers secours ?",
-"Les produits chimiques sont-ils tous identifiés par une étiquette ?",
-"Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
-"La prévention est-elle discutée lors de réunions régulières ?"
+    "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
+    "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
+    "Les FDS sont-elles accessibles à tous les postes de travail ?",
+    "Les équipements de protection (EPI) sont-ils portés et en bon état ?",
+    "Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
+    "Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
+    "Les salariés connaissent-ils les gestes de premiers secours ?",
+    "Les produits chimiques sont-ils tous identifiés par une étiquette ?",
+    "Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
+    "La prévention est-elle discutée lors de réunions régulières ?"
 ];
+
 let currentQ = 0, totalScore = 0;
 
-function nav(id, el) {
-document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-const target = document.getElementById(id);
-if(target) target.classList.add('active-page');
-if(typeof el === 'string') {
-const btn = document.getElementById(el);
-if(btn) btn.classList.add('active');
-} else if(el) el.classList.add('active');
-if(id === 'page-list') { renderInventory(); document.getElementById('archives-container').style.display = 'none'; }
-if(id === 'page-sgh') renderSGH();
-if(id === 'page-centres') renderCentres();
-window.scrollTo(0, 0);
+// --- FONCTIONS DE BASE ---
+
+function dismissSplash() {
+    const splash = document.getElementById('splash');
+    splash.style.opacity = '0';
+    setTimeout(() => {
+        splash.style.display = 'none';
+    }, 800);
 }
+
+function updateStats() {
+    const statsEl = document.getElementById('inv-stats');
+    if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
+}
+
+function nav(id, el) {
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active-page');
+    if(typeof el === 'string') {
+        const btn = document.getElementById(el);
+        if(btn) btn.classList.add('active');
+    } else if(el) el.classList.add('active');
+    if(id === 'page-list') { renderInventory(); document.getElementById('archives-container').style.display = 'none'; }
+    if(id === 'page-sgh') renderSGH();
+    if(id === 'page-centres') renderCentres();
+    window.scrollTo(0, 0);
+}
+
+// --- GESTION INVENTAIRE ---
 
 function renderInventory() {
-const container = document.getElementById('inventory-container');
-container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
-inventory.forEach(item => {
-// Si une URL est enregistrée, on l'utilise, sinon on propose la recherche Google
-const finalLink = item.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
-const linkIcon = item.fdsUrl ? 'fa-file-pdf' : 'fa-magnifying-glass';
-const linkText = item.fdsUrl ? 'Consulter la FDS PDF' : 'Rechercher la FDS (PDF)';
-const btnColor = item.fdsUrl ? 'btn-danger' : 'btn-outline-primary';
+    const container = document.getElementById('inventory-container');
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
+    inventory.forEach(item => {
+        const finalLink = item.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
+        const linkIcon = item.fdsUrl ? 'fa-file-pdf' : 'fa-magnifying-glass';
+        const linkText = item.fdsUrl ? 'Consulter la FDS PDF' : 'Rechercher la FDS (PDF)';
+        const btnColor = item.fdsUrl ? 'btn-danger' : 'btn-outline-primary';
 
-container.innerHTML += `
-<div class="card-custom">
-<div class="d-flex justify-content-between align-items-start mb-2">
-<div>
-<b style="color:var(--r-blue)">${item.name}</b><br>
-<small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
-</div>
-<button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger p-0"><i class="fa-solid fa-trash"></i></button>
-</div>
-<div class="mt-2 pt-2 border-top">
-<a href="${finalLink}" target="_blank" class="btn btn-sm ${btnColor} w-100 mb-1">
-<i class="fa-solid ${linkIcon} me-1"></i> ${linkText}
-</a>
-</div>
-</div>`;
-});
-}
-
-async function toggleArchives() {
-const container = document.getElementById('archives-container');
-const isHidden = container.style.display === 'none';
-container.style.display = isHidden ? 'block' : 'none';
-if(isHidden) {
-const list = document.getElementById('archives-list');
-list.innerHTML = '<p class="text-center small text-muted">Récupération des archives...</p>';
-const { data, error } = await sb.from('historique_pdf').select('*').order('created_at', { ascending: false });
-
-if (error) {
-list.innerHTML = '<p class="text-center small text-danger">Erreur de connexion Supabase.</p>';
-} else if (data.length === 0) {
-list.innerHTML = '<p class="text-center small text-muted">Aucune archive disponible.</p>';
-} else {
-list.innerHTML = data.map(item => `
-<div class="card-custom archive-item py-2 mb-2">
-<div class="d-flex justify-content-between align-items-center">
-<div>
-<small class="d-block fw-bold">${item.entreprise}</small>
-<small class="text-muted" style="font-size:0.65rem;">${new Date(item.created_at).toLocaleDateString('fr-FR')} - ${item.nb_produits} produits</small>
-</div>
-<a href="${item.url_pdf}" target="_blank" class="btn btn-sm btn-dark rounded-circle"><i class="fa-solid fa-eye" style="font-size:0.7rem;"></i></a>
-</div>
-</div>`).join('');
-}
-}
-}
-
-async function generatePDFProof() {
-if (inventory.length === 0) return alert("Votre inventaire est vide.");
-const companyName = prompt("Nom de l'entreprise :");
-if (!companyName) return;
-
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-// Header
-doc.setFontSize(18); doc.setTextColor(48, 101, 168); doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
-doc.setFontSize(9); doc.setTextColor(100); doc.text("Support de conformité RESTEV 85", 14, 28);
-doc.setDrawColor(230, 160, 15); doc.line(14, 32, 196, 32);
-
-// Infos
-doc.setFontSize(11); doc.setTextColor(0); doc.setFont(undefined, 'bold');
-doc.text(`Entreprise : ${companyName}`, 14, 40);
-doc.setFont(undefined, 'normal');
-doc.text(`Date : ${new Date().toLocaleDateString('fr-FR')}`, 14, 47);
-
-const tableData = inventory.map((item, index) => [
-index + 1,
-item.name.toUpperCase(),
-item.code || "Manuelle",
-item.fdsUrl ? "Lien enregistré" : "A rechercher"
-]);
-
-doc.autoTable({
-startY: 55,
-head: [['N°', 'Nom du produit', 'Référence', 'Status FDS']],
-body: tableData,
-theme: 'striped',
-headStyles: { fillColor: [48, 101, 168] }
-});
-
-// Conversion Blob & Supabase Upload
-const pdfBlob = doc.output('blob');
-const fileName = `fds_${Date.now()}.pdf`;
-
-try {
-const { data: upData, error: upError } = await sb.storage.from('fds_files').upload(fileName, pdfBlob);
-if (upError) throw upError;
-
-const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(fileName);
-const publicUrl = urlData.publicUrl;
-
-await sb.from('historique_pdf').insert([{
-entreprise: companyName,
-url_pdf: publicUrl,
-nb_produits: inventory.length
-}]);
-
-alert("Attestation sauvegardée avec succès.");
-window.open(publicUrl, '_blank');
-} catch (err) {
-console.error(err);
-const localUrl = URL.createObjectURL(pdfBlob);
-window.open(localUrl, '_blank');
-alert("Sauvegarde cloud échouée, ouverture du fichier local.");
-}
+        container.innerHTML += `
+        <div class="card-custom">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                    <b style="color:var(--r-blue)">${item.name}</b><br>
+                    <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
+                </div>
+                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger p-0"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="mt-2 pt-2 border-top">
+                <a href="${finalLink}" target="_blank" class="btn btn-sm ${btnColor} w-100 mb-1">
+                    <i class="fa-solid ${linkIcon} me-1"></i> ${linkText}
+                </a>
+            </div>
+        </div>`;
+    });
 }
 
 async function saveProduct() {
@@ -455,27 +385,22 @@ async function saveProduct() {
 
     if(!name) return alert("Veuillez saisir au moins le nom du produit.");
 
-    // 1. Sauvegarde Locale (pour votre liste actuelle)
     const newProduct = { id: Date.now(), name, code, fdsUrl };
     inventory.push(newProduct);
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-    // 2. Sauvegarde sur Supabase (pour enrichir la base commune)
     if (code) {
         const { error } = await sb
             .from('produits_chimiques')
-            .upsert([
-                { 
-                    code_barres: code, 
-                    nom_produit: name, 
-                    url_fds: fdsUrl 
-                }
-            ], { onConflict: 'code_barres' });
+            .upsert([{ 
+                code_barres: code, 
+                nom_produit: name, 
+                url_fds: fdsUrl 
+            }], { onConflict: 'code_barres' });
 
         if (error) console.error("Erreur Cloud:", error);
     }
 
-    // Réinitialisation et navigation
     document.getElementById('prod-name').value = '';
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
@@ -484,77 +409,112 @@ async function saveProduct() {
     nav('page-list', 'nav-list');
 }
 
-localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-// Nettoyage des champs
-document.getElementById('prod-name').value = '';
-document.getElementById('prod-code').value = '';
-document.getElementById('prod-url').value = '';
-
-updateStats();
-nav('page-list', 'nav-list');
+function deleteItem(id) {
+    if(confirm("Supprimer ce produit ?")) {
+        inventory = inventory.filter(i => i.id !== id);
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+        renderInventory(); 
+        updateStats();
+    }
 }
+
+// --- PDF ET ARCHIVES ---
+
+async function generatePDFProof() {
+    if (inventory.length === 0) return alert("Votre inventaire est vide.");
+    const companyName = prompt("Nom de l'entreprise :");
+    if (!companyName) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(18); doc.setTextColor(48, 101, 168); doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
+    
+    const tableData = inventory.map((item, index) => [index + 1, item.name, item.code || "Manuelle", item.fdsUrl ? "Oui" : "Non"]);
+    doc.autoTable({ startY: 40, head: [['N°', 'Nom', 'Code', 'FDS']], body: tableData });
+
+    const pdfBlob = doc.output('blob');
+    const fileName = `fds_${Date.now()}.pdf`;
+
+    try {
+        await sb.storage.from('fds_files').upload(fileName, pdfBlob);
+        const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(fileName);
+        await sb.from('historique_pdf').insert([{ entreprise: companyName, url_pdf: urlData.publicUrl, nb_produits: inventory.length }]);
+        window.open(urlData.publicUrl, '_blank');
+    } catch (err) {
+        window.open(URL.createObjectURL(pdfBlob), '_blank');
+    }
+}
+
+async function toggleArchives() {
+    const container = document.getElementById('archives-container');
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+    if(container.style.display === 'block') {
+        const list = document.getElementById('archives-list');
+        list.innerHTML = 'Chargement...';
+        const { data } = await sb.from('historique_pdf').select('*').order('created_at', { ascending: false });
+        list.innerHTML = data.map(item => `
+            <div class="card-custom archive-item py-2 mb-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div><b>${item.entreprise}</b><br><small>${new Date(item.created_at).toLocaleDateString()}</small></div>
+                    <a href="${item.url_pdf}" target="_blank" class="btn btn-sm btn-dark"><i class="fa-solid fa-eye"></i></a>
+                </div>
+            </div>`).join('');
+    }
+}
+
+// --- AUTRES ---
 
 function searchFDS() {
-const name = document.getElementById('prod-name').value;
-if(!name) return alert("Veuillez saisir le nom du produit pour rechercher la FDS.");
-const query = encodeURIComponent(name + " FDS filetype:pdf");
-window.open(`https://www.google.com/search?q=${query}`, '_blank');
-}
-
-function deleteItem(id) {
-if(confirm("Supprimer ce produit définitivement ?")) {
-inventory = inventory.filter(i => i.id !== id);
-localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-renderInventory(); updateStats();
-}
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez un nom.");
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(name + " FDS filetype:pdf")}`, '_blank');
 }
 
 function renderSGH() {
-document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-<div class="card-custom sgh-card">
-<img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
-<div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
-</div>`).join('');
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+        <div class="card-custom sgh-card">
+            <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
+            <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+        </div>`).join('');
 }
 
 function renderCentres() {
-document.getElementById('centres-list').innerHTML = centres.map(c => `
-<div class="card-custom">
-<b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
-<div class="d-flex gap-2">
-<a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-<a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Itinéraire</a>
-</div>
-</div>`).join('');
+    document.getElementById('centres-list').innerHTML = centres.map(c => `
+        <div class="card-custom">
+            <b>${c.n}</b><br><small>${c.a}</small><br>
+            <a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+        </div>`).join('');
 }
 
-function resetQuiz() { currentQ = 0; totalScore = 0; showQuestion(); document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; }
-function showQuestion() {
-document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
-document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
-}
 function quizAnswer(p) {
-totalScore += p; currentQ++;
-if(currentQ < questions.length) showQuestion(); else showResult();
+    totalScore += p; currentQ++;
+    if(currentQ < questions.length) {
+        document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
+        document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+    } else {
+        document.getElementById('q-box').style.display = 'none';
+        document.getElementById('q-result').style.display = 'block';
+        document.getElementById('quiz-score').innerText = totalScore + "/30";
+    }
 }
-function showResult() {
-document.getElementById('q-box').style.display = 'none';
-document.getElementById('q-result').style.display = 'block';
-document.getElementById('quiz-score').innerText = totalScore + "/30";
-let l = "", a = "";
-if(totalScore >= 25) { l = "Excellent !"; a = "Votre culture sécurité est exemplaire."; }
-else if(totalScore >= 15) { l = "Bon niveau"; a = "Quelques points à renforcer."; }
-else { l = "Action urgente !"; a = "Contactez votre conseiller RESTEV 85."; }
-document.getElementById('quiz-label').innerText = l;
-document.getElementById('quiz-advice').innerText = a;
-}
+
+function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; quizAnswer(0); currentQ=0; totalScore=0; }
 
 function startScanner() {
     const scanner = new Html5Qrcode("reader");
     scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
         document.getElementById('prod-code').value = text;
         scanner.stop();
+        const { data } = await sb.from('produits_chimiques').select('*').eq('code_barres', text).single();
+        if (data) {
+            document.getElementById('prod-name').value = data.nom_produit;
+            document.getElementById('prod-url').value = data.url_fds;
+        }
+    }).catch(err => alert("Erreur caméra : " + err));
+}
 
+// Lancement initial
+updateStats();
         // --- NOUVEAU : Recherche automatique ---
         const { data, error } = await sb
             .from('produits_chimiques')
