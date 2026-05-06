@@ -305,17 +305,46 @@ const centres = [
     { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+Les+Essarts" }
 ];
 
+// --- CONFIGURATION GITHUB ---
+// Remplace 'USER' par ton pseudo et 'REPO' par le nom de ton projet
+const githubBaseUrl = "https://raw.githubusercontent.com/yohannlehazif-wq/TON_DEPOT/
+restev85/";
+
 const sghData = [
-    { id: "SGH01", title: "Explosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/GHS-pictogram-explos.svg/100px-GHS-pictogram-explos.svg.png", desc: "Matières explosives" },
-    { id: "SGH02", title: "Inflammable", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/GHS-pictogram-flamme.svg/100px-GHS-pictogram-flamme.svg.png", desc: "Matières inflammables" },
-    { id: "SGH03", title: "Comburant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GHS-pictogram-rondflam.svg/100px-GHS-pictogram-rondflam.svg.png", desc: "Matières comburantes" },
-    { id: "SGH04", title: "Gaz", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/GHS-pictogram-bottle.svg/100px-GHS-pictogram-bottle.svg.png", desc: "Gaz sous pression" },
-    { id: "SGH05", title: "Corrosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/GHS-pictogram-acid.svg/100px-GHS-pictogram-acid.svg.png", desc: "Matières corrosives" },
-    { id: "SGH06", title: "Toxique", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-skull.svg/100px-GHS-pictogram-skull.svg.png", desc: "Toxicité aiguë" },
-    { id: "SGH07", title: "Irritant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/GHS-pictogram-exclam.svg/100px-GHS-pictogram-exclam.svg.png", desc: "Irritant / Sensibilisant" },
-    { id: "SGH08", title: "Danger Santé", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GHS-pictogram-silhouette.svg/100px-GHS-pictogram-silhouette.svg.png", desc: "CMR / Danger long terme" },
-    { id: "SGH09", title: "Environnement", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/GHS-pictogram-pollut.svg/100px-GHS-pictogram-pollut.svg.png", desc: "Toxicité aquatique" }
+    { id: "SGH01", title: "Explosif", img: "SGH01_BombeExplosant.jpg", desc: "Substances explosibles, autoréactives ou peroxydes organiques." },
+    { id: "SGH02", title: "Inflammable", img: "SGH02_Flamme.jpg", desc: "Gaz, aérosols, liquides et solides inflammables." },
+    { id: "SGH03", title: "Comburant", img: "SGH03_FlammeSurCercle.jpg", desc: "Provoque ou aggrave un incendie (comburant)." },
+    { id: "SGH04", title: "Gaz sous pression", img: "SGH04_BouteilleGaz.jpg", desc: "Contient un gaz sous pression ; peut exploser sous l'effet de la chaleur." },
+    { id: "SGH05", title: "Corrosif", img: "SGH05_Corrosion.jpg", desc: "Peut être corrosif pour les métaux et provoquer des brûlures de la peau." },
+    { id: "SGH06", title: "Toxique", img: "SGH06_TeteDeMort.jpg", desc: "Mortel ou toxique par ingestion, contact cutané ou inhalation." },
+    { id: "SGH07", title: "Irritant", img: "SGH07_PointExclamation.jpg", desc: "Peut provoquer une allergie cutanée ou une sévère irritation des yeux." },
+    { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Peut nuire à la fertilité, au fœtus ou causer le cancer." },
+    { id: "SGH09", title: "Polluant", img: "SGH09_Environnement.jpg", desc: "Toxique pour les organismes aquatiques, entraîne des effets néfastes." }
 ];
+
+function renderSGH() {
+    const container = document.getElementById('sgh-list');
+    if (!container) return;
+
+    container.innerHTML = sghData.map(item => {
+        // On construit l'URL complète vers GitHub
+        const fullImgUrl = githubBaseUrl + item.img;
+        
+        return `
+        <div class="card-custom d-flex align-items-center gap-3 mb-2" style="padding: 15px; border-left: 5px solid #dc3545;">
+            <div style="min-width: 65px; width: 65px; height: 65px; background: white; padding: 5px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <img src="${fullImgUrl}" 
+                     style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                     alt="${item.id}"
+                     onerror="this.src='https://placehold.co/60x60?text=ERR'">
+            </div>
+            <div style="flex: 1;">
+                <h6 class="fw-bold mb-1" style="color: #212529;">${item.id} : ${item.title}</h6>
+                <p class="small text-muted mb-0" style="line-height: 1.2; font-size: 0.8rem;">${item.desc}</p>
+            </div>
+        </div>`;
+    }).join('');
+}
 
 const questions = [
     "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
