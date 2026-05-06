@@ -301,36 +301,128 @@ function renderCentres() {
             <h6 class="fw-bold">${c.n}</h6>
             <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-1"></i> ${c.a}</p>
             <div class="d-flex gap-2">
-                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
-                    <i class="fa-solid fa-phone me-2"></i>Appeler
-                </a>
-                <a href="${c.map}" target="_blank" class="btn btn-outline-primary flex-grow-1" style="border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
-                    <i class="fa-solid fa-map-location-dot me-2"></i>Maps
-                </a>
+<script>
+const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+
+const sghData = [
+    { id: "SGH01", title: "Bombe Explosant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/GHS-pictogram-explos.svg/200px-GHS-pictogram-explos.svg.png", desc: "Matières explosives, autoréactives et peroxydes organiques." },
+    { id: "SGH02", title: "Flamme", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/GHS-pictogram-flamme.svg/200px-GHS-pictogram-flamme.svg.png", desc: "Gaz, aérosols, liquides et solides inflammables." },
+    { id: "SGH03", title: "Flamme sur Cercle", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/GHS-pictogram-rondflam.svg/200px-GHS-pictogram-rondflam.svg.png", desc: "Matières qui peuvent provoquer ou aggraver un incendie." },
+    { id: "SGH04", title: "Bouteille de Gaz", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-bottle.svg/200px-GHS-pictogram-bottle.svg.png", desc: "Gaz comprimés, liquéfiés ou dissous." },
+    { id: "SGH05", title: "Corrosion", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/GHS-pictogram-acid.svg/200px-GHS-pictogram-acid.svg.png", desc: "Peut attaquer les métaux et provoquer des brûlures cutanées." },
+    { id: "SGH06", title: "Toxique", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/GHS-pictogram-skull.svg/200px-GHS-pictogram-skull.svg.png", desc: "Toxicité aiguë (mortelle ou toxique) par ingestion, contact ou inhalation." },
+    { id: "SGH07", title: "Point d'Exclamation", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/GHS-pictogram-exclam.svg/200px-GHS-pictogram-exclam.svg.png", desc: "Effets moins graves : irritation, sensibilisation, somnolence." },
+    { id: "SGH08", title: "Danger pour la Santé", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/GHS-pictogram-silhouete.svg/200px-GHS-pictogram-silhouete.svg.png", desc: "Produits CMR (Cancérogènes, Mutagènes, Reprotoxiques), asthme." },
+    { id: "SGH09", title: "Environnement", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/GHS-pictogram-pollut.svg/200px-GHS-pictogram-pollut.svg.png", desc: "Dangers pour l'environnement aquatique." }
+];
+
+const questions = ["DUERP à jour ?", "Salariés formés ?", "FDS accessibles ?", "EPI portés ?", "Stockage conforme ?"];
+let currentQ = 0, totalScore = 0;
+
+function dismissSplash() {
+    const splash = document.getElementById('splash');
+    splash.style.opacity = '0';
+    setTimeout(() => { splash.style.display = 'none'; }, 800);
+}
+
+function updateStats() {
+    const statsEl = document.getElementById('inv-stats');
+    if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
+}
+
+function nav(id, el) {
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active-page');
+    if (el && typeof el === 'object') el.classList.add('active');
+    
+    if(id === 'page-list') renderInventory();
+    if(id === 'page-sgh') renderSGH();
+    if(id === 'page-centres') renderCentres();
+    if(id === 'page-quiz') resetQuiz();
+    window.scrollTo(0, 0);
+}
+
+function renderInventory() {
+    const container = document.getElementById('inventory-container');
+    container.innerHTML = inventory.length ? '' : '<p class="text-center mt-4">Inventaire vide.</p>';
+    inventory.forEach(item => {
+        container.innerHTML += `
+        <div class="card-custom">
+            <b>${item.name}</b><br><small>${item.code || 'Manuel'}</small>
+            <div class="mt-2"><a href="${item.fdsUrl}" target="_blank" class="btn btn-sm btn-danger w-100">FDS PDF</a></div>
+        </div>`;
+    });
+}
+
+async function saveProduct() {
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value;
+    const fdsUrl = document.getElementById('prod-url').value;
+    if(!name) return alert("Nom requis.");
+    const newProduct = { id: Date.now(), name, code, fdsUrl };
+    inventory.push(newProduct);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+    await sb.from('inventaire_utilisateurs').insert([{ nom_produit: name, code_barres: code, url_fds: fdsUrl }]);
+    updateStats();
+    nav('page-list', document.getElementById('nav-list'));
+}
+
+function startScanner() {
+    const scanner = new Html5Qrcode("reader");
+    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
+        document.getElementById('prod-code').value = text;
+        scanner.stop();
+        const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', text).limit(1);
+        if (data && data[0]) {
+            document.getElementById('prod-name').value = data[0].nom_produit;
+            document.getElementById('prod-url').value = data[0].url_fds;
+            alert("Produit connu !");
+        }
+    });
+}
+
+function renderSGH() {
+    const container = document.getElementById('sgh-list');
+    if (!container) return;
+    container.innerHTML = sghData.map(item => `
+        <div class="card-custom sgh-card">
+            <img src="${item.img}" class="sgh-img" alt="${item.title}">
+            <div>
+                <b class="d-block">${item.id} - ${item.title}</b>
+                <small class="text-muted">${item.desc}</small>
             </div>
         </div>`).join('');
 }
 
-
+function renderCentres() {
+    const container = document.getElementById('centres-list');
+    if (!container) return;
+    const centresData = [
+        { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", map: "https://www.google.com/maps?q=RESTEV+La+Roche+sur+Yon" },
+        { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", map: "https://www.google.com/maps?q=RESTEV+Montaigu" },
+        { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", map: "https://www.google.com/maps?q=RESTEV+Les+Herbiers" },
+        { n: "Les Essarts", t: "0251080601", a: "Rue Louis Lumière, 85140 Essarts-en-Bocage", map: "https://www.google.com/maps?q=RESTEV+Les+Essarts" }
+    ];
     container.innerHTML = centresData.map(c => `
         <div class="card-custom">
             <h6 class="fw-bold">${c.n}</h6>
             <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-1"></i> ${c.a}</p>
             <div class="d-flex gap-2">
-                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
-                    <i class="fa-solid fa-phone me-2"></i>Appeler
-                </a>
-                <a href="${c.map}" target="_blank" class="btn btn-outline-primary flex-grow-1" style="border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
-                    <i class="fa-solid fa-map-location-dot me-2"></i>Maps
-                </a>
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                <a href="${c.map}" target="_blank" class="btn btn-outline-primary flex-grow-1" style="border-radius: 12px; font-size: 0.8rem; font-weight: 700;"><i class="fa-solid fa-map-location-dot me-2"></i>Maps</a>
             </div>
         </div>`).join('');
 }
 
-
 function showQuestion() {
     document.getElementById('q-text').innerText = questions[currentQ];
 }
+
 function quizAnswer(p) {
     totalScore += p; currentQ++;
     if(currentQ < questions.length) showQuestion();
@@ -340,6 +432,7 @@ function quizAnswer(p) {
         document.getElementById('quiz-score').innerText = totalScore + "/15";
     }
 }
+
 function resetQuiz() {
     currentQ = 0; totalScore = 0;
     document.getElementById('q-box').style.display='block';
