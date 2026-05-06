@@ -274,15 +274,43 @@ function renderCentres() {
             n: "La Roche-sur-Yon (Siège)", 
             t: "0251370668", 
             a: "Impasse Newton, 85000 La Roche-sur-Yon", 
-            map: "https://www.google.com/maps/search/?api=1&query=RESTEV+Impasse+Newton+La+Roche-sur-Yon" 
+            map: "https://www.google.com/maps/search/?api=1&query=RESTEV+La+Roche-sur-Yon" 
         },
         { 
             n: "Montaigu-Vendée", 
             t: "0251942014", 
             a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", 
-            map: "https://www.google.com/maps/search/?api=1&query=RESTEV+44+rue+du+8+mai+1945+Montaigu" 
+            map: "https://www.google.com/maps/search/?api=1&query=RESTEV+Montaigu-Vendée" 
+        },
+        { 
+            n: "Les Herbiers", 
+            t: "0251370668", 
+            a: "18 rue Olivier de Serres, 85500 Les Herbiers", 
+            map: "https://www.google.com/maps/search/?api=1&query=RESTEV+Les+Herbiers" 
+        },
+        { 
+            n: "Les Essarts", 
+            t: "0251370668", 
+            a: "Rue Louis Lumière, ZI La Belle Entrée Sud, 85140 Essarts-en-Bocage", 
+            map: "https://www.google.com/maps/search/?api=1&query=RESTEV+Les+Essarts" 
         }
     ];
+
+    container.innerHTML = centresData.map(c => `
+        <div class="card-custom">
+            <h6 class="fw-bold">${c.n}</h6>
+            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-1"></i> ${c.a}</p>
+            <div class="d-flex gap-2">
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
+                    <i class="fa-solid fa-phone me-2"></i>Appeler
+                </a>
+                <a href="${c.map}" target="_blank" class="btn btn-outline-primary flex-grow-1" style="border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                    <i class="fa-solid fa-map-location-dot me-2"></i>Maps
+                </a>
+            </div>
+        </div>`).join('');
+}
+
 
     container.innerHTML = centresData.map(c => `
         <div class="card-custom">
