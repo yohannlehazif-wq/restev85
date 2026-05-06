@@ -251,11 +251,17 @@ function startScanner() {
 
 function renderSGH() {
     const container = document.getElementById('sgh-list');
+    if (!container) return;
     container.innerHTML = sghData.map(item => `
         <div class="card-custom sgh-card">
-            <img src="${item.img}" class="sgh-img" style="width:65px; height:65px; object-fit:contain;">
-
+            <img src="${item.img}" class="sgh-img" alt="${item.title}">
+            <div>
+                <b class="d-block">${item.id} - ${item.title}</b>
+                <small class="text-muted">${item.desc}</small>
+            </div>
+        </div>`).join('');
 }
+
 
 function renderCentres() {
     const container = document.getElementById('centres-list');
