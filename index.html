@@ -527,11 +527,31 @@ document.getElementById('quiz-advice').innerText = a;
 }
 
 function startScanner() {
-const scanner = new Html5Qrcode("reader");
-scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-document.getElementById('prod-code').value = text;
-scanner.stop();
-}).catch(err => alert("Erreur caméra."));
+    const scanner = new Html5Qrcode("reader");
+    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
+        document.getElementById('prod-code').value = text;
+        scanner.stop();
+
+        // --- NOUVEAU : Recherche automatique ---
+        const { data, error } = await sb
+            .from('produits_chimiques')
+            .select('*')
+            .eq('code_barres', text)
+            .single();
+
+        if (data) {
+            alert("Produit trouvé dans la base RESTEV !");
+            document.getElementById('prod-name').value = data.nom_produit;
+            document.getElementById('prod-url').value = data.url_fds;
+            
+            // Si une FDS existe, on propose de l'ouvrir directement
+            if(data.url_fds && confirm("Une FDS est disponible pour ce produit. Voulez-vous l'ouvrir ?")) {
+                window.open(data.url_fds, '_blank');
+            }
+        } else {
+            console.log("Nouveau produit, veuillez compléter les infos.");
+        }
+    }).catch(err => alert("Erreur caméra : " + err));
 }
 
 function exportToCSV() {
