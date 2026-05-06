@@ -253,9 +253,8 @@ function renderSGH() {
     const container = document.getElementById('sgh-list');
     container.innerHTML = sghData.map(item => `
         <div class="card-custom sgh-card">
-            <img src="${item.img}" class="sgh-img">
-            <div><h6>${item.title}</h6><p class="small text-muted">${item.desc}</p></div>
-        </div>`).join('');
+            <img src="${item.img}" class="sgh-img" style="width:65px; height:65px; object-fit:contain;">
+
 }
 
 function renderCentres() {
