@@ -189,54 +189,34 @@
 
         // --- FONCTION DE SAUVEGARDE (CLÉ DE L'AUTOMATISATION) ---
         async function saveProduct() {
-    const nameInput = document.getElementById('prod-name');
-    const codeInput = document.getElementById('prod-code');
-    const urlInput = document.getElementById('prod-url');
+            const name = document.getElementById('prod-name').value;
+            const code = document.getElementById('prod-code').value.trim();
+            const fdsUrl = document.getElementById('prod-url').value.trim();
 
-    const name = nameInput.value.trim();
-    const code = codeInput.value.trim();
-    const fdsUrl = urlInput.value.trim();
+            if(!name) return alert("Veuillez saisir au moins le nom du produit.");
+            
+            // 1. Enregistrement sur la table partagée Supabase (si code et URL fournis)
+            if (code && fdsUrl) {
+                try {
+                    const { error } = await sb
+                        .from('produits_partages') 
+                        .upsert([{ nom: name, code: code, url_fds: fdsUrl }], { onConflict: 'code' });
+                    
+                    if (error) console.error("Erreur Cloud:", error.message);
+                } catch (e) { console.error(e); }
+            }
 
-    // Sécurité : On ne bloque pas si le code est vide, mais le nom est obligatoire
-    if(!name) return alert("Veuillez saisir au moins le nom du produit.");
-    
-    // 1. MISE À JOUR LOCALE (Toujours prioritaire pour que l'utilisateur voit son produit)
-    const newProduct = { 
-        id: Date.now(), 
-        name: name, 
-        code: code || 'Non spécifié', 
-        fdsUrl: fdsUrl 
-    };
-    inventory.push(newProduct);
-    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-
-    // 2. TENTATIVE SUPABASE (Avec gestion d'erreur propre)
-    if (code && fdsUrl) {
-        const { error } = await sb
-            .from('produits_partages')
-            .upsert([
-                { 
-                    nom: name, 
-                    code: code, 
-                    url_fds: fdsUrl 
-                }
-            ], { onConflict: 'code' }); // Indispensable si ta colonne 'code' est UNIQUE
-
-        if (error) {
-            console.warn("Note: Synchronisation Cloud impossible (Code peut-être déjà existant ou contrainte non respectée)");
-            console.error("Détails Supabase:", error.message);
+            // 2. Enregistrement dans l'inventaire local
+            inventory.push({ id: Date.now(), name: name, code: code, fdsUrl: fdsUrl });
+            localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+            
+            // Reset & Nav
+            document.getElementById('prod-name').value = ''; 
+            document.getElementById('prod-code').value = '';
+            document.getElementById('prod-url').value = '';
+            updateStats(); 
+            nav('page-list', 'nav-list');
         }
-    }
-
-    // 3. INTERFACE
-    updateStats(); 
-    nameInput.value = ''; 
-    codeInput.value = '';
-    urlInput.value = '';
-    
-    alert("Produit ajouté à votre inventaire !");
-    nav('page-list', 'nav-list');
-}
 
         // --- FONCTION SCANNER (RECHERCHE AUTO) ---
         function startScanner() {
