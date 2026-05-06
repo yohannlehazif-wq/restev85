@@ -302,43 +302,42 @@ const centres = [
 
 // --- CONFIGURATION GITHUB ---
 // Remplace BIEN 'NOM_DE_TON_DEPOT' par le nom exact de ton projet sur GitHub
-const githubBaseUrl = "https://raw.githubusercontent.com/yohannlehazif-wq/NOM_DE_TON_DEPOT/restev85/";
+const githubBaseUrl = "https://raw.githubusercontent.com/yohannlehazif-wq/TON_DEPOT/restev85/";
 
-const sghData = [
-    { id: "SGH01", title: "Explosif", img: "SGH01_BombeExplosant.jpg", desc: "Substances explosibles, autoréactives ou peroxydes organiques." },
-    { id: "SGH02", title: "Inflammable", img: "SGH02_Flamme.jpg", desc: "Gaz, aérosols, liquides et solides inflammables." },
-    { id: "SGH03", title: "Comburant", img: "SGH03_FlammeSurCercle.jpg", desc: "Provoque ou aggrave un incendie (comburant)." },
-    { id: "SGH04", title: "Gaz sous pression", img: "SGH04_BouteilleGaz.jpg", desc: "Contient un gaz sous pression ; peut exploser sous l'effet de la chaleur." },
-    { id: "SGH05", title: "Corrosif", img: "SGH05_Corrosion.jpg", desc: "Peut être corrosif pour les métaux et provoquer des brûlures de la peau." },
-    { id: "SGH06", title: "Toxique", img: "SGH06_TeteDeMort.jpg", desc: "Mortel ou toxique par ingestion, contact cutané ou inhalation." },
-    { id: "SGH07", title: "Irritant", img: "SGH07_PointExclamation.jpg", desc: "Peut provoquer une allergie cutanée ou une sévère irritation des yeux." },
-    { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Peut nuire à la fertilité, au fœtus ou causer le cancer." },
-    { id: "SGH09", title: "Polluant", img: "SGH09_Environnement.jpg", desc: "Toxique pour les organismes aquatiques, entraîne des effets néfastes." }
-];
+    const sghData = [
+        { id: "SGH01", title: "Explosif", img: "SGH01_BombeExplosant.jpg", desc: "Substances explosibles, autoréactives ou peroxydes organiques." },
+        { id: "SGH02", title: "Inflammable", img: "SGH02_Flamme.jpg", desc: "Gaz, aérosols, liquides et solides inflammables." },
+        { id: "SGH03", title: "Comburant", img: "SGH03_FlammeSurCercle.jpg", desc: "Provoque ou aggrave un incendie (comburant)." },
+        { id: "SGH04", title: "Gaz sous pression", img: "SGH04_BouteilleGaz.jpg", desc: "Contient un gaz sous pression ; peut exploser sous l'effet de la chaleur." },
+        { id: "SGH05", title: "Corrosif", img: "SGH05_Corrosion.jpg", desc: "Peut être corrosif pour les métaux et provoquer des brûlures de la peau." },
+        { id: "SGH06", title: "Toxique", img: "SGH06_TeteDeMort.jpg", desc: "Mortel ou toxique par ingestion, contact cutané ou inhalation." },
+        { id: "SGH07", title: "Irritant", img: "SGH07_PointExclamation.jpg", desc: "Peut provoquer une allergie cutanée ou une sévère irritation des yeux." },
+        { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Peut nuire à la fertilité, au fœtus ou causer le cancer." },
+        { id: "SGH09", title: "Polluant", img: "SGH09_Environnement.jpg", desc: "Toxique pour les organismes aquatiques, entraîne des effets néfastes." }
+    ];
 
-function renderSGH() {
-    const container = document.getElementById('sgh-list');
-    if (!container) return;
+    function renderSGH() {
+        const container = document.getElementById('sgh-list');
+        if (!container) return;
+        container.innerHTML = sghData.map(item => `
+            <div class="card-custom d-flex align-items-center gap-3 mb-2" style="padding: 15px; border-left: 5px solid #dc3545;">
+                <div style="min-width: 65px; width: 65px; height: 65px; background: white; padding: 5px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <img src="${githubBaseUrl}${item.img}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/60x60?text=ERR'">
+                </div>
+                <div style="flex: 1;">
+                    <h6 class="fw-bold mb-1" style="color: #212529;">${item.id} : ${item.title}</h6>
+                    <p class="small text-muted mb-0" style="line-height: 1.2; font-size: 0.8rem;">${item.desc}</p>
+                </div>
+            </div>`).join('');
+    }
 
-    container.innerHTML = sghData.map(item => {
-        // On construit l'URL complète vers GitHub
-        const fullImgUrl = githubBaseUrl + item.img;
-        
-        return `
-        <div class="card-custom d-flex align-items-center gap-3 mb-2" style="padding: 15px; border-left: 5px solid #dc3545;">
-            <div style="min-width: 65px; width: 65px; height: 65px; background: white; padding: 5px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <img src="${fullImgUrl}" 
-                     style="max-width: 100%; max-height: 100%; object-fit: contain;" 
-                     alt="${item.id}"
-                     onerror="this.src='https://placehold.co/60x60?text=ERR'">
-            </div>
-            <div style="flex: 1;">
-                <h6 class="fw-bold mb-1" style="color: #212529;">${item.id} : ${item.title}</h6>
-                <p class="small text-muted mb-0" style="line-height: 1.2; font-size: 0.8rem;">${item.desc}</p>
-            </div>
-        </div>`;
-    }).join('');
-}
+    function nav(id, el) {
+        document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active-page');
+        if(el) el.classList.add('active');
+        window.scrollTo(0,0);
+    }
 
 const questions = [
     "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
