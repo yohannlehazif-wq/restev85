@@ -569,19 +569,61 @@ function searchFDS() {
 // --- RENDU LEXIQUE & CENTRES ---
 
 function renderSGH() {
-    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-        <div class="card-custom sgh-card">
-            <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
-            <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
-        </div>`).join('');
+    const container = document.getElementById('sgh-list');
+    container.innerHTML = '';
+
+    sghData.forEach(sgh => {
+        const div = document.createElement('div');
+        div.className = 'card-custom sgh-card';
+        div.innerHTML = `
+            <img src="${sgh.img}" 
+                 class="sgh-img" 
+                 alt="${sgh.title}"
+                 onerror="this.src='https://placehold.co/65x65?text=${sgh.id}'">
+            <div>
+                <h6 class="fw-bold mb-1">${sgh.id} - ${sgh.title}</h6>
+                <p class="small text-muted mb-0">${sgh.desc}</p>
+            </div>
+        `;
+        container.appendChild(div);
+    });
 }
 
 function renderCentres() {
-    document.getElementById('centres-list').innerHTML = centres.map(c => `
-        <div class="card-custom">
-            <b>${c.n}</b><br><small>${c.a}</small><br>
-            <a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-        </div>`).join('');
+    const container = document.getElementById('centres-list');
+    container.innerHTML = '<div class="row g-3"></div>';
+    const row = container.querySelector('.row');
+
+    centres.forEach(c => {
+        const col = document.createElement('div');
+        col.className = 'col-12';
+        col.innerHTML = `
+            <div class="card-custom">
+                <h6 class="fw-bold">${c.n}</h6>
+                <p class="small mb-1">
+                    <i class="fa-solid fa-phone text-success"></i> 
+                    <a href="tel:${c.t}" class="text-decoration-none">${c.t}</a>
+                </p>
+                <p class="small mb-2">${c.a}</p>
+                
+                <!-- Version lien simple -->
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mb-2">
+                    <i class="fa-solid fa-map-location-dot"></i> Ouvrir dans Google Maps
+                </a>
+                
+                <!-- Version carte intégrée (recommandé) -->
+                <iframe 
+                    width="100%" 
+                    height="200" 
+                    style="border-radius:12px; border:none;"
+                    loading="lazy"
+                    allowfullscreen
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2700.5!2d${encodeURIComponent(c.a)}">
+                </iframe>
+            </div>
+        `;
+        row.appendChild(col);
+    });
 }
 
 // Initialisation
