@@ -164,16 +164,17 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
 const sghData = [
-    { id: "SGH01", title: "Explosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/GHS-pictogram-explos.svg/150px-GHS-pictogram-explos.svg.png", desc: "Matières explosives, autoréactives et peroxydes organiques." },
-    { id: "SGH02", title: "Inflammable", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/GHS-pictogram-flamme.svg/150px-GHS-pictogram-flamme.svg.png", desc: "Gaz, aérosols, liquides et solides inflammables." },
-    { id: "SGH03", title: "Comburant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/GHS-pictogram-rondflam.svg/150px-GHS-pictogram-rondflam.svg.png", desc: "Matières qui peuvent provoquer ou aggraver un incendie." },
-    { id: "SGH04", title: "Gaz sous pression", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-bottle.svg/150px-GHS-pictogram-bottle.svg.png", desc: "Gaz comprimés, liquéfiés ou dissous." },
-    { id: "SGH05", title: "Corrosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/GHS-pictogram-acid.svg/150px-GHS-pictogram-acid.svg.png", desc: "Peut attaquer les métaux et provoquer des brûlures cutanées." },
-    { id: "SGH06", title: "Toxique", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/GHS-pictogram-skull.svg/150px-GHS-pictogram-skull.svg.png", desc: "Toxicité aiguë (mortelle ou toxique) par ingestion, contact ou inhalation." },
-    { id: "SGH07", title: "Nocif / Irritant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/GHS-pictogram-exclam.svg/150px-GHS-pictogram-exclam.svg.png", desc: "Effets moins graves : irritation, sensibilisation, somnolence." },
-    { id: "SGH08", title: "Danger pour la santé", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/GHS-pictogram-silhouete.svg/150px-GHS-pictogram-silhouete.svg.png", desc: "Produits CMR (Cancérogènes, Mutagènes, Reprotoxiques), asthme." },
-    { id: "SGH09", title: "Polluant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/GHS-pictogram-pollut.svg/150px-GHS-pictogram-pollut.svg.png", desc: "Dangers pour l'environnement aquatique." }
+    { id: "SGH01", title: "Bombe Explosant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/GHS-pictogram-explos.svg/200px-GHS-pictogram-explos.svg.png", desc: "Matières explosives, autoréactives et peroxydes organiques." },
+    { id: "SGH02", title: "Flamme", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/GHS-pictogram-flamme.svg/200px-GHS-pictogram-flamme.svg.png", desc: "Gaz, aérosols, liquides et solides inflammables." },
+    { id: "SGH03", title: "Flamme sur Cercle", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/GHS-pictogram-rondflam.svg/200px-GHS-pictogram-rondflam.svg.png", desc: "Matières qui peuvent provoquer ou aggraver un incendie." },
+    { id: "SGH04", title: "Bouteille de Gaz", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-bottle.svg/200px-GHS-pictogram-bottle.svg.png", desc: "Gaz comprimés, liquéfiés ou dissous." },
+    { id: "SGH05", title: "Corrosion", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/GHS-pictogram-acid.svg/200px-GHS-pictogram-acid.svg.png", desc: "Peut attaquer les métaux et provoquer des brûlures cutanées." },
+    { id: "SGH06", title: "Toxique", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/GHS-pictogram-skull.svg/200px-GHS-pictogram-skull.svg.png", desc: "Toxicité aiguë (mortelle ou toxique) par ingestion, contact ou inhalation." },
+    { id: "SGH07", title: "Point d'Exclamation", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/GHS-pictogram-exclam.svg/200px-GHS-pictogram-exclam.svg.png", desc: "Effets moins graves : irritation, sensibilisation, somnolence." },
+    { id: "SGH08", title: "Danger pour la Santé", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/GHS-pictogram-silhouete.svg/200px-GHS-pictogram-silhouete.svg.png", desc: "Produits CMR (Cancérogènes, Mutagènes, Reprotoxiques), asthme." },
+    { id: "SGH09", title: "Environnement", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/GHS-pictogram-pollut.svg/200px-GHS-pictogram-pollut.svg.png", desc: "Dangers pour l'environnement aquatique." }
 ];
+
 
 
 const centres = [
