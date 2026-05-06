@@ -382,16 +382,35 @@ async function saveProduct() {
 
     if(!name) return alert("Veuillez saisir au moins le nom du produit.");
 
+    // 1. Sauvegarde locale immédiate
     const newProduct = { id: Date.now(), name, code, fdsUrl };
     inventory.push(newProduct);
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-    if (code) {
-        await sb.from('produits_chimiques').upsert([{ 
-            code_barres: code, nom_produit: name, url_fds: fdsUrl 
-        }], { onConflict: 'code_barres' });
+    // 2. Envoi vers Supabase
+    try {
+        console.log("Tentative d'envoi vers Supabase...");
+        const { data, error } = await sb
+            .from('inventaire_utilisateurs')
+            .insert([
+                { 
+                    nom_produit: name, 
+                    code_barres: code, 
+                    url_fds: fdsUrl 
+                }
+            ]);
+
+        if (error) {
+            console.error("Détail de l'erreur Supabase :", error);
+            alert("Erreur Supabase : " + error.message);
+        } else {
+            console.log("Succès ! Produit enregistré sur le Cloud.");
+        }
+    } catch (err) {
+        console.error("Erreur de connexion :", err);
     }
 
+    // Mise à jour interface
     document.getElementById('prod-name').value = '';
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
