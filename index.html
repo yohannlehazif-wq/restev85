@@ -230,7 +230,13 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </div>
 </div>
 </div>
-
+<!-- CETTE SECTION ETAIT MANQUANTE DANS VOTRE CODE -->
+<div id="page-sgh" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>Lexique SGH</h5>
+    <p class="small text-muted mb-3">Identification des dangers chimiques selon le règlement CLP.</p>
+    <div id="sgh-list"></div>
+</div>
+    
 <div id="page-fds-guide" class="app-page">
 <h5 class="fw-bold mb-3">Décrypter une FDS</h5>
 <div class="card-custom" style="border-left-color: #dc3545;"><h6><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Rubrique 2</h6><p class="small mb-0"><b>Dangers :</b> Les pictogrammes et phrases H (Risques) et P (Prudence).</p></div>
@@ -300,15 +306,15 @@ const centres = [
 ];
 
 const sghData = [
-    { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
-    { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-    { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
-    { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
-    { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-    { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
-    { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
-    { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
-    { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
+    { id: "SGH01", title: "Explosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/GHS-pictogram-explos.svg/100px-GHS-pictogram-explos.svg.png", desc: "Matières explosives" },
+    { id: "SGH02", title: "Inflammable", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/GHS-pictogram-flamme.svg/100px-GHS-pictogram-flamme.svg.png", desc: "Matières inflammables" },
+    { id: "SGH03", title: "Comburant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GHS-pictogram-rondflam.svg/100px-GHS-pictogram-rondflam.svg.png", desc: "Matières comburantes" },
+    { id: "SGH04", title: "Gaz", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/GHS-pictogram-bottle.svg/100px-GHS-pictogram-bottle.svg.png", desc: "Gaz sous pression" },
+    { id: "SGH05", title: "Corrosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/GHS-pictogram-acid.svg/100px-GHS-pictogram-acid.svg.png", desc: "Matières corrosives" },
+    { id: "SGH06", title: "Toxique", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/GHS-pictogram-skull.svg/100px-GHS-pictogram-skull.svg.png", desc: "Toxicité aiguë" },
+    { id: "SGH07", title: "Irritant", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/GHS-pictogram-exclam.svg/100px-GHS-pictogram-exclam.svg.png", desc: "Irritant / Sensibilisant" },
+    { id: "SGH08", title: "Danger Santé", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GHS-pictogram-silhouette.svg/100px-GHS-pictogram-silhouette.svg.png", desc: "CMR / Danger long terme" },
+    { id: "SGH09", title: "Environnement", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/GHS-pictogram-pollut.svg/100px-GHS-pictogram-pollut.svg.png", desc: "Toxicité aquatique" }
 ];
 
 const questions = [
