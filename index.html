@@ -537,9 +537,8 @@ function startScanner() {
     const scanner = new Html5Qrcode("reader");
     scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
         document.getElementById('prod-code').value = text;
-        scanner.stop(); // On arrête la caméra dès que le code est lu
+        scanner.stop(); 
         
-        // On lance automatiquement la vérification dans Supabase
         const { data, error } = await sb
             .from('inventaire_utilisateurs')
             .select('*')
@@ -551,68 +550,46 @@ function startScanner() {
             const produit = data[0];
             document.getElementById('prod-name').value = produit.nom_produit;
             document.getElementById('prod-url').value = produit.url_fds;
-            // Ouverture directe de la FDS sans demander confirmation
-            alert("Produit trouvé dans la base ! Ouverture de la FDS...");
+            alert("Produit connu ! Ouverture de la FDS.");
             window.open(produit.url_fds, '_blank');
         } else {
-            alert("Nouveau code scanné : " + text + "\nComplétez le nom et l'URL pour l'enregistrer.");
+            alert("Nouveau produit détecté !");
         }
-    }).catch(err => alert("Erreur caméra : " + err));
+    });
 }
 
-function searchFDS() {
-    const name = document.getElementById('prod-name').value;
-    if(!name) return alert("Saisissez un nom.");
-    window.open(`https://www.google.com/search?q=${encodeURIComponent(name + " FDS filetype:pdf")}`, '_blank');
-}
-
-// --- RENDU LEXIQUE & CENTRES ---
+// --- LES FONCTIONS QUI MANQUAIENT ---
 
 function renderSGH() {
     const container = document.getElementById('sgh-list');
     if (!container) return;
-
-    container.innerHTML = ''; // On vide avant de remplir
-    
-    sghData.forEach(item => {
-        container.innerHTML += `
-            <div class="card-custom sgh-card">
-                <img src="${item.img}" alt="${item.title}" class="sgh-img" 
-                     onerror="this.src='https://placehold.co/65x65/white/dc3545?text=${item.id}'">
-                <div>
-                    <h6 class="fw-bold mb-1">${item.id} : ${item.title}</h6>
-                    <p class="small text-muted mb-0">${item.desc}</p>
-                </div>
-            </div>`;
-    });
-}
-}
-
-function renderCentres() {
-    const container = document.getElementById('centres-list');
-    if (!container) return; // Sécurité : évite une erreur si l'élément n'est pas trouvé
-
-    container.innerHTML = centres.map(c => `
-        <div class="card-custom">
-            <h6 class="fw-bold mb-1" style="color: var(--r-blue);">${c.n}</h6>
-            <p class="small text-muted mb-2">
-                <i class="fa-solid fa-location-dot me-1"></i> ${c.a}
-            </p>
-            <div class="d-flex gap-2">
-                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
-                    <i class="fa-solid fa-phone me-2"></i>Appeler
-                </a>
-                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-inline-flex align-items-center justify-content-center" style="border-radius: 12px; font-weight:600;">
-                    <i class="fa-solid fa-route me-2"></i>Y aller
-                </a>
+    container.innerHTML = sghData.map(item => `
+        <div class="card-custom sgh-card">
+            <img src="${item.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65/white/dc3545?text=${item.id}'">
+            <div>
+                <h6 class="fw-bold mb-1">${item.id} : ${item.title}</h6>
+                <p class="small text-muted mb-0">${item.desc}</p>
             </div>
         </div>`).join('');
 }
 
-// Initialisation
-window.onload = () => { 
-    updateStats(); 
-    showQuestion(); 
+function renderCentres() {
+    const container = document.getElementById('centres-list');
+    if (!container) return;
+    container.innerHTML = centres.map(c => `
+        <div class="card-custom">
+            <h6 class="fw-bold mb-1" style="color: var(--r-blue);">${c.n}</h6>
+            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-1"></i> ${c.a}</p>
+            <div class="d-flex gap-2">
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-inline-flex align-items-center justify-content-center" style="border-radius: 12px;"><i class="fa-solid fa-route me-2"></i>Y aller</a>
+            </div>
+        </div>`).join('');
+}
+
+// Initialisation au chargement
+window.onload = () => {
+    updateStats();
 };
 </script>
 </body>
