@@ -302,17 +302,33 @@ function updateStats() {
     if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
 }
 function nav(id, el) {
+    // 1. Masquer toutes les pages
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    
+    // 2. Retirer l'état actif de tous les boutons de navigation
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    // 3. Afficher la page cible
     const target = document.getElementById(id);
-    if(target) target.classList.add('active-page');
-    if(el) el.classList.add('active');
+    if (target) target.classList.add('active-page');
+
+    // 4. Gérer le bouton actif (sécurité si el est une string ou null)
+    if (el && typeof el === 'object' && el.classList) {
+        el.classList.add('active');
+    } else if (typeof el === 'string') {
+        const navEl = document.getElementById(el);
+        if (navEl) navEl.classList.add('active');
+    }
    
+    // 5. Déclencher les rendus spécifiques
     if(id === 'page-list') { renderInventory(); document.getElementById('archives-container').style.display = 'none'; }
-    if(id === 'page-sgh') renderSGH();
+    if(id === 'page-sgh') renderSGH(); // C'est cette ligne qui sera enfin exécutée !
     if(id === 'page-centres') renderCentres();
     if(id === 'page-quiz') resetQuiz();
+    
     window.scrollTo(0, 0);
+}
+
 }
 // --- GESTION INVENTAIRE ---
 function renderInventory() {
