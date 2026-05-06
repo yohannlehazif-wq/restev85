@@ -134,11 +134,17 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
+// Liens d'images mis à jour pour garantir l'affichage
 const sghData = [
-    { id: "SGH02", title: "Inflammable", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/GHS-pictogram-flamme.svg/200px-GHS-pictogram-flamme.svg.png", desc: "Produits qui brûlent facilement." },
-    { id: "SGH05", title: "Corrosif", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/GHS-pictogram-acid.svg/200px-GHS-pictogram-acid.svg.png", desc: "Attaque les métaux et la peau." },
-    { id: "SGH06", title: "Toxique", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/GHS-pictogram-skull.svg/200px-GHS-pictogram-skull.svg.png", desc: "Empoisonnement rapide." },
-    { id: "SGH08", title: "Danger Santé", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/GHS-pictogram-silhouete.svg/200px-GHS-pictogram-silhouete.svg.png", desc: "Effets CMR (Cancer, etc)." }
+    { id: "SGH01", title: "Explosif", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh01.png", desc: "Matières explosives ou autoréactives." },
+    { id: "SGH02", title: "Inflammable", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh02.png", desc: "Produits qui brûlent facilement au contact d'une flamme." },
+    { id: "SGH03", title: "Comburant", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh03.png", desc: "Peut provoquer ou aggraver un incendie." },
+    { id: "SGH04", title: "Gaz sous pression", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh04.png", desc: "Bouteilles de gaz, risque d'explosion sous l'effet de la chaleur." },
+    { id: "SGH05", title: "Corrosif", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh05.png", desc: "Attaque les métaux et provoque des brûlures de la peau." },
+    { id: "SGH06", title: "Toxique", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh06.png", desc: "Empoisonnement rapide même à faible dose." },
+    { id: "SGH07", title: "Irritant", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh07.png", desc: "Provoque des irritations, somnolence ou allergies." },
+    { id: "SGH08", title: "Danger Santé", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh08.png", desc: "Effets graves à long terme (Cancer, mutation, etc)." },
+    { id: "SGH09", title: "Environnement", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh09.png", desc: "Polluant pour les poissons et la nature." }
 ];
 
 const questions = ["DUERP à jour ?", "Salariés formés ?", "FDS accessibles ?", "EPI portés ?", "Stockage conforme ?"];
@@ -157,8 +163,9 @@ function updateStats() {
 function nav(id, el) {
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(id).classList.add('active-page');
-    if(el) el.classList.add('active');
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active-page');
+    if(el && typeof el === 'object') el.classList.add('active');
     
     if(id === 'page-list') renderInventory();
     if(id === 'page-sgh') renderSGH();
@@ -180,16 +187,25 @@ function renderInventory() {
 
 function renderSGH() {
     const c = document.getElementById('sgh-list');
-    c.innerHTML = sghData.map(i => `<div class="card-custom sgh-card"><img src="${i.img}" class="sgh-img"><div><b>${i.title}</b><br><small>${i.desc}</small></div></div>`).join('');
+    if(!c) return;
+    c.innerHTML = sghData.map(i => `
+        <div class="card-custom sgh-card">
+            <img src="${i.img}" class="sgh-img" alt="${i.title}">
+            <div>
+                <b class="d-block">${i.id} - ${i.title}</b>
+                <small class="text-muted">${i.desc}</small>
+            </div>
+        </div>`).join('');
 }
 
 function renderCentres() {
     const c = document.getElementById('centres-list');
+    if(!c) return;
     const data = [
-        { n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton", map: "https://maps.app.goo.gl/4XfQ9" },
-        { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945", map: "https://maps.app.goo.gl/7YhR1" },
-        { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres", map: "https://maps.app.goo.gl/9ZkL3" },
-        { n: "Les Essarts", t: "0251080601", a: "ZI La Belle Entrée Sud", map: "https://maps.app.goo.gl/1WpM2" }
+        { n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton", map: "https://goo.gl/maps/1" },
+        { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945", map: "https://goo.gl/maps/2" },
+        { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres", map: "https://goo.gl/maps/3" },
+        { n: "Les Essarts", t: "0251080601", a: "ZI La Belle Entrée Sud", map: "https://goo.gl/maps/4" }
     ];
     c.innerHTML = data.map(i => `
         <div class="card-custom">
@@ -223,7 +239,11 @@ function startScanner() {
     });
 }
 
-function showQuestion() { document.getElementById('q-text').innerText = questions[currentQ]; }
+function showQuestion() { 
+    const q = document.getElementById('q-text');
+    if(q) q.innerText = questions[currentQ]; 
+}
+
 function quizAnswer(p) {
     totalScore += p; currentQ++;
     if(currentQ < questions.length) showQuestion();
@@ -233,20 +253,14 @@ function quizAnswer(p) {
         document.getElementById('quiz-score').innerText = "Score : " + totalScore + "/15";
     }
 }
+
 function resetQuiz() {
     currentQ = 0; totalScore = 0;
-    document.getElementById('q-box').style.display='block';
-    document.getElementById('q-result').style.display='none';
+    const qb = document.getElementById('q-box');
+    const qr = document.getElementById('q-result');
+    if(qb) qb.style.display='block';
+    if(qr) qr.style.display='none';
     showQuestion();
-}
-
-function exportCSV() {
-    let csv = "Nom,Code,URL_FDS\n";
-    inventory.forEach(i => csv += `${i.name},${i.code},${i.fdsUrl}\n`);
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'inventaire_restev.csv'; a.click();
 }
 
 window.onload = updateStats;
