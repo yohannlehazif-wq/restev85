@@ -324,9 +324,7 @@ let currentQ = 0, totalScore = 0;
 function dismissSplash() {
     const splash = document.getElementById('splash');
     splash.style.opacity = '0';
-    setTimeout(() => {
-        splash.style.display = 'none';
-    }, 800);
+    setTimeout(() => { splash.style.display = 'none'; }, 800);
 }
 
 function updateStats() {
@@ -339,13 +337,12 @@ function nav(id, el) {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     const target = document.getElementById(id);
     if(target) target.classList.add('active-page');
-    if(typeof el === 'string') {
-        const btn = document.getElementById(el);
-        if(btn) btn.classList.add('active');
-    } else if(el) el.classList.add('active');
+    if(el) el.classList.add('active');
+    
     if(id === 'page-list') { renderInventory(); document.getElementById('archives-container').style.display = 'none'; }
     if(id === 'page-sgh') renderSGH();
     if(id === 'page-centres') renderCentres();
+    if(id === 'page-quiz') resetQuiz();
     window.scrollTo(0, 0);
 }
 
@@ -390,35 +387,27 @@ async function saveProduct() {
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
     if (code) {
-        const { error } = await sb
-            .from('produits_chimiques')
-            .upsert([{ 
-                code_barres: code, 
-                nom_produit: name, 
-                url_fds: fdsUrl 
-            }], { onConflict: 'code_barres' });
-
-        if (error) console.error("Erreur Cloud:", error);
+        await sb.from('produits_chimiques').upsert([{ 
+            code_barres: code, nom_produit: name, url_fds: fdsUrl 
+        }], { onConflict: 'code_barres' });
     }
 
     document.getElementById('prod-name').value = '';
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
-    
     updateStats();
-    nav('page-list', 'nav-list');
+    nav('page-list', document.getElementById('nav-list'));
 }
 
 function deleteItem(id) {
     if(confirm("Supprimer ce produit ?")) {
         inventory = inventory.filter(i => i.id !== id);
         localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-        renderInventory(); 
-        updateStats();
+        renderInventory(); updateStats();
     }
 }
 
-// --- PDF ET ARCHIVES ---
+// --- PDF & EXPORT ---
 
 async function generatePDFProof() {
     if (inventory.length === 0) return alert("Votre inventaire est vide.");
@@ -428,7 +417,6 @@ async function generatePDFProof() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     doc.setFontSize(18); doc.setTextColor(48, 101, 168); doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
-    
     const tableData = inventory.map((item, index) => [index + 1, item.name, item.code || "Manuelle", item.fdsUrl ? "Oui" : "Non"]);
     doc.autoTable({ startY: 40, head: [['N°', 'Nom', 'Code', 'FDS']], body: tableData });
 
@@ -440,9 +428,12 @@ async function generatePDFProof() {
         const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(fileName);
         await sb.from('historique_pdf').insert([{ entreprise: companyName, url_pdf: urlData.publicUrl, nb_produits: inventory.length }]);
         window.open(urlData.publicUrl, '_blank');
-    } catch (err) {
-        window.open(URL.createObjectURL(pdfBlob), '_blank');
-    }
+    } catch (err) { window.open(URL.createObjectURL(pdfBlob), '_blank'); }
+}
+
+function exportToCSV() {
+    let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;URL_FDS\r\n" + inventory.map(i => `${i.name};${i.code};${i.fdsUrl}`).join("\r\n");
+    const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
 }
 
 async function toggleArchives() {
@@ -462,13 +453,60 @@ async function toggleArchives() {
     }
 }
 
-// --- AUTRES ---
+// --- QUIZ ---
+
+function showQuestion() {
+    document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
+    document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+}
+
+function quizAnswer(p) {
+    totalScore += p; currentQ++;
+    if(currentQ < questions.length) {
+        showQuestion();
+    } else {
+        document.getElementById('q-box').style.display = 'none';
+        document.getElementById('q-result').style.display = 'block';
+        document.getElementById('quiz-score').innerText = totalScore + "/30";
+        let label = "Excellent !", advice = "Votre gestion de la prévention est mature.";
+        if(totalScore < 25) { label = "Bon début"; advice = "Quelques points sont à améliorer (FDS, formation)."; }
+        if(totalScore < 15) { label = "Action requise"; advice = "Contactez RESTEV pour un diagnostic DUERP prioritaire."; }
+        document.getElementById('quiz-label').innerText = label;
+        document.getElementById('quiz-advice').innerText = advice;
+    }
+}
+
+function resetQuiz() { 
+    currentQ = 0; totalScore = 0; 
+    document.getElementById('q-box').style.display='block'; 
+    document.getElementById('q-result').style.display='none'; 
+    showQuestion(); 
+}
+
+// --- SCANNER & RECHERCHE ---
 
 function searchFDS() {
     const name = document.getElementById('prod-name').value;
     if(!name) return alert("Saisissez un nom.");
     window.open(`https://www.google.com/search?q=${encodeURIComponent(name + " FDS filetype:pdf")}`, '_blank');
 }
+
+function startScanner() {
+    const scanner = new Html5Qrcode("reader");
+    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
+        document.getElementById('prod-code').value = text;
+        scanner.stop();
+        const { data } = await sb.from('produits_chimiques').select('*').eq('code_barres', text).single();
+        if (data) {
+            alert("Produit trouvé dans la base RESTEV !");
+            document.getElementById('prod-name').value = data.nom_produit;
+            document.getElementById('prod-url').value = data.url_fds;
+            if(data.url_fds && confirm("Ouvrir la FDS ?")) window.open(data.url_fds, '_blank');
+        }
+    }).catch(err => alert("Erreur caméra : " + err));
+}
+
+// --- RENDU LEXIQUE & CENTRES ---
 
 function renderSGH() {
     document.getElementById('sgh-list').innerHTML = sghData.map(s => `
@@ -486,65 +524,11 @@ function renderCentres() {
         </div>`).join('');
 }
 
-function quizAnswer(p) {
-    totalScore += p; currentQ++;
-    if(currentQ < questions.length) {
-        document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ];
-        document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%';
-    } else {
-        document.getElementById('q-box').style.display = 'none';
-        document.getElementById('q-result').style.display = 'block';
-        document.getElementById('quiz-score').innerText = totalScore + "/30";
-    }
-}
-
-function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; quizAnswer(0); currentQ=0; totalScore=0; }
-
-function startScanner() {
-    const scanner = new Html5Qrcode("reader");
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
-        document.getElementById('prod-code').value = text;
-        scanner.stop();
-        const { data } = await sb.from('produits_chimiques').select('*').eq('code_barres', text).single();
-        if (data) {
-            document.getElementById('prod-name').value = data.nom_produit;
-            document.getElementById('prod-url').value = data.url_fds;
-        }
-    }).catch(err => alert("Erreur caméra : " + err));
-}
-
-// Lancement initial
-updateStats();
-        // --- NOUVEAU : Recherche automatique ---
-        const { data, error } = await sb
-            .from('produits_chimiques')
-            .select('*')
-            .eq('code_barres', text)
-            .single();
-
-        if (data) {
-            alert("Produit trouvé dans la base RESTEV !");
-            document.getElementById('prod-name').value = data.nom_produit;
-            document.getElementById('prod-url').value = data.url_fds;
-            
-            // Si une FDS existe, on propose de l'ouvrir directement
-            if(data.url_fds && confirm("Une FDS est disponible pour ce produit. Voulez-vous l'ouvrir ?")) {
-                window.open(data.url_fds, '_blank');
-            }
-        } else {
-            console.log("Nouveau produit, veuillez compléter les infos.");
-        }
-    }).catch(err => alert("Erreur caméra : " + err));
-}
-
-function exportToCSV() {
-let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;URL_FDS\r\n" + inventory.map(i => `${i.name};${i.code};${i.fdsUrl}`).join("\r\n");
-const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
-}
-
-function updateStats() { document.getElementById('inv-stats').innerText = `${inventory.length} produit(s) enregistrés`; }
-function dismissSplash() { document.getElementById('splash').style.opacity = '0'; setTimeout(() => document.getElementById('splash').style.display = 'none', 800); }
-window.onload = () => { updateStats(); showQuestion(); };
+// Initialisation
+window.onload = () => { 
+    updateStats(); 
+    showQuestion(); 
+};
 </script>
 </body>
 </html>
