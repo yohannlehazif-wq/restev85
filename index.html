@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>RESTEV 85 - Expert Prévention</title>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#3065a8">
 <link rel="icon" type="image/png" href="logo_restev_carre.png">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RESTEV 85">
@@ -18,34 +20,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
 body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-
 #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
 @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
 @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+
 .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
 .logo-header { height: 40px; }
 .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 .ticker { display: inline-block; animation: ticker 25s linear infinite; }
 .ticker span { padding-right: 50px; }
 @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
 .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
 .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
 .nav-item.active { color: var(--r-blue); }
 .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+
 .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
 .active-page { display: block !important; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
 .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 .sgh-card { display: flex; gap: 15px; align-items: center; }
-.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; background: #f8f9fa; padding: 5px; border-radius: 8px; }
+.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+.btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
+.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+.badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+.archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
 </style>
 </head>
 <body>
@@ -77,14 +88,30 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
 </div>
 <div class="row g-2">
-<div class="col-6" onclick="nav('page-scan', 'nav-scan')"><div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div></div>
-<div class="col-6" onclick="nav('page-quiz', 'nav-quiz')"><div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div></div>
-<div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div></div>
-<div class="col-6" onclick="nav('page-list', 'nav-list')"><div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div></div>
-<div class="col-6" onclick="nav('page-services', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div></div>
-<div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div></div>
-<div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')"><div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div></div>
-<div class="col-6" onclick="nav('page-centres', 'nav-centres')"><div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div></div>
+<div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
+</div>
+<div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
+</div>
+<div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
+</div>
+<div class="col-6" onclick="nav('page-list', 'nav-list')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
+</div>
+<div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
+</div>
+<div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
+</div>
+<div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
+</div>
+<div class="col-6" onclick="nav('page-centres', 'nav-centres')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div>
+</div>
 </div>
 </div>
 
@@ -121,31 +148,10 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </div>
 </div>
 
-<div id="page-sgh" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>Lexique des Pictogrammes SGH</h5>
-    <div id="sgh-list"></div>
-</div>
-
-<div class="card-custom" style="border-left-color: var(--r-purple);">
-<div class="badge-service" style="background-color: var(--r-purple)">SENSIBILISATION</div>
-<h6>Ateliers et Formations</h6>
-<p class="small text-muted mb-0">Nous organisons régulièrement des ateliers pour vos équipes : Risques Psycho-Sociaux (RPS), manipulation des produits chimiques (CMR), analyse des accidents du travail, et sensibilisation au sommeil/addictions.</p>
-</div>
-<div class="card-custom" style="border-left-color: var(--r-teal);">
-<div class="badge-service" style="background-color: var(--r-teal)">MAINTIEN DANS L'EMPLOI</div>
-<h6>Cellule PDP</h6>
-<p class="small text-muted mb-0">La cellule de Prévention de la Désinsertion Professionnelle (PDP) accompagne les salariés rencontrant des problèmes de santé impactant leur travail, afin d'anticiper et d'éviter l'inaptitude (aménagements de poste, reconversion).</p>
-</div>
-<div class="mt-4">
-<a href="https://www.restev.fr/" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
-<i class="fa-solid fa-globe me-2"></i> CONSULTER LE SITE OFFICIEL
-</a>
-</div>
-</div>
-
 <div id="page-aides" class="app-page">
 <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides & Partenaires</h5>
 <p class="small text-muted mb-4">Bénéficiez d'aides financières et d'outils sectoriels pour investir dans la sécurité de vos salariés.</p>
+
 <div class="card-custom" style="border-left-color: #e6a00f;">
 <div class="d-flex align-items-center mb-2">
 <i class="fa-solid fa-euro-sign fa-2x text-warning me-3"></i>
@@ -154,6 +160,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <p class="small text-muted mb-2">Aides financières pour les TPE/PME (Subventions Prévention TPE) permettant de financer du matériel réduisant les risques (TMS, risques chimiques, maladies professionnelles).</p>
 <a href="https://www.carsat-pl.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat Pays de la Loire</a>
 </div>
+
 <div class="card-custom" style="border-left-color: #3065a8;">
 <div class="d-flex align-items-center mb-2">
 <i class="fa-solid fa-book-open-reader fa-2x text-primary me-3"></i>
@@ -162,6 +169,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <p class="small text-muted mb-2">L'Institut National de Recherche et de Sécurité propose des guides, des affiches et des outils gratuits (Seirich pour le risque chimique, Mavimplant).</p>
 <a href="https://www.inrs.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Accéder aux ressources INRS</a>
 </div>
+
 <div class="card-custom" style="border-left-color: #dc3545;">
 <div class="d-flex align-items-center mb-2">
 <i class="fa-solid fa-helmet-safety fa-2x text-danger me-3"></i>
@@ -170,6 +178,14 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <p class="small text-muted mb-2">Pour les professionnels de la construction : aides spécifiques pour l'achat d'échafaudages, de bases vie ou d'outils anti-vibrations.</p>
 <a href="https://www.preventionbtp.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Visiter Prévention BTP</a>
 </div>
+</div>
+
+<div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide'); renderSGH();">
+    <div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;">
+        <i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i>
+        <br>
+        <small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small>
+    </div>
 </div>
 
 <div id="page-list" class="app-page">
@@ -182,10 +198,13 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <i class="fa-solid fa-file-pdf"></i> ATTESTATION
 </button>
 </div>
+
 <button class="btn btn-outline-secondary w-100 mb-3" onclick="toggleArchives()" style="border-radius: 12px; font-size: 0.8rem; border-style: dashed;">
 <i class="fa-solid fa-clock-rotate-left me-2"></i> VOIR LES ATTESTATIONS ARCHIVÉES
 </button>
+
 <div id="inventory-container"></div>
+
 <div id="archives-container" style="display:none;" class="mt-4 pt-3 border-top">
 <h6 class="fw-bold mb-3 text-muted">Historique Supabase</h6>
 <div id="archives-list"></div>
@@ -237,6 +256,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <button class="btn btn-warning text-white" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
 </div>
 </div>
+
 <div class="mb-3">
     <label class="small fw-bold text-muted mb-1">Code-barres (facultatif)</label>
     <div class="input-group">
@@ -244,12 +264,13 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <button class="btn btn-info text-white fw-bold" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
     </div>
 </div>
-   
+    
 <div class="mb-3">
 <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
 <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
 <small class="text-muted" style="font-size:0.65rem;">Copiez l'adresse du lien trouvé sur Google et collez-la ici.</small>
 </div>
+
 <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
 </div>
 </div>
@@ -279,7 +300,7 @@ const centres = [
 ];
 
 const sghData = [
- { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
+    { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
     { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
     { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
     { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
@@ -545,19 +566,14 @@ function startScanner() {
 function renderSGH() {
     const container = document.getElementById('sgh-list');
     if (!container) return;
-    
     container.innerHTML = sghData.map(item => `
         <div class="card-custom sgh-card">
-            <img src="${item.img}" 
-                 class="sgh-img" 
-                 alt="${item.title}"
-                 onerror="this.src='https://placehold.co/65x65/ffc107/212529?text=${item.id}'">
+            <img src="${item.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65/white/dc3545?text=${item.id}'">
             <div>
-                <h6 class="fw-bold mb-1">${item.id} - ${item.title}</h6>
+                <h6 class="fw-bold mb-1">${item.id} : ${item.title}</h6>
                 <p class="small text-muted mb-0">${item.desc}</p>
             </div>
-        </div>
-    `).join('');
+        </div>`).join('');
 }
 
 function renderCentres() {
