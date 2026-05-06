@@ -18,9 +18,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <style>
 :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
 body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+/* ... Tous tes styles restent inchangés ... */
 #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
 @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
@@ -44,7 +46,6 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 .sgh-card { display: flex; gap: 15px; align-items: center; }
 .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
 .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
 .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
 .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
 .archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
@@ -310,12 +311,12 @@ const centres = [
 
 const sghData = [
    const sghData = [
-    { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
+   { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
     { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
     { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
     { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
     { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-    { id: "SGH06", title: "Toxique", img: "SGH06_TeteDeMort.jpg", desc: "Toxicité aiguë" },
+    { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
     { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
     { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
     { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
@@ -575,8 +576,8 @@ function startScanner() {
 
 function renderSGH() {
     const container = document.getElementById('sgh-list');
-    if (!container) return console.error("Conteneur #sgh-list introuvable");
-
+    if (!container) return;
+    
     container.innerHTML = sghData.map(item => `
         <div class="card-custom sgh-card">
             <img src="${item.img}" 
