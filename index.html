@@ -448,18 +448,41 @@ alert("Sauvegarde cloud échouée, ouverture du fichier local.");
 }
 }
 
-function saveProduct() {
-const name = document.getElementById('prod-name').value;
-const code = document.getElementById('prod-code').value;
-const fdsUrl = document.getElementById('prod-url').value;
+async function saveProduct() {
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value;
+    const fdsUrl = document.getElementById('prod-url').value;
 
-if(!name) return alert("Veuillez saisir au moins le nom du produit.");
-inventory.push({
-id: Date.now(),
-name: name,
-code: code,
-fdsUrl: fdsUrl
-});
+    if(!name) return alert("Veuillez saisir au moins le nom du produit.");
+
+    // 1. Sauvegarde Locale (pour votre liste actuelle)
+    const newProduct = { id: Date.now(), name, code, fdsUrl };
+    inventory.push(newProduct);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+
+    // 2. Sauvegarde sur Supabase (pour enrichir la base commune)
+    if (code) {
+        const { error } = await sb
+            .from('produits_chimiques')
+            .upsert([
+                { 
+                    code_barres: code, 
+                    nom_produit: name, 
+                    url_fds: fdsUrl 
+                }
+            ], { onConflict: 'code_barres' });
+
+        if (error) console.error("Erreur Cloud:", error);
+    }
+
+    // Réinitialisation et navigation
+    document.getElementById('prod-name').value = '';
+    document.getElementById('prod-code').value = '';
+    document.getElementById('prod-url').value = '';
+    
+    updateStats();
+    nav('page-list', 'nav-list');
+}
 
 localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 // Nettoyage des champs
