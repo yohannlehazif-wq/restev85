@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Expert Prévention</title>
-    
-    <!-- PWA & Meta -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3065a8">
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RESTEV 85 - Expert Prévention</title>
 
-    <!-- Preconnects pour meilleures performances -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://unpkg.com">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3065a8">
+<link rel="icon" type="image/png" href="logo_restev_carre.png">
 
-    <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RESTEV 85">
+<link rel="apple-touch-icon" href="logo_restev_carre.png">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
 :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
 body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
 #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
@@ -282,9 +282,11 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 
 <script>
 // --- CONFIGURATION SUPABASE ---
-const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
 const centres = [
@@ -568,70 +570,50 @@ function searchFDS() {
 
 function renderSGH() {
     const container = document.getElementById('sgh-list');
-    container.innerHTML = '';
+    if (!container) return;
 
-    sghData.forEach(sgh => {
-        const div = document.createElement('div');
-        div.className = 'card-custom sgh-card';
-        div.innerHTML = `
-            <img src="${sgh.img}" 
-                 class="sgh-img" 
-                 alt="${sgh.title}"
-                 onerror="this.src='https://placehold.co/65x65?text=${sgh.id}'">
-            <div>
-                <h6 class="fw-bold mb-1">${sgh.id} - ${sgh.title}</h6>
-                <p class="small text-muted mb-0">${sgh.desc}</p>
-            </div>
-        `;
-        container.appendChild(div);
+    container.innerHTML = ''; // On vide avant de remplir
+    
+    sghData.forEach(item => {
+        container.innerHTML += `
+            <div class="card-custom sgh-card">
+                <img src="${item.img}" alt="${item.title}" class="sgh-img" 
+                     onerror="this.src='https://placehold.co/65x65/white/dc3545?text=${item.id}'">
+                <div>
+                    <h6 class="fw-bold mb-1">${item.id} : ${item.title}</h6>
+                    <p class="small text-muted mb-0">${item.desc}</p>
+                </div>
+            </div>`;
     });
+}
 }
 
 function renderCentres() {
     const container = document.getElementById('centres-list');
-    container.innerHTML = '<div class="row g-3"></div>';
-    const row = container.querySelector('.row');
+    if (!container) return; // Sécurité : évite une erreur si l'élément n'est pas trouvé
 
-    centres.forEach(c => {
-        const col = document.createElement('div');
-        col.className = 'col-12';
-        col.innerHTML = `
-            <div class="card-custom">
-                <h6 class="fw-bold">${c.n}</h6>
-                <p class="small mb-1">
-                    <i class="fa-solid fa-phone text-success"></i> 
-                    <a href="tel:${c.t}" class="text-decoration-none">${c.t}</a>
-                </p>
-                <p class="small mb-2">${c.a}</p>
-                
-                <!-- Version lien simple -->
-                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mb-2">
-                    <i class="fa-solid fa-map-location-dot"></i> Ouvrir dans Google Maps
+    container.innerHTML = centres.map(c => `
+        <div class="card-custom">
+            <h6 class="fw-bold mb-1" style="color: var(--r-blue);">${c.n}</h6>
+            <p class="small text-muted mb-2">
+                <i class="fa-solid fa-location-dot me-1"></i> ${c.a}
+            </p>
+            <div class="d-flex gap-2">
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
+                    <i class="fa-solid fa-phone me-2"></i>Appeler
                 </a>
-                
-                <!-- Version carte intégrée (recommandé) -->
-                <iframe 
-                    width="100%" 
-                    height="200" 
-                    style="border-radius:12px; border:none;"
-                    loading="lazy"
-                    allowfullscreen
-                  src="https://www.google.com/maps/embed/v1/place?key=TA_CLE_API&q=${encodeURIComponent(c.a)}"
-                </iframe>
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-inline-flex align-items-center justify-content-center" style="border-radius: 12px; font-weight:600;">
+                    <i class="fa-solid fa-route me-2"></i>Y aller
+                </a>
             </div>
-        `;
-        row.appendChild(col);
-    });
+        </div>`).join('');
 }
 
 // Initialisation
-window.onload = () => {
-            updateStats();
-            // showQuestion() → à appeler seulement si on est sur la page quiz
-            if (document.getElementById('page-quiz').classList.contains('active-page')) {
-                resetQuiz();
-            }
-        };
+window.onload = () => { 
+    updateStats(); 
+    showQuestion(); 
+};
 </script>
 </body>
 </html>
