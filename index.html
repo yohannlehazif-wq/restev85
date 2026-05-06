@@ -38,7 +38,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 .sgh-card { display: flex; gap: 15px; align-items: center; }
-.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+.sgh-img { width: 65px; height: 65px; object-fit: contain; }
 .btn-call { background: var(--r-teal); color: white; text-decoration: none; padding: 8px 15px; border-radius: 12px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; }
 </style>
 </head>
@@ -75,34 +75,18 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     </div>
 </div>
 
-<div id="page-list" class="app-page">
-    <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-    <div class="d-flex gap-2 mb-3">
-        <button class="btn btn-secondary flex-grow-1" onclick="exportCSV()"><i class="fa-solid fa-file-csv"></i> CSV</button>
-        <button class="btn btn-danger flex-grow-1" onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-    </div>
-    <div id="inventory-container"></div>
-</div>
-
-<div id="page-sgh" class="app-page">
-    <h5 class="fw-bold mb-3">Pictogrammes SGH</h5>
-    <div id="sgh-list"></div>
-</div>
-
-<div id="page-centres" class="app-page">
-    <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
-    <div id="centres-list"></div>
-</div>
-
+<div id="page-list" class="app-page"><h5 class="fw-bold mb-3">Mon Parc Chimique</h5><div id="inventory-container"></div></div>
+<div id="page-sgh" class="app-page"><h5 class="fw-bold mb-3">Pictogrammes SGH</h5><div id="sgh-list"></div></div>
+<div id="page-centres" class="app-page"><h5 class="fw-bold mb-3">Nos Centres</h5><div id="centres-list"></div></div>
 <div id="page-quiz" class="app-page">
-    <h5 class="fw-bold mb-3">Auto-Diag Prévention</h5>
-    <div class="card-custom" id="q-box">
-        <p id="q-text" class="fw-bold mb-4"></p>
-        <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2">Oui, tout à fait</button>
-        <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100">Pas encore</button>
+    <h5 class="fw-bold mb-3">Auto-Diag</h5>
+    <div id="q-box">
+        <p id="q-text" class="fw-bold"></p>
+        <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3">Oui, tout à fait</button>
+        <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 py-3">Pas encore</button>
     </div>
     <div id="q-result" style="display:none;" class="text-center">
-        <h3 id="quiz-score" class="fw-bold"></h3>
+        <h3 id="quiz-score" class="fw-bold mb-3"></h3>
         <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5">Recommencer</button>
     </div>
 </div>
@@ -134,17 +118,12 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
-// Liens d'images mis à jour pour garantir l'affichage
 const sghData = [
-    { id: "SGH01", title: "Explosif", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh01.png", desc: "Matières explosives ou autoréactives." },
-    { id: "SGH02", title: "Inflammable", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh02.png", desc: "Produits qui brûlent facilement au contact d'une flamme." },
-    { id: "SGH03", title: "Comburant", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh03.png", desc: "Peut provoquer ou aggraver un incendie." },
-    { id: "SGH04", title: "Gaz sous pression", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh04.png", desc: "Bouteilles de gaz, risque d'explosion sous l'effet de la chaleur." },
-    { id: "SGH05", title: "Corrosif", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh05.png", desc: "Attaque les métaux et provoque des brûlures de la peau." },
-    { id: "SGH06", title: "Toxique", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh06.png", desc: "Empoisonnement rapide même à faible dose." },
-    { id: "SGH07", title: "Irritant", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh07.png", desc: "Provoque des irritations, somnolence ou allergies." },
-    { id: "SGH08", title: "Danger Santé", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh08.png", desc: "Effets graves à long terme (Cancer, mutation, etc)." },
-    { id: "SGH09", title: "Environnement", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh09.png", desc: "Polluant pour les poissons et la nature." }
+    { id: "SGH01", title: "Explosif", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh01.png", desc: "Explosifs." },
+    { id: "SGH02", title: "Inflammable", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh02.png", desc: "Brûle facilement." },
+    { id: "SGH05", title: "Corrosif", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh05.png", desc: "Attaque la peau/métal." },
+    { id: "SGH06", title: "Toxique", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh06.png", desc: "Danger de mort." },
+    { id: "SGH08", title: "Danger Santé", img: "https://www.evolis.com/wp-content/uploads/2023/03/sgh08.png", desc: "Effets CMR." }
 ];
 
 const questions = ["DUERP à jour ?", "Salariés formés ?", "FDS accessibles ?", "EPI portés ?", "Stockage conforme ?"];
@@ -163,10 +142,8 @@ function updateStats() {
 function nav(id, el) {
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    const target = document.getElementById(id);
-    if(target) target.classList.add('active-page');
-    if(el && typeof el === 'object') el.classList.add('active');
-    
+    document.getElementById(id).classList.add('active-page');
+    if(el) el.classList.add('active');
     if(id === 'page-list') renderInventory();
     if(id === 'page-sgh') renderSGH();
     if(id === 'page-centres') renderCentres();
@@ -177,39 +154,24 @@ function renderInventory() {
     const container = document.getElementById('inventory-container');
     container.innerHTML = inventory.length ? '' : '<p class="text-center mt-4">Aucun produit.</p>';
     inventory.forEach(item => {
-        container.innerHTML += `
-        <div class="card-custom">
-            <b>${item.name}</b><br><small>${item.code || 'Manuel'}</small>
-            <div class="mt-2"><a href="${item.fdsUrl}" target="_blank" class="btn btn-sm btn-danger w-100">FDS PDF</a></div>
-        </div>`;
+        container.innerHTML += `<div class="card-custom"><b>${item.name}</b><br><a href="${item.fdsUrl}" target="_blank" class="btn btn-sm btn-danger mt-2 w-100">FDS PDF</a></div>`;
     });
 }
 
 function renderSGH() {
-    const c = document.getElementById('sgh-list');
-    if(!c) return;
-    c.innerHTML = sghData.map(i => `
-        <div class="card-custom sgh-card">
-            <img src="${i.img}" class="sgh-img" alt="${i.title}">
-            <div>
-                <b class="d-block">${i.id} - ${i.title}</b>
-                <small class="text-muted">${i.desc}</small>
-            </div>
-        </div>`).join('');
+    document.getElementById('sgh-list').innerHTML = sghData.map(i => `<div class="card-custom sgh-card"><img src="${i.img}" class="sgh-img"><div><b>${i.title}</b><br><small>${i.desc}</small></div></div>`).join('');
 }
 
 function renderCentres() {
-    const c = document.getElementById('centres-list');
-    if(!c) return;
     const data = [
         { n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton", map: "https://goo.gl/maps/1" },
         { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945", map: "https://goo.gl/maps/2" },
         { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres", map: "https://goo.gl/maps/3" },
         { n: "Les Essarts", t: "0251080601", a: "ZI La Belle Entrée Sud", map: "https://goo.gl/maps/4" }
     ];
-    c.innerHTML = data.map(i => `
+    document.getElementById('centres-list').innerHTML = data.map(i => `
         <div class="card-custom">
-            <h6 class="fw-bold">${i.n}</h6><p class="small text-muted">${i.a}</p>
+            <h6>${i.n}</h6><p class="small text-muted">${i.a}</p>
             <div class="d-flex gap-2">
                 <a href="tel:${i.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
                 <a href="${i.map}" target="_blank" class="btn btn-outline-primary flex-grow-1"><i class="fa-solid fa-location-dot"></i></a>
@@ -218,32 +180,33 @@ function renderCentres() {
 }
 
 async function saveProduct() {
-    const name = document.getElementById('prod-name').value;
-    const code = document.getElementById('prod-code').value;
-    const url = document.getElementById('prod-url').value;
-    if(!name) return alert("Nom requis");
-    const p = { id: Date.now(), name, code, fdsUrl: url };
+    const n = document.getElementById('prod-name').value;
+    const c = document.getElementById('prod-code').value;
+    const u = document.getElementById('prod-url').value;
+    if(!n) return alert("Nom requis");
+    const p = { id: Date.now(), name: n, code: c, fdsUrl: u };
     inventory.push(p);
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-    await sb.from('inventaire_utilisateurs').insert([{ nom_produit: name, code_barres: code, url_fds: url }]);
+    await sb.from('inventaire_utilisateurs').insert([{ nom_produit: n, code_barres: c, url_fds: u }]);
     updateStats();
     nav('page-list', document.getElementById('nav-list'));
 }
 
 function startScanner() {
     const s = new Html5Qrcode("reader");
-    s.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
+    s.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
         document.getElementById('prod-code').value = text;
         s.stop();
-        alert("Code détecté !");
+        const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', text).limit(1);
+        if (data && data[0]) {
+            document.getElementById('prod-name').value = data[0].nom_produit;
+            document.getElementById('prod-url').value = data[0].url_fds;
+            alert("Produit connu !");
+        }
     });
 }
 
-function showQuestion() { 
-    const q = document.getElementById('q-text');
-    if(q) q.innerText = questions[currentQ]; 
-}
-
+function showQuestion() { document.getElementById('q-text').innerText = questions[currentQ]; }
 function quizAnswer(p) {
     totalScore += p; currentQ++;
     if(currentQ < questions.length) showQuestion();
@@ -253,13 +216,10 @@ function quizAnswer(p) {
         document.getElementById('quiz-score').innerText = "Score : " + totalScore + "/15";
     }
 }
-
 function resetQuiz() {
     currentQ = 0; totalScore = 0;
-    const qb = document.getElementById('q-box');
-    const qr = document.getElementById('q-result');
-    if(qb) qb.style.display='block';
-    if(qr) qr.style.display='none';
+    document.getElementById('q-box').style.display='block';
+    document.getElementById('q-result').style.display='none';
     showQuestion();
 }
 
