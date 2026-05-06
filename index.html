@@ -219,33 +219,30 @@
         }
 
         // --- FONCTION SCANNER (RECHERCHE AUTO) ---
-        function startScanner() {
-            const scanner = new Html5Qrcode("reader");
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
-                const scannedCode = text.trim();
-                document.getElementById('prod-code').value = scannedCode;
+       scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
+    const scannedCode = text.trim();
+    document.getElementById('prod-code').value = scannedCode;
 
-                // Recherche immédiate sur Supabase
-                const { data, error } = await sb
-                    .from('produits_partages')
-                    .select('nom, url_fds')
-                    .eq('code', scannedCode)
-                    .maybeSingle();
+    // Recherche sur Supabase
+    const { data, error } = await sb
+        .from('produits_partages')
+        .select('nom, url_fds')
+        .eq('code', scannedCode)
+        .maybeSingle();
 
-                if (data && data.url_fds) {
-                    scanner.stop();
-                    if(confirm(`Produit trouvé : ${data.nom}\nSouhaitez-vous ouvrir la FDS PDF ?`)) {
-                        window.open(data.url_fds, '_blank');
-                    }
-                    // Remplissage auto pour l'ajout local
-                    document.getElementById('prod-name').value = data.nom;
-                    document.getElementById('prod-url').value = data.url_fds;
-                } else {
-                    console.log("Nouveau produit détecté.");
-                    // On peut laisser le scanner ou l'arrêter
-                }
-            }).catch(err => alert("Erreur caméra."));
-        }
+    if (data) {
+        // PRODUIT CONNU : On remplit le formulaire automatiquement
+        document.getElementById('prod-name').value = data.nom;
+        document.getElementById('prod-url').value = data.url_fds;
+        
+        // Optionnel : Stop scanner et message de succès
+        scanner.stop();
+        alert("Produit trouvé dans la base communautaire !");
+    } else {
+        // PRODUIT INCONNU : L'utilisateur doit aider la communauté
+        alert("Produit inconnu. Veuillez saisir le nom et le lien PDF pour aider la communauté.");
+    }
+});
 
         // --- AUTRES FONCTIONS (CENTRES, SGH, QUIZ) ---
         const centres = [
