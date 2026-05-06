@@ -1,110 +1,118 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Expert Prévention</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RESTEV 85 - Expert Prévention</title>
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3065a8">
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3065a8">
+<link rel="icon" type="image/png" href="logo_restev_carre.png">
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RESTEV 85">
+<link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <style>
-        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-        @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-        .logo-header { height: 40px; }
-        .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .ticker { display: inline-block; animation: ticker 25s linear infinite; }
-        .ticker span { padding-right: 50px; }
-        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
-        .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
-        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
+@keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
+@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+
+.app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+.logo-header { height: 40px; }
+.info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.ticker { display: inline-block; animation: ticker 25s linear infinite; }
+.ticker span { padding-right: 50px; }
+@keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+.nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+.nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
+.nav-item.active { color: var(--r-blue); }
+.nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+
+.app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
+.active-page { display: block !important; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.sgh-card { display: flex; gap: 15px; align-items: center; }
+.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+.btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
+.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+.badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+.archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
+</style>
 </head>
 <body>
 
 <div id="splash">
-    <div class="text-center text-white">
-        <img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
-        <h2 class="fw-bold mt-3">RESTEV 85</h2>
-        <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
-        <div class="mt-4" style="width: 150px; margin: auto;">
-            <svg viewBox="0 0 200 40"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
-        </div>
-    </div>
+<div class="text-center text-white">
+<img src="logo_restev_carre.png" alt="Logo" style="width: 120px; border-radius: 25px; background: white;" onerror="this.src='https://placehold.co/120x120/ffffff/3065a8?text=RESTEV'">
+<h2 class="fw-bold mt-3">RESTEV 85</h2>
+<button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
+<div class="mt-4" style="width: 150px; margin: auto;">
+<svg viewBox="0 0 200 40"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
+</div>
+</div>
 </div>
 
 <div class="app-header">
-    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+<img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
 </div>
 
 <div class="info-banner">
-    <div class="ticker">
-        <span><i class="fa-solid fa-bullhorn me-1"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-book-medical me-1"></i> INRS : Nouveaux outils d'évaluation des Risques Chimiques | <i class="fa-solid fa-helmet-safety me-1"></i> PRO BTP : Aides financières pour équipements de sécurité | <i class="fa-solid fa-circle-info me-1"></i> RESTEV : Pensez à mettre à jour votre DUERP !</span>
-    </div>
+<div class="ticker">
+<span><i class="fa-solid fa-bullhorn me-1"></i> CARSAT : Subventions "Prévention TPE" disponibles | <i class="fa-solid fa-book-medical me-1"></i> INRS : Nouveaux outils d'évaluation des Risques Chimiques | <i class="fa-solid fa-helmet-safety me-1"></i> PRO BTP : Aides financières pour équipements de sécurité | <i class="fa-solid fa-circle-info me-1"></i> RESTEV : Pensez à mettre à jour votre DUERP !</span>
+</div>
 </div>
 
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-        <h5 class="fw-bold mb-1">RESTEV 85</h5>
-        <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
-    </div>
-    <div class="row g-2">
-        <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-sgh', 'nav-home'); renderSGH();">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-list', 'nav-list')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-services', 'nav-home')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-aides', 'nav-home')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-fds-guide', 'nav-home')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
-        </div>
-        <div class="col-6" onclick="nav('page-centres', 'nav-centres')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div>
-        </div>
-    </div>
+<div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+<h5 class="fw-bold mb-1">RESTEV 85</h5>
+<p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+</div>
+<div class="row g-2">
+<div class="col-6" onclick="nav('page-scan', 'nav-scan')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
+</div>
+<div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
+</div>
+<div class="col-6" onclick="nav('page-sgh', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
+</div>
+<div class="col-6" onclick="nav('page-list', 'nav-list')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
+</div>
+<div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
+</div>
+<div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
+</div>
+<div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
+</div>
+<div class="col-6" onclick="nav('page-centres', 'nav-centres')">
+<div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div>
+</div>
+</div>
 </div>
 
 <div id="page-services" class="app-page">
@@ -222,68 +230,59 @@
 </div>
 </div>
 </div>
-<!-- CETTE SECTION ETAIT MANQUANTE DANS VOTRE CODE -->
-<div id="page-sgh" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>Lexique SGH</h5>
-    <p class="small text-muted mb-3">Identification des dangers chimiques selon le règlement CLP.</p>
-    <div id="sgh-list"></div>
-</div>
 
-<div id="page-list" class="app-page">
-    <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-    <div class="d-flex gap-2 mb-3">
-        <button class="btn-excel flex-grow-1 mb-0" onclick="exportToCSV()"><i class="fa-solid fa-file-csv"></i> EXPORT (CSV)</button>
-        <button class="btn btn-danger flex-grow-1 fw-bold text-white shadow-sm mb-0" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf"></i> ATTESTATION</button>
-    </div>
-    <div id="inventory-container"></div>
-</div>
-
-<div id="page-quiz" class="app-page">
-    <h5 class="fw-bold mb-3 text-center">Auto-Diag Prévention</h5>
-    <div class="card-custom" id="quiz-container">
-        <div id="q-box">
-            <div class="progress mb-3" style="height: 8px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 10%;"></div></div>
-            <p id="q-text" class="fw-bold mb-4" style="min-height: 60px;">Chargement...</p>
-            <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Oui, tout à fait</button>
-            <button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt oui</button>
-            <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt non</button>
-            <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-3 fw-bold">Pas du tout</button>
-        </div>
-        <div id="q-result" style="display: none;" class="text-center">
-            <div class="score-badge mb-2" id="quiz-score">0</div>
-            <h5 class="fw-bold mb-3" id="quiz-label">Calcul...</h5>
-            <p class="small text-muted mb-4" id="quiz-advice"></p>
-            <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5 py-2">Recommencer</button>
-        </div>
-    </div>
-</div>
-
-<div id="page-scan" class="app-page">
-    <h5 class="fw-bold mb-3">Ajouter un produit</h5>
-    <div class="card-custom">
-        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
-        <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
-        <div class="mb-3">
-            <label class="small fw-bold text-muted mb-1">Nom du produit</label>
-            <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
-        </div>
-        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
-    </div>
+<div id="page-fds-guide" class="app-page">
+<h5 class="fw-bold mb-3">Décrypter une FDS</h5>
+<div class="card-custom" style="border-left-color: #dc3545;"><h6><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Rubrique 2</h6><p class="small mb-0"><b>Dangers :</b> Les pictogrammes et phrases H (Risques) et P (Prudence).</p></div>
+<div class="card-custom" style="border-left-color: #198754;"><h6><i class="fa-solid fa-kit-medical text-success me-2"></i> Rubrique 4</h6><p class="small mb-0"><b>Premiers secours :</b> Gestes immédiats avant l'arrivée des secours.</p></div>
+<div class="card-custom" style="border-left-color: #3065a8;"><h6><i class="fa-solid fa-mask-ventilator text-primary me-2"></i> Rubrique 8</h6><p class="small mb-0"><b>Protections (EPI) :</b> Type exact de gants ou masques nécessaires.</p></div>
+<div class="card-custom" style="border-left-color: #fd7e14;"><h6><i class="fa-solid fa-fire-extinguisher text-warning me-2"></i> Rubrique 5</h6><p class="small mb-0"><b>Incendie :</b> Quels extincteurs utiliser (poudre, CO2, eau ?).</p></div>
 </div>
 
 <div id="page-centres" class="app-page">
-    <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
-    <div id="centres-list"></div>
+<h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+<div id="centres-list"></div>
+</div>
+
+<div id="page-scan" class="app-page">
+<h5 class="fw-bold mb-3">Ajouter un produit</h5>
+<div class="card-custom">
+<div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
+<button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
+<div class="mb-3">
+<label class="small fw-bold text-muted mb-1">Nom du produit</label>
+<div class="input-group">
+<input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
+<button class="btn btn-warning text-white" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
+</div>
+</div>
+
+<div class="mb-3">
+    <label class="small fw-bold text-muted mb-1">Code-barres (facultatif)</label>
+    <div class="input-group">
+        <input type="text" id="prod-code" class="form-control" placeholder="Scanner ou saisir le code">
+        <button class="btn btn-info text-white fw-bold" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
+    </div>
+</div>
+    
+<div class="mb-3">
+<label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
+<input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
+<small class="text-muted" style="font-size:0.65rem;">Copiez l'adresse du lien trouvé sur Google et collez-la ici.</small>
+</div>
+
+<button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+</div>
 </div>
 
 <nav class="nav-bottom">
-    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
-    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
-    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
-    <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
+<button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+<button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
+<button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
+<button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+<button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
 </nav>
-    
+
 <script>
 // --- CONFIGURATION SUPABASE ---
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
@@ -300,44 +299,17 @@ const centres = [
     { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+Les+Essarts" }
 ];
 
-// --- CONFIGURATION GITHUB ---
-// Remplace BIEN 'NOM_DE_TON_DEPOT' par le nom exact de ton projet sur GitHub
-const githubBaseUrl = "https://raw.githubusercontent.com/yohannlehazif-wq/restev85/";
-
-    const sghData = [
-        { id: "SGH01", title: "Explosif", img: "SGH01_BombeExplosant.jpg", desc: "Substances explosibles, autoréactives ou peroxydes organiques." },
-        { id: "SGH02", title: "Inflammable", img: "SGH02_Flamme.jpg", desc: "Gaz, aérosols, liquides et solides inflammables." },
-        { id: "SGH03", title: "Comburant", img: "SGH03_FlammeSurCercle.jpg", desc: "Provoque ou aggrave un incendie (comburant)." },
-        { id: "SGH04", title: "Gaz sous pression", img: "SGH04_BouteilleGaz.jpg", desc: "Contient un gaz sous pression ; peut exploser sous l'effet de la chaleur." },
-        { id: "SGH05", title: "Corrosif", img: "SGH05_Corrosion.jpg", desc: "Peut être corrosif pour les métaux et provoquer des brûlures de la peau." },
-        { id: "SGH06", title: "Toxique", img: "SGH06_TeteDeMort.jpg", desc: "Mortel ou toxique par ingestion, contact cutané ou inhalation." },
-        { id: "SGH07", title: "Irritant", img: "SGH07_PointExclamation.jpg", desc: "Peut provoquer une allergie cutanée ou une sévère irritation des yeux." },
-        { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Peut nuire à la fertilité, au fœtus ou causer le cancer." },
-        { id: "SGH09", title: "Polluant", img: "SGH09_Environnement.jpg", desc: "Toxique pour les organismes aquatiques, entraîne des effets néfastes." }
-    ];
-
-    function renderSGH() {
-        const container = document.getElementById('sgh-list');
-        if (!container) return;
-        container.innerHTML = sghData.map(item => `
-            <div class="card-custom d-flex align-items-center gap-3 mb-2" style="padding: 15px; border-left: 5px solid #dc3545;">
-                <div style="min-width: 65px; width: 65px; height: 65px; background: white; padding: 5px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                    <img src="${githubBaseUrl}${item.img}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/60x60?text=ERR'">
-                </div>
-                <div style="flex: 1;">
-                    <h6 class="fw-bold mb-1" style="color: #212529;">${item.id} : ${item.title}</h6>
-                    <p class="small text-muted mb-0" style="line-height: 1.2; font-size: 0.8rem;">${item.desc}</p>
-                </div>
-            </div>`).join('');
-    }
-
-    function nav(id, el) {
-        document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active-page');
-        if(el) el.classList.add('active');
-        window.scrollTo(0,0);
-    }
+const sghData = [
+    { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
+    { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
+    { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
+    { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
+    { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
+    { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
+    { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
+    { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
+    { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
+];
 
 const questions = [
     "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
@@ -593,7 +565,7 @@ function startScanner() {
 
 function renderSGH() {
     const container = document.getElementById('sgh-list');
-if(id === 'page-sgh') renderSGH();
+    if (!container) return;
     container.innerHTML = sghData.map(item => `
         <div class="card-custom sgh-card">
             <img src="${item.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65/white/dc3545?text=${item.id}'">
