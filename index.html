@@ -408,7 +408,7 @@ function renderInventory() {
 
 async function saveProduct() {
     const name = document.getElementById('prod-name').value;
-    const code = document.getElementById('prod-code').value;
+   const code = document.getElementById('prod-code').value.trim();
     const fdsUrl = document.getElementById('prod-url').value;
 
     if(!name) return alert("Veuillez saisir au moins le nom du produit.");
@@ -562,11 +562,10 @@ async function searchBarcodeDB() {
     
     // Recherche dans la table inventaire_utilisateurs
     const { data, error } = await sb
-        .from('inventaire_utilisateurs')
-        .select('*')
-        .eq('code_barres', code)
-        .not('url_fds', 'is', null) // S'assure qu'il y a bien un lien PDF
-        .limit(1);
+    .from('inventaire_utilisateurs')
+    .select('*')
+    .eq('code_barres', text)
+    .limit(1);
 
     if (data && data.length > 0) {
         const produit = data[0];
