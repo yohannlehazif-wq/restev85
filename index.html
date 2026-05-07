@@ -35,8 +35,25 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 
 .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
 .logo-header { height: 40px; }
-.info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.ticker { display: inline-block; animation: ticker 25s linear infinite; }
+.info-banner {
+    background: #dbeafe;
+    color: #1e3a5f;
+    padding: 3px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 0.72rem;
+    border-bottom: 1px solid #bfdbfe;
+}
+
+.ticker {
+    display: inline-block;
+    animation: ticker 60s linear infinite;
+}
+
+.ticker span {
+    padding-right: 80px;
+}
 .ticker span { padding-right: 50px; }
 @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
@@ -90,6 +107,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
             🌡️ Canicule / Grand Froid : Adaptez vos postes de travail avec nos fiches conseils.
         </span>
     </div>
+</div>
 
 <div id="page-home" class="app-page active-page">
 <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
