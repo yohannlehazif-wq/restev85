@@ -570,38 +570,56 @@ async function generatePDFProof() {
     }
 async function toggleArchives() {
     const container = document.getElementById('archives-container');
-    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+    const isHidden = container.style.display === 'none' || container.style.display === '';
 
-    if (container.style.display === 'block') {
-        const list = document.getElementById('archives-list');
-        list.innerHTML = 'Chargement...';
+    container.style.display = isHidden ? 'block' : 'none';
 
-        const { data } = await sb
-            .from('historique_pdf')
-            .select('*')
-            .order('created_at', { ascending: false });
+    if (!isHidden) return;
 
-        list.innerHTML = (data || []).map(item => `
-            <div class="card-custom archive-item py-2 mb-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <b>${item.entreprise}</b><br>
-                        <small>${new Date(item.created_at).toLocaleDateString()}</small>
-                    </div>
-                    <a href="${item.url_pdf}" target="_blank" class="btn btn-sm btn-dark">
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
-                </div>
-            </div>
-        `).join('');
+    const list = document.getElementById('archives-list');
+    list.innerHTML = 'Chargement...';
+
+    const { data, error } = await sb
+        .from('historique_pdf')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        list.innerHTML = "Erreur de chargement";
+        return;
     }
+
+    list.innerHTML = (data || []).map(item => `
+        <div class="card-custom archive-item py-2 mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <b>${item.entreprise}</b><br>
+                    <small>${new Date(item.created_at).toLocaleDateString()}</small>
+                </div>
+                <a href="${item.url_pdf}" target="_blank" class="btn btn-sm btn-dark">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+            </div>
+        </div>
+    `).join('');
 }
     
 // --- AFFICHAGE SGH & CENTRES ---
-<script>
 
 // --- AFFICHAGE SGH AVEC POPUP ---
 function renderSGH() {
+    const detailsSGH = { ... };
+
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+        <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
+            <img src="${s.img}" class="sgh-img">
+            <div>
+                <b>${s.title}</b><br>
+                <small>${s.desc}</small>
+            </div>
+        </div>
+    `).join('');
+}
 
 const detailsSGH = {
 SGH01: { danger:"Explosif", risques:"Peut exploser sous choc ou chaleur.", prevention:"Éviter chocs et étincelles." },
@@ -705,23 +723,27 @@ function resetQuiz() {
 // Nouvelle fonction pour la recherche manuelle du code-barres
 async function searchBarcodeDB() {
     const code = document.getElementById('prod-code').value;
-    if(!code) return alert("Veuillez d'abord saisir ou scanner un code-barres.");
-    
-    // Recherche dans la table inventaire_utilisateurs
+
+    if (!code) {
+        alert("Veuillez saisir un code-barres.");
+        return;
+    }
+
     const { data, error } = await sb
-    .from('inventaire_utilisateurs')
-    .select('*')
-    .eq('code_barres', text)
-    .limit(1);
+        .from('inventaire_utilisateurs')
+        .select('*')
+        .eq('code_barres', code)
+        .limit(1);
 
     if (data && data.length > 0) {
         const produit = data[0];
         document.getElementById('prod-name').value = produit.nom_produit;
         document.getElementById('prod-url').value = produit.url_fds;
-        alert("Produit connu ! La FDS va s'ouvrir automatiquement.");
+
+        alert("Produit trouvé !");
         window.open(produit.url_fds, '_blank');
     } else {
-        alert("Code introuvable dans la base. C'est un nouveau produit !");
+        alert("Produit introuvable.");
     }
 }
 
