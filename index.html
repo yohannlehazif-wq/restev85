@@ -586,14 +586,126 @@ async function toggleArchives() {
     }
 }
     
-// --- AFFICHAGE SGH & CENTRES ---
+<script>
+
+// --- AFFICHAGE SGH AVEC POPUP ---
 function renderSGH() {
+
+    const detailsSGH = {
+        SGH01: {
+            danger: "Explosif",
+            risques: "Peut exploser sous l'effet d'un choc, d'une friction, d'une flamme ou de la chaleur.",
+            prevention: "Éviter les chocs, les étincelles et stocker dans une zone sécurisée."
+        },
+        SGH02: {
+            danger: "Inflammable",
+            risques: "Peut s'enflammer facilement au contact d'une source de chaleur ou d'une flamme.",
+            prevention: "Tenir éloigné des flammes, étincelles et surfaces chaudes."
+        },
+        SGH03: {
+            danger: "Comburant",
+            risques: "Peut provoquer ou aggraver un incendie.",
+            prevention: "Éloigner des matières combustibles."
+        },
+        SGH04: {
+            danger: "Gaz sous pression",
+            risques: "Peut exploser sous l'effet de la chaleur.",
+            prevention: "Protéger du soleil et stocker dans un endroit ventilé."
+        },
+        SGH05: {
+            danger: "Corrosif",
+            risques: "Provoque des brûlures graves de la peau et des yeux.",
+            prevention: "Porter gants, lunettes et protections adaptées."
+        },
+        SGH06: {
+            danger: "Toxique",
+            risques: "Peut être mortel même à faible dose.",
+            prevention: "Éviter inhalation, ingestion et contact peau."
+        },
+        SGH07: {
+            danger: "Irritant",
+            risques: "Peut provoquer irritation, allergies ou somnolence.",
+            prevention: "Utiliser dans un endroit ventilé."
+        },
+        SGH08: {
+            danger: "Danger grave pour la santé",
+            risques: "Cancérigène, mutagène ou toxique pour la reproduction.",
+            prevention: "Limiter l'exposition et utiliser des EPI adaptés."
+        },
+        SGH09: {
+            danger: "Dangereux pour l'environnement",
+            risques: "Très toxique pour les organismes aquatiques.",
+            prevention: "Ne pas rejeter dans les égouts ou la nature."
+        }
+    };
+
     document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-    <div class="card-custom sgh-card">
-    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
-    <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
-    </div>`).join('');
+    
+    <div class="card-custom sgh-card" 
+         style="cursor:pointer"
+         data-bs-toggle="modal" 
+         data-bs-target="#modal-${s.id}">
+         
+        <img src="${s.img}" class="sgh-img"
+             onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
+
+        <div>
+            <b class="text-dark">${s.title}</b><br>
+            <small class="text-muted">${s.desc}</small>
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div class="modal fade" id="modal-${s.id}" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius:20px; overflow:hidden;">
+                
+                <div class="modal-header text-white" 
+                     style="background: linear-gradient(135deg,#3065a8,#1e40af);">
+                    <h5 class="modal-title fw-bold">${s.id} - ${s.title}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body text-center">
+                    
+                    <img src="${s.img}" 
+                         style="width:100px;height:100px;object-fit:contain"
+                         class="mb-3"
+                         onerror="this.src='https://placehold.co/100x100?text=${s.id}'">
+
+                    <h5 class="fw-bold mb-3">${detailsSGH[s.id].danger}</h5>
+
+                    <div class="text-start">
+                        <p>
+                            <i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>
+                            <b>Risques :</b><br>
+                            ${detailsSGH[s.id].risques}
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-shield-heart text-primary me-2"></i>
+                            <b>Prévention :</b><br>
+                            ${detailsSGH[s.id].prevention}
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary w-100 rounded-pill"
+                            data-bs-dismiss="modal">
+                        Fermer
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    `).join('');
 }
+
+</script>
 
 function renderCentres() {
     document.getElementById('centres-list').innerHTML = centres.map(c => `
