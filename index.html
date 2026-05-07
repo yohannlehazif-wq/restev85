@@ -354,15 +354,86 @@ const sghData = [
 ];
 
 const detailsSGH = {
-    SGH01: { danger:"Explosif", risques:"Peut exploser sous choc ou chaleur.", prevention:"Éviter chocs et étincelles." },
-    SGH02: { danger:"Inflammable", risques:"S’enflamme facilement.", prevention:"Éloigner des flammes." },
-    SGH03: { danger:"Comburant", risques:"Aggrave les incendies.", prevention:"Stocker séparément des combustibles." },
-    SGH04: { danger:"Gaz sous pression", risques:"Explosion possible à la chaleur.", prevention:"Stocker à l’abri du soleil." },
-    SGH05: { danger:"Corrosif", risques:"Brûlures graves peau/yeux.", prevention:"Port EPI obligatoire." },
-    SGH06: { danger:"Toxique", risques:"Peut être mortel.", prevention:"Éviter inhalation et contact." },
-    SGH07: { danger:"Irritant", risques:"Irritation peau/yeux.", prevention:"Ventilation obligatoire." },
-    SGH08: { danger:"Danger santé", risques:"CMR (cancer, mutation...).", prevention:"Limiter exposition." },
-    SGH09: { danger:"Environnement", risques:"Toxique pour l’eau.", prevention:"Ne pas rejeter dans la nature." }
+    SGH01: {
+        danger: "Explosif",
+        risques: "Risque d’explosion sous l’effet d’un choc, d’une friction ou de la chaleur. Peut provoquer des blessures graves ou mortelles.",
+        exposition: "Travaux de manutention, stockage instable, chaleur excessive.",
+        prevention: "Stockage sécurisé, éloignement des sources de chaleur, limitation des chocs et vibrations.",
+        epi: "Visière, gants anti-choc, protection auditive.",
+        urgence: "Évacuer la zone immédiatement, alerter les secours."
+    },
+
+    SGH02: {
+        danger: "Inflammable",
+        risques: "S’enflamme très facilement au contact d’une flamme, étincelle ou surface chaude. Risque d’incendie rapide.",
+        exposition: "Vapeurs, solvants, stockage en zone chaude ou mal ventilée.",
+        prevention: "Ventilation obligatoire, stockage en armoire inflammable, suppression des sources d’ignition.",
+        epi: "Gants nitrile, vêtements anti-feu si nécessaire.",
+        urgence: "Couper les sources d’ignition, utiliser extincteur adapté (CO2/poudre)."
+    },
+
+    SGH03: {
+        danger: "Comburant",
+        risques: "Peut aggraver fortement un incendie en libérant de l’oxygène.",
+        exposition: "Contact avec matières inflammables.",
+        prevention: "Stockage séparé des produits combustibles.",
+        epi: "Gants, lunettes de protection.",
+        urgence: "Isoler les produits, éviter tout mélange."
+    },
+
+    SGH04: {
+        danger: "Gaz sous pression",
+        risques: "Explosion possible en cas de chauffe. Risque d’asphyxie en cas de fuite.",
+        exposition: "Bouteilles de gaz, fuites dans espaces confinés.",
+        prevention: "Stockage ventilé, fixation des bouteilles, protection contre la chaleur.",
+        epi: "Gants, protection des pieds.",
+        urgence: "Ventiler immédiatement, éviter toute flamme."
+    },
+
+    SGH05: {
+        danger: "Corrosif",
+        risques: "Brûlures graves de la peau et lésions oculaires irréversibles.",
+        exposition: "Contact direct, projections, vapeurs.",
+        prevention: "Manipulation sous hotte, dilution contrôlée, stockage sécurisé.",
+        epi: "Gants chimiques, lunettes étanches, tablier.",
+        urgence: "Rinçage abondant immédiat 15 min + appel secours."
+    },
+
+    SGH06: {
+        danger: "Toxique aigu",
+        risques: "Peut être mortel par inhalation, ingestion ou contact cutané.",
+        exposition: "Vapeurs, manipulation sans protection.",
+        prevention: "Travail en zone ventilée, limitation des quantités.",
+        epi: "Masque filtrant, gants étanches, lunettes.",
+        urgence: "Appel immédiat centre antipoison + secours."
+    },
+
+    SGH07: {
+        danger: "Irritant",
+        risques: "Irritation des yeux, peau et voies respiratoires. Allergies possibles.",
+        exposition: "Contact répété ou prolongé.",
+        prevention: "Ventilation, réduction du temps d’exposition.",
+        epi: "Gants, lunettes de protection.",
+        urgence: "Lavage à l’eau + surveillance symptômes."
+    },
+
+    SGH08: {
+        danger: "Danger grave pour la santé",
+        risques: "Effets chroniques : cancer, atteinte organes, troubles de fertilité.",
+        exposition: "Exposition longue durée, inhalation répétée.",
+        prevention: "Substitution produit, réduction exposition, confinement.",
+        epi: "Protection respiratoire, gants adaptés.",
+        urgence: "Suivi médical obligatoire en cas d’exposition."
+    },
+
+    SGH09: {
+        danger: "Dangereux pour l’environnement",
+        risques: "Toxicité pour les organismes aquatiques, pollution durable.",
+        exposition: "Rejets dans les eaux ou sols.",
+        prevention: "Stockage étanche, gestion des déchets dangereux.",
+        epi: "Gants, lunettes.",
+        urgence: "Empêcher tout rejet dans l’environnement."
+    }
 };
 
 const questions = [
