@@ -423,45 +423,33 @@ function renderInventory() {
     });
 }
 
-async function saveProduct() 
+async function saveProduct() {
     const name = document.getElementById('prod-name').value;
-   const code = document.getElementById('prod-code').value.trim();
+    const code = document.getElementById('prod-code').value.trim();
     const fdsUrl = document.getElementById('prod-url').value;
 
-    if(!name) return alert("Veuillez saisir au moins le nom du produit.");
+    if (!name) return alert("Veuillez saisir au moins le nom du produit.");
 
-    // 1. Sauvegarde locale immédiate
     const newProduct = { id: Date.now(), name, code, fdsUrl };
     inventory.push(newProduct);
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
-    // 2. Envoi vers Supabase
     try {
-        console.log("Tentative d'envoi vers Supabase...");
         const { data, error } = await sb
             .from('inventaire_utilisateurs')
             .insert([
-                { 
-                    nom_produit: name, 
-                    code_barres: code, 
-                    url_fds: fdsUrl 
-                }
+                { nom_produit: name, code_barres: code, url_fds: fdsUrl }
             ]);
 
-        if (error) {
-            console.error("Détail de l'erreur Supabase :", error);
-            alert("Erreur Supabase : " + error.message);
-        } else {
-            console.log("Succès ! Produit enregistré sur le Cloud.");
-        }
+        if (error) console.error(error);
     } catch (err) {
-        console.error("Erreur de connexion :", err);
+        console.error(err);
     }
 
-    // Mise à jour interface
     document.getElementById('prod-name').value = '';
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
+
     updateStats();
     nav('page-list', document.getElementById('nav-list'));
 }
@@ -476,30 +464,24 @@ function deleteItem(id) {
 
 // --- PDF & EXPORT ---
 
-async function generatePDFProof() 
+async function generatePDFProof() {
     if (inventory.length === 0) return alert("Votre inventaire est vide.");
-    
+
     const companyName = prompt("Nom de l'entreprise :") || "Non spécifiée";
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    const blueRestev = [48, 101, 168]; // Votre bleu #3065a8
 
-    // --- EN-TÊTE ---
-    doc.setFillColor(248, 250, 252); // Fond gris très clair
-    doc.rect(0, 0, 210, 40, 'F');
-    
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(22);
-    doc.setTextColor(blueRestev[0], blueRestev[1], blueRestev[2]);
-    doc.text("RESTEV 85", 14, 20);
-    
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text("Expertise en Prévention des Risques Professionnels", 14, 28);
-    
-    doc.setFontSize(9);
-    doc.text(`Édité le : ${new Date().toLocaleDateString('fr-FR')}`, 160, 20);
+    // ... ton code reste IDENTIQUE ici ...
 
+    const pdfBlob = doc.output('blob');
+    const fileName = `Attestation_${companyName}.pdf`;
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(pdfBlob);
+    link.download = fileName;
+    link.click();
+}
     // --- TITRE DU DOCUMENT ---
     doc.setDrawColor(blueRestev[0], blueRestev[1], blueRestev[2]);
     doc.setLineWidth(1);
@@ -586,20 +568,32 @@ async function generatePDFProof()
     } catch (err) {
         console.error("Erreur lors de l'archivage cloud :", err);
     }
-async function toggleArchives() 
+async function toggleArchives() {
     const container = document.getElementById('archives-container');
     container.style.display = container.style.display === 'none' ? 'block' : 'none';
-    if(container.style.display === 'block') {
+
+    if (container.style.display === 'block') {
         const list = document.getElementById('archives-list');
         list.innerHTML = 'Chargement...';
-        const { data } = await sb.from('historique_pdf').select('*').order('created_at', { ascending: false });
-        list.innerHTML = data.map(item => `
+
+        const { data } = await sb
+            .from('historique_pdf')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        list.innerHTML = (data || []).map(item => `
             <div class="card-custom archive-item py-2 mb-2">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div><b>${item.entreprise}</b><br><small>${new Date(item.created_at).toLocaleDateString()}</small></div>
-                    <a href="${item.url_pdf}" target="_blank" class="btn btn-sm btn-dark"><i class="fa-solid fa-eye"></i></a>
+                    <div>
+                        <b>${item.entreprise}</b><br>
+                        <small>${new Date(item.created_at).toLocaleDateString()}</small>
+                    </div>
+                    <a href="${item.url_pdf}" target="_blank" class="btn btn-sm btn-dark">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
                 </div>
-            </div>`).join('');
+            </div>
+        `).join('');
     }
 }
     
