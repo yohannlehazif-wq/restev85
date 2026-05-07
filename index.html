@@ -548,7 +548,23 @@ function startScanner() {
             .limit(1);
 
         if (data && data.length > 0) {
-            const produit = data[0];
-            document.getElementById('prod-name').value = produit.nom_produit;
-            document.getElementById('prod-url').value = produit.url_fds;
-            // Ouverture directe de la FDS sans demand
+            const produit = data[0];
+            document.getElementById('prod-name').value = produit.nom_produit;
+            document.getElementById('prod-url').value = produit.url_fds;
+            // Ouverture directe de la FDS
+            window.open(produit.url_fds, '_blank');
+        } else {
+            alert("Code lu : " + text + ". Produit inconnu, veuillez le saisir manuellement.");
+        }
+    }).catch(err => {
+        console.error("Erreur scanner:", err);
+    });
+}
+
+// Initialisation au chargement
+window.onload = () => {
+    updateStats();
+};
+</script>
+</body>
+</html>
