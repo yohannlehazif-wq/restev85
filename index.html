@@ -537,21 +537,38 @@ async function generatePDFProof() {
     const disclaimer = "Cette attestation constitue un élément de preuve pour votre DUERP. Elle doit être mise à jour annuellement.";
     doc.text(disclaimer, 105, 285, { align: "center" });
 
-    // --- SAUVEGARDE / OUVERTURE ---
+    // --- GÉNÉRATION ET SAUVEGARDE ---
     const pdfBlob = doc.output('blob');
     const fileName = `Attestation_Chimique_${companyName.replace(/\s+/g, '_')}.pdf`;
 
-    // Tentative d'upload Supabase (comme dans votre code original)
-    try {
-        await sb.storage.from('fds_files').upload(fileName, pdfBlob);
-        const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(fileName);
-        await sb.from('historique_pdf').insert([{ entreprise: companyName, url_pdf: urlData.publicUrl, nb_produits: inventory.length }]);
-        window.open(urlData.publicUrl, '_blank');
-    } catch (err) { 
-        window.open(URL.createObjectURL(pdfBlob), '_blank'); 
-    }
-}
+    // 1. Téléchargement immédiat pour l'utilisateur (Expérience fluide)
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(pdfBlob);
+    link.download = fileName;
+    link.click();
 
+    // 2. Envoi silencieux vers Supabase pour l'archivage (Backup)
+    try {
+        // On vérifie si le fichier existe déjà ou on l'upload
+        const { data, error } = await sb.storage
+            .from('fds_files')
+            .upload(`archives/${Date.now()}_${fileName}`, pdfBlob);
+
+        if (data) {
+            const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(data.path);
+            
+            // Enregistrement dans la table historique
+            await sb.from('historique_pdf').insert([{ 
+                entreprise: companyName, 
+                url_pdf: urlData.publicUrl, 
+                nb_produits: inventory.length 
+            }]);
+            
+            console.log("Archive sauvegardée avec succès sur Supabase.");
+        }
+    } catch (err) {
+        console.error("Erreur lors de l'archivage cloud :", err);
+    }
 async function toggleArchives() {
     const container = document.getElementById('archives-container');
     container.style.display = container.style.display === 'none' ? 'block' : 'none';
