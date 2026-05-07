@@ -484,6 +484,26 @@ async function toggleArchives() {
             </div>`).join('');
     }
 }
+    
+// --- AFFICHAGE SGH & CENTRES ---
+function renderSGH() {
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+    <div class="card-custom sgh-card">
+    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
+    <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+    </div>`).join('');
+}
+
+function renderCentres() {
+    document.getElementById('centres-list').innerHTML = centres.map(c => `
+    <div class="card-custom">
+    <b>${c.n}</b><br><small class="text-muted d-block mb-2">${c.a}</small>
+    <div class="d-flex gap-2">
+    <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center text-decoration-none"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+    <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center"><i class="fa-solid fa-location-arrow me-2"></i>Itinéraire</a>
+    </div>
+    </div>`).join('');
+}
 
 // --- QUIZ ---
 
