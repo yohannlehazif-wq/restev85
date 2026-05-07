@@ -598,7 +598,57 @@ async function generatePDFProof() {
     link.download = `Attestation_${company}.pdf`;
     link.click();
 }
+function renderAttestations() {
 
+    const container = document.getElementById('archives-list');
+
+    let attestations = JSON.parse(
+        localStorage.getItem('restev_attestations')
+    ) || [];
+
+    if (attestations.length === 0) {
+
+        container.innerHTML = `
+            <p class="text-muted text-center">
+                Aucune attestation enregistrée.
+            </p>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = attestations.reverse().map(a => `
+    
+        <div class="card-custom archive-item mb-3">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <b>${a.company}</b><br>
+
+                    <small class="text-muted">
+                        ${a.date}
+                    </small><br>
+
+                    <small class="text-primary">
+                        ${a.products} produit(s)
+                    </small>
+                </div>
+
+                <a href="${a.file}"
+                   target="_blank"
+                   class="btn btn-sm btn-primary">
+
+                   <i class="fa-solid fa-eye"></i>
+                   Voir
+                </a>
+
+            </div>
+
+        </div>
+
+    `).join('');
+}
 // --- SGH & CENTRES & QUIZ ---
 function renderSGH() {
     document.getElementById('sgh-list').innerHTML = sghData.map(s => `
