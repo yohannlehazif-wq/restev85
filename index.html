@@ -17,23 +17,13 @@
             --r-blue: #3065a8; 
             --r-yellow: #e6a00f; 
             --r-light: #f8fafc;
-            /* Palette Pastel */
-            --p-blue: #e0f2fe;
-            --p-green: #dcfce7;
-            --p-orange: #ffedd5;
-            --p-purple: #f3e8ff;
-            --p-red: #fee2e2;
-            --p-teal: #ccfbf1;
+            --p-blue: #e0f2fe; --p-green: #dcfce7; --p-orange: #ffedd5;
+            --p-purple: #f3e8ff; --p-red: #fee2e2; --p-teal: #ccfbf1;
         }
         body { background-color: var(--r-light); font-family: 'Inter', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
         
         /* --- SPLASH SCREEN --- */
-        #splash { 
-            position: fixed; inset: 0; z-index: 9999; 
-            display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f);
-            background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; 
-        }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .logo-splash { width: 140px; border-radius: 30px; background: white; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; animation: breathing 2.5s ease-in-out infinite; }
@@ -57,10 +47,8 @@
         .app-page { display: none; padding: 20px 15px; animation: slideUp 0.4s ease-out; }
         .active-page { display: block !important; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .card-custom { background: white; border-radius: 22px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: transform 0.2s; }
+        .card-custom { background: white; border-radius: 22px; padding: 20px; margin-bottom: 15px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: transform 0.2s; cursor: pointer; }
         
-        /* Pastel Backgrounds */
         .bg-p-blue { background-color: var(--p-blue) !important; color: #0369a1 !important; }
         .bg-p-green { background-color: var(--p-green) !important; color: #15803d !important; }
         .bg-p-orange { background-color: var(--p-orange) !important; color: #9a3412 !important; }
@@ -85,7 +73,6 @@
     <img src="https://raw.githubusercontent.com/yohannlehazif-wq/restev85/main/logo_restev_carre.png" class="logo-header">
 </div>
 
-<!-- NOUVEAU BANDEAU DÉFILANT ENRICHI -->
 <div class="marquee-container">
     <div class="marquee-content">
         <span class="marquee-item">📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne dans l'évaluation de vos risques.</span>
@@ -93,16 +80,14 @@
         <span class="marquee-item">🔍 Risque Chimique : Consultez les fiches toxicologiques INRS directement via l'app.</span>
         <span class="marquee-item">🏗️ BTP : Profitez des conseils experts de l'OPPBTP pour vos chantiers en Vendée.</span>
         <span class="marquee-item">🌡️ Canicule/Grand Froid : Adaptez vos postes de travail avec nos fiches conseils.</span>
-        <!-- Répétition pour boucle infinie fluide -->
-        <span class="marquee-item">📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne...</span>
-        <span class="marquee-item">💰 Aides CARSAT : Des subventions disponibles...</span>
     </div>
 </div>
 
+<!-- ACCUEIL -->
 <div id="page-home" class="app-page active-page">
     <div class="card-custom text-white border-0 mb-4" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
         <h5 class="fw-bold mb-1">Espace Adhérent</h5>
-        <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+        <p id="inv-stats" class="small opacity-75 mb-0">Chargement...</p>
     </div>
     
     <div class="row g-3 text-center">
@@ -139,7 +124,7 @@
     </div>
 </div>
 
-<!-- PAGES SECONDAIRES -->
+<!-- CENTRES -->
 <div id="page-centres" class="app-page">
     <h5 class="fw-bold mb-3">Où nous trouver ?</h5>
     <div class="card-custom p-2">
@@ -148,20 +133,47 @@
     </div>
 </div>
 
+<!-- INFOS / OFFRE (Contenu rapide) -->
+<div id="page-info" class="app-page">
+    <h5 class="fw-bold mb-3">Informations Prévention</h5>
+    <div class="card-custom"><h6>DUERP</h6><p class="small">L'évaluation des risques est obligatoire et annuelle.</p></div>
+    <div class="card-custom"><h6>CARSAT</h6><p class="small">Consultez les subventions "Prévention TPE".</p></div>
+</div>
+
+<div id="page-offre" class="app-page">
+    <h5 class="fw-bold mb-3">Notre Offre de Service</h5>
+    <div class="card-custom"><h6>Suivi Médical</h6><p class="small">Examens périodiques et visites d'embauche.</p></div>
+    <div class="card-custom"><h6>Action Milieu de Travail</h6><p class="small">Études de postes et mesures d'exposition.</p></div>
+</div>
+
+<!-- INVENTAIRE -->
 <div id="page-list" class="app-page">
     <h5 class="fw-bold mb-3">Mon Inventaire Chimique</h5>
     <div id="inventory-container"></div>
 </div>
 
+<!-- SCANNER (FONCTIONNEL) -->
 <div id="page-scan" class="app-page">
     <h5 class="fw-bold mb-3">Ajouter un produit</h5>
     <div class="card-custom bg-p-blue">
-        <div id="reader" style="width:100%; border-radius:15px; overflow:hidden;"></div>
-        <button class="btn btn-dark w-100 mt-3" onclick="startScanner()">ACTIVER LE SCANNER</button>
+        <div id="reader" style="width:100%; border-radius:15px; overflow:hidden; background: #000; min-height: 250px;"></div>
+        <button id="btn-cam" class="btn btn-dark w-100 mt-3" onclick="startScanner()">ACTIVER LE SCANNER</button>
+    </div>
+    
+    <div id="scan-result" class="mt-4" style="display:none;">
+        <div class="card-custom">
+            <label class="small fw-bold">Nom du produit</label>
+            <input type="text" id="prod-name" class="form-control mb-3">
+            <label class="small fw-bold">Code-barres</label>
+            <input type="text" id="prod-code" class="form-control mb-3" readonly>
+            <label class="small fw-bold">Lien FDS (URL)</label>
+            <input type="url" id="prod-url" class="form-control mb-4">
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER DANS L'INVENTAIRE</button>
+        </div>
     </div>
 </div>
 
-<!-- BARRE DE NAVIGATION -->
+<!-- NAV BOTTOM -->
 <nav class="nav-bottom">
     <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
     <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>SCANNER</button>
@@ -173,7 +185,9 @@
     const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k';
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
     let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+    let html5QrCode;
 
     function dismissSplash() { 
         document.getElementById('splash').style.opacity = '0'; 
@@ -181,6 +195,9 @@
     }
     
     function nav(id, el) {
+        if(html5QrCode && html5QrCode.isScanning) {
+            html5QrCode.stop();
+        }
         document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(id).classList.add('active-page');
@@ -191,9 +208,73 @@
     function renderInventory() {
         const cont = document.getElementById('inventory-container');
         cont.innerHTML = inventory.length ? '' : '<p class="text-center mt-5 text-muted">Aucun produit enregistré.</p>';
-        inventory.forEach(i => {
-            cont.innerHTML += `<div class="card-custom bg-p-green"><b>${i.name}</b><br><a href="${i.fdsUrl}" target="_blank" class="btn btn-sm btn-outline-dark mt-2">Consulter FDS</a></div>`;
+        inventory.forEach((i, index) => {
+            cont.innerHTML += `
+                <div class="card-custom bg-p-green d-flex justify-content-between align-items-center">
+                    <div>
+                        <b>${i.name}</b><br>
+                        <a href="${i.fdsUrl}" target="_blank" class="small text-decoration-none">Voir FDS</a>
+                    </div>
+                    <button class="btn btn-sm text-danger" onclick="deleteProduct(${index})"><i class="fa-solid fa-trash"></i></button>
+                </div>`;
         });
+    }
+
+    async function startScanner() {
+        document.getElementById('scan-result').style.display = 'none';
+        html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 150 } };
+        
+        try {
+            await html5QrCode.start({ facingMode: "environment" }, config, async (decodedText) => {
+                html5QrCode.stop();
+                document.getElementById('prod-code').value = decodedText;
+                document.getElementById('scan-result').style.display = 'block';
+                
+                // Recherche Supabase
+                const { data, error } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', decodedText).maybeSingle();
+                if (data) {
+                    document.getElementById('prod-name').value = data.nom_produit;
+                    document.getElementById('prod-url').value = data.url_fds;
+                } else {
+                    document.getElementById('prod-name').value = "";
+                    document.getElementById('prod-url').value = "";
+                }
+            });
+        } catch (err) {
+            alert("Erreur caméra : " + err);
+        }
+    }
+
+    async function saveProduct() {
+        const n = document.getElementById('prod-name').value;
+        const c = document.getElementById('prod-code').value;
+        const u = document.getElementById('prod-url').value;
+
+        if(!n || !u) return alert("Veuillez remplir le nom et l'URL FDS.");
+
+        const newItem = { name: n, code: c, fdsUrl: u };
+        inventory.push(newItem);
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+
+        // Sync Supabase
+        await sb.from('inventaire_utilisateurs').upsert({ 
+            code_barres: c, 
+            nom_produit: n, 
+            url_fds: u 
+        });
+
+        updateStats();
+        nav('page-list', document.getElementById('nav-list'));
+    }
+
+    function deleteProduct(index) {
+        if(confirm("Supprimer ce produit ?")) {
+            inventory.splice(index, 1);
+            localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
+        }
     }
 
     function updateStats() { 
@@ -201,7 +282,9 @@
         if(el) el.innerText = `${inventory.length} produit(s) dans votre inventaire`; 
     }
 
-    window.onload = updateStats;
+    window.onload = () => {
+        updateStats();
+    };
 </script>
 </body>
 </html>
