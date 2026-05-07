@@ -461,29 +461,95 @@ function deleteItem(id) {
 
 async function generatePDFProof() {
     if (inventory.length === 0) return alert("Votre inventaire est vide.");
-    const companyName = prompt("Nom de l'entreprise :");
-    if (!companyName) return;
-
+    
+    const companyName = prompt("Nom de l'entreprise :") || "Non spécifiée";
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    doc.setFontSize(18); doc.setTextColor(48, 101, 168); doc.text("ATTESTATION D'INVENTAIRE CHIMIQUE", 14, 20);
-    const tableData = inventory.map((item, index) => [index + 1, item.name, item.code || "Manuelle", item.fdsUrl ? "Oui" : "Non"]);
-    doc.autoTable({ startY: 40, head: [['N°', 'Nom', 'Code', 'FDS']], body: tableData });
+    const blueRestev = [48, 101, 168]; // Votre bleu #3065a8
 
+    // --- EN-TÊTE ---
+    doc.setFillColor(248, 250, 252); // Fond gris très clair
+    doc.rect(0, 0, 210, 40, 'F');
+    
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.setTextColor(blueRestev[0], blueRestev[1], blueRestev[2]);
+    doc.text("RESTEV 85", 14, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text("Expertise en Prévention des Risques Professionnels", 14, 28);
+    
+    doc.setFontSize(9);
+    doc.text(`Édité le : ${new Date().toLocaleDateString('fr-FR')}`, 160, 20);
+
+    // --- TITRE DU DOCUMENT ---
+    doc.setDrawColor(blueRestev[0], blueRestev[1], blueRestev[2]);
+    doc.setLineWidth(1);
+    doc.line(14, 45, 196, 45);
+    
+    doc.setFontSize(16);
+    doc.setTextColor(0);
+    doc.text("ATTESTATION DE TENUE DE L'INVENTAIRE CHIMIQUE", 105, 58, { align: "center" });
+
+    // --- BLOC INFO ENTREPRISE ---
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+    doc.text("L'entreprise mentionnée ci-dessous certifie avoir réalisé l'inventaire des produits chimiques ", 14, 75);
+    doc.text("présents sur son site, conformément aux articles R4412-1 à R4412-59 du Code du Travail.", 14, 80);
+
+    doc.setFillColor(240, 240, 240);
+    doc.rect(14, 85, 182, 15, 'F');
+    doc.setFont("helvetica", "bold");
+    doc.text(`ENTREPRISE : ${companyName.toUpperCase()}`, 20, 95);
+
+    // --- TABLEAU DES PRODUITS ---
+    const tableData = inventory.map((item, index) => [
+        index + 1, 
+        item.name, 
+        item.code || "N/A", 
+        item.fdsUrl ? "OUI (Lien PDF)" : "NON"
+    ]);
+
+    doc.autoTable({
+        startY: 110,
+        head: [['N°', 'Désignation du Produit', 'Code / Référence', 'FDS Disponible']],
+        body: tableData,
+        headStyles: { fillColor: blueRestev, textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [245, 247, 249] },
+        margin: { left: 14, right: 14 },
+        styles: { fontSize: 9, cellPadding: 3 }
+    });
+
+    // --- PIED DE PAGE / SIGNATURE ---
+    const finalY = doc.lastAutoTable.finalY + 20;
+    
+    if (finalY < 250) { // Vérifie qu'il reste de la place sur la page
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "italic");
+        doc.text("Cachet et signature de l'entreprise :", 130, finalY);
+        doc.setDrawColor(200);
+        doc.rect(130, finalY + 5, 60, 25); // Cadre signature
+    }
+
+    doc.setFontSize(8);
+    doc.setTextColor(150);
+    const disclaimer = "Cette attestation constitue un élément de preuve pour votre DUERP. Elle doit être mise à jour annuellement.";
+    doc.text(disclaimer, 105, 285, { align: "center" });
+
+    // --- SAUVEGARDE / OUVERTURE ---
     const pdfBlob = doc.output('blob');
-    const fileName = `fds_${Date.now()}.pdf`;
+    const fileName = `Attestation_Chimique_${companyName.replace(/\s+/g, '_')}.pdf`;
 
+    // Tentative d'upload Supabase (comme dans votre code original)
     try {
         await sb.storage.from('fds_files').upload(fileName, pdfBlob);
         const { data: urlData } = sb.storage.from('fds_files').getPublicUrl(fileName);
         await sb.from('historique_pdf').insert([{ entreprise: companyName, url_pdf: urlData.publicUrl, nb_produits: inventory.length }]);
         window.open(urlData.publicUrl, '_blank');
-    } catch (err) { window.open(URL.createObjectURL(pdfBlob), '_blank'); }
-}
-
-function exportToCSV() {
-    let csv = "data:text/csv;charset=utf-8,\uFEFFNom;Code;URL_FDS\r\n" + inventory.map(i => `${i.name};${i.code};${i.fdsUrl}`).join("\r\n");
-    const link = document.createElement("a"); link.setAttribute("href", encodeURI(csv)); link.setAttribute("download", "Inventaire_RESTEV.csv"); link.click();
+    } catch (err) { 
+        window.open(URL.createObjectURL(pdfBlob), '_blank'); 
+    }
 }
 
 async function toggleArchives() {
