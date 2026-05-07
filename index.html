@@ -565,7 +565,7 @@ async function generatePDFProof() {
             
             console.log("Archive sauvegardée avec succès sur Supabase.");{
         }
-    } catch (err) 
+    } catch (err) {
         console.error("Erreur lors de l'archivage cloud :", err);
     }
 async function toggleArchives() {
@@ -608,7 +608,19 @@ async function toggleArchives() {
 
 // --- AFFICHAGE SGH AVEC POPUP ---
 function renderSGH() {
-    
+    const detailsSGH = { ... };
+
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+        <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
+            <img src="${s.img}" class="sgh-img">
+            <div>
+                <b>${s.title}</b><br>
+                <small>${s.desc}</small>
+            </div>
+        </div>
+    `).join('');
+}
+
 const detailsSGH = {
 SGH01: { danger:"Explosif", risques:"Peut exploser sous choc ou chaleur.", prevention:"Éviter chocs et étincelles." },
 SGH02: { danger:"Inflammable", risques:"S’enflamme facilement.", prevention:"Éloigner des flammes." },
@@ -768,6 +780,6 @@ function startScanner() {
 window.onload = () => {
     updateStats();
 };
-<script>
+</script>
 </body>
 </html>
