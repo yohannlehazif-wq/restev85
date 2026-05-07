@@ -405,7 +405,7 @@ function renderInventory() {
     });
 }
 
-async function saveProduct() {
+async function saveProduct() 
     const name = document.getElementById('prod-name').value;
    const code = document.getElementById('prod-code').value.trim();
     const fdsUrl = document.getElementById('prod-url').value;
@@ -458,7 +458,7 @@ function deleteItem(id) {
 
 // --- PDF & EXPORT ---
 
-async function generatePDFProof() {
+async function generatePDFProof() 
     if (inventory.length === 0) return alert("Votre inventaire est vide.");
     
     const companyName = prompt("Nom de l'entreprise :") || "Non spécifiée";
@@ -563,12 +563,12 @@ async function generatePDFProof() {
                 nb_produits: inventory.length 
             }]);
             
-            console.log("Archive sauvegardée avec succès sur Supabase.");
+            console.log("Archive sauvegardée avec succès sur Supabase.");{
         }
     } catch (err) {
         console.error("Erreur lors de l'archivage cloud :", err);
     }
-async function toggleArchives() {
+async function toggleArchives() 
     const container = document.getElementById('archives-container');
     container.style.display = container.style.display === 'none' ? 'block' : 'none';
     if(container.style.display === 'block') {
@@ -705,7 +705,7 @@ function renderSGH() {
     `).join('');
 }
 
-</script>
+<script>
 
 function renderCentres() {
     document.getElementById('centres-list').innerHTML = centres.map(c => `
