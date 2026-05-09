@@ -1208,61 +1208,7 @@ au service de prévention et aux organismes de contrôle.
 
         doc.setPage(i);
 
-        doc.setFontSize(8);
-        doc.setTextColor(120);
 
-        doc.text(
-            `Document généré automatiquement via l'application RESTEV - ${dateFR}`,
-            105,
-            290,
-            { align: "center" }
-        );
-    }
-
-    // =========================
-    // OUVERTURE PDF
-    // =========================
-
-    const pdfBlob = doc.output('blob');
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-
-    // OUVERTURE AUTOMATIQUE
-    window.open(pdfUrl, '_blank');
-
-    // TELECHARGEMENT
-    const link = document.createElement('a');
-
-    link.href = pdfUrl;
-    link.download = `Attestation_Inventaire_${company}.pdf`;
-
-    link.click();
-
-    // =========================
-    // ARCHIVAGE
-    // =========================
-
-    let attestations = JSON.parse(
-        localStorage.getItem('restev_attestations')
-    ) || [];
-
-    attestations.push({
-        company: company,
-        date: `${dateFR} ${heureFR}`,
-        products: inventory.length,
-        file: pdfUrl
-    });
-
-    localStorage.setItem(
-        'restev_attestations',
-        JSON.stringify(attestations)
-    );
-
-    renderAttestations();
-}
-
-// =========================
-// AFFICHAGE ARCHIVES
-// =========================
 
 function renderAttestations(){
 
