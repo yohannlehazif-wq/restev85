@@ -78,17 +78,31 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </head>
 <body>
 
-<div id="splash">
+
+ <div id="splash">
     <div class="splash-content text-center text-white">
 
-        <!-- LOGO -->
         <img src="logo_restev_carre.png"
-             alt="Logo"
-             class="splash-logo"
+             alt="Logo RESTEV"
+             class="splash-logo mb-4"
              onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
 
-        <!-- TITRE -->
-              <p class="splash-subtitle">Expert Prévention des Risques</p>
+        <h2 class="fw-bold mb-1">RESTEV 85</h2>
+        <p class="splash-subtitle opacity-75">Expert Prévention des Risques</p>
+
+        <div class="ecg-container">
+            <svg viewBox="0 0 200 40">
+                <path class="ecg-line"
+                      d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
+            </svg>
+        </div>
+
+        <button class="btn-enter mt-4" onclick="dismissSplash()">
+            ENTRER
+        </button>
+
+    </div>
+</div>
 
         <!-- ANIMATION ECG -->
         <div class="ecg-container">
