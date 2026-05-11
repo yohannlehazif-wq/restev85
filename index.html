@@ -999,21 +999,58 @@ au service de prévention et aux organismes de contrôle.
 
     const pageCount = doc.internal.getNumberOfPages();
 
-    for(let i = 1; i <= pageCount; i++){
+  for(let i = 1; i <= pageCount; i++){
 
-        doc.setPage(i);
+    doc.setPage(i);
 
-        doc.setFontSize(8);
-        doc.setTextColor(120);
+    doc.setFontSize(8);
+    doc.setTextColor(120);
 
-        doc.text(
-            `Document généré automatiquement via l'application RESTEV - ${dateFR}`,
-            105,
-            290,
-            { align: "center" }
-        );
-    }
+    doc.text(
+        `Document généré automatiquement via l'application RESTEV - ${dateFR}`,
+        105,
+        290,
+        { align: "center" }
+    );
+}
 
+// =========================
+// SAUVEGARDE ARCHIVE PDF
+// =========================
+
+const pdfBlob = doc.output('blob');
+
+const pdfUrl = URL.createObjectURL(pdfBlob);
+
+let attestations = JSON.parse(
+    localStorage.getItem('restev_attestations')
+) || [];
+
+attestations.push({
+
+    company,
+    date: `${dateFR} ${heureFR}`,
+    products: inventory.length,
+    file: pdfUrl
+
+});
+
+localStorage.setItem(
+    'restev_attestations',
+    JSON.stringify(attestations)
+);
+
+// =========================
+// TÉLÉCHARGEMENT PDF
+// =========================
+
+doc.save(`Attestation_RESTEV_${company}.pdf`);
+
+}
+
+// =========================
+// ARCHIVES PDF
+// =========================
 
 function renderAttestations(){
 
@@ -1056,8 +1093,9 @@ function renderAttestations(){
                    target="_blank"
                    class="btn btn-sm btn-primary">
 
-                   <i class="fa-solid fa-eye"></i>
-                   Voir
+                    <i class="fa-solid fa-eye"></i>
+                    Voir
+
                 </a>
 
             </div>
@@ -1067,19 +1105,20 @@ function renderAttestations(){
     `).join('');
 }
 
-  function renderAttestations(){
-   function toggleArchives() {
+function toggleArchives(){
 
     const box = document.getElementById('archives-container');
 
     if(box.style.display === 'none'){
+
         box.style.display = 'block';
+
         renderAttestations();
+
     } else {
+
         box.style.display = 'none';
     }
-}
-  
 }
 // --- SGH & CENTRES & QUIZ ---
 function renderSGH() {
