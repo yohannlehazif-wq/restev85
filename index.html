@@ -627,12 +627,48 @@ const questions = [
 let currentQ = 0, totalScore = 0;
 
 // --- FONCTIONS SYSTÈME ---
-function dismissSplash() {
-    const splash = document.getElementById('splash');
-    if(splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 800);
-    }
+/* Fond du Splash Screen */
+#splash { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 9999; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
+    background-size: 400% 400%; 
+    animation: gradientBG 10s ease infinite; 
+    transition: 0.8s; 
+}
+
+/* Le Logo : Taille réduite et animation visible */
+.splash-logo { 
+    width: 120px !important; /* Taille petite et fixe */
+    height: 120px !important;
+    object-fit: contain;
+    border-radius: 20px;
+    background: white; /* Fond blanc pour faire ressortir le logo */
+    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    /* L'animation de battement */
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+/* Animation de battement de coeur (très visible) */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.1); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.1); }
+    70% { transform: scale(1); }
+}
+
+.splash-subtitle {
+    margin-top: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
 }
 
 function updateStats() {
