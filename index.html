@@ -1168,6 +1168,43 @@ function quizAnswer(p) {
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
 window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
+// =========================
+// INSTALLATION PWA
+// =========================
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    const installBtn = document.getElementById('installBtn');
+
+    installBtn.style.display = 'block';
+
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+
+        console.log('Application installée');
+
+    }
+
+    deferredPrompt = null;
+
+    document.getElementById('installBtn').style.display = 'none';
+
+});    
 </script>
 </body>
 </html>
