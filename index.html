@@ -737,13 +737,27 @@ function startScanner() {
 
 // --- EXPORTS AVANCÉS ---
 function exportToCSV() {
-    if(inventory.length === 0) return alert("L'inventaire est vide.");
-    let csv = "Nom,Code,URL_FDS\n";
-    inventory.forEach(i => csv += `"${i.name}","${i.code || ''}","${i.fdsUrl || ''}"\n`);
-    const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+    if (inventory.length === 0) return alert("L'inventaire est vide !");
+
+    // En-tête avec BOM pour assurer l'affichage des accents dans Excel
+    let csv = "\ufeff"; 
+    csv += "Date d'enregistrement;Nom du Produit;Code-barres;FDS Présente;Lien FDS / Recherche\n";
+
+    inventory.forEach(i => {
+        const dateSaisie = i.id ? new Date(i.id).toLocaleDateString('fr-FR') : "-";
+        const fdsStatut = i.fdsUrl ? "OUI" : "NON (À chercher)";
+        const fdsLink = i.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(i.name)}+filetype:pdf`;
+
+        // Formatage des colonnes (séparateur point-virgule pour Excel FR)
+        csv += `${dateSaisie};"${i.name}";"${i.code || ''}";${fdsStatut};"${fdsLink}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
+    const dateExport = new Date().toISOString().split('T')[0];
+    
     link.href = URL.createObjectURL(blob);
-    link.download = "Inventaire_RESTEV_85.csv";
+    link.download = `Inventaire_RESTEV_${dateExport}.csv`;
     link.click();
 }
 
