@@ -1059,7 +1059,7 @@ au service de prévention et aux organismes de contrôle.
         JSON.stringify(attestations)
     );
 
-   renderAttestations();
+  renderAttestations();
 
 }
 
@@ -1079,6 +1079,39 @@ au service de prévention et aux organismes de contrôle.
 
         return;
     }
+
+    container.innerHTML = attestations.reverse().map(a => `
+    
+        <div class="card-custom archive-item mb-3">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <b>${a.company}</b><br>
+
+                    <small class="text-muted">
+                        ${a.date}
+                    </small><br>
+
+                    <small class="text-primary">
+                        ${a.products} produit(s)
+                    </small>
+                </div>
+
+                <a href="${a.file}"
+                   target="_blank"
+                   class="btn btn-sm btn-primary">
+
+                   <i class="fa-solid fa-eye"></i>
+                   Voir
+                </a>
+
+            </div>
+
+        </div>
+
+    `).join('');
+}
 
     container.innerHTML = attestations.reverse().map(a => `
     
