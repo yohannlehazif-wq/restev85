@@ -625,11 +625,42 @@ const questions = [
 
 let currentQ = 0, totalScore = 0;
 
-// --- FONCTIONS DE NAVIGATION ---
-function dismissSplash() {
-    const splash = document.getElementById('splash');
-    splash.style.opacity = '0';
-    setTimeout(() => { splash.style.display = 'none'; }, 800);
+/* Style du Splash Screen mis à jour */
+#splash { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 9999; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
+    background-size: 400% 400%; 
+    animation: gradientBG 10s ease infinite; 
+    transition: 0.8s; 
+}
+
+/* Animation du logo (Battement/Zoom doux) */
+.splash-logo { 
+    width: 180px; /* Taille réduite pour mobile */
+    height: auto;
+    border-radius: 25px; /* Optionnel : pour adoucir les angles */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    animation: pulseLogo 2s ease-in-out infinite;
+}
+
+@keyframes pulseLogo {
+    0% { transform: scale(1); filter: drop-shadow(0 5px 15px rgba(255,255,255,0.2)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 10px 25px rgba(255,255,255,0.4)); }
+    100% { transform: scale(1); filter: drop-shadow(0 5px 15px rgba(255,255,255,0.2)); }
+}
+
+.splash-subtitle {
+    margin-top: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    opacity: 0.9;
 }
 
 function updateStats() {
