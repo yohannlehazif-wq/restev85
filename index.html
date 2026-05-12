@@ -575,15 +575,16 @@ const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Chargement de l'inventaire local
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 const blueRestev = [48, 101, 168]; 
 
 // --- DONNÉES FIXES ---
 const centres = [
-    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+La+Roche-sur-Yon" },
-    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+Montaigu" },
-    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+Les+Herbiers" },
-    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://www.google.com/maps/search/?api=1&query=RESTEV+Les+Essarts" }
+    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=RESTEV+La+Roche+sur+Yon" },
+    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=RESTEV+Montaigu" },
+    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=RESTEV+Les+Herbiers" },
+    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=RESTEV+Les+Essarts" }
 ];
 
 const sghData = [
@@ -599,68 +600,39 @@ const sghData = [
 ];
 
 const detailsSGH = {
-    SGH01: { danger: "Explosif", risques: "Risque d’explosion sous l’effet d’un choc, d’une friction ou de la chaleur.", prevention: "Stockage sécurisé, éloignement des sources de chaleur." },
-    SGH02: { danger: "Inflammable", risques: "S’enflamme très facilement au contact d’une flamme ou étincelle.", prevention: "Ventilation obligatoire, stockage en armoire inflammable." },
-    SGH03: { danger: "Comburant", risques: "Peut aggraver fortement un incendie en libérant de l’oxygène.", prevention: "Stockage séparé des produits combustibles." },
-    SGH04: { danger: "Gaz sous pression", risques: "Explosion possible en cas de chauffe. Risque d’asphyxie.", prevention: "Stockage ventilé, fixation des bouteilles." },
-    SGH05: { danger: "Corrosif", risques: "Brûlures graves de la peau et lésions oculaires irréversibles.", prevention: "Manipulation sous hotte, gants chimiques, lunettes étanches." },
-    SGH06: { danger: "Toxique aigu", risques: "Peut être mortel par inhalation, ingestion ou contact cutané.", prevention: "Travail en zone ventilée, masque filtrant obligatoire." },
-    SGH07: { danger: "Irritant", risques: "Irritation des yeux, peau et voies respiratoires. Allergies.", prevention: "Réduction du temps d’exposition, gants et lunettes." },
-    SGH08: { danger: "Danger grave pour la santé", risques: "Effets chroniques : cancer, atteinte organes, fertilité.", prevention: "Substitution produit si possible, confinement, protection respiratoire." },
-    SGH09: { danger: "Environnement", risques: "Toxicité pour les organismes aquatiques, pollution durable.", prevention: "Stockage étanche sur rétention, gestion des déchets." }
+    SGH01: { danger: "Explosif", risques: "Risque d’explosion sous l’effet d’un choc ou chaleur.", prevention: "Stockage sécurisé." },
+    SGH02: { danger: "Inflammable", risques: "S’enflamme facilement.", prevention: "Armoire inflammable." },
+    SGH03: { danger: "Comburant", risques: "Aggrave fortement un incendie.", prevention: "Stocker séparément." },
+    SGH04: { danger: "Gaz sous pression", risques: "Explosion possible en cas de chauffe.", prevention: "Fixation des bouteilles." },
+    SGH05: { danger: "Corrosif", risques: "Brûlures graves peau/yeux.", prevention: "Gants et lunettes étanches." },
+    SGH06: { danger: "Toxique aigu", risques: "Mortel par inhalation/contact.", prevention: "Masque filtrant obligatoire." },
+    SGH07: { danger: "Irritant", risques: "Irritation peau/yeux. Allergies.", prevention: "Protection cutanée." },
+    SGH08: { danger: "Danger grave", risques: "Cancer, fertilité, organes.", prevention: "Substitution recommandée." },
+    SGH09: { danger: "Environnement", risques: "Pollution durable de l'eau.", prevention: "Bac de rétention." }
 };
 
 const questions = [
-    "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
-    "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
-    "Les FDS sont-elles accessibles à tous les postes de travail ?",
-    "Les équipements de protection (EPI) sont-ils portés et en bon état ?",
-    "Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
-    "Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
-    "Les salariés connaissent-ils les gestes de premiers secours ?",
-    "Les produits chimiques sont-ils tous identifiés par une étiquette ?",
-    "Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
-    "La prévention est-elle discutée lors de réunions régulières ?"
+    "Le DUERP est-il mis à jour chaque année ?",
+    "Les salariés sont-ils formés à la lecture des FDS ?",
+    "Les FDS sont-elles accessibles sur le terrain ?",
+    "Les EPI sont-ils portés et en bon état ?",
+    "Le stockage respecte-t-il les compatibilités ?",
+    "Les accidents sont-ils tracés et analysés ?",
+    "Connaissez-vous les gestes de premiers secours ?",
+    "Chaque produit possède-t-il son étiquette ?",
+    "Le matériel de sécurité est-il testé ?",
+    "La prévention est-elle un sujet régulier ?"
 ];
 
 let currentQ = 0, totalScore = 0;
 
-/* Style du Splash Screen mis à jour */
-#splash { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 9999; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
-    background-size: 400% 400%; 
-    animation: gradientBG 10s ease infinite; 
-    transition: 0.8s; 
-}
-
-/* Animation du logo (Battement/Zoom doux) */
-.splash-logo { 
-    width: 180px; /* Taille réduite pour mobile */
-    height: auto;
-    border-radius: 25px; /* Optionnel : pour adoucir les angles */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    animation: pulseLogo 2s ease-in-out infinite;
-}
-
-@keyframes pulseLogo {
-    0% { transform: scale(1); filter: drop-shadow(0 5px 15px rgba(255,255,255,0.2)); }
-    50% { transform: scale(1.05); filter: drop-shadow(0 10px 25px rgba(255,255,255,0.4)); }
-    100% { transform: scale(1); filter: drop-shadow(0 5px 15px rgba(255,255,255,0.2)); }
-}
-
-.splash-subtitle {
-    margin-top: 20px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    opacity: 0.9;
+// --- FONCTIONS SYSTÈME ---
+function dismissSplash() {
+    const splash = document.getElementById('splash');
+    if(splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 800);
+    }
 }
 
 function updateStats() {
@@ -685,7 +657,8 @@ function nav(id, el) {
 // --- GESTION INVENTAIRE ---
 function renderInventory() {
     const container = document.getElementById('inventory-container');
-    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré.</p>';
+    if(!container) return;
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré localement.</p>';
     inventory.forEach(item => {
         const finalLink = item.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
         container.innerHTML += `
@@ -705,7 +678,6 @@ function renderInventory() {
     });
 }
 
-// --- SAUVEGARDE (UNIQUEMENT VERS LE CLOUD SUPABASE) ---
 async function saveProduct() {
     const name = document.getElementById('prod-name').value;
     const code = document.getElementById('prod-code').value.trim();
@@ -713,196 +685,86 @@ async function saveProduct() {
     
     if (!name) return alert("Nom du produit requis.");
 
+    // Sauvegarde Locale (pour affichage immédiat)
+    const newProd = { id: Date.now(), name, code, fdsUrl, created_at: new Date() };
+    inventory.push(newProd);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+
     try {
-        // Envoi direct vers ta base de données RESTEV
+        // Envoi vers Supabase
         const { error } = await sb.from('inventaire_utilisateurs').insert([
-            { 
-                nom_produit: name, 
-                code_barres: code, 
-                url_fds: fdsUrl,
-                created_at: new Date() 
-            }
+            { nom_produit: name, code_barres: code, url_fds: fdsUrl }
         ]);
-
         if (error) throw error;
-
-        alert("Produit synchronisé avec succès sur Supabase !");
-        
-        // Nettoyage du formulaire
-        document.getElementById('prod-name').value = '';
-        document.getElementById('prod-code').value = '';
-        document.getElementById('prod-url').value = '';
-        
-        nav('page-list', document.getElementById('nav-list'));
-        
-    } catch (e) { 
+        alert("Produit enregistré et synchronisé !");
+    } catch (e) {
         console.error(e);
-        alert("Erreur lors de la synchronisation cloud.");
+        alert("Enregistré localement (Cloud indisponible)");
+    }
+
+    // Reset formulaire
+    document.getElementById('prod-name').value = '';
+    document.getElementById('prod-code').value = '';
+    document.getElementById('prod-url').value = '';
+    updateStats();
+    nav('page-list', document.getElementById('nav-list'));
+}
+
+function deleteItem(id) {
+    if(confirm("Supprimer ce produit ?")) {
+        inventory = inventory.filter(i => i.id !== id);
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+        renderInventory();
+        updateStats();
     }
 }
 
-// --- EXPORT EXCEL AMÉLIORÉ (SANS STOCKAGE LOCAL) ---
-function exportToCSV() {
-    // Note : Ici 'inventory' doit être alimenté par un SELECT Supabase préalable
-    if (!inventory || inventory.length === 0) return alert("L'inventaire est vide ou non chargé.");
-
-    // En-tête compatible Excel FR (accents et colonnes)
-    let csv = "\ufeff"; 
-    csv += "Date;Produit;Code-barres;FDS;Lien\n";
-
-    inventory.forEach(i => {
-        const dateSaisie = i.created_at ? new Date(i.created_at).toLocaleDateString('fr-FR') : "-";
-        const fdsStatut = i.url_fds ? "OUI" : "À compléter";
-        
-        // Construction de la ligne avec séparateur ";"
-        csv += `${dateSaisie};"${i.nom_produit}";"${i.code_barres || ''}";${fdsStatut};"${i.url_fds || ''}"\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Export_Inventaire_RESTEV.csv`;
-    link.click();
-}
-
-// --- RECHERCHE & SCAN ---
-function searchFDS() {
-    const name = document.getElementById('prod-name').value;
-    if(!name) return alert("Saisissez un nom de produit.");
-    window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+filetype:pdf`, '_blank');
-}
-
-async function searchBarcodeDB() {
-    const code = document.getElementById('prod-code').value;
-    if(!code) return alert("Code requis.");
-    const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', code).limit(1);
-    if(data && data.length > 0) {
-        document.getElementById('prod-name').value = data[0].nom_produit;
-        document.getElementById('prod-url').value = data[0].url_fds;
-        alert("Produit trouvé dans la base !");
-    } else { alert("Produit non référencé. Saisie manuelle nécessaire."); }
-}
-
-function startScanner() {
-    const scanner = new Html5Qrcode("reader");
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
-        document.getElementById('prod-code').value = text;
-        scanner.stop();
-        const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', text).limit(1);
-        if(data && data.length > 0) {
-            document.getElementById('prod-name').value = data[0].nom_produit;
-            document.getElementById('prod-url').value = data[0].url_fds;
-        }
-    }).catch(e => console.error(e));
-}
-
-// --- EXPORTS AVANCÉS ---
+// --- EXPORTS ---
 function exportToCSV() {
     if (inventory.length === 0) return alert("L'inventaire est vide !");
-
-    // En-tête avec BOM pour assurer l'affichage des accents dans Excel
-    let csv = "\ufeff"; 
-    csv += "Date d'enregistrement;Nom du Produit;Code-barres;FDS Présente;Lien FDS / Recherche\n";
-
+    let csv = "\ufeffDate;Produit;Code;FDS;Lien\n";
     inventory.forEach(i => {
-        const dateSaisie = i.id ? new Date(i.id).toLocaleDateString('fr-FR') : "-";
-        const fdsStatut = i.fdsUrl ? "OUI" : "NON (À chercher)";
-        const fdsLink = i.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(i.name)}+filetype:pdf`;
-
-        // Formatage des colonnes (séparateur point-virgule pour Excel FR)
-        csv += `${dateSaisie};"${i.name}";"${i.code || ''}";${fdsStatut};"${fdsLink}"\n`;
+        const date = new Date(i.created_at || i.id).toLocaleDateString('fr-FR');
+        csv += `${date};"${i.name}";"${i.code || ''}";${i.fdsUrl?'OUI':'NON'};"${i.fdsUrl || ''}"\n`;
     });
-
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
-    const dateExport = new Date().toISOString().split('T')[0];
-    
     link.href = URL.createObjectURL(blob);
-    link.download = `Inventaire_RESTEV_${dateExport}.csv`;
+    link.download = `Inventaire_RESTEV.csv`;
     link.click();
 }
 
 async function generatePDFProof() {
     if (inventory.length === 0) return alert("Inventaire vide.");
-
-    const company = prompt("Nom de l'entreprise :") || "Entreprise Adhérente";
-    const responsable = prompt("Nom du responsable :") || "Responsable";
-    const dateFR = new Date().toLocaleDateString('fr-FR');
-    const heureFR = new Date().toLocaleTimeString('fr-FR');
-
+    const company = prompt("Nom de l'entreprise :") || "Entreprise";
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // En-tête
     doc.setFillColor(...blueRestev);
     doc.rect(0, 0, 210, 32, 'F');
-    doc.setTextColor(255,255,255);
-    doc.setFontSize(18);
-    doc.setFont(undefined, 'bold');
-    doc.text("ATTESTATION D’INVENTAIRE CHIMIQUE", 105, 18, { align: "center" });
-    doc.setFontSize(10);
-    doc.text("RESTEV - Prévention & Santé au Travail", 105, 26, { align: "center" });
+    doc.setTextColor(255);
+    doc.text("ATTESTATION D’INVENTAIRE CHIMIQUE", 105, 20, { align: "center" });
 
-    // Infos Entreprise
-    doc.setTextColor(0,0,0);
-    doc.setDrawColor(...blueRestev);
-    doc.roundedRect(12, 40, 186, 30, 4, 4);
-    doc.text(`Entreprise : ${company}`, 16, 50);
-    doc.text(`Responsable : ${responsable}`, 16, 57);
-    doc.text(`Date de génération : ${dateFR} à ${heureFR}`, 16, 64);
+    doc.setTextColor(0);
+    doc.text(`Entreprise : ${company}`, 14, 45);
+    doc.text(`Date : ${new Date().toLocaleDateString()}`, 14, 52);
 
-    // Tableau
-    const body = inventory.map((item, idx) => [idx + 1, item.name, item.code || "-", item.fdsUrl ? "OUI" : "À compléter"]);
+    const rows = inventory.map((item, idx) => [idx + 1, item.name, item.code || "-", item.fdsUrl ? "OUI" : "NON"]);
     doc.autoTable({
-        startY: 80,
-        head: [['#', 'Produit', 'Code-barres', 'FDS']],
-        body: body,
+        startY: 60,
+        head: [['#', 'Produit', 'Code', 'FDS']],
+        body: rows,
         headStyles: { fillColor: blueRestev }
     });
 
-    // Signature Zone
-    let finalY = doc.lastAutoTable.finalY + 20;
-    doc.roundedRect(112, finalY, 85, 40, 4, 4);
-    doc.text("CACHET & SIGNATURE", 116, finalY + 10);
-
-    // Sauvegarde et Archive Locale
-    const pdfBlob = doc.output('blob');
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    let attestations = JSON.parse(localStorage.getItem('restev_attestations')) || [];
-    attestations.push({ company, date: `${dateFR} ${heureFR}`, products: inventory.length, file: pdfUrl });
-    localStorage.setItem('restev_attestations', JSON.stringify(attestations));
-
-    doc.save(`Attestation_RESTEV_${company}.pdf`);
-}
-
-function renderAttestations(){
-    const container = document.getElementById('archives-list');
-    let attestations = JSON.parse(localStorage.getItem('restev_attestations')) || [];
-    if(attestations.length === 0){
-        container.innerHTML = `<p class="text-muted text-center">Aucune attestation archivée.</p>`;
-        return;
-    }
-    container.innerHTML = attestations.reverse().map(a => `
-        <div class="card-custom archive-item mb-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <b>${a.company}</b><br>
-                    <small class="text-muted">${a.date} (${a.products} produits)</small>
-                </div>
-                <a href="${a.file}" target="_blank" class="btn btn-sm btn-primary">Voir</a>
-            </div>
-        </div>`).join('');
-}
-
-function toggleArchives(){
-    const box = document.getElementById('archives-container');
-    box.style.display = (box.style.display === 'none') ? 'block' : 'none';
-    if(box.style.display === 'block') renderAttestations();
+    doc.save(`Attestation_${company}.pdf`);
 }
 
 // --- LOGIQUE SGH, CENTRES & QUIZ ---
 function renderSGH() {
-    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+    const list = document.getElementById('sgh-list');
+    if(!list) return;
+    list.innerHTML = sghData.map(s => `
         <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
             <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/60?text=SGH'">
             <div><b>${s.title}</b><br><small>${s.desc}</small></div>
@@ -922,7 +784,9 @@ function renderSGH() {
 }
 
 function renderCentres() {
-    document.getElementById('centres-list').innerHTML = centres.map(c => `
+    const list = document.getElementById('centres-list');
+    if(!list) return;
+    list.innerHTML = centres.map(c => `
     <div class="card-custom mb-3">
         <b>${c.n}</b><br><small>${c.a}</small>
         <div class="d-flex gap-2 mt-2">
@@ -933,8 +797,11 @@ function renderCentres() {
 }
 
 function showQuestion() {
-    document.getElementById('q-text').innerText = `${currentQ + 1}. ${questions[currentQ]}`;
-    document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+    const qText = document.getElementById('q-text');
+    if(qText) {
+        qText.innerText = `${currentQ + 1}. ${questions[currentQ]}`;
+        document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+    }
 }
 
 function quizAnswer(p) {
@@ -945,33 +812,21 @@ function quizAnswer(p) {
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
         document.getElementById('quiz-label').innerText = totalScore > 22 ? "Excellent" : (totalScore > 15 ? "Correct" : "À améliorer");
-        document.getElementById('quiz-advice').innerText = totalScore > 15 ? "Bonne maîtrise des bases." : "Une visite de votre technicien RESTEV est conseillée.";
+        document.getElementById('quiz-advice').innerText = totalScore > 15 ? "Bonne maîtrise." : "Un conseil expert RESTEV est recommandé.";
     }
 }
 
 function resetQuiz() { 
     currentQ = 0; totalScore = 0; 
-    document.getElementById('q-box').style.display='block'; 
-    document.getElementById('q-result').style.display='none'; 
-    showQuestion(); 
+    const qBox = document.getElementById('q-box');
+    if(qBox) {
+        qBox.style.display='block'; 
+        document.getElementById('q-result').style.display='none'; 
+        showQuestion(); 
+    }
 }
 
-// --- INITIALISATION FINALE ---
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('install-row').style.display = 'block';
-});
-
-document.getElementById('btnInstall')?.addEventListener('click', async () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt = null;
-        document.getElementById('install-row').style.display = 'none';
-    }
-});
-
+// --- INITIALISATION ---
 window.onload = () => { 
     updateStats(); 
     setTimeout(dismissSplash, 2000); 
