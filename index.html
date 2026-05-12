@@ -455,7 +455,25 @@ ACCUEIL RESTEV
 <h5 class="fw-bold mb-3">Classification SGH</h5>
 <div id="sgh-list"></div>
 </div>
+    
+<div id="install-row" style="display: none;">
+    <button class="btn w-100 fw-bold mb-3" id="btnInstall" style="background: #ae227d; color: white; border-radius: 15px; padding: 12px;">
+        <i class="fa-solid fa-download me-2"></i>INSTALLER L'APP SUR MON MOBILE
+    </button>
+</div>
 
+<h6 class="fw-bold mt-4 mb-3">Sauvegarde & Documents</h6>
+<div class="card-custom">
+    <p class="small text-muted mb-3">Exporter l'inventaire sur la mémoire du téléphone :</p>
+    <div class="d-grid gap-2">
+        <button class="btn btn-outline-danger fw-bold" onclick="generatePDFProof()">
+            <i class="fa-solid fa-file-pdf me-2"></i>TÉLÉCHARGER PDF
+        </button>
+        <button class="btn btn-outline-success fw-bold" onclick="exportToCSV()">
+            <i class="fa-solid fa-file-csv me-2"></i>EXPORTER EXCEL (CSV)
+        </button>
+    </div>
+</div>
 <div id="page-list" class="app-page">
 <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
 <div class="d-flex gap-2 mb-3">
@@ -1150,6 +1168,49 @@ function quizAnswer(p) {
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
 window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
+    // --- GESTION DES TÉLÉCHARGEMENTS ---
+
+// Export CSV pour Excel
+function exportToCSV() {
+    if(inventory.length === 0) return alert("L'inventaire est vide !");
+    let csv = "Nom du produit,Code-barres\n";
+    inventory.forEach(i => csv += `"${i.name}","${i.code || ''}"\n`);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Inventaire_RESTEV_85.csv";
+    link.click();
+}
+
+// Génération du PDF (Attestation)
+function generatePDFProof() {
+    if(inventory.length === 0) return alert("Rien à exporter !");
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Inventaire des Produits Chimiques - RESTEV 85", 14, 20);
+    const rows = inventory.map(i => [i.name, i.code || "N/A"]);
+    doc.autoTable({ head: [['Produit', 'Code']], body: rows, startY: 30 });
+    doc.save("Attestation_Inventaire.pdf");
+}
+
+// --- LOGIQUE D'INSTALLATION (PWA) ---
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('install-row').style.display = 'block';
+});
+
+document.getElementById('btnInstall')?.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            document.getElementById('install-row').style.display = 'none';
+        }
+        deferredPrompt = null;
+    }
+});
 </script>
 </body>
 </html>
