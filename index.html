@@ -674,34 +674,64 @@ function renderInventory() {
     });
 }
 
+// --- SAUVEGARDE (UNIQUEMENT VERS LE CLOUD SUPABASE) ---
 async function saveProduct() {
     const name = document.getElementById('prod-name').value;
     const code = document.getElementById('prod-code').value.trim();
     const fdsUrl = document.getElementById('prod-url').value;
+    
     if (!name) return alert("Nom du produit requis.");
 
-    const newProduct = { id: Date.now(), name, code, fdsUrl };
-    inventory.push(newProduct);
-    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-
     try {
-        await sb.from('inventaire_utilisateurs').insert([{ nom_produit: name, code_barres: code, url_fds: fdsUrl }]);
-    } catch (e) { console.error(e); }
+        // Envoi direct vers ta base de données RESTEV
+        const { error } = await sb.from('inventaire_utilisateurs').insert([
+            { 
+                nom_produit: name, 
+                code_barres: code, 
+                url_fds: fdsUrl,
+                created_at: new Date() 
+            }
+        ]);
 
-    document.getElementById('prod-name').value = '';
-    document.getElementById('prod-code').value = '';
-    document.getElementById('prod-url').value = '';
-    updateStats();
-    nav('page-list', document.getElementById('nav-list'));
+        if (error) throw error;
+
+        alert("Produit synchronisé avec succès sur Supabase !");
+        
+        // Nettoyage du formulaire
+        document.getElementById('prod-name').value = '';
+        document.getElementById('prod-code').value = '';
+        document.getElementById('prod-url').value = '';
+        
+        nav('page-list', document.getElementById('nav-list'));
+        
+    } catch (e) { 
+        console.error(e);
+        alert("Erreur lors de la synchronisation cloud.");
+    }
 }
 
-function deleteItem(id) {
-    if(confirm("Supprimer ce produit de l'inventaire ?")) {
-        inventory = inventory.filter(i => i.id !== id);
-        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-        renderInventory(); 
-        updateStats();
-    }
+// --- EXPORT EXCEL AMÉLIORÉ (SANS STOCKAGE LOCAL) ---
+function exportToCSV() {
+    // Note : Ici 'inventory' doit être alimenté par un SELECT Supabase préalable
+    if (!inventory || inventory.length === 0) return alert("L'inventaire est vide ou non chargé.");
+
+    // En-tête compatible Excel FR (accents et colonnes)
+    let csv = "\ufeff"; 
+    csv += "Date;Produit;Code-barres;FDS;Lien\n";
+
+    inventory.forEach(i => {
+        const dateSaisie = i.created_at ? new Date(i.created_at).toLocaleDateString('fr-FR') : "-";
+        const fdsStatut = i.url_fds ? "OUI" : "À compléter";
+        
+        // Construction de la ligne avec séparateur ";"
+        csv += `${dateSaisie};"${i.nom_produit}";"${i.code_barres || ''}";${fdsStatut};"${i.url_fds || ''}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Export_Inventaire_RESTEV.csv`;
+    link.click();
 }
 
 // --- RECHERCHE & SCAN ---
