@@ -26,13 +26,50 @@
 <style>
 :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
 body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-.btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-@keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-.ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+/* --- DESIGN DU SPLASH SCREEN --- */
+#splash { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 9999; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
+    background-size: 400% 400%; 
+    animation: gradientBG 10s ease infinite; 
+    transition: 0.8s; 
+}
 
+/* Le Logo : Taille réduite et animation visible */
+.splash-logo { 
+    width: 120px !important; 
+    height: 120px !important;
+    object-fit: contain;
+    border-radius: 20px;
+    background: white; 
+    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+/* Animation de battement de coeur */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.1); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.1); }
+    70% { transform: scale(1); }
+}
+
+.splash-subtitle {
+    margin-top: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-align: center;
+}
 .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
 .logo-header { height: 40px; }
 .info-banner {
@@ -575,16 +612,15 @@ const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-// Chargement de l'inventaire local
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 const blueRestev = [48, 101, 168]; 
 
 // --- DONNÉES FIXES ---
 const centres = [
-    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=RESTEV+La+Roche+sur+Yon" },
-    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=RESTEV+Montaigu" },
-    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=RESTEV+Les+Herbiers" },
-    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=RESTEV+Les+Essarts" }
+    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "http://maps.google.com/?q=RESTEV+La+Roche+sur+Yon" },
+    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "http://maps.google.com/?q=RESTEV+Montaigu" },
+    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "http://maps.google.com/?q=RESTEV+Les+Herbiers" },
+    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "http://maps.google.com/?q=RESTEV+Les+Essarts" }
 ];
 
 const sghData = [
@@ -627,48 +663,12 @@ const questions = [
 let currentQ = 0, totalScore = 0;
 
 // --- FONCTIONS SYSTÈME ---
-/* Fond du Splash Screen */
-#splash { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 9999; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
-    background-size: 400% 400%; 
-    animation: gradientBG 10s ease infinite; 
-    transition: 0.8s; 
-}
-
-/* Le Logo : Taille réduite et animation visible */
-.splash-logo { 
-    width: 120px !important; /* Taille petite et fixe */
-    height: 120px !important;
-    object-fit: contain;
-    border-radius: 20px;
-    background: white; /* Fond blanc pour faire ressortir le logo */
-    padding: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    /* L'animation de battement */
-    animation: heartBeat 1.5s ease-in-out infinite;
-}
-
-/* Animation de battement de coeur (très visible) */
-@keyframes heartBeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.1); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.1); }
-    70% { transform: scale(1); }
-}
-
-.splash-subtitle {
-    margin-top: 20px;
-    color: white;
-    font-weight: bold;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+function dismissSplash() {
+    const splash = document.getElementById('splash');
+    if(splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 800);
+    }
 }
 
 function updateStats() {
@@ -721,24 +721,20 @@ async function saveProduct() {
     
     if (!name) return alert("Nom du produit requis.");
 
-    // Sauvegarde Locale (pour affichage immédiat)
     const newProd = { id: Date.now(), name, code, fdsUrl, created_at: new Date() };
     inventory.push(newProd);
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
 
     try {
-        // Envoi vers Supabase
         const { error } = await sb.from('inventaire_utilisateurs').insert([
             { nom_produit: name, code_barres: code, url_fds: fdsUrl }
         ]);
         if (error) throw error;
-        alert("Produit enregistré et synchronisé !");
+        alert("Produit synchronisé !");
     } catch (e) {
         console.error(e);
-        alert("Enregistré localement (Cloud indisponible)");
     }
 
-    // Reset formulaire
     document.getElementById('prod-name').value = '';
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
@@ -747,53 +743,12 @@ async function saveProduct() {
 }
 
 function deleteItem(id) {
-    if(confirm("Supprimer ce produit ?")) {
+    if(confirm("Supprimer ?")) {
         inventory = inventory.filter(i => i.id !== id);
         localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
         renderInventory();
         updateStats();
     }
-}
-
-// --- EXPORTS ---
-function exportToCSV() {
-    if (inventory.length === 0) return alert("L'inventaire est vide !");
-    let csv = "\ufeffDate;Produit;Code;FDS;Lien\n";
-    inventory.forEach(i => {
-        const date = new Date(i.created_at || i.id).toLocaleDateString('fr-FR');
-        csv += `${date};"${i.name}";"${i.code || ''}";${i.fdsUrl?'OUI':'NON'};"${i.fdsUrl || ''}"\n`;
-    });
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Inventaire_RESTEV.csv`;
-    link.click();
-}
-
-async function generatePDFProof() {
-    if (inventory.length === 0) return alert("Inventaire vide.");
-    const company = prompt("Nom de l'entreprise :") || "Entreprise";
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.setFillColor(...blueRestev);
-    doc.rect(0, 0, 210, 32, 'F');
-    doc.setTextColor(255);
-    doc.text("ATTESTATION D’INVENTAIRE CHIMIQUE", 105, 20, { align: "center" });
-
-    doc.setTextColor(0);
-    doc.text(`Entreprise : ${company}`, 14, 45);
-    doc.text(`Date : ${new Date().toLocaleDateString()}`, 14, 52);
-
-    const rows = inventory.map((item, idx) => [idx + 1, item.name, item.code || "-", item.fdsUrl ? "OUI" : "NON"]);
-    doc.autoTable({
-        startY: 60,
-        head: [['#', 'Produit', 'Code', 'FDS']],
-        body: rows,
-        headStyles: { fillColor: blueRestev }
-    });
-
-    doc.save(`Attestation_${company}.pdf`);
 }
 
 // --- LOGIQUE SGH, CENTRES & QUIZ ---
@@ -804,18 +759,6 @@ function renderSGH() {
         <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
             <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/60?text=SGH'">
             <div><b>${s.title}</b><br><small>${s.desc}</small></div>
-        </div>
-        <div class="modal fade" id="modal-${s.id}" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header text-white" style="background-color: var(--r-blue)"><h5>${s.title}</h5></div>
-                    <div class="modal-body">
-                        <p><b>Danger :</b> ${detailsSGH[s.id].danger}</p>
-                        <p><b>Risques :</b> ${detailsSGH[s.id].risques}</p>
-                        <p><b>Prévention :</b> ${detailsSGH[s.id].prevention}</p>
-                    </div>
-                </div>
-            </div>
         </div>`).join('');
 }
 
@@ -847,25 +790,20 @@ function quizAnswer(p) {
         document.getElementById('q-box').style.display = 'none';
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-        document.getElementById('quiz-label').innerText = totalScore > 22 ? "Excellent" : (totalScore > 15 ? "Correct" : "À améliorer");
-        document.getElementById('quiz-advice').innerText = totalScore > 15 ? "Bonne maîtrise." : "Un conseil expert RESTEV est recommandé.";
     }
 }
 
 function resetQuiz() { 
     currentQ = 0; totalScore = 0; 
     const qBox = document.getElementById('q-box');
-    if(qBox) {
-        qBox.style.display='block'; 
-        document.getElementById('q-result').style.display='none'; 
-        showQuestion(); 
-    }
+    if(qBox) { qBox.style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 }
 
 // --- INITIALISATION ---
 window.onload = () => { 
     updateStats(); 
-    setTimeout(dismissSplash, 2000); 
+    // Le splash screen s'en va après 2.5 secondes automatiquement
+    setTimeout(dismissSplash, 2500); 
 };
 </script>
 </body>
