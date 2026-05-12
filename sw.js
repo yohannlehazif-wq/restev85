@@ -1,23 +1,20 @@
-const CACHE_NAME = 'restev-cache-v2';
-
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/logo_restev_carre.png',
-  '/logo_restev_long.png'
-];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
-});
+{
+  "name": "RESTEV 85",
+  "short_name": "RESTEV",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3065a8",
+  "icons": [
+    {
+      "src": "logo_restev_carre.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_restev_carre.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
