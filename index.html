@@ -25,11 +25,6 @@
 
 <style>
 :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-    <!-- BOUTON INSTALLER L'APP -->
-<button id="installBtn" class="install-btn" style="display:none;">
-    <i class="fa-solid fa-download me-2"></i>
-    INSTALLER L’APPLICATION
-</button>
 body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
 #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
 @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -760,20 +755,7 @@ function deleteItem(id) {
         renderInventory(); updateStats();
     }
 }
-.install-btn{
-    position: fixed;
-    bottom: 95px;
-    right: 15px;
-    z-index: 2000;
-    border: none;
-    border-radius: 50px;
-    padding: 14px 22px;
-    background: linear-gradient(135deg, #3065a8, #1e40af);
-    color: white;
-    font-weight: 800;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    animation: breathing 2s infinite;
-}
+
 // --- RECHERCHE & SCAN ---
 function searchFDS() {
     const name = document.getElementById('prod-name').value;
@@ -1168,43 +1150,6 @@ function quizAnswer(p) {
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
 window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
-// =========================
-// INSTALLATION PWA
-// =========================
-
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-
-    e.preventDefault();
-
-    deferredPrompt = e;
-
-    const installBtn = document.getElementById('installBtn');
-
-    installBtn.style.display = 'block';
-
-});
-
-document.getElementById('installBtn').addEventListener('click', async () => {
-
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === 'accepted') {
-
-        console.log('Application installée');
-
-    }
-
-    deferredPrompt = null;
-
-    document.getElementById('installBtn').style.display = 'none';
-
-});    
 </script>
 </body>
 </html>
