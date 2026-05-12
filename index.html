@@ -53,36 +53,43 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     animation: heartBeat 1.5s ease-in-out infinite;
 }
 
-/* Animation de battement de coeur */
-@keyframes heartBeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.1); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.1); }
-    70% { transform: scale(1); }
+/* --- NOUVEAU DESIGN SPLASH SCREEN --- */
+#splash { 
+    position: fixed; inset: 0; z-index: 9999; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    background: white; transition: 0.8s; padding: 20px;
 }
 
-.splash-subtitle {
-    margin-top: 20px;
-    color: white;
-    font-weight: bold;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    text-align: center;
-}
-.app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-.logo-header { height: 40px; }
-.info-banner {
-    background: #dbeafe;
-    color: #1e3a5f;
-    padding: 3px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    font-weight: 600;
-    font-size: 0.72rem;
-    border-bottom: 1px solid #bfdbfe;
+.splash-logo { 
+    width: 180px !important; height: auto !important;
+    margin-bottom: 40px; animation: fadeIn 1s ease-in;
 }
 
+.loading-container { width: 100%; max-width: 250px; text-align: center; }
+
+.loading-text { color: #8e8e93; font-size: 0.85rem; margin-bottom: 10px; }
+
+.progress-bar-bg { 
+    width: 100%; height: 4px; background: #e5e5ea; 
+    border-radius: 10px; overflow: hidden; margin-bottom: 30px; 
+}
+
+.progress-bar-fill { 
+    width: 0%; height: 100%; 
+    background: linear-gradient(90deg, var(--r-blue), var(--r-purple)); 
+    transition: width 3s linear; 
+}
+
+.btn-continue { 
+    width: 100%; padding: 14px; border: none; border-radius: 12px; 
+    background: #d1d1d6; color: white; font-weight: bold; 
+    transition: 0.3s; cursor: not-allowed;
+}
+
+.btn-continue.active { 
+    background: var(--r-blue); cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(48, 101, 168, 0.2); 
+}
 .ticker {
     display: inline-block;
     animation: ticker 60s linear infinite;
@@ -116,14 +123,16 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <body>
 
 <div id="splash">
-    <div class="splash-content text-center text-white">
-
-        <!-- LOGO -->
-        <img src="logo_restev_carre.png"
-             alt="Logo"
-             class="splash-logo"
-             onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
-
+    <img src="logo_restev_carre.png" alt="Logo" class="splash-logo">
+    
+    <div class="loading-container">
+        <div class="loading-text" id="status-text">Loading...</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <button class="btn-continue" id="btn-continue" onclick="dismissSplash()">Continue</button>
+    </div>
+</div>
         <!-- TITRE -->
               <p class="splash-subtitle">Expert Prévention des Risques</p>
 
@@ -662,10 +671,29 @@ const questions = [
 
 let currentQ = 0, totalScore = 0;
 
-// --- FONCTIONS SYSTÈME ---
+// --- LOGIQUE DU SPLASH SCREEN ---
+window.addEventListener('load', () => {
+    const fill = document.getElementById('progress-fill');
+    const btn = document.getElementById('btn-continue');
+    const status = document.getElementById('status-text');
+
+    // Démarre la barre de chargement
+    setTimeout(() => {
+        fill.style.width = '100%';
+    }, 100);
+
+    // Active le bouton après 3 secondes (temps de la barre)
+    setTimeout(() => {
+        btn.classList.add('active');
+        btn.style.cursor = 'pointer';
+        status.innerText = 'Prêt !';
+    }, 3100);
+});
+
 function dismissSplash() {
-    const splash = document.getElementById('splash');
-    if(splash) {
+    const btn = document.getElementById('btn-continue');
+    if (btn.classList.contains('active')) {
+        const splash = document.getElementById('splash');
         splash.style.opacity = '0';
         setTimeout(() => splash.style.display = 'none', 800);
     }
