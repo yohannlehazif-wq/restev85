@@ -667,168 +667,35 @@ const questions = [
 
 let currentQ = 0, totalScore = 0;
 
-// --- LOGIQUE DU SPLASH SCREEN ---
+<script>
+// --- GESTION SPLASH ---
 window.addEventListener('load', () => {
-    const fill = document.getElementById('progress-fill');
-    const btn = document.getElementById('btn-continue');
-    const status = document.getElementById('status-text');
-
-    // Démarre la barre de chargement
+    setTimeout(() => { document.getElementById('progress-fill').style.width = '100%'; }, 100);
     setTimeout(() => {
-        fill.style.width = '100%';
-    }, 100);
-
-    // Active le bouton après 3 secondes (temps de la barre)
-    setTimeout(() => {
+        const btn = document.getElementById('btn-continue');
         btn.classList.add('active');
-        btn.style.cursor = 'pointer';
-        status.innerText = 'Prêt !';
+        document.getElementById('status-text').innerText = 'Application prête';
     }, 3100);
 });
 
 function dismissSplash() {
-    const btn = document.getElementById('btn-continue');
-    if (btn.classList.contains('active')) {
-        const splash = document.getElementById('splash');
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 800);
+    if(document.getElementById('btn-continue').classList.contains('active')) {
+        const s = document.getElementById('splash');
+        s.style.opacity = '0';
+        setTimeout(() => s.style.display = 'none', 800);
     }
 }
 
-function updateStats() {
-    const statsEl = document.getElementById('inv-stats');
-    if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
-}
-
+// --- NAVIGATION ---
 function nav(id, el) {
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    const target = document.getElementById(id);
-    if(target) target.classList.add('active-page');
-    if(el && typeof el === 'object') el.classList.add('active');
-    
-    if(id === 'page-list') renderInventory();
-    if(id === 'page-sgh') renderSGH();
-    if(id === 'page-centres') renderCentres();
-    if(id === 'page-quiz') resetQuiz();
+    document.getElementById(id).classList.add('active-page');
+    if(el && el.classList) el.classList.add('active');
     window.scrollTo(0, 0);
 }
-
-// --- GESTION INVENTAIRE ---
-function renderInventory() {
-    const container = document.getElementById('inventory-container');
-    if(!container) return;
-    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré localement.</p>';
-    inventory.forEach(item => {
-        const finalLink = item.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
-        container.innerHTML += `
-        <div class="card-custom mb-3">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-                <div>
-                    <b style="color:var(--r-blue)">${item.name}</b><br>
-                    <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
-                </div>
-                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
-            </div>
-            <a href="${finalLink}" target="_blank" class="btn btn-sm ${item.fdsUrl ? 'btn-danger' : 'btn-outline-primary'} w-100">
-                <i class="fa-solid ${item.fdsUrl ? 'fa-file-pdf' : 'fa-magnifying-glass'} me-1"></i> 
-                ${item.fdsUrl ? 'Consulter la FDS' : 'Chercher la FDS'}
-            </a>
-        </div>`;
-    });
-}
-
-async function saveProduct() {
-    const name = document.getElementById('prod-name').value;
-    const code = document.getElementById('prod-code').value.trim();
-    const fdsUrl = document.getElementById('prod-url').value;
-    
-    if (!name) return alert("Nom du produit requis.");
-
-    const newProd = { id: Date.now(), name, code, fdsUrl, created_at: new Date() };
-    inventory.push(newProd);
-    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-
-    try {
-        const { error } = await sb.from('inventaire_utilisateurs').insert([
-            { nom_produit: name, code_barres: code, url_fds: fdsUrl }
-        ]);
-        if (error) throw error;
-        alert("Produit synchronisé !");
-    } catch (e) {
-        console.error(e);
-    }
-
-    document.getElementById('prod-name').value = '';
-    document.getElementById('prod-code').value = '';
-    document.getElementById('prod-url').value = '';
-    updateStats();
-    nav('page-list', document.getElementById('nav-list'));
-}
-
-function deleteItem(id) {
-    if(confirm("Supprimer ?")) {
-        inventory = inventory.filter(i => i.id !== id);
-        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-        renderInventory();
-        updateStats();
-    }
-}
-
-// --- LOGIQUE SGH, CENTRES & QUIZ ---
-function renderSGH() {
-    const list = document.getElementById('sgh-list');
-    if(!list) return;
-    list.innerHTML = sghData.map(s => `
-        <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
-            <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/60?text=SGH'">
-            <div><b>${s.title}</b><br><small>${s.desc}</small></div>
-        </div>`).join('');
-}
-
-function renderCentres() {
-    const list = document.getElementById('centres-list');
-    if(!list) return;
-    list.innerHTML = centres.map(c => `
-    <div class="card-custom mb-3">
-        <b>${c.n}</b><br><small>${c.a}</small>
-        <div class="d-flex gap-2 mt-2">
-            <a href="tel:${c.t}" class="btn btn-sm btn-primary flex-grow-1">Appeler</a>
-            <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1">Itinéraire</a>
-        </div>
-    </div>`).join('');
-}
-
-function showQuestion() {
-    const qText = document.getElementById('q-text');
-    if(qText) {
-        qText.innerText = `${currentQ + 1}. ${questions[currentQ]}`;
-        document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
-    }
-}
-
-function quizAnswer(p) {
-    totalScore += p; currentQ++;
-    if(currentQ < questions.length) showQuestion();
-    else {
-        document.getElementById('q-box').style.display = 'none';
-        document.getElementById('q-result').style.display = 'block';
-        document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-    }
-}
-
-function resetQuiz() { 
-    currentQ = 0; totalScore = 0; 
-    const qBox = document.getElementById('q-box');
-    if(qBox) { qBox.style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
-}
-
-// --- INITIALISATION ---
-window.onload = () => { 
-    updateStats(); 
-    // Le splash screen s'en va après 2.5 secondes automatiquement
-    setTimeout(dismissSplash, 2500); 
-};
 </script>
+
 </body>
+</html>
 </html>
