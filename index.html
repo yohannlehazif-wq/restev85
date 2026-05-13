@@ -1150,6 +1150,76 @@ function quizAnswer(p) {
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
 window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
+
+// =========================
+// INSTALLATION APPLICATION PWA
+// =========================
+
+let deferredPrompt;
+
+const installBtn = document.getElementById('installBtn');
+
+// Android / Chrome
+window.addEventListener('beforeinstallprompt', (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    installBtn.style.display = 'flex';
+});
+
+// Clic bouton installer
+installBtn.addEventListener('click', async () => {
+
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+
+    const { outcome } = await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+
+    installBtn.style.display = 'none';
+});
+
+// iPhone / Safari
+function isIos() {
+
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+function isInStandaloneMode() {
+
+    return ('standalone' in window.navigator) &&
+           (window.navigator.standalone);
+}
+
+// Message aide iPhone
+if (isIos() && !isInStandaloneMode()) {
+
+    installBtn.style.display = 'flex';
+
+    installBtn.innerHTML = `
+        <i class="fa-solid fa-share-from-square"></i>
+        Ajouter à l'écran d’accueil
+    `;
+
+    installBtn.addEventListener('click', () => {
+
+        alert(
+            "Sur iPhone :\n\n" +
+            "1. Appuyez sur Partager\n" +
+            "2. Sur l’écran d’accueil\n" +
+            "3. Ajouter"
+        );
+    });
+}
 </script>
+    <!-- BOUTON INSTALLATION APP -->
+<button id="installBtn" class="install-app-btn">
+    <i class="fa-solid fa-download"></i>
+    Installer l'application
+</button>
 </body>
 </html>
