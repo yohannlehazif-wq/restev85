@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85 - Expert Prévention</title>
 
-    <!-- Configuration PWA & Mobile -->
+    <!-- PWA & SEO -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3065a8">
     <link rel="icon" type="image/png" href="logo_restev_carre.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-    <!-- Librairies Externes -->
+    <!-- Librairies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
@@ -26,448 +24,291 @@
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
         
-        body { 
-            background-color: var(--r-light); 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            margin-bottom: 100px; 
-            overflow-x: hidden; 
-            user-select: none; 
-        }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', sans-serif; margin-bottom: 100px; overflow-x: hidden; }
 
-        /* --- SPLASH SCREEN --- */
-        #splash { 
-            position: fixed; inset: 0; z-index: 9999; 
-            display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
-            background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; 
-        }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        /* Splash Screen */
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d); background-size: 400% 400%; transition: 0.8s; }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         
-        .btn-enter { 
-            background: white; color: var(--r-blue); border: none; padding: 15px 50px; 
-            border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; 
-        }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        
-        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-        @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw 4s linear infinite; }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
 
-        /* --- UI COMPONENTS --- */
+        /* Navigation & Header */
         .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
         
-        .info-banner { background: #dbeafe; color: #1e3a5f; padding: 3px 0; overflow: hidden; white-space: nowrap; font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid #bfdbfe; }
-        .ticker { display: inline-block; animation: ticker 60s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-        .ticker span { padding-right: 80px; }
-
-        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 5px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; }
         .nav-item.active { color: var(--r-blue); }
-        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
 
-        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
-        .active-page { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .info-banner { background: #dbeafe; padding: 4px 0; font-size: 0.75rem; overflow: hidden; white-space: nowrap; }
+        .ticker { display: inline-block; animation: ticker 40s linear infinite; }
+        @keyframes ticker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.2s; }
-        .card-custom:active { transform: scale(0.98); }
+        /* Pages & Cards */
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        .sgh-card { display: flex; gap: 15px; align-items: center; }
-        .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-        
-        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
-
-        /* --- PWA INSTALL BUTTON --- */
-        .install-app-btn {
-            position: fixed; bottom: 95px; right: 15px; z-index: 9999;
-            background: linear-gradient(135deg, #3065a8, #1e40af); color: white;
-            border: none; border-radius: 50px; padding: 14px 18px; font-weight: 700;
-            font-size: 0.9rem; display: none; align-items: center; gap: 10px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25); animation: pulseInstall 2s infinite;
+        /* BOUTON INSTALLATION */
+        .install-btn-container {
+            position: fixed; bottom: 95px; left: 0; right: 0; display: flex; justify-content: center; z-index: 2000;
         }
-        @keyframes pulseInstall { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        #installApp {
+            display: none; background: var(--r-purple); color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     </style>
 </head>
 <body>
 
 <!-- Splash Screen -->
 <div id="splash">
-    <div class="splash-content text-center text-white">
-        <img src="logo_restev_carre.png" alt="Logo" style="width: 90px; margin-bottom: 20px;" onerror="this.src='https://placehold.co/90x90/ffffff/3065a8?text=RESTEV'">
-        <p class="splash-subtitle">Expert Prévention des Risques</p>
-        <div class="ecg-container">
-            <svg viewBox="0 0 200 40" width="200">
-                <path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
-            </svg>
-        </div>
-        <button class="btn-enter mt-4" onclick="dismissSplash()">ENTRER</button>
+    <div class="text-center text-white">
+        <img src="logo_restev_carre.png" style="width: 80px; margin-bottom: 20px;" onerror="this.src='https://placehold.co/80/white/3065a8?text=R85'">
+        <svg viewBox="0 0 200 40" width="200"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
+        <br><button class="btn-enter mt-4" onclick="dismissSplash()">ENTRER</button>
     </div>
 </div>
 
-<!-- En-tête -->
-<div class="app-header">
-    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
-</div>
+<div class="app-header"><img src="logo_restev_long.png" class="logo-header" onerror="this.src='https://placehold.co/150x40?text=RESTEV+85'"></div>
 
 <div class="info-banner">
-    <div class="ticker">
-        <span>
-            📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne. | 💰 Aides CARSAT : Subventions disponibles (TPE/PME). | 🔍 Risque Chimique : Consultez les fiches INRS via l'app. | 🏗️ BTP : Conseils experts OPPBTP.
-        </span>
-    </div>
+    <div class="ticker"><span>⚠️ Rappel : Le Document Unique doit être mis à jour annuellement. | 🧪 Inventaire Chimique : Pensez à vérifier vos FDS. | 📞 Besoin d'aide ? Contactez votre centre RESTEV.</span></div>
 </div>
 
-<!-- Page Accueil -->
+<!-- BOUTON INSTALLATION APP -->
+<div class="install-btn-container">
+    <button id="installApp" onclick="installPWA()">
+        <i class="fa-solid fa-download me-2"></i>Installer l'application
+    </button>
+</div>
+
+<!-- HOME -->
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-        <h5 class="fw-bold mb-1">RESTEV 85</h5>
-        <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+    <div class="card-custom text-white" style="background: linear-gradient(135deg, var(--r-blue), #1e40af); border:none;">
+        <h5 class="fw-bold mb-1">Tableau de bord</h5>
+        <p id="inv-count" class="small mb-0">Chargement...</p>
     </div>
-    
     <div class="row g-2">
-        <div class="col-6" onclick="nav('page-scan', document.getElementById('nav-scan'))">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #1e88e5;">
-                <i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br>
-                <small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small>
-            </div>
-        </div>
-        <div class="col-6" onclick="nav('page-quiz', document.getElementById('nav-quiz'))">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #e53935;">
-                <i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br>
-                <small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small>
-            </div>
-        </div>
-        <div class="col-6" onclick="nav('page-sgh')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fbc02d;">
-                <i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br>
-                <small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small>
-            </div>
-        </div>
-        <div class="col-6" onclick="nav('page-list', document.getElementById('nav-list'))">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #43a047;">
-                <i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br>
-                <small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small>
-            </div>
-        </div>
-        <div class="col-6" onclick="nav('page-services')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #8e24aa;">
-                <i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br>
-                <small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small>
-            </div>
-        </div>
-        <div class="col-6" onclick="nav('page-aides')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #fb8c00;">
-                <i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br>
-                <small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small>
-            </div>
-        </div>
+        <div class="col-6" onclick="nav('page-scan')"><div class="card-custom text-center"><i class="fa-solid fa-camera fa-2x mb-2 text-primary"></i><br><small>SCANNER</small></div></div>
+        <div class="col-6" onclick="nav('page-list')"><div class="card-custom text-center"><i class="fa-solid fa-list-check fa-2x mb-2 text-success"></i><br><small>LISTE</small></div></div>
+        <div class="col-6" onclick="nav('page-quiz')"><div class="card-custom text-center"><i class="fa-solid fa-clipboard-question fa-2x mb-2 text-danger"></i><br><small>DIAGNOSTIC</small></div></div>
+        <div class="col-6" onclick="nav('page-centres')"><div class="card-custom text-center"><i class="fa-solid fa-map-location-dot fa-2x mb-2 text-warning"></i><br><small>CENTRES</small></div></div>
     </div>
 </div>
 
-<!-- Page Services -->
-<div id="page-services" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre RESTEV</h5>
-    <div class="card-custom" style="border-left-color: var(--r-blue);">
-        <div class="badge-service">PRÉVENTION</div>
-        <h6>Accompagnement réglementaire</h6>
-        <p class="small text-muted">Aide à la mise à jour du DUERP, évaluation des risques chimiques et CMR.</p>
-    </div>
-    <div class="card-custom" style="border-left-color: var(--r-purple);">
-        <div class="badge-service" style="background-color: var(--r-purple)">ERGONOMIE</div>
-        <h6>Prévention des TMS</h6>
-        <p class="small text-muted">Études de postes, analyse des gestes et postures, aménagement matériel.</p>
-    </div>
-    <a href="https://www.restev.fr/" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold">ACCUEIL RESTEV.FR</a>
-</div>
-
-<!-- Page Aides -->
-<div id="page-aides" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank text-success me-2"></i>Aides & Partenaires</h5>
-    <div class="card-custom" style="border-left-color: #e6a00f;">
-        <h6 class="fw-bold">Subventions CARSAT</h6>
-        <p class="small text-muted">Financements pour l'achat de matériel de sécurité en TPE/PME.</p>
-        <a href="https://www.carsat-pl.fr/" target="_blank" class="btn btn-sm btn-outline-dark w-100">Voir les aides</a>
-    </div>
-</div>
-
-<!-- Page Inventaire -->
+<!-- LISTE / INVENTAIRE -->
 <div id="page-list" class="app-page">
-    <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
+    <h5 class="fw-bold mb-3">Mon Inventaire</h5>
     <div class="d-flex gap-2 mb-3">
-        <button class="btn-excel flex-grow-1" onclick="exportToCSV()"><i class="fa-solid fa-file-csv"></i> EXPORT CSV</button>
-        <button class="btn btn-danger flex-grow-1 fw-bold" onclick="generatePDFProof()"><i class="fa-solid fa-file-pdf"></i> ATTESTATION</button>
+        <button class="btn btn-outline-success btn-sm flex-grow-1" onclick="exportCSV()"><i class="fa-solid fa-file-csv"></i> CSV</button>
+        <button class="btn btn-outline-danger btn-sm flex-grow-1" onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
     </div>
-    <div id="inventory-container"></div>
+    <div id="inventory-list"></div>
 </div>
 
-<!-- Page SGH -->
-<div id="page-sgh" class="app-page">
-    <h5 class="fw-bold mb-3">Classification SGH</h5>
-    <div id="sgh-list"></div>
-</div>
-
-<!-- Page Scan -->
+<!-- SCAN / AJOUT -->
 <div id="page-scan" class="app-page">
     <h5 class="fw-bold mb-3">Ajouter un produit</h5>
     <div class="card-custom">
-        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
-        <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
-        <div class="mb-3">
-            <label class="small fw-bold text-muted mb-1">Nom du produit</label>
-            <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
-        </div>
-        <div class="mb-3">
-            <label class="small fw-bold text-muted mb-1">Code-barres</label>
-            <input type="text" id="prod-code" class="form-control" placeholder="Scanner ou saisir">
-        </div>
-        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #eee;"></div>
+        <button class="btn btn-dark w-100 mt-3" onclick="startScanner()"><i class="fa-solid fa-power-off me-2"></i>Activer Caméra</button>
+        <hr>
+        <input type="text" id="p-name" class="form-control mb-2" placeholder="Nom du produit">
+        <input type="text" id="p-code" class="form-control mb-3" placeholder="Code-barres">
+        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" onclick="addItem()">ENREGISTRER</button>
     </div>
 </div>
 
-<!-- Page Quiz -->
+<!-- QUIZ -->
 <div id="page-quiz" class="app-page">
-    <h5 class="fw-bold mb-3 text-center">Auto-Diag Prévention</h5>
-    <div class="card-custom" id="quiz-container">
-        <div id="q-box">
-            <div class="progress mb-3" style="height: 8px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 10%;"></div></div>
-            <p id="q-text" class="fw-bold mb-4" style="min-height: 60px;">Chargement...</p>
-            <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Oui, tout à fait</button>
-            <button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt oui</button>
-            <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt non</button>
-            <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-3 fw-bold">Pas du tout</button>
-        </div>
-        <div id="q-result" style="display: none;" class="text-center">
-            <div class="score-badge mb-2" id="quiz-score">0</div>
-            <h5 class="fw-bold mb-3">Score Global</h5>
-            <p class="small text-muted mb-4" id="quiz-advice"></p>
-            <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5 py-2">Recommencer</button>
-        </div>
+    <h5 class="fw-bold mb-3">Auto-Diag Sécurité</h5>
+    <div class="card-custom" id="quiz-box">
+        <p id="q-text" class="fw-bold"></p>
+        <div id="q-btns"></div>
+    </div>
+    <div id="quiz-res" class="card-custom text-center" style="display:none;">
+        <h2 id="q-score" class="fw-black text-primary"></h2>
+        <p id="q-advice" class="small"></p>
+        <button class="btn btn-primary btn-sm rounded-pill" onclick="resetQuiz()">Recommencer</button>
     </div>
 </div>
 
-<!-- Page Centres -->
+<!-- CENTRES -->
 <div id="page-centres" class="app-page">
-    <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
+    <h5 class="fw-bold mb-3">Centres RESTEV</h5>
     <div id="centres-list"></div>
 </div>
 
-<!-- Navigation Basse -->
+<!-- NAV BASSE -->
 <nav class="nav-bottom">
-    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
-    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
-    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
-    <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
+    <button class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house mb-1"></i>HOME</button>
+    <button class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check mb-1"></i>DIAG</button>
+    <button class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus-circle mb-1"></i>AJOUT</button>
+    <button class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked mb-1"></i>LISTE</button>
+    <button class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-location-dot mb-1"></i>MAP</button>
 </nav>
 
-<!-- Bouton Installation -->
-<button id="installBtn" class="install-app-btn">
-    <i class="fa-solid fa-download"></i> Installer l'application
-</button>
-
 <script>
-// --- CONFIG & DATA ---
-const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Ta clé Supabase
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
+let inventory = JSON.parse(localStorage.getItem('restev_inv')) || [];
+let deferredPrompt;
 
 const centres = [
-    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+La+Roche+sur+Yon" },
-    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+Montaigu" },
-    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+Les+Herbiers" }
-];
-
-const sghData = [
-    { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-    { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-    { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
-    { id: "SGH08", title: "Danger Santé", img: "SGH08_DangerSante.jpg", desc: "Effets CMR" }
+    { n: "La Roche-sur-Yon", t: "0251370668", a: "Impasse Newton" },
+    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945" },
+    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres" }
 ];
 
 const questions = [
-    "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
-    "Les salariés sont-ils formés aux risques chimiques ?",
-    "Les FDS sont-elles accessibles à tous ?",
-    "Les EPI sont-ils portés et en bon état ?",
-    "Le stockage respecte-t-il les compatibilités ?"
+    "Votre DUERP est-il à jour ?",
+    "Vos salariés sont-ils formés au risque chimique ?",
+    "Possédez-vous les FDS de tous vos produits ?",
+    "Vos EPI sont-ils vérifiés régulièrement ?"
 ];
 
-let currentQ = 0, totalScore = 0;
-
-// --- NAVIGATION ---
+// --- CORE FUNCTIONS ---
 function dismissSplash() {
-    const splash = document.getElementById('splash');
-    splash.style.opacity = '0';
-    setTimeout(() => { splash.style.display = 'none'; }, 800);
+    document.getElementById('splash').style.opacity = '0';
+    setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
 }
 
 function nav(id, el) {
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
-    const target = document.getElementById(id);
-    if(target) target.classList.add('active-page');
-    
-    // Gestion du menu actif
-    if(el) {
-        el.classList.add('active');
-    } else {
-        const navMap = { 'page-home': 'nav-home', 'page-scan': 'nav-scan', 'page-list': 'nav-list', 'page-quiz': 'nav-quiz', 'page-centres': 'nav-centres' };
-        if(navMap[id]) document.getElementById(navMap[id]).classList.add('active');
-    }
-    
+    document.getElementById(id).classList.add('active-page');
+    if(el) el.classList.add('active');
     if(id === 'page-list') renderInventory();
-    if(id === 'page-sgh') renderSGH();
     if(id === 'page-centres') renderCentres();
     if(id === 'page-quiz') resetQuiz();
-    window.scrollTo(0, 0);
 }
 
-// --- INVENTAIRE ---
-function updateStats() {
-    const el = document.getElementById('inv-stats');
-    if(el) el.innerText = `${inventory.length} produit(s) dans l'inventaire`;
-}
-
+// --- INVENTORY ---
 function renderInventory() {
-    const container = document.getElementById('inventory-container');
-    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré.</p>';
-    inventory.forEach(item => {
-        container.innerHTML += `
-        <div class="card-custom">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <b style="color:var(--r-blue)">${item.name}</b><br>
-                    <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Manuel'}</small>
-                </div>
-                <button onclick="deleteItem(${item.id})" class="btn text-danger"><i class="fa-solid fa-trash"></i></button>
-            </div>
+    const cont = document.getElementById('inventory-list');
+    cont.innerHTML = inventory.length ? '' : '<p class="text-center mt-5 text-muted">Inventaire vide</p>';
+    inventory.forEach((item, idx) => {
+        cont.innerHTML += `<div class="card-custom d-flex justify-content-between align-items-center">
+            <div><b>${item.name}</b><br><small class="text-muted">${item.code || 'Saisie manuelle'}</small></div>
+            <button class="btn btn-link text-danger" onclick="removeItem(${idx})"><i class="fa-solid fa-trash"></i></button>
         </div>`;
     });
+    document.getElementById('inv-count').innerText = `${inventory.length} produits enregistrés`;
 }
 
-async function saveProduct() {
-    const name = document.getElementById('prod-name').value;
-    const code = document.getElementById('prod-code').value;
-    if(!name) return alert("Nom requis.");
-
-    const item = { id: Date.now(), name, code };
-    inventory.push(item);
-    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-    
-    document.getElementById('prod-name').value = '';
-    document.getElementById('prod-code').value = '';
-    updateStats();
+function addItem() {
+    const name = document.getElementById('p-name').value;
+    const code = document.getElementById('p-code').value;
+    if(!name) return alert("Nom obligatoire");
+    inventory.push({ name, code });
+    localStorage.setItem('restev_inv', JSON.stringify(inventory));
+    document.getElementById('p-name').value = '';
+    document.getElementById('p-code').value = '';
     nav('page-list');
 }
 
-function deleteItem(id) {
-    if(confirm("Supprimer ?")) {
-        inventory = inventory.filter(i => i.id !== id);
-        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-        renderInventory(); updateStats();
+function removeItem(idx) {
+    if(confirm("Supprimer ce produit ?")) {
+        inventory.splice(idx, 1);
+        localStorage.setItem('restev_inv', JSON.stringify(inventory));
+        renderInventory();
     }
 }
 
 // --- SCANNER ---
 function startScanner() {
-    const scanner = new Html5Qrcode("reader");
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-        document.getElementById('prod-code').value = text;
-        scanner.stop();
-        alert("Code scanné !");
-    }).catch(err => console.error(err));
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 },
+        (decodedText) => {
+            document.getElementById('p-code').value = decodedText;
+            html5QrCode.stop();
+            alert("Code détecté !");
+        }
+    ).catch(err => alert("Erreur caméra : " + err));
 }
 
 // --- QUIZ ---
-function showQuestion() {
-    document.getElementById('q-text').innerText = questions[currentQ];
-    document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+let curQ = 0, score = 0;
+function resetQuiz() {
+    curQ = 0; score = 0;
+    document.getElementById('quiz-box').style.display = 'block';
+    document.getElementById('quiz-res').style.display = 'none';
+    showQuestion();
 }
-
-function quizAnswer(p) {
-    totalScore += p; currentQ++;
-    if(currentQ < questions.length) showQuestion();
+function showQuestion() {
+    document.getElementById('q-text').innerText = questions[curQ];
+    document.getElementById('q-btns').innerHTML = `
+        <button class="btn btn-outline-primary w-100 mb-2" onclick="answer(3)">Oui, tout à fait</button>
+        <button class="btn btn-outline-primary w-100 mb-2" onclick="answer(1)">Partiellement</button>
+        <button class="btn btn-outline-primary w-100" onclick="answer(0)">Non / Pas du tout</button>`;
+}
+function answer(pts) {
+    score += pts; curQ++;
+    if(curQ < questions.length) showQuestion();
     else {
-        document.getElementById('q-box').style.display = 'none';
-        document.getElementById('q-result').style.display = 'block';
-        document.getElementById('quiz-score').innerText = `${totalScore}/${questions.length * 3}`;
-        document.getElementById('quiz-advice').innerText = totalScore > 10 ? "Bonne base de prévention." : "Contactez RESTEV pour un audit.";
+        document.getElementById('quiz-box').style.display = 'none';
+        document.getElementById('quiz-res').style.display = 'block';
+        document.getElementById('q-score').innerText = `${score} / ${questions.length * 3}`;
+        document.getElementById('q-advice').innerText = score > 8 ? "Bravo ! Votre niveau de prévention est bon." : "Attention, des actions correctives sont conseillées.";
     }
 }
 
-function resetQuiz() { 
-    currentQ = 0; totalScore = 0; 
-    document.getElementById('q-box').style.display='block'; 
-    document.getElementById('q-result').style.display='none'; 
-    showQuestion(); 
-}
-
-// --- RENDU DATA ---
-function renderSGH() {
-    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-    <div class="card-custom sgh-card">
-        <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/60?text=SGH'">
-        <div><b>${s.title}</b><br><small>${s.desc}</small></div>
-    </div>`).join('');
-}
-
+// --- CENTRES ---
 function renderCentres() {
     document.getElementById('centres-list').innerHTML = centres.map(c => `
-    <div class="card-custom">
-        <b>${c.n}</b><br><small>${c.a}</small>
-        <div class="d-flex gap-2 mt-2">
-            <a href="tel:${c.t}" class="btn btn-sm btn-primary flex-grow-1">Appeler</a>
-            <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1">Itinéraire</a>
+        <div class="card-custom">
+            <h6 class="fw-bold mb-1">${c.n}</h6>
+            <p class="small text-muted mb-2">${c.a}</p>
+            <a href="tel:${c.t}" class="btn btn-primary btn-sm w-100"><i class="fa-solid fa-phone me-2"></i>${c.t}</a>
         </div>
-    </div>`).join('');
+    `).join('');
 }
 
 // --- EXPORTS ---
-function exportToCSV() {
-    let csv = "Nom,Code\n" + inventory.map(i => `"${i.name}","${i.code}"`).join("\n");
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "inventaire_restev.csv";
-    link.click();
+function exportCSV() {
+    let content = "Nom,Code\n" + inventory.map(i => `${i.name},${i.code}`).join("\n");
+    const blob = new Blob([content], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'inventaire_restev85.csv'; a.click();
 }
 
-function generatePDFProof() {
+function exportPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    doc.text("Attestation d'Inventaire RESTEV 85", 20, 20);
+    doc.text("Inventaire des produits - RESTEV 85", 14, 15);
     doc.autoTable({
-        startY: 30,
+        startY: 25,
         head: [['Produit', 'Code']],
-        body: inventory.map(i => [i.name, i.code])
+        body: inventory.map(i => [i.name, i.code]),
     });
-    doc.save("attestation_restev.pdf");
+    doc.save("inventaire_restev.pdf");
 }
 
-// --- PWA INSTALL ---
-let deferredPrompt;
+// --- PWA INSTALLATION LOGIC ---
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    document.getElementById('installBtn').style.display = 'flex';
+    document.getElementById('installApp').style.display = 'block';
 });
 
-document.getElementById('installBtn').onclick = async () => {
+async function installPWA() {
     if (deferredPrompt) {
         deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            document.getElementById('installApp').style.display = 'none';
+        }
         deferredPrompt = null;
-        document.getElementById('installBtn').style.display = 'none';
     }
-};
+}
 
-window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
+window.onload = () => {
+    renderInventory();
+    setTimeout(dismissSplash, 2000);
+};
 </script>
 </body>
 </html>
