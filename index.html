@@ -753,8 +753,19 @@ function calculateFilter() {
         'organiques': { code: 'A1', color: '#63422d', text: 'Protection standard contre les solvants organiques.' },
         'ammoniac': { code: 'K1 P2', color: '#4caf50', text: 'Protection spécifique contre l’ammoniac.' },
         'poussières': { code: 'P3', color: '#ffffff', text: 'Haute filtration contre les poussières fines et les fumées.' },
-        'multi': { code: 'ABEK1 P3', color: 'linear-gradient(90deg, #63422d, #grey, #ffeb3b, #4caf50)', text: 'Cartouche polyvalente pour la maintenance.' }
+        'multi': { code: 'ABEK1 P3', color: 'linear-gradient(90deg, #63422d, grey, #ffeb3b, #4caf50)', text: 'Cartouche polyvalente pour la maintenance.' }
     };
+
+    const choice = filters[type];
+    badge.innerText = choice.code;
+    // Vérification de la couleur du texte pour la lisibilité
+    badge.style.color = (choice.code === 'P3' || choice.code === 'E1 P3') ? 'black' : 'white';
+    badge.style.background = choice.color;
+    badge.style.padding = '10px';
+    badge.style.borderRadius = '8px';
+    desc.innerText = choice.text;
+}
+
 
     const choice = filters[type];
     badge.innerText = choice.code;
