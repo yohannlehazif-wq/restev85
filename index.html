@@ -633,64 +633,155 @@ function renderSGH() {
         const searchTerm = e.target.value.toLowerCase();
         const items = listContainer.querySelectorAll('.center-item');
         items.forEach(item => {
-            const name = item.getAttribute('data-name').toLowerCase();
-            item.style.display = name.includes(searchTerm) ? "block" : "none";
-        });
-    });
-}function renderCentres() {
-    const listContainer = document.getElementById('centersList');
-    if (!listContainer) return;
+<script>
+// --- CONFIGURATION SUPABASE ---
+const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  
+let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
+const centres = [
+    { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=RESTEV+La+Roche+sur+Yon" },
+    { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=RESTEV+Montaigu+Vendee" },
+    { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=RESTEV+Les+Herbiers" },
+    { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=RESTEV+Les+Essarts" }
+];
+
+const sghData = [
+    { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
+    { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
+    { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
+    { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
+    { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
+    { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
+    { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
+    { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
+    { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
+];
+
+const questions = [
+    "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
+    "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
+    "Les FDS sont-elles accessibles à tous les postes de travail ?",
+    "Les équipements de protection (EPI) sont-ils portés et en bon état ?",
+    "Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
+    "Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
+    "Les salariés connaissent-ils les gestes de premiers secours ?",
+    "Les produits chimiques sont-ils tous identifiés par une étiquette ?",
+    "Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
+    "La prévention est-elle discutée lors de réunions régulières ?"
+];
+
+let currentQ = 0, totalScore = 0;
+
+function dismissSplash() {
+    const splash = document.getElementById('splash');
+    splash.style.opacity = '0';
+    setTimeout(() => { splash.style.display = 'none'; }, 800);
+}
+
+function updateStats() {
+    const statsEl = document.getElementById('inv-stats');
+    if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
+}
+
+function nav(id, el) {
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active-page');
+    if(el) el.classList.add('active');
+    
+    if(id === 'page-list') renderInventory();
+    if(id === 'page-sgh') renderSGH();
+    if(id === 'page-centres') renderCentres();
+    if(id === 'page-quiz') resetQuiz();
+    window.scrollTo(0, 0);
+}
+
+function renderInventory() {
+    const container = document.getElementById('inventory-container');
+    container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit dans votre inventaire.</p>';
+    inventory.forEach(item => {
+        const finalLink = item.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
+        container.innerHTML += `
+        <div class="card-custom">
+            <div class="d-flex justify-content-between align-items-start">
+                <div><b style="color:var(--r-blue)">${item.name}</b><br><small class="text-muted">${item.code || 'Saisie manuelle'}</small></div>
+                <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger p-0"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <a href="${finalLink}" target="_blank" class="btn btn-sm btn-outline-primary w-100 mt-2">Voir FDS</a>
+        </div>`;
+    });
+}
+
+async function saveProduct() {
+    const name = document.getElementById('prod-name').value;
+    const code = document.getElementById('prod-code').value;
+    const fdsUrl = document.getElementById('prod-url').value;
+    if(!name) return alert("Nom requis.");
+    const newProd = { id: Date.now(), name, code, fdsUrl };
+    inventory.push(newProd);
+    localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+    await sb.from('inventaire_utilisateurs').insert([{ nom_produit: name, code_barres: code, url_fds: fdsUrl }]);
+    nav('page-list', document.getElementById('nav-list'));
+}
+
+function deleteItem(id) {
+    if(confirm("Supprimer ?")) {
+        inventory = inventory.filter(i => i.id !== id);
+        localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
+        renderInventory(); updateStats();
+    }
+}
+
+function renderSGH() {
+    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
+        <div class="card-custom sgh-card">
+            <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65?text=${s.id}'">
+            <div><b>${s.title}</b><br><small>${s.desc}</small></div>
+        </div>`).join('');
+}
+
+function renderCentres() {
+    const listContainer = document.getElementById('centersList');
     listContainer.innerHTML = centres.map(c => `
         <div class="center-item card-custom" data-name="${c.n}">
             <h6 class="fw-bold mb-1">${c.n}</h6>
-            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-2"></i>${c.a}</p>
+            <p class="small text-muted mb-2">${c.a}</p>
             <div class="d-flex gap-2">
-                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
-                    <i class="fa-solid fa-phone me-2"></i> ${c.t}
-                </a>
-                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-map-location-dot me-2"></i>Plan
-                </a>
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center">Plan</a>
             </div>
-        </div>
-    `).join('');
-
-    // Gestion de la barre de recherche
-    const searchInput = document.getElementById('centreSearch');
-    if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const items = listContainer.querySelectorAll('.center-item');
-            items.forEach(item => {
-                const name = item.getAttribute('data-name').toLowerCase();
-                item.style.display = name.includes(searchTerm) ? "block" : "none";
-            });
-        });
-    }
-} // <--- L'accolade qui manquait ici
+        </div>`).join('');
     
-    
-
-    // Ton code de recherche existant
     document.getElementById('centreSearch').addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        document.querySelectorAll('.center-item').forEach(center => {
-            const centerName = center.getAttribute('data-name').toLowerCase();
-            center.style.display = centerName.includes(searchTerm) ? "block" : "none";
+        const val = e.target.value.toLowerCase();
+        document.querySelectorAll('.center-item').forEach(item => {
+            item.style.display = item.getAttribute('data-name').toLowerCase().includes(val) ? "block" : "none";
         });
     });
 }
 
-  
+function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
+function showQuestion() { document.getElementById('q-text').innerText = (currentQ + 1) + ". " + questions[currentQ]; document.getElementById('quiz-progress').style.width = ((currentQ + 1) / questions.length * 100) + '%'; }
+function quizAnswer(p) { totalScore += p; currentQ++; if(currentQ < questions.length) showQuestion(); else showResult(); }
+function showResult() { document.getElementById('q-box').style.display = 'none'; document.getElementById('q-result').style.display = 'block'; document.getElementById('quiz-score').innerText = totalScore + "/30"; }
 
-// Initialisation
-window.onload = () => { 
-    updateStats(); 
-    showQuestion(); 
-    renderCentres(); // On initialise la recherche des centres dès le départ
-};
-  
+function startScanner() {
+    const scanner = new Html5Qrcode("reader");
+    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
+        document.getElementById('prod-code').value = text;
+        scanner.stop();
+        const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', text).limit(1);
+        if (data && data.length > 0) {
+            document.getElementById('prod-name').value = data[0].nom_produit;
+            document.getElementById('prod-url').value = data[0].url_fds;
+            window.open(data[0].url_fds, '_blank');
+        }
+    });
+}
+
+window.onload = () => { updateStats(); showQuestion(); renderCentres(); };
 </script>
-</body>
-</html>
