@@ -506,7 +506,40 @@ ACCUEIL RESTEV
 <div class="card-custom" style="border-left-color: #3065a8;"><h6><i class="fa-solid fa-mask-ventilator text-primary me-2"></i> Rubrique 8</h6><p class="small mb-0"><b>Protections (EPI) :</b> Type exact de gants ou masques nécessaires.</p></div>
 <div class="card-custom" style="border-left-color: #fd7e14;"><h6><i class="fa-solid fa-fire-extinguisher text-warning me-2"></i> Rubrique 5</h6><p class="small mb-0"><b>Incendie :</b> Quels extincteurs utiliser (poudre, CO2, eau ?).</p></div>
 </div>
+    
+<div id="page-respiro" class="app-page">
+    <h5 class="fw-bold mb-3">Calculateur de Filtres</h5>
+    <div class="card-custom">
+        <label class="small fw-bold text-muted mb-2">Quel type de polluant ?</label>
+        <select id="pollutant-type" class="form-select mb-3" onchange="calculateFilter()">
+            <option value="">-- Sélectionner --</option>
+            <option value="solvants">Solvants (Peinture, Vernis, Acétone)</option>
+            <option value="acides">Acides (Chlorhydrique, Nitrique)</option>
+            <option value="organiques">Gaz Organiques (Vapeurs)</option>
+            <option value="ammoniac">Ammoniac et dérivés</option>
+            <option value="poussières">Poussières, Fumées, Amiante</option>
+            <option value="multi">Mixte (Maintenance générale)</option>
+        </select>
 
+        <div id="filter-result" class="text-center p-3 rounded" style="display:none; background: #f1f5f9;">
+            <p class="mb-2 small fw-bold">Cartouche recommandée :</p>
+            <div id="filter-badge" class="h4 fw-900 mb-2"></div>
+            <p id="filter-desc" class="small text-muted mb-0"></p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h6 class="small fw-bold">Rappel des marquages :</h6>
+        <div class="d-flex flex-wrap gap-2">
+            <span class="badge" style="background:#63422d">A (Brun) : Vapeurs Organiques</span>
+            <span class="badge" style="background:#grey; color:black; border:1px solid #ccc">B (Gris) : Gaz Inorganiques</span>
+            <span class="badge" style="background:#ffeb3b; color:black">E (Jaune) : Gaz Acides</span>
+            <span class="badge" style="background:#4caf50">K (Vert) : Ammoniac</span>
+            <span class="badge" style="background:#ffffff; color:black; border:1px solid #ccc">P (Blanc) : Particules</span>
+        </div>
+    </div>
+</div>
+    
 <div id="page-centres" class="app-page">
 <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
 <div id="centres-list"></div>
@@ -703,7 +736,35 @@ function nav(id, el) {
     if(id === 'page-quiz') resetQuiz();
     window.scrollTo(0, 0);
 }
+    
+function calculateFilter() {
+    const type = document.getElementById('pollutant-type').value;
+    const res = document.getElementById('filter-result');
+    const badge = document.getElementById('filter-badge');
+    const desc = document.getElementById('filter-desc');
 
+    if (!type) { res.style.display = 'none'; return; }
+
+    res.style.display = 'block';
+    
+    const filters = {
+        'solvants': { code: 'A2 P3', color: '#63422d', text: 'Protection contre les vapeurs organiques et les particules.' },
+        'acides': { code: 'E1 P3', color: '#ffeb3b', text: 'Protection contre les gaz acides et les poussières.' },
+        'organiques': { code: 'A1', color: '#63422d', text: 'Protection standard contre les solvants organiques.' },
+        'ammoniac': { code: 'K1 P2', color: '#4caf50', text: 'Protection spécifique contre l’ammoniac.' },
+        'poussières': { code: 'P3', color: '#ffffff', text: 'Haute filtration contre les poussières fines et les fumées.' },
+        'multi': { code: 'ABEK1 P3', color: 'linear-gradient(90deg, #63422d, #grey, #ffeb3b, #4caf50)', text: 'Cartouche polyvalente pour la maintenance.' }
+    };
+
+    const choice = filters[type];
+    badge.innerText = choice.code;
+    badge.style.color = choice.code === 'P3' || choice.code === 'E1 P3' ? 'black' : 'white';
+    badge.style.background = choice.color;
+    badge.style.padding = '10px';
+    badge.style.borderRadius = '8px';
+    desc.innerText = choice.text;
+}
+    
 // --- GESTION INVENTAIRE ---
 function renderInventory() {
     const container = document.getElementById('inventory-container');
