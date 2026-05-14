@@ -264,23 +264,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </div>
 
 <!-- Liste des centres -->
-<div id="page-centres" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-location-dot text-primary me-2"></i>Nos Centres RESTEV</h5>
-    
-    <!-- La barre de recherche est maintenant DANS la page -->
-    <div class="search-container">
-        <input type="text" id="centreSearch" placeholder="Rechercher un centre (ex: La Roche sur Yon)..." class="form-control mb-3">
-    </div>
 
-    <!-- La liste des centres est maintenant DANS la page -->
-    <div id="centersList">
-        <!-- Le contenu sera généré dynamiquement par JavaScript -->
-    </div>
-</div>
-      <!-- Exemple de carte intégrée -->
-      <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-  </div>
 
   <div class="center-item" data-name="Nantes">
     <button class="btn-center">Centre de Nantes</button>
@@ -290,7 +274,18 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
   </div>
 </div>
 
+<div id="page-centres" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-location-dot text-primary me-2"></i>Nos Centres RESTEV</h5>
+    
+    <div class="search-container">
+        <input type="text" id="centreSearch" placeholder="Rechercher un centre (ex: La Roche sur Yon)..." class="form-control mb-3">
+    </div>
 
+    <div id="centersList">
+        <!-- Généré par JS -->
+    </div>
+</div>
+    
 <div id="page-scan" class="app-page">
 <h5 class="fw-bold mb-3">Ajouter un produit</h5>
 <div class="card-custom">
@@ -629,11 +624,22 @@ function renderSGH() {
         </div>`).join('');
 }
 
-function renderCentres() {
+
+
+    // On attache l'événement de recherche
+    const searchInput = document.getElementById('centreSearch');
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const items = listContainer.querySelectorAll('.center-item');
+        items.forEach(item => {
+            const name = item.getAttribute('data-name').toLowerCase();
+            item.style.display = name.includes(searchTerm) ? "block" : "none";
+        });
+    });
+}function renderCentres() {
     const listContainer = document.getElementById('centersList');
     if (!listContainer) return;
 
-    // On génère la liste une seule fois ou à chaque ouverture
     listContainer.innerHTML = centres.map(c => `
         <div class="center-item card-custom" data-name="${c.n}">
             <h6 class="fw-bold mb-1">${c.n}</h6>
@@ -649,17 +655,20 @@ function renderCentres() {
         </div>
     `).join('');
 
-    // On attache l'événement de recherche
+    // Gestion de la barre de recherche
     const searchInput = document.getElementById('centreSearch');
-    searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const items = listContainer.querySelectorAll('.center-item');
-        items.forEach(item => {
-            const name = item.getAttribute('data-name').toLowerCase();
-            item.style.display = name.includes(searchTerm) ? "block" : "none";
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = listContainer.querySelectorAll('.center-item');
+            items.forEach(item => {
+                const name = item.getAttribute('data-name').toLowerCase();
+                item.style.display = name.includes(searchTerm) ? "block" : "none";
+            });
         });
-    });
-}
+    }
+} // <--- L'accolade qui manquait ici
+    
     
 
     // Ton code de recherche existant
