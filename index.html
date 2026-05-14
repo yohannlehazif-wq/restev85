@@ -32,6 +32,28 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
 @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+/* Style harmonisé pour les centres */
+.btn-center { 
+    background: var(--r-blue); 
+    color: white; 
+    border: none; 
+    border-radius: 15px; 
+    width: 100%; 
+    padding: 15px; 
+    font-weight: bold; 
+    margin-bottom: 10px; 
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.search-container input { 
+    border-radius: 20px; 
+    padding: 12px 20px; 
+    border: 2px solid #e2e8f0; 
+    width: 100%; 
+    margin-bottom: 15px;
+    outline: none;
+}
+.search-container input:focus { border-color: var(--r-blue); }
 
 .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
 .logo-header { height: 40px; }
@@ -616,10 +638,12 @@ function renderCentres() {
   
 
 // Initialisation
-window.onload = () => { 
-    updateStats(); 
-    showQuestion(); 
+window.onload = () => { 
+    updateStats(); 
+    showQuestion(); 
+    renderCentres(); // On initialise la recherche des centres dès le départ
 };
+  
 </script>
 </body>
 </html>
