@@ -236,10 +236,29 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <div class="card-custom" style="border-left-color: #fd7e14;"><h6><i class="fa-solid fa-fire-extinguisher text-warning me-2"></i> Rubrique 5</h6><p class="small mb-0"><b>Incendie :</b> Quels extincteurs utiliser (poudre, CO2, eau ?).</p></div>
 </div>
 
-<div id="page-centres" class="app-page">
-<h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
-<div id="centres-list"></div>
+<!-- Barre de recherche -->
+<div class="search-container">
+  <input type="text" id="centreSearch" placeholder="Rechercher un centre (ex: La Roche sur Yon)...">
 </div>
+
+<!-- Liste des centres -->
+<div id="centersList">
+  <div class="center-item" data-name="La Roche sur Yon">
+    <button class="btn-center">Centre de La Roche sur Yon</button>
+    <div class="map-container">
+      <!-- Exemple de carte intégrée -->
+      <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="center-item" data-name="Nantes">
+    <button class="btn-center">Centre de Nantes</button>
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
 
 <div id="page-scan" class="app-page">
 <h5 class="fw-bold mb-3">Ajouter un produit</h5>
