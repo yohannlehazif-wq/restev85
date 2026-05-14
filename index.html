@@ -599,12 +599,21 @@ function renderSGH() {
 }
 
 function renderCentres() {
-    document.getElementById('centres-list').innerHTML = centres.map(c => `
-        <div class="card-custom">
-            <b>${c.n}</b><br><small>${c.a}</small><br>
-            <a href="tel:${c.t}" class="btn-call mt-2"><i class="fa-solid fa-phone me-2"></i>Appeler</a>
-        </div>`).join('');
-}
+    document.getElementById('centreSearch').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const centers = document.querySelectorAll('.center-item');
+
+    centers.forEach(center => {
+        const centerName = center.getAttribute('data-name').toLowerCase();
+        
+        if (centerName.includes(searchTerm)) {
+            center.style.display = "block"; // Affiche si ça correspond
+        } else {
+            center.style.display = "none";  // Cache sinon
+        }
+    });
+});
+  
 
 // Initialisation
 window.onload = () => { 
