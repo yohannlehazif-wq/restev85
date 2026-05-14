@@ -621,20 +621,32 @@ function renderSGH() {
 }
 
 function renderCentres() {
-    document.getElementById('centreSearch').addEventListener('input', function(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    const centers = document.querySelectorAll('.center-item');
+    const listContainer = document.getElementById('centersList');
+    listContainer.innerHTML = centres.map(c => `
+        <div class="center-item card-custom" data-name="${c.n}">
+            <h6 class="fw-bold mb-1">${c.n}</h6>
+            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-2"></i>${c.a}</p>
+            <div class="d-flex gap-2">
+                <a href="tel:${c.t}" class="btn-call flex-grow-1 justify-content-center">
+                    <i class="fa-solid fa-phone me-2"></i>Appeler
+                </a>
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1">
+                    <i class="fa-solid fa-map me-2"></i>Itinéraire
+                </a>
+            </div>
+        </div>
+    `).join('');
 
-    centers.forEach(center => {
-        const centerName = center.getAttribute('data-name').toLowerCase();
-        
-        if (centerName.includes(searchTerm)) {
-            center.style.display = "block"; // Affiche si ça correspond
-        } else {
-            center.style.display = "none";  // Cache sinon
-        }
+    // Ton code de recherche existant
+    document.getElementById('centreSearch').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('.center-item').forEach(center => {
+            const centerName = center.getAttribute('data-name').toLowerCase();
+            center.style.display = centerName.includes(searchTerm) ? "block" : "none";
+        });
     });
-});
+}
+
   
 
 // Initialisation
