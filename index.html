@@ -507,29 +507,68 @@ function resetQuiz() { 
     showQuestion(); 
 }
 
+  
 // --- SCANNER & RECHERCHE ---
 
-function searchFDS() {
-    const name = document.getElementById('prod-name').value;
-    if(!name) return alert("Saisissez un nom.");
-    window.open(`https://www.google.com/search?q=${encodeURIComponent(name + " FDS filetype:pdf")}`, '_blank');
+// Nouvelle fonction pour la recherche manuelle du code-barres
+async function searchBarcodeDB() {
+    const code = document.getElementById('prod-code').value;
+    if(!code) return alert("Veuillez d'abord saisir ou scanner un code-barres.");
+    
+    // Recherche dans la table inventaire_utilisateurs
+    const { data, error } = await sb
+        .from('inventaire_utilisateurs')
+        .select('*')
+        .eq('code_barres', code)
+        .not('url_fds', 'is', null) // S'assure qu'il y a bien un lien PDF
+        .limit(1);
+
+    if (data && data.length > 0) {
+        const produit = data[0];
+        document.getElementById('prod-name').value = produit.nom_produit;
+        document.getElementById('prod-url').value = produit.url_fds;
+        alert("Produit connu ! La FDS va s'ouvrir automatiquement.");
+        window.open(produit.url_fds, '_blank');
+    } else {
+        alert("Code introuvable dans la base. C'est un nouveau produit !");
+    }
 }
 
+// Fonction du scanner mise à jour pour ouverture automatique
 function startScanner() {
-    const scanner = new Html5Qrcode("reader");
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
-        document.getElementById('prod-code').value = text;
-        scanner.stop();
-        const { data } = await sb.from('produits_chimiques').select('*').eq('code_barres', text).single();
-        if (data) {
-            alert("Produit trouvé dans la base RESTEV !");
-            document.getElementById('prod-name').value = data.nom_produit;
-            document.getElementById('prod-url').value = data.url_fds;
-            if(data.url_fds && confirm("Ouvrir la FDS ?")) window.open(data.url_fds, '_blank');
-        }
-    }).catch(err => alert("Erreur caméra : " + err));
+    const scanner = new Html5Qrcode("reader");
+    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
+        document.getElementById('prod-code').value = text;
+        scanner.stop(); // On arrête la caméra dès que le code est lu
+        
+        // On lance automatiquement la vérification dans Supabase
+        const { data, error } = await sb
+            .from('inventaire_utilisateurs')
+            .select('*')
+            .eq('code_barres', text)
+            .not('url_fds', 'is', null)
+            .limit(1);
+
+        if (data && data.length > 0) {
+            const produit = data[0];
+            document.getElementById('prod-name').value = produit.nom_produit;
+            document.getElementById('prod-url').value = produit.url_fds;
+            // Ouverture directe de la FDS sans demander confirmation
+            alert("Produit trouvé dans la base ! Ouverture de la FDS...");
+            window.open(produit.url_fds, '_blank');
+        } else {
+            alert("Nouveau code scanné : " + text + "\nComplétez le nom et l'URL pour l'enregistrer.");
+        }
+    }).catch(err => alert("Erreur caméra : " + err));
 }
 
+function searchFDS() {
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez un nom.");
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(name + " FDS filetype:pdf")}`, '_blank');
+}
+
+  
 // --- RENDU LEXIQUE & CENTRES ---
 
 function renderSGH() {
