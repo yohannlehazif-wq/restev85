@@ -144,59 +144,61 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     </div>
 </div>
 
-<!-- <!-- PAGE ACCUEIL -->
+<!--<!-- PAGE ACCUEIL -->
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, #6ba4ff, #8dafff);">
         <h5 class="fw-bold mb-1">RESTEV 85</h5>
         <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
     </div>
     <div class="row g-2">
         <!-- Ligne 1 -->
         <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-blue-light); border-left-color: var(--r-blue); height: 100%;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: var(--r-blue);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-blue-text);">SCANNER FDS</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9; height: 100%;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #42a5f5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e88e5;">SCANNER FDS</small></div>
         </div>
         <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-danger-light); border-left-color: var(--r-danger); height: 100%;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: var(--r-danger);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-danger);">AUTO-DIAG</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a; height: 100%;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #ef5350;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e53935;">AUTO-DIAG</small></div>
         </div>
         
         <!-- Ligne 2 -->
         <div class="col-6" onclick="nav('page-sgh')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-warning-light); border-left-color: var(--r-yellow); height: 100%;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: var(--r-yellow);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-warning-text);">LEXIQUE SGH</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff8e1; border-left-color: #ffe082; height: 100%;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #ffca28;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b78103;">LEXIQUE SGH</small></div>
         </div>
         <div class="col-6" onclick="nav('page-list', 'nav-list')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-success-light); border-left-color: var(--r-success); height: 100%;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: var(--r-success);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-success);">INVENTAIRE</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7; height: 100%;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #66bb6a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #2e7d32;">INVENTAIRE</small></div>
         </div>
         
         <!-- Ligne 3 -->
         <div class="col-6" onclick="nav('page-compatibility')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-blue-light); border-left-color: var(--r-teal); height: 100%;"><i class="fa-solid fa-layer-group fa-2x mb-2" style="color: var(--r-teal);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-blue-text);">COMPATIBILITÉ & EPI</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4; height: 100%;"><i class="fa-solid fa-layer-group fa-2x mb-2" style="color: #26a69a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #00796b;">COMPATIBILITÉ & EPI</small></div>
         </div>
         <div class="col-6" onclick="nav('page-masks')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-blue-light); border-left-color: var(--r-blue); height: 100%;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: var(--r-blue);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-blue-text);">PROT. RESPIRATOIRE</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #80deea; height: 100%;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: #26c6da;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #00838f;">PROT. RESPIRATOIRE</small></div>
         </div>
         
         <!-- Ligne 4 -->
         <div class="col-6" onclick="nav('page-aides')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-warning-light); border-left-color: var(--r-yellow); height: 100%;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: var(--r-yellow);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-warning-text);">AIDES & ACTUS</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80; height: 100%;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #ffa726;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #ef6c00;">AIDES & ACTUS</small></div>
         </div>
         <div class="col-6" onclick="nav('page-fds-guide')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-muted-light); border-left-color: var(--r-muted); height: 100%;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: var(--r-muted);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-muted);">GUIDE FDS</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #f5f5f5; border-left-color: #ccc; height: 100%;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #888;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #555;">GUIDE FDS</small></div>
         </div>
         
         <!-- Ligne 5 -->
         <div class="col-6" onclick="nav('page-services')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: var(--r-blue-light); border-left-color: var(--r-purple); height: 100%;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: var(--r-purple);"></i><br><small class="fw-bold" style="font-size:0.75rem; color: var(--r-purple);">OFFRE RESTEV</small></div>
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8; height: 100%;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #ab47bc;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #6a1b9a;">OFFRE RESTEV</small></div>
         </div>
-        <!-- Fenêtre Centres réduite visuellement -->
+        <!-- Fenêtre Centres réduite et pastel -->
         <div class="col-6" onclick="nav('page-centres')">
-            <div class="card-custom text-center py-3 mb-0 d-flex flex-column align-items-center justify-content-center" style="background-color: var(--r-blue-light); border-left-color: var(--r-blue); height: 100%; padding-top: 1.25rem !important; padding-bottom: 1.25rem !important;">
-                <i class="fa-solid fa-map-location-dot mb-2" style="color: var(--r-blue); font-size: 1.6rem;"></i>
+            <div class="card-custom text-center py-3 mb-0 d-flex flex-column align-items-center justify-content-center" style="background-color: #ede7f6; border-left-color: #b39ddb; height: 100%; padding-top: 1.25rem !important; padding-bottom: 1.25rem !important;">
+                <i class="fa-solid fa-map-location-dot mb-2" style="color: #7e57c2; font-size: 1.6rem;"></i>
                 <br>
-                <small class="fw-bold" style="font-size:0.68rem; color: var(--r-blue-text); letter-spacing: -0.2px;">CENTRES VENDÉE</small>
+                <small class="fw-bold" style="font-size:0.68rem; color: #4527a0; letter-spacing: -0.2px;">CENTRES VENDÉE</small>
             </div>
         </div>
     </div>
 </div>
+    
+
     
 
 <!-- PAGE COMPATIBILITÉ STOCKAGE & GANTS -->
