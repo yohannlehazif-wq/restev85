@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -129,8 +128,8 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <div class="col-6" onclick="nav('page-list', 'nav-list')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
         </div>
-        <div class="col-6" onclick="nav('page-services')">
-            <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
+        <div class="col-6" onclick="nav('page-compatibility')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebd6; border-left-color: #ffb74d;"><i class="fa-solid fa-layer-group fa-2x mb-2" style="color: #f57c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">COMPATIBILITÉ & EPI</small></div>
         </div>
         <div class="col-6" onclick="nav('page-masks')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #00bcd4;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: #00acc1;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #006064;">PROT. RESPIRATOIRE</small></div>
@@ -141,10 +140,52 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <div class="col-6" onclick="nav('page-fds-guide')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
         </div>
+        <div class="col-6" onclick="nav('page-services')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
+        </div>
         <div class="col-12" onclick="nav('page-centres', document.getElementById('nav-centres'))">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES DE SANTÉ EN VENDÉE</small></div>
         </div>
     </div>
+</div>
+
+<!-- PAGE COMPATIBILITÉ STOCKAGE & GANTS -->
+<div id="page-compatibility" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-layer-group text-dark me-2"></i>Compatibilité & Gants EPI</h5>
+    
+    <!-- SECTION 1 : GANTS -->
+    <div class="card-custom" style="border-left-color: var(--r-blue);">
+        <h6 class="fw-bold"><i class="fa-solid fa-hand-holding-hand me-2 text-primary"></i>1. Choix du matériau des gants</h6>
+        <p class="small text-muted">Sélectionnez la famille chimique pour identifier le gant de protection recommandé (Norme EN ISO 374).</p>
+        <div class="mb-3">
+            <select id="glove-select" class="form-select" onchange="checkGloveCompatibility()">
+                <option value="">-- Choisir la famille chimique --</option>
+                <option value="nit">Hydrocarbures, Huiles, Peintures standard</option>
+                <option value="but">Cétones (Acétone, MEK), Solvants agressifs</option>
+                <option value="neo">Acides et Bases concentrés, Produits de nettoyage</option>
+                <option value="lat">Acides/Bases dilués, Solutions aqueuses (Sans solvant)</option>
+            </select>
+        </div>
+        <div id="glove-result" class="p-3 rounded small" style="display:none;"></div>
+    </div>
+
+    <!-- SECTION 2 : STOCKAGE -->
+    <div class="card-custom" style="border-left-color: var(--r-yellow);">
+        <h6 class="fw-bold"><i class="fa-solid fa-triangle-exclamation me-2 text-warning"></i>2. Alertes de Stockage Mixte</h6>
+        <p class="small text-muted">Cochez **deux pictogrammes différents** pour vérifier s'ils peuvent être entreposés dans le même bac de rétention ou armoire.</p>
+        
+        <div class="row g-2 text-center mb-3">
+            <div class="col-4"><button id="btn-sgh-sgh02" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh02')">SGH02<br><small>Inflammable</small></button></div>
+            <div class="col-4"><button id="btn-sgh-sgh03" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh03')">SGH03<br><small>Comburant</small></button></div>
+            <div class="col-4"><button id="btn-sgh-sgh05" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh05')">SGH05<br><small>Corrosif</small></button></div>
+            <div class="col-4"><button id="btn-sgh-sgh06" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh06')">SGH06<br><small>Toxique aigu</small></button></div>
+            <div class="col-4"><button id="btn-sgh-sgh08" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh08')">SGH08<br><small>Danger Santé</small></button></div>
+            <div class="col-4"><button class="btn btn-light w-100 p-2 small text-danger fw-bold" onclick="resetStorageCheck()">Effacer</button></div>
+        </div>
+        <div id="storage-result" class="p-3 rounded small text-center" style="display:none;"></div>
+    </div>
+
+    <button class="btn btn-outline-secondary w-100 mt-2" onclick="nav('page-home')">Retour à l'accueil</button>
 </div>
 
 <!-- PAGE PROTECTION RESPIRATOIRE -->
@@ -225,7 +266,6 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <ul class="small text-muted ps-3 mb-3">
             <li>Études ergonomiques de postes administratifs et industriels.</li>
             <li>Analyse des gestes, postures et manutentions.</li>
-            <li>Prévention des lombalgies et efforts répétitifs.</li>
             <li>Préconisations d’aménagements de postes.</li>
             <li>Conseils sur les aides à la manutention.</li>
             <li>Prévention de la fatigue physique et charge mentale.</li>
@@ -459,6 +499,9 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 const blueRestev = [48, 101, 168]; 
 
+// --- VARIABLES GESTION STOCKAGE MIXTE ---
+let selectedStorageSGH = [];
+
 // --- DONNÉES FIXES ---
 const centres = [
     { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+La+Roche+sur+Yon" },
@@ -531,6 +574,7 @@ function nav(id, el) {
     if(id === 'page-sgh') renderSGH();
     if(id === 'page-centres') renderCentres();
     if(id === 'page-quiz') resetQuiz();
+    if(id === 'page-compatibility') resetStorageCheck();
     window.scrollTo(0, 0);
 }
 
@@ -647,6 +691,87 @@ function calculateMask() {
     } else {
         res.style.display = 'none';
     }
+}
+
+// --- MODULE GANTS & COMPATIBILITÉ STOCKAGE ---
+function checkGloveCompatibility() {
+    const val = document.getElementById('glove-select').value;
+    const res = document.getElementById('glove-result');
+    if(!val) { res.style.display = 'none'; return; }
+    
+    res.style.display = 'block';
+    if(val === 'nit') {
+        res.className = "p-3 rounded small alert alert-success";
+        res.innerHTML = "<b>🧤 Gants recommandés : NITRILE</b><br><br><b>Points forts :</b> Excellente barrière contre les hydrocarbures, graisses, huiles et peintures de carrosserie standard.<br><b>⚠️ Limites critiques :</b> Protection nulle contre l'Acétone ou les solvants cétoniques (le gant fond et se détruit immédiatement).";
+    } else if(val === 'but') {
+        res.className = "p-3 rounded small alert alert-warning";
+        res.innerHTML = "<b>🧤 Gants recommandés : BUTYLE</b><br><br><b>Points forts :</b> Le matériau le plus efficace contre l'Acétone, le MEK et les solvants hautement volatils ou agressifs.<br><b>⚠️ Limites critiques :</b> Coût plus élevé et résistance mécanique (déchirure, coupure) limitée.";
+    } else if(val === 'neo') {
+        res.className = "p-3 rounded small alert alert-primary";
+        res.innerHTML = "<b>🧤 Gants recommandés : NÉOPRÈNE</b><br><br><b>Points forts :</b> Idéal pour la manipulation des acides et des bases fortes (lessives de soude, acide sulfurique), dégraissants industriels.<br><b>⚠️ Limites critiques :</b> Moins performant sur les solvants purs ou chlorés.";
+    } else if(val === 'lat') {
+        res.className = "p-3 rounded small alert alert-secondary";
+        res.innerHTML = "<b>🧤 Gants recommandés : LATEX / CAOUTCHOUC</b><br><br><b>Points forts :</b> Parfait pour les solutions aqueuses simples, produits de nettoyage légers ou dilués.<br><b>⚠️ Limites critiques :</b> Zéro barrière contre les produits pétroliers et solvants. Attention au risque d'allergies cutanées sévères.";
+    }
+}
+
+function toggleStorageSGH(code) {
+    const idx = selectedStorageSGH.indexOf(code);
+    const btn = document.getElementById('btn-sgh-' + code);
+    
+    if (idx > -1) {
+        selectedStorageSGH.splice(idx, 1);
+        btn.classList.remove('btn-dark', 'text-white');
+        btn.classList.add('btn-outline-secondary');
+    } else {
+        if (selectedStorageSGH.length >= 2) {
+            alert("Veuillez sélectionner uniquement deux pictogrammes pour vérifier leur compatibilité.");
+            return;
+        }
+        selectedStorageSGH.push(code);
+        btn.classList.remove('btn-outline-secondary');
+        btn.classList.add('btn-dark', 'text-white');
+    }
+    
+    evaluateStorageMix();
+}
+
+function evaluateStorageMix() {
+    const res = document.getElementById('storage-result');
+    if (selectedStorageSGH.length < 2) {
+        res.style.display = 'none';
+        return;
+    }
+    
+    res.style.display = 'block';
+    const pair = selectedStorageSGH.sort().join('-');
+    
+    // Logique d'interdiction stricte INRS ED 112
+    if (pair === 'sgh02-sgh03') {
+        res.className = "p-3 rounded small alert alert-danger fw-bold";
+        res.innerHTML = "❌ INTERDICTION STRICTE DE STOCKAGE<br><br>Mélange Inflammable (SGH02) + Comburant (SGH03) : Risque d'incendie ultra-violent et explosion thermique immédiate. Séparer impérativement.";
+    } else if (pair === 'sgh05-sgh06') {
+        res.className = "p-3 rounded small alert alert-danger fw-bold";
+        res.innerHTML = "❌ COSTOCKAGE TRÈS DANGEREUX<br><br>Mélange Corrosif (SGH05) + Toxique Aigu (SGH06) : Risque de réaction chimique avec dégagement de gaz toxique ou mortel dans l'armoire.";
+    } else if (pair === 'sgh02-sgh06' || pair === 'sgh02-sgh08') {
+        res.className = "p-3 rounded small alert alert-warning fw-bold";
+        res.innerHTML = "⚠️ COSTOCKAGE NON RECOMMANDÉ<br><br>Mélange Inflammable + Produit Toxique : En cas d'incendie, les fumées dégagées seront instantanément mortelles pour le personnel et les secours.";
+    } else if (pair === 'sgh05-sgh05') {
+        res.className = "p-3 rounded small alert alert-warning fw-bold";
+        res.innerHTML = "⚠️ ATTENTION AUX INCOMPATIBILITÉS (SGH05)<br><br>Le pictogramme Corrosif regroupe les ACIDES et les BASES. Ne jamais stocker ensemble de l'acide chlorhydrique et de la soude/javel (réaction exothermique violente).";
+    } else {
+        res.className = "p-3 rounded small alert alert-success fw-bold";
+        res.innerHTML = "✅ STOCKAGE MIXTE ADMISSIBLE<br><br>Pas d'incompatibilité majeure détectée selon la grille ED 112. Veiller toutefois à maintenir des bacs de rétention séparés par précaution.";
+    }
+}
+
+function resetStorageCheck() {
+    selectedStorageSGH = [];
+    document.querySelectorAll('[id^="btn-sgh-"]').forEach(btn => {
+        btn.classList.remove('btn-dark', 'text-white');
+        btn.classList.add('btn-outline-secondary');
+    });
+    document.getElementById('storage-result').style.display = 'none';
 }
 
 // --- EXPORTS & PDF ---
@@ -832,5 +957,3 @@ window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
 </script>
 </body>
 </html>
-
-```
