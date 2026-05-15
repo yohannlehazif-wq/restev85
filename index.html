@@ -12,9 +12,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
+    <link class="apple-touch-icon" href="logo_restev_carre.png">
 
-    <!-- LIBRARIES (Bootstrap, FontAwesome, QRcode, jsPDF, Supabase) -->
+    <!-- LIBRARIES -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
@@ -23,180 +23,47 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- 1. TOUS VOS STYLES (CSS) -->
+    <!-- STYLES D'ORIGINE CONSERVÉS -->
     <style>
-        :root { 
-            --r-blue: #3065a8; 
-            --r-teal: #75bba8; 
-            --r-purple: #ae227d; 
-            --r-yellow: #e6a00f; 
-            --r-light: #f8fafc; 
-        }
-        body { 
-            background-color: var(--r-light); 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            margin-bottom: 100px; 
-            overflow-x: hidden; 
-            user-select: none; 
-        }
-        #splash { 
-            position: fixed; 
-            inset: 0; 
-            z-index: 9999; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); 
-            background-size: 400% 400%; 
-            animation: gradientBG 10s ease infinite; 
-            transition: 0.8s; 
-        }
-        @keyframes gradientBG { 
-            0% { background-position: 0% 50%; } 
-            50% { background-position: 100% 50%; } 
-            100% { background-position: 0% 50%; } 
-        }
-        .btn-enter { 
-            background: white; 
-            color: var(--r-blue); 
-            border: none; 
-            padding: 15px 50px; 
-            border-radius: 50px; 
-            font-weight: 800; 
-            font-size: 1.2rem; 
-            margin-top: 25px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-            animation: breathing 2.5s ease-in-out infinite; 
-        }
-        @keyframes breathing { 
-            0%, 100% { transform: scale(1); } 
-            50% { transform: scale(1.05); } 
-        }
-        .ecg-line { 
-            fill: none; 
-            stroke: white; 
-            stroke-width: 3; 
-            stroke-dasharray: 1000; 
-            stroke-dashoffset: 1000; 
-            animation: drawECG 4s linear infinite; 
-        }
-        @keyframes drawECG { 
-            0% { stroke-dashoffset: 1000; } 
-            100% { stroke-dashoffset: 0; } 
-        }
-        .app-header { 
-            background: white; 
-            padding: 12px; 
-            text-align: center; 
-            border-bottom: 4px solid var(--r-yellow); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-        }
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
+        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
+        @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
         .logo-header { height: 40px; }
-        .info-banner {
-            background: #dbeafe;
-            color: #1e3a5f;
-            padding: 3px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            font-weight: 600;
-            font-size: 0.72rem;
-            border-bottom: 1px solid #bfdbfe;
-        }
-        .ticker {
-            display: inline-block;
-            animation: ticker 60s linear infinite;
-        }
+        .info-banner { background: #dbeafe; color: #1e3a5f; padding: 3px 0; overflow: hidden; white-space: nowrap; font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid #bfdbfe; }
+        .ticker { display: inline-block; animation: ticker 60s linear infinite; }
         .ticker span { padding-right: 50px; }
         @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-        .nav-bottom { 
-            position: fixed; 
-            bottom: 15px; 
-            left: 10px; 
-            right: 10px; 
-            background: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(10px); 
-            display: flex; 
-            justify-content: space-around; 
-            padding: 12px 2px; 
-            border-radius: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            z-index: 1000; 
-        }
-        .nav-item { 
-            border: none; 
-            background: none; 
-            color: #94a3b8; 
-            font-size: 0.55rem; 
-            font-weight: 700; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            flex: 1; 
-            text-decoration: none; 
-            outline: none; 
-        }
+
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
         .nav-item.active { color: var(--r-blue); }
         .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+
         .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
         .active-page { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card-custom { 
-            background: white; 
-            border-radius: 20px; 
-            padding: 18px; 
-            margin-bottom: 15px; 
-            border-left: 5px solid var(--r-blue); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-        }
+
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .sgh-card { display: flex; gap: 15px; align-items: center; }
         .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-        .btn-excel { 
-            background-color: #1d6f42; 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            width: 100%; 
-            padding: 12px; 
-            font-weight: bold; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            margin-bottom: 10px; 
-        }
-        .btn-call { 
-            background: var(--r-blue); 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            padding: 8px 15px; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            text-decoration: none !important; 
-            display: inline-flex; 
-            align-items: center; 
-        }
+        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
         .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
-        .badge-service { 
-            background-color: var(--r-teal); 
-            color: white; 
-            padding: 4px 8px; 
-            border-radius: 8px; 
-            font-size: 0.7rem; 
-            font-weight: bold; 
-            margin-bottom: 8px; 
-            display: inline-block; 
-        }
+        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
         .archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
-        .sgh-checkbox-group label { font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
         .filter-res-badge { background: white; padding: 10px; border-radius: 8px; border-left: 4px solid var(--r-blue); font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN ANIMÉ -->
+    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-content text-center text-white">
             <img src="logo_restev_carre.png" alt="Logo" class="splash-logo" onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
@@ -210,12 +77,12 @@
         </div>
     </div>
 
-    <!-- HEADER LOGO -->
+    <!-- APP HEADER -->
     <div class="app-header">
         <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
     </div>
 
-    <!-- BANDEAU DÉFILANT D'ACTUALITÉS -->
+    <!-- BANDEAU DÉFILANT -->
     <div class="info-banner">
         <div class="ticker">
             <span>
@@ -231,10 +98,6 @@
             </span>
         </div>
     </div>
-
-    <!-- ========================================== -->
-    <!-- 2. CONTENU DE L'INTERFACE (HTML)           -->
-    <!-- ========================================== -->
 
     <!-- PAGE ACCUEIL -->
     <div id="page-home" class="app-page active-page">
@@ -258,13 +121,13 @@
             <div class="col-6" onclick="nav('page-list', 'nav-list')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
             </div>
-            <div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
+            <div class="col-6" onclick="nav('page-services')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
             </div>
-            <div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
+            <div class="col-6" onclick="nav('page-aides')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
             </div>
-            <div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
+            <div class="col-6" onclick="nav('page-fds-guide')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
             </div>
             <div class="col-12" onclick="nav('page-centres', 'nav-centres')">
@@ -275,15 +138,9 @@
 
     <!-- PAGE OFFRE SERVICES RESTEV -->
     <div id="page-services" class="app-page">
-        <h5 class="fw-bold mb-3">
-            <i class="fa-solid fa-handshake-angle text-primary me-2"></i>
-            L’Offre RESTEV Prévention & Santé au Travail
-        </h5>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre RESTEV Prévention & Santé au Travail</h5>
         <p class="small text-muted mb-4">
-            RESTEV accompagne les entreprises adhérentes dans la prévention des risques professionnels,
-            l’amélioration des conditions de travail et la protection de la santé des salariés.
-            Nos équipes interviennent directement sur le terrain afin d’aider les employeurs à répondre
-            à leurs obligations réglementaires tout en développant une véritable culture prévention.
+            RESTEV accompagne les entreprises adhérentes dans la prévention des risques professionnels, l’amélioration des conditions de travail et la protection de la santé des salariés. Nos équipes interviennent directement sur le terrain afin d’aider les employeurs à répondre à leurs obligations réglementaires tout en développant une véritable culture prévention.
         </p>
 
         <!-- PRÉVENTION -->
@@ -301,9 +158,7 @@
                 <li>Construction de plans d’actions prévention.</li>
                 <li>Accompagnement sécurité des entreprises extérieures.</li>
             </ul>
-            <div class="alert alert-primary small mb-0">
-                <i class="fa-solid fa-circle-info me-2"></i>Le DUERP est obligatoire dès le premier salarié et constitue un document essentiel en cas de contrôle ou d’accident du travail.
-            </div>
+            <div class="alert alert-primary small mb-0"><i class="fa-solid fa-circle-info me-2"></i>Le DUERP l'obligatoire dès le premier salarié et constitue un document essentiel en cas de contrôle ou d’accident du travail.</div>
         </div>
 
         <!-- ERGONOMIE -->
@@ -336,9 +191,7 @@
                 <li>Aide au choix des protections collectives et individuelles.</li>
                 <li>Conseils sur le stockage et la signalisation.</li>
             </ul>
-            <div class="alert alert-success small mb-0">
-                <i class="fa-solid fa-shield-halved me-2"></i>L’objectif est de réduire l’exposition des salariés et prévenir les maladies professionnelles.
-            </div>
+            <div class="alert alert-success small mb-0"><i class="fa-solid fa-shield-halved me-2"></i>L’objectif est de réduire l’exposition des salariés et prévenir les maladies professionnelles.</div>
         </div>
 
         <!-- FORMATIONS -->
@@ -355,12 +208,10 @@
                 <li>Sensibilisation canicule et travail extérieur.</li>
                 <li>Prévention du risque routier professionnel.</li>
             </ul>
-            <div class="alert alert-danger small mb-0">
-                <i class="fa-solid fa-user-shield me-2"></i>Formar les salariés permet de réduire les comportements à risque et renforcer la sécurité au quotidien.
-            </div>
+            <div class="alert alert-danger small mb-0"><i class="fa-solid fa-user-shield me-2"></i>Former les salariés permet de réduire les comportements à risque et renforcer la sécurité au quotidien.</div>
         </div>
 
-        <!-- CELLULE PDP -->
+        <!-- CELLULE PDP COORDONNÉE ET SÉCURISÉE -->
         <div class="card-custom" style="border-left-color: #fd7e14;">
             <div class="badge-service" style="background-color:#fd7e14">MAINTIEN DANS L’EMPLOI</div>
             <h6 class="fw-bold">Cellule PDP - Prévention Désinsertion Professionnelle</h6>
@@ -374,9 +225,7 @@
                 <li>Coordination employeur / salarié / médecin du travail.</li>
                 <li>Orientation vers les dispositifs d’aide existants.</li>
             </ul>
-            <div class="alert alert-warning small mb-0">
-                <i class="fa-solid fa-heart-pulse me-2"></i>Suivi individualisé et sur-mesure pour la sécurisation des parcours professionnels.
-            </div>
+            <div class="alert alert-warning small mb-0"><i class="fa-solid fa-heart-pulse me-2"></i>Suivi individualisé et sur-mesure pour la sécurisation des parcours professionnels.</div>
         </div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
@@ -397,136 +246,92 @@
             <div id="mask-result" class="filter-res-badge shadow-sm d-none"></div>
         </div>
         <div class="alert alert-info small mt-3">
-            <i class="fa-solid fa-circle-info me-2"></i>
-            <b>Rappel :</b> Un masque ne protège que s'il est porté sur une peau rasée et si le filtre est changé régulièrement.
+            <i class="fa-solid fa-circle-info me-2"></i><b>Rappel :</b> Un masque ne protège que s'il est porté sur une peau rasée et si le filtre est changé régulièrement.
         </div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
-    <!-- MODULE DE PLANIFICATION PAGES RESTANTES (SCAN, AUTO-DIAG, LEXIQUE, INVENTAIRE, AIDES, CENTRES, GUIDE) -->
+    <!-- AUTRES PAGES APPLICATIVES -->
     <div id="page-scan" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode me-2"></i>Scanner FDS / Code-barres</h5>
-        <div class="card-custom text-center">
-            <p class="text-muted small">Fonctionnalité caméra et traitement des FDS en cours d'exécution...</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode me-2"></i>Scanner FDS</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Initialisation du module caméra...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
     <div id="page-quiz" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-question me-2"></i>Auto-Diagnostic Prévention</h5>
-        <div class="card-custom">
-            <p class="text-muted small">Évaluation rapide de la conformité de vos fiches de sécurité.</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-question me-2"></i>Auto-Diagnostic</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Génération du questionnaire d'évaluation...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
     <div id="page-sgh" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>Lexique Complet SGH</h5>
-        <div class="card-custom">
-            <p class="text-muted small">Consultation des classes et catégories de danger réglementaires SGH01 à SGH09.</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>Lexique SGH</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Chargement des pictogrammes SGH01 à SGH09...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
     <div id="page-list" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire Général des Produits</h5>
-        <div class="card-custom">
-            <p class="text-muted small">Chargement des données centralisées depuis votre référentiel.</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Liaisons et chargement des tables de données...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
     <div id="page-aides" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank me-2"></i>Aides financières subventions CARSAT</h5>
-        <div class="card-custom">
-            <p class="text-muted small">Dispositifs de financement et subventions prévention applicables en Pays de la Loire.</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-piggy-bank me-2"></i>Aides & Actus</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Recherche des subventions CARSAT Pays de la Loire...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
     <div id="page-fds-guide" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-shield me-2"></i>Guide de Lecture Rapide d'une FDS</h5>
-        <div class="card-custom">
-            <p class="text-muted small">Décryptage des 16 sections obligatoires d'une Fiche de Données de Sécurité.</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-shield me-2"></i>Guide FDS</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Structure d'analyse des 16 rubriques réglementaires...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
     <div id="page-centres" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-location-dot me-2"></i>Nos Centres de Santé RESTEV</h5>
-        <div class="card-custom">
-            <p class="text-muted small">Coordonnées et cartographie des centres (La Roche-sur-Yon, Challans, Les Sables d'Olonne, Fontenay-le-Comte).</p>
-        </div>
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-location-dot me-2"></i>Nos Centres</h5>
+        <div class="card-custom text-center"><p class="text-muted small">Coordonnées des centres de santé du secteur Vendée...</p></div>
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
-    <!-- NAVIGATION BASSE FIXE PWA -->
+    <!-- BOTTOM NAVBAR PWA -->
     <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', 'nav-home')">
-            <i class="fa-solid fa-house"></i>Accueil
-        </button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', 'nav-scan')">
-            <i class="fa-solid fa-barcode"></i>Scanner
-        </button>
-        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', 'nav-quiz')">
-            <i class="fa-solid fa-clipboard-question"></i>Auto-Diag
-        </button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', 'nav-list')">
-            <i class="fa-solid fa-boxes-stacked"></i>Inventaire
-        </button>
-        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', 'nav-centres')">
-            <i class="fa-solid fa-map-location-dot"></i>Centres
-        </button>
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', 'nav-home')"><i class="fa-solid fa-house"></i>Accueil</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', 'nav-scan')"><i class="fa-solid fa-barcode"></i>Scanner</button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', 'nav-quiz')"><i class="fa-solid fa-clipboard-question"></i>Auto-Diag</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', 'nav-list')"><i class="fa-solid fa-boxes-stacked"></i>Inventaire</button>
+        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', 'nav-centres')"><i class="fa-solid fa-map-location-dot"></i>Centres</button>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- 3. LOGIQUE APPLICATIVE (JAVASCRIPT)        -->
-    <!-- ========================================== -->
+    <!-- SCRIPTS ET LOGIQUE APPLICATIVE -->
     <script>
-        // INITIALISATION ET ACCUEIL SPLASH
         function dismissSplash() {
             const splash = document.getElementById('splash');
             if (splash) {
                 splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                }, 800);
+                setTimeout(() => splash.style.display = 'none', 800);
             }
         }
 
-        // NAVIGATION ENTRE PAGES DE L'APPLICATION
         function nav(pageId, navItemId = null) {
-            // Masquer toutes les pages
-            const pages = document.querySelectorAll('.app-page');
-            pages.forEach(page => page.classList.remove('active-page'));
-
-            // Afficher la page ciblée
+            document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active-page'));
             const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active-page');
-            }
+            if (targetPage) targetPage.classList.add('active-page');
 
-            // Mettre à jour l'état actif dans la barre de navigation
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             if (navItemId) {
                 const activeNav = document.getElementById(navItemId);
-                if (activeNav) {
-                    activeNav.classList.add('active');
-                }
+                if (activeNav) activeNav.classList.add('active');
             }
-            
-            // Remonter en haut de page lors du changement
             window.scrollTo({ top: 0, behavior: 'instant' });
         }
 
-        // LOGIQUE DE VÉRIFICATION DU TYPE DE PROTECTION RESPIRATOIRE
         function verifierMasque() {
             const select = document.getElementById('prot_respi');
             const resultDiv = document.getElementById('mask-result');
+            if (!select || !resultDiv) return;
+            
             const val = select.value;
-
             if (!val) {
                 resultDiv.classList.add('d-none');
                 return;
@@ -554,17 +359,13 @@
                 default:
                     message = "Aucun filtre spécifique sélectionné.";
             }
-
             resultDiv.innerHTML = message;
         }
 
-        // SIMULATION ET CHARGEMENT INITIAL STATISTIQUES INVENTAIRE
         document.addEventListener("DOMContentLoaded", () => {
-            const statsElement = document.getElementById('inv-stats');
-            if (statsElement) {
-                setTimeout(() => {
-                    statsElement.innerText = "0 Fiche active enregistrée | Synchronisé avec Supabase";
-                }, 1200);
+            const stats = document.getElementById('inv-stats');
+            if (stats) {
+                setTimeout(() => { stats.innerText = "0 Fiche active enregistrée | Synchronisé avec Supabase"; }, 1200);
             }
         });
     </script>
