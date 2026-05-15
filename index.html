@@ -474,7 +474,6 @@ ACCUEIL RESTEV
 
 </div>
 
-</button>
 
 </div>
 <div id="page-aides" class="app-page">
@@ -846,28 +845,6 @@ function startScanner() {
 }
     
 function calculateMask() {
-    const val = document.getElementById('pollutant-select').value;
-    const res = document.getElementById('mask-result');
-    
-    const data = {
-        'A': { c: '#63422d', t: 'FILTRE MARRON (Type A)', d: 'Vapeurs organiques (solvants, colles).' },
-        'B': { c: '#94a3b8', t: 'FILTRE GRIS (Type B)', d: 'Gaz et vapeurs inorganiques (chlore, acide cyanhydrique).' },
-        'E': { c: '#e6a00f', t: 'FILTRE JAUNE (Type E)', d: 'Gaz acides (dioxyde de soufre).' },
-        'K': { c: '#198754', t: 'FILTRE VERT (Type K)', d: 'Ammoniac et dérivés.' },
-        'P': { c: '#ffffff', t: 'FILTRE BLANC (Type P3)', d: 'Particules, aérosols et poussières (Amiante, Bois).' },
-        'AX': { c: '#63422d', t: 'FILTRE AX', d: 'Composés organiques à bas point d’ébullition (< 65°C).' }
-    };
-
-    if(val) {
-        res.style.display = 'block';
-        res.style.backgroundColor = data[val].c;
-        res.style.color = (val === 'P') ? 'black' : 'white';
-        res.style.border = (val === 'P') ? '2px solid #ccc' : 'none';
-        res.innerHTML = `<h6 class="mb-1">${data[val].t}</h6><small>${data[val].d}</small>`;
-    } else {
-        res.style.display = 'none';
-    }
-}
 
 //// --- AJOUTE CETTE FONCTION ICI ---
 function calculateMask() {
@@ -902,9 +879,6 @@ function calculateMask() {
 }
 
 // --- VIENT ENSUITE TON CODE EXISTANT ---
-function exportToCSV() {
-...
- --- EXPORTS ---
 function exportToCSV() {
     if(inventory.length === 0) return alert("Inventaire vide.");
     let csv = "Nom,Code,URL_FDS\n";
