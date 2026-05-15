@@ -1,160 +1,157 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RESTEV 85 - Expert Prévention</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RESTEV 85 - Expert Prévention</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3065a8">
-<link rel="icon" type="image/png" href="logo_restev_carre.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3065a8">
+    <link rel="icon" type="image/png" href="logo_restev_carre.png">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RESTEV 85">
-<link rel="apple-touch-icon" href="logo_restev_carre.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
+    <link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css)" rel="stylesheet">
+    <script src="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js)"></script>
+    <script src="[https://unpkg.com/html5-qrcode](https://unpkg.com/html5-qrcode)"></script>
+    <script src="[https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js](https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js)"></script>
+    <script src="[https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js](https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js)"></script>
+    <script src="[https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2](https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2)"></script>
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<style>
-:root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
-@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-.btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
-@keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-.ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-
-.app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-.logo-header { height: 40px; }
-.info-banner {
-    background: #dbeafe;
-    color: #1e3a5f;
-    padding: 3px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    font-weight: 600;
-    font-size: 0.72rem;
-    border-bottom: 1px solid #bfdbfe;
-}
-
-.ticker {
-    display: inline-block;
-    animation: ticker 60s linear infinite;
-}
-
-.ticker span {
-    padding-right: 80px;
-}
-.ticker span { padding-right: 50px; }
-@keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-
-.nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-.nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
-.nav-item.active { color: var(--r-blue); }
-.nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
-
-.app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
-.active-page { display: block !important; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-.card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.sgh-card { display: flex; gap: 15px; align-items: center; }
-.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-.btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
-.badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-.archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
-</style>
+    <style>
+        :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
+        body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+        #splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3065a8, #ae227d, #75bba8, #e6a00f); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
+        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
+        @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+        .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
+        .logo-header { height: 40px; }
+        .info-banner { background: #dbeafe; color: #1e3a5f; padding: 3px 0; overflow: hidden; white-space: nowrap; font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid #bfdbfe; }
+        .ticker { display: inline-block; animation: ticker 60s linear infinite; }
+        .ticker span { padding-right: 80px; }
+        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+        .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
+        .nav-item.active { color: var(--r-blue); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
+        .app-page { display: none; padding: 20px 15px; animation: fadeIn 0.3s ease-out; }
+        .active-page { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .sgh-card { display: flex; gap: 15px; align-items: center; }
+        .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
+        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
+        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+    </style>
 </head>
 <body>
 
 <div id="splash">
     <div class="splash-content text-center text-white">
-
-        <!-- LOGO -->
-        <img src="logo_restev_carre.png"
-             alt="Logo"
-             class="splash-logo"
-             onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
-
-        <!-- TITRE -->
-              <p class="splash-subtitle">Expert Prévention des Risques</p>
-
-        <!-- ANIMATION ECG -->
+        <img src="logo_restev_carre.png" alt="Logo" class="splash-logo" onerror="this.src='[https://placehold.co/140x140/ffffff/3065a8?text=RESTEV](https://placehold.co/140x140/ffffff/3065a8?text=RESTEV)'">
+        <p class="splash-subtitle">Expert Prévention des Risques</p>
         <div class="ecg-container">
             <svg viewBox="0 0 200 40">
-                <path class="ecg-line"
-                      d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
+                <path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
             </svg>
         </div>
-
-        <!-- BOUTON -->
-        <button class="btn-enter mt-4" onclick="dismissSplash()">
-            ENTRER
-        </button>
-
+        <button class="btn-enter mt-4" onclick="dismissSplash()">ENTRER</button>
     </div>
 </div>
 
 <div class="app-header">
-<img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='[https://placehold.co/180x40?text=RESTEV+85](https://placehold.co/180x40?text=RESTEV+85)'">
 </div>
 
 <div class="info-banner">
     <div class="ticker">
         <span>
-            📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne dans l'évaluation de vos risques.
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            💰 Aides CARSAT : Des subventions disponibles pour vos équipements de protection (TPE/PME).
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            🔍 Risque Chimique : Consultez les fiches toxicologiques INRS directement via l'app.
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            🏗️ BTP : Profitez des conseils experts de l'OPPBTP pour vos chantiers en Vendée.
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            🌡️ Canicule / Grand Froid : Adaptez vos postes de travail avec nos fiches conseils.
+            📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne. &nbsp;&nbsp;|&nbsp;&nbsp; 
+            💰 Aides CARSAT : Subventions disponibles pour TPE/PME. &nbsp;&nbsp;|&nbsp;&nbsp; 
+            🔍 Risque Chimique : Consultez les fiches INRS via l'app.
         </span>
     </div>
 </div>
 
 <div id="page-home" class="app-page active-page">
-<div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
-<h5 class="fw-bold mb-1">RESTEV 85</h5>
-<p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
+        <h5 class="fw-bold mb-1">RESTEV 85</h5>
+        <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+    </div>
+    <div class="row g-2">
+        <div class="col-6" onclick="nav('page-scan')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold">SCANNER FDS</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-quiz')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold">AUTO-DIAG</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-sgh')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold">LEXIQUE SGH</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-list')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold">INVENTAIRE</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-respiro')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #00bcd4;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: #00acc1;"></i><br><small class="fw-bold">PROTECTION RESPIRATOIRE</small></div>
+        </div>
+        <div class="col-6" onclick="nav('page-centres')">
+            <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold">NOS CENTRES</small></div>
+        </div>
+    </div>
 </div>
-<div class="row g-2">
-<div class="col-6" onclick="nav('page-scan', 'nav-scan')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #1e88e5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small></div>
+
+<div id="page-scan" class="app-page">
+    <h5 class="fw-bold mb-3">Ajouter un produit</h5>
+    <div class="card-custom">
+        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 200px;"></div>
+        <button class="btn btn-dark w-100 mt-3 mb-3" onclick="startScanner()">ACTIVER LA CAMÉRA</button>
+        <input type="text" id="prod-name" class="form-control mb-2" placeholder="Nom du produit">
+        <button class="btn btn-primary w-100" onclick="saveProduct()">ENREGISTRER</button>
+    </div>
 </div>
-<div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #e53935;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b71c1c;">AUTO-DIAG</small></div>
+
+<div id="page-respiro" class="app-page">
+    <h5 class="fw-bold mb-3">Calculateur de Filtres</h5>
+    <div class="card-custom">
+        <label class="small fw-bold text-muted mb-2">Quel type de polluant ?</label>
+        <select id="pollutant-type" class="form-select mb-3" onchange="calculateFilter()">
+            <option value="">-- Sélectionner --</option>
+            <option value="solvants">Solvants (Peinture, Vernis)</option>
+            <option value="acides">Acides (Chlorhydrique, Nitrique)</option>
+            <option value="poussières">Poussières, Fumées, Amiante</option>
+        </select>
+        <div id="filter-result" class="text-center p-3 rounded" style="display:none; background: #f1f5f9;">
+            <div id="filter-badge" class="h4 fw-bold mb-2"></div>
+            <p id="filter-desc" class="small text-muted mb-0"></p>
+        </div>
+    </div>
 </div>
-<div class="col-6" onclick="nav('page-sgh')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
-</div>
-<div class="col-6" onclick="nav('page-list', 'nav-list')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
-</div>
-<div class="col-6" onclick="nav('page-services', 'nav-fds-guide')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
-</div>
-<div class="col-6" onclick="nav('page-aides', 'nav-fds-guide')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
-</div>
-<div class="col-6" onclick="nav('page-fds-guide', 'nav-fds-guide')">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
-</div>
-<div class="col-6" onclick="nav('page-centres', document.getElementById('nav-centres'))">
-<div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div>
+
+<nav class="nav-bottom">
+    <button class="nav-item active" onclick="nav('page-home')" id="nav-home">
+        <i class="fa-solid fa-house"></i><span>ACCUEIL</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-list')" id="nav-list">
+        <i class="fa-solid fa-list-check"></i><span>LISTE</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-scan')" id="nav-scan">
+        <i class="fa-solid fa-qrcode"></i><span>SCAN</span>
+    </button>
+</nav>
+
+</script>
+
+</body>
+</html>
+75rem; color: #004d40;">NOS CENTRES</small></div>
 </div>
 <div class="col-6" onclick="nav('page-respiro')">
  <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #00bcd4;">
@@ -1178,68 +1175,77 @@ function showQuestion() {
     document.getElementById('q-text').innerText = `${currentQ + 1}. ${questions[currentQ]}`;
     document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
 }
-// --- FONCTION CALCULATEUR DE FILTRES ---
-function calculateFilter() {
-    const type = document.getElementById('pollutant-type').value;
-    const res = document.getElementById('filter-result');
-    const badge = document.getElementById('filter-badge');
-    const desc = document.getElementById('filter-desc');
+    // --- CALCULATEUR DE FILTRES ---
+    function calculateFilter() {
+        const type = document.getElementById('pollutant-type').value;
+        const resultDiv = document.getElementById('filter-result');
+        const badge = document.getElementById('filter-badge');
+        const desc = document.getElementById('filter-desc');
 
-    if (!type) { 
-        res.style.display = 'none'; 
-        return; 
+        if (!type) {
+            resultDiv.style.display = 'none';
+            return;
+        }
+
+        const filters = {
+            'solvants': { code: 'A2', color: '#63422d', text: 'Filtre marron : Vapeurs organiques (solvants, peintures).' },
+            'acides': { code: 'E1', color: '#ffeb3b', text: 'Filtre jaune : Gaz acides et vapeurs corrosives.' },
+            'organiques': { code: 'A2', color: '#63422d', text: 'Filtre marron : Gaz et vapeurs organiques.' },
+            'ammoniac': { code: 'K1', color: '#4caf50', text: 'Filtre vert : Ammoniac et dérivés aminés.' },
+            'poussières': { code: 'P3', color: '#ffffff', text: 'Filtre blanc : Particules haute efficacité (poussières fines, amiante).' },
+            'multi': { code: 'ABEK1 P3', color: '#2d3436', text: 'Filtre combiné : Protection polyvalente maintenance.' }
+        };
+
+        const choice = filters[type];
+        resultDiv.style.display = 'block';
+        badge.innerText = choice.code;
+        
+        // Style du badge
+        badge.style.background = choice.color;
+        badge.style.color = (choice.code === 'P3' || choice.code === 'E1') ? 'black' : 'white';
+        badge.style.padding = '10px';
+        badge.style.borderRadius = '8px';
+        badge.style.display = 'inline-block';
+        
+        desc.innerText = choice.text;
     }
 
-    res.style.display = 'block';
-    
-    const filters = {
-        'solvants': { code: 'A2 P3', color: '#63422d', text: 'Protection contre les vapeurs organiques et les particules.' },
-        'acides': { code: 'E1 P3', color: '#ffeb3b', text: 'Protection contre les gaz acides et les poussières.' },
-        'organiques': { code: 'A1', color: '#63422d', text: 'Protection standard contre les solvants organiques.' },
-        'ammoniac': { code: 'K1 P2', color: '#4caf50', text: 'Protection spécifique contre l’ammoniac.' },
-        'poussières': { code: 'P3', color: '#ffffff', text: 'Haute filtration contre les poussières fines et les fumées.' },
-        'multi': { code: 'ABEK1 P3', color: 'linear-gradient(90deg, #63422d, #94a3b8, #ffeb3b, #4caf50)', text: 'Cartouche polyvalente pour la maintenance.' }
+    // --- QUIZ ---
+    function quizAnswer(p) {
+        totalScore += p; 
+        currentQ++;
+        if(currentQ < questions.length) {
+            showQuestion();
+        } else {
+            document.getElementById('q-box').style.display = 'none';
+            document.getElementById('q-result').style.display = 'block';
+            document.getElementById('quiz-score').innerText = `${totalScore}/30`;
+            let adv = totalScore > 20 ? "Bonne maîtrise des risques." : "Des améliorations sont nécessaires dans votre gestion.";
+            document.getElementById('quiz-advice').innerText = adv;
+        }
+    }
+
+    function resetQuiz() { 
+        currentQ = 0; 
+        totalScore = 0; 
+        document.getElementById('q-box').style.display = 'block'; 
+        document.getElementById('q-result').style.display = 'none'; 
+        showQuestion(); 
+    }
+
+    // --- INITIALISATION ---
+    window.onload = () => { 
+        if (typeof updateStats === "function") updateStats(); 
+        // Le splash reste actif jusqu'au clic sur ENTRER
     };
 
-    const choice = filters[type];
-    badge.innerText = choice.code;
-    
-    // Gestion de la couleur et du contraste
-    badge.style.background = choice.color;
-    badge.style.color = (type === 'poussières' || type === 'acides') ? 'black' : 'white';
-    badge.style.padding = '10px';
-    badge.style.borderRadius = '8px';
-    badge.style.display = 'inline-block';
-    
-    desc.innerText = choice.text;
+    function dismissSplash() {
+        const splash = document.getElementById('splash');
+        splash.style.opacity = '0';
+        setTimeout(() => {
+            splash.style.display = 'none';
+        }, 800);
     }
-    
-
-    const choice = filters[type];
-    badge.innerText = choice.code;
-    // Vérification de la couleur du texte pour la lisibilité
-    badge.style.color = (choice.code === 'P3' || choice.code === 'E1 P3') ? 'black' : 'white';
-    badge.style.background = choice.color;
-    badge.style.padding = '10px';
-    badge.style.borderRadius = '8px';
-    desc.innerText = choice.text;
-}
-
-function quizAnswer(p) {
-    totalScore += p; currentQ++;
-    if(currentQ < questions.length) showQuestion();
-    else {
-        document.getElementById('q-box').style.display = 'none';
-        document.getElementById('q-result').style.display = 'block';
-        document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-        let adv = totalScore > 20 ? "Bonne maîtrise." : "Des améliorations sont nécessaires.";
-        document.getElementById('quiz-advice').innerText = adv;
-    }
-}
-
-function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
-
-window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
 </script>
 </body>
-<html>
+</html>
