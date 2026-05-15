@@ -50,7 +50,26 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     display: inline-block;
     animation: ticker 60s linear infinite;
 }
+/* Alignement et équilibre des boutons RESTEV */
+.restev-buttons-container {
+    display: flex;
+    gap: 12px;          /* Espace entre les deux boutons */
+    width: 100%;        /* Prend toute la largeur de la case parente */
+    margin-bottom: 15px; /* Espacement avec l'élément en dessous */
+}
 
+.restev-buttons-container .btn-restev {
+    flex: 1;            /* Force les deux boutons à avoir exactement la même largeur (50/50) */
+    text-align: center;
+    white-space: nowrap; /* Empêche le texte de sauter à la ligne */
+    
+    /* Vos styles actuels (exemples à adapter à votre charte graphique) */
+    padding: 10px 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+    
 .ticker span { padding-right: 50px; }
 @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
