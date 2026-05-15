@@ -161,7 +161,37 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 
 <!-- BLOC FINAL -->
 <div id="page-services" class="app-page">
+<div id="page-masks" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-dark me-2"></i>Protection Respiratoire</h5>
+    
+    <div class="card-custom" style="border-left-color: #000;">
+        <p class="small text-muted mb-3">Sélectionnez le polluant pour identifier le type de filtre nécessaire (Norme EN 14387).</p>
+        
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Type de risque :</label>
+            <select id="pollutant-select" class="form-select" onchange="calculateMask()">
+                <option value="">-- Choisir le polluant --</option>
+                <option value="A">Solvants, Peintures (Type A)</option>
+                <option value="B">Chlore, Gaz inorganiques (Type B)</option>
+                <option value="E">Gaz acides (Type E)</option>
+                <option value="K">Ammoniac (Type K)</option>
+                <option value="P">Poussières, Amiante (Type P3)</option>
+                <option value="AX">Composés organiques (Bas pt ébullition)</option>
+            </select>
+        </div>
 
+        <div id="mask-result" class="filter-res-badge shadow-sm">
+            </div>
+    </div>
+
+    <div class="alert alert-info small mt-3">
+        <i class="fa-solid fa-circle-info me-2"></i>
+        <b>Rappel :</b> Un masque ne protège que s'il est porté sur une peau rasée et si le filtre est changé régulièrement.
+    </div>
+    
+    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
+</div>
+    
 <h5 class="fw-bold mb-3">
 <i class="fa-solid fa-handshake-angle text-primary me-2"></i>
 L’Offre RESTEV Prévention & Santé au Travail
@@ -785,6 +815,30 @@ function startScanner() {
             document.getElementById('prod-url').value = data[0].url_fds;
         }
     }).catch(e => console.error(e));
+}
+    
+function calculateMask() {
+    const val = document.getElementById('pollutant-select').value;
+    const res = document.getElementById('mask-result');
+    
+    const data = {
+        'A': { c: '#63422d', t: 'FILTRE MARRON (Type A)', d: 'Vapeurs organiques (solvants, colles).' },
+        'B': { c: '#94a3b8', t: 'FILTRE GRIS (Type B)', d: 'Gaz et vapeurs inorganiques (chlore, acide cyanhydrique).' },
+        'E': { c: '#e6a00f', t: 'FILTRE JAUNE (Type E)', d: 'Gaz acides (dioxyde de soufre).' },
+        'K': { c: '#198754', t: 'FILTRE VERT (Type K)', d: 'Ammoniac et dérivés.' },
+        'P': { c: '#ffffff', t: 'FILTRE BLANC (Type P3)', d: 'Particules, aérosols et poussières (Amiante, Bois).' },
+        'AX': { c: '#63422d', t: 'FILTRE AX', d: 'Composés organiques à bas point d’ébullition (< 65°C).' }
+    };
+
+    if(val) {
+        res.style.display = 'block';
+        res.style.backgroundColor = data[val].c;
+        res.style.color = (val === 'P') ? 'black' : 'white';
+        res.style.border = (val === 'P') ? '2px solid #ccc' : 'none';
+        res.innerHTML = `<h6 class="mb-1">${data[val].t}</h6><small>${data[val].d}</small>`;
+    } else {
+        res.style.display = 'none';
+    }
 }
 
 // --- EXPORTS ---
