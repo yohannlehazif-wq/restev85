@@ -180,17 +180,45 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
             </select>
         </div>
 
-        <div id="mask-result" class="filter-res-badge shadow-sm">
-            </div>
+   <!-- INSERE TOUTE LA PAGE ICI -->
+<div id="page-masks" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-dark me-2"></i>Protection Respiratoire</h5>
+    
+    <div class="card-custom" style="border-left-color: #00bcd4;">
+        <p class="small text-muted mb-3">Sélectionnez le type de polluant pour identifier instantanément le filtre et la couleur de cartouche nécessaires (Norme EN 14387).</p>
+        
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Type de polluant / risque :</label>
+            <select id="pollutant-select" class="form-select" onchange="calculateMask()">
+                <option value="">-- Choisir le polluant --</option>
+                <option value="A">Solvants, Peintures, Vernis (Type A)</option>
+                <option value="B">Chlore, Gaz inorganiques, Hydrogène sulfuré (Type B)</option>
+                <option value="E">Gaz acides, Dioxyde de soufre (Type E)</option>
+                <option value="K">Ammoniac et dérivés aminés (Type K)</option>
+                <option value="P">Poussières, Silice, Amiante, Bois (Type P3)</option>
+                <option value="AX">Composés organiques à bas point d'ébullition &lt; 65°C</option>
+            </select>
+        </div>
+
+        <div id="mask-result" class="filter-res-badge shadow-sm"></div>
     </div>
 
-    <div class="alert alert-info small mt-3">
-        <i class="fa-solid fa-circle-info me-2"></i>
-        <b>Rappel :</b> Un masque ne protège que s'il est porté sur une peau rasée et si le filtre est changé régulièrement.
+    <div class="card-custom mt-3" style="border-left-color: var(--r-yellow);">
+        <h6 class="fw-bold"><i class="fa-solid fa-circle-exclamation text-warning me-2"></i>Règles d'utilisation critiques</h6>
+        <ul class="small text-muted ps-3 mb-0">
+            <li class="mb-1"><b>Étanchéité :</b> Le masque doit être porté sur une peau **parfaitement rasée**.</li>
+            <li class="mb-1"><b>Taux d'oxygène :</b> Ne jamais utiliser un masque filtrant si le taux d'oxygène est inférieur à **19%**.</li>
+            <li class="mb-1"><b>Remplacement :</b> Changer la cartouche dès qu'une odeur pénètre ou si la respiration devient difficile.</li>
+        </ul>
     </div>
     
     <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
 </div>
+
+<!-- VIENT ENSUITE TA PAGE SERVICES INTACTE -->
+<div id="page-services" class="app-page">
+...
+     
     
 <h5 class="fw-bold mb-3">
 <i class="fa-solid fa-handshake-angle text-primary me-2"></i>
@@ -841,7 +869,42 @@ function calculateMask() {
     }
 }
 
-// --- EXPORTS ---
+//// --- AJOUTE CETTE FONCTION ICI ---
+function calculateMask() {
+    const val = document.getElementById('pollutant-select').value;
+    const res = document.getElementById('mask-result');
+    
+    const data = {
+        'A': { c: '#5c3a21', tc: '#ffffff', t: 'FILTRE MARRON (Type A)', d: 'Protection contre les vapeurs organiques (solvants, peintures, colles, vernis).' },
+        'B': { c: '#808080', tc: '#ffffff', t: 'FILTRE GRIS (Type B)', d: 'Protection contre les gaz et vapeurs inorganiques (chlore, acide cyanhydrique).' },
+        'E': { c: '#ffcc00', tc: '#000000', t: 'FILTRE JAUNE (Type E)', d: 'Protection contre les gaz acides et dioxyde de soufre.' },
+        'K': { c: '#008000', tc: '#ffffff', t: 'FILTRE VERT (Type K)', d: 'Protection contre l’ammoniac et ses dérivés aminés.' },
+        'P': { c: '#ffffff', tc: '#000000', t: 'FILTRE BLANC (Type P3 - Haute efficacité)', d: 'Protection contre les poussières fines, aérosols, silice, amiante et bois.' },
+        'AX': { c: '#a52a2a', tc: '#ffffff', t: 'FILTRE AX (Marron / Usage Unique)', d: 'Composés organiques à bas point d’ébullition (< 65°C) comme l’acétone.' }
+    };
+
+    if(val) {
+        res.style.display = 'block';
+        res.style.backgroundColor = data[val].c;
+        res.style.color = data[val].tc;
+        res.style.border = (val === 'P') ? '2px solid #333' : 'none';
+        
+        res.innerHTML = `
+            <div class="cartridge-visual" style="background-color: ${data[val].c}; color: ${data[val].tc}; border-color: ${data[val].tc}; margin: 10px auto; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid;">
+                <i class="fa-solid fa-filter"></i>
+            </div>
+            <h5 class="mb-1 fw-bold">${data[val].t}</h5>
+            <p class="small mb-0 px-2">${data[val].d}</p>
+        `;
+    } else {
+        res.style.display = 'none';
+    }
+}
+
+// --- VIENT ENSUITE TON CODE EXISTANT ---
+function exportToCSV() {
+...
+ --- EXPORTS ---
 function exportToCSV() {
     if(inventory.length === 0) return alert("Inventaire vide.");
     let csv = "Nom,Code,URL_FDS\n";
