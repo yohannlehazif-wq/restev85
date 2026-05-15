@@ -551,11 +551,9 @@ ACCUEIL RESTEV
 
 </div> </div> ```
 
-### 💡 Rappel important pour que ça fonctionne :
-Pour que ce bouton ouvre quelque chose quand tu cliques dessus, n'oublie pas :
-1.  De coller le code de la **page-respiro** juste avant la fin de ton `</body>`.
-2.  De coller la fonction `calculateFilter()` dans ta balise `<script>`.
-
+    
+</body>`.
+    <script>`
 Si tu as un doute, envoie-moi la partie de ton code qui contient les boutons et je te ferai le montage !
 
 <div id="page-scan" class="app-page">
@@ -735,7 +733,7 @@ function updateStats() {
     const statsEl = document.getElementById('inv-stats');
     if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
 }
-
+splash.style.opacity
 function nav(id, el) {
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
