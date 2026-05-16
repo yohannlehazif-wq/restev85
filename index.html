@@ -32,7 +32,6 @@
     --r-purple: #ae227d; 
     --r-yellow: #e6a00f; 
     --r-light: #f8fafc; 
-    /* Couleurs de sécurité et alertes harmonisées */
     --r-success: #16a34a;
     --r-success-light: #f0fdf4;
     --r-danger: #dc2626;
@@ -151,7 +150,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
     </div>
 
-    <!-- Bouton Télécharger l'App (Masqué par défaut avec d-none) -->
+    <!-- Bouton Télécharger l'App -->
     <div id="btn-download-container" class="mb-3 d-none" onclick="triggerAppInstallation()">
         <div class="card-custom d-flex align-items-center justify-content-center py-2" style="background-color: #e0f2f1; border: 2px dashed #80cbc4; cursor: pointer; border-radius: 12px;">
             <i class="fa-solid fa-download me-2" style="color: #00796b; font-size: 1.1rem;"></i>
@@ -160,39 +159,30 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     </div>
 
     <div class="row g-2">
-        <!-- Ligne 1 -->
         <div class="col-6" onclick="nav('page-scan', 'nav-scan')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e3f2fd; border-left-color: #90caf9; height: 100%;"><i class="fa-solid fa-barcode fa-2x mb-2" style="color: #42a5f5;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e88e5;">SCANNER FDS</small></div>
         </div>
         <div class="col-6" onclick="nav('page-quiz', 'nav-quiz')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #ffebee; border-left-color: #ef9a9a; height: 100%;"><i class="fa-solid fa-clipboard-question fa-2x mb-2" style="color: #ef5350;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e53935;">AUTO-DIAG</small></div>
         </div>
-        
-        <!-- Ligne 2 -->
         <div class="col-6" onclick="nav('page-sgh')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #fff8e1; border-left-color: #ffe082; height: 100%;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #ffca28;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #b78103;">LEXIQUE SGH</small></div>
         </div>
         <div class="col-6" onclick="nav('page-list', 'nav-list')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7; height: 100%;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #66bb6a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #2e7d32;">INVENTAIRE</small></div>
         </div>
-        
-        <!-- Ligne 3 -->
         <div class="col-6" onclick="nav('page-compatibility')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4; height: 100%;"><i class="fa-solid fa-layer-group fa-2x mb-2" style="color: #26a69a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #00796b;">COMPATIBILITÉ & EPI</small></div>
         </div>
         <div class="col-6" onclick="nav('page-masks')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #80deea; height: 100%;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: #26c6da;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #00838f;">PROT. RESPIRATOIRE</small></div>
         </div>
-        
-        <!-- Ligne 4 -->
         <div class="col-6" onclick="nav('page-aides')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80; height: 100%;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #ffa726;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #ef6c00;">AIDES & ACTUS</small></div>
         </div>
         <div class="col-6" onclick="nav('page-fds-guide')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #f5f5f5; border-left-color: #ccc; height: 100%;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #888;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #555;">GUIDE FDS</small></div>
         </div>
-        
-        <!-- Ligne 5 -->
         <div class="col-6" onclick="nav('page-services')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8; height: 100%;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #ab47bc;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #6a1b9a;">OFFRE RESTEV</small></div>
         </div>
@@ -258,7 +248,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
                 <option value="">-- Choisir le polluant --</option>
                 <option value="A">Solvants, Peintures, Vernis (Type A)</option>
                 <option value="B">Chlore, Gaz inorganiques, Hydrogène sulfuré (Type B)</option>
-                <option value="E">Gaz aides, Dioxyde de soufre (Type E)</option>
+                <option value="E">Gaz acides, Dioxyde de soufre (Type E)</option>
                 <option value="K">Ammoniac et dérivés aminés (Type K)</option>
                 <option value="P">Poussières, Silice, Amiante, Bois (Type P3)</option>
                 <option value="AX">Composés organiques à bas point d'ébullition &lt; 65°C</option>
@@ -525,7 +515,6 @@ function startScanner() {
     scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
         scanner.stop();
         
-        // --- LOGIQUE PREMIER SCAN REUSSI ---
         if (localStorage.getItem("hasScannedOnce") !== "true") {
             localStorage.setItem("hasScannedOnce", "true");
             const btnDownload = document.getElementById("btn-download-container");
@@ -536,14 +525,165 @@ function startScanner() {
     }).catch(e => console.error(e));
 }
 
-// --- COMPATIBILITÉ ET AUTRES RECH ---
+// --- EXPORT ET GENERATION DE PIECES ATTESTATIONS ---
+function exportToCSV() {
+    if(!inventory.length) return alert("Inventaire vide !");
+    let content = "data:text/csv;charset=utf-8,Nom du Produit,Code,Lien FDS\n" + 
+        inventory.map(i => `"${i.name}","${i.code}","${i.fdsUrl || ''}"`).join("\n");
+    let win = window.open(encodeURI(content));
+}
+
+function generatePDFProof() {
+    if (typeof window.jspdf === 'undefined') return alert("Bibliothèque PDF non chargée.");
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    doc.setFillColor(blueRestev[0], blueRestev[1], blueRestev[2]);
+    doc.rect(0, 0, 210, 40, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.text("RESTEV 85 - ATTESTATION", 15, 25);
+    
+    doc.setTextColor(50, 50, 50);
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Service de Prévention et de Santé au Travail de la Vendée", 15, 48);
+    doc.text("Document généré le : " + new Date().toLocaleDateString('fr-FR'), 15, 54);
+    
+    doc.setDrawColor(blueRestev[0], blueRestev[1], blueRestev[2]);
+    doc.setLineWidth(0.5);
+    doc.line(15, 58, 195, 58);
+    
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Synthèse réglementaire du Parc Chimique Actif :", 15, 68);
+    
+    if(!inventory.length) {
+        doc.setFont("helvetica", "italic");
+        doc.text("Aucun produit chimique répertorié dans l'application à ce jour.", 15, 78);
+    } else {
+        const rows = inventory.map(i => [i.name, i.code, i.fdsUrl ? "Disponible" : "Recherche web standard"]);
+        doc.autoTable({
+            startY: 74,
+            head: [['Nom du Produit', 'Identifiant / Code', 'Statut Fiche FDS']],
+            body: rows,
+            headStyles: { fillColor: blueRestev },
+            theme: 'striped',
+            styles: { fontSize: 9 }
+        });
+    }
+    
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(120, 120, 120);
+        doc.text(`Page ${i} sur ${pageCount} - RESTEV 85 App`, 105, 290, { align: "center" });
+    }
+    
+    doc.save("Attestation_Parc_Chimique_RESTEV85.pdf");
+}
+
+// --- INTERACTION LEXIQUE SGH ---
+function renderSGH() {
+    const list = document.getElementById('sgh-list');
+    list.innerHTML = sghData.map(s => `
+        <div class="card-custom sgh-card" style="cursor:pointer;" onclick="showSghDetails('${s.id}')">
+            <img src="${s.img}" class="sgh-img" alt="${s.id}" onerror="this.src='https://placehold.co/65x65/ffebd6/b78103?text=${s.id}'">
+            <div>
+                <h6 class="fw-bold mb-1">${s.id} : ${s.title}</h6>
+                <p class="small text-muted mb-0">${s.desc}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function showSghDetails(id) {
+    const d = detailsSGH[id];
+    if(!d) return;
+    alert(`[${id}] ${d.danger}\n\n• Risques : ${d.risques}\n• Prévention : ${d.prevention}\n• ÉPI requis : ${d.epi}\n• En cas d'urgence : ${d.urgence}`);
+}
+
+// --- LOGIQUE AUTO-DIAG / QUIZ ---
+function quizAnswer(points) {
+    totalScore += points;
+    currentQ++;
+    
+    const progress = ((currentQ) / questions.length) * 100;
+    document.getElementById('quiz-progress').style.width = progress + '%';
+    
+    if (currentQ < questions.length) {
+        document.getElementById('q-text').innerText = questions[currentQ];
+    } else {
+        document.getElementById('q-box').style.display = 'none';
+        document.getElementById('q-result').style.display = 'block';
+        
+        const maxScore = questions.length * 3;
+        document.getElementById('quiz-score').innerText = `${totalScore}/${maxScore}`;
+        
+        let label = "", className = "";
+        if (totalScore >= 12) { label = "Excellent niveau de maîtrise et de conformité !"; className = "text-success"; }
+        else if (totalScore >= 7) { label = "Structure en place, mais des points restent à consolider."; className = "text-warning"; }
+        else { label = "Alerte : Des actions correctives prioritaires sont recommandées."; className = "text-danger"; }
+        
+        const lblEl = document.getElementById('quiz-label');
+        lblEl.innerText = label;
+        lblEl.className = "fw-bold mb-3 " + className;
+    }
+}
+
+function resetQuiz() {
+    currentQ = 0;
+    totalScore = 0;
+    document.getElementById('quiz-progress').style.width = '0%';
+    document.getElementById('q-box').style.display = 'block';
+    document.getElementById('q-result').style.display = 'none';
+    document.getElementById('q-text').innerText = questions[0];
+}
+
+// --- CALCULS APPAREILS RESPIRATOIRES ---
+function calculateMask() {
+    const p = document.getElementById('pollutant-select').value;
+    const res = document.getElementById('mask-result');
+    if(!p) { res.style.display = 'none'; return; }
+    
+    res.style.display = 'block';
+    let text = "", bg = "", color = "#fff";
+    
+    switch(p) {
+        case 'A': text = "Filtre Type A (Marron) : Contre les gaz et vapeurs organiques &gt; 65°C."; bg = "#78350f"; break;
+        case 'B': text = "Filtre Type B (Gris) : Contre les gaz et vapeurs inorganiques."; bg = "#4b5563"; break;
+        case 'E': text = "Filtre Type E (Jaune) : Contre les gaz acides et dioxyde de soufre."; bg = "#eab308"; color = "#000"; break;
+        case 'K': text = "Filtre Type K (Vert) : Contre l'ammoniac et dérivés aminés organiques."; bg = "#16a34a"; break;
+        case 'P': text = "Filtre Haute Efficacité P3 (Blanc) : Particules, Poussières nocives et Aérosols."; bg = "#f8fafc"; color = "#000"; break;
+        case 'AX': text = "Filtre Spécifique AX (Marron/Blanc) : Composés organiques bas point d'ébullition &lt; 65°C. Usage unique."; bg = "#a16207"; break;
+    }
+    res.innerHTML = `<span class="fw-bold d-block mb-1">Filtre Recommandé :</span> ${text}`;
+    res.style.backgroundColor = bg;
+    res.style.color = color;
+}
+
+// --- GESTION COMPATIBILITÉ GANTS & STOCKAGE ---
 function checkGloveCompatibility() {
     const val = document.getElementById('glove-select').value;
     const res = document.getElementById('glove-result');
     if(!val) { res.style.display = 'none'; return; }
     res.style.display = 'block';
-    res.className = "p-3 rounded small alert alert-info";
-    res.innerHTML = "Analyse en cours pour la famille sélectionnée...";
+    
+    if(val === 'nit') {
+        res.className = "p-3 rounded small alert alert-success";
+        res.innerHTML = "<b>Recommandation : Nitrile</b><br>Excellente résistance aux huiles, graisses et hydrocarbures. Protection mécanique standard.";
+    } else if(val === 'but') {
+        res.className = "p-3 rounded small alert alert-warning";
+        res.innerHTML = "<b>Recommandation : Butyle</b><br>Idéal et obligatoire pour les cétones (Acétone, MEK) et solvants très agressifs. Faible résistance mécanique.";
+    } else if(val === 'neo') {
+        res.className = "p-3 rounded small alert alert-success";
+        res.innerHTML = "<b>Recommandation : Néoprène</b><br>Très large spectre chimique. Conseillé pour les acides, les bases concentrées et produits de nettoyage industriels.";
+    } else if(val === 'lat') {
+        res.className = "p-3 rounded small alert alert-danger";
+        res.innerHTML = "<b>Recommandation : Latex naturel</b><br>Réservé aux solutions aqueuses, produits dilués et acides légers sans solvants. Attention au risque d'allergie.";
+    }
 }
 
 function toggleStorageSGH(code) {
@@ -553,7 +693,7 @@ function toggleStorageSGH(code) {
         selectedStorageSGH.splice(idx, 1);
         btn.classList.remove('btn-dark', 'text-white');
     } else {
-        if (selectedStorageSGH.length >= 2) return alert("Sélectionnez uniquement 2 pictos.");
+        if (selectedStorageSGH.length >= 2) return alert("Sélectionnez uniquement 2 pictogrammes pour comparer.");
         selectedStorageSGH.push(code);
         btn.classList.add('btn-dark', 'text-white');
     }
@@ -564,8 +704,21 @@ function evaluateStorageMix() {
     const res = document.getElementById('storage-result');
     if (selectedStorageSGH.length < 2) { res.style.display = 'none'; return; }
     res.style.display = 'block';
-    res.className = "p-3 rounded small alert alert-success fw-bold";
-    res.innerHTML = "Compatibilité admissible validée (Fiche ED 112).";
+    
+    const p1 = selectedStorageSGH[0];
+    const p2 = selectedStorageSGH[1];
+    
+    if ((p1==='sgh02' && p2==='sgh03') || (p1==='sgh03' && p2==='sgh02')) {
+        res.className = "p-3 rounded small var-warning-light var-warning-text border border-warning fw-bold";
+        res.innerHTML = "⚠️ INTERDICTION STRICTE : Ne jamais stocker de matières inflammables (SGH02) avec des comburants (SGH03) ! Danger immédiat de propagation d'incendie.";
+        res.style.backgroundColor = "var(--r-warning-light)"; res.style.color = "var(--r-warning-text)";
+    } else if ((p1==='sgh02' && p2==='sgh05') || (p1==='sgh05' && p2==='sgh02') || (p1==='sgh05' && p2==='sgh06') || (p1==='sgh06' && p2==='sgh05')) {
+        res.className = "p-3 rounded small alert alert-danger fw-bold";
+        res.innerHTML = "❌ STOCKAGE SÉPARÉ REQUIS : Corrosifs (SGH05) incompatibles dans le même bac de rétention. Risque de réaction exothermique ou émanation de gaz toxiques.";
+    } else {
+        res.className = "p-3 rounded small alert alert-success fw-bold";
+        res.innerHTML = "✅ Compatibilité admissible sous réserve de rétentions séparées par produit (Consulter le guide INRS ED 112).";
+    }
 }
 
 function resetStorageCheck() {
@@ -574,38 +727,30 @@ function resetStorageCheck() {
     document.getElementById('storage-result').style.display = 'none';
 }
 
-function exportToCSV() { /* ... */ }
-function generatePDFProof() { /* ... */ }
-
-function renderSGH() {
-    document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-        <div class="card-custom sgh-card">
-            <div><b>${s.title}</b><br><small>${s.desc}</small></div>
-        </div>`).join('');
-}
-
+// --- RENDER CENTRES VENDÉE ---
 function renderCentres() {
-    document.getElementById('centres-list').innerHTML = centres.map(c => `
-    <div class="card-custom mb-3"><b>${c.n}</b><br><small>${c.a}</small></div>`).join('');
+    const list = document.getElementById('centres-list');
+    list.innerHTML = centres.map(c => `
+        <div class="card-custom mb-3" style="border-left-color: var(--r-teal);">
+            <h6 class="fw-bold text-dark mb-1">${c.n}</h6>
+            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot text-secondary me-1"></i> ${c.a}</p>
+            <div class="d-flex gap-2">
+                <a href="tel:${c.t}" class="btn-call"><i class="fa-solid fa-phone me-1"></i> Appeler</a>
+                <a href="${c.g}" target="_blank" class="btn btn-sm btn-light border d-inline-flex align-items-center" style="font-size:0.85rem; font-weight:600;"><i class="fa-solid fa-route text-success me-1"></i> Itinéraire</a>
+            </div>
+        </div>
+    `).join('');
 }
 
-function quizAnswer(p) {
-    currentQ++;
-    if(currentQ < questions.length) document.getElementById('q-text').innerText = questions[currentQ];
-}
-function resetQuiz() { currentQ = 0; }
-
-// --- ACTION DU BOUTON TÉLÉCHARGER ---
+// --- APPLICATION INSTALLATION ACTION ---
 function triggerAppInstallation() {
     alert("Lancement de l'installation de votre application RESTEV 85 !");
 }
 
 // --- INITIALISATION UNIQUE AU CHARGEMENT ---
 window.onload = () => {
-    // 1. Mise à jour des stats inventaire de base
     updateStats(); 
     
-    // 2. Détection du QR Code de connexion dans l'URL (?source=qrcode)
     const urlParams = new URLSearchParams(window.location.search);
     const source = urlParams.get('source');
 
@@ -613,7 +758,6 @@ window.onload = () => {
         localStorage.setItem("hasScannedOnce", "true");
     }
 
-    // 3. Vérification de la mémoire pour afficher ou masquer le bouton
     if (localStorage.getItem("hasScannedOnce") === "true") {
         const btnDownload = document.getElementById("btn-download-container");
         if (btnDownload) {
@@ -621,7 +765,6 @@ window.onload = () => {
         }
     }
 
-    // 4. Extinction du splash screen
     setTimeout(dismissSplash, 2000); 
 };
 </script>
