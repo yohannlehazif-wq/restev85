@@ -6,7 +6,7 @@
 <title>RESTEV 85 - Expert Prévention</title>
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1e40af">
+<meta name="theme-color" content="#2563eb">
 <link class="re-icon" type="image/png" href="logo_restev_carre.png">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,28 +25,28 @@
 
 <style>
 :root { 
-    /* Palette Officielle RESTEV Harmonisée */
-    --r-blue: #1e40af;            /* Bleu Royal Institutionnel */
-    --r-blue-light: #f0f4ff;      /* Fond Bleu Douceur */
-    --r-blue-text: #1e3a8a;       /* Texte Bleu Foncé Lisible */
-    --r-teal: #0d9488;            /* Sarcelle/Teal Prévention */
-    --r-purple: #701a75;          /* Violet Accompagnement */
-    --r-yellow: #f59e0b;          /* Jaune/Ambre Alerte & Prévention */
-    --r-light: #f8fafc;           /* Fond de page neutre */
+    /* Palette RESTEV version Énergie & Peps */
+    --r-blue: #2563eb;            /* Bleu Électrique */
+    --r-blue-light: #eff6ff;
+    --r-blue-text: #1e40af;
+    --r-teal: #06b6d4;            /* Cyan / Sarcelle Lumineux */
+    --r-purple: #d946ef;          /* Fuchsia / Violet Éclatant */
+    --r-yellow: #f59e0b;          /* Ambre / Jaune Solaire */
+    --r-light: #f8fafc; 
     
-    /* Couleurs de sécurité réglementaires */
-    --r-success: #16a34a;
-    --r-success-light: #f0fdf4;
-    --r-danger: #dc2626;
-    --r-danger-light: #fef2f2;
+    /* Couleurs de sécurité et alertes harmonisées */
+    --r-success: #10b981;         /* Émeraude Peps */
+    --r-success-light: #ecfdf5;
+    --r-danger: #f43f5e;          /* Rouge Corail Énergique */
+    --r-danger-light: #fff1f2;
     --r-warning-light: #fef9c3;
     --r-warning-text: #713f12;
-    --r-muted: #475569;
+    --r-muted: #64748b;
     --r-muted-light: #f1f5f9;
 }
 
 body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
-#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, var(--r-blue), #3b82f6, var(--r-teal), var(--r-yellow)); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
+#splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: linear-gradient(-45deg, #3b82f6, var(--r-purple), var(--r-teal), #f43f5e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; transition: 0.8s; }
 @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
@@ -71,40 +71,45 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     animation: ticker 60s linear infinite;
 }
 
-/* Grille CSS Équilibrée avec les nuances de la charte */
+/* Grille de boutons renforcée en contrastes et couleurs dynamiques */
 .homepage-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 14px;
     width: 100%;
 }
 
 .homepage-grid .card-custom-btn {
-    background: white;
-    border-radius: 20px;
-    padding: 15px 10px;
+    border-radius: 22px;
+    padding: 16px 12px;
     margin-bottom: 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     cursor: pointer;
-    border-left: 5px solid var(--r-blue);
-    height: 110px;
+    height: 115px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .homepage-grid .card-custom-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.homepage-grid .card-custom-btn i {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .homepage-grid .card-custom-btn small {
     display: block;
     line-height: 1.2;
-    margin-top: 8px;
-    font-weight: 700;
+    margin-top: 10px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
 }
 
 .restev-buttons-container {
@@ -184,61 +189,61 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 
 <!-- PAGE ACCUEIL -->
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1d4ed8);">
+    <div class="card-custom text-white border-0 mb-4 shadow" style="background: linear-gradient(135deg, #1d4ed8, #4f46e5);">
         <h5 class="fw-bold mb-1">RESTEV 85</h5>
-        <p id="inv-stats" class="small opacity-75 mb-0">Chargement de l'inventaire...</p>
+        <p id="inv-stats" class="small opacity-95 mb-0">Chargement de l'inventaire...</p>
     </div>
     
-    <!-- Grille de l'application teintée selon la charte du RESTEV -->
+    <!-- Grille Moderne & Énergétique aux nuances Peps du RESTEV -->
     <div class="homepage-grid">
-        <div class="card-custom-btn" style="background-color: var(--r-blue-light); border-left-color: var(--r-blue);" onclick="nav('page-scan', 'nav-scan')">
-            <i class="fa-solid fa-barcode fa-2x" style="color: var(--r-blue);"></i>
-            <small style="font-size:0.75rem; color: var(--r-blue-text);">SCANNER FDS</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom: 4px solid #2563eb;" onclick="nav('page-scan', 'nav-scan')">
+            <i class="fa-solid fa-barcode fa-2x" style="color: #2563eb;"></i>
+            <small style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: #fdf2f8; border-left-color: var(--r-purple);" onclick="nav('page-quiz', 'nav-quiz')">
-            <i class="fa-solid fa-clipboard-question fa-2x" style="color: var(--r-purple);"></i>
-            <small style="font-size:0.75rem; color: var(--r-purple);">AUTO-DIAG</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fff1f2, #ffe4e6); border-bottom: 4px solid #f43f5e;" onclick="nav('page-quiz', 'nav-quiz')">
+            <i class="fa-solid fa-clipboard-question fa-2x" style="color: #f43f5e;"></i>
+            <small style="font-size:0.75rem; color: #9f1239;">AUTO-DIAG</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: var(--r-warning-light); border-left-color: var(--r-yellow);" onclick="nav('page-sgh')">
-            <i class="fa-solid fa-triangle-exclamation fa-2x" style="color: var(--r-yellow);"></i>
-            <small style="font-size:0.75rem; color: var(--r-warning-text);">LEXIQUE SGH</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fef9c3, #fef08a); border-bottom: 4px solid #eab308;" onclick="nav('page-sgh')">
+            <i class="fa-solid fa-triangle-exclamation fa-2x" style="color: #ca8a04;"></i>
+            <small style="font-size:0.75rem; color: #713f12;">LEXIQUE SGH</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: #f0fdf4; border-left-color: var(--r-teal);" onclick="nav('page-list', 'nav-list')">
-            <i class="fa-solid fa-boxes-stacked fa-2x" style="color: var(--r-teal);"></i>
-            <small style="font-size:0.75rem; color: var(--r-teal);">INVENTAIRE</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-bottom: 4px solid #10b981;" onclick="nav('page-list', 'nav-list')">
+            <i class="fa-solid fa-boxes-stacked fa-2x" style="color: #10b981;"></i>
+            <small style="font-size:0.75rem; color: #065f46;">INVENTAIRE</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: var(--r-blue-light); border-left-color: var(--r-blue);" onclick="nav('page-compatibility')">
-            <i class="fa-solid fa-layer-group fa-2x" style="color: var(--r-blue);"></i>
-            <small style="font-size:0.75rem; color: var(--r-blue-text);">COMPATIBILITÉ & EPI</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-bottom: 4px solid #06b6d4;" onclick="nav('page-compatibility')">
+            <i class="fa-solid fa-layer-group fa-2x" style="color: #06b6d4;"></i>
+            <small style="font-size:0.75rem; color: #075985;">COMPATIBILITÉ & EPI</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: #f0fdfa; border-left-color: #0d9488;" onclick="nav('page-masks')">
-            <i class="fa-solid fa-mask-ventilator fa-2x" style="color: #0d9488;"></i>
-            <small style="font-size:0.75rem; color: #115e59;">PROT. RESPIRATOIRE</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 4px solid #0284c7;" onclick="nav('page-masks')">
+            <i class="fa-solid fa-mask-ventilator fa-2x" style="color: #0284c7;"></i>
+            <small style="font-size:0.75rem; color: #075985;">PROT. RESPIRATOIRE</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: var(--r-warning-light); border-left-color: var(--r-yellow);" onclick="nav('page-aides')">
-            <i class="fa-solid fa-piggy-bank fa-2x" style="color: var(--r-yellow);"></i>
-            <small style="font-size:0.75rem; color: var(--r-warning-text);">AIDES & ACTUS</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-bottom: 4px solid #f59e0b;" onclick="nav('page-aides')">
+            <i class="fa-solid fa-piggy-bank fa-2x" style="color: #f59e0b;"></i>
+            <small style="font-size:0.75rem; color: #78350f;">AIDES & ACTUS</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: var(--r-muted-light); border-left-color: var(--r-muted);" onclick="nav('page-fds-guide')">
-            <i class="fa-solid fa-file-shield fa-2x" style="color: var(--r-muted);"></i>
-            <small style="font-size:0.75rem; color: var(--r-muted);">GUIDE FDS</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f8fafc; #e2e8f0); border-bottom: 4px solid #64748b;" onclick="nav('page-fds-guide')">
+            <i class="fa-solid fa-file-shield fa-2x" style="color: #64748b;"></i>
+            <small style="font-size:0.75rem; color: #334155;">GUIDE FDS</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: #fdf4ff; border-left-color: var(--r-purple);" onclick="nav('page-services')">
-            <i class="fa-solid fa-handshake-angle fa-2x" style="color: var(--r-purple);"></i>
-            <small style="font-size:0.75rem; color: var(--r-purple);">OFFRE RESTEV</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fae8ff, #f5d0fe); border-bottom: 4px solid #d946ef;" onclick="nav('page-services')">
+            <i class="fa-solid fa-handshake-angle fa-2x" style="color: #d946ef;"></i>
+            <small style="font-size:0.75rem; color: #701a75;">OFFRE RESTEV</small>
         </div>
         
-        <div class="card-custom-btn" style="background-color: var(--r-blue-light); border-left-color: var(--r-blue);" onclick="nav('page-centres', document.getElementById('nav-centres'))">
-            <i class="fa-solid fa-map-location-dot fa-2x" style="color: var(--r-blue);"></i>
-            <small style="font-size:0.68rem; color: var(--r-blue-text);">CENTRES DE SANTÉ</small>
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe); border-bottom: 4px solid #4f46e5;" onclick="nav('page-centres', document.getElementById('nav-centres'))">
+            <i class="fa-solid fa-map-location-dot fa-2x" style="color: #4f46e5;"></i>
+            <small style="font-size:0.68rem; color: #3730a3;">CENTRES DE SANTÉ</small>
         </div>
     </div>
 </div>
@@ -360,6 +365,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <ul class="small text-muted ps-3 mb-3">
             <li>Études ergonomiques de postes administratifs et industriels.</li>
             <li>Ana
+
 
 
     <!-- MÉTROLOGIE -->
