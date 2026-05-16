@@ -543,6 +543,32 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </nav>
 
 <script>
+       <!-- ... Tout ton code HTML (Grille pastel, pages, etc.) ... -->
+
+    <script>
+        // Colle le code de détection ici :
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const source = urlParams.get('source');
+
+            if (source === 'qrcode') {
+                localStorage.setItem("hasScannedOnce", "true");
+            }
+
+            if (localStorage.getItem("hasScannedOnce") === "true") {
+                const btnDownload = document.getElementById("btn-download-container");
+                if (btnDownload) { btnDownload.classList.remove("d-none"); }
+            }
+        });
+
+        // La suite de tes scripts existants (nav, stats inventaire, etc.)...
+        function nav(pageId, navId) { 
+            // ...
+        }
+    </script>
+</body>
+</html>
+ 
 // --- CONFIGURATION & ETAT ---
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
