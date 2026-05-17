@@ -216,7 +216,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
                 <option value="">-- Choisir le polluant --</option>
                 <option value="A">Solvants, Peintures, Vernis (Type A)</option>
                 <option value="B">Chlore, Gaz inorganiques, Hydrogène sulfuré (Type B)</option>
-                <option value="E">Gaz acides, Dioxyde de soufre (Type E)</option>
+                <option value="E">Gaz aides, Dioxyde de soufre (Type E)</option>
                 <option value="K">Ammoniac et dérivés aminés (Type K)</option>
                 <option value="P">Poussières, Silice, Amiante, Bois (Type P3)</option>
                 <option value="AX">Composés organiques à bas point d'ébullition &lt; 65°C</option>
@@ -421,6 +421,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 const blueRestev = [48, 101, 168]; 
 let selectedStorageSGH = [];
+let html5QrcodeScanner = null;
 
 // --- DONNÉES FIXES ---
 const centres = [
@@ -479,6 +480,12 @@ function updateStats() {
 }
 
 function nav(id, el) {
+    // Nettoyer proprement le scanner s'il tourne
+    if(id !== 'page-scan' && html5QrcodeScanner) {
+        html5QrcodeScanner.stop().catch(e => console.log(e));
+        html5QrcodeScanner = null;
+    }
+
     document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     const target = document.getElementById(id);
@@ -541,20 +548,53 @@ function deleteItem(id) {
     }
 }
 
-// --- SCANNER ---
+// --- SCANNER FDS DE CONFIGURATION COMPLÈTE ---
 function startScanner() {
-    const scanner = new Html5Qrcode("reader");
-    scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
-        scanner.stop();
-        
-        if (localStorage.getItem("hasScannedOnce") !== "true") {
+    if(html5QrcodeScanner) {
+        html5QrcodeScanner.stop().catch(e => console.log(e));
+    }
+    
+    html5QrcodeScanner = new Html5Qrcode("reader");
+    html5QrcodeScanner.start(
+        { facingMode: "environment" }, 
+        { fps: 10, qrbox: 250 }, 
+        async (decodedText) => {
+            // Arrêt automatique dès décodage validé
+            await html5QrcodeScanner.stop().catch(e => console.log(e));
+            html5QrcodeScanner = null;
+            
+            // Activation du bouton push de téléchargement
             localStorage.setItem("hasScannedOnce", "true");
             const btnDownload = document.getElementById("btn-download-container");
             if (btnDownload) btnDownload.classList.remove("d-none");
+            
+            try {
+                // Traitement si l'URL scannée contient des variables structurées
+                if (decodedText.includes('?') && (decodedText.includes('p=') || decodedText.includes('product='))) {
+                    const urlObj = new URL(decodedText);
+                    const pName = urlObj.searchParams.get('p') || urlObj.searchParams.get('product');
+                    const sghTags = urlObj.searchParams.get('sgh') || ''; 
+                    
+                    if (pName) {
+                        document.getElementById('prod-name').value = decodeURIComponent(pName);
+                        alert(`Produit identifié : ${decodeURIComponent(pName)} ${sghTags ? ' (SGH: ' + sghTags + ')' : ''}`);
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error("Échec d'analyse de l'URL du QR Code :", err);
+            }
+            
+            // Traitement par défaut en fallback de chaîne brute
+            document.getElementById('prod-name').value = decodedText;
+            alert("Contenu du code détecté : " + decodedText);
+        },
+        (errorMessage) => {
+            // Callback silencieux d'analyse de frame en cours
         }
-        
-        alert("QR Code détecté : " + text);
-    }).catch(e => console.error(e));
+    ).catch(err => {
+        alert("Impossible d'accéder à l'appareil photo : " + err);
+    });
 }
 
 // --- EXPORT & GENERATION PDF ---
@@ -657,13 +697,13 @@ function quizAnswer(points) {
         let label = "", bg = "", color = "";
         if (totalScore >= 12) { 
             label = "Excellent niveau de maîtrise et de conformité !"; 
-            bg = "#e8f5e9"; color = "#1b5e20"; // Accordé avec push vert (Inventaire)
+            bg = "#e8f5e9"; color = "#1b5e20"; 
         } else if (totalScore >= 7) { 
             label = "Structure en place, mais des points restent à consolider."; 
-            bg = "#fff3e0"; color = "#e65100"; // Accordé avec push orange (Aides)
+            bg = "#fff3e0"; color = "#e65100"; 
         } else { 
             label = "Alerte : Des actions correctives prioritaires sont recommandées."; 
-            bg = "#ffebee"; color = "#b71c1c"; // Accordé avec push rouge (Auto-Diag)
+            bg = "#ffebee"; color = "#b71c1c"; 
         }
         
         const lblEl = document.getElementById('quiz-label');
@@ -713,16 +753,16 @@ function checkGloveCompatibility() {
     res.style.display = 'block';
     
     if(val === 'nit') {
-        res.style.backgroundColor = "#e8f5e9"; res.style.color = "#1b5e20"; // Vert push
+        res.style.backgroundColor = "#e8f5e9"; res.style.color = "#1b5e20"; 
         res.innerHTML = "<b>Recommandation : Nitrile</b><br>Excellente résistance aux huiles, graisses et hydrocarbures.";
     } else if(val === 'but') {
-        res.style.backgroundColor = "#fff3e0"; res.style.color = "#e65100"; // Orange push
+        res.style.backgroundColor = "#fff3e0"; res.style.color = "#e65100"; 
         res.innerHTML = "<b>Recommandation : Butyle</b><br>Idéal et obligatoire pour les cétones (Acétone, MEK) et solvants très agressifs.";
     } else if(val === 'neo') {
-        res.style.backgroundColor = "#e8f5e9"; res.style.color = "#1b5e20"; // Vert push
+        res.style.backgroundColor = "#e8f5e9"; res.style.color = "#1b5e20"; 
         res.innerHTML = "<b>Recommandation : Néoprène</b><br>Très large spectre chimique (acides et bases concentrées).";
     } else if(val === 'lat') {
-        res.style.backgroundColor = "#ffebee"; res.style.color = "#b71c1c"; // Rouge push
+        res.style.backgroundColor = "#ffebee"; res.style.color = "#b71c1c"; 
         res.innerHTML = "<b>Recommandation : Latex naturel</b><br>Réservé aux solutions aqueuses légères. Risque d'allergie.";
     }
 }
@@ -750,21 +790,15 @@ function evaluateStorageMix() {
     const p2 = selectedStorageSGH[1];
     
     if ((p1==='sgh02' && p2==='sgh03') || (p1==='sgh03' && p2==='sgh02')) {
-        res.style.backgroundColor = "#fff3e0"; res.style.color = "#e65100"; // Orange d'alerte / Aides
+        res.style.backgroundColor = "#fff3e0"; res.style.color = "#e65100"; 
         res.innerHTML = "⚠️ INTERDICTION STRICTE : Ne jamais stocker de matières inflammables (SGH02) avec des comburants (SGH03) !";
     } else if ((p1==='sgh02' && p2==='sgh05') || (p1==='sgh05' && p2==='sgh02') || (p1==='sgh05' && p2==='sgh06') || (p1==='sgh06' && p2==='sgh05')) {
-        res.style.backgroundColor = "#ffebee"; res.style.color = "#b71c1c"; // Rouge d'alerte / Auto-Diag
+        res.style.backgroundColor = "#ffebee"; res.style.color = "#b71c1c"; 
         res.innerHTML = "❌ STOCKAGE SÉPARÉ REQUIS : Corrosifs (SGH05) incompatibles dans le même bac de rétention.";
     } else {
-        res.style.backgroundColor = "#e8f5e9"; res.style.color = "#1b5e20"; // Vert conforme / Inventaire
+        res.style.backgroundColor = "#e8f5e9"; res.style.color = "#1b5e20"; 
         res.innerHTML = "✅ Compatibilité admissible sous réserve de rétentions séparées par produit.";
     }
-}
-
-function resetStorageCheck() {
-    selectedStorageSGH = [];
-    document.querySelectorAll('[id^="btn-sgh-"]').forEach(btn => btn.classList.remove('btn-dark', 'text-white'));
-    document.getElementById('storage-result').style.display = 'none';
 }
 
 // --- RENDU CENTRES VENDÉE ---
@@ -784,6 +818,12 @@ function renderCentres() {
 
 function triggerAppInstallation() {
     alert("Lancement de l'installation de votre application RESTEV 85 !");
+}
+
+function resetStorageCheck() {
+    selectedStorageSGH = [];
+    document.querySelectorAll('[id^="btn-sgh-"]').forEach(btn => btn.classList.remove('btn-dark', 'text-white'));
+    document.getElementById('storage-result').style.display = 'none';
 }
 
 // --- CONTRÔLE INITIALISATION PUSH ---
