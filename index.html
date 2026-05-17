@@ -278,18 +278,77 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         </ul>
     </div>
 
-    <!-- SENSIBILISATIONS (MIGRÉ DE FORMATIONS) -->
-    <div class="card-custom" style="border-left-color: #dc3545;">
-        <div class="badge-service" style="background-color:#dc3545">SENSIBILISATIONS ACTIONS</div>
-        <h6 class="fw-bold">Développer collectivement la culture prévention</h6>
-        <p class="small text-muted">RESTEV ne réalise pas d'actions de formation certifiantes, mais propose des modules d'information et de sensibilisation pour vos équipes (sur site ou en centre) :</p>
-        <ul class="small text-muted ps-3 mb-3">
-            <li><b>Risque Chimique :</b> Sessions courtes sur la lecture des FDS, le décryptage des étiquettes et le choix des EPI.</li>
-            <li><b>Bruit et Audition :</b> Prise de conscience des impacts du bruit et bonne utilisation des PICB.</li>
-            <li><b>Risques Manuels :</b> Échanges sur les bonnes pratiques de manutention et l'échauffement au poste.</li>
-            <li><b>Risques Climatiques :</b> Sessions de sensibilisation flash (Vigilance Canicule, Grand Froid, Travail en extérieur).</li>
-        </ul>
-    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Bloc Sensibilisation -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-indigo-950 mb-3 flex items-center">
+                        <i class="fa-solid fa-bullhorn text-amber-500 mr-2"></i>
+                        1. Sensibilisation des Opérateurs
+                    </h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                        La formation terrain de vos équipes est le premier levier de prévention face au risque chimique. Le RESTEV préconise plusieurs axes de sensibilisation à animer en interne :
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2.5">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-check text-green-500 mt-1 mr-2 text-xs"></i>
+                            <span><strong>Lecture du SGH :</strong> S'assurer que les opérateurs décodent correctement les symboles de danger présents sur les étiquettes.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-check text-green-500 mt-1 mr-2 text-xs"></i>
+                            <span><strong>Accessibilité des FDS :</strong> Mettre à disposition les Fiches de Données de Sécurité à jour à proximité immédiate des zones de stockage.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-check text-green-500 mt-1 mr-2 text-xs"></i>
+                            <span><strong>Rituels sécurité :</strong> Utiliser des quarts d'heure sécurité pour rappeler les interdictions strictes de co-stockage (ex: Acides / Bases).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bloc Action -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-indigo-950 mb-3 flex items-center">
+                        <i class="fa-solid fa-bolt text-blue-500 mr-2"></i>
+                        2. Plan d'Action en Entreprise
+                    </h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                        Toute identification d’incompatibilité via cette matrice doit se traduire par des actions correctives concrètes au sein de vos ateliers :
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2.5">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-arrow-right text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span><strong>Séparation physique :</strong> Installer des armoires de sécurité distinctes ou sectoriser vos locaux pour éliminer les risques de réaction violente.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-arrow-right text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span><strong>Conformité de rétention :</strong> Généraliser l'usage de bacs de rétention adaptés à la nature chimique du produit stocké.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-arrow-right text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span><strong>Mise à jour du DUER :</strong> Transcrire systématiquement les conclusions de votre évaluation du risque chimique dans le Document Unique.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Note d'accompagnement RESTEV -->
+        <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-xl">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fa-solid fa-users text-indigo-600 mt-0.5 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                    <h4 class="text-sm font-bold text-indigo-950">Besoin d'aller plus loin ? [span_2](start_span)L'appui technique du RESTEV</h4>
+                    <p class="text-xs text-indigo-900 mt-1 leading-relaxed">
+                        De l'identification à la mise en place de vos plans d'action, le RESTEV vous accompagne[span_2](end_span). [span_3](start_span)Nos équipes pluridisciplinaires interviennent en entreprise pour l'évaluation du risque chimique, les prélèvements d'atmosphère (toxicologie) et la vérification des systèmes de ventilation[span_3](end_span). [span_4](start_span)Contactez votre équipe dédiée via votre espace adhérent[span_4](end_span).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <!-- PDP -->
     <div class="card-custom" style="border-left-color: #fd7e14;">
