@@ -395,90 +395,62 @@
         </div>
     </div>
 
-    <    <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION OPTIMISÉE) -->
+        <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION CALCULATEUR INTERACTIF) -->
     <div id="page-melanges" class="app-page">
         <h5 class="fw-bold mb-1"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Coactivités & Stockage</h5>
-        <p class="small text-muted mb-3">Guide opérationnel pour éviter les réactions dangereuses et sécuriser vos rétentions.</p>
+        <p class="small text-muted mb-3">Sélectionnez deux familles de produits pour tester instantanément leur compatibilité de stockage ou de mélange.</p>
         
-        <!-- MATRICE DE COMPATIBILITÉ VISUELLE -->
-        <div class="card-custom border-left-0 p-3 mb-4" style="background: white; border-top: 4px solid var(--r-blue);">
-            <h6 class="fw-bold mb-2"><i class="fa-solid fa-table-cells me-2 text-primary"></i>Matrice de Stockage Simplifiée</h6>
-            <p class="text-muted mb-3" style="font-size: 0.75rem;">Vérifiez le croisement entre deux familles de produits avant de les placer sur le même bac de rétention.</p>
+        <!-- CALCULATEUR INTERACTIF -->
+        <div class="card-custom border-left-0 p-3 mb-3" style="background: white; border-top: 4px solid var(--r-blue);">
+            <h6 class="fw-bold text-center mb-3"><i class="fa-solid fa-vial-circle-check text-primary me-2"></i>Simulateur de Croisement</h6>
             
-            <div class="table-responsive">
-                <table class="table table-bordered text-center align-middle mb-0" style="font-size: 0.72rem; min-width: 280px;">
-                    <thead>
-                        <tr class="table-light fw-bold">
-                            <th class="text-start" style="width: 35%;">Famille</th>
-                            <th style="background: #ffebee; color: #c62828; width: 20%;">Inflam. (SGH02)</th>
-                            <th style="background: #e3f2fd; color: #1565c0; width: 20%;">Acides Forts</th>
-                            <th style="background: #efebe9; color: #4e342e; width: 20%;">Bases Fortes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold text-start bg-light">Inflam. <small>(SGH02)</small></td>
-                            <td style="background-color: #e8f5e9; color: #2e7d32; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> OK</td>
-                            <td style="background-color: #fff3e0; color: #ef6c00; font-weight: 800;"><i class="fa-solid fa-triangle-exclamation"></i> Limité</td>
-                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> NON</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-start bg-light">Acides Forts</td>
-                            <td style="background-color: #fff3e0; color: #ef6c00; font-weight: 800;"><i class="fa-solid fa-triangle-exclamation"></i> Limité</td>
-                            <td style="background-color: #e8f5e9; color: #2e7d32; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> OK</td>
-                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> INTERDIT</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-start bg-light">Bases Fortes</td>
-                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> NON</td>
-                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> INTERDIT</td>
-                            <td style="background-color: #e8f5e9; color: #2e7d32; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> OK</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Produit 1 -->
+            <div class="mb-3">
+                <label class="small fw-bold text-muted mb-1">Produit A ou Famille 1 :</label>
+                <select id="stock-prodA" class="form-select form-select-sm fw-semibold" onchange="calculerCompatibilite()" style="border-radius: 10px; padding: 10px;">
+                    <option value="">-- Choisir le premier élément --</option>
+                    <option value="inflam">Inflammable (SGH02 / Solvants, Essences)</option>
+                    <option value="acide">Acide Fort (Détartrant, Acide Chlorhydrique)</option>
+                    <option value="base">Base Forte (Soude Caustique, Décapant)</option>
+                    <option value="javel">Eau de Javel (Hypochlorite de sodium)</option>
+                    <option value="ammoniac">Ammoniac / Produits Aminés</option>
+                    <option value="comburant">Comburant (SGH03 / Oxygène, Peroxydes)</option>
+                </select>
             </div>
-            <div class="mt-2 text-muted ps-1" style="font-size: 0.68rem; line-height: 1.2;">
-                <i class="fa-solid fa-info-circle text-primary"></i> <b>Règle de l'expert :</b> Deux familles marquées <b class="text-danger">INTERDIT</b> doivent avoir des bacs de rétention séparés pour éviter toute réaction exothermique ou émanation de gaz en cas de fuite.
+
+            <!-- Icône d'association -->
+            <div class="text-center my-2 text-muted">
+                <i class="fa-solid fa-plus-minus fa-lg"></i>
+            </div>
+
+            <!-- Produit 2 -->
+            <div class="mb-4">
+                <label class="small fw-bold text-muted mb-1">Produit B ou Famille 2 :</label>
+                <select id="stock-prodB" class="form-select form-select-sm fw-semibold" onchange="calculerCompatibilite()" style="border-radius: 10px; padding: 10px;">
+                    <option value="">-- Choisir le deuxième élément --</option>
+                    <option value="inflam">Inflammable (SGH02 / Solvants, Essences)</option>
+                    <option value="acide">Acide Fort (Détartrant, Acide Chlorhydrique)</option>
+                    <option value="base">Base Forte (Soude Caustique, Décapant)</option>
+                    <option value="javel">Eau de Javel (Hypochlorite de sodium)</option>
+                    <option value="ammoniac">Ammoniac / Produits Aminés</option>
+                    <option value="comburant">Comburant (SGH03 / Oxygène, Peroxydes)</option>
+                </select>
+            </div>
+
+            <!-- ZONE DE RÉSULTAT DYNAMIQUE -->
+            <div id="stock-result-box" class="p-3 text-center rounded-3 d-none animate__animated animate__fadeIn" style="transition: all 0.3s ease;">
+                <div id="stock-result-icon" class="mb-2"></div>
+                <h6 id="stock-result-title" class="fw-bold mb-1"></h6>
+                <p id="stock-result-desc" class="small mb-0 text-start pt-2 border-top border-white border-opacity-25"></p>
             </div>
         </div>
 
-        <!-- ALERTES COACTIVITÉ SUR LE POSTE DE TRAVAIL -->
-        <h6 class="fw-bold mb-2 px-1"><i class="fa-solid fa-radiation text-danger me-2"></i>Mélanges Interdits Courants</h6>
-        
-        <div class="card-custom p-3 mb-2" style="border-left: 5px solid #dc2626; background: #fff5f5;" onclick="openEpiModal('Alerte Chlore Gazeux', 'Mélange Mortel : Javel + Acide', '<b>L\'erreur terrain :</b> Nettoyer des sanitaires ou un sol en versant du détartrant acide (ou vinaigre blanc concentré) sur de l\'eau de Javel.<br><br><span class=\"badge bg-danger d-block text-wrap mb-2 py-2\">DÉGAGEMENT IMMÉDIAT DE CHLORE GAZEUX</span><b>Effet :</b> Gaz de combat. Suffocation, brûlure immédiate des voies respiratoires. Ne JAMAIS associer ces deux familles.', '#dc2626')">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="badge bg-danger mb-1" style="font-size:0.65rem;">DANGER MORTEL</span>
-                    <h6 class="fw-bold text-dark mb-1" style="font-size:0.9rem;">Eau de Javel + Acide (Détartrant)</h6>
-                    <p class="small text-muted mb-0" style="font-size:0.75rem;">Émanation immédiate de gaz chlore toxique.</p>
-                </div>
-                <i class="fa-solid fa-chevron-right text-muted ms-2"></i>
-            </div>
-        </div>
-
-        <div class="card-cus
-
-        <div class="card-custom p-3 mb-3" style="border-left: 5px solid var(--r-blue); background: #f8fafc;" onclick="openEpiModal('Règles des Rétentions', 'Gestion des Bacs de Rétention', '<b>Règles d\'or en magasin chimique :</b><br><br>1. <b>Volume de rétention :</b> Doit être égal à 100% du plus grand contenant ou 50% de la totalité des produits stockés dessus.<br>2. <b>Éloigner les Comburants :</b> Stocker les produits comburants (SGH03) à l\'écart des produits inflammables (SGH02) pour ne pas nourrir un éventuel incendie.', 'var(--r-blue)')">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="badge bg-primary mb-1" style="font-size:0.65rem;">STOCKAGE SÉCURISÉ</span>
-                    <h6 class="fw-bold text-dark mb-1" style="font-size:0.9rem;">Volume & Séparation des Rétentions</h6>
-                    <p class="small text-muted mb-0" style="font-size:0.75rem;">Règles de calcul de capacité et d'isolement.</p>
-                </div>
-                <i class="fa-solid fa-chevron-right text-muted ms-2"></i>
-            </div>
+        <!-- RAPPEL RÈGLES DE RÉTENTION -->
+        <div class="card-custom p-3 bg-light border-start-0" style="border-top: 3px dashed #cbd5e1; font-size: 0.75rem;">
+            <b class="text-secondary d-block mb-1"><i class="fa-solid fa-shield-halved me-1"></i> Règle générale des rétentions :</b>
+            Si le résultat affiche <span class="text-danger fw-bold">INTERDIT</span>, les produits doivent impérativement posséder des **bacs de rétention séparés** (ou des armoires de sécurité distinctes) pour empêcher tout contact accidentel en cas de fissure ou de fuite d'un flacon.
         </div>
     </div>
-        
-
-    <!-- APPLICATION NAVIGATION INTERNE -->
-    <nav class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
-        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
-    </nav>
 
     <!-- BOUTON ENCRÉ HORS MENUS POUR PWA -->
     <button id="installBtn" class="install-app-btn">
