@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <!-- ACCUEIL -->
+        <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">RESTEV 85</h5>
@@ -128,17 +128,17 @@
             <div class="col-6" onclick="nav('page-list', document.getElementById('nav-list'))">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #e8f5e9; border-left-color: #a5d6a7;"><i class="fa-solid fa-boxes-stacked fa-2x mb-2" style="color: #43a047;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1b5e20;">INVENTAIRE</small></div>
             </div>
+            <div class="col-6" onclick="nav('page-epi')">
+                <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #4dd0e1;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: #00acc1;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #006064;">CHOIX EPI CHIMIQUE</small></div>
+            </div>
+            <div class="col-6" onclick="nav('page-melanges')">
+                <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffb74d;"><i class="fa-solid fa-flask-vial fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">INCOMPATIBILITÉS</small></div>
+            </div>
             <div class="col-6" onclick="nav('page-services')">
                 <div class="card-custom text-center py-3 mb-0" style="background-color: #f3e5f5; border-left-color: #ce93d8;"><i class="fa-solid fa-handshake-angle fa-2x mb-2" style="color: #8e24aa;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #4a148c;">OFFRE RESTEV</small></div>
             </div>
             <div class="col-6" onclick="nav('page-aides')">
-                <div class="card-custom text-center py-3 mb-0" style="background-color: #fff3e0; border-left-color: #ffcc80;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #fb8c00;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #e65100;">AIDES & ACTUS</small></div>
-            </div>
-            <div class="col-6" onclick="nav('page-fds-guide')">
-                <div class="card-custom text-center py-3 mb-0" style="background-color: #eceff1; border-left-color: #cfd8dc;"><i class="fa-solid fa-file-shield fa-2x mb-2" style="color: #546e7a;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #263238;">GUIDE FDS</small></div>
-            </div>
-            <div class="col-6" onclick="nav('page-centres', document.getElementById('nav-centres'))">
-                <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f2f1; border-left-color: #80cbc4;"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color: #00897b;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #004d40;">NOS CENTRES</small></div>
+                <div class="card-custom text-center py-3 mb-0" style="background-color: #f5f5f5; border-left-color: #bdbdbd;"><i class="fa-solid fa-piggy-bank fa-2x mb-2" style="color: #616161;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #212121;">AIDES & ACTUS</small></div>
             </div>
         </div>
     </div>
@@ -291,7 +291,141 @@
                     <button class="btn btn-info text-white fw-bold" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
                 </div>
             </div>
-                
+                  <!-- PAGE PROTECTION INDIVIDUELLE (MASQUES, FILTRES, GANTS) -->
+    <div id="page-epi" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-info me-2"></i>Guide EPI : Masques, Filtres & Gants</h5>
+        
+        <!-- SECTION RESPIRATOIRE -->
+        <div class="card-custom" style="border-left-color: var(--r-blue);">
+            <h6 class="fw-bold text-dark"><i class="fa-solid fa-head-side-mask me-2 text-primary"></i>1. Protection Respiratoire (Filtres Norme EN 14387)</h6>
+            <p class="small text-muted mb-2">Le choix du filtre dépend de l'état physique du polluant (Gaz ou Particules) repéré en section 8 de la FDS :</p>
+            
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered style-table mb-2" style="font-size:0.75rem;">
+                    <thead class="table-light fw-bold">
+                        <tr>
+                            <th>Type</th>
+                            <th>Couleur</th>
+                            <th>Application principale (Exemples)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-danger">A</td>
+                            <td style="background-color: #8B4513; color: white; text-align: center; font-weight: bold;">Marron</td>
+                            <td>Gaz & vapeurs organiques (Solvants, Peintures, Acétone, Styrène)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-primary">B</td>
+                            <td style="background-color: #708090; color: white; text-align: center; font-weight: bold;">Gris</td>
+                            <td>Gaz & vapeurs inorganiques (Chlore, Hydrogène sulfuré, Cyanure)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-warning">E</td>
+                            <td style="background-color: #FFD700; color: black; text-align: center; font-weight: bold;">Jaune</td>
+                            <td>Gaz acides & Dioxyde de soufre (Acide chlorhydrique, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-success">K</td>
+                            <td style="background-color: #008000; color: white; text-align: center; font-weight: bold;">Vert</td>
+                            <td>Ammoniac et dérivés aminés organiques</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">P (1,2,3)</td>
+                            <td style="background-color: #FFFFFF; color: black; text-align: center; border: 1px solid #ccc; font-weight: bold;">Blanc</td>
+                            <td>Particules, Poussières, Aérosols, Fumées (P3 obligatoire si CMR)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-2 bg-light rounded text-muted" style="font-size: 0.72rem; border: 1px dashed #ccc;">
+                <b>💡 Règle de classe (Efficacité) :</b> Classe 1 (Galette faible capacité), Classe 2 (Cartouche moyenne capacité), Classe 3 (Haute capacité). Ex: Un filtre <b>A2P3</b> protège fortement contre les solvants et les poussières fines.
+            </div>
+        </div>
+
+        <!-- SECTION GANTS -->
+        <div class="card-custom" style="border-left-color: var(--r-teal);">
+            <h6 class="fw-bold text-dark"><i class="fa-solid fa-mitten me-2 text-success"></i>2. Choix des Gants (Référencement EN ISO 374-1)</h6>
+            <p class="small text-muted mb-2">Ne jamais utiliser de gants en latex jetables pour la chimie. Se référer au temps de perméation selon le polymère :</p>
+            
+            <div class="accordion accordion-flush" id="accordionGants" style="font-size:0.8rem;">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed py-2 px-0 fw-bold text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#g-nit">
+                            🧤 Nitrile (Usage courant & Polyvalent)
+                        </button>
+                    </h2>
+                    <div id="g-nit" class="accordion-collapse collapse" data-bs-parent="#accordionGants">
+                        <div class="accordion-body px-1 py-2 text-muted small">
+                            <b>Idéal pour :</b> Huiles, graisses, hydrocarbures aliphatiques et acides dilués.<br>
+                            <span class="text-danger">⚠️ Faible sur :</span> Cétones (Acétone) et solvants chlorés.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed py-2 px-0 fw-bold text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#g-neo">
+                            🧤 Néoprène (Protection Acides & Bases)
+                        </button>
+                    </h2>
+                    <div id="g-neo" class="accordion-collapse collapse" data-bs-parent="#accordionGants">
+                        <div class="accordion-body px-1 py-2 text-muted small">
+                            <b>Idéal pour :</b> Acides et bases concentrés, alcools, huiles de coupe.<br>
+                            <span class="text-danger">⚠️ Faible sur :</span> Solvants aromatiques (Toluène, Xylène).
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed py-2 px-0 fw-bold text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#g-butyl">
+                            🧤 Butyl / Viton (Solvants spécifiques)
+                        </button>
+                    </h2>
+                    <div id="g-butyl" class="accordion-collapse collapse" data-bs-parent="#accordionGants">
+                        <div class="accordion-body px-1 py-2 text-muted small">
+                            <b>Butyl :</b> L'un des rares polymères résistants à l'<b>Acétone</b> (Cétones) et aux esters.<br>
+                            <b>Viton :</b> Ultra-performant sur les solvants chlorés et aromatiques. Très cher mais indispensable en cabine de dégraissage lourd.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 text-muted" style="font-size:0.7rem;">
+                <i>* Rappel de l'expert : La mention "Étance aux produits chimiques" doit s'accompagner des lettres de codage du produit testé (Lettres A à M).</i>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE INCOMPATIBILITÉS ET MÉLANGES À ÉVITER -->
+    <div id="page-melanges" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Mélanges Dangereux & Incompatibilités</h5>
+        <p class="small text-muted mb-3">Guide opérationnel pour éviter la formation de gaz toxiques, les explosions ou les départs de feu en entreprise.</p>
+        
+        <div class="card-custom border-danger bg-light">
+            <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-triangle-exclamation"></i> LE COMBAT MORTEL : Javel + Acide</h6>
+            <p class="small text-dark mb-1"><b>Le mélange :</b> Eau de Javel (Hypochlorite de sodium) + Détartrant ou Nettoyant Acide (Acide chlorhydrique, sulfamique).</p>
+            <div class="badge bg-danger mb-2">DÉGAGEMENT DE CHLORE GAZEUX (TOXIQUE AIGU)</div>
+            <p class="small text-muted mb-0" style="font-size:0.75rem;"><b>Effet direct :</b> Suffocation immédiate, œdème aigu du poumon (OAP). Erreur très fréquente lors du nettoyage des sanitaires ou sols industriels.</p>
+        </div>
+
+        <div class="card-custom" style="border-left-color: #fd7e14;">
+            <h6 class="fw-bold text-dark mb-1">⚠️ Javel + Ammoniac / Décapants</h6>
+            <p class="small text-muted mb-1"><b>Risque :</b> Formation de <b>chloramines</b> (vapeurs hautement irritantes et toxiques pour les voies respiratoires).</p>
+        </div>
+
+        <div class="card-custom" style="border-left-color: #dc3545;">
+            <h6 class="fw-bold text-dark mb-1">🔥 Acides Forts + Bases Fortes (Ex: Acide / Soude)</h6>
+            <p class="small text-muted mb-1"><b>Risque :</b> Réaction exothermique violente. Projection immédiate de liquide corrosif bouillant par simple mélange direct.</p>
+        </div>
+
+        <div class="card-custom" style="border-left-color: #212529;">
+            <h6 class="fw-bold text-dark mb-1">📦 Règles d'or du Stockage (Rétentions)</h6>
+            <ul class="small text-muted ps-3 mb-0" style="font-size:0.78rem;">
+                <li>Ne jamais stocker ensemble sur un même bac de rétention des produits qui s'excluent (Ex: Acides et Bases séparés).</li>
+                <li>Les comburants (<i class="fa-solid fa-fire-burner text-warning"></i> SGH03) doivent être physiquement éloignés des produits inflammables (<i class="fa-solid fa-fire text-danger"></i> SGH02).</li>
+            </ul>
+        </div>
+    </div>
+  
             <div class="mb-3">
                 <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
                 <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
