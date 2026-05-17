@@ -7,14 +7,14 @@
 
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3065a8">
-    <link rel="icon" type="image/png" href="logo_restev_carre.png">
+    <link class="rounded" rel="icon" type="image/png" href="logo_restev_carre.png">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RESTEV 85">
     <link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-    <!-- CDNs de ton projet -->
+    <!-- CDNs du projet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
@@ -109,7 +109,7 @@
         </div>
     </div>
 
-        <!-- ACCUEIL -->
+    <!-- ACCUEIL -->
     <div id="page-home" class="app-page active-page">
         <div class="card-custom text-white border-0 mb-3" style="background: linear-gradient(135deg, var(--r-blue), #1e40af);">
             <h5 class="fw-bold mb-1">RESTEV 85</h5>
@@ -143,7 +143,7 @@
         </div>
     </div>
 
-        <!-- OFFRE SERVICES RESTEV COMPLÈTE (OFFRE SOCLE & PDP) -->
+    <!-- OFFRE SERVICES RESTEV COMPLÈTE (OFFRE SOCLE & PDP) -->
     <div id="page-services" class="app-page">
         <h5 class="fw-bold mb-1"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre de Service RESTEV</h5>
         <p class="small text-muted mb-3">Une offre socle harmonisée pour accompagner les entreprises adhérentes de Vendée sur 3 volets réglementaires.</p>
@@ -189,7 +189,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- AIDES & PARTENAIRES -->
     <div id="page-aides" class="app-page">
@@ -254,15 +253,6 @@
         </div>
     </div>
 
-    <!-- GUIDE DÉCRYPTAGE FDS -->
-    <div id="page-fds-guide" class="app-page">
-        <h5 class="fw-bold mb-3">Décrypter une FDS</h5>
-        <div class="card-custom" style="border-left-color: #dc3545;"><h6><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Rubrique 2</h6><p class="small mb-0"><b>Dangers :</b> Les pictogrammes et phrases H (Risques) et P (Prudence).</p></div>
-        <div class="card-custom" style="border-left-color: #198754;"><h6><i class="fa-solid fa-kit-medical text-success me-2"></i> Rubrique 4</h6><p class="small mb-0"><b>Premiers secours :</b> Gestes immédiats avant l'arrivée des secours.</p></div>
-        <div class="card-custom" style="border-left-color: #3065a8;"><h6><i class="fa-solid fa-mask-ventilator text-primary me-2"></i> Rubrique 8</h6><p class="small mb-0"><b>Protections (EPI) :</b> Type exact de gants ou masques nécessaires.</p></div>
-        <div class="card-custom" style="border-left-color: #fd7e14;"><h6><i class="fa-solid fa-fire-extinguisher text-warning me-2"></i> Rubrique 5</h6><p class="small mb-0"><b>Incendie :</b> Quels extincteurs utiliser (poudre, CO2, eau ?).</p></div>
-    </div>
-
     <!-- NOS CENTRES DE SANTÉ -->
     <div id="page-centres" class="app-page">
         <h5 class="fw-bold mb-3">Nos Centres de Santé</h5>
@@ -291,7 +281,17 @@
                     <button class="btn btn-info text-white fw-bold" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
                 </div>
             </div>
-                  <!-- PAGE PROTECTION INDIVIDUELLE (MASQUES, FILTRES, GANTS) -->
+
+            <div class="mb-3">
+                <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
+                <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
+            </div>
+
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
+        </div>
+    </div>
+
+    <!-- PAGE PROTECTION INDIVIDUELLE (MASQUES, FILTRES, GANTS) -->
     <div id="page-epi" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-info me-2"></i>Guide EPI : Masques, Filtres & Gants</h5>
         
@@ -390,7 +390,7 @@
                 </div>
             </div>
             <div class="mt-2 text-muted" style="font-size:0.7rem;">
-                <i>* Rappel de l'expert : La mention "Étance aux produits chimiques" doit s'accompagner des lettres de codage du produit testé (Lettres A à M).</i>
+                <i>* Rappel de l'expert : La mention "Étanchéité aux produits chimiques" doit s'accompagner des lettres de codage du produit testé (Lettres A à M).</i>
             </div>
         </div>
     </div>
@@ -423,15 +423,6 @@
                 <li>Ne jamais stocker ensemble sur un même bac de rétention des produits qui s'excluent (Ex: Acides et Bases séparés).</li>
                 <li>Les comburants (<i class="fa-solid fa-fire-burner text-warning"></i> SGH03) doivent être physiquement éloignés des produits inflammables (<i class="fa-solid fa-fire text-danger"></i> SGH02).</li>
             </ul>
-        </div>
-    </div>
-  
-            <div class="mb-3">
-                <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
-                <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
-            </div>
-
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
         </div>
     </div>
 
@@ -743,7 +734,7 @@
                 </div>
                 <div class="modal fade" id="modal-${s.id}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content style='border-radius:20px; overflow:hidden;'">
+                        <div class="modal-content" style="border-radius:20px; overflow:hidden;">
                             <div class="modal-header text-white" style="background-color: var(--r-blue)">
                                 <h6 class="modal-title fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i>Fiche ${s.id} - ${s.title}</h6>
                                 <button type="button" class="btn-close btn-close-white" data-bs-shadow="none" data-bs-dismiss="modal"></button>
