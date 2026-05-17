@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RESTEV 85 - Expert Prévention</title>
 
-    <!-- MANIFEST & ICONS PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3065a8">
+    <link class="apple-touch-icon" href="logo_restev_carre.png">
     <link rel="icon" type="image/png" href="logo_restev_carre.png">
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link class="apple-touch-icon" href="logo_restev_carre.png">
 
-    <!-- LIBRARIES -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
@@ -23,7 +22,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- STYLES D'ORIGINE CONSERVÉS -->
     <style>
         :root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
         body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
@@ -51,13 +49,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .sgh-card { display: flex; gap: 15px; align-items: center; }
-        .sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-        .btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-        .score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
         .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-        .archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
         .filter-res-badge { background: white; padding: 10px; border-radius: 8px; border-left: 4px solid var(--r-blue); font-size: 0.9rem; }
     </style>
 </head>
@@ -158,7 +150,7 @@
                 <li>Construction de plans d’actions prévention.</li>
                 <li>Accompagnement sécurité des entreprises extérieures.</li>
             </ul>
-            <div class="alert alert-primary small mb-0"><i class="fa-solid fa-circle-info me-2"></i>Le DUERP l'obligatoire dès le premier salarié et constitue un document essentiel en cas de contrôle ou d’accident du travail.</div>
+            <div class="alert alert-primary small mb-0"><i class="fa-solid fa-circle-info me-2"></i>Le DUERP est obligatoire dès le premier salarié et constitue un document essentiel en cas de contrôle ou d’accident du travail.</div>
         </div>
 
         <!-- ERGONOMIE -->
@@ -208,10 +200,10 @@
                 <li>Sensibilisation canicule et travail extérieur.</li>
                 <li>Prévention du risque routier professionnel.</li>
             </ul>
-            <div class="alert alert-danger small mb-0"><i class="fa-solid fa-user-shield me-2"></i>Former les salariés permet de réduire les comportements à risque et renforcer la sécurité au quotidien.</div>
+            <div class="alert alert-danger small mb-0"><i class="fa-solid fa-user-shield me-2"></i>Formé les salariés permet de réduire les comportements à risque et renforcer la sécurité au quotidien.</div>
         </div>
 
-        <!-- CELLULE PDP COORDONNÉE ET SÉCURISÉE -->
+        <!-- PDP (CORRIGÉ & REFERMÉ) -->
         <div class="card-custom" style="border-left-color: #fd7e14;">
             <div class="badge-service" style="background-color:#fd7e14">MAINTIEN DANS L’EMPLOI</div>
             <h6 class="fw-bold">Cellule PDP - Prévention Désinsertion Professionnelle</h6>
@@ -230,7 +222,7 @@
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
-    <!-- PAGE FILTRES PROTECTION RESPIRATOIRE -->
+    <!-- PAGE PROTECTION RESPIRATOIRE -->
     <div id="page-masks" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-secondary me-2"></i>Protection Respiratoire</h5>
         <div class="card-custom">
@@ -251,7 +243,7 @@
         <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
     </div>
 
-    <!-- AUTRES PAGES APPLICATIVES -->
+    <!-- AUTRES SECTIONS DE L'APPLICATION -->
     <div id="page-scan" class="app-page">
         <h5 class="fw-bold mb-3"><i class="fa-solid fa-barcode me-2"></i>Scanner FDS</h5>
         <div class="card-custom text-center"><p class="text-muted small">Initialisation du module caméra...</p></div>
@@ -303,7 +295,7 @@
         <button id="nav-centres" class="nav-item" onclick="nav('page-centres', 'nav-centres')"><i class="fa-solid fa-map-location-dot"></i>Centres</button>
     </nav>
 
-    <!-- SCRIPTS ET LOGIQUE APPLICATIVE -->
+    <!-- LOGIQUE LOGICIELLE LOGÉE -->
     <script>
         function dismissSplash() {
             const splash = document.getElementById('splash');
