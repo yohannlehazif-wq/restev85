@@ -273,7 +273,6 @@ body {
 <div class="info-banner">
     <div class="ticker">
         <span>
-            <!-- Données sources RESTEV inchangées -->
             📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne dans l'évaluation de vos risques.
             &nbsp;&nbsp;|&nbsp;&nbsp;
             💰 Aides CARSAT : Des subventions disponibles pour vos équipements de protection (TPE/PME).
@@ -471,37 +470,36 @@ body {
     </div>
 
     <div class="row g-2 mb-4">
-    
         <!-- Bloc Sensibilisation -->
-<div class="col-12 col-md-6">
-    <div class="card-custom h-100 bg-white" style="border-left-color: var(--r-yellow);">
-        <div class="badge-service" style="background-color: var(--r-yellow);">CULTURE PRÉVENTION</div>
-        <h6 class="fw-bold text-dark mb-3">
-            <i class="fa-solid fa-bullhorn text-warning me-2"></i>1. Sensibilisation des Opérateurs
-        </h6>
-        <p class="small text-muted mb-3">Développement d'une culture de sécurité via des actions de sensibilisation ciblées et adaptées au terrain :</p>
-        
-        <ul class="small text-muted ps-0 list-unstyled">
-            <li class="mb-2.5 d-flex align-items-start">
-                <i class="fa-solid fa-desktop text-primary mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
-                <div><strong>Travail sur écran :</strong> Ergonomie du poste, ajustements posturaux, prévention des TMS et de la fatigue visuelle.</div>
-            </li>
-            <li class="mb-2.5 d-flex align-items-start">
-                <i class="fa-solid fa-diagram-project text-danger mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
-                <div><strong>Analyse des AT :</strong> Étude des accidents et presqu'accidents (arbre des causes) pour impliquer les équipes dans l'amélioration continue.</div>
-            </li>
-            <li class="mb-2.5 d-flex align-items-start">
-                <i class="fa-solid fa-car text-warning mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
-                <div><strong>Risques routiers :</strong> Sensibilisation au risque de mission et de trajet, particulièrement lors des déplacements inter-sites en Vendée.</div>
-            </li>
-            <li class="d-flex align-items-start">
-                <i class="fa-solid fa-heart-pulse text-info mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
-                <div><strong>Addictions & Vigilance :</strong> Prévention des conduites addictives, impacts sur la vigilance au poste et relais vers le suivi médical.</div>
-            </li>
-        </ul>
+        <div class="col-12 col-md-6">
+            <div class="card-custom h-100 bg-white" style="border-left-color: var(--r-yellow);">
+                <div class="badge-service" style="background-color: var(--r-yellow);">CULTURE PRÉVENTION</div>
+                <h6 class="fw-bold text-dark mb-3">
+                    <i class="fa-solid fa-bullhorn text-warning me-2"></i>1. Sensibilisation des Opérateurs
+                </h6>
+                <p class="small text-muted mb-3">Développement d'une culture de sécurité via des actions de sensibilisation ciblées et adaptées au terrain :</p>
+                
+                <ul class="small text-muted ps-0 list-unstyled">
+                    <li class="mb-2.5 d-flex align-items-start">
+                        <i class="fa-solid fa-desktop text-primary mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Travail sur écran :</strong> Ergonomie du poste, ajustements posturaux, prévention des TMS et de la fatigue visuelle.</div>
+                    </li>
+                    <li class="mb-2.5 d-flex align-items-start">
+                        <i class="fa-solid fa-diagram-project text-danger mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Analyse des AT :</strong> Étude des accidents et presqu'accidents (arbre des causes) pour impliquer les équipes dans l'amélioration continue.</div>
+                    </li>
+                    <li class="mb-2.5 d-flex align-items-start">
+                        <i class="fa-solid fa-car text-warning mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Risques routiers :</strong> Sensibilisation au risque de mission et de trajet, particulièrement lors des déplacements inter-sites en Vendée.</div>
+                    </li>
+                    <li class="d-flex align-items-start">
+                        <i class="fa-solid fa-heart-pulse text-info mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Addictions & Vigilance :</strong> Prévention des conduites addictives, impacts sur la vigilance au poste et relais vers le suivi médical.</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
-
 
     <!-- Note d'accompagnement RESTEV -->
     <div class="card-custom border-0 p-4 mb-4" style="background-color: #f0fdf4; border-left: 5px solid var(--r-teal) !important;">
@@ -660,6 +658,9 @@ body {
     </div>
 </div>
 
+<!-- ZONE GLOBALE DES MODALS (Sortie du flux pour éviter les conflits de clics et CSS) -->
+<div id="global-modals-container"></div>
+
 <!-- DOCK DE NAVIGATION INFÉRIEUR -->
 <nav class="nav-bottom">
     <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
@@ -670,7 +671,6 @@ body {
 </nav>
 
 <script>
-// --- TOUTE LA LOGIQUE INTERNE EST STRICTEMENT PRÉSERVÉE À 100% ---
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
 
@@ -863,7 +863,7 @@ function calculateGlove() {
         'nit': { t: 'GANTS EN NITRILE', d: 'Bonne protection générale, excellente résistance mécanique et face aux huiles ou acides dilués.' },
         'neo': { t: 'GANTS EN NÉOPRÈNE', d: 'Grande polyvalence chimique. Recommandés pour les acides concentrés, les bases et les alcools.' },
         'but': { t: 'GANTS EN BUTYLE', d: 'Protection maximale spécifique contre les cétones (Acétone, MEK) et les esters. Très étanches aux gaz.' },
-        'lat': { t: 'GANTS EN LATEX (Caoutchouc naturel)', d: 'Idéal pour le contact fréquent avec les produits aqueux et bases diluées. Risque d\'allergies.' },
+        'lat': { t: 'GANTS EN LATEX (Caoutchouc naturel)', d: 'Idéal pour le contact frequent avec les produits aqueux et bases diluées. Risque d\'allergies.' },
         'pvc': { t: 'GANTS EN PVC (Vinyle)', d: 'Très bonne barrière face aux acides forts, bases et acides aminés. Faible contre les solvants.' },
         'vit': { t: 'GANTS EN VITON / FLUOROÉLASTOMÈRE', d: 'Protection d\'expert haut de gamme pour les solvants chlorés (Trichloréthylène) et aromatiques.' }
     };
@@ -966,13 +966,12 @@ async function generatePDFProof() {
         headStyles: { fillColor: blue }
     });
 
-    const pdfBlob = doc.output('blob');
-    const pdfUrl = URL.createObjectURL(pdfBlob);
     let attestations = JSON.parse(localStorage.getItem('restev_attestations')) || [];
-    attestations.push({ company, date: `${dateFR} ${heureFR}`, products: inventory.length, file: pdfUrl });
+    attestations.push({ company, date: `${dateFR} ${heureFR}`, products: inventory.length });
     localStorage.setItem('restev_attestations', JSON.stringify(attestations));
 
     doc.save(`Attestation_RESTEV_${company}.pdf`);
+    if(document.getElementById('archives-container').style.display === 'block') renderAttestations();
 }
 
 function renderAttestations(){
@@ -982,7 +981,7 @@ function renderAttestations(){
         container.innerHTML = `<p class="text-muted text-center">Aucune attestation enregistrée.</p>`;
         return;
     }
-    container.innerHTML = attestations.reverse().map(a => `
+    container.innerHTML = attestations.slice().reverse().map(a => `
         <div class="card-custom archive-item mb-3">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
@@ -990,7 +989,7 @@ function renderAttestations(){
                     <small class="text-muted">${a.date}</small><br>
                     <small class="text-primary">${a.products} produit(s)</small>
                 </div>
-                <a href="${a.file}" target="_blank" class="btn btn-sm btn-primary" style="border-radius:6px; background-color:var(--r-blue);"><i class="fa-solid fa-eye"></i> Voir</a>
+                <span class="badge bg-secondary text-white p-2" style="font-size:0.75rem;"><i class="fa-solid fa-file-pdf"></i> Généré</span>
             </div>
         </div>`).join('');
 }
@@ -1002,15 +1001,22 @@ function toggleArchives(){
 }
 
 function renderSGH() {
+    // Rend le listing des boutons de cartes SGH
     document.getElementById('sgh-list').innerHTML = sghData.map(s => `
         <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
             <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65?text=SGH'">
             <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
-        </div>
-        <div class="modal fade" id="modal-${s.id}" tabindex="-1">
+        </div>`).join('');
+
+    // Isole et extrait les popups Modals au niveau racine du DOM pour éliminer les bugs de rendu Bootstrap
+    document.getElementById('global-modals-container').innerHTML = sghData.map(s => `
+        <div class="modal fade" id="modal-${s.id}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header text-white" style="background-color: var(--r-blue);"><h5 class="modal-title font-weight-bold">${s.title}</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-header text-white" style="background-color: var(--r-blue);">
+                        <h5 class="modal-title fw-bold">${s.title}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
                         <p><b>Danger :</b> ${detailsSGH[s.id].danger}</p>
                         <p><b>Risques :</b> ${detailsSGH[s.id].risques}</p>
