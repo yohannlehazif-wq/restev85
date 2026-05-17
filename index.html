@@ -19,25 +19,21 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 :root { 
-    /* Palette RESTEV version Énergie & Peps */
-    --r-blue: #2563eb;            /* Bleu Électrique */
+    --r-blue: #2563eb;            
     --r-blue-light: #eff6ff;
     --r-blue-text: #1e40af;
-    --r-teal: #06b6d4;            /* Cyan / Sarcelle Lumineux */
-    --r-purple: #d946ef;          /* Fuchsia / Violet Éclatant */
-    --r-yellow: #f59e0b;          /* Ambre / Jaune Solaire */
+    --r-teal: #06b6d4;            
+    --r-purple: #d946ef;          
+    --r-yellow: #f59e0b;          
     --r-light: #f8fafc; 
-    
-    /* Couleurs de sécurité et alertes harmonisées */
-    --r-success: #10b981;         /* Émeraude Peps */
+    --r-success: #10b981;         
     --r-success-light: #ecfdf5;
-    --r-danger: #f43f5e;          /* Rouge Corail Énergique */
+    --r-danger: #f43f5e;          
     --r-danger-light: #fff1f2;
     --r-warning-light: #fef9c3;
     --r-warning-text: #713f12;
@@ -50,87 +46,18 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .btn-enter { background: white; color: var(--r-blue); border: none; padding: 15px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: breathing 2.5s ease-in-out infinite; }
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-.ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
-@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
 
 .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
 .logo-header { height: 40px; }
-.info-banner {
-    background: var(--r-blue-light);
-    color: var(--r-blue-text);
-    padding: 3px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    font-weight: 600;
-    font-size: 0.72rem;
-    border-bottom: 1px solid #bfdbfe;
-}
-
-.ticker {
-    display: inline-block;
-    animation: ticker 60s linear infinite;
-}
-
-/* Grille de boutons renforcée en contrastes et couleurs dynamiques */
-.homepage-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    width: 100%;
-}
-
-.homepage-grid .card-custom-btn {
-    border-radius: 22px;
-    padding: 16px 12px;
-    margin-bottom: 0;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    height: 115px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.homepage-grid .card-custom-btn:active {
-    transform: scale(0.96);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-}
-
-.homepage-grid .card-custom-btn i {
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-}
-
-.homepage-grid .card-custom-btn small {
-    display: block;
-    line-height: 1.2;
-    margin-top: 10px;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-}
-
-.restev-buttons-container {
-    display: flex;
-    gap: 12px;          
-    width: 100%;        
-    margin-bottom: 15px; 
-}
-
-.restev-buttons-container .btn-restev {
-    flex: 1;            
-    text-align: center;
-    white-space: nowrap; 
-    padding: 10px 5px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-}
-    
+.info-banner { background: var(--r-blue-light); color: var(--r-blue-text); padding: 3px 0; overflow: hidden; white-space: nowrap; font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid #bfdbfe; }
+.ticker { display: inline-block; animation: ticker 60s linear infinite; }
 .ticker span { padding-right: 50px; }
 @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+.homepage-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; }
+.homepage-grid .card-custom-btn { border-radius: 22px; padding: 16px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; height: 115px; border: 1px solid rgba(255, 255, 255, 0.6); transition: transform 0.2s, box-shadow 0.2s; }
+.homepage-grid .card-custom-btn:active { transform: scale(0.96); }
+.homepage-grid .card-custom-btn small { display: block; line-height: 1.2; margin-top: 10px; font-weight: 800; letter-spacing: 0.3px; }
 
 .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
 .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
@@ -142,233 +69,197 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.sgh-card { display: flex; gap: 15px; align-items: center; }
-.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-.btn-excel { background-color: var(--r-success); color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
+.sgh-card { display: flex; gap: 15px; align-items: center; cursor: pointer; transition: background 0.2s; }
+.sgh-card:active { background: var(--r-muted-light); }
+.sgh-img { width: 55px; height: 55px; object-fit: contain; }
+.filter-res-badge { display: none; border-radius: 15px; padding: 15px; text-align: center; margin-top: 15px; font-weight: bold; }
+.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); text-align: center; }
 .badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-.archive-item { border-left-color: var(--r-muted) !important; background: var(--r-muted-light) !important; }
-.filter-res-badge { display: none; border-radius: 15px; padding: 15px; text-align: center; margin-top: 15px; }
 </style>
 </head>
 <body>
 
+<!-- SPLASH SCREEN -->
 <div id="splash">
     <div class="splash-content text-center text-white">
-        <img src="logo_restev_carre.png" alt="Logo" class="splash-logo" onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
-        <p class="splash-subtitle">Expert Prévention des Risques</p>
-        <div class="ecg-container">
-            <svg viewBox="0 0 200 40">
-                <path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
-            </svg>
-        </div>
-        <button class="btn-enter mt-4" onclick="dismissSplash()">ENTRER</button>
+        <h2 class="fw-bold m-0">RESTEV 85</h2>
+        <p class="small opacity-75">Expert Prévention des Risques</p>
+        <button class="btn-enter" onclick="dismissSplash()">ENTRER</button>
     </div>
 </div>
 
+<!-- HEADER & MARQUEE INFOS -->
 <div class="app-header">
-    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
+    <h4 class="fw-bold text-primary m-0"><i class="fa-solid fa-heart-pulse me-2"></i>RESTEV 85</h4>
 </div>
-
 <div class="info-banner">
     <div class="ticker">
-        <span>
-            📝 Mise à jour du DUERP : Votre centre RESTEV vous accompagne dans l'évaluation de vos risques.
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            💰 Aides CARSAT : Des subventions disponibles pour vos équipements de protection (TPE/PME).
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            🔍 Risque Chimique : Consultez les fiches toxicologiques INRS directement via l'app.
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            🏗️ BTP : Profitez des conseils experts de l'OPPBTP pour vos chantiers en Vendée.
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            🌡️ Canicule / Grand Froid : Adaptez vos postes de travail avec nos fiches conseils.
-        </span>
+        <span>⚠️ DUERP Obligatoire : RESTEV vous accompagne dans l'évaluation de vos risques chimiques. | 💡 Subventions CARSAT disponibles pour vos TPE/PME Vendéennes.</span>
     </div>
 </div>
 
-<!-- PAGE ACCUEIL -->
+<!-- NAVIGATION PAGES -->
+
+<!-- 1. ACCUEIL -->
 <div id="page-home" class="app-page active-page">
-    <div class="card-custom text-white border-0 mb-4 shadow" style="background: linear-gradient(135deg, #1d4ed8, #4f46e5);">
-        <h5 class="fw-bold mb-1">RESTEV 85</h5>
-        <p id="inv-stats" class="small opacity-95 mb-0">Chargement de l'inventaire...</p>
+    <div class="card-custom text-white border-0 mb-4" style="background: linear-gradient(135deg, #1d4ed8, #4f46e5);">
+        <h5 class="fw-bold mb-1">Votre Espace Prévention</h5>
+        <p id="inv-stats" class="small opacity-95 mb-0">3 produits enregistrés localement.</p>
     </div>
     
-    <!-- Grille Énergétique Finale Harmonisée -->
     <div class="homepage-grid">
         <div class="card-custom-btn" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom: 4px solid #2563eb;" onclick="nav('page-scan', 'nav-scan')">
             <i class="fa-solid fa-barcode fa-2x" style="color: #2563eb;"></i>
-            <small style="font-size:0.75rem; color: #1e40af;">SCANNER FDS</small>
+            <small style="color: #1e40af;">SCANNER FDS</small>
         </div>
-        
         <div class="card-custom-btn" style="background: linear-gradient(135deg, #fff1f2, #ffe4e6); border-bottom: 4px solid #f43f5e;" onclick="nav('page-quiz', 'nav-quiz')">
             <i class="fa-solid fa-clipboard-question fa-2x" style="color: #f43f5e;"></i>
-            <small style="font-size:0.75rem; color: #9f1239;">AUTO-DIAG</small>
+            <small style="color: #9f1239;">AUTO-DIAG</small>
         </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fef9c3, #fef08a); border-bottom: 4px solid #eab308;" onclick="nav('page-sgh')">
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fef9c3, #fef08a); border-bottom: 4px solid #eab308;" onclick="nav('page-sgh', 'nav-home')">
             <i class="fa-solid fa-triangle-exclamation fa-2x" style="color: #ca8a04;"></i>
-            <small style="font-size:0.75rem; color: #713f12;">LEXIQUE SGH</small>
+            <small style="color: #713f12;">LEXIQUE SGH</small>
         </div>
-        
         <div class="card-custom-btn" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-bottom: 4px solid #10b981;" onclick="nav('page-list', 'nav-list')">
             <i class="fa-solid fa-boxes-stacked fa-2x" style="color: #10b981;"></i>
-            <small style="font-size:0.75rem; color: #065f46;">INVENTAIRE</small>
+            <small style="color: #065f46;">INVENTAIRE</small>
         </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-bottom: 4px solid #06b6d4;" onclick="nav('page-compatibility')">
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-bottom: 4px solid #06b6d4;" onclick="nav('page-compatibility', 'nav-home')">
             <i class="fa-solid fa-layer-group fa-2x" style="color: #06b6d4;"></i>
-            <small style="font-size:0.75rem; color: #075985;">COMPATIBILITÉ & EPI</small>
+            <small style="color: #075985;">COMPATIBILITÉ & EPI</small>
         </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 4px solid #0284c7;" onclick="nav('page-masks')">
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 4px solid #0284c7;" onclick="nav('page-masks', 'nav-home')">
             <i class="fa-solid fa-mask-ventilator fa-2x" style="color: #0284c7;"></i>
-            <small style="font-size:0.75rem; color: #075985;">PROT. RESPIRATOIRE</small>
+            <small style="color: #075985;">MASQUES & FILTRES</small>
         </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-bottom: 4px solid #f59e0b;" onclick="nav('page-aides')">
-            <i class="fa-solid fa-piggy-bank fa-2x" style="color: #f59e0b;"></i>
-            <small style="font-size:0.75rem; color: #78350f;">AIDES & ACTUS</small>
-        </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); border-bottom: 4px solid #64748b;" onclick="nav('page-fds-guide')">
-            <i class="fa-solid fa-file-shield fa-2x" style="color: #64748b;"></i>
-            <small style="font-size:0.75rem; color: #334155;">GUIDE FDS</small>
-        </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fae8ff, #f5d0fe); border-bottom: 4px solid #d946ef;" onclick="nav('page-services')">
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #fae8ff, #f5d0fe); border-bottom: 4px solid #d946ef;" onclick="nav('page-services', 'nav-home')">
             <i class="fa-solid fa-handshake-angle fa-2x" style="color: #d946ef;"></i>
-            <small style="font-size:0.75rem; color: #701a75;">OFFRE RESTEV</small>
+            <small style="color: #701a75;">OFFRE RESTEV</small>
         </div>
-        
-        <div class="card-custom-btn" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe); border-bottom: 4px solid #4f46e5;" onclick="nav('page-centres', document.getElementById('nav-centres'))">
+        <div class="card-custom-btn" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe); border-bottom: 4px solid #4f46e5;" onclick="nav('page-centres', 'nav-centres')">
             <i class="fa-solid fa-map-location-dot fa-2x" style="color: #4f46e5;"></i>
-            <small style="font-size:0.68rem; color: #3730a3;">CENTRES DE SANTÉ</small>
+            <small style="color: #3730a3;">CENTRES DE SANTÉ</small>
         </div>
     </div>
 </div>
 
-<!-- PAGE COMPATIBILITÉ STOCKAGE & GANTS -->
-<div id="page-compatibility" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-layer-group text-dark me-2"></i>Compatibilité & Gants EPI</h5>
-    
-    <!-- SECTION 1 : GANTS -->
-    <div class="card-custom" style="border-left-color: var(--r-blue);">
-        <h6 class="fw-bold"><i class="fa-solid fa-hand-holding-hand me-2 text-primary"></i>1. Choix du matériau des gants</h6>
-        <p class="small text-muted">Sélectionnez la famille chimique pour identifier le gant de protection recommandé (Norme EN ISO 374).</p>
-        <div class="mb-3">
-            <select id="glove-select" class="form-select" onchange="checkGloveCompatibility()">
-                <option value="">-- Choisir la famille chimique --</option>
-                <option value="nit">Hydrocarbures, Huiles, Peintures standard</option>
-                <option value="but">Cétones (Acétone, MEK), Solvants agressifs</option>
-                <option value="neo">Acides et Bases concentrés, Produits de nettoyage</option>
-                <option value="lat">Acides/Bases dilués, Solutions aqueuses (Sans solvant)</option>
-            </select>
+<!-- 2. SCANNER CAMERA SIMULÉ -->
+<div id="page-scan" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-camera me-2"></i>Scanner un QR code / FDS</h5>
+    <div class="card-custom text-center py-4" style="border-left-color: var(--r-blue);">
+        <div id="reader" style="width:100%; max-width:350px; margin:0 auto; background:#000; height:220px; border-radius:12px;" class="d-flex align-items-center justify-content-center text-white small">
+            [ Caméra Prête / Simulation active ]
         </div>
-        <div id="glove-result" class="p-3 rounded small" style="display:none;"></div>
+        <p class="small text-muted mt-3">Démo : Simulez la détection instantanée d'un produit chimique réglementaire.</p>
+        <button class="btn btn-primary w-100 fw-bold rounded-3 mb-2" onclick="simulateScan('Acétone')">Simuler Scan : ACÉTONE</button>
+        <button class="btn btn-danger w-100 fw-bold rounded-3" onclick="simulateScan('Acide Sulfurique')">Simuler Scan : ACIDE SULFURIQUE</button>
     </div>
-
-    <!-- SECTION 2 : STOCKAGE -->
-    <div class="card-custom" style="border-left-color: var(--r-yellow);">
-        <h6 class="fw-bold"><i class="fa-solid fa-triangle-exclamation me-2 text-warning"></i>2. Alertes de Stockage Mixte</h6>
-        <p class="small text-muted">Cochez **deux pictogrammes différents** pour vérifier s'ils peuvent être entreposés dans le même bac de rétention ou armoire.</p>
-        
-        <div class="row g-2 text-center mb-3">
-            <div class="col-4"><button id="btn-sgh-sgh02" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh02')">SGH02<br><small>Inflammable</small></button></div>
-            <div class="col-4"><button id="btn-sgh-sgh03" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh03')">SGH03<br><small>Comburant</small></button></div>
-            <div class="col-4"><button id="btn-sgh-sgh05" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh05')">SGH05<br><small>Corrosif</small></button></div>
-            <div class="col-4"><button id="btn-sgh-sgh06" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh06')">SGH06<br><small>Toxique aigu</small></button></div>
-            <div class="col-4"><button id="btn-sgh-sgh08" class="btn btn-outline-secondary w-100 p-2 small" onclick="toggleStorageSGH('sgh08')">SGH08<br><small>Danger Santé</small></button></div>
-            <div class="col-4"><button class="btn btn-light w-100 p-2 small text-danger fw-bold" onclick="resetStorageCheck()">Effacer</button></div>
-        </div>
-        <div id="storage-result" class="p-3 rounded small text-center" style="display:none;"></div>
-    </div>
-
-    <button class="btn btn-outline-secondary w-100 mt-2" onclick="nav('page-home')">Retour à l'accueil</button>
 </div>
 
-<!-- PAGE PROTECTION RESPIRATOIRE ET PÉRIODICITÉ INRS/SEIRICH -->
-<div id="page-masks" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-dark me-2"></i>Protection Respiratoire</h5>
-    
-    <div class="card-custom" style="border-left-color: var(--r-blue);">
-        <p class="small text-muted mb-3">Sélectionnez le type de polluant pour identifier instantanément le filtre et la couleur de cartouche nécessaires (Norme EN 14387).</p>
-        
-        <div class="mb-3">
-            <label class="form-label small fw-bold">Type de polluant / risque :</label>
-            <select id="pollutant-select" class="form-select" onchange="calculateMask()">
-                <option value="">-- Choisir le polluant --</option>
-                <option value="A">Solvants, Peintures, Vernis (Type A)</option>
-                <option value="B">Chlore, Gaz inorganiques, Hydrogène sulfuré (Type B)</option>
-                <option value="E">Gaz acides, Dioxyde de soufre (Type E)</option>
-                <option value="K">Ammoniac et dérivés aminés (Type K)</option>
-                <option value="P">Poussières, Silice, Amiante, Bois (Type P3)</option>
-                <option value="AX">Composés organiques à bas point d'ébullition &lt; 65°C</option>
-            </select>
-        </div>
-
-        <div id="mask-result" class="filter-res-badge shadow-sm"></div>
-    </div>
-
-    <div class="card-custom mt-3" style="border-left-color: var(--r-yellow);">
-        <h6 class="fw-bold"><i class="fa-solid fa-circle-exclamation text-warning me-2"></i>Règles d'utilisation & Remplacement (INRS / SEIRICH)</h6>
-        <ul class="small text-muted ps-3 mb-0">
-            <li class="mb-1"><b>Périodicité Anti-gaz :</b> Remplacer la cartouche dès que l'utilisateur détecte une <b>odeur ou un goût</b> du produit (seuil de rupture). <i>Note : Si le produit est inodore, le remplacement doit être planifié à l'avance par calcul ou jeté impérativement après chaque poste de travail (8h max).</i></li>
-            <li class="mb-1"><b>Périodicité Anti-particules (P3) :</b> À changer dès que la <b>résistance à l'inspiration</b> augmente (colmatage) ou au maximum après <b>6 mois</b> d'ouverture si stocké hors poussière.</li>
-            <li class="mb-1"><b>Cartouches AX :</b> Utilisation unique. Doivent être jetées <b>à la fin de chaque poste de travail</b> (ou après 1h à 2h d'utilisation continue selon les préconisations fabricant), car le charbon actif ne retient pas les solvants volatils de manière permanente.</li>
-            <li class="mb-1"><b>Étanchéité :</b> Le masque doit être porté sur une peau <b>parfaitement rasée</b> (la barbe réduit l'efficacité de 90%).</li>
-            <li class="mb-1"><b>Taux d'oxygène :</b> Ne jamais utiliser un masque filtrant si le taux d'oxygène est inférieur à <b>19%</b> (passer sur un masque isolant/adduction d'air).</li>
-        </ul>
-    </div>
-    
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home')">Retour à l'accueil</button>
+<!-- 3. INVENTAIRE PRODUITS CHIMIQUES -->
+<div id="page-list" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-list-check me-2"></i>Registre des Produits</h5>
+    <div id="products-container"></div>
 </div>
 
-<!-- PAGE SERVICES -->
-<div id="page-services" class="app-page">     
-    <h5 class="fw-bold mb-3">
-        <i class="fa-solid fa-handshake-angle text-primary me-2"></i>
-        L’Offre RESTEV Prévention & Santé au Travail
-    </h5>
-
-    <p class="small text-muted mb-4">
-        RESTEV accompagne les entreprises adhérentes dans la prévention des risques professionnels,
-        l’amélioration des conditions de travail et la protection de la santé des salariés.
-        Nos équipes interviennent directement sur le terrain afin d’aider les employeurs à répondre
-        à leurs obligations réglementaires tout en développant une véritable culture prévention.
-    </p>
-
-    <!-- PRÉVENTION -->
-    <div class="card-custom" style="border-left-color: var(--r-blue);">
-        <div class="badge-service">PRÉVENTION DES RISQUES</div>
-        <h6 class="fw-bold">Accompagnement réglementaire & technique</h6>
-        <p class="small text-muted">Les équipes RESTEV accompagnent les entreprises dans l’identification, l’évaluation et la réduction des risques professionnels.</p>
-        <ul class="small text-muted ps-3 mb-3">
-            <li>Accompagnement et mise à jour du DUERP.</li>
-            <li>Évaluation des risques chimiques, biologiques et CMR.</li>
-            <li>Analyse des accidents du travail et situations dangereuses.</li>
-            <li>Aide à la mise en conformité réglementaire.</li>
-            <li>Accompagnement lors des contrôles Inspection du Travail / CARSAT.</li>
-            <li>Conseils sur le stockage des produits dangereux.</li>
-            <li>Construction de plans d’actions prévention.</li>
-            <li>Accompagnement sécurité des entreprises extérieures.</li>
-        </ul>
-        <div class="alert alert-primary small mb-0">
-            <i class="fa-solid fa-circle-info me-2"></i>
-            Le DUERP est obligatoire dès le premier salarié et constitue un document essentiel en cas de contrôle ou d’accident du travail.
-        </div>
-    </div>
-
-    <!-- ERGONOMIE -->
+<!-- 4. AUTO-DIAGNOSTIC DUERP -->
+<div id="page-quiz" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-check me-2"></i>Auto-Diagnostic Rapide</h5>
     <div class="card-custom" style="border-left-color: var(--r-purple);">
-        <div class="badge-service" style="background-color: var(--r-purple)">ERGONOMIE & TMS</div>
-        <h6 class="fw-bold">Prévention des Troubles Musculo-Squelettiques</h6>
-        <p class="small text-muted">RESTEV intervient afin d’amender les situations de travail et limiter les contraintes physiques pouvant entraîner des TMS.</p>
-        <ul class="small text-muted ps-3 mb-3">
-            <li>Études ergonomiques de postes administratifs et industriels.</li>
-            <li>Analyse des postures (méthode RULA, REBA).</li>
-            <li>Déploiement de projets de prévention des TMS.</li>
-        </ul>
+        <div id="quiz-block">
+            <p class="fw-bold id="quiz-q">1. Disposez-vous des Fiches de Données de Sécurité (FDS) de moins de 5 ans pour tous vos produits ?</p>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary flex-fill" onclick="answerQuiz(true)">Oui</button>
+                <button class="btn btn-outline-danger flex-fill" onclick="answerQuiz(false)">Non</button>
+            </div>
+        </div>
+        <div id="quiz-result" style="display:none;" class="text-center mt-3">
+            <div class="score-badge" id="quiz-score">0/3</div>
+            <p class="small fw-bold mt-2" id="quiz-eval"></p>
+            <button class="btn btn-secondary btn-sm w-100 mt-2" onclick="resetQuiz()">Recommencer</button>
+        </div>
+    </div>
+</div>
+
+<!-- 5. LEXIQUE INTERACTIF SGH -->
+<div id="page-sgh" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-book-skull me-2"></i>Lexique Officiel SGH</h5>
+    <div class="card-custom sgh-card" onclick="alert('SGH02 - Inflammable : Tenir à l\'écart de la chaleur, des étincelles et des flammes nues.')">
+        <span class="fs-3">🔥</span>
+        <div><h6 class="fw-bold m-0">SGH02 - Inflammable</h6><small class="text-muted">Solvants, essences, aérosols...</small></div>
+    </div>
+    <div class="card-custom sgh-card" style="border-left-color: var(--r-danger);" onclick="alert('SGH05 - Corrosif : Provoque de graves brûlures de la peau et des lésions oculaires.')">
+        <span class="fs-3">🧪</span>
+        <div><h6 class="fw-bold m-0">SGH05 - Corrosif</h6><small class="text-muted">Acides forts, bases, soude, détartrants...</small></div>
+    </div>
+    <div class="card-custom sgh-card" style="border-left-color: var(--r-purple);" onclick="alert('SGH08 - Danger pour la santé : Effets cancérogènes, mutagènes ou toxiques pour la reproduction (CMR).')">
+        <span class="fs-3">👤</span>
+        <div><h6 class="fw-bold m-0">SGH08 - Risque Majeur CMR</h6><small class="text-muted">Mutagène, Cancérogène, Toxique repro.</small></div>
+    </div>
+    <button class="btn btn-outline-secondary w-100" onclick="nav('page-home', 'nav-home')">Retour</button>
+</div>
+
+<!-- 6. COMPATIBILITÉ STOCKAGE & GANTS -->
+<div id="page-compatibility" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-layer-group me-2"></i>Sélection Gants & Stockage</h5>
+    
+    <div class="card-custom" style="border-left-color: var(--r-blue);">
+        <h6 class="fw-bold"><i class="fa-solid fa-hand me-2 text-primary"></i>1. Matériau des gants (EN ISO 374)</h6>
+        <select id="glove-select" class="form-select mb-2" onchange="checkGlove()">
+            <option value="">-- Sélectionner la famille chimique --</option>
+            <option value="nit">Hydrocarbures, Huiles, Peintures standard</option>
+            <option value="but">Cétones (Acétone), Solvants ultra-agressifs</option>
+            <option value="neo">Acides et Bases concentrés, Produits de nettoyage</option>
+        </select>
+        <div id="glove-res" class="p-2 small rounded" style="display:none;"></div>
+    </div>
+
+    <div class="card-custom" style="border-left-color: var(--r-yellow);">
+        <h6 class="fw-bold"><i class="fa-solid fa-circle-nodes me-2 text-warning"></i>2. Stockage Mixte en Rétention</h6>
+        <p class="small text-muted">Sélectionnez deux natures pour évaluer le danger :</p>
+        <div class="row g-2 text-center">
+            <div class="col-6"><button id="s02" class="btn btn-sm btn-outline-secondary w-100" onclick="selectStock('inflam')">Inflammable</button></div>
+            <div class="col-6"><button id="s05" class="btn btn-sm btn-outline-secondary w-100" onclick="selectStock('corros')">Corrosif</button></div>
+        </div>
+        <div id="stock-res" class="p-2 small rounded text-center mt-3" style="display:none;"></div>
+    </div>
+</div>
+
+<!-- 7. PROTECTIONS RESPIRATOIRES -->
+<div id="page-masks" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator me-2"></i>Règles Filtres & Cartouches</h5>
+    <div class="card-custom" style="border-left-color: var(--r-teal);">
+        <select id="pollutant-select" class="form-select mb-3" onchange="calcMask()">
+            <option value="">-- Choisir le risque polluant --</option>
+            <option value="A">Solvants, Peintures, Vernis (Type A - Marron)</option>
+            <option value="P">Poussières, Silice, Amiante (Type P3 - Blanc)</option>
+            <option value="AX">Composés organiques volatiles ébullition &lt; 65°C (Unique)</option>
+        </select>
+        <div id="mask-res" class="p-3 text-center rounded fw-bold text-white mb-3" style="display:none;"></div>
+        <small class="text-muted d-block"><b>Périodicité :</b> Les filtres anti-gaz doivent être jetés immédiatement si une odeur est perçue, ou après 8h maximum en cas de produit inodore.</small>
+    </div>
+</div>
+
+<!-- 8. OFFRE SERVICES RESTEV -->
+<div id="page-services" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle me-2"></i>Missions de votre Centre</h5>
+    <div class="card-custom" style="border-left-color: var(--r-purple);">
+        <div class="badge-service">PRÉVENTION INTERRAIN</div>
+        <h6 class="fw-bold">DUERP & Risque Chimique</h6>
+        <p class="small text-muted m-0">Nos ingénieurs HSE et ergonomes se déplacent dans vos locaux en Vendée pour analyser vos fiches de postes et sécuriser vos stockages collectifs.</p>
+    </div>
+</div>
+
+<!-- 9. CENTRES DE SANTÉ EN VENDÉE -->
+<div id="page-centres" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-map-pinned me-2"></i>Nos Centres de Proximité</h5>
+    <div class="card-custom" style="border-left-color: var(--r-blue);">
+        <h6 class="fw-bold">La Roche-sur-Yon (Siège)</h6>
+        <p class="small text-muted m-0"><i class="fa-solid fa-phone me-2"></i>02 51 05 18 18<br><i class="fa-solid fa-location-dot me-2"></i>Bd du Maréchal Leclerc</p>
+    </div>
+    <div class="card-custom" style="border-left-color: var(--r-teal);">
+        <h6 class="fw-bold">Les Sables-d'Olonne</h6>
+        <p class="small text-muted m-0"><i class="fa-solid fa-phone me-2"></i>02 51 95 36 24<br><i class="fa-solid fa-location-dot me-2"></i>Allée d'Aquitaine</p>
     </div>
 </div>
 
@@ -381,22 +272,153 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     <button id="nav-centres" class="nav-item" onclick="nav('page-centres', 'nav-centres')"><i class="fa-solid fa-map-location-dot"></i>Centres</button>
 </div>
 
+<!-- LOGIQUE DES FONCTIONS DE L'APPLICATION -->
 <script>
-// Fonctions de navigation basiques pour assurer le bon fonctionnement initial de la maquette
-function nav(pageId, navId) {
-    document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active-page'));
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) targetPage.classList.add('active-page');
-    
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    const targetNav = document.getElementById(navId);
-    if (targetNav) targetNav.classList.add('active');
+// Base de données locale de simulation pour l'inventaire
+let localInventory = [
+    { name: "Acétone pur", sgh: "SGH02 (Inflammable)", epi: "Gants Butyle obligatoires", status: "Conforme" },
+    { name: "Diluant Peinture Xl", sgh: "SGH02, SGH07", epi: "Masque Cartouche A (Marron)", status: "FDS à renouveler" },
+    { name: "Nettoyant Acide", sgh: "SGH05 (Corrosif)", epi: "Lunettes + Gants Néoprène", status: "Conforme" }
+];
+
+// Démarrage de l'application
+function dismissSplash() {
+    document.getElementById('splash').style.opacity = '0';
+    setTimeout(() => document.getElementById('splash').style.display = 'none', 500);
+    renderInventory();
 }
 
-function dismissSplash() {
-    const splash = document.getElementById('splash');
-    if (splash) splash.style.opacity = '0';
-    setTimeout(() => { if (splash) splash.style.display = 'none'; }, 800);
+// Système de navigation globale
+function nav(pageId, navId) {
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    document.getElementById(pageId).classList.add('active-page');
+    
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(document.getElementById(navId)) {
+        document.getElementById(navId).classList.add('active');
+    }
+}
+
+// Fonction 1 : Rendu dynamique de l'inventaire
+function renderInventory() {
+    const container = document.getElementById('products-container');
+    container.innerHTML = "";
+    localInventory.forEach((prod, idx) => {
+        container.innerHTML += `
+            <div class="card-custom" style="border-left-color: ${prod.status.includes('FDS') ? 'var(--r-danger)' : 'var(--r-success)'}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <h6 class="fw-bold text-dark m-0">${prod.name}</h6>
+                    <span class="badge ${prod.status.includes('FDS') ? 'bg-danger' : 'bg-success'} small">${prod.status}</span>
+                </div>
+                <p class="small text-muted my-1"><b>Danger :</b> ${prod.sgh}</p>
+                <p class="small text-secondary m-0"><i class="fa-solid fa-shield-halved me-1"></i>${prod.epi}</p>
+            </div>
+        `;
+    });
+    document.getElementById('inv-stats').innerText = `${localInventory.length} produits enregistrés dans le registre de l'entreprise.`;
+}
+
+// Fonction 2 : Simulation active de scan de FDS via appareil photo
+function simulateScan(productName) {
+    let newProduct = { name: productName, sgh: "Détecté par scan", epi: "Se reporter à la section 8 de la FDS", status: "Vérifié (2026)" };
+    if(productName.includes('Acétone')) {
+        newProduct.sgh = "SGH02, SGH07";
+        newProduct.epi = "Gants en Butyle indispensables (Rupture immédiate sur le Nitrile)";
+    } else {
+        newProduct.sgh = "SGH05 (Corrosif)";
+        newProduct.epi = "Écran facial + Gants longs PVC/Néoprène";
+    }
+    localInventory.unshift(newProduct);
+    renderInventory();
+    alert(`Produit "${productName}" analysé et consigné avec succès dans l'inventaire !`);
+    nav('page-list', 'nav-list');
+}
+
+// Fonction 3 : Moteur d'évaluation de l'Auto-Diagnostic (DUERP)
+let currentStep = 0;
+let score = 0;
+const questions = [
+    "1. Disposez-vous des Fiches de Données de Sécurité (FDS) de moins de 5 ans pour tous vos produits ?",
+    "2. Vos zones de stockage disposent-elles toutes de bacs de rétention adaptés et étanches ?",
+    "3. Vos salariés ont-ils tous suivi une formation ou sensibilisation au risque chimique ?"
+];
+
+function answerQuiz(isYes) {
+    if(isYes) score++;
+    currentStep++;
+    if(currentStep < questions.length) {
+        document.getElementById('quiz-q').innerText = questions[currentStep];
+    } else {
+        document.getElementById('quiz-block').style.display = 'none';
+        document.getElementById('quiz-result').style.display = 'block';
+        document.getElementById('quiz-score').innerText = `${score} / ${questions.length}`;
+        document.getElementById('quiz-eval').innerText = score === 3 
+            ? "Félicitations ! Votre gestion des risques chimiques est mature." 
+            : "Attention, des actions correctives immédiates sont recommandées. Prenez contact avec votre conseiller RESTEV.";
+    }
+}
+
+function resetQuiz() {
+    currentStep = 0;
+    score = 0;
+    document.getElementById('quiz-block').style.display = 'block';
+    document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('quiz-q').innerText = questions[0];
+}
+
+// Fonction 4 : Analyseur de compatibilité des Gants EPI
+function checkGlove() {
+    const val = document.getElementById('glove-select').value;
+    const res = document.getElementById('glove-res');
+    res.style.display = "block";
+    if(val === "nit") {
+        res.className = "p-2 small rounded bg-success-light text-success";
+        res.innerHTML = "<b>✓ Recommandé :</b> Gant Nitrile parfait contre les huiles et solvants aliphatiques.";
+    } else if(val === "but") {
+        res.className = "p-2 small rounded bg-warning-light text-dark";
+        res.innerHTML = "<b>⚠ Attention :</b> Gants en BUTYLE obligatoires. Le Nitrile fond instantanément au contact des cétones.";
+    } else if(val === "neo") {
+        res.className = "p-2 small rounded bg-success-light text-success";
+        res.innerHTML = "<b>✓ Recommandé :</b> Néoprène ou PVC lourd requis pour la manipulation d'agents corrosifs.";
+    } else { res.style.display = "none"; }
+}
+
+// Fonction 5 : Moteur de matrice de Stockage Mixte
+let selectedStockType = "";
+function selectStock(type) {
+    const res = document.getElementById('stock-res');
+    res.style.display = "block";
+    if(selectedStockType === "") {
+        selectedStockType = type;
+        res.className = "p-2 small rounded bg-info text-white";
+        res.innerText = "Sélectionnez le second produit pour évaluer l'interaction...";
+    } else {
+        if(selectedStockType === "inflam" && type === "corros" || selectedStockType === "corros" && type === "inflam") {
+            res.className = "p-2 small rounded bg-danger text-white fw-bold";
+            res.innerText = "✖ INTERDIT : Ne jamais stocker des acides/bases avec des solvants inflammables dans la même rétention (Risque d'incendie/explosion).";
+        } else {
+            res.className = "p-2 small rounded bg-success text-white";
+            res.innerText = "✓ Autorisé sous conditions : Vérifiez l'absence de réactions secondaires spécifiques sur les FDS.";
+        }
+        selectedStockType = "";
+    }
+}
+
+// Fonction 6 : Générateur de préconisations de masques respiratoires
+function calcMask() {
+    const val = document.getElementById('pollutant-select').value;
+    const res = document.getElementById('mask-res');
+    res.style.display = "block";
+    if(val === "A") {
+        res.style.backgroundColor = "#78350f"; 
+        res.innerText = "FILTRE MARRON - TYPE A (Vapeurs Organiques)";
+    } else if(val === "P") {
+        res.style.backgroundColor = "#64748b"; 
+        res.innerText = "FILTRE BLANC - TYPE P3 (Haute Efficacité Particules)";
+    } else if(val === "AX") {
+        res.style.backgroundColor = "#f43f5e"; 
+        res.innerText = "FILTRE AX (Composés volatils) - Usage Unique Unique (Max 1 poste)";
+    } else { res.style.display = "none"; }
 }
 </script>
 
