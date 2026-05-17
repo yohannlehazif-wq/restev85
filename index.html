@@ -270,225 +270,30 @@
                 <label class="small fw-bold text-muted mb-1">Nom du produit</label>
                 <div class="input-group">
                     <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
-                    <button class="btn btn-warning text-white" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
+                    <button class="btn btn-warning text-white" type="button" id="btn-add-manual">Ajouter</button>
                 </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="small fw-bold text-muted mb-1">Code-barres (facultatif)</label>
-                <div class="input-group">
-                    <input type="text" id="prod-code" class="form-control" placeholder="Scanner ou saisir le code">
-                    <button class="btn btn-info text-white fw-bold" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
-                <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
-            </div>
-
-            <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
-        </div>
-    </div>
-
-    <!-- PAGE PROTECTION INDIVIDUELLE (EPI) -->
-    <div id="page-epi" class="app-page">
-        <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-info me-2"></i>Choix des EPI Chimiques</h5>
-        
-        <!-- SECTION RESPIRATOIRE -->
-        <div class="card-custom" style="border-left-color: var(--r-blue);">
-            <h6 class="fw-bold text-dark"><i class="fa-solid fa-head-side-mask me-2 text-primary"></i>1. Protection Respiratoire (Filtres Norme EN 14387)</h6>
-            <p class="small text-muted mb-2">Le choix du filtre dépend de l'état physique du polluant (Gaz ou Particules) repéré en section 8 de la FDS :</p>
-            
-            <div class="table-responsive">
-                <table class="table table-sm table-bordered style-table mb-2" style="font-size:0.75rem;">
-                    <thead class="table-light fw-bold">
-                        <tr>
-                            <th>Type</th>
-                            <th>Couleur</th>
-                            <th>Application principale (Exemples)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold text-danger">A</td>
-                            <td style="background-color: #8B4513; color: white; text-align: center; font-weight: bold;">Marron</td>
-                            <td>Gaz & vapeurs organiques (Solvants, Peintures, Acétone, Styrène)</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-primary">B</td>
-                            <td style="background-color: #708090; color: white; text-align: center; font-weight: bold;">Gris</td>
-                            <td>Gaz & vapeurs inorganiques (Chlore, Hydrogène sulfuré, Cyanure)</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-warning">E</td>
-                            <td style="background-color: #FFD700; color: black; text-align: center; font-weight: bold;">Jaune</td>
-                            <td>Gaz acides & Dioxyde de soufre (Acide chlorhydrique, etc.)</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-success">K</td>
-                            <td style="background-color: #008000; color: white; text-align: center; font-weight: bold;">Vert</td>
-                            <td>Ammoniac et dérivés aminés organiques</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">P (1,2,3)</td>
-                            <td style="background-color: #FFFFFF; color: black; text-align: center; border: 1px solid #ccc; font-weight: bold;">Blanc</td>
-                            <td>Particules, Poussières, Aérosols, Fumées (P3 obligatoire si CMR)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="p-2 bg-light rounded text-muted" style="font-size: 0.72rem; border: 1px dashed #ccc;">
-                <b>💡 Règle de classe (Efficacité) :</b> Classe 1 (Galette faible capacité), Classe 2 (Cartouche moyenne capacité), Classe 3 (Haute capacité). Ex: Un filtre <b>A2P3</b> protège fortement contre les solvants et les poussières fines.
-            </div>
-        </div>
-
-        <!-- SECTION GANTS -->
-        <div class="card-custom" style="border-left-color: var(--r-teal);">
-            <h6 class="fw-bold text-dark"><i class="fa-solid fa-mitten me-2 text-success"></i>2. Choix des Gants (Référencement EN ISO 374-1)</h6>
-            <p class="small text-muted mb-2">Ne jamais utiliser de gants en latex jetables pour la chimie. Se référer au temps de perméation selon le polymère :</p>
-            
-            <div class="accordion accordion-flush" id="accordionGants" style="font-size:0.8rem;">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed py-2 px-0 fw-bold text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#g-nit">
-                            🧤 Nitrile (Usage courant & Polyvalent)
-                        </button>
-                    </h2>
-                    <div id="g-nit" class="accordion-collapse collapse" data-bs-parent="#accordionGants">
-                        <div class="accordion-body px-1 py-2 text-muted small">
-                            <b>Idéal pour :</b> Huiles, graisses, hydrocarbures aliphatiques et acides dilués.<br>
-                            <span class="text-danger">⚠️ Faible sur :</span> Cétones (Acétone) et solvants chlorés.
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed py-2 px-0 fw-bold text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#g-neo">
-                            🧤 Néoprène (Protection Acides & Bases)
-                        </button>
-                    </h2>
-                    <div id="g-neo" class="accordion-collapse collapse" data-bs-parent="#accordionGants">
-                        <div class="accordion-body px-1 py-2 text-muted small">
-                            <b>Idéal pour :</b> Acides et bases concentrés, alcools, huiles de coupe.<br>
-                            <span class="text-danger">⚠️ Faible sur :</span> Solvants aromatiques (Toluène, Xylène).
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed py-2 px-0 fw-bold text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#g-butyl">
-                            🧤 Butyl / Viton (Solvants spécifiques)
-                        </button>
-                    </h2>
-                    <div id="g-butyl" class="accordion-collapse collapse" data-bs-parent="#accordionGants">
-                        <div class="accordion-body px-1 py-2 text-muted small">
-                            <b>Butyl :</b> L'un des rares polymères résistants à l'<b>Acétone</b> (Cétones) et aux esters.<br>
-                            <b>Viton :</b> Ultra-performant sur les solvants chlorés et aromatiques. Très cher mais indispensable en cabine de dégraissage lourd.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-2 text-muted" style="font-size:0.7rem;">
-                <i>* Rappel de l'expert : La mention "Étanchéité aux produits chimiques" doit s'accompagner des lettres de codage du produit testé (Lettres A à M).</i>
             </div>
         </div>
     </div>
 
-    <!-- PAGE COACTIVITÉS & STOCKAGE -->
-    <div id="page-melanges" class="app-page">
-        <h5 class="fw-bold mb-1"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Coactivités & Stockage</h5>
-        <p class="small text-muted mb-3">Sélectionnez deux produits pour simuler leur coactivité ou leur stockage sur une même rétention.</p>
-        
-        <!-- CALCULATEUR PAR BOUTONS -->
-        <div class="card-custom border-left-0 p-3 mb-3" style="background: white; border-top: 4px solid var(--r-blue);">
-            
-            <!-- SÉLECTION PRODUIT 1 -->
-            <div class="mb-3">
-                <label class="small fw-bold text-muted mb-2">1. Sélectionnez le premier composant :</label>
-                <div class="row g-2" id="grid-prodA">
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'inflam', this)" style="font-size:0.7rem; border-radius:10px;">Inflammable</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'acide', this)" style="font-size:0.7rem; border-radius:10px;">Acide Fort</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'base', this)" style="font-size:0.7rem; border-radius:10px;">Base Forte</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'javel', this)" style="font-size:0.7rem; border-radius:10px;">Eau Javel</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'ammoniac', this)" style="font-size:0.7rem; border-radius:10px;">Ammoniac</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'comburant', this)" style="font-size:0.7rem; border-radius:10px;">Comburant</button></div>
-                </div>
-            </div>
+    <!-- BARRE DE NAVIGATION BASSE (PWA) -->
+    <nav class="nav-bottom">
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)">
+            <i class="fa-solid fa-house"></i>Accueil
+        </button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)">
+            <i class="fa-solid fa-barcode"></i>Scanner
+        </button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)">
+            <i class="fa-solid fa-boxes-stacked"></i>Stocks
+        </button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)">
+            <i class="fa-solid fa-square-poll-vertical"></i>Diag
+        </button>
+    </nav>
 
-            <!-- SÉLECTION PRODUIT 2 -->
-            <div class="mb-4">
-                <label class="small fw-bold text-muted mb-2">2. Sélectionnez le deuxième composant :</label>
-                <div class="row g-2" id="grid-prodB">
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'inflam', this)" style="font-size:0.7rem; border-radius:10px;">Inflammable</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'acide', this)" style="font-size:0.7rem; border-radius:10px;">Acide Fort</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'base', this)" style="font-size:0.7rem; border-radius:10px;">Base Forte</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'javel', this)" style="font-size:0.7rem; border-radius:10px;">Eau Javel</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'ammoniac', this)" style="font-size:0.7rem; border-radius:10px;">Ammoniac</button></div>
-                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'comburant', this)" style="font-size:0.7rem; border-radius:10px;">Comburant</button></div>
-                </div>
-            </div>
-
-            <!-- ZONE DE RÉSULTAT DYNAMIQUE -->
-            <div id="stock-result-box" class="p-3 text-center rounded-3 d-none" style="transition: all 0.2s ease;">
-                <div id="stock-result-icon" class="mb-2"></div>
-                <h6 id="stock-result-title" class="fw-bold mb-1"></h6>
-                <p id="stock-result-desc" class="small mb-0 text-start pt-2 border-top border-white border-opacity-25" style="font-size:0.8rem;"></p>
-                <button class="btn btn-sm btn-light mt-3 fw-bold text-dark px-3" onclick="resetSimulateur()" style="border-radius:8px; font-size:0.72rem;">RÉINITIALISER</button>
-            </div>
-        </div>
-
-        <!-- RAPPEL RÈGLES DE RÉTENTION -->
-        <div class="card-custom p-3 bg-light border-start-0" style="border-top: 3px dashed #cbd5e1; font-size: 0.75rem;">
-            <b class="text-secondary d-block mb-1"><i class="fa-solid fa-shield-halved me-1"></i> Conseil pratique :</b>
-            Toute association affichant un résultat <span class="text-danger fw-bold">ROUGE</span> ou <span class="text-warning fw-bold">ORANGE</span> impose l'utilisation de bacs de rétention bien distincts dans vos ateliers ou réserves.
-        </div>
-    </div>
-
-    <!-- MODALE BOOTSTRAP INTEGRÉE POUR LA CONSULTATION DIRECTE DE LA FDS -->
-    <div class="modal fade" id="fdsModal" tabindex="-1" aria-labelledby="fdsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header bg-light">
-            <h5 class="modal-title" id="fdsModalLabel">
-              <i class="bi bi-file-earmark-pdf text-danger me-2"></i>Consultation de la FDS
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-          </div>
-          <div class="modal-body p-0" style="height: 80vh; position: relative;">
-            <!-- Lecteur PDF intégré -->
-            <iframe id="fdsViewer" 
-                    src="" 
-                    width="100%" 
-                    height="100%" 
-                    style="border: none; display: block;">
-              <!-- Message de secours si l'iframe est bloquée -->
-              <div class="p-4 text-center">
-                <p>Le navigateur ne parvient pas à afficher le PDF directement.</p>
-                <a id="fdsFallbackLink" href="#" target="_blank" class="btn btn-primary">
-                  Ouvrir la FDS dans un nouvel onglet
-                </a>
-              </div>
-             iframe>
-          </div>
-          <div class="modal-footer bg-light p-2">
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- NAVIGATION BAS DE PAGE -->
-    <div class="nav-bottom">
-        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>Accueil</button>
-        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>Scanner</button>
-        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>Produits</button>
-        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-question"></i>Auto-Diag</button>
-        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-house-medical"></i>Centres</button>
-    </div>
-
-    <!-- BOUTON ENCRÉ HORS MENUS POUR PWA -->
-    <button id="installBtn" class="install-app-btn">
+    <!-- BOUTON D'INSTALLATION PWA -->
+    <button id="btnInstall" class="install-app-btn">
         <i class="fa-solid fa-download"></i> Installer l'application
     </button>
 
