@@ -879,9 +879,32 @@ function selectProd(grid, val, element) {
     // Lancer le calcul si les deux sélections sont faites
     calculerBoutonsCompatibilite();
 }
+// Variables d'état globales (à placer au début de ton script ou avec les autres variables)
+let selectedProdA = null;
+let selectedProdB = null;
+
+function selectProd(grid, val, element) {
+    const targetGrid = document.getElementById(`grid-prod${grid}`);
+    if (!targetGrid) return;
+    
+    targetGrid.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('btn-primary', 'text-white');
+        btn.classList.add('btn-outline-secondary');
+    });
+
+    element.classList.remove('btn-outline-secondary');
+    element.classList.add('btn-primary', 'text-white');
+
+    if (grid === 'A') selectedProdA = val;
+    if (grid === 'B') selectedProdB = val;
+
+    calculerBoutonsCompatibilite();
+}
 
 function calculerBoutonsCompatibilite() {
     const resultBox = document.getElementById('stock-result-box');
+    if (!resultBox) return;
+    
     if (!selectedProdA || !selectedProdB) {
         resultBox.classList.add('d-none');
         return;
@@ -938,6 +961,7 @@ function resetSimulateur() {
     document.getElementById('stock-result-box').classList.add('d-none');
 }
         
+     
     </script>
 </body>
 </html>
