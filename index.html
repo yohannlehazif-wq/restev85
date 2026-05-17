@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RESTEV 85">
-    <link rel="apple-touch-icon" href="logo_restev_carre.png">
+    <link class="apple-touch-icon" href="logo_restev_carre.png">
 
     <!-- CDNs du projet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -445,6 +445,39 @@
         </div>
     </div>
 
+    <!-- MODALE BOOTSTRAP INTEGRÉE POUR LA CONSULTATION DIRECTE DE LA FDS -->
+    <div class="modal fade" id="fdsModal" tabindex="-1" aria-labelledby="fdsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h5 class="modal-title" id="fdsModalLabel">
+              <i class="bi bi-file-earmark-pdf text-danger me-2"></i>Consultation de la FDS
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body p-0" style="height: 80vh; position: relative;">
+            <!-- Lecteur PDF intégré -->
+            <iframe id="fdsViewer" 
+                    src="" 
+                    width="100%" 
+                    height="100%" 
+                    style="border: none; display: block;">
+              <!-- Message de secours si l'iframe est bloquée -->
+              <div class="p-4 text-center">
+                <p>Le navigateur ne parvient pas à afficher le PDF directement.</p>
+                <a id="fdsFallbackLink" href="#" target="_blank" class="btn btn-primary">
+                  Ouvrir la FDS dans un nouvel onglet
+                </a>
+              </div>
+             iframe>
+          </div>
+          <div class="modal-footer bg-light p-2">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- NAVIGATION BAS DE PAGE -->
     <div class="nav-bottom">
         <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>Accueil</button>
@@ -506,7 +539,7 @@
         };
 
         const questions = [
-            "Le Document Unique (DUERP) est-il mis à jour chaque année ?",
+            "Le Document Unique (DUERP) is-il mis à jour chaque année ?",
             "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
             "Les FDS sont-elles accessibles à tous les postes de travail ?",
             "Les équipements de protection (EPI) sont-ils portés et en bon état ?",
@@ -560,12 +593,41 @@
             window.scrollTo(0, 0);
         }
 
+        // --- FONCTION DE CONTRÔLE D'OUVERTURE DE LA MODALE FDS ---
+        function ouvrirFDS(urlPdf) {
+            if (!urlPdf) {
+                console.error("URL de la FDS manquante.");
+                return;
+            }
+
+            // 1. Injection de l'URL dans l'iframe pour l'affichage direct
+            const viewer = document.getElementById('fdsViewer');
+            if (viewer) {
+                viewer.src = urlPdf;
+            }
+            
+            // 2. Mise à jour du lien de secours (sécurité si blocage navigateur)
+            const fallbackLink = document.getElementById('fdsFallbackLink');
+            if (fallbackLink) {
+                fallbackLink.href = urlPdf;
+            }
+            
+            // 3. Initialisation et ouverture forcée de la modale Bootstrap
+            const modalElement = document.getElementById('fdsModal');
+            const maModale = bootstrap.Modal.getOrCreateInstance(modalElement);
+            maModale.show();
+        }
+
         // --- INVENTAIRE COUPLÉ ---
         function renderInventory() {
             const container = document.getElementById('inventory-container');
             container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré.</p>';
             inventory.forEach(item => {
-                const finalLink = item.fdsUrl || `https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf`;
+                // Modification ici : si item.fdsUrl existe, on passe par la modale intégrée ouvrirFDS, sinon recherche Google
+                const actionButton = item.fdsUrl 
+                    ? `onclick="ouvrirFDS('${item.fdsUrl}')"` 
+                    : `onclick="window.open('https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf', '_blank')";`
+
                 container.innerHTML += `
                 <div class="card-custom mb-3">
                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -575,10 +637,10 @@
                         </div>
                         <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
                     </div>
-                    <a href="${finalLink}" target="_blank" class="btn btn-sm ${item.fdsUrl ? 'btn-danger' : 'btn-outline-primary'} w-100">
+                    <button type="button" ${actionButton} class="btn btn-sm ${item.fdsUrl ? 'btn-danger' : 'btn-outline-primary'} w-100">
                         <i class="fa-solid ${item.fdsUrl ? 'fa-file-pdf' : 'fa-magnifying-glass'} me-1"></i> 
                         ${item.fdsUrl ? 'Consulter la FDS' : 'Chercher la FDS'}
-                    </a>
+                    </button>
                 </div>`;
             });
         }
@@ -921,6 +983,17 @@
         window.addEventListener('DOMContentLoaded', () => {
             updateStats();
             setTimeout(dismissSplash, 1800);
+
+            // Écouteur pour vider l'iframe à la fermeture de la modale FDS (évite la surconsommation de mémoire de la PWA)
+            const fdsModalEl = document.getElementById('fdsModal');
+            if(fdsModalEl) {
+                fdsModalEl.addEventListener('hidden.bs.modal', function () {
+                    const viewer = document.getElementById('fdsViewer');
+                    if (viewer) {
+                        viewer.src = '';
+                    }
+                });
+            }
 
             let deferredPrompt;
             const installBtn = document.getElementById('installBtn');
