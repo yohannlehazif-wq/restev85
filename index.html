@@ -33,6 +33,29 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
 @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
 
+  /* Style harmonisé pour les centres */
+.btn-center { 
+    background: var(--r-blue); 
+    color: white; 
+    border: none; 
+    border-radius: 15px; 
+    width: 100%; 
+    padding: 15px; 
+    font-weight: bold; 
+    margin-bottom: 10px; 
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.search-container input { 
+    border-radius: 20px; 
+    padding: 12px 20px; 
+    border: 2px solid #e2e8f0; 
+    width: 100%; 
+    margin-bottom: 15px;
+    outline: none;
+}
+.search-container input:focus { border-color: var(--r-blue); }
+
 .app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
 .logo-header { height: 40px; }
 .info-banner { background: #e6a00f; color: #fff; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -70,7 +93,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <svg viewBox="0 0 200 40"><path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" /></svg>
 </div>
 </div>
-</div>
+</div
 
 <div class="app-header">
 <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
@@ -616,10 +639,12 @@ function renderCentres() {
   
 
 // Initialisation
-window.onload = () => { 
-    updateStats(); 
-    showQuestion(); 
+window.onload = () => { 
+    updateStats(); 
+    showQuestion(); 
+    renderCentres(); // On initialise la recherche des centres dès le départ
 };
+
 </script>
 </body>
 </html>
