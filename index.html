@@ -396,61 +396,56 @@
     </div>
 
         <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION CALCULATEUR INTERACTIF) -->
+        <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION BOUTONS TACTILES) -->
     <div id="page-melanges" class="app-page">
         <h5 class="fw-bold mb-1"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Coactivités & Stockage</h5>
-        <p class="small text-muted mb-3">Sélectionnez deux familles de produits pour tester instantanément leur compatibilité de stockage ou de mélange.</p>
+        <p class="small text-muted mb-3">Sélectionnez deux produits pour simuler leur coactivité ou leur stockage sur une même rétention.</p>
         
-        <!-- CALCULATEUR INTERACTIF -->
+        <!-- CALCULATEUR PAR BOUTONS -->
         <div class="card-custom border-left-0 p-3 mb-3" style="background: white; border-top: 4px solid var(--r-blue);">
-            <h6 class="fw-bold text-center mb-3"><i class="fa-solid fa-vial-circle-check text-primary me-2"></i>Simulateur de Croisement</h6>
             
-            <!-- Produit 1 -->
+            <!-- SÉLECTION PRODUIT 1 -->
             <div class="mb-3">
-                <label class="small fw-bold text-muted mb-1">Produit A ou Famille 1 :</label>
-                <select id="stock-prodA" class="form-select form-select-sm fw-semibold" onchange="calculerCompatibilite()" style="border-radius: 10px; padding: 10px;">
-                    <option value="">-- Choisir le premier élément --</option>
-                    <option value="inflam">Inflammable (SGH02 / Solvants, Essences)</option>
-                    <option value="acide">Acide Fort (Détartrant, Acide Chlorhydrique)</option>
-                    <option value="base">Base Forte (Soude Caustique, Décapant)</option>
-                    <option value="javel">Eau de Javel (Hypochlorite de sodium)</option>
-                    <option value="ammoniac">Ammoniac / Produits Aminés</option>
-                    <option value="comburant">Comburant (SGH03 / Oxygène, Peroxydes)</option>
-                </select>
+                <label class="small fw-bold text-muted mb-2">1. Sélectionnez le premier composant :</label>
+                <div class="row g-2" id="grid-prodA">
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'inflam', this)" style="font-size:0.7rem; border-radius:10px;">Inflammable</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'acide', this)" style="font-size:0.7rem; border-radius:10px;">Acide Fort</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'base', this)" style="font-size:0.7rem; border-radius:10px;">Base Forte</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'javel', this)" style="font-size:0.7rem; border-radius:10px;">Eau Javel</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'ammoniac', this)" style="font-size:0.7rem; border-radius:10px;">Ammoniac</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('A', 'comburant', this)" style="font-size:0.7rem; border-radius:10px;">Comburant</button></div>
+                </div>
             </div>
 
-            <!-- Icône d'association -->
-            <div class="text-center my-2 text-muted">
-                <i class="fa-solid fa-plus-minus fa-lg"></i>
-            </div>
-
-            <!-- Produit 2 -->
+            <!-- SÉLECTION PRODUIT 2 -->
             <div class="mb-4">
-                <label class="small fw-bold text-muted mb-1">Produit B ou Famille 2 :</label>
-                <select id="stock-prodB" class="form-select form-select-sm fw-semibold" onchange="calculerCompatibilite()" style="border-radius: 10px; padding: 10px;">
-                    <option value="">-- Choisir le deuxième élément --</option>
-                    <option value="inflam">Inflammable (SGH02 / Solvants, Essences)</option>
-                    <option value="acide">Acide Fort (Détartrant, Acide Chlorhydrique)</option>
-                    <option value="base">Base Forte (Soude Caustique, Décapant)</option>
-                    <option value="javel">Eau de Javel (Hypochlorite de sodium)</option>
-                    <option value="ammoniac">Ammoniac / Produits Aminés</option>
-                    <option value="comburant">Comburant (SGH03 / Oxygène, Peroxydes)</option>
-                </select>
+                <label class="small fw-bold text-muted mb-2">2. Sélectionnez le deuxième composant :</label>
+                <div class="row g-2" id="grid-prodB">
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'inflam', this)" style="font-size:0.7rem; border-radius:10px;">Inflammable</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'acide', this)" style="font-size:0.7rem; border-radius:10px;">Acide Fort</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'base', this)" style="font-size:0.7rem; border-radius:10px;">Base Forte</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'javel', this)" style="font-size:0.7rem; border-radius:10px;">Eau Javel</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'ammoniac', this)" style="font-size:0.7rem; border-radius:10px;">Ammoniac</button></div>
+                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2 small fw-bold" onclick="selectProd('B', 'comburant', this)" style="font-size:0.7rem; border-radius:10px;">Comburant</button></div>
+                </div>
             </div>
 
             <!-- ZONE DE RÉSULTAT DYNAMIQUE -->
-            <div id="stock-result-box" class="p-3 text-center rounded-3 d-none animate__animated animate__fadeIn" style="transition: all 0.3s ease;">
+            <div id="stock-result-box" class="p-3 text-center rounded-3 d-none animate__animated animate__fadeIn" style="transition: all 0.2s ease;">
                 <div id="stock-result-icon" class="mb-2"></div>
                 <h6 id="stock-result-title" class="fw-bold mb-1"></h6>
-                <p id="stock-result-desc" class="small mb-0 text-start pt-2 border-top border-white border-opacity-25"></p>
+                <p id="stock-result-desc" class="small mb-0 text-start pt-2 border-top border-white border-opacity-25" style="font-size:0.8rem;"></p>
+                <button class="btn btn-sm btn-light mt-3 fw-bold text-dark px-3" onclick="resetSimulateur()" style="border-radius:8px; font-size:0.72rem;">RÉINITIALISER</button>
             </div>
         </div>
 
         <!-- RAPPEL RÈGLES DE RÉTENTION -->
         <div class="card-custom p-3 bg-light border-start-0" style="border-top: 3px dashed #cbd5e1; font-size: 0.75rem;">
-            <b class="text-secondary d-block mb-1"><i class="fa-solid fa-shield-halved me-1"></i> Règle générale des rétentions :</b>
-            Si le résultat affiche <span class="text-danger fw-bold">INTERDIT</span>, les produits doivent impérativement posséder des **bacs de rétention séparés** (ou des armoires de sécurité distinctes) pour empêcher tout contact accidentel en cas de fissure ou de fuite d'un flacon.
+            <b class="text-secondary d-block mb-1"><i class="fa-solid fa-shield-halved me-1"></i> Conseil pratique :</b>
+            Toute association affichant un résultat <span class="text-danger fw-bold">ROUGE</span> ou <span class="text-warning fw-bold">ORANGE</span> impose l'utilisation de bacs de rétention bien distincts dans vos ateliers ou réserves.
         </div>
     </div>
+
 
     <!-- BOUTON ENCRÉ HORS MENUS POUR PWA -->
     <button id="installBtn" class="install-app-btn">
@@ -862,6 +857,87 @@
                 installBtn.innerHTML = `<i class="fa-solid fa-share-from-square"></i> Ajouter à l'accueil`;
             }
         });
+let selectedProdA = null;
+let selectedProdB = null;
+
+function selectProd(grid, val, element) {
+    // Désélectionner les autres boutons de la même ligne
+    const targetGrid = document.getElementById(`grid-prod${grid}`);
+    targetGrid.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('btn-primary', 'text-white');
+        btn.classList.add('btn-outline-secondary');
+    });
+
+    // Activer le bouton cliqué
+    element.classList.remove('btn-outline-secondary');
+    element.classList.add('btn-primary', 'text-white');
+
+    // Assigner la valeur globale
+    if (grid === 'A') selectedProdA = val;
+    if (grid === 'B') selectedProdB = val;
+
+    // Lancer le calcul si les deux sélections sont faites
+    calculerBoutonsCompatibilite();
+}
+
+function calculerBoutonsCompatibilite() {
+    const resultBox = document.getElementById('stock-result-box');
+    if (!selectedProdA || !selectedProdB) {
+        resultBox.classList.add('d-none');
+        return;
+    }
+
+    resultBox.classList.remove('d-none');
+    const pair = [selectedProdA, selectedProdB].sort().join('-');
+
+    switch (pair) {
+        case 'acide-javel':
+            setStockResult('danger', 'DANGER MORTEL : Dégagement de Chlore', '<b>Effet immédiat :</b> Associer un acide (ex: détartrant) et de la Javel libère du <b>gaz chlore</b>. C\'est un gaz toxique suffocant qui brûle instantanément les voies respiratoires. Interdiction absolue.');
+            break;
+        case 'ammoniac-javel':
+            setStockResult('danger', 'GAZ TOXIQUE : Formation de Chloramines', '<b>Effet immédiat :</b> Ce mélange génère des vapeurs de chloramines hautement irritantes. Entraîne des larmoiements sévères et des risques majeurs d\'œdème ou de crise d\'asthme.');
+            break;
+        case 'acide-base':
+            setStockResult('danger', 'RÉACTION EXPLOSIVE : Choc Thermique', '<b>Effet immédiat :</b> La rencontre d\'un acide fort et d\'une base forte engendre un pic thermique violent. Risque de bouillonnement immédiat et de <b>projections de liquides corrosifs</b>.');
+            break;
+        case 'comburant-inflam':
+            setStockResult('danger', 'RISQUE D\'INCENDIE MAJEUR', '<b>Règle de stockage :</b> Le comburant alimente le feu en oxygène, l\'inflammable sert de combustible. Le moindre incident produit un incendie foudroyant. Rétentions séparées obligatoires.');
+            break;
+        case 'base-inflam':
+            setStockResult('warning', 'STOCKAGE NON RECOMMANDÉ', 'Certaines bases fortes attaquent les contenants ou réagissent mal avec les vapeurs de solvants. Privilégiez des zones ou bacs distincts.');
+            break;
+        case 'acide-inflam':
+            setStockResult('warning', 'STOCKAGE RESTREINT', 'Le stockage commun n\'est toléré que pour de très petits flacons de laboratoire. Pour le milieu industriel ou de maintenance, séparez les rétentions.');
+            break;
+        case 'inflam-inflam':
+            setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits inflammables peuvent partager la même rétention. Veillez à ce que le bac contienne bien 100% du volume du plus grand flacon ou 50% de la totalité.');
+            break;
+        case 'acide-acide':
+            setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Stockage commun sans risque chimique majeur. Veillez simplement à séparer les acides minéraux très concentrés des acides organiques en cas de gros volumes.');
+            break;
+        case 'base-base':
+            setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits alcalins (soude, lessives, décapants alcalins) peuvent être regroupés sur un même support de rétention.');
+            break;
+        default:
+            setStockResult('success', 'COMPATIBLE (Sous réserve)', 'Pas d\'incompatibilité majeure directe connue pour ces familles. Vérifiez toujours la section 10 de vos FDS fabricants pour les cas particuliers.');
+            break;
+    }
+}
+
+function resetSimulateur() {
+    selectedProdA = null;
+    selectedProdB = null;
+    
+    document.getElementById('grid-prodA').querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
+    });
+    document.getElementById('grid-prodB').querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
+    });
+    
+    document.getElementById('stock-result-box').classList.add('d-none');
+}
+        
     </script>
 </body>
 </html>
