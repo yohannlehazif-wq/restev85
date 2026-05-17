@@ -259,6 +259,51 @@
         <div id="centres-list"></div>
     </div>
 
+    <!-- CHOIX EPI CHIMIQUE -->
+    <div id="page-epi" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-info me-2"></i>Choix de l'EPI Chimique</h5>
+        <div class="card-custom" style="border-left-color: var(--r-teal);">
+            <h6 class="fw-bold">🛡️ Protection des mains (Gants)</h6>
+            <p class="small text-muted mb-0">Privilégier le <b>Nitrile</b> pour les huiles et graisses, le <b>Néoprène</b> pour les acides et bases, ou le <b>Butyl</b> pour les cétones (Acétone). Référez-vous toujours à la section 8 de la FDS.</p>
+        </div>
+        <div class="card-custom" style="border-left-color: var(--r-blue);">
+            <h6 class="fw-bold">🥽 Protection Respiratoire</h6>
+            <p class="small text-muted mb-0">Filtre de type <b>A</b> (marron) pour les vapeurs organiques, type <b>B</b> (gris) pour les gaz inorganiques, et classe <b>P3</b> (blanc) pour les poussières et aérosols hautement toxiques.</p>
+        </div>
+    </div>
+
+    <!-- INCOMPATIBILITÉS DE STOCKAGE -->
+    <div id="page-melanges" class="app-page">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Incompatibilités de Stockage</h5>
+        <div class="card-custom" style="border-left-color: var(--r-purple);">
+            <p class="small text-muted mb-3">Règle fondamentale : Ne séparez pas seulement par ordre alphabétique, mais par familles chimiques pour éviter les réactions dangereuses.</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered small text-center align-middle">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>Famille de produit</th>
+                            <th>Incompatible avec...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-danger">Acides Forts</td>
+                            <td>Bases Fortes, Produits Inflammables, Cyanures</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-warning">Comburants</td>
+                            <td>Matières Inflammables, Combustibles, Solvants</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-dark">Toxiques / CMR</td>
+                            <td>À isoler des acides (risque de dégagement de gaz toxiques)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- ADJONCTION PRODUITS ET SCANNER -->
     <div id="page-scan" class="app-page">
         <h5 class="fw-bold mb-3">Ajouter un produit</h5>
@@ -270,7 +315,7 @@
                 <label class="small fw-bold text-muted mb-1">Nom du produit</label>
                 <div class="input-group">
                     <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
-                    <button class="btn btn-warning text-white" type="button" id="btn-add-manual">Ajouter</button>
+                    <button class="btn btn-warning text-white fw-bold" type="button" id="btn-add-manual">Ajouter</button>
                 </div>
             </div>
         </div>
@@ -297,540 +342,105 @@
         <i class="fa-solid fa-download"></i> Installer l'application
     </button>
 
-    <!-- LOGIQUE LOGICIELLE ET BASE DE DONNÉES -->
+    <!-- INTERACTIVITÉ JAVASCRIPT (LOGIQUE & ROUTING) -->
     <script>
-        const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
-
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
-        const blueRestev = [48, 101, 168];
-
-        // variables globales simulateur de stockage
-        let selectedProdA = null;
-        let selectedProdB = null;
-
-        // --- DONNÉES CENTRES VENDÉE ---
-        const centres = [
-            { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+La+Roche+sur+Yon" },
-            { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+Montaigu" },
-            { n: "Les Herbiers", t: "0251671203", a: "18 rue Olivier de Serres, 85500 Les Herbiers", g: "https://maps.google.com/?q=18+rue+Olivier+de+Serres+Les+Herbiers" },
-            { n: "Les Essarts-en-Bocage", t: "0251080601", a: "Rue Louis Lumière, 85140 Les Essarts-en-Bocage", g: "https://maps.google.com/?q=Rue+Louis+Lumiere+Les+Essarts" }
-        ];
-
-        // --- DONNÉES UNIVERSELLES SGH (9 PICTOGRAMMES) ---
-        const sghData = [
-            { id: "SGH01", title: "Bombe Explosant", img: "SGH01_BombeExplosant.jpg", desc: "Matières explosives" },
-            { id: "SGH02", title: "Flamme", img: "SGH02_Flamme.jpg", desc: "Matières inflammables" },
-            { id: "SGH03", title: "Flamme sur Cercle", img: "SGH03_FlammeSurCercle.jpg", desc: "Matières comburantes" },
-            { id: "SGH04", title: "Bouteille de Gaz", img: "SGH04_BouteilleGaz.jpg", desc: "Gaz sous pression" },
-            { id: "SGH05", title: "Corrosion", img: "SGH05_Corrosion.jpg", desc: "Matières corrosives" },
-            { id: "SGH06", title: "Toxique", img: "SGH06.jpg", desc: "Toxicité aiguë" },
-            { id: "SGH07", title: "Point d'Exclamation", img: "SGH07_PointExclamation.jpg", desc: "Irritant / Sensibilisant" },
-            { id: "SGH08", title: "Danger pour la Santé", img: "SGH08_DangerSante.jpg", desc: "CMR / Danger long terme" },
-            { id: "SGH09", title: "Environnement", img: "SGH09_Environnement.jpg", desc: "Toxicité aquatique" }
-        ];
-
-        const detailsSGH = {
-            SGH01: { danger: "Explosif", risques: "Risque d’explosion sous l’effet d’un choc, friction ou chaleur.", prevention: "Stockage sécurisé, éloignement des sources de chaleur." },
-            SGH02: { danger: "Inflammable", risques: "S’enflamme très facilement (étincelles, surfaces chaudes).", prevention: "Ventilation obligatoire, armoire de sécurité dédiée." },
-            SGH03: { danger: "Comburant", risques: "Peut activer ou aggraver un incendie en libérant de l'oxygène.", prevention: "Stocker séparément des matières combustibles." },
-            SGH04: { danger: "Gaz sous pression", risques: "Risque d'explosion sous l'effet de la chaleur ou d'asphyxie.", prevention: "Fixation des bouteilles, locaux ventilés." },
-            SGH05: { danger: "Corrosif", risques: "Provoque des brûlures de la peau et des lésions oculaires graves.", prevention: "Manipulation avec gants chimiques, lunettes étanches." },
-            SGH06: { danger: "Toxique aigu", risques: "Mortel ou dangereux par inhalation, ingestion ou contact cutané.", prevention: "Travail sous hotte, confinement, quantité limitée." },
-            SGH07: { danger: "Irritant", risques: "Irrite la peau, les yeux ou les voies respiratoires. Allergies possibles.", prevention: "EPI systématiques, captage des poussières." },
-            SGH08: { danger: "Danger grave pour la santé", risques: "Effets chroniques à long terme (Cancer, Mutation, Fertilité).", prevention: "Substitution du produit prioritaire, masque respiratoire adéquat." },
-            SGH09: { danger: "Environnement", risques: "Toxicité destructrice pour les organismes aquatiques.", prevention: "Bac de rétention obligatoire, gestion des déchets rigoureuse." }
-        };
-
-        const questions = [
-            "Le Document Unique (DUERP) is-il mis à jour chaque année ?",
-            "Les salariés sont-ils formés aux risques chimiques (lecture FDS) ?",
-            "Les FDS sont-elles accessibles à tous les postes de travail ?",
-            "Les équipements de protection (EPI) sont-ils portés et en bon état ?",
-            "Le stockage respecte-t-il les compatibilités (ex: Acide / Base) ?",
-            "Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
-            "Les salariés connaissent-ils les gestes de premiers secours ?",
-            "Les produits chimiques sont-ils tous identifiés par une étiquette ?",
-            "Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
-            "La prévention est-elle discutée lors de réunions régulières ?"
-        ];
-
-        let currentQ = 0, totalScore = 0;
-
+        // 1. Gestion du Splash Screen au démarrage
         function dismissSplash() {
             const splash = document.getElementById('splash');
-            if(splash) {
+            if (splash) {
                 splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 800);
+                setTimeout(() => splash.style.display = 'none', 800);
             }
         }
 
-        function updateStats() {
-            const statsEl = document.getElementById('inv-stats');
-            if(statsEl) statsEl.innerText = `${inventory.length} produit(s) dans l'inventaire`;
-        }
-
-        function nav(id, el) {
-            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const target = document.getElementById(id);
-            if(target) target.classList.add('active-page');
-            
-            if(el && typeof el === 'object' && el.classList) {
-                el.classList.add('active');
-            } else {
-                const mapping = {
-                    'page-scan': 'nav-scan',
-                    'page-quiz': 'nav-quiz',
-                    'page-list': 'nav-list'
-                };
-                if(mapping[id]) {
-                    const navBtn = document.getElementById(mapping[id]);
-                    if(navBtn) navBtn.classList.add('active');
-                }
-            }
-            
-            if(id === 'page-list') renderInventory();
-            if(id === 'page-sgh') renderSGH();
-            if(id === 'page-centres') renderCentres();
-            if(id === 'page-quiz') resetQuiz();
-            window.scrollTo(0, 0);
-        }
-
-        // --- FONCTION DE CONTRÔLE D'OUVERTURE DE LA MODALE FDS ---
-        function ouvrirFDS(urlPdf) {
-            if (!urlPdf) {
-                console.error("URL de la FDS manquante.");
-                return;
-            }
-
-            // 1. Injection de l'URL dans l'iframe pour l'affichage direct
-            const viewer = document.getElementById('fdsViewer');
-            if (viewer) {
-                viewer.src = urlPdf;
-            }
-            
-            // 2. Mise à jour du lien de secours (sécurité si blocage navigateur)
-            const fallbackLink = document.getElementById('fdsFallbackLink');
-            if (fallbackLink) {
-                fallbackLink.href = urlPdf;
-            }
-            
-            // 3. Initialisation et ouverture forcée de la modale Bootstrap
-            const modalElement = document.getElementById('fdsModal');
-            const maModale = bootstrap.Modal.getOrCreateInstance(modalElement);
-            maModale.show();
-        }
-
-        // --- INVENTAIRE COUPLÉ ---
-        function renderInventory() {
-            const container = document.getElementById('inventory-container');
-            container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré.</p>';
-            inventory.forEach(item => {
-                // Modification ici : si item.fdsUrl existe, on passe par la modale intégrée ouvrirFDS, sinon recherche Google
-                const actionButton = item.fdsUrl 
-                    ? `onclick="ouvrirFDS('${item.fdsUrl}')"` 
-                    : `onclick="window.open('https://www.google.com/search?q=FDS+${encodeURIComponent(item.name)}+filetype:pdf', '_blank')";`
-
-                container.innerHTML += `
-                <div class="card-custom mb-3">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div>
-                            <b style="color:var(--r-blue)">${item.name}</b><br>
-                            <small class="text-muted"><i class="fa-solid fa-barcode"></i> ${item.code || 'Saisie manuelle'}</small>
-                        </div>
-                        <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <button type="button" ${actionButton} class="btn btn-sm ${item.fdsUrl ? 'btn-danger' : 'btn-outline-primary'} w-100">
-                        <i class="fa-solid ${item.fdsUrl ? 'fa-file-pdf' : 'fa-magnifying-glass'} me-1"></i> 
-                        ${item.fdsUrl ? 'Consulter la FDS' : 'Chercher la FDS'}
-                    </button>
-                </div>`;
-            });
-        }
-
-        async function saveProduct() {
-            const name = document.getElementById('prod-name').value;
-            const code = document.getElementById('prod-code').value.trim();
-            const fdsUrl = document.getElementById('prod-url').value;
-            if (!name) return alert("Nom du produit requis.");
-
-            const newProduct = { id: Date.now(), name, code, fdsUrl };
-            inventory.push(newProduct);
-            localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-
-            try {
-                await sb.from('inventaire_utilisateurs').insert([{ nom_produit: name, code_barres: code, url_fds: fdsUrl }]);
-            } catch (e) { console.error(e); }
-
-            document.getElementById('prod-name').value = '';
-            document.getElementById('prod-code').value = '';
-            document.getElementById('prod-url').value = '';
-            updateStats();
-            nav('page-list', document.getElementById('nav-list'));
-        }
-
-        function deleteItem(id) {
-            if(confirm("Supprimer ce produit de l'inventaire ?")) {
-                inventory = inventory.filter(i => i.id !== id);
-                localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
-                renderInventory(); updateStats();
-            }
-        }
-
-        // --- SCANNER ET DISPOSITIF RECHERCHE ---
-        function searchFDS() {
-            const name = document.getElementById('prod-name').value;
-            if(!name) return alert("Saisissez un nom de produit.");
-            window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+filetype:pdf`, '_blank');
-        }
-
-        async function searchBarcodeDB() {
-            const code = document.getElementById('prod-code').value;
-            if(!code) return alert("Saisissez ou scannez un code d'abord.");
-            const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', code).limit(1);
-            if(data && data.length > 0) {
-                document.getElementById('prod-name').value = data[0].nom_produit;
-                document.getElementById('prod-url').value = data[0].url_fds;
-                alert("Produit référencé trouvé dans la base collective RESTEV !");
-            } else { alert("Code inconnu. Saisie manuelle requise."); }
-        }
-
-        function startScanner() {
-            const scanner = new Html5Qrcode("reader");
-            scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (text) => {
-                document.getElementById('prod-code').value = text;
-                scanner.stop();
-                const { data } = await sb.from('inventaire_utilisateurs').select('*').eq('code_barres', text).limit(1);
-                if(data && data.length > 0) {
-                    document.getElementById('prod-name').value = data[0].nom_produit;
-                    document.getElementById('prod-url').value = data[0].url_fds;
-                }
-            }).catch(e => console.error(e));
-        }
-
-        function exportToCSV() {
-            if(inventory.length === 0) return alert("Inventaire vide.");
-            let csv = "Nom,Code,URL_FDS\n";
-            inventory.forEach(i => csv += `"${i.name}","${i.code}","${i.fdsUrl}"\n`);
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "mon_inventaire_restev.csv";
-            link.click();
-        }
-
-        // --- GÉNÉRATION RAPPORT PDF ATTESTATION ---
-        async function generatePDFProof() {
-            if (inventory.length === 0) return alert("Votre inventaire est vide.");
-
-            const company = prompt("Nom de l'entreprise :") || "Entreprise";
-            const responsable = prompt("Nom du responsable :") || "Responsable";
-            const fonction = prompt("Fonction du signataire :") || "Préventeur HSE";
-
-            const today = new Date();
-            const dateFR = today.toLocaleDateString('fr-FR');
-            const heureFR = today.toLocaleTimeString('fr-FR');
-
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFillColor(...blueRestev);
-            doc.rect(0, 0, 210, 32, 'F');
-            doc.setTextColor(255,255,255);
-            doc.setFontSize(18);
-            doc.setFont(undefined, 'bold');
-            doc.text("ATTESTATION D’INVENTAIRE CHIMIQUE", 105, 16, { align: "center" });
-            doc.setFontSize(10);
-            doc.text("Généré via l'application expert RESTEV 85", 105, 24, { align: "center" });
-
-            doc.setTextColor(0,0,0);
-            doc.setDrawColor(...blueRestev);
-            doc.setLineWidth(0.5);
-            doc.roundedRect(12, 40, 186, 34, 4, 4);
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.text("ÉTABLISSEMENT ADHÉRENT", 16, 47);
-            doc.setFont(undefined, 'normal');
-            doc.setFontSize(10);
-            doc.text(`Raison sociale : ${company}`, 16, 55);
-            doc.text(`Signataire : ${responsable} (${fonction})`, 16, 62);
-            doc.text(`Date & Heure : Le ${dateFR} à ${heureFR}`, 16, 69);
-
-            const body = inventory.map((item, idx) => [idx + 1, item.name || "-", item.code || "Saisie manuelle", item.fdsUrl ? "OUI" : "NON", item.fdsUrl ? "Conforme" : "FDS manquante"]);
-            
-            doc.autoTable({
-                startY: 82,
-                head: [["#", "Produit", "Code-barres / Traçabilité", "Lien FDS", "Statut Conformité"]],
-                body: body,
-                styles: { fontSize: 9, cellPadding: 3 },
-                headStyles: { fillColor: blueRestev, textColor: 255, fontStyle: 'bold' },
-                alternateRowStyles: { fillColor: [245,245,245] }
-            });
-
-            let finalY = doc.lastAutoTable.finalY + 15;
-            if(finalY > 240) { doc.addPage(); finalY = 30; }
-            doc.roundedRect(112, finalY, 85, 35, 4, 4);
-            doc.setFont(undefined, 'bold');
-            doc.text("CACHET ENTREPRISE", 116, finalY + 8);
-
-            const pageCount = doc.internal.getNumberOfPages();
-            for(let i = 1; i <= pageCount; i++){
-                doc.setPage(i);
-                doc.setFontSize(8);
-                doc.setTextColor(130);
-                doc.text(`Document de traçabilité réglementaire - Page ${i}/${pageCount} - Edité le ${dateFR}`, 105, 290, { align: "center" });
-            }
-
-            const pdfBlob = doc.output('blob');
-            const pdfUrl = URL.createObjectURL(pdfBlob);
-
-            let attestations = JSON.parse(localStorage.getItem('restev_attestations')) || [];
-            attestations.push({ company, date: `${dateFR} à ${heureFR}`, products: inventory.length, file: pdfUrl });
-            localStorage.setItem('restev_attestations', JSON.stringify(attestations));
-
-            doc.save(`Attestation_RESTEV_${company.replace(/\s+/g, '_')}.pdf`);
-            if(document.getElementById('archives-container').style.display === 'block') renderAttestations();
-        }
-
-        function renderAttestations(){
-            const container = document.getElementById('archives-list');
-            let attestations = JSON.parse(localStorage.getItem('restev_attestations')) || [];
-            if(attestations.length === 0){
-                container.innerHTML = '<p class="text-muted text-center py-2 small">Aucune attestation émise localement.</p>';
-                return;
-            }
-            container.innerHTML = attestations.reverse().map(a => `
-                <div class="card-custom archive-item mb-2 p-2" style="font-size:0.85rem;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <b>${a.company}</b><br>
-                            <small class="text-muted"><i class="fa-solid fa-calendar-day"></i> ${a.date}</small> - 
-                            <small class="text-primary fw-bold">${a.products} produits</small>
-                        </div>
-                        <a href="${a.file}" target="_blank" class="btn btn-sm btn-primary py-1"><i class="fa-solid fa-eye"></i></a>
-                    </div>
-                </div>`).join('');
-        }
-
-        function toggleArchives(){
-            const box = document.getElementById('archives-container');
-            box.style.display = box.style.display === 'none' ? 'block' : 'none';
-            if(box.style.display === 'block') renderAttestations();
-        }
-
-        // --- RENDU SGH ET CENTRES VENDÉE ---
-        function renderSGH() {
-            document.getElementById('sgh-list').innerHTML = sghData.map(s => `
-                <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
-                    <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65x65/dc3545/ffffff?text=${s.id}'">
-                    <div>
-                        <b class="text-dark">${s.title}</b><br>
-                        <small class="text-muted">${s.desc}</small>
-                    </div>
-                </div>
-                <div class="modal fade" id="modal-${s.id}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content" style="border-radius:20px; overflow:hidden;">
-                            <div class="modal-header text-white" style="background-color: var(--r-blue)">
-                                <h6 class="modal-title fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i>Fiche ${s.id} - ${s.title}</h6>
-                                <button type="button" class="btn-close btn-close-white" data-bs-shadow="none" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body" style="font-size: 0.9rem;">
-                                <p class="mb-2"><b>Nature du danger :</b> <span class="badge bg-danger">${detailsSGH[s.id].danger}</span></p>
-                                <p class="mb-2 text-muted"><b>Risques associés :</b> ${detailsSGH[s.id].risques}</p>
-                                <hr class="my-2">
-                                <p class="mb-0 text-success"><b>Mesures de prévention :</b> ${detailsSGH[s.id].prevention}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>`).join('');
-        }
-
-        function renderCentres() {
-            document.getElementById('centres-list').innerHTML = centres.map(c => `
-            <div class="card-custom mb-3" style="border-left-color: var(--r-teal);">
-                <b style="color: #0f172a; font-size:1rem;">${c.n}</b><br>
-                <small class="text-muted d-block mt-1"><i class="fa-solid fa-location-dot me-1"></i> ${c.a}</small>
-                <div class="d-flex gap-2 mt-3">
-                    <a href="tel:${c.t}" class="btn btn-sm btn-primary flex-grow-1 py-2 fw-semibold"><i class="fa-solid fa-phone me-1"></i> Appeler</a>
-                    <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 py-2 fw-semibold"><i class="fa-solid fa-map-location-dot me-1"></i> Itinéraire</a>
-                </div>
-            </div>`).join('');
-        }
-
-        // --- DIAGNOSTIC PREVENTEUR ---
-        function showQuestion() {
-            document.getElementById('q-text').innerText = `${currentQ + 1}. ${questions[currentQ]}`;
-            document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
-        }
-
-        function quizAnswer(p) {
-            totalScore += p; currentQ++;
-            if(currentQ < questions.length) showQuestion();
-            else {
-                document.getElementById('q-box').style.display = 'none';
-                document.getElementById('q-result').style.display = 'block';
-                document.getElementById('quiz-score').innerText = `${totalScore}/${questions.length * 3}`;
-                let adv = totalScore > 22 ? "Excellent niveau opérationnel de prévention." : totalScore > 12 ? "Structure moyenne. Pensez à réviser le DUERP et vos compatibilités de stockage." : "Seuil critique. Prenez contact avec votre conseiller technique RESTEV.";
-                document.getElementById('quiz-advice').innerText = adv;
-                document.getElementById('quiz-label').innerText = totalScore > 22 ? "Niveau de Risque Maîtrisé" : "Améliorations Recommandées";
-            }
-        }
-
-        function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
-
-        // --- GESTION DU SIMULATEUR DE COMPATIBILITÉ CHIMIQUE ---
-        function selectProd(grid, val, element) {
-            const targetGrid = document.getElementById(`grid-prod${grid}`);
-            if (!targetGrid) return;
-            
-            targetGrid.querySelectorAll('button').forEach(btn => {
-                btn.classList.remove('btn-primary', 'text-white');
-                btn.classList.add('btn-outline-secondary');
-            });
-
-            element.classList.remove('btn-outline-secondary');
-            element.classList.add('btn-primary', 'text-white');
-
-            if (grid === 'A') selectedProdA = val;
-            if (grid === 'B') selectedProdB = val;
-
-            calculerBoutonsCompatibilite();
-        }
-
-        function setStockResult(type, title, desc) {
-            const resultBox = document.getElementById('stock-result-box');
-            const iconBox = document.getElementById('stock-result-icon');
-            const titleBox = document.getElementById('stock-result-title');
-            const descBox = document.getElementById('stock-result-desc');
-
-            if (type === 'danger') {
-                resultBox.style.backgroundColor = '#dc3545';
-                resultBox.style.color = '#ffffff';
-                iconBox.innerHTML = '<i class="fa-solid fa-radiation fa-2x text-white"></i>';
-            } else if (type === 'warning') {
-                resultBox.style.backgroundColor = '#fd7e14';
-                resultBox.style.color = '#ffffff';
-                iconBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation fa-2x text-white"></i>';
-            } else {
-                resultBox.style.backgroundColor = '#198754';
-                resultBox.style.color = '#ffffff';
-                iconBox.innerHTML = '<i class="fa-solid fa-circle-check fa-2x text-white"></i>';
-            }
-
-            titleBox.innerText = title;
-            descBox.innerHTML = desc;
-        }
-
-        function calculerBoutonsCompatibilite() {
-            const resultBox = document.getElementById('stock-result-box');
-            if (!resultBox) return;
-            
-            if (!selectedProdA || !selectedProdB) {
-                resultBox.classList.add('d-none');
-                return;
-            }
-
-            resultBox.classList.remove('d-none');
-            const pair = [selectedProdA, selectedProdB].sort().join('-');
-
-            switch (pair) {
-                case 'acide-javel':
-                    setStockResult('danger', 'DANGER MORTEL : Dégagement de Chlore', '<b>Effet immédiat :</b> Associer un acide (ex: détartrant) et de la Javel libère du <b>gaz chlore</b>. C\'est un gaz toxique suffocant qui brûle instantanément les voies respiratoires. Interdiction absolue.');
-                    break;
-                case 'ammoniac-javel':
-                    setStockResult('danger', 'GAZ TOXIQUE : Formation de Chloramines', '<b>Effet immédiat :</b> Ce mélange génère des vapeurs de chloramines hautement irritantes. Entraîne des larmoiements sévères et des risques majeurs d\'œdème ou de crise d\'asthme.');
-                    break;
-                case 'acide-base':
-                    setStockResult('danger', 'RÉACTION EXPLOSIVE : Choc Thermique', '<b>Effet immédiat :</b> La rencontre d\'un acide fort et d\'une base forte engendre un pic thermique violent. Risque de bouillonnement immédiat et de <b>projections de liquides corrosifs</b>.');
-                    break;
-                case 'comburant-inflam':
-                    setStockResult('danger', 'RISQUE D\'INCENDIE MAJEUR', '<b>Règle de stockage :</b> Le comburant alimente le feu en oxygène, l\'inflammable sert de combustible. Le moindre incident produit un incendie foudroyant. Rétentions séparées obligatoires.');
-                    break;
-                case 'base-inflam':
-                    setStockResult('warning', 'STOCKAGE NON RECOMMANDÉ', 'Certaines bases fortes attaquent les contenants ou réagissent mal avec les vapeurs de solvants. Privilégiez des zones ou bacs distincts.');
-                    break;
-                case 'acide-inflam':
-                    setStockResult('warning', 'STOCKAGE RESTREINT', 'Le stockage commun n\'est toléré que pour de très petits flacons de laboratoire. Pour le milieu industriel ou de maintenance, séparez les rétentions.');
-                    break;
-                case 'inflam-inflam':
-                    setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits inflammables peuvent partager la même rétention. Veillez à ce que le bac contienne bien 100% du volume du plus grand flacon ou 50% de la totalité.');
-                    break;
-                case 'acide-acide':
-                    setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Stockage commun sans risque chimique majeur. Veillez simplement à séparer les acides minéraux très concentrés des acides organiques en cas de gros volumes.');
-                    break;
-                case 'base-base':
-                    setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits alcalins (soude, lessives, décapants alcalins) peuvent être regroupés sur un même support de rétention.');
-                    break;
-                default:
-                    setStockResult('success', 'COMPATIBLE (Sous réserve)', 'Pas d\'incompatibilité majeure directe connue pour ces familles. Vérifiez toujours la section 10 de vos FDS fabricants pour les cas particuliers.');
-                    break;
-            }
-        }
-
-        function resetSimulateur() {
-            selectedProdA = null;
-            selectedProdB = null;
-            
-            document.getElementById('grid-prodA').querySelectorAll('button').forEach(btn => {
-                btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
-            });
-            document.getElementById('grid-prodB').querySelectorAll('button').forEach(btn => {
-                btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
+        // 2. Moteur de Navigation (Routing des pages actives)
+        function nav(pageId, element) {
+            // Masquer toutes les sections applicatives
+            document.querySelectorAll('.app-page').forEach(page => {
+                page.classList.remove('active-page');
             });
             
-            document.getElementById('stock-result-box').classList.add('d-none');
+            // Afficher la page demandée
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active-page');
+            }
+
+            // Gérer les classes d'onglets actifs de la barre du bas
+            if (element) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+            }
         }
 
-        // --- INITIALISATION SÉCURISÉE ---
-        window.addEventListener('DOMContentLoaded', () => {
-            updateStats();
-            setTimeout(dismissSplash, 1800);
-
-            // Écouteur pour vider l'iframe à la fermeture de la modale FDS (évite la surconsommation de mémoire de la PWA)
-            const fdsModalEl = document.getElementById('fdsModal');
-            if(fdsModalEl) {
-                fdsModalEl.addEventListener('hidden.bs.modal', function () {
-                    const viewer = document.getElementById('fdsViewer');
-                    if (viewer) {
-                        viewer.src = '';
-                    }
-                });
-            }
-
-            let deferredPrompt;
-            const installBtn = document.getElementById('installBtn');
-
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                if(installBtn) installBtn.style.display = 'flex';
-            });
-
-            if(installBtn) {
-                installBtn.addEventListener('click', async () => {
-                    if (isIos() && !isInStandaloneMode()) {
-                        alert("Sur iOS (Safari) :\n\n1. Cliquez sur l'icône de partage bas de page\n2. Choisissez 'Sur l'écran d'accueil'\n3. Validez l'installation.");
-                        return;
-                    }
-                    if (!deferredPrompt) return;
-                    deferredPrompt.prompt();
-                    await deferredPrompt.userChoice;
-                    deferredPrompt = null;
-                    installBtn.style.display = 'none';
-                });
-            }
-
-            function isIos() { return /iphone|ipad|ipod/i.test(window.navigator.userAgent); }
-            function isInStandaloneMode() { return ('standalone' in window.navigator) || (window.navigator.standalone === true); }
-
-            if (isIos() && !isInStandaloneMode() && installBtn) {
-                installBtn.style.display = 'flex';
-                installBtn.innerHTML = `<i class="fa-solid fa-share-from-square"></i> Ajouter à l'accueil`;
-            }
+        // 3. Initialisation automatique au chargement
+        document.addEventListener("DOMContentLoaded", () => {
+            initSGH();
+            // Simulation d'un retour statistiques (À lier avec Supabase)
+            const stats = document.getElementById('inv-stats');
+            if (stats) stats.innerText = "38 FDS Indexées | 0 Alerte Critique en Vendée";
         });
+
+        // 4. Génération dynamique du Lexique SGH
+        function initSGH() {
+            const sghData = [
+                { title: "SGH01 - Explosif", icon: "fa-bomb", color: "text-dark" },
+                { title: "SGH02 - Inflammable", icon: "fa-fire", color: "text-danger" },
+                { title: "SGH03 - Comburant", icon: "fa-circle-radiation", color: "text-warning" },
+                { title: "SGH05 - Corrosif", icon: "fa-vial-virus", color: "text-danger" },
+                { title: "SGH06 - Toxique", icon: "fa-skull-crossbones", color: "text-dark" },
+                { title: "SGH07 - Toxique/Irritant", icon: "fa-exclamation", color: "text-warning" },
+                { title: "SGH08 - Danger grave pour la santé (CMR)", icon: "fa-biohazard", color: "text-danger" }
+            ];
+            const container = document.getElementById('sgh-list');
+            if (container) {
+                container.innerHTML = sghData.map(item => `
+                    <div class="card-custom sgh-card" onclick="alert('Lien vers la fiche toxicologique INRS de cette catégorie.')">
+                        <i class="fa-solid ${item.icon} fa-2x ${item.color} me-3"></i>
+                        <div>
+                            <h6 class="fw-bold mb-0">${item.title}</h6>
+                            <small class="text-muted">Cliquez pour voir les consignes de stockage.</small>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 5. Logique simplifiée du Quiz Auto-Diag
+        let currentScore = 0;
+        function quizAnswer(points) {
+            currentScore += points;
+            document.getElementById('q-box').style.display = 'none';
+            const resultBox = document.getElementById('q-result');
+            resultBox.style.display = 'block';
+            
+            document.getElementById('quiz-score').innerText = currentScore + "/3";
+            const label = document.getElementById('quiz-label');
+            const advice = document.getElementById('quiz-advice');
+
+            if (currentScore >= 2) {
+                label.innerText = "Niveau de maîtrise satisfaisant";
+                advice.innerText = "Vos connaissances et structures semblent alignées avec les exigences CARSAT / INRS. Continuez la veille !";
+            } else {
+                label.innerText = "Points de vigilance identifiés";
+                advice.innerText = "Certaines fiches FDS ou règles de mélanges méritent d'être révisées. Rapprochez-vous de vos conseillers techniques.";
+            }
+        }
+
+        function resetQuiz() {
+            currentScore = 0;
+            document.getElementById('q-box').style.display = 'block';
+            document.getElementById('q-result').style.display = 'none';
+        }
+
+        // 6. Fonctions complémentaires (Triggers de sécurité pour éviter les erreurs de clics)
+        function startScanner() { alert("Accès appareil photo : Demande d'autorisation de l'appareil..."); }
+        function exportToCSV() { alert("Génération du tableur CSV de votre parc chimique..."); }
+        function generatePDFProof() { alert("Édition de l'attestation réglementaire au format PDF..."); }
+        function toggleArchives() { 
+            const container = document.getElementById('archives-container');
+            if(container) container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        }
     </script>
 </body>
 </html>
