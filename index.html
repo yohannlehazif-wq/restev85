@@ -143,7 +143,7 @@
         </div>
     </div>
 
-    <!-- OFFRE SERVICES RESTEV COMPLÈTE (OFFRE SOCLE & PDP) -->
+    <!-- OFFRE SERVICES RESTEV COMPLÈTE -->
     <div id="page-services" class="app-page">
         <h5 class="fw-bold mb-1"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre de Service RESTEV</h5>
         <p class="small text-muted mb-3">Une offre socle harmonisée pour accompagner les entreprises adhérentes de Vendée sur 3 volets réglementaires.</p>
@@ -395,8 +395,7 @@
         </div>
     </div>
 
-        <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION CALCULATEUR INTERACTIF) -->
-        <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION BOUTONS TACTILES) -->
+    <!-- PAGE COACTIVITÉS & STOCKAGE -->
     <div id="page-melanges" class="app-page">
         <h5 class="fw-bold mb-1"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Coactivités & Stockage</h5>
         <p class="small text-muted mb-3">Sélectionnez deux produits pour simuler leur coactivité ou leur stockage sur une même rétention.</p>
@@ -431,7 +430,7 @@
             </div>
 
             <!-- ZONE DE RÉSULTAT DYNAMIQUE -->
-            <div id="stock-result-box" class="p-3 text-center rounded-3 d-none animate__animated animate__fadeIn" style="transition: all 0.2s ease;">
+            <div id="stock-result-box" class="p-3 text-center rounded-3 d-none" style="transition: all 0.2s ease;">
                 <div id="stock-result-icon" class="mb-2"></div>
                 <h6 id="stock-result-title" class="fw-bold mb-1"></h6>
                 <p id="stock-result-desc" class="small mb-0 text-start pt-2 border-top border-white border-opacity-25" style="font-size:0.8rem;"></p>
@@ -446,6 +445,14 @@
         </div>
     </div>
 
+    <!-- NAVIGATION BAS DE PAGE -->
+    <div class="nav-bottom">
+        <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>Accueil</button>
+        <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-barcode"></i>Scanner</button>
+        <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-boxes-stacked"></i>Produits</button>
+        <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-question"></i>Auto-Diag</button>
+        <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-house-medical"></i>Centres</button>
+    </div>
 
     <!-- BOUTON ENCRÉ HORS MENUS POUR PWA -->
     <button id="installBtn" class="install-app-btn">
@@ -460,6 +467,10 @@
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
         const blueRestev = [48, 101, 168];
+
+        // variables globales simulateur de stockage
+        let selectedProdA = null;
+        let selectedProdB = null;
 
         // --- DONNÉES CENTRES VENDÉE ---
         const centres = [
@@ -528,11 +539,9 @@
             const target = document.getElementById(id);
             if(target) target.classList.add('active-page');
             
-            // Correction pour s'assurer qu'un bouton de navigation existe et a une méthode classList
             if(el && typeof el === 'object' && el.classList) {
                 el.classList.add('active');
             } else {
-                // Secours si appelé depuis une tuile d'accueil sans passer l'élément nav
                 const mapping = {
                     'page-scan': 'nav-scan',
                     'page-quiz': 'nav-quiz',
@@ -549,17 +558,6 @@
             if(id === 'page-centres') renderCentres();
             if(id === 'page-quiz') resetQuiz();
             window.scrollTo(0, 0);
-        }
-
-        // --- ENREGISTRER L'OUVERTURE DE MODALE TECHNIQUE (EPI / STOCKAGE) ---
-        function openEpiModal(title, subtitle, desc, headerColor) {
-            document.getElementById('epiModalTitle').innerText = title;
-            document.getElementById('epiModalSubtitle').innerHTML = subtitle;
-            document.getElementById('epiModalDesc').innerHTML = desc;
-            document.getElementById('epiModalHeader').style.backgroundColor = headerColor;
-            
-            const myModal = new bootstrap.Modal(document.getElementById('epiModal'));
-            myModal.show();
         }
 
         // --- INVENTAIRE COUPLÉ ---
@@ -671,7 +669,6 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            // Bannière Supérieure
             doc.setFillColor(...blueRestev);
             doc.rect(0, 0, 210, 32, 'F');
             doc.setTextColor(255,255,255);
@@ -681,7 +678,6 @@
             doc.setFontSize(10);
             doc.text("Généré via l'application expert RESTEV 85", 105, 24, { align: "center" });
 
-            // Cadre Informations
             doc.setTextColor(0,0,0);
             doc.setDrawColor(...blueRestev);
             doc.setLineWidth(0.5);
@@ -695,7 +691,6 @@
             doc.text(`Signataire : ${responsable} (${fonction})`, 16, 62);
             doc.text(`Date & Heure : Le ${dateFR} à ${heureFR}`, 16, 69);
 
-            // Tableau Dynamique
             const body = inventory.map((item, idx) => [idx + 1, item.name || "-", item.code || "Saisie manuelle", item.fdsUrl ? "OUI" : "NON", item.fdsUrl ? "Conforme" : "FDS manquante"]);
             
             doc.autoTable({
@@ -707,14 +702,12 @@
                 alternateRowStyles: { fillColor: [245,245,245] }
             });
 
-            // Cachet / Signature
             let finalY = doc.lastAutoTable.finalY + 15;
             if(finalY > 240) { doc.addPage(); finalY = 30; }
             doc.roundedRect(112, finalY, 85, 35, 4, 4);
             doc.setFont(undefined, 'bold');
             doc.text("CACHET ENTREPRISE", 116, finalY + 8);
 
-            // Numérotation
             const pageCount = doc.internal.getNumberOfPages();
             for(let i = 1; i <= pageCount; i++){
                 doc.setPage(i);
@@ -760,7 +753,7 @@
             if(box.style.display === 'block') renderAttestations();
         }
 
-        // --- RENDU DYNAMIQUE SGH ET CENTRES EN VENDÉE ---
+        // --- RENDU SGH ET CENTRES VENDÉE ---
         function renderSGH() {
             document.getElementById('sgh-list').innerHTML = sghData.map(s => `
                 <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
@@ -821,7 +814,110 @@
 
         function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
-        // --- INSTANCIATION SÉCURISÉE DES ACTIONS APRÈS CHARGEMENT COMPLET ---
+        // --- GESTION DU SIMULATEUR DE COMPATIBILITÉ CHIMIQUE ---
+        function selectProd(grid, val, element) {
+            const targetGrid = document.getElementById(`grid-prod${grid}`);
+            if (!targetGrid) return;
+            
+            targetGrid.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('btn-primary', 'text-white');
+                btn.classList.add('btn-outline-secondary');
+            });
+
+            element.classList.remove('btn-outline-secondary');
+            element.classList.add('btn-primary', 'text-white');
+
+            if (grid === 'A') selectedProdA = val;
+            if (grid === 'B') selectedProdB = val;
+
+            calculerBoutonsCompatibilite();
+        }
+
+        function setStockResult(type, title, desc) {
+            const resultBox = document.getElementById('stock-result-box');
+            const iconBox = document.getElementById('stock-result-icon');
+            const titleBox = document.getElementById('stock-result-title');
+            const descBox = document.getElementById('stock-result-desc');
+
+            if (type === 'danger') {
+                resultBox.style.backgroundColor = '#dc3545';
+                resultBox.style.color = '#ffffff';
+                iconBox.innerHTML = '<i class="fa-solid fa-radiation fa-2x text-white"></i>';
+            } else if (type === 'warning') {
+                resultBox.style.backgroundColor = '#fd7e14';
+                resultBox.style.color = '#ffffff';
+                iconBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation fa-2x text-white"></i>';
+            } else {
+                resultBox.style.backgroundColor = '#198754';
+                resultBox.style.color = '#ffffff';
+                iconBox.innerHTML = '<i class="fa-solid fa-circle-check fa-2x text-white"></i>';
+            }
+
+            titleBox.innerText = title;
+            descBox.innerHTML = desc;
+        }
+
+        function calculerBoutonsCompatibilite() {
+            const resultBox = document.getElementById('stock-result-box');
+            if (!resultBox) return;
+            
+            if (!selectedProdA || !selectedProdB) {
+                resultBox.classList.add('d-none');
+                return;
+            }
+
+            resultBox.classList.remove('d-none');
+            const pair = [selectedProdA, selectedProdB].sort().join('-');
+
+            switch (pair) {
+                case 'acide-javel':
+                    setStockResult('danger', 'DANGER MORTEL : Dégagement de Chlore', '<b>Effet immédiat :</b> Associer un acide (ex: détartrant) et de la Javel libère du <b>gaz chlore</b>. C\'est un gaz toxique suffocant qui brûle instantanément les voies respiratoires. Interdiction absolue.');
+                    break;
+                case 'ammoniac-javel':
+                    setStockResult('danger', 'GAZ TOXIQUE : Formation de Chloramines', '<b>Effet immédiat :</b> Ce mélange génère des vapeurs de chloramines hautement irritantes. Entraîne des larmoiements sévères et des risques majeurs d\'œdème ou de crise d\'asthme.');
+                    break;
+                case 'acide-base':
+                    setStockResult('danger', 'RÉACTION EXPLOSIVE : Choc Thermique', '<b>Effet immédiat :</b> La rencontre d\'un acide fort et d\'une base forte engendre un pic thermique violent. Risque de bouillonnement immédiat et de <b>projections de liquides corrosifs</b>.');
+                    break;
+                case 'comburant-inflam':
+                    setStockResult('danger', 'RISQUE D\'INCENDIE MAJEUR', '<b>Règle de stockage :</b> Le comburant alimente le feu en oxygène, l\'inflammable sert de combustible. Le moindre incident produit un incendie foudroyant. Rétentions séparées obligatoires.');
+                    break;
+                case 'base-inflam':
+                    setStockResult('warning', 'STOCKAGE NON RECOMMANDÉ', 'Certaines bases fortes attaquent les contenants ou réagissent mal avec les vapeurs de solvants. Privilégiez des zones ou bacs distincts.');
+                    break;
+                case 'acide-inflam':
+                    setStockResult('warning', 'STOCKAGE RESTREINT', 'Le stockage commun n\'est toléré que pour de très petits flacons de laboratoire. Pour le milieu industriel ou de maintenance, séparez les rétentions.');
+                    break;
+                case 'inflam-inflam':
+                    setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits inflammables peuvent partager la même rétention. Veillez à ce que le bac contienne bien 100% du volume du plus grand flacon ou 50% de la totalité.');
+                    break;
+                case 'acide-acide':
+                    setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Stockage commun sans risque chimique majeur. Veillez simplement à séparer les acides minéraux très concentrés des acides organiques en cas de gros volumes.');
+                    break;
+                case 'base-base':
+                    setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits alcalins (soude, lessives, décapants alcalins) peuvent être regroupés sur un même support de rétention.');
+                    break;
+                default:
+                    setStockResult('success', 'COMPATIBLE (Sous réserve)', 'Pas d\'incompatibilité majeure directe connue pour ces familles. Vérifiez toujours la section 10 de vos FDS fabricants pour les cas particuliers.');
+                    break;
+            }
+        }
+
+        function resetSimulateur() {
+            selectedProdA = null;
+            selectedProdB = null;
+            
+            document.getElementById('grid-prodA').querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
+            });
+            document.getElementById('grid-prodB').querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
+            });
+            
+            document.getElementById('stock-result-box').classList.add('d-none');
+        }
+
+        // --- INITIALISATION SÉCURISÉE ---
         window.addEventListener('DOMContentLoaded', () => {
             updateStats();
             setTimeout(dismissSplash, 1800);
@@ -857,111 +953,6 @@
                 installBtn.innerHTML = `<i class="fa-solid fa-share-from-square"></i> Ajouter à l'accueil`;
             }
         });
-let selectedProdA = null;
-let selectedProdB = null;
-
-function selectProd(grid, val, element) {
-    // Désélectionner les autres boutons de la même ligne
-    const targetGrid = document.getElementById(`grid-prod${grid}`);
-    targetGrid.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('btn-primary', 'text-white');
-        btn.classList.add('btn-outline-secondary');
-    });
-
-    // Activer le bouton cliqué
-    element.classList.remove('btn-outline-secondary');
-    element.classList.add('btn-primary', 'text-white');
-
-    // Assigner la valeur globale
-    if (grid === 'A') selectedProdA = val;
-    if (grid === 'B') selectedProdB = val;
-
-    // Lancer le calcul si les deux sélections sont faites
-    calculerBoutonsCompatibilite();
-}
-// Variables d'état globales (à placer au début de ton script ou avec les autres variables)
-let selectedProdA = null;
-let selectedProdB = null;
-
-function selectProd(grid, val, element) {
-    const targetGrid = document.getElementById(`grid-prod${grid}`);
-    if (!targetGrid) return;
-    
-    targetGrid.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('btn-primary', 'text-white');
-        btn.classList.add('btn-outline-secondary');
-    });
-
-    element.classList.remove('btn-outline-secondary');
-    element.classList.add('btn-primary', 'text-white');
-
-    if (grid === 'A') selectedProdA = val;
-    if (grid === 'B') selectedProdB = val;
-
-    calculerBoutonsCompatibilite();
-}
-
-function calculerBoutonsCompatibilite() {
-    const resultBox = document.getElementById('stock-result-box');
-    if (!resultBox) return;
-    
-    if (!selectedProdA || !selectedProdB) {
-        resultBox.classList.add('d-none');
-        return;
-    }
-
-    resultBox.classList.remove('d-none');
-    const pair = [selectedProdA, selectedProdB].sort().join('-');
-
-    switch (pair) {
-        case 'acide-javel':
-            setStockResult('danger', 'DANGER MORTEL : Dégagement de Chlore', '<b>Effet immédiat :</b> Associer un acide (ex: détartrant) et de la Javel libère du <b>gaz chlore</b>. C\'est un gaz toxique suffocant qui brûle instantanément les voies respiratoires. Interdiction absolue.');
-            break;
-        case 'ammoniac-javel':
-            setStockResult('danger', 'GAZ TOXIQUE : Formation de Chloramines', '<b>Effet immédiat :</b> Ce mélange génère des vapeurs de chloramines hautement irritantes. Entraîne des larmoiements sévères et des risques majeurs d\'œdème ou de crise d\'asthme.');
-            break;
-        case 'acide-base':
-            setStockResult('danger', 'RÉACTION EXPLOSIVE : Choc Thermique', '<b>Effet immédiat :</b> La rencontre d\'un acide fort et d\'une base forte engendre un pic thermique violent. Risque de bouillonnement immédiat et de <b>projections de liquides corrosifs</b>.');
-            break;
-        case 'comburant-inflam':
-            setStockResult('danger', 'RISQUE D\'INCENDIE MAJEUR', '<b>Règle de stockage :</b> Le comburant alimente le feu en oxygène, l\'inflammable sert de combustible. Le moindre incident produit un incendie foudroyant. Rétentions séparées obligatoires.');
-            break;
-        case 'base-inflam':
-            setStockResult('warning', 'STOCKAGE NON RECOMMANDÉ', 'Certaines bases fortes attaquent les contenants ou réagissent mal avec les vapeurs de solvants. Privilégiez des zones ou bacs distincts.');
-            break;
-        case 'acide-inflam':
-            setStockResult('warning', 'STOCKAGE RESTREINT', 'Le stockage commun n\'est toléré que pour de très petits flacons de laboratoire. Pour le milieu industriel ou de maintenance, séparez les rétentions.');
-            break;
-        case 'inflam-inflam':
-            setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits inflammables peuvent partager la même rétention. Veillez à ce que le bac contienne bien 100% du volume du plus grand flacon ou 50% de la totalité.');
-            break;
-        case 'acide-acide':
-            setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Stockage commun sans risque chimique majeur. Veillez simplement à séparer les acides minéraux très concentrés des acides organiques en cas de gros volumes.');
-            break;
-        case 'base-base':
-            setStockResult('success', 'COMPATIBLE : Même bac autorisé', 'Les produits alcalins (soude, lessives, décapants alcalins) peuvent être regroupés sur un même support de rétention.');
-            break;
-        default:
-            setStockResult('success', 'COMPATIBLE (Sous réserve)', 'Pas d\'incompatibilité majeure directe connue pour ces familles. Vérifiez toujours la section 10 de vos FDS fabricants pour les cas particuliers.');
-            break;
-    }
-}
-
-function resetSimulateur() {
-    selectedProdA = null;
-    selectedProdB = null;
-    
-    document.getElementById('grid-prodA').querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
-    });
-    document.getElementById('grid-prodB').querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('btn-primary', 'text-white'); btn.classList.add('btn-outline-secondary');
-    });
-    
-    document.getElementById('stock-result-box').classList.add('d-none');
-}
-        
-     
     </script>
 </body>
 </html>
