@@ -395,63 +395,81 @@
         </div>
     </div>
 
-    <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE -->
+    <    <!-- NOUVELLE PAGE COACTIVITÉS & STOCKAGE (VERSION OPTIMISÉE) -->
     <div id="page-melanges" class="app-page">
         <h5 class="fw-bold mb-1"><i class="fa-solid fa-flask-vial text-warning me-2"></i>Coactivités & Stockage</h5>
-        <p class="small text-muted mb-3">Sécurisez vos zones de stockage et évitez les interactions dangereuses sur le poste de travail.</p>
+        <p class="small text-muted mb-3">Guide opérationnel pour éviter les réactions dangereuses et sécuriser vos rétentions.</p>
         
-        <div class="row g-2">
-            <!-- TUILE 1 -->
-            <div class="col-6" onclick="openEpiModal('Alerte Chlore Gazeux', 'Mélange Mortel : Javel + Acide', '<b>L\'erreur terrain :</b> Nettoyer des sanitaires ou un sol en versant du détartrant acide sur de l\'eau de Javel (ou inversement).<br><br><span class=\"badge bg-danger d-block text-wrap mb-2\">DÉGAGEMENT IMMÉDIAT DE CHLORE GAZEUX</span><b>Effet :</b> Suffocation, brûlure des voies respiratoires, œdème aigu du poumon. Ne JAMAIS associer ces deux familles.', '#dc2626')">
-                <div class="p-3 border rounded text-center bg-white h-100" style="cursor:pointer; border-left: 4px solid #dc2626 !important;">
-                    <i class="fa-solid fa-skull-crossbones text-danger fa-lg mb-2"></i><br>
-                    <small class="fw-bold text-dark d-block" style="font-size:0.75rem;">Javel + Acide</small>
-                    <span class="text-danger" style="font-size:0.62rem; font-weight:700;">DANGER MORTEL</span>
-                </div>
+        <!-- MATRICE DE COMPATIBILITÉ VISUELLE -->
+        <div class="card-custom border-left-0 p-3 mb-4" style="background: white; border-top: 4px solid var(--r-blue);">
+            <h6 class="fw-bold mb-2"><i class="fa-solid fa-table-cells me-2 text-primary"></i>Matrice de Stockage Simplifiée</h6>
+            <p class="text-muted mb-3" style="font-size: 0.75rem;">Vérifiez le croisement entre deux familles de produits avant de les placer sur le même bac de rétention.</p>
+            
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle mb-0" style="font-size: 0.72rem; min-width: 280px;">
+                    <thead>
+                        <tr class="table-light fw-bold">
+                            <th class="text-start" style="width: 35%;">Famille</th>
+                            <th style="background: #ffebee; color: #c62828; width: 20%;">Inflam. (SGH02)</th>
+                            <th style="background: #e3f2fd; color: #1565c0; width: 20%;">Acides Forts</th>
+                            <th style="background: #efebe9; color: #4e342e; width: 20%;">Bases Fortes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-start bg-light">Inflam. <small>(SGH02)</small></td>
+                            <td style="background-color: #e8f5e9; color: #2e7d32; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> OK</td>
+                            <td style="background-color: #fff3e0; color: #ef6c00; font-weight: 800;"><i class="fa-solid fa-triangle-exclamation"></i> Limité</td>
+                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> NON</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-start bg-light">Acides Forts</td>
+                            <td style="background-color: #fff3e0; color: #ef6c00; font-weight: 800;"><i class="fa-solid fa-triangle-exclamation"></i> Limité</td>
+                            <td style="background-color: #e8f5e9; color: #2e7d32; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> OK</td>
+                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> INTERDIT</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-start bg-light">Bases Fortes</td>
+                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> NON</td>
+                            <td style="background-color: #ffebee; color: #c62828; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> INTERDIT</td>
+                            <td style="background-color: #e8f5e9; color: #2e7d32; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> OK</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <!-- TUILE 2 -->
-            <div class="col-6" onclick="openEpiModal('Vapeurs Irritantes', 'Javel + Ammoniac / Décapants', '<b>Le risque :</b> Formation immédiate de <b>chloramines</b>.<br><br>Ces vapeurs provoquent des larmoiements intenses, des crises d\'asthme sévères et de fortes irritations de la gorge lors du nettoyage de surfaces encrassées.', '#fd7e14')">
-                <div class="p-3 border rounded text-center bg-white h-100" style="cursor:pointer; border-left: 4px solid #fd7e14 !important;">
-                    <i class="fa-solid fa-triangle-exclamation text-warning fa-lg mb-2"></i><br>
-                    <small class="fw-bold text-dark d-block" style="font-size:0.75rem;">Javel + Ammoniac</small>
-                    <span class="text-warning" style="font-size:0.62rem; font-weight:700;">Gaz Irritant</span>
-                </div>
-            </div>
-            <!-- TUILE 3 -->
-            <div class="col-6" onclick="openEpiModal('Réaction Exothermique', 'Acides Forts + Bases Fortes', '<b>Le risque :</b> Réaction thermique hyper violente (dégagement de chaleur intense).<br><br>Le mélange direct (par exemple acide chlorhydrique + soude) provoque instantanément un bouillonnement et des <b>projections de liquide corrosif</b> sur l\'opérateur.', '#e6a00f')">
-                <div class="p-3 border rounded text-center bg-white h-100" style="cursor:pointer; border-left: 4px solid #e6a00f !important;">
-                    <i class="fa-solid fa-fire text-warning fa-lg mb-2"></i><br>
-                    <small class="fw-bold text-dark d-block" style="font-size:0.75rem;">Acide + Base</small>
-                    <span class="text-warning" style="font-size:0.62rem; font-weight:700;">Projections Chaudes</span>
-                </div>
-            </div>
-            <!-- TUILE 4 -->
-            <div class="col-6" onclick="openEpiModal('Règles des Rétentions', 'Gestion des Bacs de Rétention', '<b>Règles d\'or en magasin chimique :</b><br><br>1. <b>Séparer les familles :</b> Ne jamais placer sur un même bac de rétention des acides et des bases.<br>2. <b>Éloigner les Comburants :</b> Stocker les produits comburants (SGH03) loin des produits inflammables (SGH02) pour éviter d\'alimenter un départ de feu.', 'var(--r-blue)')">
-                <div class="p-3 border rounded text-center bg-white h-100" style="cursor:pointer; border-left: 4px solid var(--r-blue) !important;">
-                    <i class="fa-solid fa-boxes-stacked text-primary fa-lg mb-2"></i><br>
-                    <small class="fw-bold text-dark d-block" style="font-size:0.75rem;">Bacs de Rétention</small>
-                    <span class="text-primary" style="font-size:0.62rem; font-weight:700;">Règles de Stockage</span>
-                </div>
+            <div class="mt-2 text-muted ps-1" style="font-size: 0.68rem; line-height: 1.2;">
+                <i class="fa-solid fa-info-circle text-primary"></i> <b>Règle de l'expert :</b> Deux familles marquées <b class="text-danger">INTERDIT</b> doivent avoir des bacs de rétention séparés pour éviter toute réaction exothermique ou émanation de gaz en cas de fuite.
             </div>
         </div>
-    </div>
 
-    <!-- MODAL POP-UP UNIQUE ET MUTUALISÉ POUR LES EPI & LE STOCKAGE -->
-    <div class="modal fade" id="epiModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius:20px; overflow:hidden;">
-                <div class="modal-header text-white" id="epiModalHeader">
-                    <h6 class="modal-title fw-bold" id="epiModalTitle">Fiche technique</h6>
-                    <button type="button" class="btn-close btn-close-white" data-bs-shadow="none" data-bs-dismiss="modal"></button>
+        <!-- ALERTES COACTIVITÉ SUR LE POSTE DE TRAVAIL -->
+        <h6 class="fw-bold mb-2 px-1"><i class="fa-solid fa-radiation text-danger me-2"></i>Mélanges Interdits Courants</h6>
+        
+        <div class="card-custom p-3 mb-2" style="border-left: 5px solid #dc2626; background: #fff5f5;" onclick="openEpiModal('Alerte Chlore Gazeux', 'Mélange Mortel : Javel + Acide', '<b>L\'erreur terrain :</b> Nettoyer des sanitaires ou un sol en versant du détartrant acide (ou vinaigre blanc concentré) sur de l\'eau de Javel.<br><br><span class=\"badge bg-danger d-block text-wrap mb-2 py-2\">DÉGAGEMENT IMMÉDIAT DE CHLORE GAZEUX</span><b>Effet :</b> Gaz de combat. Suffocation, brûlure immédiate des voies respiratoires. Ne JAMAIS associer ces deux familles.', '#dc2626')">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="badge bg-danger mb-1" style="font-size:0.65rem;">DANGER MORTEL</span>
+                    <h6 class="fw-bold text-dark mb-1" style="font-size:0.9rem;">Eau de Javel + Acide (Détartrant)</h6>
+                    <p class="small text-muted mb-0" style="font-size:0.75rem;">Émanation immédiate de gaz chlore toxique.</p>
                 </div>
-                <div class="modal-body" style="font-size: 0.9rem;">
-                    <p class="mb-2"><b id="epiModalSubtitle"></b></p>
-                    <hr class="my-2">
-                    <p class="mb-0 text-muted" id="epiModalDesc"></p>
+                <i class="fa-solid fa-chevron-right text-muted ms-2"></i>
+            </div>
+        </div>
+
+        <div class="card-cus
+
+        <div class="card-custom p-3 mb-3" style="border-left: 5px solid var(--r-blue); background: #f8fafc;" onclick="openEpiModal('Règles des Rétentions', 'Gestion des Bacs de Rétention', '<b>Règles d\'or en magasin chimique :</b><br><br>1. <b>Volume de rétention :</b> Doit être égal à 100% du plus grand contenant ou 50% de la totalité des produits stockés dessus.<br>2. <b>Éloigner les Comburants :</b> Stocker les produits comburants (SGH03) à l\'écart des produits inflammables (SGH02) pour ne pas nourrir un éventuel incendie.', 'var(--r-blue)')">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="badge bg-primary mb-1" style="font-size:0.65rem;">STOCKAGE SÉCURISÉ</span>
+                    <h6 class="fw-bold text-dark mb-1" style="font-size:0.9rem;">Volume & Séparation des Rétentions</h6>
+                    <p class="small text-muted mb-0" style="font-size:0.75rem;">Règles de calcul de capacité et d'isolement.</p>
                 </div>
+                <i class="fa-solid fa-chevron-right text-muted ms-2"></i>
             </div>
         </div>
     </div>
+        
 
     <!-- APPLICATION NAVIGATION INTERNE -->
     <nav class="nav-bottom">
