@@ -505,58 +505,57 @@ body {
 </div>
 
 <!-- PAGE MASQUES (PROTECTION RESPIRATOIRE) -->
-<div id="page-masks" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-dark me-2"></i>Protection Respiratoire</h5>
-    <div class="card-custom" style="border-left-color: #000;">
-        <p class="small text-muted mb-3">Sélectionnez le polluant pour identifier le type de filtre nécessaire (Norme EN 14387).</p>
+<div class="card-custom" style="border-left: 4px solid #ef4444;">
+        <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
+        <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche filtrante (Norme EN 14387).</p>
+        
         <div class="mb-3">
-            <label class="form-label small fw-bold">Type de risque :</label>
-            <select id="pollutant-select" class="form-select" onchange="calculateMask()">
-                <option value="">-- Choisir le polluant --</option>
-                <option value="A">Solvants, Peintures (Type A)</option>
-                <option value="B">Chlore, Gaz inorganiques (Type B)</option>
-                <option value="E">Gaz acides (Type E)</option>
-                <option value="K">Ammoniac (Type K)</option>
-                <option value="P">Poussières, Amiante (Type P3)</option>
-                <option value="AX">Composés organiques (Bas pt ébullition)</option>
+            <select id="epi-mask-pollutant" class="form-select fw-bold" onchange="updateMaskDiagnostic()">
+                <option value="A">Gas/Vapeurs Organiques (Solvants, Peintures) -> [Type A]</option>
+                <option value="B">Gaz Inorganiques (Chlore, Hydrogène sulfuré) -> [Type B]</option>
+                <option value="E">Gaz Acides (Dioxyde de soufre, HCl) -> [Type E]</option>
+                <option value="K">Ammoniac et dérivés aminés -> [Type K]</option>
+                <option value="P">Poussières, Silice, Amiante, Aérosols -> [Type P3]</option>
             </select>
         </div>
-        <div id="mask-result" class="filter-res-badge shadow-sm"></div>
+
+        <!-- Boîtier d'affichage Cartouche avec Code Couleur Réglementaire -->
+        <div id="cartridge-color-bar" class="p-3 rounded-3 text-white text-center mb-2 fw-bold tracking-wide" style="background-color: #a16207; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+            MARQUAGE : BANDEAU BRUN (Type A)
+        </div>
+        
+        <div class="p-3 bg-light rounded-3 border">
+            <div class="small mb-1"><strong>Type de Masque requis :</strong> <span id="mask-type-required" class="text-danger fw-bold">Demi-masque ou Masque complet</span></div>
+            <p id="cartridge-advice" class="small text-muted mb-0">Utiliser un filtre A2 (classe 2 pour capacité moyenne). Remplacer dès l'apparition d'une odeur dans le masque.</p>
+        </div>
     </div>
-    <div class="alert alert-info small mt-3">
-        <i class="fa-solid fa-circle-info me-2"></i><b>Rappel :</b> Un masque ne protège que s'il est porté sur une peau rasée et si le filtre est changé régulièrement.
-    </div>
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
 </div>
 
 <!-- PAGE GANTS DE PROTECTION -->
-<div id="page-gloves" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mitten text-cyan me-2" style="color:#0097a7"></i>Guide des Gants de Protection</h5>
-    <div class="card-custom" style="border-left-color: #0097a7;">
-        <p class="small text-muted mb-3">Trouvez la matière idéale de gant selon la famille chimique manipulée (Norme EN ISO 374-1).</p>
+<!-- 🧤 MODULE 1 : LES GANTS DE PROTECTION -->
+    <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
+        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
+        <p class="small text-muted mb-3">Choisissez le type de produit à manipuler pour trouver le bon matériau de gant (Norme EN ISO 374).</p>
+        
         <div class="mb-3">
-            <label class="form-label small fw-bold">Produit / Famille chimique :</label>
-            <select id="glove-select" class="form-select" onchange="calculateGlove()">
-                <option value="">-- Choisir l'exposition --</option>
-                <option value="nit">Acides dilués, Hydrocarbures, Huiles (Nitrile)</option>
-                <option value="neo">Acides concentrés, Bases, Alcools (Néoprène)</option>
-                <option value="but">Cétones, Acétone, Esters (Butyle)</option>
-                <option value="lat">Bases diluées, Produits aqueux (Latex)</option>
-                <option value="pvc">Acides fort, Huiles lourdes (PVC / Vinyle)</option>
-                <option value="vit">Solvants chlorés, Aromatiques (Viton)</option>
+            <select id="epi-chemical" class="form-select fw-bold" onchange="updateGloveDiagnostic()">
+                <option value="solv">🧪 Solvants hydrocarbonés (Essence, White-Spirit)</option>
+                <option value="acet">💅 Solvants polaires (Acétone, Esters)</option>
+                <option value="acid">💥 Acides forts (Acide sulfurique, chlorhydrique)</option>
+                <option value="base">🧼 Bases et Produits de nettoyage (Soude, Javel)</option>
+                <option value="huil">🛢️ Huiles, graisses et hydrocarbures légers</option>
             </select>
         </div>
-        <div id="glove-result" class="filter-res-badge shadow-sm text-white" style="background-color: #0097a7;"></div>
-    </div>
-    <div class="card-custom bg-light border-0 small text-muted">
-        <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-shield-halved me-2"></i>Normes à vérifier (Rubrique 8 de la FDS)</h6>
-        <div class="mb-1"><b>EN ISO 374-1 :</b> Résistance à la perméation chimique (Types A, B ou C).</div>
-        <div class="mb-1"><b>EN 388 :</b> Résistance aux risques mécaniques (Coupure, Abrasion, Déchirure).</div>
-        <div class="text-danger mt-2"><b>Attention :</b> Les gants à usage unique ont un temps de perméation très court (souvent &lt; 10 min). Remplacez-les immédiatement après éclaboussure.</div>
-    </div>
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
-</div>
 
+        <!-- Affichage du résultat Gants -->
+        <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light">
+            <div class="d-flex align-items-center mb-2">
+                <span id="glove-badge" class="badge bg-success me-2 fs-6">Nitrile</span>
+                <strong id="glove-material" class="text-dark">Conseillé (Épaisseur > 0.4mm)</strong>
+            </div>
+            <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
+        </div>
+    </div>
 <!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
 <div id="page-storage" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
