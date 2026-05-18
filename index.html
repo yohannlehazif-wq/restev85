@@ -480,10 +480,10 @@ body {
         <div class="col-6" onclick="nav('page-sgh')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #fff9c4; border-left-color: #fff176;"><i class="fa-solid fa-triangle-exclamation fa-2x mb-2" style="color: #fbc02d;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #827717;">LEXIQUE SGH</small></div>
         </div>
-        <div class="col-6" onclick="nav('page-masks')">
+        <div class="col-6" onclick="nav('page-epi')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e2e8f0; border-left-color: #64748b;"><i class="fa-solid fa-mask-ventilator fa-2x mb-2" style="color: #475569;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #1e293b;">PROT. RESPIRATOIRE</small></div>
         </div>
-        <div class="col-6" onclick="nav('page-gloves')">
+        <div class="col-6" onclick="nav('page-epi')">
             <div class="card-custom text-center py-3 mb-0" style="background-color: #e0f7fa; border-left-color: #00bcd4;"><i class="fa-solid fa-mitten fa-2x mb-2" style="color: #0097a7;"></i><br><small class="fw-bold" style="font-size:0.75rem; color: #006064;">GUIDE GANTS</small></div>
         </div>
         <div class="col-6" onclick="nav('page-storage')">
@@ -527,19 +527,29 @@ body {
         </div>
 
         <!-- Affichage du résultat Gants -->
-        <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light">
+        <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light mb-3">
             <div class="d-flex align-items-center mb-2">
                 <span id="glove-badge" class="badge bg-success me-2 fs-6">Nitrile</span>
                 <strong id="glove-material" class="text-dark">Conseillé (Épaisseur > 0.4mm)</strong>
             </div>
             <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
         </div>
+
+        <!-- Infos cruciales / Points d'attention Gants -->
+        <div class="p-3 rounded-3 border-start border-warning border-4 bg-white shadow-sm small">
+            <h6 class="fw-bold text-warning mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i>Le saviez-vous ? (Points critiques Gants)</h6>
+            <ul class="text-muted ps-3 mb-0">
+                <li class="mb-1"><b>Le piège de la perméation :</b> Un gant peut paraître parfaitement intact visuellement tout en laissant passer le produit chimique au niveau moléculaire. Respectez les temps de rupture de la FDS !</li>
+                <li class="mb-1"><b>Épaisseur vs Dextérité :</b> Pour les agressions chimiques sévères, privilégiez toujours une épaisseur minimale de <b>0,4 mm</b>. Les gants jetables fins ne protègent que des éclaboussures passagères.</li>
+                <li><b>Usage unique strict :</b> Ne retournez jamais un gant jetable pour le réutiliser. La transpiration emprisonnée accélère le passage des toxiques si le gant est remis.</li>
+            </ul>
+        </div>
     </div>
 
     <!-- 🎭 MODULE 2 : MASQUES ET CARTOUCHES FILTRANTES -->
-    <div class="card-custom" style="border-left: 4px solid #ef4444;">
+    <div class="card-custom mb-4" style="border-left: 4px solid #ef4444;">
         <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
-        <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche filtrante (Norme EN 14387).</p>
+        <p class="small text-muted mb-3">Identiﬁez le type de polluant pour conﬁgurer la bonne cartouche ﬁltrante (Norme EN 14387).</p>
         
         <div class="mb-3">
             <select id="epi-mask-pollutant" class="form-select fw-bold" onchange="updateMaskDiagnostic()">
@@ -556,11 +566,24 @@ body {
             MARQUAGE : BANDEAU BRUN (Type A)
         </div>
         
-        <div class="p-3 bg-light rounded-3 border">
+        <div class="p-3 bg-light rounded-3 border mb-3">
             <div class="small mb-1"><strong>Type de Masque requis :</strong> <span id="mask-type-required" class="text-danger fw-bold">Demi-masque ou Masque complet</span></div>
             <p id="cartridge-advice" class="small text-muted mb-0">Utiliser un filtre A2 (classe 2 pour capacité moyenne). Remplacer dès l'apparition d'une odeur dans le masque.</p>
         </div>
+
+        <!-- Infos cruciales / Points d'attention Masques -->
+        <div class="p-3 rounded-3 border-start border-danger border-4 bg-white shadow-sm small">
+            <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-shield-halved me-1"></i>Règles d'or incontournables (Masques)</h6>
+            <ul class="text-muted ps-3 mb-0">
+                <li class="mb-1"><b>L'impact de la barbe :</b> Une barbe de seulement 24h brise l'étanchéité du joint facial et laisse s'infiltrer l'air pollué. Le personnel équipé doit être rasé de près.</li>
+                <li class="mb-1"><b>Le test d'étanchéité :</b> Effectuez un test en pression négative avant chaque entrée en zone : bouchez les cartouches avec les paumes et inspirez. Le masque doit s'écraser légèrement sur le visage et ne pas fuir.</li>
+                <li class="mb-1"><b>Quand changer le filtre ?</b> Pour les gaz, changez la cartouche dès que l'opérateur perçoit une odeur ou un goût. Pour les poussières (P3), changez-la dès que la résistance à l'inspiration devient inconfortable (saturation).</li>
+                <li><b>Attention au taux d'Oxygène :</b> Un masque à cartouche est un appareil <b>purificateur</b>, il ne crée pas d'oxygène ! Interdiction absolue de l'utiliser si le taux d'O₂ est inférieur à <b>17%</b> (privilégiez un appareil respiratoire isolant).</li>
+            </ul>
+        </div>
     </div>
+    
+    <button class="btn btn-outline-secondary w-100 mt-2 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
 
 <!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
@@ -997,6 +1020,7 @@ function nav(id, el) {
     if(id === 'page-sgh') renderSGH();
     if(id === 'page-centres') renderCentres();
     if(id === 'page-quiz') resetQuiz();
+    if(id === 'page-epi') { updateGloveDiagnostic(); updateMaskDiagnostic(); }
     window.scrollTo(0, 0);
 }
 
@@ -1080,6 +1104,50 @@ function startScanner() {
         }
     }).catch(e => console.error(e));
 }
+
+function updateGloveDiagnostic() {
+    const val = document.getElementById('epi-chemical').value;
+    const badge = document.getElementById('glove-badge');
+    const material = document.getElementById('glove-material');
+    const text = document.getElementById('glove-text');
+    
+    const data = {
+        solv: { b: "Nitrile", m: "Conseillé (Épaisseur > 0.4mm)", t: "Bonne protection générale face aux hydrocarbures. Éviter absolument le Latex." },
+        acet: { b: "Butyle", m: "Recommandé / Spécifique", t: "L'acétone détruit le Nitrile en quelques secondes. Le Butyle offre une étanchéité maximale." },
+        acid: { b: "Néoprène / PVC", m: "Haute Protection", t: "Idéal pour les acides concentrés. Choisissez des manchettes longues pour protéger les avant-bras." },
+        base: { b: "PVC / Nitrile", m: "Protection standard", t: "Excellente barrière contre la soude et les produits de nettoyage alcalins." },
+        huil: { b: "Nitrile", m: "Conseillé", t: "Parfaite résistance aux huiles de coupe, graisses minérales et hydrocarbures légers." }
+    };
+    
+    if(data[val]) {
+        badge.innerText = data[val].b;
+        material.innerText = data[val].m;
+        text.innerText = data[val].t;
+    }
+}
+
+function updateMaskDiagnostic() {
+    const val = document.getElementById('epi-mask-pollutant').value;
+    const bar = document.getElementById('cartridge-color-bar');
+    const maskReq = document.getElementById('mask-type-required');
+    const advice = document.getElementById('cartridge-advice');
+    
+    const data = {
+        A: { bg: "#63422d", text: "MARQUAGE : BANDEAU BRUN (Type A)", mask: "Demi-masque ou Masque complet", adv: "Filtre A2 conseillé. Pour vapeurs de peinture, associez systématiquement un préfiltre à particules (A2P3)." },
+        B: { bg: "#475569", text: "MARQUAGE : BANDEAU GRIS (Type B)", mask: "Masque Complet impératif", adv: "Gaz inorganiques. Remplacement immédiat après chaque exposition." },
+        E: { bg: "#e6a00f", text: "MARQUAGE : BANDEAU JAUNE (Type E)", mask: "Demi-masque ou Masque complet", adv: "Protège contre le dioxyde de soufre et vapeurs acides. Risque d'irritation oculaire severe." },
+        K: { bg: "#16a34a", text: "MARQUAGE : BANDEAU VERT (Type K)", mask: "Masque Complet recommandé", adv: "Spécifique pour l'Ammoniac et dérivés. Ne pas utiliser de filtres standards." },
+        P: { bg: "#cbd5e1", text: "MARQUAGE : BANDEAU BLANC (Type P3)", mask: "Demi-masque minimum / FFP3", adv: "Haute efficacité d'arrêt (99,97%). Obligatoire pour Silice, Amiante, Plomb et poussières de bois." }
+    };
+    
+    if(data[val]) {
+        bar.style.backgroundColor = data[val].bg;
+        bar.innerText = data[val].text;
+        bar.style.color = (val === 'P') ? '#1e293b' : 'white';
+        maskReq.innerText = data[val].mask;
+        advice.innerText = data[val].adv;
+    }
+}
     
 function calculateMask() {
     const val = document.getElementById('pollutant-select').value;
@@ -1130,7 +1198,7 @@ function calculateGlove() {
 function checkStorageCompatibility() {
     const a = document.getElementById('storage-a').value;
     const b = document.getElementById('storage-b').value;
-    const resultBox = document.getElementById('storage-result');
+    const resultBox = document.getElementById('storage-verdict-box');
     const detailsBox = document.getElementById('storage-details');
     
     if (a === b) {
