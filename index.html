@@ -33,13 +33,39 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 .ecg-line { fill: none; stroke: white; stroke-width: 3; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 4s linear infinite; }
 @keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
 
-.app-header { background: white; padding: 12px; text-align: center; border-bottom: 4px solid var(--r-yellow); position: sticky; top: 0; z-index: 1000; }
-.logo-header { height: 40px; }
-.info-banner { background: #dbeafe; color: #1e3a5f; padding: 3px 0; overflow: hidden; white-space: nowrap; font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid #bfdbfe; }
-.ticker { display: inline-block; animation: ticker 60s linear infinite; }
-.ticker span { padding-right: 80px; }
-@keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+/* Header & Ticker */
+.app-header { 
+    background: white; 
+    padding: 14px; 
+    text-align: center; 
+    border-bottom: 3px solid var(--r-yellow); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    box-shadow: var(--shadow-sm);
+}
+.logo-header { height: 36px; object-fit: contain; }
+.info-banner { 
+    background: #e0f2fe; 
+    color: #0369a1; 
+    padding: 6px 0; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    font-weight: 600; 
+    font-size: 0.75rem; 
+    border-bottom: 1px solid #bae6fd; 
+}
+.ticker { 
+    display: inline-block; 
+    animation: ticker 45s linear infinite; 
+}
+.ticker span { padding-right: 60px; }
 
+/* ⬇️ LE BLOC À AJOUTER ICI ⬇️ */
+@keyframes ticker {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
 .nav-bottom { position: fixed; bottom: 15px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 2px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
 .nav-item { border: none; background: none; color: #94a3b8; font-size: 0.55rem; font-weight: 700; display: flex; flex-direction: column; align-items: center; flex: 1; text-decoration: none; outline: none; }
 .nav-item.active { color: var(--r-blue); }
@@ -822,7 +848,23 @@ function quizAnswer(p) {
         document.getElementById('q-box').style.display = 'none';
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-        document.getElementById('quiz-advice').innerText = totalScore > 20 ? "Bonne maîtrise des risques." : "Des améliorations sont nécessaires.";
+
+        let label = "";
+        let advice = "";
+
+        if (totalScore >= 25) {
+            label = "🏆 Excellent ! La culture sécurité est ancrée.";
+            advice = "Félicitations, la prévention des risques fait partie intégrante de votre quotidien ! Vos process sont solides et le DUERP semble maîtrisé. Continuez sur cette lancée. Votre équipe RESTEV reste à vos côtés pour maintenir ce haut niveau d'exigence lors de vos revues annuelles.";
+        } else if (totalScore >= 16) {
+            label = "📈 Bonne dynamique, mais des points restent à consolider.";
+            advice = "Vous avez de très bonnes bases, bravo ! Cependant, la sécurité chimique et la traçabilité demandent une vigilance de chaque instant. C'est le moment idéal pour peaufiner vos fiches de données de sécurité (FDS) et revoir vos compatibilités de stockage. Nos techniciens et ergonomes peuvent vous aider à franchir ce dernier palier en toute sérénité.";
+        } else {
+            label = "⚠️ Vigilance requise : Votre plan de prévention a des failles.";
+            advice = "Pas de panique, la prévention des risques est un processus continu. Ce score montre simplement que plusieurs aspects réglementaires ou pratiques (DUERP, EPI, stockage) méritent une action corrective rapide pour protéger vos équipes. Ne restez pas seul : contactez votre centre RESTEV de proximité pour planifier un accompagnement sur-mesure et sécuriser vos postes.";
+        }
+
+        document.getElementById('quiz-label').innerText = label;
+        document.getElementById('quiz-advice').innerText = advice;
     }
 }
 
