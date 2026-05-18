@@ -516,103 +516,121 @@ body {
     </div>
 </div>
 
-<!-- PAGE MASQUES (PROTECTION RESPIRATOIRE) -->
-<div id="page-masks" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator text-dark me-2"></i>Protection Respiratoire</h5>
-    <div class="card-custom" style="border-left-color: #000;">
-        <p class="small text-muted mb-3">Sélectionnez le polluant pour identifier le type de filtre nécessaire (Norme EN 14387).</p>
+<!-- SECTION EPI DYNAMIQUE -->
+<div id="page-epi" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-helmet-safety me-2" style="color:var(--r-teal)"></i>Guide EPI Dynamique</h5>
+    
+    <!-- 🧤 MODULE 1 : LES GANTS DE PROTECTION -->
+    <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
+        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
+        <p class="small text-muted mb-3">Choisissez le type de produit à manipuler pour trouver le bon matériau de gant (Norme EN ISO 374).</p>
+        
         <div class="mb-3">
-            <label class="form-label small fw-bold">Type de risque :</label>
-            <select id="pollutant-select" class="form-select" onchange="calculateMask()">
-                <option value="">-- Choisir le polluant --</option>
-                <option value="A">Solvants, Peintures (Type A)</option>
-                <option value="B">Chlore, Gaz inorganiques (Type B)</option>
-                <option value="E">Gaz acides (Type E)</option>
-                <option value="K">Ammoniac (Type K)</option>
-                <option value="P">Poussières, Amiante (Type P3)</option>
-                <option value="AX">Composés organiques (Bas pt ébullition)</option>
+            <select id="epi-chemical" class="form-select fw-bold" onchange="updateGloveDiagnostic()">
+                <option value="solv">🧪 Solvants hydrocarbonés (Essence, White-Spirit)</option>
+                <option value="acet">💅 Solvants polaires (Acétone, Esters)</option>
+                <option value="acid">💥 Acides forts (Acide sulfurique, chlorhydrique)</option>
+                <option value="base">🧼 Bases et Produits de nettoyage (Soude, Javel)</option>
+                <option value="huil">🛢️ Huiles, graisses et hydrocarbures légers</option>
             </select>
         </div>
-        <div id="mask-result" class="filter-res-badge shadow-sm"></div>
-    </div>
-    <div class="alert alert-info small mt-3">
-        <i class="fa-solid fa-circle-info me-2"></i><b>Rappel :</b> Un masque ne protège que s'il est porté sur une peau rasée et si le filtre est changé régulièrement.
-    </div>
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
-</div>
 
-<!-- PAGE GANTS DE PROTECTION -->
-<div id="page-gloves" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mitten text-cyan me-2" style="color:#0097a7"></i>Guide des Gants de Protection</h5>
-    <div class="card-custom" style="border-left-color: #0097a7;">
-        <p class="small text-muted mb-3">Trouvez la matière idéale de gant selon la famille chimique manipulée (Norme EN ISO 374-1).</p>
+        <!-- Affichage du résultat Gants -->
+        <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light">
+            <div class="d-flex align-items-center mb-2">
+                <span id="glove-badge" class="badge bg-success me-2 fs-6">Nitrile</span>
+                <strong id="glove-material" class="text-dark">Conseillé (Épaisseur > 0.4mm)</strong>
+            </div>
+            <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
+        </div>
+    </div>
+
+    <!-- 🎭 MODULE 2 : MASQUES ET CARTOUCHES FILTRANTES -->
+    <div class="card-custom" style="border-left: 4px solid #ef4444;">
+        <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
+        <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche filtrante (Norme EN 14387).</p>
+        
         <div class="mb-3">
-            <label class="form-label small fw-bold">Produit / Famille chimique :</label>
-            <select id="glove-select" class="form-select" onchange="calculateGlove()">
-                <option value="">-- Choisir l'exposition --</option>
-                <option value="nit">Acides dilués, Hydrocarbures, Huiles (Nitrile)</option>
-                <option value="neo">Acides concentrés, Bases, Alcools (Néoprène)</option>
-                <option value="but">Cétones, Acétone, Esters (Butyle)</option>
-                <option value="lat">Bases diluées, Produits aqueux (Latex)</option>
-                <option value="pvc">Acides fort, Huiles lourdes (PVC / Vinyle)</option>
-                <option value="vit">Solvants chlorés, Aromatiques (Viton)</option>
+            <select id="epi-mask-pollutant" class="form-select fw-bold" onchange="updateMaskDiagnostic()">
+                <option value="A">Gas/Vapeurs Organiques (Solvants, Peintures) -> [Type A]</option>
+                <option value="B">Gaz Inorganiques (Chlore, Hydrogène sulfuré) -> [Type B]</option>
+                <option value="E">Gaz Acides (Dioxyde de soufre, HCl) -> [Type E]</option>
+                <option value="K">Ammoniac et dérivés aminés -> [Type K]</option>
+                <option value="P">Poussières, Silice, Amiante, Aérosols -> [Type P3]</option>
             </select>
         </div>
-        <div id="glove-result" class="filter-res-badge shadow-sm text-white" style="background-color: #0097a7;"></div>
-    </div>
-    <div class="card-custom bg-light border-0 small text-muted">
-        <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-shield-halved me-2"></i>Normes à vérifier (Rubrique 8 de la FDS)</h6>
-        <div class="mb-1"><b>EN ISO 374-1 :</b> Résistance à la perméation chimique (Types A, B ou C).</div>
-        <div class="mb-1"><b>EN 388 :</b> Résistance aux risques mécaniques (Coupure, Abrasion, Déchirure).</div>
-        <div class="text-danger mt-2"><b>Attention :</b> Les gants à usage unique ont un temps de perméation très court (souvent &lt; 10 min). Remplacez-les immédiatement après éclaboussure.</div>
-    </div>
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
-</div>
 
+        <!-- Boîtier d'affichage Cartouche avec Code Couleur Réglementaire -->
+        <div id="cartridge-color-bar" class="p-3 rounded-3 text-white text-center mb-2 fw-bold tracking-wide" style="background-color: #a16207; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+            MARQUAGE : BANDEAU BRUN (Type A)
+        </div>
+        
+        <div class="p-3 bg-light rounded-3 border">
+            <div class="small mb-1"><strong>Type de Masque requis :</strong> <span id="mask-type-required" class="text-danger fw-bold">Demi-masque ou Masque complet</span></div>
+            <p id="cartridge-advice" class="small text-muted mb-0">Utiliser un filtre A2 (classe 2 pour capacité moyenne). Remplacer dès l'apparition d'une odeur dans le masque.</p>
+        </div>
+    </div>
+</div>
 <!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
 <div id="page-storage" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
+    
     <div class="card-custom" style="border-left-color: var(--r-yellow)">
-        <p class="small text-muted mb-3">Sélectionnez deux familles de produits chimiques pour vérifier leur compatibilité au stockage (Guide INRS ED 6041).</p>
+        <p class="small text-muted mb-4">Sélectionnez deux familles pour croiser les risques et afficher le verdict de sécurité.</p>
         
-        <div class="row g-2 mb-3">
+        <div class="row g-2 mb-4">
             <div class="col-6">
-                <label class="form-label small fw-bold">Famille A :</label>
-                <select id="storage-a" class="form-select" onchange="checkStorageCompatibility()">
-                    <option value="inf">Inflammables</option>
-                    <option value="ox">Comburants / Oxydants</option>
-                    <option value="ac">Acides Forts</option>
-                    <option value="ba">Bases Fortes</option>
-                    <option value="tox">Toxiques</option>
+                <label class="form-label small fw-bold text-secondary">Famille A</label>
+                <select id="storage-a" class="form-select fw-bold" onchange="checkStorageCompatibility()" style="border-left: 3px solid var(--r-blue);">
+                    <option value="inf">🔥 Inflammables</option>
+                    <option value="ox">⭕ Comburants</option>
+                    <option value="ac">🧪 Acides Forts</option>
+                    <option value="ba">🧼 Bases Fortes</option>
+                    <option value="tox">💀 Toxiques</option>
                 </select>
             </div>
             <div class="col-6">
-                <label class="form-label small fw-bold">Famille B :</label>
-                <select id="storage-b" class="form-select" onchange="checkStorageCompatibility()">
-                    <option value="inf">Inflammables</option>
-                    <option value="ox">Comburants / Oxydants</option>
-                    <option value="ac">Acides Forts</option>
-                    <option value="ba">Bases Fortes</option>
-                    <option value="tox">Toxiques</option>
+                <label class="form-label small fw-bold text-secondary">Famille B</label>
+                <select id="storage-b" class="form-select fw-bold" onchange="checkStorageCompatibility()" style="border-left: 3px solid var(--r-blue);">
+                    <option value="inf">🔥 Inflammables</option>
+                    <option value="ox">⭕ Comburants</option>
+                    <option value="ac">🧪 Acides Forts</option>
+                    <option value="ba">🧼 Bases Fortes</option>
+                    <option value="tox">💀 Toxiques</option>
                 </select>
             </div>
         </div>
         
-        <div id="storage-result" class="p-3 rounded-3 text-center fw-bold text-white mb-2" style="background-color: #198754;">
-            <i class="fa-solid fa-circle-check me-2"></i>Stockage Commun Autorisé
+        <!-- Boîte de verdict ultra-visuelle -->
+        <div id="storage-verdict-box" class="p-4 rounded-3 text-center mb-3 shadow-sm transition-all" style="background-color: #15803d; color: white;">
+            <div id="storage-icon" class="mb-2"><i class="fa-solid fa-circle-check fa-3x"></i></div>
+            <h4 id="storage-result-title" class="fw-black m-0 tracking-wide" style="font-weight: 900;">AUTORISÉ</h4>
         </div>
-        <div id="storage-details" class="small text-muted text-center"></div>
+        
+        <!-- Message explicatif détaillé -->
+        <div class="p-3 bg-light rounded-3 border border-2">
+            <p id="storage-details" class="small text-dark mb-0 fw-semibold text-center">Même famille : Stockage commun autorisé dans un même bac de rétention.</p>
+        </div>
     </div>
 
-    <div class="card-custom bg-light border-0 small text-muted">
-        <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-triangle-exclamation me-2"></i>Règles d'or du stockage</h6>
-        <ul>
-            <li>Toujours installer des bacs de rétention étanches et insensibles aux produits (ex: PEHD pour les corrosifs).</li>
-            <li>Ne jamais stocker ensemble des Acides et des Bases (risque de réaction exothermique violente).</li>
-            <li>Séparer physiquement les Inflammables des Comburants (risque d'incendie instantané).</li>
-        </ul>
+    <!-- Rappel réglementaire scannable -->
+    <div class="card-custom bg-white border-0 shadow-sm small">
+        <h6 class="fw-bold text-danger mb-3"><i class="fa-solid fa-shield-halved me-2"></i>Les 3 Règles d'Or de la Rétention</h6>
+        <div class="d-flex align-items-start mb-2.5">
+            <span class="badge bg-danger me-2.5 mt-0.5">1</span>
+            <div class="text-muted"><strong>Séparation stricte :</strong> Ne jamais faire cohabiter des produits incompatibles dans le même bac de rétention (risque de mélange en cas de fuite).</div>
+        </div>
+        <div class="d-flex align-items-start mb-2.5">
+            <span class="badge bg-warning text-dark me-2.5 mt-0.5">2</span>
+            <div class="text-muted"><strong>Nature des bacs :</strong> Utilisez de l'acier pour les inflammables, et du plastique (PEHD) pour les produits corrosifs (acides/bases) qui attaquent le métal.</div>
+        </div>
+        <div class="d-flex align-items-start">
+            <span class="badge bg-secondary me-2.5 mt-0.5">3</span>
+            <div class="text-muted"><strong>Capacité minimale :</strong> La rétention doit faire au moins 100% de la capacité du plus grand réservoir ou 50% du volume total stocké (prendre la valeur la plus grande).</div>
+        </div>
     </div>
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
+    
+    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
 
 <!-- PAGE OFFRE SERVICES RESTEV -->
@@ -1294,7 +1312,10 @@ function quizAnswer(p) {
 
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
-window.onload = () => { updateStats(); setTimeout(Splash, 2000); };
+window.onload = () => { 
+    updateStats(); 
+    // On a supprimé le dismissSplash automatique pour te laisser le contrôle !
+};
 </script>
 </body>
 </html>
