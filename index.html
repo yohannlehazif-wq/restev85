@@ -560,54 +560,64 @@ body {
 <!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
 <div id="page-storage" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
+    
     <div class="card-custom" style="border-left-color: var(--r-yellow)">
-        <p class="small text-muted mb-3">Sélectionnez deux familles de produits chimiques pour vérifier leur compatibilité au stockage (Guide INRS ED 6041).</p>
+        <p class="small text-muted mb-4">Sélectionnez deux familles pour croiser les risques et afficher le verdict de sécurité.</p>
         
-        <div class="row g-2 mb-3">
+        <div class="row g-2 mb-4">
             <div class="col-6">
-                <label class="form-label small fw-bold">Famille A :</label>
-                <select id="storage-a" class="form-select" onchange="checkStorageCompatibility()">
-                    <option value="inf">Inflammables</option>
-                    <option value="ox">Comburants / Oxydants</option>
-                    <option value="ac">Acides Forts</option>
-                    <option value="ba">Bases Fortes</option>
-                    <option value="tox">Toxiques</option>
+                <label class="form-label small fw-bold text-secondary">Famille A</label>
+                <select id="storage-a" class="form-select fw-bold" onchange="checkStorageCompatibility()" style="border-left: 3px solid var(--r-blue);">
+                    <option value="inf">🔥 Inflammables</option>
+                    <option value="ox">⭕ Comburants</option>
+                    <option value="ac">🧪 Acides Forts</option>
+                    <option value="ba">🧼 Bases Fortes</option>
+                    <option value="tox">💀 Toxiques</option>
                 </select>
             </div>
             <div class="col-6">
-                <label class="form-label small fw-bold">Famille B :</label>
-                <select id="storage-b" class="form-select" onchange="checkStorageCompatibility()">
-                    <option value="inf">Inflammables</option>
-                    <option value="ox">Comburants / Oxydants</option>
-                    <option value="ac">Acides Forts</option>
-                    <option value="ba">Bases Fortes</option>
-                    <option value="tox">Toxiques</option>
+                <label class="form-label small fw-bold text-secondary">Famille B</label>
+                <select id="storage-b" class="form-select fw-bold" onchange="checkStorageCompatibility()" style="border-left: 3px solid var(--r-blue);">
+                    <option value="inf">🔥 Inflammables</option>
+                    <option value="ox">⭕ Comburants</option>
+                    <option value="ac">🧪 Acides Forts</option>
+                    <option value="ba">🧼 Bases Fortes</option>
+                    <option value="tox">💀 Toxiques</option>
                 </select>
             </div>
         </div>
         
-        <div id="storage-result" class="p-3 rounded-3 text-center fw-bold text-white mb-2" style="background-color: #198754;">
-            <i class="fa-solid fa-circle-check me-2"></i>Stockage Commun Autorisé
+        <!-- Boîte de verdict ultra-visuelle -->
+        <div id="storage-verdict-box" class="p-4 rounded-3 text-center mb-3 shadow-sm transition-all" style="background-color: #15803d; color: white;">
+            <div id="storage-icon" class="mb-2"><i class="fa-solid fa-circle-check fa-3x"></i></div>
+            <h4 id="storage-result-title" class="fw-black m-0 tracking-wide" style="font-weight: 900;">AUTORISÉ</h4>
         </div>
-        <div id="storage-details" class="small text-muted text-center"></div>
+        
+        <!-- Message explicatif détaillé -->
+        <div class="p-3 bg-light rounded-3 border border-2">
+            <p id="storage-details" class="small text-dark mb-0 fw-semibold text-center">Même famille : Stockage commun autorisé dans un même bac de rétention.</p>
+        </div>
     </div>
 
-    <div class="card-custom bg-light border-0 small text-muted">
-        <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-triangle-exclamation me-2"></i>Règles d'or du stockage</h6>
-        <ul>
-            <li>Toujours installer des bacs de rétention étanches et insensibles aux produits (ex: PEHD pour les corrosifs).</li>
-            <li>Ne jamais stocker ensemble des Acides et des Bases (risque de réaction exothermique violente).</li>
-            <li>Séparer physiquement les Inflammables des Comburants (risque d'incendie instantané).</li>
-        </ul>
+    <!-- Rappel réglementaire scannable -->
+    <div class="card-custom bg-white border-0 shadow-sm small">
+        <h6 class="fw-bold text-danger mb-3"><i class="fa-solid fa-shield-halved me-2"></i>Les 3 Règles d'Or de la Rétention</h6>
+        <div class="d-flex align-items-start mb-2.5">
+            <span class="badge bg-danger me-2.5 mt-0.5">1</span>
+            <div class="text-muted"><strong>Séparation stricte :</strong> Ne jamais faire cohabiter des produits incompatibles dans le même bac de rétention (risque de mélange en cas de fuite).</div>
+        </div>
+        <div class="d-flex align-items-start mb-2.5">
+            <span class="badge bg-warning text-dark me-2.5 mt-0.5">2</span>
+            <div class="text-muted"><strong>Nature des bacs :</strong> Utilisez de l'acier pour les inflammables, et du plastique (PEHD) pour les produits corrosifs (acides/bases) qui attaquent le métal.</div>
+        </div>
+        <div class="d-flex align-items-start">
+            <span class="badge bg-secondary me-2.5 mt-0.5">3</span>
+            <div class="text-muted"><strong>Capacité minimale :</strong> La rétention doit faire au moins 100% de la capacité du plus grand réservoir ou 50% du volume total stocké (prendre la valeur la plus grande).</div>
+        </div>
     </div>
-    <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
+    
+    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
-
-<!-- PAGE OFFRE SERVICES RESTEV -->
-<div id="page-services" class="app-page">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre RESTEV Prévention & Santé au Travail</h5>
-    <p class="small text-muted mb-4">RESTEV accompagne ses entreprises adhérentes en Vendée à travers des actions de conseil, d'évaluation et de sensibilisation pour préserver la santé des travailleurs.</p>
-
     <!-- PREVENTIONS -->
     <div class="card-custom" style="border-left-color: var(--r-blue);">
         <div class="badge-service">PRÉVENTION DES RISQUES</div>
