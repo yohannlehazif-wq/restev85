@@ -937,8 +937,10 @@ let currentQ = 0, totalScore = 0;
 function dismissSplash() {
     const splash = document.getElementById('splash');
     if (splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 800);
+        splash.classList.add('splash-exit');
+        setTimeout(() => { 
+            splash.style.display = 'none'; 
+        }, 600); // Temps synchro avec la transition CSS
     }
 }
 
