@@ -1284,7 +1284,10 @@ function quizAnswer(p) {
 }
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
-window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
+window.onload = () => { 
+    updateStats(); 
+    // On a supprimé le dismissSplash automatique pour te laisser le contrôle !
+};
 </script>
 </body>
 </html>
