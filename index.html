@@ -1050,10 +1050,25 @@ function quizAnswer(p) {
         document.getElementById('q-box').style.display = 'none';
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-        document.getElementById('quiz-label').innerText = totalScore > 20 ? "Bonne maîtrise des risques." : "Des améliorations sont nécessaires.";
+
+        let label = "";
+        let advice = "";
+
+        if (totalScore >= 25) {
+            label = "🏆 Excellent ! La culture sécurité est ancrée.";
+            advice = "Félicitations, la prévention des risques fait partie intégrante de votre quotidien ! Vos process sont solides et le DUERP semble maîtrisé. Continuez sur cette lancée. Votre équipe RESTEV reste à vos côtés pour maintenir ce haut niveau d'exigence lors de vos revues annuelles.";
+        } else if (totalScore >= 16) {
+            label = "📈 Bonne dynamique, mais des points restent à consolider.";
+            advice = "Vous avez de très bonnes bases, bravo ! Cependant, la sécurité chimique et la traçabilité demandent une vigilance de chaque instant. C'est le moment idéal pour peaufiner vos fiches de données de sécurité (FDS) et revoir vos compatibilités de stockage. Nos techniciens et ergonomes peuvent vous aider à franchir ce dernier palier en toute sérénité.";
+        } else {
+            label = "⚠️ Vigilance requise : Votre plan de prévention a des failles.";
+            advice = "Pas de panique, la prévention des risques est un processus continu. Ce score montre simplement que plusieurs aspects réglementaires ou pratiques (DUERP, EPI, stockage) méritent une action corrective rapide pour protéger vos équipes. Ne restez pas seul : contactez votre centre RESTEV de proximité pour planifier un accompagnement sur-mesure et sécuriser vos postes.";
+        }
+
+        document.getElementById('quiz-label').innerText = label;
+        document.getElementById('quiz-advice').innerText = advice;
     }
 }
-
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
 window.onload = () => { updateStats(); setTimeout(dismissSplash, 2000); };
