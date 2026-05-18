@@ -495,15 +495,51 @@ const sghData = [
 ];
 
 const detailsSGH = {
-    SGH01: { danger: "Explosif", risques: "Risque d’explosion...", prevention: "Stockage sécurisé..." },
-    SGH02: { danger: "Inflammable", risques: "S’enflamme très facilement...", prevention: "Ventilation obligatoire..." },
-    SGH03: { danger: "Comburant", risques: "Peut aggraver un incendie...", prevention: "Stockage séparé..." },
-    SGH04: { danger: "Gaz sous pression", risques: "Explosion possible...", prevention: "Stockage ventilé..." },
-    SGH05: { danger: "Corrosif", risques: "Brûlures graves...", prevention: "Manipulation sous hotte..." },
-    SGH06: { danger: "Toxique aigu", risques: "Peut être mortel...", prevention: "Zone ventilée..." },
-    SGH07: { danger: "Irritant", risques: "Irritation des yeux...", prevention: "Ventilation..." },
-    SGH08: { danger: "Danger grave pour la santé", risques: "Effets chroniques : cancer...", prevention: "Substitution produit..." },
-    SGH09: { danger: "Dangereux pour l’environnement", risques: "Toxicité aquatique...", prevention: "Stockage étanche..." }
+    SGH01: { 
+        danger: "Explosif (Instable ou divisions 1.1 à 1.6)", 
+        risques: "Danger d'explosion en masse ou de projection violente. Produit hautement instable capable de réagir seul sous l'effet d'un choc, d'une friction, d'une étincelle ou d'une élévation de température.", 
+        prevention: "👉 Éloigner impérativement de toute source de chaleur, surface chaude, étincelle ou flamme nue. Ne pas soumettre à des frottements. Stockage exclusif dans des armoires ou locaux dédiés (normes pyrotechniques)." 
+    },
+    SGH02: { 
+        danger: "Inflammable (Gaz, aérosols, liquides et solides)", 
+        risques: "Risque majeur d'incendie ou d'explosion. Les vapeurs de ces solvants sont souvent plus lourdes que l'air, rampent au sol et peuvent former des ATEX (Atmosphères Explosives) au moindre contact avec une étincelle.", 
+        prevention: "👉 Stocker en armoire de sécurité ventilée (norme EN 14470-1). Interdiction de fumer, utiliser du matériel électrique certifié ATEX. Assurer une mise à la terre des fûts lors des transvasements pour éviter l'électricité statique." 
+    },
+    SGH03: { 
+        danger: "Comburant (Gaz, liquides et solides comburants)", 
+        risques: "Produit qui libère une grande quantité d'oxygène. Il n'enflamme pas de lui-même, mais il peut provoquer, aggraver ou accélérer de manière violente l'incendie de matières combustibles (bois, carton, papier, solvants).", 
+        prevention: "👉 Stocker strictement à l'écart des matières inflammables et des agents réducteurs. Ne jamais stocker sur des palettes en bois ni à proximité immédiate d'emballages en carton." 
+    },
+    SGH04: { 
+        danger: "Gaz sous pression (Comprimés, liquéfiés ou dissous)", 
+        risques: "Risque d'explosion de la bouteille sous l'effet de la chaleur (effet missile). Pour les gaz liquéfiés réfrigérés (ex: azote liquide), risque de gelures graves en cas de projection et d'asphyxie immédiate par anoxie en espace clos.", 
+        prevention: "👉 Arrimage obligatoire des bouteilles (chaînes, chariots, racks) pour éviter les chutes qui briseraient le robinet. Stocker à l'abri des chocs et de la chaleur (< 50°C) dans un endroit parfaitement ventilé." 
+    },
+    SGH05: { 
+        danger: "Corrosif (Corrosif pour les métaux et la peau)", 
+        risques: "Provoque des brûlures cutanées graves et des lésions oculaires irréversibles en quelques secondes. Attaque et ronge également les structures métalliques et les cuves non adaptées.", 
+        prevention: "👉 Port des EPI obligatoire : gants longs étanches (Néoprène ou PVC selon l'acide/base), lunettes-masques ou visière faciale complète. Présence immédiate d'un rince-œil et d'une douche de sécurité à moins de 10 secondes du poste." 
+    },
+    SGH06: { 
+        danger: "Toxicité aiguë (Catégories 1, 2 et 3)", 
+        risques: "Empoisonnement rapide et fatal, même à très faible dose. Peut tuer ou causer des effets graves par simple ingestion, contact cutané ou inhalation de vapeurs.", 
+        prevention: "👉 Manipulation exclusive sous hotte aspirante (Sorbonne) ou avec un masque complet adapté. Local de stockage fermé à clé avec accès strictement réservé au personnel formé et autorisé. Tenir un registre précis des entrées/sorties." 
+    },
+    SGH07: { 
+        danger: "Irritant / Sensibilisant (Toxicité aiguë Cat. 4)", 
+        risques: "Provoque des irritations cutanées (rougeurs, démangeaisons), oculaires ou des voies respiratoires. Risque d'allergies cutanées (eczéma de contact) ou d'effets narcotiques (somnolence, vertiges en cas d'inhalation).", 
+        prevention: "👉 Assurer une bonne ventilation générale de l'atelier ou installer un captage localisé à la source. Éviter tout contact direct. Porter des gants légers en nitrile pour les manipulations quotidiennes." 
+    },
+    SGH08: { 
+        danger: "Danger grave pour la santé (CMR & Toxique)", 
+        risques: "Effets différés et irréversibles à long terme. Regroupe les agents CMR : Cancérogènes (provoquent le cancer), Mutagènes (altèrent l'ADN) et Reprotoxiques (nocifs pour la fertilité ou le fœtus). Risque aussi de chocs anaphylactiques par inhalation.", 
+        prevention: "👉 Priorité absolue à la substitution par un produit non CMR (Art. R4412-66 du Code du travail). Si impossible, travail obligatoire en système clos, captage rigoureux des vapeurs à la source et suivi médical renforcé (SMR) pour les opérateurs." 
+    },
+    SGH09: { 
+        danger: "Dangereux pour l'environnement (Milieu aquatique)", 
+        risques: "Hautement toxique pour les organismes aquatiques (poissons, algues, crustacés) avec des effets néfastes à long terme par bioaccumulation dans la chaîne alimentaire.", 
+        prevention: "👉 Interdiction absolue de rejeter les résidus, emballages ou eaux de lavage dans les réseaux d'eaux usées ou pluviales. Stockage impératif sur bac de rétention étanche et présence d'un kit anti-pollution (buvards, obturateurs) à proximité." 
+    }
 };
 
 const questions = [
