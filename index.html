@@ -128,8 +128,17 @@ body {
     font-size: 0.75rem; 
     border-bottom: 1px solid #bae6fd; 
 }
-.ticker { display: inline-block; animation: ticker 45s linear infinite; }
+.ticker { 
+    display: inline-block; 
+    animation: ticker 45s linear infinite; 
+}
 .ticker span { padding-right: 60px; }
+
+/* ⬇️ LE BLOC À AJOUTER ICI ⬇️ */
+@keyframes ticker {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
 
 /* Navigation Basse Premium */
 .nav-bottom { 
