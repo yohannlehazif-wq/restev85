@@ -255,7 +255,6 @@ body {
     opacity: 0 !important;
     filter: blur(10px);
 }
-
 /* Header & Ticker */
 .app-header { 
     background: white; 
@@ -284,6 +283,7 @@ body {
 }
 .ticker span { padding-right: 60px; }
 
+/* ⬇️ LE BLOC À AJOUTER ICI ⬇️ */
 @keyframes ticker {
     0% { transform: translateX(100vw); }
     100% { transform: translateX(-100%); }
@@ -505,8 +505,7 @@ body {
 </div>
 
 <!-- PAGE MASQUES (PROTECTION RESPIRATOIRE) -->
-<div id="page-masks" class="app-page">
-    <div class="card-custom" style="border-left: 4px solid #ef4444;">
+<div class="card-custom" style="border-left: 4px solid #ef4444;">
         <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
         <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche filtrante (Norme EN 14387).</p>
         
@@ -530,11 +529,9 @@ body {
             <p id="cartridge-advice" class="small text-muted mb-0">Utiliser un filtre A2 (classe 2 pour capacité moyenne). Remplacer dès l'apparition d'une odeur dans le masque.</p>
         </div>
     </div>
-</div>
 
 <!-- PAGE GANTS DE PROTECTION -->
-<div id="page-gloves" class="app-page">
-    <!-- 🧤 MODULE 1 : LES GANTS DE PROTECTION -->
+<!-- 🧤 MODULE 1 : LES GANTS DE PROTECTION -->
     <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
         <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
         <p class="small text-muted mb-3">Choisissez le type de produit à manipuler pour trouver le bon matériau de gant (Norme EN ISO 374).</p>
@@ -558,8 +555,6 @@ body {
             <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
         </div>
     </div>
-</div>
-
 <!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
 <div id="page-storage" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
@@ -621,9 +616,6 @@ body {
     
     <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
-
-<!-- PAGE SERVICES / OFFRES RESTEV -->
-<div id="page-services" class="app-page">
     <!-- PREVENTIONS -->
     <div class="card-custom" style="border-left-color: var(--r-blue);">
         <div class="badge-service">PRÉVENTION DES RISQUES</div>
@@ -662,7 +654,7 @@ body {
 
     <div class="row g-2 mb-4">
         <!-- Bloc Sensibilisation -->
-        <div class="col-12">
+        <div class="col-12 col-md-6">
             <div class="card-custom h-100 bg-white" style="border-left-color: var(--r-yellow);">
                 <div class="badge-service" style="background-color: var(--r-yellow);">CULTURE PRÉVENTION</div>
                 <h6 class="fw-bold text-dark mb-3">
@@ -687,7 +679,6 @@ body {
             </div>
         </div>
     </div>
-</div>
 
 <!-- NAVIGATION BASSE -->
 <nav class="nav-bottom">
