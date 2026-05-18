@@ -440,28 +440,81 @@ body {
     </div>
 </div>
 
-<!-- Section Gants -->
-<div class="space-y-2">
-    <div id="gant-nitrile" class="flex items-center justify-between p-3 bg-white border rounded-lg">
-        <span>Nitrile</span> <span class="badge">--</span>
+<!-- 🎭 BLOC DISTINCT 1 : PAGE PROTECTION RESPIRATOIRE -->
+<div id="page-masks" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mask-ventilator me-2" style="color:var(--r-blue)"></i>Protection Respiratoire</h5>
+    
+    <div class="card-custom mb-4" style="border-left-color: #ef4444;">
+        <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>Sélecteur Dynamique de Cartouches</h6>
+        <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche filtrante (Norme EN 14387).</p>
+        
+        <div class="mb-3">
+            <select id="pollutant-select" class="form-select fw-bold" onchange="calculateMask()">
+                <option value="">-- Sélectionnez un type de polluant --</option>
+                <option value="A">Gaz/Vapeurs Organiques (Solvants, Peintures > 65°C) -> [Type A]</option>
+                <option value="B">Gaz Inorganiques (Chlore, Hydrogène sulfuré) -> [Type B]</option>
+                <option value="E">Gaz Acides (Dioxyde de soufre, HCl) -> [Type E]</option>
+                <option value="K">Ammoniac et dérivés aminés -> [Type K]</option>
+                <option value="P">Poussières, Silice, Amiante, Fibres -> [Type P3]</option>
+                <option value="AX">Composés Organiques Bas point d'ébullition (< 65°C) -> [Type AX]</option>
+            </select>
+        </div>
+
+        <!-- Boîtier d'affichage dynamique de la Cartouche -->
+        <div id="mask-result" class="p-3 rounded-3 text-center mb-2 font-medium" style="display: none;"></div>
     </div>
-    <div id="gant-latex" class="flex items-center justify-between p-3 bg-white border rounded-lg">
-        <span>Latex</span> <span class="badge">--</span>
+
+    <!-- Guide des Masques Jetables FFP -->
+    <div class="card-custom bg-white">
+        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-box-tissue me-2" style="color: var(--r-yellow);"></i>Classes des demi-masques jetables (FFP)</h6>
+        <div class="space-y-2">
+            <div class="p-2.5 border border-slate-200 rounded text-xs mb-2">
+                <span class="font-bold text-slate-800 block">FFP1 (Faible efficacité)</span>
+                <span class="text-muted">Contre les poussières fines inertes et débris de bricolage de base.</span>
+            </div>
+            <div class="p-2.5 border border-slate-200 rounded text-xs mb-2 bg-slate-50">
+                <span class="font-bold text-blue-700 block">FFP2 (Moyenne efficacité)</span>
+                <span class="text-muted">Poussières de bois, silice, quartz, virus et bactéries.</span>
+            </div>
+            <div class="p-2.5 border border-slate-200 rounded text-xs bg-orange-50 border-orange-200">
+                <span class="font-bold text-orange-800 block">FFP3 (Haute efficacité)</span>
+                <span class="text-muted">Amiante (Niveau 1), plomb, fibres céramiques et fumées de soudage lourdes.</span>
+            </div>
+        </div>
     </div>
-    <div id="gant-neoprene" class="flex items-center justify-between p-3 bg-white border rounded-lg">
-        <span>Néoprène</span> <span class="badge">--</span>
+
+    <!-- Alerte Oxygène Réglementaire -->
+    <div class="card-custom border-0 p-3 mt-3" style="background-color: #fef2f2; border-left: 5px solid #ef4444 !important;">
+        <h6 class="font-semibold text-danger text-sm flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Règle d'or Oxygène ($< 17\%$)</h6>
+        <p class="text-xs text-danger mt-1 mb-0">Si le taux d'oxygène de l'air est inférieur à $17\%$, les masques à cartouches ou filtres sont <b>strictement interdits</b>. L'utilisation d'un appareil isolant (ARI ou adduction d'air) est obligatoire.</p>
     </div>
-    <div id="gant-butyle" class="flex items-center justify-between p-3 bg-white border rounded-lg">
-        <span>Butyle</span> <span class="badge">--</span>
-    </div>
+
+    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
 
-<!-- Section Masque -->
-<div class="mt-4">
-    <div id="badge-cartouche" class="p-2 rounded text-center bg-gray-200">
-        En attente du produit...
+<!-- 🧤 BLOC DISTINCT 2 : PAGE GUIDE GANTS -->
+<div id="page-gloves" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-mitten me-2" style="color:var(--r-teal)"></i>Guide des Gants de Protection</h5>
+    
+    <div class="card-custom mb-4" style="border-left-color: #3b82f6;">
+        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>Sélecteur de Gants Chimiques</h6>
+        <p class="small text-muted mb-3">Choisissez la matière ou famille de produit à manipuler pour obtenir les préconisations matières (Norme ISO 374).</p>
+        
+        <div class="mb-3">
+            <select id="glove-select" class="form-select fw-bold" onchange="calculateGlove()">
+                <option value="">-- Sélectionnez un matériau / usage --</option>
+                <option value="nit">🧤 Gants en Nitrile</option>
+                <option value="neo">🧤 Gants en Néoprène</option>
+                <option value="but">🧤 Gants en Butyle</option>
+                <option value="lat">🧤 Gants en Latex Naturel</option>
+                <option value="pvc">🧤 Gants en PVC (Vinyle)</option>
+                <option value="vit">🧤 Gants en Viton (Fluoroélastomère)</option>
+            </select>
+        </div>
+
+        <!-- Boîtier d'affichage dynamique du résultat Gants -->
+        <div id="glove-result" class="p-3 rounded-3 text-white mb-2" style="display: none;"></div>
     </div>
-</div>
 
     <!-- Tableau récapitulatif rapide de perméation -->
     <div class="card-custom bg-white border-0 shadow-sm">
@@ -807,7 +860,7 @@ function deleteItem(id) {
         inventory = inventory.filter(i => i.id !== id);
         localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
         renderInventory(); updateStats();
-    }j
+    }
 }
 
 function searchFDS() {
@@ -840,53 +893,81 @@ function startScanner() {
     }).catch(e => console.error(e));
 }
     
-// 2. GESTION DU MASQUE : Attribution d'une seule couleur de badge selon le risque
-  const badgeMasque = document.getElementById('badge-cartouche');
-  
-  if (produit.vapeur_organique) {
-    badgeMasque.className = "p-2 rounded font-bold text-white bg-amber-800 text-center";
-    badgeMasque.innerText = "Filtre A (Marron)";
-  } else if (produit.vapeur_acide) {
-    badgeMasque.className = "p-2 rounded font-bold text-gray-900 bg-yellow-400 text-center";
-    badgeMasque.innerText = "Filtre E (Jaune)";
-  } else if (produit.ammoniac) {
-    badgeMasque.className = "p-2 rounded font-bold text-white bg-green-600 text-center";
-    badgeMasque.innerText = "Filtre K (Vert)";
-  } else if (produit.poussiere_particule) {
-    badgeMasque.className = "p-2 rounded font-bold text-gray-800 bg-white border border-gray-400 text-center";
-    badgeMasque.innerText = "Filtre P3 (Blanc)";
-  } else {
-    badgeMasque.className = "p-2 rounded font-bold text-gray-500 bg-gray-200 text-center";
-    badgeMasque.innerText = "Pas de masque requis";
-  }
-}
- 
-  // 1. GESTION DES GANTS : On applique la bonne couleur à chaque matériau
-  listeGants.forEach(gant => {
-    const bouton = document.getElementById(`gant-${gant.materiau_gant}`);
-    const badge = bouton.querySelector('.badge');
+function calculateMask() {
+    const val = document.getElementById('pollutant-select').value;
+    const res = document.getElementById('mask-result');
     
-    // On nettoie les anciennes couleurs pour repartir à zéro
-    bouton.className = "flex items-center justify-between p-3 bg-white rounded-lg border shadow-sm";
-    
-    // Attribution de la couleur selon le statut ('recommande', 'tolere', 'interdit')
-    if (gant.statut === 'recommande') {
-      bouton.classList.add('border-green-500', 'bg-green-50');
-      badge.className = "badge text-xs font-bold px-2 py-1 rounded bg-green-500 text-white";
-      badge.innerText = `OK (${gant.temps_permeation_minutes} min)`;
-    } 
-    else if (gant.statut === 'tolere') {
-      bouton.classList.add('border-amber-400', 'bg-amber-50');
-      badge.className = "badge text-xs font-bold px-2 py-1 rounded bg-amber-500 text-white";
-      badge.innerText = "USAGE COURT";
-    } 
-    else if (gant.statut === 'interdit') {
-      bouton.classList.add('border-red-500', 'bg-red-50');
-      badge.className = "badge text-xs font-bold px-2 py-1 rounded bg-red-500 text-white";
-      badge.innerText = "INTERDIT";
-    }
-  });
+    const data = {
+        'A': { c: '#7c2d12', t: 'BANDEAU MARRON (Type A)', d: 'Gaz & vapeurs organiques (solvants, vernis, colles, peintures) dont le point d’ébullition est > 65°C.' },
+        'B': { c: '#475569', t: 'BANDEAU GRIS (Type B)', d: 'Gaz & vapeurs inorganiques (chlore, acide cyanhydrique, hydrogène sulfuré).' },
+        'E': { c: '#e6a00f', t: 'BANDEAU JAUNE (Type E)', d: 'Gaz acides, dioxyde de soufre ($SO_2$), acide chlorhydrique.' },
+        'K': { c: '#16a34a', t: 'BANDEAU VERT (Type K)', d: 'Ammoniac et dérivés aminés organiques.' },
+        'P': { c: '#ffffff', t: 'BANDEAU BLANC (Type P3)', d: 'Haute efficacité contre les particules, aérosols solides/liquides, poussières de bois, silice et amiante.' },
+        'AX': { c: '#7c2d12', t: 'BANDEAU MARRON (Filtre AX)', d: 'Composés organiques spécifiques à bas point d’ébullition ($\le 65^\circ\text{C}$). À usage unique.' }
+    };
 
+    if(val) {
+        res.style.display = 'block';
+        res.style.backgroundColor = data[val].c;
+        res.style.color = (val === 'P') ? '#1e293b' : 'white';
+        res.style.border = (val === 'P') ? '2px solid #cbd5e1' : 'none';
+        res.innerHTML = `<h6 class="mb-1 fw-bold">${data[val].t}</h6><small>${data[val].d}</small>`;
+    } else {
+        res.style.display = 'none';
+    }
+}
+
+function calculateGlove() {
+    const val = document.getElementById('glove-select').value;
+    const res = document.getElementById('glove-result');
+    
+    const data = {
+        'nit': { t: 'GANTS EN NITRILE', d: 'Excellent contre les huiles, graisses et hydrocarbures. Très résistant aux perforations. ❌ À proscrire contre les cétones (Acétone).' },
+        'neo': { t: 'GANTS EN NÉOPRÈNE', d: 'Grande polyvalence chimique. Excellente barrière contre les acides concentrés, les bases et les alcools.' },
+        'but': { t: 'GANTS EN BUTYLE', d: 'Protection d\'expert maximale et spécifique contre les cétones (Acétone, MEK) et les esters. Très étanches aux gaz.' },
+        'lat': { t: 'GANTS EN LATEX', d: 'Idéal pour le contact fréquent avec les produits aqueux, acides et bases dilués. ❌ Attention aux risques d\'allergies.' },
+        'pvc': { t: 'GANTS EN PVC (Vinyle)', d: 'Très bonne protection contre les acides et bases fortes. Faible résistance face aux solvants organiques.' },
+        'vit': { t: 'GANTS EN VITON', d: 'Protection très haut de gamme contre les solvants chlorés (Trichloréthylène) et aromatiques (Benzène, Toluène). Très coûteux.' }
+    };
+
+    if(val) {
+        res.style.display = 'block';
+        res.style.backgroundColor = 'var(--r-blue)';
+        res.innerHTML = `<h6 class="mb-1 fw-bold">${data[val].t}</h6><small>${data[val].d}</small>`;
+    } else {
+        res.style.display = 'none';
+    }
+}
+
+function checkStorageCompatibility() {
+    const a = document.getElementById('storage-a').value;
+    const b = document.getElementById('storage-b').value;
+    const resultBox = document.getElementById('storage-result');
+    const detailsBox = document.getElementById('storage-details');
+    
+    if (a === b) {
+        resultBox.style.backgroundColor = "#15803d";
+        resultBox.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>Même famille : Autorisé`;
+        detailsBox.innerText = "Veillez simplement à dimensionner correctement la rétention globale.";
+        return;
+    }
+
+    let compatible = true;
+    let note = "Stockage possible sur une même rétention sous réserve d'absence de réaction spécifique mentionnée en Rubrique 10 de la FDS.";
+
+    if ((a === 'inf' && b === 'ox') || (a === 'ox' && b === 'inf')) {
+        compatible = false;
+        note = "Danger d'incendie majeur ! Les comburants alimentent de manière violente le foyer des inflammables. Séparation physique obligatoire.";
+    } else if ((a === 'ac' && b === 'ba') || (a === 'ba' && b === 'ac')) {
+        compatible = false;
+        note = "Réaction violente acide/base avec forte émanation thermique et projections. Rétentions strictement séparées.";
+    } else if ((a === 'inf' && b === 'ac') || (a === 'ac' && b === 'inf')) {
+        compatible = true;
+        note = "Autorisé mais requiert des rétentions indépendantes pour éviter la corrosion prématurée des fûts inflammables.";
+    } else if ((a === 'ox' && b === 'ac') || (a === 'ac' && b === 'ox') || (a === 'ox' && b === 'ba') || (a === 'ba' && b === 'ox')) {
+        compatible = false;
+        note = "Les acides/bases peuvent déclencher une décomposition instable des comburants. Séparer par cloisonnement ou rétentions distinctes éloignées.";
+    }
 
     if (compatible) {
         resultBox.style.backgroundColor = "#15803d";
