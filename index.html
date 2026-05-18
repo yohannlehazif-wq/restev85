@@ -24,8 +24,33 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-:root { --r-blue: #3065a8; --r-teal: #75bba8; --r-purple: #ae227d; --r-yellow: #e6a00f; --r-light: #f8fafc; }
-body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, sans-serif; margin-bottom: 100px; overflow-x: hidden; user-select: none; }
+:root { 
+    --r-blue: #3065a8; 
+    --r-blue-dark: #1e4475;
+    --r-teal: #75bba8; 
+    --r-purple: #ae227d; 
+    --r-yellow: #e6a00f; 
+    --r-light: #f4f7fa; 
+    --shadow-sm: 0 2px 8px rgba(48, 101, 168, 0.05);
+    --shadow-md: 0 8px 24px rgba(48, 101, 168, 0.08);
+    --shadow-lg: 0 16px 32px rgba(30, 68, 117, 0.12);
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+}
+
+/* Base & Défilement */
+body { 
+    background-color: var(--r-light); 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    margin-bottom: 110px; 
+    overflow-x: hidden; 
+    user-select: none; 
+    color: #334155;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Splash Screen Moderne */
 /* ==========================================================================
    SPLASH SCREEN CYBER-PRÉVENTION ELITE
    ========================================================================== */
@@ -231,35 +256,205 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     opacity: 0 !important;
     filter: blur(10px);
 }
+.btn-enter:active {
+    transform: scale(0.95);
+    background-color: #f1f5f9;
+}
+@keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+.ecg-line { fill: none; stroke: rgba(255, 255, 255, 0.4); stroke-width: 2.5; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawECG 3s linear infinite; }
+@keyframes drawECG { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+   
+/* Style de sortie d'écran dramatique appliqué en JS */
+.splash-exit {
+    transform: scale(1.2) !important;
+    opacity: 0 !important;
+    filter: blur(10px);
+}
+   
+/* Header & Ticker */
+.app-header { 
+    background: white; 
+    padding: 14px; 
+    text-align: center; 
+    border-bottom: 3px solid var(--r-yellow); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    box-shadow: var(--shadow-sm);
+}
+.logo-header { height: 36px; object-fit: contain; }
+.info-banner { 
+    background: #e0f2fe; 
+    color: #0369a1; 
+    padding: 6px 0; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    font-weight: 600; 
+    font-size: 0.75rem; 
+    border-bottom: 1px solid #bae6fd; 
+}
+.ticker { 
+    display: inline-block; 
+    animation: ticker 45s linear infinite; 
+}
+.ticker span { padding-right: 60px; }
 
-.card-custom { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--r-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.sgh-card { display: flex; gap: 15px; align-items: center; }
-.sgh-img { width: 65px; height: 65px; object-fit: contain; flex-shrink: 0; }
-.btn-excel { background-color: #1d6f42; color: white; border: none; border-radius: 12px; width: 100%; padding: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.btn-call { background: var(--r-blue); color: white; border: none; border-radius: 12px; padding: 8px 15px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; }
-.score-badge { font-size: 2.5rem; font-weight: 900; color: var(--r-blue); }
-.badge-service { background-color: var(--r-teal); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; display: inline-block; }
-.archive-item { border-left-color: #94a3b8 !important; background: #f1f5f9 !important; }
-.filter-res-badge { display: none; padding: 15px; border-radius: 12px; margin-top: 15px; text-align: center; font-weight: bold; }
+/* ⬇️ LE BLOC À AJOUTER ICI ⬇️ */
+@keyframes ticker {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Navigation Basse Premium */
+.nav-bottom { 
+    position: fixed; 
+    bottom: 20px; 
+    left: 15px; 
+    right: 15px; 
+    background: rgba(255, 255, 255, 0.92); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    display: flex; 
+    justify-content: space-around; 
+    padding: 10px 5px; 
+    border-radius: var(--radius-lg); 
+    box-shadow: var(--shadow-lg); 
+    z-index: 1000; 
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+.nav-item { 
+    border: none; 
+    background: none; 
+    color: #64748b; 
+    font-size: 0.62rem; 
+    font-weight: 700; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    flex: 1; 
+    text-decoration: none; 
+    outline: none; 
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-md);
+    padding: 6px 0;
+}
+.nav-item:active {
+    transform: scale(0.9);
+    background: rgba(48, 101, 168, 0.05);
+}
+.nav-item.active { color: var(--r-blue); }
+.nav-item i { font-size: 1.35rem; margin-bottom: 4px; transition: transform 0.2s ease; }
+.nav-item.active i { transform: translateY(-2px); }
+
+/* Pages & Cartes (Cards) */
+.app-page { display: none; padding: 22px 16px; animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.active-page { display: block !important; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.card-custom { 
+    background: white; 
+    border-radius: var(--radius-md); 
+    padding: 20px; 
+    margin-bottom: 16px; 
+    border: none;
+    border-left: 5px solid var(--r-blue); 
+    box-shadow: var(--shadow-md); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-custom:active {
+    transform: translateY(1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Grille d'accueil cliquable */
+#page-home .row > div {
+    transition: transform 0.15s ease;
+}
+#page-home .row > div:active {
+    transform: scale(0.96);
+}
+#page-home .card-custom {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.4);
+    border-right: 1px solid rgba(0,0,0,0.02);
+    border-bottom: 3px solid rgba(0,0,0,0.05);
+}
+
+/* Éléments Spécifiques */
+.sgh-card { display: flex; gap: 16px; align-items: center; border-left-color: var(--r-purple) !important; cursor: pointer; }
+.sgh-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; background: #fff; padding: 2px; }
+
+/* Boutons Réinventés */
+.btn-excel { background: #15803d; color: white; border: none; border-radius: var(--radius-sm); width: 100%; padding: 12px 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--shadow-sm); transition: background 0.2s; }
+.btn-excel:active { background: #166534; }
+.btn-call { background: var(--r-blue); color: white; border: none; border-radius: var(--radius-sm); padding: 8px 18px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; box-shadow: var(--shadow-sm); }
+
+/* Formulaires & Inputs Modernes */
+.form-select, .form-control {
+    border: 1.5px solid #cbd5e1;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    color: #1e293b;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+.form-select:focus, .form-control:focus {
+    border-color: var(--r-blue);
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(48, 101, 168, 0.15);
+}
+
+/* Badges & Scores */
+.score-badge { font-size: 3rem; font-weight: 900; color: var(--r-blue); text-shadow: 1px 1px 0px rgba(0,0,0,0.05); }
+.badge-service { background-color: var(--r-teal); color: white; padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: inline-block; }
+.archive-item { border-left-color: #64748b !important; background: #f8fafc !important; border: 1px solid #e2e8f0; border-left-width: 5px !important; }
+.filter-res-badge { display: none; padding: 16px; border-radius: var(--radius-sm); margin-top: 15px; text-align: center; font-weight: 700; box-shadow: var(--shadow-sm); color: white; border: none !important; }
+
+/* Structures utilitaires */
+.progress { background-color: #e2e8f0; border-radius: 20px; overflow: hidden; }
+.btn-primary { background-color: var(--r-blue); border: none; }
+.btn-primary:active, .btn-primary:hover { background-color: var(--r-blue-dark) !important; }
+.alert-info { background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; border-radius: var(--radius-sm); }
+.modal-content { border-radius: var(--radius-md); border: none; overflow: hidden; box-shadow: var(--shadow-lg); }
+.modal-header { border-bottom: none; padding-top: 20px; }
+.modal-body { padding: 24px; color: #475569; }
 </style>
 </head>
 <body>
 
 <div id="splash">
+    <!-- Particules d'arrière-plan numériques -->
+    <div class="splash-particles"></div>
+    
     <div class="splash-content text-center text-white">
-        <img src="logo_restev_carre.png" alt="Logo" class="splash-logo" onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
-        <p class="splash-subtitle">Expert Prévention des Risques</p>
-        <div class="ecg-container">
+        <!-- Conteneur du logo avec effets de scan et de lueur -->
+        <div class="logo-wrapper">
+            <div class="scan-line"></div>
+            <img src="logo_restev_carre.png" alt="Logo" class="splash-logo" onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
+            <div class="logo-pulse-ring"></div>
+        </div>
+        
+        <!-- Textes animés par étapes -->
+        <h2 class="app-title-reveal">RESTEV 85</h2>
+        <p class="splash-subtitle-animated">Expert Prévention des Risques</p>
+        
+        <!-- Ligne ECG Stylisée -->
+        <div class="ecg-container-premium">
             <svg viewBox="0 0 200 40">
-                <path class="ecg-line" d="M0,20 L40,20 L50,5 L60,35 L70,20 L110,20 L120,5 L130,35 L140,20 L200,20" />
+                <path class="ecg-line-premium" d="M0,20 L40,20 L48,5 L56,35 L64,20 L110,20 L118,5 L126,35 L134,20 L200,20" />
             </svg>
         </div>
-        <button class="btn-enter mt-4" onclick="dismissSplash()">ENTRER</button>
+        
+        <button class="btn-enter-premium mt-4" onclick="Splash()">
+            <span>ENTRER DANS L'ESPACE</span>
+            <div class="btn-glow"></div>
+        </button>
     </div>
-</div>
-
-<div class="app-header">
-    <img src="logo_restev_long.png" alt="RESTEV 85" class="logo-header" onerror="this.src='https://placehold.co/180x40?text=RESTEV+85'">
 </div>
 
 <div class="info-banner">
@@ -346,7 +541,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
 </div>
 
-<!-- NOUVELLE PAGE GANTS DE PROTECTION -->
+<!-- PAGE GANTS DE PROTECTION -->
 <div id="page-gloves" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-mitten text-cyan me-2" style="color:#0097a7"></i>Guide des Gants de Protection</h5>
     <div class="card-custom" style="border-left-color: #0097a7;">
@@ -369,12 +564,12 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-shield-halved me-2"></i>Normes à vérifier (Rubrique 8 de la FDS)</h6>
         <div class="mb-1"><b>EN ISO 374-1 :</b> Résistance à la perméation chimique (Types A, B ou C).</div>
         <div class="mb-1"><b>EN 388 :</b> Résistance aux risques mécaniques (Coupure, Abrasion, Déchirure).</div>
-        <div class="text-danger mt-2"><b>Attention :</b> Les gants à usage unique ont un temps de perméation très court (souvent < 10 min). Remplacez-les immédiatement après éclaboussure.</div>
+        <div class="text-danger mt-2"><b>Attention :</b> Les gants à usage unique ont un temps de perméation très court (souvent &lt; 10 min). Remplacez-les immédiatement après éclaboussure.</div>
     </div>
     <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
 </div>
 
-<!-- NOUVELLE PAGE STOCKAGE ET COMPATIBILITÉS -->
+<!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
 <div id="page-storage" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
     <div class="card-custom" style="border-left-color: var(--r-yellow)">
@@ -420,7 +615,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     <button class="btn btn-outline-secondary w-100 mt-3" onclick="nav('page-home', document.getElementById('nav-home'))">Retour à l'accueil</button>
 </div>
 
-<!-- PAGE OFFRE SERVICES RESTEV (MODIFIÉE) -->
+<!-- PAGE OFFRE SERVICES RESTEV -->
 <div id="page-services" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre RESTEV Prévention & Santé au Travail</h5>
     <p class="small text-muted mb-4">RESTEV accompagne ses entreprises adhérentes en Vendée à travers des actions de conseil, d'évaluation et de sensibilisation pour préserver la santé des travailleurs.</p>
@@ -435,7 +630,7 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
             <li>Repérage et évaluation du risque chimique, biologique et des agents CMR.</li>
             <li>Conseils techniques sur le choix des protections collectives (captage, ventilation) et individuelles (EPI).</li>
         </ul>
-        <div class="alert alert-primary small mb-0">Le DUERP est obligatoire dès le premier salarié et doit refléter la réalité des postes.</div>
+        <div class="alert alert-primary small mb-0" style="background-color: #e0f2fe; color:#0369a1; border-color:#bae6fd;">Le DUERP est obligatoire dès le premier salarié et doit refléter la réalité des postes.</div>
     </div>
 
     <!-- ERGONOMIE -->
@@ -461,17 +656,49 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
         </ul>
     </div>
 
-    <!-- SENSIBILISATIONS (MIGRÉ DE FORMATIONS) -->
-    <div class="card-custom" style="border-left-color: #dc3545;">
-        <div class="badge-service" style="background-color:#dc3545">SENSIBILISATIONS ACTIONS</div>
-        <h6 class="fw-bold">Développer collectivement la culture prévention</h6>
-        <p class="small text-muted">RESTEV ne réalise pas d'actions de formation certifiantes, mais propose des modules d'information et de sensibilisation pour vos équipes (sur site ou en centre) :</p>
-        <ul class="small text-muted ps-3 mb-3">
-            <li><b>Risque Chimique :</b> Sessions courtes sur la lecture des FDS, le décryptage des étiquettes et le choix des EPI.</li>
-            <li><b>Bruit et Audition :</b> Prise de conscience des impacts du bruit et bonne utilisation des PICB.</li>
-            <li><b>Risques Manuels :</b> Échanges sur les bonnes pratiques de manutention et l'échauffement au poste.</li>
-            <li><b>Risques Climatiques :</b> Sessions de sensibilisation flash (Vigilance Canicule, Grand Froid, Travail en extérieur).</li>
-        </ul>
+    <div class="row g-2 mb-4">
+        <!-- Bloc Sensibilisation -->
+        <div class="col-12 col-md-6">
+            <div class="card-custom h-100 bg-white" style="border-left-color: var(--r-yellow);">
+                <div class="badge-service" style="background-color: var(--r-yellow);">CULTURE PRÉVENTION</div>
+                <h6 class="fw-bold text-dark mb-3">
+                    <i class="fa-solid fa-bullhorn text-warning me-2"></i>1. Sensibilisation des Opérateurs
+                </h6>
+                <p class="small text-muted mb-3">Développement d'une culture de sécurité via des actions de sensibilisation ciblées et adaptées au terrain :</p>
+                
+                <ul class="small text-muted ps-0 list-unstyled">
+                    <li class="mb-2.5 d-flex align-items-start">
+                        <i class="fa-solid fa-desktop text-primary mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Travail sur écran :</strong> Ergonomie du poste, ajustements posturaux, prévention des TMS et de la fatigue visuelle.</div>
+                    </li>
+                    <li class="mb-2.5 d-flex align-items-start">
+                        <i class="fa-solid fa-diagram-project text-danger mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Analyse des AT :</strong> Étude des accidents et presqu'accidents (arbre des causes) pour impliquer les équipes dans l'amélioration continue.</div>
+                    </li>
+                    <li class="mb-2.5 d-flex align-items-start">
+                        <i class="fa-solid fa-car text-warning mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Risques routiers :</strong> Sensibilisation au risque de mission et de trajet, particulièrement lors des déplacements inter-sites en Vendée.</div>
+                    </li>
+                    <li class="d-flex align-items-start">
+                        <i class="fa-solid fa-heart-pulse text-info mt-1 me-2.5" style="width: 16px; text-align: center;"></i>
+                        <div><strong>Addictions & Vigilance :</strong> Prévention des conduites addictives, impacts sur la vigilance au poste et relais vers le suivi médical.</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note d'accompagnement RESTEV -->
+    <div class="card-custom border-0 p-4 mb-4" style="background-color: #f0fdf4; border-left: 5px solid var(--r-teal) !important;">
+        <div class="d-flex">
+            <div class="flex-shrink-0"><i class="fa-solid fa-users text-success mt-0.5 text-lg"></i></div>
+            <div class="ml-3 ps-2">
+                <h6 class="fw-bold text-success mb-1">Besoin d'aller plus loin ? L'appui technique du RESTEV</h6>
+                <p class="small text-muted mt-1 mb-0 leading-relaxed">
+                    De l'identification à la mise en place de vos plans d'action, le RESTEV vous accompagne. Nos équipes pluridisciplinaires interviennent en entreprise pour l'évaluation du risque chimique, les prélèvements d'atmosphère (toxicologie) et la vérification des systèmes de ventilation. Contactez votre équipe dédiée via votre espace adhérent.
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- PDP -->
@@ -486,14 +713,14 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
     </div>
 
     <!-- PLURIDISCIPLINAIRE -->
-    <div class="card-custom bg-light border-0">
-        <h6 class="fw-bold text-primary"><i class="fa-solid fa-users me-2"></i>Une équipe pluridisciplinaire mobilisée</h6>
+    <div class="card-custom bg-light border-0 shadow-none">
+        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-users me-2"></i>Une équipe pluridisciplinaire mobilisée</h6>
         <p class="small text-muted mb-3">Sous la conduite du médecin du travail, l'équipe associe des compétences médicales, infirmières et techniques (Techniciens en Prévention, Ergonomes) pour préserver la santé des effectifs vendéens.</p>
         <div class="row g-2">
-            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small"><i class="fa-solid fa-user-doctor text-primary me-2"></i>Médecins</div></div>
-            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small"><i class="fa-solid fa-user-nurse text-success me-2"></i>Infirmiers</div></div>
-            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small"><i class="fa-solid fa-person-walking text-warning me-2"></i>Ergonomes</div></div>
-            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small"><i class="fa-solid fa-clipboard-check text-dark me-2"></i>IPRP / Techniciens</div></div>
+            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small text-center"><i class="fa-solid fa-user-doctor text-primary me-2"></i>Médecins</div></div>
+            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small text-center"><i class="fa-solid fa-user-nurse text-success me-2"></i>Infirmiers</div></div>
+            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small text-center"><i class="fa-solid fa-person-walking text-warning me-2"></i>Ergonomes</div></div>
+            <div class="col-6"><div class="p-2 bg-white rounded shadow-sm small text-center"><i class="fa-solid fa-clipboard-check text-dark me-2"></i>IPRP / Techniciens</div></div>
         </div>
         <div class="mt-4">
             <a href="https://www.restev.fr/" target="_blank" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
@@ -513,14 +740,14 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
             <h6 class="mb-0 fw-bold">Subventions CARSAT</h6>
         </div>
         <p class="small text-muted mb-2">Aides financières pour les TPE/PME (Subventions Prévention TPE) permettant de financer du matériel.</p>
-        <a href="https://www.carsat-pl.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Consulter les aides Carsat Pays de la Loire</a>
+        <a href="https://www.carsat-pl.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100 mt-2">Consulter les aides Carsat Pays de la Loire</a>
     </div>
     <div class="card-custom" style="border-left-color: #3065a8;">
         <div class="d-flex align-items-center mb-2">
             <i class="fa-solid fa-book-open-reader fa-2x text-primary me-3"></i>
             <h6 class="mb-0 fw-bold">Documentation INRS</h6>
         </div>
-        <a href="https://www.inrs.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100">Accéder aux ressources INRS</a>
+        <a href="https://www.inrs.fr/" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark w-100 mt-2">Accéder aux ressources INRS</a>
     </div>
 </div>
 
@@ -533,15 +760,19 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <!-- PAGE INVENTAIRE -->
 <div id="page-list" class="app-page">
     <h5 class="fw-bold mb-3">Mon Parc Chimique</h5>
-    <div class="d-flex gap-2 mb-3">
-        <button class="btn-excel flex-grow-1 mb-0" onclick="exportToCSV()" style="border-radius: 12px; font-size: 0.85rem;">
-            <i class="fa-solid fa-file-csv"></i> EXPORT (CSV)
-        </button>
-        <button class="btn btn-danger flex-grow-1 fw-bold text-white shadow-sm mb-0" onclick="generatePDFProof()" style="border-radius: 12px; font-size: 0.85rem;">
-            <i class="fa-solid fa-file-pdf"></i> ATTESTATION
-        </button>
+    <div class="row g-2 mb-3">
+        <div class="col-6">
+            <button class="btn-excel mb-0" onclick="exportToCSV()" style="font-size: 0.85rem; height:48px;">
+                <i class="fa-solid fa-file-csv"></i> EXPORT (CSV)
+            </button>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-danger w-100 fw-bold text-white shadow-sm mb-0" onclick="generatePDFProof()" style="border-radius: var(--radius-sm); font-size: 0.85rem; height:48px;">
+                <i class="fa-solid fa-file-pdf"></i> ATTESTATION
+            </button>
+        </div>
     </div>
-    <button class="btn btn-outline-secondary w-100 mb-3" onclick="toggleArchives()" style="border-radius: 12px; font-size: 0.8rem; border-style: dashed;">
+    <button class="btn btn-outline-secondary w-100 mb-4" onclick="toggleArchives()" style="border-radius: var(--radius-sm); font-size: 0.8rem; border-style: dashed;">
         <i class="fa-solid fa-clock-rotate-left me-2"></i> VOIR LES ATTESTATIONS ARCHIVÉES
     </button>
     <div id="inventory-container"></div>
@@ -554,20 +785,20 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <!-- PAGE QUIZ -->
 <div id="page-quiz" class="app-page">
     <h5 class="fw-bold mb-3 text-center">Auto-Diag Prévention</h5>
-    <div class="card-custom" id="quiz-container">
+    <div class="card-custom px-3 py-4" id="quiz-container">
         <div id="q-box">
-            <div class="progress mb-3" style="height: 8px;"><div id="quiz-progress" class="progress-bar bg-primary" style="width: 10%;"></div></div>
-            <p id="q-text" class="fw-bold mb-4" style="min-height: 60px;">Chargement...</p>
-            <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Oui, tout à fait</button>
-            <button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt oui</button>
-            <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-3 fw-bold">Plutôt non</button>
-            <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-3 fw-bold">Pas du tout</button>
+            <div class="progress mb-4" style="height: 6px;"><div id="quiz-progress" class="progress-bar" style="width: 10%; background-color: var(--r-blue)"></div></div>
+            <p id="q-text" class="fw-bold mb-4 text-center" style="min-height: 60px; color:#1e293b; font-size:1.05rem;"></p>
+            <button onclick="quizAnswer(3)" class="btn btn-outline-primary w-100 mb-2 py-2.5 fw-semibold" style="border-color:var(--r-blue); color:var(--r-blue);">Oui, tout à fait</button>
+            <button onclick="quizAnswer(2)" class="btn btn-outline-primary w-100 mb-2 py-2.5 fw-semibold" style="border-color:var(--r-blue); color:var(--r-blue);">Plutôt oui</button>
+            <button onclick="quizAnswer(1)" class="btn btn-outline-primary w-100 mb-2 py-2.5 fw-semibold" style="border-color:var(--r-blue); color:var(--r-blue);">Plutôt non</button>
+            <button onclick="quizAnswer(0)" class="btn btn-outline-primary w-100 mb-4 py-2.5 fw-semibold" style="border-color:var(--r-blue); color:var(--r-blue);">Pas du tout</button>
         </div>
         <div id="q-result" style="display: none;" class="text-center">
             <div class="score-badge mb-2" id="quiz-score">0</div>
             <h5 class="fw-bold mb-3" id="quiz-label">Calcul...</h5>
             <p class="small text-muted mb-4" id="quiz-advice"></p>
-            <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5 py-2">Recommencer</button>
+            <button onclick="resetQuiz()" class="btn btn-primary rounded-pill px-5 py-2.5 fw-bold">Recommencer</button>
         </div>
     </div>
 </div>
@@ -590,29 +821,32 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 <div id="page-scan" class="app-page">
     <h5 class="fw-bold mb-3">Ajouter un produit</h5>
     <div class="card-custom">
-        <div id="reader" style="width:100%; border-radius: 15px; overflow: hidden; background: #000; min-height: 250px;"></div>
-        <button class="btn btn-dark w-100 mt-3 mb-4 py-2" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
+        <div id="reader" style="width:100%; border-radius: var(--radius-md); overflow: hidden; background: #000; min-height: 250px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6);"></div>
+        <button class="btn btn-dark w-100 mt-3 mb-4 py-2.5 fw-bold" style="border-radius:var(--radius-sm)" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
         <div class="mb-3">
             <label class="small fw-bold text-muted mb-1">Nom du produit</label>
             <div class="input-group">
                 <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
-                <button class="btn btn-warning text-white" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
+                <button class="btn btn-warning text-white fw-bold px-3" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
             </div>
         </div>
         <div class="mb-3">
             <label class="small fw-bold text-muted mb-1">Code-barres (facultatif)</label>
             <div class="input-group">
                 <input type="text" id="prod-code" class="form-control" placeholder="Scanner ou saisir le code">
-                <button class="btn btn-info text-white fw-bold" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
+                <button class="btn btn-info text-white fw-bold px-3" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
             </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
             <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
             <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
         </div>
         <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
     </div>
 </div>
+
+<!-- ZONE GLOBALE DES MODALS (Sortie du flux pour éviter les conflits de clics et CSS) -->
+<div id="global-modals-container"></div>
 
 <!-- DOCK DE NAVIGATION INFÉRIEUR -->
 <nav class="nav-bottom">
@@ -624,14 +858,12 @@ body { background-color: var(--r-light); font-family: 'Segoe UI', system-ui, san
 </nav>
 
 <script>
-// --- CONFIGURATION & ETAT ---
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let inventory = JSON.parse(localStorage.getItem('restev_inventory_v3')) || [];
 
-// --- DONNÉES FIXES ---
 const centres = [
     { n: "La Roche-sur-Yon (Siège)", t: "0251370668", a: "Impasse Newton, 85000 La Roche-sur-Yon", g: "https://maps.google.com/?q=Impasse+Newton+La+Roche+sur+Yon" },
     { n: "Montaigu-Vendée", t: "0251942014", a: "44 rue du 8 mai 1945, 85600 Montaigu-Vendée", g: "https://maps.google.com/?q=44+rue+du+8+mai+1945+Montaigu" },
@@ -714,14 +946,11 @@ const questions = [
 
 let currentQ = 0, totalScore = 0;
 
-// --- NAVIGATION ---
-function dismissSplash() {
+function Splash() {
     const splash = document.getElementById('splash');
     if (splash) {
-        splash.classList.add('splash-exit');
-        setTimeout(() => { 
-            splash.style.display = 'none'; 
-        }, 600); // Temps synchro avec la transition CSS
+        splash.style.opacity = '0';
+        setTimeout(() => { splash.style.display = 'none'; }, 800);
     }
 }
 
@@ -744,7 +973,6 @@ function nav(id, el) {
     window.scrollTo(0, 0);
 }
 
-// --- GESTION INVENTAIRE ---
 function renderInventory() {
     const container = document.getElementById('inventory-container');
     container.innerHTML = inventory.length ? '' : '<p class="text-center text-muted mt-4">Aucun produit enregistré.</p>';
@@ -759,7 +987,7 @@ function renderInventory() {
                 </div>
                 <button onclick="deleteItem(${item.id})" class="btn btn-sm text-danger"><i class="fa-solid fa-trash"></i></button>
             </div>
-            <a href="${finalLink}" target="_blank" class="btn btn-sm ${item.fdsUrl ? 'btn-danger' : 'btn-outline-primary'} w-100">
+            <a href="${finalLink}" target="_blank" class="btn btn-sm ${item.fdsUrl ? 'btn-danger' : 'btn-outline-primary'} w-100" style="border-radius:var(--radius-sm); padding: 8px;">
                 <i class="fa-solid ${item.fdsUrl ? 'fa-file-pdf' : 'fa-magnifying-glass'} me-1"></i> 
                 ${item.fdsUrl ? 'Consulter la FDS' : 'Chercher la FDS'}
             </a>
@@ -796,7 +1024,6 @@ function deleteItem(id) {
     }
 }
 
-// --- RECHERCHE & MASQUES ---
 function searchFDS() {
     const name = document.getElementById('prod-name').value;
     if(!name) return alert("Saisissez un nom.");
@@ -833,9 +1060,9 @@ function calculateMask() {
     
     const data = {
         'A': { c: '#63422d', t: 'FILTRE MARRON (Type A)', d: 'Vapeurs organiques (solvants, colles).' },
-        'B': { c: '#94a3b8', t: 'FILTRE GRIS (Type B)', d: 'Gaz et vapeurs inorganiques (chlore, acide cyanhydrique).' },
+        'B': { c: '#475569', t: 'FILTRE GRIS (Type B)', d: 'Gaz et vapeurs inorganiques (chlore, acide cyanhydrique).' },
         'E': { c: '#e6a00f', t: 'FILTRE JAUNE (Type E)', d: 'Gaz acides (dioxyde de soufre).' },
-        'K': { c: '#198754', t: 'FILTRE VERT (Type K)', d: 'Ammoniac et dérivés.' },
+        'K': { c: '#16a34a', t: 'FILTRE VERT (Type K)', d: 'Ammoniac et dérivés.' },
         'P': { c: '#ffffff', t: 'FILTRE BLANC (Type P3)', d: 'Particules, aérosols et poussières (Amiante, Bois).' },
         'AX': { c: '#63422d', t: 'FILTRE AX', d: 'Composés organiques à bas point d’ébullition (< 65°C).' }
     };
@@ -843,15 +1070,14 @@ function calculateMask() {
     if(val) {
         res.style.display = 'block';
         res.style.backgroundColor = data[val].c;
-        res.style.color = (val === 'P') ? 'black' : 'white';
-        res.style.border = (val === 'P') ? '2px solid #ccc' : 'none';
-        res.innerHTML = `<h6 class="mb-1">${data[val].t}</h6><small>${data[val].d}</small>`;
+        res.style.color = (val === 'P') ? '#1e293b' : 'white';
+        res.style.border = (val === 'P') ? '2px solid #cbd5e1' : 'none';
+        res.innerHTML = `<h6 class="mb-1 fw-bold">${data[val].t}</h6><small>${data[val].d}</small>`;
     } else {
         res.style.display = 'none';
     }
 }
 
-// --- LOGIQUE NOUVEAUX MODULES (GANTS & STOCKAGE) ---
 function calculateGlove() {
     const val = document.getElementById('glove-select').value;
     const res = document.getElementById('glove-result');
@@ -860,13 +1086,14 @@ function calculateGlove() {
         'nit': { t: 'GANTS EN NITRILE', d: 'Bonne protection générale, excellente résistance mécanique et face aux huiles ou acides dilués.' },
         'neo': { t: 'GANTS EN NÉOPRÈNE', d: 'Grande polyvalence chimique. Recommandés pour les acides concentrés, les bases et les alcools.' },
         'but': { t: 'GANTS EN BUTYLE', d: 'Protection maximale spécifique contre les cétones (Acétone, MEK) et les esters. Très étanches aux gaz.' },
-        'lat': { t: 'GANTS EN LATEX (Caoutchouc naturel)', d: 'Idéal pour le contact fréquent avec les produits aqueux et bases diluées. Risque d\'allergies.' },
+        'lat': { t: 'GANTS EN LATEX (Caoutchouc naturel)', d: 'Idéal pour le contact frequent avec les produits aqueux et bases diluées. Risque d\'allergies.' },
         'pvc': { t: 'GANTS EN PVC (Vinyle)', d: 'Très bonne barrière face aux acides forts, bases et acides aminés. Faible contre les solvants.' },
         'vit': { t: 'GANTS EN VITON / FLUOROÉLASTOMÈRE', d: 'Protection d\'expert haut de gamme pour les solvants chlorés (Trichloréthylène) et aromatiques.' }
     };
 
     if(val) {
         res.style.display = 'block';
+        res.style.backgroundColor = 'var(--r-teal)';
         res.innerHTML = `<h6 class="mb-1 fw-bold">${data[val].t}</h6><small>${data[val].d}</small>`;
     } else {
         res.style.display = 'none';
@@ -881,13 +1108,12 @@ function checkStorageCompatibility() {
     
     if (a === b) {
         resultBox.className = "p-3 rounded-3 text-center fw-bold text-white mb-2";
-        resultBox.style.backgroundColor = "#198754";
+        resultBox.style.backgroundColor = "#15803d";
         resultBox.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>Même famille : Autorisé`;
         detailsBox.innerText = "Veillez simplement à dimensionner correctement la rétention globale.";
         return;
     }
 
-    // Matrice de danger : true = compatible, false = interdit/séparé
     let compatible = true;
     let note = "Stockage possible sur une même rétention sous réserve d'absence de réaction spécifique mentionnée en Rubrique 10 de la FDS.";
 
@@ -906,16 +1132,15 @@ function checkStorageCompatibility() {
     }
 
     if (compatible) {
-        resultBox.style.backgroundColor = "#198754";
+        resultBox.style.backgroundColor = "#15803d";
         resultBox.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>Stockage Autorisé`;
     } else {
-        resultBox.style.backgroundColor = "#dc3545";
+        resultBox.style.backgroundColor = "#b91c1c";
         resultBox.innerHTML = `<i class="fa-solid fa-circle-xmark me-2"></i>STOCKAGE INTERDIT EN COMMUN`;
     }
     detailsBox.innerText = note;
 }
 
-// --- EDITIONS / PDF & CSV ---
 function exportToCSV() {
     if(inventory.length === 0) return alert("Inventaire vide.");
     let csv = "Nom,Code,URL_FDS\n";
@@ -964,13 +1189,12 @@ async function generatePDFProof() {
         headStyles: { fillColor: blue }
     });
 
-    const pdfBlob = doc.output('blob');
-    const pdfUrl = URL.createObjectURL(pdfBlob);
     let attestations = JSON.parse(localStorage.getItem('restev_attestations')) || [];
-    attestations.push({ company, date: `${dateFR} ${heureFR}`, products: inventory.length, file: pdfUrl });
+    attestations.push({ company, date: `${dateFR} ${heureFR}`, products: inventory.length });
     localStorage.setItem('restev_attestations', JSON.stringify(attestations));
 
     doc.save(`Attestation_RESTEV_${company}.pdf`);
+    if(document.getElementById('archives-container').style.display === 'block') renderAttestations();
 }
 
 function renderAttestations(){
@@ -980,7 +1204,7 @@ function renderAttestations(){
         container.innerHTML = `<p class="text-muted text-center">Aucune attestation enregistrée.</p>`;
         return;
     }
-    container.innerHTML = attestations.reverse().map(a => `
+    container.innerHTML = attestations.slice().reverse().map(a => `
         <div class="card-custom archive-item mb-3">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
@@ -988,7 +1212,7 @@ function renderAttestations(){
                     <small class="text-muted">${a.date}</small><br>
                     <small class="text-primary">${a.products} produit(s)</small>
                 </div>
-                <a href="${a.file}" target="_blank" class="btn btn-sm btn-primary"><i class="fa-solid fa-eye"></i> Voir</a>
+                <span class="badge bg-secondary text-white p-2" style="font-size:0.75rem;"><i class="fa-solid fa-file-pdf"></i> Généré</span>
             </div>
         </div>`).join('');
 }
@@ -999,17 +1223,23 @@ function toggleArchives(){
     if(box.style.display === 'block') renderAttestations();
 }
 
-// --- SGH / QUIZ / CENTRES ---
 function renderSGH() {
+    // Rend le listing des boutons de cartes SGH
     document.getElementById('sgh-list').innerHTML = sghData.map(s => `
         <div class="card-custom sgh-card" data-bs-toggle="modal" data-bs-target="#modal-${s.id}">
             <img src="${s.img}" class="sgh-img" onerror="this.src='https://placehold.co/65?text=SGH'">
-            <div><b>${s.title}</b><br><small>${s.desc}</small></div>
-        </div>
-        <div class="modal fade" id="modal-${s.id}" tabindex="-1">
+            <div><b class="text-dark">${s.title}</b><br><small class="text-muted">${s.desc}</small></div>
+        </div>`).join('');
+
+    // Isole et extrait les popups Modals au niveau racine du DOM pour éliminer les bugs de rendu Bootstrap
+    document.getElementById('global-modals-container').innerHTML = sghData.map(s => `
+        <div class="modal fade" id="modal-${s.id}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary text-white"><h5 class="modal-title">${s.title}</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-header text-white" style="background-color: var(--r-blue);">
+                        <h5 class="modal-title fw-bold">${s.title}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
                         <p><b>Danger :</b> ${detailsSGH[s.id].danger}</p>
                         <p><b>Risques :</b> ${detailsSGH[s.id].risques}</p>
@@ -1023,10 +1253,10 @@ function renderSGH() {
 function renderCentres() {
     document.getElementById('centres-list').innerHTML = centres.map(c => `
     <div class="card-custom mb-3">
-        <b>${c.n}</b><br><small>${c.a}</small>
-        <div class="d-flex gap-2 mt-2">
-            <a href="tel:${c.t}" class="btn btn-sm btn-primary flex-grow-1">Appeler</a>
-            <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1">Itinéraire</a>
+        <b class="text-dark" style="font-size:1.05rem;">${c.n}</b><br><small class="text-muted d-block mt-1"><i class="fa-solid fa-location-dot me-1"></i>${c.a}</small>
+        <div class="d-flex gap-2 mt-3">
+            <a href="tel:${c.t}" class="btn btn-sm btn-primary flex-grow-1 py-2" style="border-radius:8px; font-weight:600;">Appeler</a>
+            <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 py-2" style="border-radius:8px; font-weight:600;">Itinéraire</a>
         </div>
     </div>`).join('');
 }
@@ -1043,29 +1273,13 @@ function quizAnswer(p) {
         document.getElementById('q-box').style.display = 'none';
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-
-        let label = "";
-        let advice = "";
-
-        if (totalScore >= 25) {
-            label = "🏆 Excellent ! La culture sécurité est ancrée.";
-            advice = "Félicitations, la prévention des risques fait partie intégrante de votre quotidien ! Vos process sont solides et le DUERP semble maîtrisé. Continuez sur cette lancée. Votre équipe RESTEV reste à vos côtés pour maintenir ce haut niveau d'exigence lors de vos revues annuelles.";
-        } else if (totalScore >= 16) {
-            label = "📈 Bonne dynamique, mais des points restent à consolider.";
-            advice = "Vous avez de très bonnes bases, bravo ! Cependant, la sécurité chimique et la traçabilité demandent une vigilance de chaque instant. C'est le moment idéal pour peaufiner vos fiches de données de sécurité (FDS) et revoir vos compatibilités de stockage. Nos techniciens et ergonomes peuvent vous aider à franchir ce dernier palier en toute sérénité.";
-        } else {
-            label = "⚠️ Vigilance requise : Votre plan de prévention a des failles.";
-            advice = "Pas de panique, la prévention des risques est un processus continu. Ce score montre simplement que plusieurs aspects réglementaires ou pratiques (DUERP, EPI, stockage) méritent une action corrective rapide pour protéger vos équipes. Ne restez pas seul : contactez votre centre RESTEV de proximité pour planifier un accompagnement sur-mesure et sécuriser vos postes.";
-        }
-
-        document.getElementById('quiz-label').innerText = label;
-        document.getElementById('quiz-advice').innerText = advice;
+        document.getElementById('quiz-label').innerText = totalScore > 20 ? "Bonne maîtrise des risques." : "Des améliorations sont nécessaires.";
     }
 }
 
 function resetQuiz() { currentQ = 0; totalScore = 0; document.getElementById('q-box').style.display='block'; document.getElementById('q-result').style.display='none'; showQuestion(); }
 
-window.onload = () => { 
-    updateStats(); 
-    </body>
+window.onload = () => { updateStats(); setTimeout(Splash, 2000); };
+</script>
+</body>
 </html>
