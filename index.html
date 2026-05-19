@@ -785,6 +785,17 @@ body {
         <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
     </div>
 </div>
+    <div class="mb-3">
+    <label class="small fw-bold text-muted mb-1">Nom du produit</label>
+    <div class="input-group mb-2">
+        <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
+        <button class="btn btn-warning text-white fw-bold px-3" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
+    </div>
+    <button class="btn btn-sm btn-outline-danger w-100" onclick="searchINRS()" style="font-size:0.75rem;">
+        <i class="fa-solid fa-book-skull"></i> Chercher la Fiche Toxicologique INRS
+    </button>
+</div>
+
 <div class="form-check p-3 rounded-3 bg-light border border-warning mb-4 small">
     <input class="form-check-input ms-0 me-2" type="checkbox" id="chk-reconditionne">
     <label class="form-check-label fw-bold text-dark" for="chk-reconditionne">
@@ -1205,10 +1216,24 @@ function resetQuiz() {
     document.getElementById('q-result').style.display='none'; 
     showQuestion(); 
 }
+function searchINRS() {
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez un nom de substance (ex: Éthanol, Toluène...).");
+    window.open(`https://www.inrs.fr/publications/bdd/fichetox.html?query=${encodeURIComponent(name)}`, '_blank');
+}
+    
+
+// ... Tes autres fonctions (showQuestion, resetQuiz, etc.)
+
+// Gestion de l'affichage de l'alerte de reconditionnement
+document.getElementById('chk-reconditionne').addEventListener('change', function() {
+    document.getElementById('recond-alert').style.display = this.checked ? 'block' : 'none';
+});
 
 window.onload = () => { 
     updateStats(); 
 };
 </script>
+
 </body>
 </html>
