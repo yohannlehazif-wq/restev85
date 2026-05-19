@@ -623,6 +623,35 @@
                 <option value="GHS05">💥 Corrosif / Acide (GHS05 - Acide)</option>
                 <option value="GHS05_B">🧼 Corrosif / Base (GHS05 - Base)</option>
                 <option value="GHS06">💀 Toxique aigu (GHS06)</option>
+<!-- PAGE STOCKAGE ET COMPATIBILITÉS -->
+<div id="page-storage" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
+    
+    <!-- SIMULATEUR DE CROISEMENT PAR PICTOGRAMMES (INRS) -->
+    <div class="card-custom mb-4" style="border-left-color: var(--r-yellow);">
+        <h6 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-code-branch me-2 text-warning"></i>Simulateur de co-stockage (INRS)</h6>
+        <p class="small text-muted mb-3">Croisez les classes de danger ou les pictogrammes de deux produits pour vérifier s'ils peuvent être stockés sur la même rétention.</p>
+        
+        <div class="mb-3">
+            <label class="form-label small fw-bold text-secondary">Produit A (ou premier picto) :</label>
+            <select id="storage-prod-a" class="form-select fw-bold" onchange="verifierCompatibiliteStockage()">
+                <option value="GHS02">🔥 Inflammable (GHS02)</option>
+                <option value="GHS03">⚡ Comburant (GHS03)</option>
+                <option value="GHS05">💥 Corrosif / Acide (GHS05 - Acide)</option>
+                <option value="GHS05_B">🧼 Corrosif / Base (GHS05 - Base)</option>
+                <option value="GHS06">💀 Toxique aigu (GHS06)</option>
+                <option value="GHS08">👤 Danger santé / CMR (GHS08)</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label small fw-bold text-secondary">Produit B (ou deuxième picto) :</label>
+            <select id="storage-prod-b" class="form-select fw-bold" onchange="verifierCompatibiliteStockage()">
+                <option value="GHS02">🔥 Inflammable (GHS02)</option>
+                <option value="GHS03" selected>⚡ Comburant (GHS03)</option>
+                <option value="GHS05">💥 Corrosif / Acide (GHS05 - Acide)</option>
+                <option value="GHS05_B">🧼 Corrosif / Base (GHS05 - Base)</option>
+                <option value="GHS06">💀 Toxique aigu (GHS06)</option>
                 <option value="GHS08">👤 Danger santé / CMR (GHS08)</option>
             </select>
         </div>
@@ -633,6 +662,7 @@
         </div>
     </div>
 
+    <!-- REGLES D'OR DE LA RETENTION -->
     <div class="card-custom bg-white border-0 shadow-sm small mt-4" style="border-left: 5px solid var(--r-blue) !important;">
         <h6 class="fw-bold mb-3 text-primary"><i class="fa-solid fa-circle-info me-2"></i>Règles d'or de la rétention</h6>
         <div class="small text-muted">
@@ -650,6 +680,10 @@
             </div>
         </div>
     </div>
+    
+    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
+</div>
+
     
     <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
