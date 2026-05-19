@@ -462,7 +462,12 @@
     
     <!-- MODULE GANTS -->
     <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
-        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold text-primary mb-0"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
+            <button class="btn btn-xs btn-outline-primary py-1 px-2 fw-bold" style="font-size: 0.7rem; border-radius: 6px;" data-bs-toggle="modal" data-bs-target="#modal-info-gants">
+                <i class="fa-solid fa-circle-info me-1"></i> Infos Gants
+            </button>
+        </div>
         <p class="small text-muted mb-3">Choisissez le type de produit à manipuler pour trouver le bon matériau de gant (Norme EN ISO 374).</p>
         
         <div class="mb-3">
@@ -495,8 +500,13 @@
 
     <!-- MODULE MASQUES -->
     <div class="card-custom mb-4" style="border-left: 4px solid #ef4444;">
-        <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
-        <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche (Norme EN 14387).</p>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold text-danger mb-0"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
+            <button class="btn btn-xs btn-outline-danger py-1 px-2 fw-bold" style="font-size: 0.7rem; border-radius: 6px;" data-bs-toggle="modal" data-bs-target="#modal-info-masques">
+                <i class="fa-solid fa-clock me-1"></i> Durée & Infos
+            </button>
+        </div>
+        <p class="small text-muted mb-3">Alerte : <b>Si l'on sent une odeur, il est déjà trop tard !</b> Identifiez le type de polluant pour configurer la bonne cartouche (Norme EN 14387).</p>
         
         <div class="mb-3">
             <select id="epi-mask-pollutant" class="form-select fw-bold" onchange="updateMaskDiagnostic()">
@@ -520,6 +530,7 @@
         <div class="p-3 rounded-3 border-start border-danger border-4 bg-white shadow-sm small">
             <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-shield-halved me-1"></i>Règles d'or (Masques)</h6>
             <ul class="text-muted ps-3 mb-0">
+                <li class="mb-1 text-danger fw-bold"><i class="fa-solid fa-circle-exclamation me-1"></i>Alerte Odeur : Si vous percevez l'odeur du produit à l'intérieur du masque, la cartouche est saturée ou le masque mal ajusté. Le risque d'intoxication est immédiat !</li>
                 <li class="mb-1"><b>Barbe :</b> Une barbe brise l'étanchéité du joint facial et laisse s'infiltrer l'air pollué.</li>
                 <li class="mb-1"><b>Test d'étanchéité :</b> Obstruez les cartouches avec les paumes et inspirez pour tester la pression négative.</li>
                 <li><b>Taux d'Oxygène :</b> Interdiction absolue d'utiliser un filtre si le taux d'O₂ est inférieur à <b>17%</b>.</li>
@@ -796,7 +807,97 @@
     </div>
 </div>
 
+<!-- CONTENEUR DE MODALES (INCLUSIONS NOUVELLES MODALES EPI) -->
 <div id="global-modals-container"></div>
+
+<!-- MODALE INFO GANTS DÉDIÉE (Nouveau bouton) -->
+<div class="modal fade" id="modal-info-gants" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color: var(--r-blue);">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-hand-dots me-2"></i>Données Réelles : Résistance des Gants</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="font-size: 0.88rem;">
+                <h6 class="fw-bold text-primary mb-2">Norme EN ISO 374 : Comprendre les indices</h6>
+                <p class="text-muted mb-3">La résistance d'un gant chimique repose sur trois concepts validés en laboratoire (INRS) :</p>
+                <ul>
+                    <li class="mb-2"><b>La perméation :</b> Processus par lequel un produit chimique se propage à travers le film protecteur à l'échelle moléculaire (sans trou visible).</li>
+                    <li class="mb-2"><b>La pénétration :</b> Passage du fluide à travers les imperfections macroscopiques (micro-trous, coutures).</li>
+                    <li class="mb-2"><b>La dégradation :</b> Altération physique du gant (durcissement, gonflement, fragilisation) au contact du produit.</li>
+                </ul>
+                <hr>
+                <h6 class="fw-bold text-success mb-2">Tableau des Temps de passage indicatifs (0,4 mm)</h6>
+                <table class="table table-sm table-bordered text-center small text-muted">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th>Matériau</th>
+                            <th>Acides forts</th>
+                            <th>Solvants (Essence)</th>
+                            <th>Acétone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-dark">Nitrile</td>
+                            <td class="text-warning">Moyen</td>
+                            <td class="text-success">Excellent</td>
+                            <td class="text-danger">Immédiat (&lt;2 min)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-dark">Butyle</td>
+                            <td class="text-success">Excellent</td>
+                            <td class="text-danger">Faible</td>
+                            <td class="text-success">Excellent (&gt;480 min)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-dark">Néoprène</td>
+                            <td class="text-success">Excellent</td>
+                            <td class="text-warning">Moyen</td>
+                            <td class="text-danger">Mauvais</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-muted small mt-2 mb-0"><i>Source : Fiches de prévention du risque chimique INRS. Reportez-vous toujours à la Section 8 de votre FDS spécifique.</i></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE INFO MASQUES ET CARTOUCHES DÉDIÉE (Nouveau bouton) -->
+<div class="modal fade" id="modal-info-masques" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color: #ef4444;">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-head-side-mask me-2"></i>Temps d'utilisation & Seuils</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="font-size: 0.88rem;">
+                <div class="alert alert-danger d-flex align-items-start border-0 shadow-sm p-3 mb-3">
+                    <i class="fa-solid fa-triangle-exclamation fs-4 me-3 mt-1 text-danger"></i>
+                    <div>
+                        <strong class="text-danger">REGLE ABSOLUE DE SÉCURITÉ :</strong><br>
+                        <b>Si l'on sent l'odeur du produit inside le masque, il est déjà trop tard.</b> La cartouche a dépassé son point de claquage (saturation complète du charbon actif) et vous inhalez directement le toxique. Évacuez la zone immédiatement.
+                    </div>
+                </div>
+                
+                <h6 class="fw-bold text-dark mb-2">Facteurs influençant la durée de vie d'un filtre :</h6>
+                <ul class="text-muted ps-3 mb-3">
+                    <li class="mb-1"><b>Concentration du polluant :</b> Plus l'atmosphère est chargée, plus la cartouche sature vite.</li>
+                    <li class="mb-1"><b>Rythme respiratoire :</b> Un travailleur à l'effort inhale un volume d'air plus important (augmentation du débit d'air pollué à travers le filtre).</li>
+                    <li class="mb-1"><b>Humidité ambiante :</b> L'eau présente dans l'air colonise les sites de fixation du charbon actif au détriment des molécules de solvant.</li>
+                </ul>
+                <hr>
+                <h6 class="fw-bold text-primary mb-2">Capacité de rétention selon la Classe (Norme EN 14387)</h6>
+                <ul class="text-muted list-unstyled ps-0">
+                    <li class="mb-2">⏹️ <b>Classe 1 (Petite capacité) :</b> Concentration maximale autorisée en polluant de <b>0,1%</b> en volume (1000 ppm).</li>
+                    <li class="mb-2">⏹️ <b>Classe 2 (Moyenne capacité) :</b> Concentration maximale autorisée en polluant de <b>0,5%</b> en volume (5000 ppm). Recommandé en atelier de maintenance.</li>
+                    <li class="mb-2">⏹️ <b>Classe 3 (Grande capacité) :</b> Concentration maximale autorisée de <b>1%</b> en volume (10 000 ppm). Rare, nécessite souvent un appareil à adduction d'air.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- NAVIGATION BOTTOM -->
 <nav class="nav-bottom">
@@ -855,7 +956,7 @@ const questions = [
     "Les accidents ou 'presque accidents' sont-ils tracés et analysés ?",
     "Les salariés connaissent-ils les gestes de premiers secours ?",
     "Les produits chimiques sont-ils tous identifiés par une étiquette ?",
-    "Le matériel de sécurité (douche de sécurité, kit anti-pollution) est-il testé ?",
+    "Le matériel de sécurité (douche de sécurité, kit anti-pollution) is-il testé ?",
     "La prévention est-elle discutée lors de réunions régulières ?"
 ];
 
@@ -1109,7 +1210,7 @@ function verifierCompatibiliteStockage() {
         default:
             box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
             title.innerHTML = "<span class='text-warning'>🟡 À isoler sur rétention distincte</span>";
-            desc.innerText = "Le co-stockage dans la même pièce é possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
+            desc.innerText = "Le co-stockage dans la même pièce est possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
             break;
     }
 }
