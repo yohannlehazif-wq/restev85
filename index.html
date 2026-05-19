@@ -742,14 +742,13 @@ body {
     <div class="card-custom" style="border-left-color: #dc3545;"><h6><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Rubrique 2 : Identification des dangers</h6><p class="small mb-0"><b>Contenu :</b> Classification de la substance, éléments d'étiquetage (phrases H et P) et pictogrammes SGH associés.</p></div>
     <div class="card-custom" style="border-left-color: #198754;"><h6><i class="fa-solid fa-kit-medical text-success me-2"></i> Rubrique 4 : Premiers secours</h6><p class="small mb-0"><b>Contenu :</b> Actions immédiates à mener selon la voie d'exposition (inhalation, contact cutané, oculaire ou ingestion).</p></div>
     <div class="card-custom" style="border-left-color: #3065a8;"><h6><i class="fa-solid fa-mask-ventilator text-primary me-2"></i> Rubrique 8 : Contrôle de l'exposition / Protection individuelle</h6><p class="small mb-0"><b>Contenu :</b> Valeurs limites d'exposition (VLEP) et spécifications exactes des EPI requis (matériaux de gants, types de filtres).</p></div>
-<div class="card-custom" style="border-left-color: #fd7e14;">
-    <h6><i class="fa-solid fa-wind text-warning me-2"></i> Le piège des "Produits Formés" (Sans FDS)</h6>
-    <p class="small mb-0">
-        <b>Attention :</b> Une FDS n'existe que pour les produits *achetés*. Les poussières (bois, silice), les fumées (soudage) ou les vapeurs de cuisson/mélanges sont des agents chimiques dangereux générés par votre activité. 
-        <br><strong class="text-danger">Règle :</strong> Ils doivent obligatoirement être intégrés à votre évaluation des risques (DUERP).
-    </p>
-</div>
-    
+    <div class="card-custom" style="border-left-color: #fd7e14;">
+        <h6><i class="fa-solid fa-wind text-warning me-2"></i> Le piège des "Produits Formés" (Sans FDS)</h6>
+        <p class="small mb-0">
+            <b>Attention :</b> Une FDS n'existe que pour les produits *achetés*. Les poussières (bois, silice), les fumées (soudage) ou les vapeurs de cuisson/mélanges sont des agents chimiques dangereux générés par votre activité. 
+            <br><strong class="text-danger">Règle :</strong> Ils doivent obligatoirement être intégrés à votre évaluation des risques (DUERP).
+        </p>
+    </div>
 </div>
 
 <!-- PAGE CENTRES -->
@@ -764,13 +763,18 @@ body {
     <div class="card-custom">
         <div id="reader" style="width:100%; border-radius: var(--radius-md); overflow: hidden; background: #000; min-height: 250px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6);"></div>
         <button class="btn btn-dark w-100 mt-3 mb-4 py-2.5 fw-bold" style="border-radius:var(--radius-sm)" onclick="startScanner()"><i class="fa-solid fa-camera me-2"></i>ACTIVER LA CAMÉRA</button>
+        
         <div class="mb-3">
             <label class="small fw-bold text-muted mb-1">Nom du produit</label>
-            <div class="input-group">
+            <div class="input-group mb-2">
                 <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
                 <button class="btn btn-warning text-white fw-bold px-3" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
             </div>
+            <button class="btn btn-sm btn-outline-danger w-100" onclick="searchINRS()" style="font-size:0.75rem;">
+                <i class="fa-solid fa-book-skull"></i> Chercher la Fiche Toxicologique INRS
+            </button>
         </div>
+        
         <div class="mb-3">
             <label class="small fw-bold text-muted mb-1">Code-barres (facultatif)</label>
             <div class="input-group">
@@ -778,31 +782,23 @@ body {
                 <button class="btn btn-info text-white fw-bold px-3" onclick="searchBarcodeDB()"><i class="fa-solid fa-cloud-arrow-down"></i> VÉRIFIER</button>
             </div>
         </div>
-        <div class="mb-4">
+        
+        <div class="mb-3">
             <label class="small fw-bold text-muted mb-1">Lien direct vers la FDS (URL PDF)</label>
             <input type="url" id="prod-url" class="form-control" placeholder="Copiez le lien du PDF ici">
         </div>
-        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
-    </div>
-</div>
-    <div class="mb-3">
-    <label class="small fw-bold text-muted mb-1">Nom du produit</label>
-    <div class="input-group mb-2">
-        <input type="text" id="prod-name" class="form-control" placeholder="Ex: Acétone">
-        <button class="btn btn-warning text-white fw-bold px-3" onclick="searchFDS()"><i class="fa-solid fa-magnifying-glass"></i> FDS</button>
-    </div>
-    <button class="btn btn-sm btn-outline-danger w-100" onclick="searchINRS()" style="font-size:0.75rem;">
-        <i class="fa-solid fa-book-skull"></i> Chercher la Fiche Toxicologique INRS
-    </button>
-</div>
 
-<div class="form-check p-3 rounded-3 bg-light border border-warning mb-4 small">
-    <input class="form-check-input ms-0 me-2" type="checkbox" id="chk-reconditionne">
-    <label class="form-check-label fw-bold text-dark" for="chk-reconditionne">
-        ⚠️ Ce produit est-il transvasé / reconditionné ?
-    </label>
-    <div id="recond-alert" class="text-muted mt-1" style="font-size: 0.8rem; display:none;">
-        <span class="text-danger fw-bold">Obligation :</span> Si vous transvasez ce produit, vous devez **recopier l'étiquetage d'origine (pictogrammes SGH)** sur le nouveau récipient. Ne jamais utiliser de contenant alimentaire !
+        <div class="form-check p-3 rounded-3 bg-light border border-warning mb-4 small">
+            <input class="form-check-input ms-0 me-2" type="checkbox" id="chk-reconditionne">
+            <label class="form-check-label fw-bold text-dark" for="chk-reconditionne">
+                ⚠️ Ce produit est-il transvasé / reconditionné ?
+            </label>
+            <div id="recond-alert" class="text-muted mt-1" style="font-size: 0.8rem; display:none;">
+                <span class="text-danger fw-bold">Obligation :</span> Si vous transvasez ce produit, vous devez **recopier l'étiquetage d'origine (pictogrammes SGH)** sur le nouveau récipient. Ne jamais utiliser de contenant alimentaire !
+            </div>
+        </div>
+
+        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
     </div>
 </div>
     
@@ -925,6 +921,15 @@ async function saveProduct() {
     const fdsUrl = document.getElementById('prod-url').value;
     if (!name) return alert("Nom du produit requis.");
 
+    // Détection automatique de mots clés sensibles
+    const sensitiveWords = ['acetone', 'acide', 'ammoniaque', 'solvant', 'peinture', 'resine'];
+    const productNameLower = name.toLowerCase();
+    let hasAlert = sensitiveWords.some(word => productNameLower.includes(word));
+
+    if (hasAlert) {
+        alert("ℹ️ RESTEV Prévention : Ce produit contient des agents potentiellement volatils ou corrosifs. Pensez à vérifier l'efficacité de vos aspirations localisées (hottes/VMC).");
+    }
+
     const newProduct = { id: Date.now(), name, code, fdsUrl };
     inventory.push(newProduct);
     localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
@@ -936,20 +941,20 @@ async function saveProduct() {
     document.getElementById('prod-name').value = '';
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
+    
+    // Décocher la case reconditionné s'il elle était cochée
+    const chkRecond = document.getElementById('chk-reconditionne');
+    if(chkRecond) {
+        chkRecond.checked = false;
+        document.getElementById('recond-alert').style.display = 'none';
+    }
+
     updateStats();
     nav('page-list', document.getElementById('nav-list'));
 }
 
 function deleteItem(id) {
     if(confirm("Supprimer ?")) {
-       // Détection automatique de mots clés sensibles
-const sensitiveWords = ['acetone', 'acide', 'ammoniaque', 'solvant', 'peinture', 'resine'];
-const productNameLower = name.toLowerCase();
-let hasAlert = sensitiveWords.some(word => productNameLower.includes(word));
-
-if (hasAlert) {
-    alert("ℹ️ RESTEV Prévention : Ce produit contient des agents potentiellement volatils ou corrosifs. Pensez à vérifier l'efficacité de vos aspirations localisées (hottes/VMC).");
-}
         inventory = inventory.filter(i => i.id !== id);
         localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
         renderInventory(); updateStats();
@@ -960,6 +965,12 @@ function searchFDS() {
     const name = document.getElementById('prod-name').value;
     if(!name) return alert("Saisissez un nom.");
     window.open(`https://www.google.com/search?q=FDS+${encodeURIComponent(name)}+filetype:pdf`, '_blank');
+}
+
+function searchINRS() {
+    const name = document.getElementById('prod-name').value;
+    if(!name) return alert("Saisissez un nom de substance (ex: Éthanol, Toluène...).");
+    window.open(`https://www.inrs.fr/publications/bdd/fichetox.html?query=${encodeURIComponent(name)}`, '_blank');
 }
 
 async function searchBarcodeDB() {
@@ -1205,7 +1216,7 @@ function quizAnswer(p) {
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
         document.getElementById('quiz-label').innerText = totalScore > 20 ? "Excellente maîtrise globale." : "Des actions de prévention sont recommandées.";
-        document.getElementById('quiz-advice').innerText = totalScore > 20 ? "Votre structure montre une solide culture de sécurité. Continuez vos veilles réglementaires !" : "Contactez votre technicien de prévention RESTEV pour planifier une mise à jour de vos outils de diagnostic et du DUERP.";
+        document.getElementById('quiz-advice').innerText = totalScore > 20 ? "Votre structure montre une solide culture de sécurité. Continuez vos veilles réglementaires !" : "Contactez votre technician de prévention RESTEV pour planifier une mise à jour de vos outils de diagnostic et du DUERP.";
     }
 }
 
@@ -1216,18 +1227,17 @@ function resetQuiz() {
     document.getElementById('q-result').style.display='none'; 
     showQuestion(); 
 }
-function searchINRS() {
-    const name = document.getElementById('prod-name').value;
-    if(!name) return alert("Saisissez un nom de substance (ex: Éthanol, Toluène...).");
-    window.open(`https://www.inrs.fr/publications/bdd/fichetox.html?query=${encodeURIComponent(name)}`, '_blank');
-}
+
+// Sécurisation de l'initialisation des écouteurs d'événements dynamiques au chargement complet du DOM
+document.addEventListener('DOMContentLoaded', () => {
+    const chkRecond = document.getElementById('chk-reconditionne');
+    const alertRecond = document.getElementById('recond-alert');
     
-
-// ... Tes autres fonctions (showQuestion, resetQuiz, etc.)
-
-// Gestion de l'affichage de l'alerte de reconditionnement
-document.getElementById('chk-reconditionne').addEventListener('change', function() {
-    document.getElementById('recond-alert').style.display = this.checked ? 'block' : 'none';
+    if (chkRecond && alertRecond) {
+        chkRecond.addEventListener('change', function() {
+            alertRecond.style.display = this.checked ? 'block' : 'none';
+        });
+    }
 });
 
 window.onload = () => { 
