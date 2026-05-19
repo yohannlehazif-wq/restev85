@@ -1,396 +1,397 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RESTEV 85 - Expert Prévention</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RESTEV 85 - Expert Prévention</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3065a8">
-<link rel="icon" type="image/png" href="logo_restev_carre.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3065a8">
+    <link rel="icon" type="image/png" href="logo_restev_carre.png">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RESTEV 85">
-<link rel="apple-touch-icon" href="logo_restev_carre.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RESTEV 85">
+    <link rel="apple-touch-icon" href="logo_restev_carre.png">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<style>
-:root { 
-    --r-blue: #3065a8; 
-    --r-blue-dark: #1e4475;
-    --r-teal: #75bba8; 
-    --r-purple: #ae227d; 
-    --r-yellow: #e6a00f; 
-    --r-light: #f4f7fa; 
-    --shadow-sm: 0 2px 8px rgba(48, 101, 168, 0.05);
-    --shadow-md: 0 8px 24px rgba(48, 101, 168, 0.08);
-    --shadow-lg: 0 16px 32px rgba(30, 68, 117, 0.12);
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-}
+    <style>
+    :root { 
+        --r-blue: #3065a8; 
+        --r-blue-dark: #1e4475;
+        --r-teal: #75bba8; 
+        --r-purple: #ae227d; 
+        --r-yellow: #e6a00f; 
+        --r-light: #f4f7fa; 
+        --shadow-sm: 0 2px 8px rgba(48, 101, 168, 0.05);
+        --shadow-md: 0 8px 24px rgba(48, 101, 168, 0.08);
+        --shadow-lg: 0 16px 32px rgba(30, 68, 117, 0.12);
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+    }
 
-body { 
-    background-color: var(--r-light); 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-    margin-bottom: 110px; 
-    overflow-x: hidden; 
-    user-select: none; 
-    color: #334155;
-    -webkit-font-smoothing: antialiased;
-}
+    body { 
+        background-color: var(--r-light); 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+        margin-bottom: 110px; 
+        overflow-x: hidden; 
+        user-select: none; 
+        color: #334155;
+        -webkit-font-smoothing: antialiased;
+    }
 
-#splash { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 9999; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: radial-gradient(circle at center, #254d80 0%, #112237 100%);
-    transition: all 0.6s cubic-bezier(0.77, 0, 0.175, 1); 
-    overflow: hidden;
-}
+    #splash { 
+        position: fixed; 
+        inset: 0; 
+        z-index: 9999; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        background: radial-gradient(circle at center, #254d80 0%, #112237 100%);
+        transition: all 0.6s cubic-bezier(0.77, 0, 0.175, 1); 
+        overflow: hidden;
+    }
 
-#splash::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
-                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-position: center;
-    mask-image: radial-gradient(circle, black 40%, transparent 80%);
-    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 80%);
-}
+    #splash::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
+                          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
+        background-position: center;
+        mask-image: radial-gradient(circle, black 40%, transparent 80%);
+        -webkit-mask-image: radial-gradient(circle, black 40%, transparent 80%);
+    }
 
-.logo-wrapper {
-    position: relative;
-    display: inline-block;
-    transform: scale(0) rotate(-15deg);
-    animation: logoPopIn 1s cubic-bezier(0.34, 1.7, 0.64, 1) 0.2s forwards;
-    margin-bottom: 25px;
-}
+    .logo-wrapper {
+        position: relative;
+        display: inline-block;
+        transform: scale(0) rotate(-15deg);
+        animation: logoPopIn 1s cubic-bezier(0.34, 1.7, 0.64, 1) 0.2s forwards;
+        margin-bottom: 25px;
+    }
 
-.splash-logo {
-    width: 120px;
-    height: 120px;
-    border-radius: var(--radius-md);
-    background: white;
-    padding: 12px;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 0 30px rgba(48, 101, 168, 0.4);
-}
+    .splash-logo {
+        width: 120px;
+        height: 120px;
+        border-radius: var(--radius-md);
+        background: white;
+        padding: 12px;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 0 30px rgba(48, 101, 168, 0.4);
+    }
 
-.logo-pulse-ring {
-    position: absolute;
-    inset: -5px;
-    border: 2px solid var(--r-teal);
-    border-radius: 20px;
-    z-index: 1;
-    opacity: 0;
-    animation: ringPulse 2.5s ease-out infinite 1.2s;
-}
+    .logo-pulse-ring {
+        position: absolute;
+        inset: -5px;
+        border: 2px solid var(--r-teal);
+        border-radius: 20px;
+        z-index: 1;
+        opacity: 0;
+        animation: ringPulse 2.5s ease-out infinite 1.2s;
+    }
 
-.scan-line {
-    position: absolute;
-    left: 0; right: 0; top: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--r-yellow), transparent);
-    box-shadow: 0 0 12px var(--r-yellow);
-    z-index: 3;
-    opacity: 0.8;
-    animation: laserScan 3s ease-in-out infinite 1.5s;
-    pointer-events: none;
-}
+    .scan-line {
+        position: absolute;
+        left: 0; right: 0; top: 0;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--r-yellow), transparent);
+        box-shadow: 0 0 12px var(--r-yellow);
+        z-index: 3;
+        opacity: 0.8;
+        animation: laserScan 3s ease-in-out infinite 1.5s;
+        pointer-events: none;
+    }
 
-.app-title-reveal {
-    font-size: 2.2rem;
-    font-weight: 900;
-    letter-spacing: 4px;
-    background: linear-gradient(45deg, #ffffff, #93c5fd);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    opacity: 0;
-    transform: translateY(15px);
-    animation: textSlideUp 0.6s ease-out 0.8s forwards;
-}
+    .app-title-reveal {
+        font-size: 2.2rem;
+        font-weight: 900;
+        letter-spacing: 4px;
+        background: linear-gradient(45deg, #ffffff, #93c5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0;
+        transform: translateY(15px);
+        animation: textSlideUp 0.6s ease-out 0.8s forwards;
+    }
 
-.splash-subtitle-animated {
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--r-teal);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: textSlideUp 0.6s ease-out 1s forwards;
-    margin-top: 5px;
-}
+    .splash-subtitle-animated {
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--r-teal);
+        opacity: 0;
+        transform: translateY(10px);
+        animation: textSlideUp 0.6s ease-out 1s forwards;
+        margin-top: 5px;
+    }
 
-.ecg-container-premium {
-    width: 180px;
-    margin: 20px auto;
-    opacity: 0;
-    animation: fadeInECG 0.8s ease-out 1.2s forwards;
-}
+    .ecg-container-premium {
+        width: 180px;
+        margin: 20px auto;
+        opacity: 0;
+        animation: fadeInECG 0.8s ease-out 1.2s forwards;
+    }
 
-.ecg-line-premium {
-    fill: none;
-    stroke: #ef4444; 
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 400;
-    stroke-dashoffset: 400;
-    animation: heartbeatStream 2.5s linear infinite;
-}
+    .ecg-line-premium {
+        fill: none;
+        stroke: #ef4444; 
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 400;
+        stroke-dashoffset: 400;
+        animation: heartbeatStream 2.5s linear infinite;
+    }
 
-.btn-enter-premium {
-    position: relative;
-    background: white;
-    color: var(--r-blue-dark);
-    border: none;
-    padding: 14px 40px;
-    border-radius: 50px;
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: 1.5px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transform: scale(0.9);
-    animation: btnReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards, breathing 3s ease-in-out infinite 2s;
-    transition: all 0.2s ease;
-}
+    .btn-enter-premium {
+        position: relative;
+        background: white;
+        color: var(--r-blue-dark);
+        border: none;
+        padding: 14px 40px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.95rem;
+        letter-spacing: 1.5px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: scale(0.9);
+        animation: btnReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards, breathing 3s ease-in-out infinite 2s;
+        transition: all 0.2s ease;
+    }
 
-.btn-enter-premium span {
-    position: relative;
-    z-index: 2;
-}
+    .btn-enter-premium span {
+        position: relative;
+        z-index: 2;
+    }
 
-.btn-enter-premium::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(117, 187, 168, 0.3), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.5s;
-    z-index: 1;
-}
+    .btn-enter-premium::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(117, 187, 168, 0.3), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
+        z-index: 1;
+    }
 
-.btn-enter-premium:active {
-    transform: scale(0.95) !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+    .btn-enter-premium:active {
+        transform: scale(0.95) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-@keyframes logoPopIn {
-    0% { transform: scale(0) rotate(-25deg); filter: blur(5px); }
-    70% { transform: scale(1.15) rotate(5deg); filter: blur(0); }
-    100% { transform: scale(1) rotate(0deg); }
-}
+    @keyframes logoPopIn {
+        0% { transform: scale(0) rotate(-25deg); filter: blur(5px); }
+        70% { transform: scale(1.15) rotate(5deg); filter: blur(0); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
 
-@keyframes ringPulse {
-    0% { transform: scale(0.95); opacity: 0.8; }
-    50% { opacity: 0.4; }
-    100% { transform: scale(1.3); opacity: 0; }
-}
+    @keyframes ringPulse {
+        0% { transform: scale(0.95); opacity: 0.8; }
+        50% { opacity: 0.4; }
+        100% { transform: scale(1.3); opacity: 0; }
+    }
 
-@keyframes laserScan {
-    0%, 100% { top: 0%; opacity: 0; }
-    10%, 90% { opacity: 1; }
-    50% { top: 100%; opacity: 1; }
-}
+    @keyframes laserScan {
+        0%, 100% { top: 0%; opacity: 0; }
+        10%, 90% { opacity: 1; }
+        50% { top: 100%; opacity: 1; }
+    }
 
-@keyframes textSlideUp {
-    to { opacity: 1; transform: translateY(0); }
-}
+    @keyframes textSlideUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-@keyframes fadeInECG {
-    to { opacity: 0.7; }
-}
+    @keyframes fadeInECG {
+        to { opacity: 0.7; }
+    }
 
-@keyframes heartbeatStream {
-    0% { stroke-dashoffset: 400; }
-    60% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -400; }
-}
+    @keyframes heartbeatStream {
+        0% { stroke-dashoffset: 400; }
+        60% { stroke-dashoffset: 0; }
+        100% { stroke-dashoffset: -400; }
+    }
 
-@keyframes btnReveal {
-    to { opacity: 1; transform: scale(1); }
-}
+    @keyframes btnReveal {
+        to { opacity: 1; transform: scale(1); }
+    }
 
-@keyframes breathing {
-    0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); }
-    50% { transform: scale(1.03); box-shadow: 0 12px 35px rgba(117, 187, 168, 0.4); }
-}
+    @keyframes breathing {
+        0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); }
+        50% { transform: scale(1.03); box-shadow: 0 12px 35px rgba(117, 187, 168, 0.4); }
+    }
 
-.splash-exit {
-    transform: scale(1.2) !important;
-    opacity: 0 !important;
-    filter: blur(10px);
-}
+    .splash-exit {
+        transform: scale(1.2) !important;
+        opacity: 0 !important;
+        filter: blur(10px);
+    }
 
-.app-header { 
-    background: white; 
-    padding: 14px; 
-    text-align: center; 
-    border-bottom: 3px solid var(--r-yellow); 
-    position: sticky; 
-    top: 0; 
-    z-index: 1000; 
-    box-shadow: var(--shadow-sm);
-}
+    .app-header { 
+        background: white; 
+        padding: 14px; 
+        text-align: center; 
+        border-bottom: 3px solid var(--r-yellow); 
+        position: sticky; 
+        top: 0; 
+        z-index: 1000; 
+        box-shadow: var(--shadow-sm);
+    }
 
-.logo-header { height: 36px; object-fit: contain; }
+    .logo-header { height: 36px; object-fit: contain; }
 
-.info-banner { 
-    background: #e0f2fe; 
-    color: #0369a1; 
-    padding: 6px 0; 
-    overflow: hidden; 
-    white-space: nowrap; 
-    font-weight: 600; 
-    font-size: 0.75rem; 
-    border-bottom: 1px solid #bae6fd; 
-}
+    .info-banner { 
+        background: #e0f2fe; 
+        color: #0369a1; 
+        padding: 6px 0; 
+        overflow: hidden; 
+        white-space: nowrap; 
+        font-weight: 600; 
+        font-size: 0.75rem; 
+        border-bottom: 1px solid #bae6fd; 
+    }
 
-.ticker { 
-    display: inline-block; 
-    animation: ticker 45s linear infinite; 
-}
+    .ticker { 
+        display: inline-block; 
+        animation: ticker 45s linear infinite; 
+    }
 
-.ticker span { padding-right: 60px; }
+    .ticker span { padding-right: 60px; }
 
-@keyframes ticker {
-    0% { transform: translateX(100vw); }
-    100% { transform: translateX(-100%); }
-}
+    @keyframes ticker {
+        0% { transform: translateX(100vw); }
+        100% { transform: translateX(-100%); }
+    }
 
-.nav-bottom { 
-    position: fixed; 
-    bottom: 20px; 
-    left: 15px; 
-    right: 15px; 
-    background: rgba(255, 255, 255, 0.92); 
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px);
-    display: flex; 
-    justify-content: space-around; 
-    padding: 10px 5px; 
-    border-radius: var(--radius-lg); 
-    box-shadow: var(--shadow-lg); 
-    z-index: 1000; 
-    border: 1px solid rgba(255, 255, 255, 0.6);
-}
+    .nav-bottom { 
+        position: fixed; 
+        bottom: 20px; 
+        left: 15px; 
+        right: 15px; 
+        background: rgba(255, 255, 255, 0.92); 
+        backdrop-filter: blur(12px); 
+        -webkit-backdrop-filter: blur(12px);
+        display: flex; 
+        justify-content: space-around; 
+        padding: 10px 5px; 
+        border-radius: var(--radius-lg); 
+        box-shadow: var(--shadow-lg); 
+        z-index: 1000; 
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
 
-.nav-item { 
-    border: none; 
-    background: none; 
-    color: #64748b; 
-    font-size: 0.62rem; 
-    font-weight: 700; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    flex: 1; 
-    text-decoration: none; 
-    outline: none; 
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: var(--radius-md);
-    padding: 6px 0;
-}
+    .nav-item { 
+        border: none; 
+        background: none; 
+        color: #64748b; 
+        font-size: 0.62rem; 
+        font-weight: 700; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        flex: 1; 
+        text-decoration: none; 
+        outline: none; 
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: var(--radius-md);
+        padding: 6px 0;
+    }
 
-.nav-item:active {
-    transform: scale(0.9);
-    background: rgba(48, 101, 168, 0.05);
-}
+    .nav-item:active {
+        transform: scale(0.9);
+        background: rgba(48, 101, 168, 0.05);
+    }
 
-.nav-item.active { color: var(--r-blue); }
-.nav-item i { font-size: 1.35rem; margin-bottom: 4px; transition: transform 0.2s ease; }
-.nav-item.active i { transform: translateY(-2px); }
+    .nav-item.active { color: var(--r-blue); }
+    .nav-item i { font-size: 1.35rem; margin-bottom: 4px; transition: transform 0.2s ease; }
+    .nav-item.active i { transform: translateY(-2px); }
 
-.app-page { display: none; padding: 22px 16px; animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-.active-page { display: block !important; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .app-page { display: none; padding: 22px 16px; animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+    .active-page { display: block !important; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-.card-custom { 
-    background: white; 
-    border-radius: var(--radius-md); 
-    padding: 20px; 
-    margin-bottom: 16px; 
-    border: none;
-    border-left: 5px solid var(--r-blue); 
-    box-shadow: var(--shadow-md); 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    .card-custom { 
+        background: white; 
+        border-radius: var(--radius-md); 
+        padding: 20px; 
+        margin-bottom: 16px; 
+        border: none;
+        border-left: 5px solid var(--r-blue); 
+        box-shadow: var(--shadow-md); 
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-.card-custom:active {
-    transform: translateY(1px);
-    box-shadow: var(--shadow-sm);
-}
+    .card-custom:active {
+        transform: translateY(1px);
+        box-shadow: var(--shadow-sm);
+    }
 
-#page-home .row > div { transition: transform 0.15s ease; }
-#page-home .row > div:active { transform: scale(0.96); }
-#page-home .card-custom {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.4);
-    border-right: 1px solid rgba(0,0,0,0.02);
-    border-bottom: 3px solid rgba(0,0,0,0.05);
-}
+    #page-home .row > div { transition: transform 0.15s ease; }
+    #page-home .row > div:active { transform: scale(0.96); }
+    #page-home .card-custom {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid rgba(255,255,255,0.4);
+        border-right: 1px solid rgba(0,0,0,0.02);
+        border-bottom: 3px solid rgba(0,0,0,0.05);
+    }
 
-.sgh-card { display: flex; gap: 16px; align-items: center; border-left-color: var(--r-purple) !important; cursor: pointer; }
-.sgh-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; background: #fff; padding: 2px; }
+    .sgh-card { display: flex; gap: 16px; align-items: center; border-left-color: var(--r-purple) !important; cursor: pointer; }
+    .sgh-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; background: #fff; padding: 2px; }
 
-.btn-excel { background: #15803d; color: white; border: none; border-radius: var(--radius-sm); width: 100%; padding: 12px 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--shadow-sm); transition: background 0.2s; }
-.btn-excel:active { background: #166534; }
-.btn-call { background: var(--r-blue); color: white; border: none; border-radius: var(--radius-sm); padding: 8px 18px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; box-shadow: var(--shadow-sm); }
+    .btn-excel { background: #15803d; color: white; border: none; border-radius: var(--radius-sm); width: 100%; padding: 12px 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--shadow-sm); transition: background 0.2s; }
+    .btn-excel:active { background: #166534; }
+    .btn-call { background: var(--r-blue); color: white; border: none; border-radius: var(--radius-sm); padding: 8px 18px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; box-shadow: var(--shadow-sm); }
 
-.form-select, .form-control {
-    border: 1.5px solid #cbd5e1;
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    font-size: 0.92rem;
-    color: #1e293b;
-    background-color: #f8fafc;
-    transition: all 0.2s ease;
-}
+    .form-select, .form-control {
+        border: 1.5px solid #cbd5e1;
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        font-size: 0.92rem;
+        color: #1e293b;
+        background-color: #f8fafc;
+        transition: all 0.2s ease;
+    }
 
-.form-select:focus, .form-control:focus {
-    border-color: var(--r-blue);
-    background-color: #fff;
-    box-shadow: 0 0 0 3px rgba(48, 101, 168, 0.15);
-}
+    .form-select:focus, .form-control:focus {
+        border-color: var(--r-blue);
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(48, 101, 168, 0.15);
+    }
 
-.score-badge { font-size: 3rem; font-weight: 900; color: var(--r-blue); text-shadow: 1px 1px 0px rgba(0,0,0,0.05); }
-.badge-service { background-color: var(--r-teal); color: white; padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: inline-block; }
-.archive-item { border-left-color: #64748b !important; background: #f8fafc !important; border: 1px solid #e2e8f0; border-left-width: 5px !important; }
+    .score-badge { font-size: 3rem; font-weight: 900; color: var(--r-blue); text-shadow: 1px 1px 0px rgba(0,0,0,0.05); }
+    .badge-service { background-color: var(--r-teal); color: white; padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: inline-block; }
+    .archive-item { border-left-color: #64748b !important; background: #f8fafc !important; border: 1px solid #e2e8f0; border-left-width: 5px !important; }
 
-.progress { background-color: #e2e8f0; border-radius: 20px; overflow: hidden; }
-.btn-primary { background-color: var(--r-blue); border: none; }
-.btn-primary:active, .btn-primary:hover { background-color: var(--r-blue-dark) !important; }
-.alert-info { background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; border-radius: var(--radius-sm); }
-.modal-content { border-radius: var(--radius-md); border: none; overflow: hidden; box-shadow: var(--shadow-lg); }
-.modal-header { border-bottom: none; padding-top: 20px; }
-.modal-body { padding: 24px; color: #475569; }
-</style>
+    .progress { background-color: #e2e8f0; border-radius: 20px; overflow: hidden; }
+    .btn-primary { background-color: var(--r-blue); border: none; }
+    .btn-primary:active, .btn-primary:hover { background-color: var(--r-blue-dark) !important; }
+    .alert-info { background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; border-radius: var(--radius-sm); }
+    .modal-content { border-radius: var(--radius-md); border: none; overflow: hidden; box-shadow: var(--shadow-lg); }
+    .modal-header { border-bottom: none; padding-top: 20px; }
+    .modal-body { padding: 24px; color: #475569; }
+    </style>
 </head>
 <body>
 
+<!-- SPLASH SCREEN -->
 <div id="splash">
     <div class="splash-content text-center text-white">
         <div class="logo-wrapper">
@@ -411,6 +412,7 @@ body {
     </div>
 </div>
 
+<!-- HEADER BANNER -->
 <div class="info-banner">
     <div class="ticker">
         <span>
@@ -580,7 +582,7 @@ body {
         </div>
     </div>
 
-    <div class="card-custom bg-white border-0 shadow-sm small">
+    <div class="card-custom bg-white border-0 shadow-sm small mt-4">
         <h6 class="fw-bold text-danger mb-3"><i class="fa-solid fa-shield-halved me-2"></i>Les 3 Règles d'Or de la Rétention</h6>
         <div class="d-flex align-items-start mb-2.5">
             <span class="badge bg-danger me-2.5 mt-0.5">1</span>
@@ -595,61 +597,12 @@ body {
             <div class="text-muted"><strong>Capacité minimale :</strong> Au moins 100% de la capacité du plus grand réservoir ou 50% du volume total stocké.</div>
         </div>
     </div>
-    
-    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
-</div>
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-helmet-safety me-2" style="color:var(--r-teal)"></i>Guide EPI Dynamique</h5>
-    
-    <!-- MODULE GANTS -->
-    <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
-        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
-        <p class="small text-muted mb-3">Choisissez le type de produit à manipuler pour trouver le bon matériau de gant (Norme EN ISO 374).</p>
+
+    <!-- SIMULATEUR DE CROISEMENT PAR PICTOGRAMMES -->
+    <div class="card-custom mb-4 mt-4" style="border-left-color: var(--r-yellow);">
+        <h6 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-code-branch me-2 text-warning"></i>Simulateur de co-stockage (INRS)</h6>
+        <p class="small text-muted mb-3">Croisez les classes de danger ou les pictogrammes de deux produits pour vérifier s'ils peuvent être stockés sur la même rétention.</p>
         
-        <div class="mb-3">
-            <select id="epi-chemical" class="form-select fw-bold" onchange="updateGloveDiagnostic()">
-                <option value="solv">🧪 Solvants hydrocarbonés (Essence, White-Spirit)</option>
-                <option value="acet">💅 Solvants polaires (Acétone, Esters)</option>
-                <option value="acid">💥 Acides forts (Acide sulfurique, chlorhydrique)</option>
-                <option value="base">🧼 Bases et Produits de nettoyage (Soude, Javel)</option>
-                <option value="huil">🛢️ Huiles, graisses et hydrocarbures légers</option>
-            </select>
-        </div>
-
-        <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light mb-3">
-            <div class="d-flex align-items-center mb-2">
-                <span id="glove-badge" class="badge bg-success me-2 fs-6">Nitrile</span>
-                <strong id="glove-material" class="text-dark">Conseillé (Épaisseur > 0.4mm)</strong>
-            </div>
-            <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
-        </div>
-
-        <div class="p-3 rounded-3 border-start border-warning border-4 bg-white shadow-sm small">
-            <h6 class="fw-bold text-warning mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i>Points critiques Gants</h6>
-            <ul class="text-muted ps-3 mb-0">
-                <li class="mb-1"><b>Le piège de la perméation :</b> Un gant peut paraître intact tout en laissant passer le produit au niveau moléculaire. Respectez la FDS !</li>
-                <li class="mb-1"><b>Épaisseur :</b> Pour les agressions chimiques sévères, privilégiez une épaisseur minimale de <b>0,4 mm</b>.</li>
-                <li><b>Usage unique :</b> Ne retournez jamais un gant jetable pour le réutiliser.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<!-- ======================================================= -->
-<!-- NOUVELLE PAGE : COMPATIBILITÉ DE STOCKAGE CHIMIQUE      -->
-<!-- ======================================================= -->
-<div id="page-storage" class="app-page">
-    <h5 class="fw-bold mb-3">
-        <i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage
-    </h5>
-    <p class="small text-muted mb-4">
-        Croisez les classes de danger ou les pictogrammes de deux produits pour vérifier s'ils peuvent être stockés sur la même rétention ou dans le même local selon les règles de l'INRS.
-    </p>
-
-    <!-- FORMULAIRE DE CROISEMENT -->
-    <div class="card-custom mb-4" style="border-left-color: var(--r-yellow);">
-        <h6 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-code-branch me-2 text-warning"></i>Simulateur de co-stockage</h6>
-        
-        <!-- PRODUIT 1 -->
         <div class="mb-3">
             <label class="form-label small fw-bold text-secondary">Produit A (ou premier picto) :</label>
             <select id="storage-prod-a" class="form-select fw-bold" onchange="verifierCompatibiliteStockage()">
@@ -662,7 +615,6 @@ body {
             </select>
         </div>
 
-        <!-- PRODUIT 2 -->
         <div class="mb-4">
             <label class="form-label small fw-bold text-secondary">Produit B (ou deuxième picto) :</label>
             <select id="storage-prod-b" class="form-select fw-bold" onchange="verifierCompatibiliteStockage()">
@@ -675,15 +627,13 @@ body {
             </select>
         </div>
 
-        <!-- ZONE DE RÉSULTAT DYNAMIQUE -->
         <div id="storage-result-box" class="p-3 rounded-3 border border-2 text-center mb-2" style="background-color: #f8fafc;">
             <div class="fs-4 mb-1">🔍 <strong id="storage-status-title">Calcul...</strong></div>
             <p id="storage-status-desc" class="small text-muted mb-0">Sélectionnez les produits pour analyser le risque.</p>
         </div>
     </div>
 
-    <!-- GUIDE DES BONNES PRATIQUES -->
-    <div class="card-custom" style="border-left-color: var(--r-blue); background-color: #fff;">
+    <div class="card-custom bg-white border-0 shadow-sm small mt-4" style="border-left: 5px solid var(--r-blue) !important;">
         <h6 class="fw-bold mb-3 text-primary"><i class="fa-solid fa-circle-info me-2"></i>Règles d'or de la rétention</h6>
         <div class="small text-muted">
             <div class="d-flex mb-2">
@@ -700,140 +650,14 @@ body {
             </div>
         </div>
     </div>
-</div>
-
-<!-- SCRIPTS JAVASCRIPT À PLACER AVANT LA FERMETURE DE </body> -->
-<script>
-// Logique du sélecteur de gants
-function updateGloveDiagnostic() {
-    const chemical = document.getElementById('epi-chemical').value;
-    const badge = document.getElementById('glove-badge');
-    const mat = document.getElementById('glove-material');
-    const text = document.getElementById('glove-text');
-    const box = document.getElementById('glove-result-box');
-
-    box.className = "p-3 rounded-3 border border-2 bg-white mb-3 shadow-sm";
-
-    if (chemical === 'solv') {
-        badge.className = "badge bg-success me-2 fs-6"; badge.innerText = "Nitrile / Viton";
-        mat.innerText = "Nitrile épais (>0.4mm) ou Viton";
-        text.innerText = "Le nitrile jetable fin classique est percé en moins de 2 minutes par les solvants !";
-    } else if (chemical === 'acet') {
-        badge.className = "badge bg-danger me-2 fs-6"; badge.innerText = "Butyl Impératif";
-        mat.innerText = "Caoutchouc Butyl uniquement";
-        text.innerText = "⚠️ Attention : Le Nitrile et le Latex fondent ou se détériorent quasi instantanément au contact de l'acétone.";
-    } else if (chemical === 'acid') {
-        badge.className = "badge bg-warning text-dark me-2 fs-6"; badge.innerText = "Néoprène / PVC";
-        mat.innerText = "Néoprène ou PVC épais";
-        text.innerText = "Excellente barrière contre les projections acides. Évitez absolument le coton ou les gants fins de mécanique.";
-    } else if (chemical === 'base') {
-        badge.className = "badge bg-success me-2 fs-6"; badge.innerText = "Nitrile ou PVC";
-        mat.innerText = "Nitrile ou PVC standards";
-        text.innerText = "Convient parfaitement pour la manipulation de la soude ou de l'eau de Javel concentrée.";
-    } else if (chemical === 'huil') {
-        badge.className = "badge bg-success me-2 fs-6"; badge.innerText = "Nitrile";
-        mat.innerText = "Nitrile standard standard";
-        text.innerText = "Excellente résistance mécanique et chimique face aux huiles de moteur et graisses.";
-    }
-}
-
-// Matrice d'incompatibilité de stockage (INRS)
-function verifierCompatibiliteStockage() {
-    const prodA = document.getElementById('storage-prod-a').value;
-    const prodB = document.getElementById('storage-prod-b').value;
-    const title = document.getElementById('storage-status-title');
-    const desc = document.getElementById('storage-status-desc');
-    const box = document.getElementById('storage-result-box');
-
-    // Réinitialisation des styles par défaut
-    box.style.backgroundColor = "#fff";
-    box.style.borderColor = "#cbd5e1";
-
-    // Cas identiques
-    if (prodA === prodB) {
-        box.style.backgroundColor = "#f0fdf4"; box.style.borderColor = "#bbf7d0";
-        title.innerHTML = "<span class='text-success'>🟢 Stockage Autorisé</span>";
-        desc.innerText = "Produits de même nature. Ils peuvent partager le même bac de rétention de manière sécurisée.";
-        return;
-    }
-
-    // Gestion de la matrice croisée
-    const combinaison = [prodA, prodB].sort().join('_');
-
-    switch (combinaison) {
-        case "GHS02_GHS03": // Inflammable + Comburant
-            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
-            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
-            desc.innerHTML = "<b>Risque d'incendie violent ou d'explosion.</b> Le comburant fournit l'oxygène qui auto-alimentera l'inflammable. Séparez impérativement dans deux locaux ou armoires coupe-feu différents.";
-            break;
-
-        case "GHS05_GHS05_B": // Acide + Base
-            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
-            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
-            desc.innerHTML = "<b>Réaction exothermique violente (Dégagement de chaleur intense et vapeurs).</b> Bien que les deux soient corrosifs, ils doivent être sur deux bacs de rétention séparés physiquement.";
-            break;
-
-        case "GHS02_GHS05": // Inflammable + Acide
-        case "GHS02_GHS05_B": // Inflammable + Base
-            box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
-            title.innerHTML = "<span class='text-warning'>🟡 Restrictions (Sous conditions)</span>";
-            desc.innerHTML = "Ne pas mettre sur la même rétention. Le stockage dans le même local est toléré si les armoires de sécurité sont distinctes et ventilées (Armoire spécifique pour solvants et armoire spécifique pour corrosifs).";
-            break;
-
-        case "GHS03_GHS05": // Comburant + Acide
-        case "GHS03_GHS05_B": // Comburant + Base
-            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
-            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
-            desc.innerHTML = "Les comburants peuvent réagir violemment avec de nombreux agents corrosifs et provoquer des dégagements de gaz toxiques. Séparez les stockages.";
-            break;
-
-        case "GHS02_GHS06": // Inflammable + Toxique
-        case "GHS03_GHS06": // Comburant + Toxique
-            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
-            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
-            desc.innerHTML = "En cas d'incendie du produit inflammable/comburant, le produit toxique va se vaporiser et empoisonner l'atmosphère pour les secours et les salariés. Séparez les volumes.";
-            break;
-
-        default: // Combinaisons moins critiques (ex: GHS08 avec d'autres)
-            box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
-            title.innerHTML = "<span class='text-warning'>🟡 À isoler sur rétention distincte</span>";
-            desc.innerText = "Le co-stockage dans la même pièce est possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
-            break;
-    }
-}
-
-// Simulation simple de la navigation de l'app si tu en as besoin
-function nav(pageId, element) {
-    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
-    const targetPage = document.getElementById(pageId);
-    if(targetPage) targetPage.classList.add('active-page');
     
-    if(element) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        element.classList.add('active');
-    }
-}
-
-// Initialisation au chargement de la page
-window.addEventListener('DOMContentLoaded', () => {
-    updateGloveDiagnostic();
-    verifierCompatibiliteStockage();
-});
-
-// Simulation pour bypasser le splash au besoin
-function Splash() {
-    const splash = document.getElementById('splash');
-    splash.classList.add('splash-exit');
-    setTimeout(() => splash.remove(), 600);
-}
-</script>
-</body>
-</html>
+    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
+</div>
 
 <!-- PAGE OFFRE SERVICES RESTEV -->
 <div id="page-services" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre RESTEV Prévention</h5>
-    <p class="small text-muted mb-4">RESTEV accompagne ses structures adhérentes en Vendée dans la préservation de la santé au travail.</p>
+    <p class="small text-muted mb-4">RESTEV accompagne ses structures adwarentes en Vendée dans la préservation de la santé au travail.</p>
 
     <div class="card-custom" style="border-left-color: var(--r-blue);">
         <div class="badge-service">PRÉVENTION DES RISQUES</div>
@@ -1032,9 +856,10 @@ function Splash() {
         <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
     </div>
 </div>
-    
+
 <div id="global-modals-container"></div>
 
+<!-- NAVIGATION BOTTOM -->
 <nav class="nav-bottom">
     <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
     <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
@@ -1043,6 +868,7 @@ function Splash() {
     <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
 </nav>
 
+<!-- LOGIQUE SCRIPTS JAVASCRIPT -->
 <script>
 const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
@@ -1152,7 +978,6 @@ async function saveProduct() {
     const fdsUrl = document.getElementById('prod-url').value;
     if (!name) return alert("Nom du produit requis.");
 
-    // Détection automatique de mots clés sensibles
     const sensitiveWords = ['acetone', 'acide', 'ammoniaque', 'solvant', 'peinture', 'resine'];
     const productNameLower = name.toLowerCase();
     let hasAlert = sensitiveWords.some(word => productNameLower.includes(word));
@@ -1173,7 +998,6 @@ async function saveProduct() {
     document.getElementById('prod-code').value = '';
     document.getElementById('prod-url').value = '';
     
-    // Décocher la case reconditionné s'il elle était cochée
     const chkRecond = document.getElementById('chk-reconditionne');
     if(chkRecond) {
         chkRecond.checked = false;
@@ -1237,16 +1061,28 @@ function updateGloveDiagnostic() {
     const badge = document.getElementById('glove-badge');
     const material = document.getElementById('glove-material');
     const text = document.getElementById('glove-text');
+    const box = document.getElementById('glove-result-box');
+
+    if(box) {
+        box.className = "p-3 rounded-3 border border-2 bg-white mb-3 shadow-sm";
+    }
     
     const data = {
-        solv: { b: "Nitrile", m: "Conseillé (Épaisseur > 0.4mm)", t: "Bonne protection face aux hydrocarbures. Éviter absolument le Latex." },
-        acet: { b: "Butyle", m: "Recommandé / Spécifique", t: "L'acétone détruit le Nitrile en quelques secondes. Le Butyle offre l'étanchéité maximale." },
-        acid: { b: "Néoprène / PVC", m: "Haute Protection", t: "Idéal pour les acides concentrés. Choisissez des manchettes longues." },
-        base: { b: "PVC / Nitrile", m: "Protection standard", t: "Excellente barrière contre la soude et les agents alcalins de nettoyage." },
-        huil: { b: "Nitrile", m: "Conseillé", t: "Parfaite résistance aux huiles de coupe et graisses minérales." }
+        solv: { b: "Nitrile / Viton", m: "Conseillé (Épaisseur > 0.4mm)", t: "Le nitrile jetable fin classique est percé en moins de 2 minutes par les solvants ! Privilégiez du nitrile épais ou Viton. Éviter le Latex." },
+        acet: { b: "Butyle Impératif", m: "Recommandé / Spécifique", t: "⚠️ Attention : Le Nitrile et le Latex fondent ou se détériorent quasi instantanément au contact de l'acétone. Le Butyle offre l'étanchéité maximale." },
+        acid: { b: "Néoprène / PVC", m: "Haute Protection", t: "Idéal pour les acides concentrés. Choisissez des manchettes longues. Évitez le coton ou les gants fins de mécanique." },
+        base: { b: "PVC / Nitrile", m: "Protection standard", t: "Excellente barrière contre la soude et les agents alcalins de nettoyage ou l'eau de Javel concentrée." },
+        huil: { b: "Nitrile", m: "Conseillé", t: "Parfaite résistance aux huiles de coupe, de moteur et graisses minérales." }
     };
     
-    if(data[val]) {
+    if(data[val] && badge && material && text) {
+        if(val === 'solv' || val === 'base' || val === 'huil') {
+            badge.className = "badge bg-success me-2 fs-6";
+        } else if(val === 'acet') {
+            badge.className = "badge bg-danger me-2 fs-6";
+        } else if(val === 'acid') {
+            badge.className = "badge bg-warning text-dark me-2 fs-6";
+        }
         badge.innerText = data[val].b;
         material.innerText = data[val].m;
         text.innerText = data[val].t;
@@ -1267,7 +1103,7 @@ function updateMaskDiagnostic() {
         P: { bg: "#cbd5e1", text: "MARQUAGE : BANDEAU BLANC (Type P3)", mask: "Demi-masque minimum / FFP3", adv: "Haute efficacité d'arrêt (99,97%). Requis pour Silice, Poussières de bois et Amiante." }
     };
     
-    if(data[val]) {
+    if(data[val] && bar && maskReq && advice) {
         bar.style.backgroundColor = data[val].bg;
         bar.innerText = data[val].text;
         bar.style.color = (val === 'P') ? '#1e293b' : 'white';
@@ -1314,6 +1150,69 @@ function checkStorageCompatibility() {
         resultBox.innerHTML = `<i class="fa-solid fa-circle-xmark me-2"></i>STOCKAGE INTERDIT EN COMMUN`;
     }
     detailsBox.innerText = note;
+}
+
+function verifierCompatibiliteStockage() {
+    const prodA = document.getElementById('storage-prod-a').value;
+    const prodB = document.getElementById('storage-prod-b').value;
+    const title = document.getElementById('storage-status-title');
+    const desc = document.getElementById('storage-status-desc');
+    const box = document.getElementById('storage-result-box');
+
+    if(!box || !title || !desc) return;
+
+    box.style.backgroundColor = "#fff";
+    box.style.borderColor = "#cbd5e1";
+
+    if (prodA === prodB) {
+        box.style.backgroundColor = "#f0fdf4"; box.style.borderColor = "#bbf7d0";
+        title.innerHTML = "<span class='text-success'>🟢 Stockage Autorisé</span>";
+        desc.innerText = "Produits de même nature. Ils peuvent partager le même bac de rétention de manière sécurisée.";
+        return;
+    }
+
+    const combinaison = [prodA, prodB].sort().join('_');
+
+    switch (combinaison) {
+        case "GHS02_GHS03":
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "<b>Risque d'incendie violent ou d'explosion.</b> Le comburant fournit l'oxygène qui auto-alimentera l'inflammable. Séparez impérativement dans deux locaux ou armoires coupe-feu différents.";
+            break;
+
+        case "GHS05_GHS05_B":
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "<b>Réaction exothermique violente (Dégagement de chaleur intense et vapeurs).</b> Bien que les deux soient corrosifs, ils doivent être sur deux bacs de rétention séparés physiquement.";
+            break;
+
+        case "GHS02_GHS05":
+        case "GHS02_GHS05_B":
+            box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
+            title.innerHTML = "<span class='text-warning'>🟡 Restrictions (Sous conditions)</span>";
+            desc.innerHTML = "Ne pas mettre sur la même rétention. Le stockage dans le même local est toléré si les armoires de sécurité sont distinctes et ventilées (Armoire spécifique pour solvants et armoire spécifique pour corrosifs).";
+            break;
+
+        case "GHS03_GHS05":
+        case "GHS03_GHS05_B":
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "Les comburants peuvent réagir violemment avec de nombreux agents corrosifs et provoquer des dégagements de gaz toxiques. Séparez les stockages.";
+            break;
+
+        case "GHS02_GHS06":
+        case "GHS03_GHS06":
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "En cas d'incendie du produit inflammable/comburant, le produit toxique va se vaporiser et empoisonner l'atmosphère pour les secours et les salariés. Séparez les volumes.";
+            break;
+
+        default:
+            box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
+            title.innerHTML = "<span class='text-warning'>🟡 À isoler sur rétention distincte</span>";
+            desc.innerText = "Le co-stockage dans la même pièce est possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
+            break;
+    }
 }
 
 function exportToCSV() {
@@ -1447,7 +1346,7 @@ function quizAnswer(p) {
         document.getElementById('q-result').style.display = 'block';
         document.getElementById('quiz-score').innerText = `${totalScore}/30`;
         document.getElementById('quiz-label').innerText = totalScore > 20 ? "Excellente maîtrise globale." : "Des actions de prévention sont recommandées.";
-        document.getElementById('quiz-advice').innerText = totalScore > 20 ? "Votre structure montre une solide culture de sécurité. Continuez vos veilles réglementaires !" : "Contactez votre technician de prévention RESTEV pour planifier une mise à jour de vos outils de diagnostic et du DUERP.";
+        document.getElementById('quiz-advice').innerText = totalScore > 20 ? "Votre structure montre une solide culture de sécurité. Continuez vos veilles réglementaires !" : "Contactez votre technicien de prévention RESTEV pour planifier une mise à jour de vos outils de diagnostic et du DUERP.";
     }
 }
 
@@ -1459,7 +1358,7 @@ function resetQuiz() {
     showQuestion(); 
 }
 
-// Sécurisation de l'initialisation des écouteurs d'événements dynamiques au chargement complet du DOM
+// Initialisation globale des écouteurs d'événements
 document.addEventListener('DOMContentLoaded', () => {
     const chkRecond = document.getElementById('chk-reconditionne');
     const alertRecond = document.getElementById('recond-alert');
@@ -1472,9 +1371,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.onload = () => { 
-    updateStats(); 
+    updateStats();
+    checkStorageCompatibility();
+    verifierCompatibiliteStockage();
 };
 </script>
-
 </body>
 </html>
