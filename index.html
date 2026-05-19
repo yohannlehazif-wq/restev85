@@ -531,6 +531,8 @@ body {
                 <li class="mb-1"><b>Barbe :</b> Une barbe brise l'étanchéité du joint facial et laisse s'infiltrer l'air pollué.</li>
                 <li class="mb-1"><b>Test d'étanchéité :</b> Obstruez les cartouches avec les paumes et inspirez pour tester la pression négative.</li>
                 <li><b>Taux d'Oxygène :</b> Interdiction absolue d'utiliser un filtre si le taux d'O₂ est inférieur à <b>17%</b>.</li>
+                <li class="mb-1"><b>Ouverture des filtres :</b> Une fois sortie de son emballage étanche, une cartouche de gaz (Type A, B, E, K) se dégrade naturellement. Notez la <b>date d'ouverture</b> dessus ; elle doit être jetée sous 6 mois maximum, même peu utilisée.</li>
+                <li class="mb-1"><b>Stockage des EPI :</b> Ne laissez pas votre masque pendre à l'air libre dans l'atelier. Rangez-le dans une boîte hermétique propre après nettoyage.</li>
             </ul>
         </div>
     </div>
@@ -740,6 +742,14 @@ body {
     <div class="card-custom" style="border-left-color: #dc3545;"><h6><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Rubrique 2 : Identification des dangers</h6><p class="small mb-0"><b>Contenu :</b> Classification de la substance, éléments d'étiquetage (phrases H et P) et pictogrammes SGH associés.</p></div>
     <div class="card-custom" style="border-left-color: #198754;"><h6><i class="fa-solid fa-kit-medical text-success me-2"></i> Rubrique 4 : Premiers secours</h6><p class="small mb-0"><b>Contenu :</b> Actions immédiates à mener selon la voie d'exposition (inhalation, contact cutané, oculaire ou ingestion).</p></div>
     <div class="card-custom" style="border-left-color: #3065a8;"><h6><i class="fa-solid fa-mask-ventilator text-primary me-2"></i> Rubrique 8 : Contrôle de l'exposition / Protection individuelle</h6><p class="small mb-0"><b>Contenu :</b> Valeurs limites d'exposition (VLEP) et spécifications exactes des EPI requis (matériaux de gants, types de filtres).</p></div>
+<div class="card-custom" style="border-left-color: #fd7e14;">
+    <h6><i class="fa-solid fa-wind text-warning me-2"></i> Le piège des "Produits Formés" (Sans FDS)</h6>
+    <p class="small mb-0">
+        <b>Attention :</b> Une FDS n'existe que pour les produits *achetés*. Les poussières (bois, silice), les fumées (soudage) ou les vapeurs de cuisson/mélanges sont des agents chimiques dangereux générés par votre activité. 
+        <br><strong class="text-danger">Règle :</strong> Ils doivent obligatoirement être intégrés à votre évaluation des risques (DUERP).
+    </p>
+</div>
+    
 </div>
 
 <!-- PAGE CENTRES -->
@@ -775,7 +785,16 @@ body {
         <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow" onclick="saveProduct()">ENREGISTRER LE PRODUIT</button>
     </div>
 </div>
-
+<div class="form-check p-3 rounded-3 bg-light border border-warning mb-4 small">
+    <input class="form-check-input ms-0 me-2" type="checkbox" id="chk-reconditionne">
+    <label class="form-check-label fw-bold text-dark" for="chk-reconditionne">
+        ⚠️ Ce produit est-il transvasé / reconditionné ?
+    </label>
+    <div id="recond-alert" class="text-muted mt-1" style="font-size: 0.8rem; display:none;">
+        <span class="text-danger fw-bold">Obligation :</span> Si vous transvasez ce produit, vous devez **recopier l'étiquetage d'origine (pictogrammes SGH)** sur le nouveau récipient. Ne jamais utiliser de contenant alimentaire !
+    </div>
+</div>
+    
 <div id="global-modals-container"></div>
 
 <nav class="nav-bottom">
@@ -912,6 +931,14 @@ async function saveProduct() {
 
 function deleteItem(id) {
     if(confirm("Supprimer ?")) {
+       // Détection automatique de mots clés sensibles
+const sensitiveWords = ['acetone', 'acide', 'ammoniaque', 'solvant', 'peinture', 'resine'];
+const productNameLower = name.toLowerCase();
+let hasAlert = sensitiveWords.some(word => productNameLower.includes(word));
+
+if (hasAlert) {
+    alert("ℹ️ RESTEV Prévention : Ce produit contient des agents potentiellement volatils ou corrosifs. Pensez à vérifier l'efficacité de vos aspirations localisées (hottes/VMC).");
+}
         inventory = inventory.filter(i => i.id !== id);
         localStorage.setItem('restev_inventory_v3', JSON.stringify(inventory));
         renderInventory(); updateStats();
