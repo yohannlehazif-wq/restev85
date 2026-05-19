@@ -598,6 +598,237 @@ body {
     
     <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-helmet-safety me-2" style="color:var(--r-teal)"></i>Guide EPI Dynamique</h5>
+    
+    <!-- MODULE GANTS -->
+    <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
+        <h6 class="fw-bold text-primary mb-2"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
+        <p class="small text-muted mb-3">Choisissez le type de produit à manipuler pour trouver le bon matériau de gant (Norme EN ISO 374).</p>
+        
+        <div class="mb-3">
+            <select id="epi-chemical" class="form-select fw-bold" onchange="updateGloveDiagnostic()">
+                <option value="solv">🧪 Solvants hydrocarbonés (Essence, White-Spirit)</option>
+                <option value="acet">💅 Solvants polaires (Acétone, Esters)</option>
+                <option value="acid">💥 Acides forts (Acide sulfurique, chlorhydrique)</option>
+                <option value="base">🧼 Bases et Produits de nettoyage (Soude, Javel)</option>
+                <option value="huil">🛢️ Huiles, graisses et hydrocarbures légers</option>
+            </select>
+        </div>
+
+        <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light mb-3">
+            <div class="d-flex align-items-center mb-2">
+                <span id="glove-badge" class="badge bg-success me-2 fs-6">Nitrile</span>
+                <strong id="glove-material" class="text-dark">Conseillé (Épaisseur > 0.4mm)</strong>
+            </div>
+            <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
+        </div>
+
+        <div class="p-3 rounded-3 border-start border-warning border-4 bg-white shadow-sm small">
+            <h6 class="fw-bold text-warning mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i>Points critiques Gants</h6>
+            <ul class="text-muted ps-3 mb-0">
+                <li class="mb-1"><b>Le piège de la perméation :</b> Un gant peut paraître intact tout en laissant passer le produit au niveau moléculaire. Respectez la FDS !</li>
+                <li class="mb-1"><b>Épaisseur :</b> Pour les agressions chimiques sévères, privilégiez une épaisseur minimale de <b>0,4 mm</b>.</li>
+                <li><b>Usage unique :</b> Ne retournez jamais un gant jetable pour le réutiliser.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- NOUVELLE PAGE : COMPATIBILITÉ DE STOCKAGE CHIMIQUE      -->
+<!-- ======================================================= -->
+<div id="page-storage" class="app-page">
+    <h5 class="fw-bold mb-3">
+        <i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage
+    </h5>
+    <p class="small text-muted mb-4">
+        Croisez les classes de danger ou les pictogrammes de deux produits pour vérifier s'ils peuvent être stockés sur la même rétention ou dans le même local selon les règles de l'INRS.
+    </p>
+
+    <!-- FORMULAIRE DE CROISEMENT -->
+    <div class="card-custom mb-4" style="border-left-color: var(--r-yellow);">
+        <h6 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-code-branch me-2 text-warning"></i>Simulateur de co-stockage</h6>
+        
+        <!-- PRODUIT 1 -->
+        <div class="mb-3">
+            <label class="form-label small fw-bold text-secondary">Produit A (ou premier picto) :</label>
+            <select id="storage-prod-a" class="form-select fw-bold" onchange="verifierCompatibiliteStockage()">
+                <option value="GHS02">🔥 Inflammable (GHS02)</option>
+                <option value="GHS03">⚡ Comburant (GHS03)</option>
+                <option value="GHS05">💥 Corrosif / Acide (GHS05 - Acide)</option>
+                <option value="GHS05_B">🧼 Corrosif / Base (GHS05 - Base)</option>
+                <option value="GHS06">💀 Toxique aigu (GHS06)</option>
+                <option value="GHS08">👤 Danger santé / CMR (GHS08)</option>
+            </select>
+        </div>
+
+        <!-- PRODUIT 2 -->
+        <div class="mb-4">
+            <label class="form-label small fw-bold text-secondary">Produit B (ou deuxième picto) :</label>
+            <select id="storage-prod-b" class="form-select fw-bold" onchange="verifierCompatibiliteStockage()">
+                <option value="GHS02">🔥 Inflammable (GHS02)</option>
+                <option value="GHS03" selected>⚡ Comburant (GHS03)</option>
+                <option value="GHS05">💥 Corrosif / Acide (GHS05 - Acide)</option>
+                <option value="GHS05_B">🧼 Corrosif / Base (GHS05 - Base)</option>
+                <option value="GHS06">💀 Toxique aigu (GHS06)</option>
+                <option value="GHS08">👤 Danger santé / CMR (GHS08)</option>
+            </select>
+        </div>
+
+        <!-- ZONE DE RÉSULTAT DYNAMIQUE -->
+        <div id="storage-result-box" class="p-3 rounded-3 border border-2 text-center mb-2" style="background-color: #f8fafc;">
+            <div class="fs-4 mb-1">🔍 <strong id="storage-status-title">Calcul...</strong></div>
+            <p id="storage-status-desc" class="small text-muted mb-0">Sélectionnez les produits pour analyser le risque.</p>
+        </div>
+    </div>
+
+    <!-- GUIDE DES BONNES PRATIQUES -->
+    <div class="card-custom" style="border-left-color: var(--r-blue); background-color: #fff;">
+        <h6 class="fw-bold mb-3 text-primary"><i class="fa-solid fa-circle-info me-2"></i>Règles d'or de la rétention</h6>
+        <div class="small text-muted">
+            <div class="d-flex mb-2">
+                <i class="fa-solid fa-check text-success me-2 mt-1"></i>
+                <span><b>Règle des volumes :</b> Capacité de rétention égale à 100% du plus grand contenant ou 50% de la somme des volumes stockés (prenez la valeur la plus grande).</span>
+            </div>
+            <div class="d-flex mb-2">
+                <i class="fa-solid fa-triangle-exclamation text-danger me-2 mt-1"></i>
+                <span><b>Le piège Acide/Base :</b> Même s'ils ont le même picto Corrosif (GHS05), ne mettez <b>jamais</b> un acide fort et une base forte sur le même bac (réaction exothermique violente).</span>
+            </div>
+            <div class="d-flex">
+                <i class="fa-solid fa-ban text-secondary me-2 mt-1"></i>
+                <span><b>Zéro fuite :</b> Tout produit ouvert ou entamé doit obligatoirement retourner sur son bac de rétention dédié, étiqueté.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS JAVASCRIPT À PLACER AVANT LA FERMETURE DE </body> -->
+<script>
+// Logique du sélecteur de gants
+function updateGloveDiagnostic() {
+    const chemical = document.getElementById('epi-chemical').value;
+    const badge = document.getElementById('glove-badge');
+    const mat = document.getElementById('glove-material');
+    const text = document.getElementById('glove-text');
+    const box = document.getElementById('glove-result-box');
+
+    box.className = "p-3 rounded-3 border border-2 bg-white mb-3 shadow-sm";
+
+    if (chemical === 'solv') {
+        badge.className = "badge bg-success me-2 fs-6"; badge.innerText = "Nitrile / Viton";
+        mat.innerText = "Nitrile épais (>0.4mm) ou Viton";
+        text.innerText = "Le nitrile jetable fin classique est percé en moins de 2 minutes par les solvants !";
+    } else if (chemical === 'acet') {
+        badge.className = "badge bg-danger me-2 fs-6"; badge.innerText = "Butyl Impératif";
+        mat.innerText = "Caoutchouc Butyl uniquement";
+        text.innerText = "⚠️ Attention : Le Nitrile et le Latex fondent ou se détériorent quasi instantanément au contact de l'acétone.";
+    } else if (chemical === 'acid') {
+        badge.className = "badge bg-warning text-dark me-2 fs-6"; badge.innerText = "Néoprène / PVC";
+        mat.innerText = "Néoprène ou PVC épais";
+        text.innerText = "Excellente barrière contre les projections acides. Évitez absolument le coton ou les gants fins de mécanique.";
+    } else if (chemical === 'base') {
+        badge.className = "badge bg-success me-2 fs-6"; badge.innerText = "Nitrile ou PVC";
+        mat.innerText = "Nitrile ou PVC standards";
+        text.innerText = "Convient parfaitement pour la manipulation de la soude ou de l'eau de Javel concentrée.";
+    } else if (chemical === 'huil') {
+        badge.className = "badge bg-success me-2 fs-6"; badge.innerText = "Nitrile";
+        mat.innerText = "Nitrile standard standard";
+        text.innerText = "Excellente résistance mécanique et chimique face aux huiles de moteur et graisses.";
+    }
+}
+
+// Matrice d'incompatibilité de stockage (INRS)
+function verifierCompatibiliteStockage() {
+    const prodA = document.getElementById('storage-prod-a').value;
+    const prodB = document.getElementById('storage-prod-b').value;
+    const title = document.getElementById('storage-status-title');
+    const desc = document.getElementById('storage-status-desc');
+    const box = document.getElementById('storage-result-box');
+
+    // Réinitialisation des styles par défaut
+    box.style.backgroundColor = "#fff";
+    box.style.borderColor = "#cbd5e1";
+
+    // Cas identiques
+    if (prodA === prodB) {
+        box.style.backgroundColor = "#f0fdf4"; box.style.borderColor = "#bbf7d0";
+        title.innerHTML = "<span class='text-success'>🟢 Stockage Autorisé</span>";
+        desc.innerText = "Produits de même nature. Ils peuvent partager le même bac de rétention de manière sécurisée.";
+        return;
+    }
+
+    // Gestion de la matrice croisée
+    const combinaison = [prodA, prodB].sort().join('_');
+
+    switch (combinaison) {
+        case "GHS02_GHS03": // Inflammable + Comburant
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "<b>Risque d'incendie violent ou d'explosion.</b> Le comburant fournit l'oxygène qui auto-alimentera l'inflammable. Séparez impérativement dans deux locaux ou armoires coupe-feu différents.";
+            break;
+
+        case "GHS05_GHS05_B": // Acide + Base
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "<b>Réaction exothermique violente (Dégagement de chaleur intense et vapeurs).</b> Bien que les deux soient corrosifs, ils doivent être sur deux bacs de rétention séparés physiquement.";
+            break;
+
+        case "GHS02_GHS05": // Inflammable + Acide
+        case "GHS02_GHS05_B": // Inflammable + Base
+            box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
+            title.innerHTML = "<span class='text-warning'>🟡 Restrictions (Sous conditions)</span>";
+            desc.innerHTML = "Ne pas mettre sur la même rétention. Le stockage dans le même local est toléré si les armoires de sécurité sont distinctes et ventilées (Armoire spécifique pour solvants et armoire spécifique pour corrosifs).";
+            break;
+
+        case "GHS03_GHS05": // Comburant + Acide
+        case "GHS03_GHS05_B": // Comburant + Base
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "Les comburants peuvent réagir violemment avec de nombreux agents corrosifs et provoquer des dégagements de gaz toxiques. Séparez les stockages.";
+            break;
+
+        case "GHS02_GHS06": // Inflammable + Toxique
+        case "GHS03_GHS06": // Comburant + Toxique
+            box.style.backgroundColor = "#fef2f2"; box.style.borderColor = "#fca5a5";
+            title.innerHTML = "<span class='text-danger'>🔴 INTERDICTION STRICTE</span>";
+            desc.innerHTML = "En cas d'incendie du produit inflammable/comburant, le produit toxique va se vaporiser et empoisonner l'atmosphère pour les secours et les salariés. Séparez les volumes.";
+            break;
+
+        default: // Combinaisons moins critiques (ex: GHS08 avec d'autres)
+            box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
+            title.innerHTML = "<span class='text-warning'>🟡 À isoler sur rétention distincte</span>";
+            desc.innerText = "Le co-stockage dans la même pièce est possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
+            break;
+    }
+}
+
+// Simulation simple de la navigation de l'app si tu en as besoin
+function nav(pageId, element) {
+    document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active-page'));
+    const targetPage = document.getElementById(pageId);
+    if(targetPage) targetPage.classList.add('active-page');
+    
+    if(element) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        element.classList.add('active');
+    }
+}
+
+// Initialisation au chargement de la page
+window.addEventListener('DOMContentLoaded', () => {
+    updateGloveDiagnostic();
+    verifierCompatibiliteStockage();
+});
+
+// Simulation pour bypasser le splash au besoin
+function Splash() {
+    const splash = document.getElementById('splash');
+    splash.classList.add('splash-exit');
+    setTimeout(() => splash.remove(), 600);
+}
+</script>
+</body>
+</html>
 
 <!-- PAGE OFFRE SERVICES RESTEV -->
 <div id="page-services" class="app-page">
