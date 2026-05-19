@@ -235,12 +235,6 @@
         50% { transform: scale(1.03); box-shadow: 0 12px 35px rgba(117, 187, 168, 0.4); }
     }
 
-    .splash-exit {
-        transform: scale(1.2) !important;
-        opacity: 0 !important;
-        filter: blur(10px);
-    }
-
     .app-header { 
         background: white; 
         padding: 14px; 
@@ -251,8 +245,6 @@
         z-index: 1000; 
         box-shadow: var(--shadow-sm);
     }
-
-    .logo-header { height: 36px; object-fit: contain; }
 
     .info-banner { 
         background: #e0f2fe; 
@@ -358,7 +350,6 @@
 
     .btn-excel { background: #15803d; color: white; border: none; border-radius: var(--radius-sm); width: 100%; padding: 12px 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--shadow-sm); transition: background 0.2s; }
     .btn-excel:active { background: #166534; }
-    .btn-call { background: var(--r-blue); color: white; border: none; border-radius: var(--radius-sm); padding: 8px 18px; font-size: 0.85rem; font-weight: 600; text-decoration: none !important; display: inline-flex; align-items: center; box-shadow: var(--shadow-sm); }
 
     .form-select, .form-control {
         border: 1.5px solid #cbd5e1;
@@ -383,7 +374,6 @@
     .progress { background-color: #e2e8f0; border-radius: 20px; overflow: hidden; }
     .btn-primary { background-color: var(--r-blue); border: none; }
     .btn-primary:active, .btn-primary:hover { background-color: var(--r-blue-dark) !important; }
-    .alert-info { background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; border-radius: var(--radius-sm); }
     .modal-content { border-radius: var(--radius-md); border: none; overflow: hidden; box-shadow: var(--shadow-lg); }
     .modal-header { border-bottom: none; padding-top: 20px; }
     .modal-body { padding: 24px; color: #475569; }
@@ -488,7 +478,7 @@
         <div id="glove-result-box" class="p-3 rounded-3 border border-2 bg-light mb-3">
             <div class="d-flex align-items-center mb-2">
                 <span id="glove-badge" class="badge bg-success me-2 fs-6">Nitrile</span>
-                <strong id="glove-material" class="text-dark">Conseillé (Épaisseur > 0.4mm)</strong>
+                <strong id="glove-material" class="text-dark">Conseillé (Épaisseur &gt; 0.4mm)</strong>
             </div>
             <p id="glove-text" class="small text-muted mb-0">Bonne résistance générale, mais attention au temps de perméation.</p>
         </div>
@@ -506,15 +496,15 @@
     <!-- MODULE MASQUES -->
     <div class="card-custom mb-4" style="border-left: 4px solid #ef4444;">
         <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
-        <p class="small text-muted mb-3">Identiﬁez le type de polluant pour conﬁgurer la bonne cartouche (Norme EN 14387).</p>
+        <p class="small text-muted mb-3">Identifiez le type de polluant pour configurer la bonne cartouche (Norme EN 14387).</p>
         
         <div class="mb-3">
             <select id="epi-mask-pollutant" class="form-select fw-bold" onchange="updateMaskDiagnostic()">
-                <option value="A">Gaz/Vapeurs Organiques (Solvants, Peintures) -> [Type A]</option>
-                <option value="B">Gaz Inorganiques (Chlore, Hydrogène sulfuré) -> [Type B]</option>
-                <option value="E">Gaz Acides (Dioxyde de soufre, HCl) -> [Type E]</option>
-                <option value="K">Ammoniac et dérivés aminés -> [Type K]</option>
-                <option value="P">Poussières, Silice, Amiante, Aérosols -> [Type P3]</option>
+                <option value="A">Gaz/Vapeurs Organiques (Solvants, Peintures) -&gt; [Type A]</option>
+                <option value="B">Gaz Inorganiques (Chlore, Hydrogène sulfuré) -&gt; [Type B]</option>
+                <option value="E">Gaz Acides (Dioxyde de soufre, HCl) -&gt; [Type E]</option>
+                <option value="K">Ammoniac et dérivés aminés -&gt; [Type K]</option>
+                <option value="P">Poussières, Silice, Amiante, Aérosols -&gt; [Type P3]</option>
             </select>
         </div>
 
@@ -533,8 +523,8 @@
                 <li class="mb-1"><b>Barbe :</b> Une barbe brise l'étanchéité du joint facial et laisse s'infiltrer l'air pollué.</li>
                 <li class="mb-1"><b>Test d'étanchéité :</b> Obstruez les cartouches avec les paumes et inspirez pour tester la pression négative.</li>
                 <li><b>Taux d'Oxygène :</b> Interdiction absolue d'utiliser un filtre si le taux d'O₂ est inférieur à <b>17%</b>.</li>
-                <li class="mb-1"><b>Ouverture des filtres :</b> Une fois sortie de son emballage étanche, une cartouche de gaz (Type A, B, E, K) se dégrade naturellement. Notez la <b>date d'ouverture</b> dessus ; elle doit être jetée sous 6 mois maximum, même peu utilisée.</li>
-                <li class="mb-1"><b>Stockage des EPI :</b> Ne laissez pas votre masque pendre à l'air libre dans l'atelier. Rangez-le dans une boîte hermétique propre après nettoyage.</li>
+                <li class="mb-1"><b>Ouverture des filtres :</b> Une fois sortie de son emballage étanche, une cartouche de gaz se dégrade naturellement. Notez la <b>date d'ouverture</b> dessus ; jetée sous 6 mois max.</li>
+                <li class="mb-1"><b>Stockage des EPI :</b> Rangez votre masque dans une boîte hermétique propre après nettoyage.</li>
             </ul>
         </div>
     </div>
@@ -542,6 +532,9 @@
     <button class="btn btn-outline-secondary w-100 mt-2 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
 
+<!-- PAGE COMPATIBILITÉ STOCKAGE -->
+<div id="page-storage" class="app-page">
+    <h5 class="fw-bold mb-3"><i class="fa-solid fa-warehouse me-2" style="color:var(--r-yellow)"></i>Compatibilité de Stockage</h5>
 
     <!-- SIMULATEUR DE CROISEMENT PAR PICTOGRAMMES (INRS) -->
     <div class="card-custom mb-4" style="border-left-color: var(--r-yellow);">
@@ -584,15 +577,15 @@
         <div class="small text-muted">
             <div class="d-flex mb-2">
                 <i class="fa-solid fa-check text-success me-2 mt-1"></i>
-                <span><b>Règle des volumes :</b> Capacité de rétention égale à 100% du plus grand contenant ou 50% de la somme des volumes stockés (prenez la valeur la plus grande).</span>
+                <span><b>Règle des volumes :</b> Capacité de rétention égale à 100% du plus grand contenant ou 50% de la somme des volumes stockés (la valeur la plus grande).</span>
             </div>
             <div class="d-flex mb-2">
                 <i class="fa-solid fa-triangle-exclamation text-danger me-2 mt-1"></i>
-                <span><b>Le piège Acide/Base :</b> Même s'ils ont le même picto Corrosif (GHS05), ne mettez <b>jamais</b> un acide fort et une base forte sur le même bac (réaction exothermique violente).</span>
+                <span><b>Le piège Acide/Base :</b> Même avec le même picto Corrosif (GHS05), ne mettez <b>jamais</b> un acide fort et une base forte sur le même bac.</span>
             </div>
             <div class="d-flex">
                 <i class="fa-solid fa-ban text-secondary me-2 mt-1"></i>
-                <span><b>Zéro fuite :</b> Tout produit ouvert ou entamé doit obligatoirement retourner sur son bac de rétention dédié, étiqueté.</span>
+                <span><b>Zéro fuite :</b> Tout produit ouvert doit obligatoirement retourner sur son bac de rétention dédié.</span>
             </div>
         </div>
     </div>
@@ -600,14 +593,10 @@
     <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
 </div>
 
-    
-    <button class="btn btn-outline-secondary w-100 mt-3 py-2.5" onclick="nav('page-home', document.getElementById('nav-home'))" style="border-radius: var(--radius-sm);">Retour à l'accueil</button>
-</div>
-
 <!-- PAGE OFFRE SERVICES RESTEV -->
 <div id="page-services" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-handshake-angle text-primary me-2"></i>L’Offre RESTEV Prévention</h5>
-    <p class="small text-muted mb-4">RESTEV accompagne ses structures adwarentes en Vendée dans la préservation de la santé au travail.</p>
+    <p class="small text-muted mb-4">RESTEV accompagne ses structures adhérentes en Vendée dans la préservation de la santé au travail.</p>
 
     <div class="card-custom" style="border-left-color: var(--r-blue);">
         <div class="badge-service">PRÉVENTION DES RISQUES</div>
@@ -1062,46 +1051,6 @@ function updateMaskDiagnostic() {
     }
 }
 
-function checkStorageCompatibility() {
-    const a = document.getElementById('storage-a').value;
-    const b = document.getElementById('storage-b').value;
-    const resultBox = document.getElementById('storage-verdict-box');
-    const detailsBox = document.getElementById('storage-details');
-    
-    if (a === b) {
-        resultBox.style.backgroundColor = "#15803d";
-        resultBox.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>Même famille : Autorisé`;
-        detailsBox.innerText = "Stockage commun autorisé dans un même bac de rétention.";
-        return;
-    }
-
-    let compatible = true;
-    let note = "Stockage possible sous réserve de vérification de la Rubrique 10 de la FDS.";
-
-    if ((a === 'inf' && b === 'ox') || (a === 'ox' && b === 'inf')) {
-        compatible = false;
-        note = "Danger d'incendie majeur ! Les comburants accélèrent de manière violente le foyer des inflammables. Séparation physique stricte requise.";
-    } else if ((a === 'ac' && b === 'ba') || (a === 'ba' && b === 'ac')) {
-        compatible = false;
-        note = "Réaction violente acide/base exothermique avec risque de projections. Rétentions séparées obligatoires.";
-    } else if ((a === 'inf' && b === 'ac') || (a === 'ac' && b === 'inf')) {
-        compatible = true;
-        note = "Autorisé mais requiert deux bacs de rétention indépendants pour prévenir la corrosion prématurée.";
-    } else if ((a === 'ox' && b === 'ac') || (a === 'ac' && b === 'ox') || (a === 'ox' && b === 'ba') || (a === 'ba' && b === 'ox')) {
-        compatible = false;
-        note = "Les corrosifs peuvent déclencher une décomposition instable des agents comburants. Séparer.";
-    }
-
-    if (compatible) {
-        resultBox.style.backgroundColor = "#15803d";
-        resultBox.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>Stockage Autorisé`;
-    } else {
-        resultBox.style.backgroundColor = "#b91c1c";
-        resultBox.innerHTML = `<i class="fa-solid fa-circle-xmark me-2"></i>STOCKAGE INTERDIT EN COMMUN`;
-    }
-    detailsBox.innerText = note;
-}
-
 function verifierCompatibiliteStockage() {
     const prodA = document.getElementById('storage-prod-a').value;
     const prodB = document.getElementById('storage-prod-b').value;
@@ -1160,7 +1109,7 @@ function verifierCompatibiliteStockage() {
         default:
             box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
             title.innerHTML = "<span class='text-warning'>🟡 À isoler sur rétention distincte</span>";
-            desc.innerText = "Le co-stockage dans la même pièce est possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
+            desc.innerText = "Le co-stockage dans la même pièce é possible, mais veillez à ce que chaque produit possède son propre bac de rétention pour parer toute fuite accidentelle.";
             break;
     }
 }
@@ -1308,8 +1257,10 @@ function resetQuiz() {
     showQuestion(); 
 }
 
-// Initialisation globale des écouteurs d'événements
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => { 
+    updateStats();
+    verifierCompatibiliteStockage();
+
     const chkRecond = document.getElementById('chk-reconditionne');
     const alertRecond = document.getElementById('recond-alert');
     
@@ -1318,12 +1269,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alertRecond.style.display = this.checked ? 'block' : 'none';
         });
     }
-});
-
-window.onload = () => { 
-    updateStats();
-    checkStorageCompatibility();
-    verifierCompatibiliteStockage();
 };
 </script>
 </body>
