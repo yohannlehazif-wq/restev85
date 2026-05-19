@@ -460,7 +460,7 @@
 <div id="page-epi" class="app-page">
     <h5 class="fw-bold mb-3"><i class="fa-solid fa-helmet-safety me-2" style="color:var(--r-teal)"></i>Guide EPI Dynamique</h5>
     
-    <!-- MODULE GANTS -->
+    <!-- MODULE GANTS SEPARÉ -->
     <div class="card-custom mb-4" style="border-left: 4px solid #3b82f6;">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="fw-bold text-primary mb-0"><i class="fa-solid fa-hand-dots me-2"></i>1. Sélecteur de Gants Chimiques</h6>
@@ -498,7 +498,7 @@
         </div>
     </div>
 
-    <!-- MODULE MASQUES -->
+    <!-- MODULE MASQUES SEPARÉ -->
     <div class="card-custom mb-4" style="border-left: 4px solid #ef4444;">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="fw-bold text-danger mb-0"><i class="fa-solid fa-head-side-mask me-2"></i>2. Combo Masques & Cartouches</h6>
@@ -810,7 +810,7 @@
 <!-- CONTENEUR DE MODALES (INCLUSIONS NOUVELLES MODALES EPI) -->
 <div id="global-modals-container"></div>
 
-<!-- MODALE INFO GANTS DÉDIÉE (Nouveau bouton) -->
+<!-- MODALE INFO GANTS DÉDIÉE -->
 <div class="modal fade" id="modal-info-gants" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -864,7 +864,7 @@
     </div>
 </div>
 
-<!-- MODALE INFO MASQUES ET CARTOUCHES DÉDIÉE (Nouveau bouton) -->
+<!-- MODALE INFO MASQUES ET CARTOUCHES DÉDIÉE -->
 <div class="modal fade" id="modal-info-masques" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -1190,7 +1190,7 @@ function verifierCompatibiliteStockage() {
         case "GHS02_GHS05_B":
             box.style.backgroundColor = "#fffbeb"; box.style.borderColor = "#fde68a";
             title.innerHTML = "<span class='text-warning'>🟡 Restrictions (Sous conditions)</span>";
-            desc.innerHTML = "Ne pas mettre sur la même rétention. Le stockage dans le même local est toléré si les armoires de sécurité sont distinctes et ventilées (Armoire spécifique pour solvants et armoire spécifique pour corrosifs).";
+            desc.innerHTML = "Ne pas mettre sur la même rétention. Le stockage dans le même local is toléré si les armoires de sécurité sont distinctes et ventilées (Armoire spécifique pour solvants et armoire spécifique pour corrosifs).";
             break;
 
         case "GHS03_GHS05":
@@ -1308,69 +1308,94 @@ function renderSGH() {
         <div class="modal fade" id="modal-${s.id}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header text-white" style="background-color: var(--r-blue);">
+                    <div class="modal-header text-white" style="background-color: var(--r-blue-dark)">
                         <h5 class="modal-title fw-bold">${s.title}</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p><b>Danger :</b> ${detailsSGH[s.id].danger}</p>
-                        <p><b>Risques :</b> ${detailsSGH[s.id].risques}</p>
-                        <p><b>Prévention :</b> ${detailsSGH[s.id].prevention}</p>
+                        <div class="text-center mb-4">
+                            <img src="${s.img}" style="width:100px; height:100px; object-fit:contain;" onerror="this.src='https://placehold.co/100?text=SGH'">
+                        </div>
+                        <h6 class="fw-bold text-danger mb-1">Danger principal :</h6>
+                        <p class="small mb-3 text-dark font-monospace">${detailsSGH[s.id] ? detailsSGH[s.id].danger : '-'}</p>
+                        <h6 class="fw-bold text-primary mb-1">Risques associés :</h6>
+                        <p class="small mb-3">${detailsSGH[s.id] ? detailsSGH[s.id].risques : '-'}</p>
+                        <h6 class="fw-bold text-success mb-1">Mesures de prévention impératives :</h6>
+                        <p class="small mb-0 bg-light p-3 rounded-3 border-start border-success border-3 fw-medium">${detailsSGH[s.id] ? detailsSGH[s.id].prevention : '-'}</p>
                     </div>
                 </div>
             </div>
         </div>`).join('');
 }
 
-function renderCentres() {
+function renderCentres(){
     document.getElementById('centres-list').innerHTML = centres.map(c => `
-    <div class="card-custom mb-3">
-        <b class="text-dark" style="font-size:1.05rem;">${c.n}</b><br><small class="text-muted d-block mt-1"><i class="fa-solid fa-location-dot me-1"></i>${c.a}</small>
-        <div class="d-flex gap-2 mt-3">
-            <a href="tel:${c.t}" class="btn btn-sm btn-primary flex-grow-1 py-2" style="border-radius:8px; font-weight:600;">Appeler</a>
-            <a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-secondary flex-grow-1 py-2" style="border-radius:8px; font-weight:600;">Itinéraire</a>
-        </div>
-    </div>`).join('');
+        <div class="card-custom mb-3">
+            <h6 class="fw-bold text-dark mb-1"><i class="fa-solid fa-building-shield me-2 text-primary"></i>${c.n}</h6>
+            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot me-2"></i>${c.a}</p>
+            <div class="row g-2">
+                <div class="col-6"><a href="tel:${c.t}" class="btn btn-sm btn-light w-100 fw-bold border text-secondary"><i class="fa-solid fa-phone me-1 text-success"></i> Appeler</a></div>
+                <div class="col-6"><a href="${c.g}" target="_blank" class="btn btn-sm btn-outline-primary w-100 fw-bold"><i class="fa-solid fa-route me-1"></i> Y aller</a></div>
+            </div>
+        </div>`).join('');
 }
 
-function showQuestion() {
-    document.getElementById('q-text').innerText = `${currentQ + 1}. ${questions[currentQ]}`;
-    document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+function resetQuiz(){
+    currentQ = 0; totalScore = 0;
+    document.getElementById('q-box').style.display = 'block';
+    document.getElementById('q-result').style.display = 'none';
+    showQuestion();
 }
 
-function quizAnswer(p) {
-    totalScore += p; currentQ++;
-    if(currentQ < questions.length) showQuestion();
-    else {
-        document.getElementById('q-box').style.display = 'none';
-        document.getElementById('q-result').style.display = 'block';
-        document.getElementById('quiz-score').innerText = `${totalScore}/30`;
-        document.getElementById('quiz-label').innerText = totalScore > 20 ? "Excellente maîtrise globale." : "Des actions de prévention sont recommandées.";
-        document.getElementById('quiz-advice').innerText = totalScore > 20 ? "Votre structure montre une solide culture de sécurité. Continuez vos veilles réglementaires !" : "Contactez votre technicien de prévention RESTEV pour planifier une mise à jour de vos outils de diagnostic et du DUERP.";
+function showQuestion(){
+    document.getElementById('quiz-progress').style.width = `${(currentQ + 1) * 10}%`;
+    document.getElementById('q-text').innerText = questions[currentQ];
+}
+
+function quizAnswer(points){
+    totalScore += points;
+    currentQ++;
+    if(currentQ < questions.length){
+        showQuestion();
+    } else {
+        showQuizResult();
     }
 }
 
-function resetQuiz() { 
-    currentQ = 0; 
-    totalScore = 0; 
-    document.getElementById('q-box').style.display='block'; 
-    document.getElementById('q-result').style.display='none'; 
-    showQuestion(); 
+function showQuizResult(){
+    document.getElementById('q-box').style.display = 'none';
+    document.getElementById('q-result').style.display = 'block';
+    
+    const scoreEl = document.getElementById('quiz-score');
+    const labelEl = document.getElementById('quiz-label');
+    const adviceEl = document.getElementById('quiz-advice');
+    
+    scoreEl.innerText = `${totalScore}/30`;
+    
+    if(totalScore >= 24){
+        labelEl.innerText = "Excellent niveau de maîtrise ! 🟢";
+        labelEl.className = "fw-bold mb-3 text-success";
+        adviceEl.innerText = "Votre structure affiche une excellente culture de sécurité. Continuez à maintenir vos fiches d'inventaire et vos DUERP à jour avec votre conseiller RESTEV.";
+    } else if(totalScore >= 14){
+        labelEl.innerText = "Niveau intermédiaire (Des axes d'amélioration) 🟡";
+        labelEl.className = "fw-bold mb-3 text-warning";
+        adviceEl.innerText = "La base est là, mais certains points faibles peuvent vous mettre en défaut lors d'un contrôle ou d'un accident. Prenez contact avec RESTEV pour planifier une action ciblée.";
+    } else {
+        labelEl.innerText = "Situation critique (Action urgente requise) 🔴";
+        labelEl.className = "fw-bold mb-3 text-danger";
+        adviceEl.innerText = "Plusieurs piliers de la prévention réglementaire ne sont pas assurés. Vous risquez des sanctions et mettez vos équipes en danger. Sollicitez immédiatement un accompagnement RESTEV.";
+    }
 }
 
-window.onload = () => { 
+document.addEventListener("DOMContentLoaded", () => {
     updateStats();
-    verifierCompatibiliteStockage();
-
-    const chkRecond = document.getElementById('chk-reconditionne');
-    const alertRecond = document.getElementById('recond-alert');
-    
-    if (chkRecond && alertRecond) {
-        chkRecond.addEventListener('change', function() {
-            alertRecond.style.display = this.checked ? 'block' : 'none';
+    const chk = document.getElementById('chk-reconditionne');
+    if(chk) {
+        chk.addEventListener('change', (e) => {
+            document.getElementById('recond-alert').style.display = e.target.checked ? 'block' : 'none';
         });
     }
-};
+});
 </script>
 </body>
 </html>
