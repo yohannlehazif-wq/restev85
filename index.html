@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RESTEV 85 - Expert Prévention</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>RESTEV Prévention - Application mobile</title>
 
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3065a8">
@@ -381,27 +381,307 @@
     .modal-content { border-radius: var(--radius-md); border: none; overflow: hidden; box-shadow: var(--shadow-lg); }
     .modal-header { border-bottom: none; padding-top: 20px; }
     .modal-body { padding: 24px; color: #475569; }
-    </style>
+    
+
+/* ==========================================================
+   RESTEV 85 - Couche ergonomique responsive smartphone
+   Ajout non destructif : toutes les fonctions existantes sont conservees.
+   ========================================================== */
+:root {
+    --r-blue: #3065a8;
+    --r-blue-dark: #173f70;
+    --r-teal: #75bba8;
+    --r-purple: #ae227d;
+    --r-yellow: #e6a00f;
+    --r-light: #f3f7fb;
+    --r-surface: #ffffff;
+    --r-text: #18324b;
+    --r-muted: #607286;
+    --touch-target: 48px;
+}
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: var(--r-light);
+}
+body {
+    min-width: 320px;
+    margin: 0;
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
+    background:
+      radial-gradient(circle at 8% 0%, rgba(117,187,168,.14), transparent 25rem),
+      linear-gradient(180deg, #f8fbff 0%, var(--r-light) 100%);
+    color: var(--r-text);
+}
+button, a, input, select, textarea { touch-action: manipulation; }
+button, .btn, .nav-item, [onclick] { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 3px solid rgba(230,160,15,.55) !important;
+    outline-offset: 3px;
+}
+.app-page {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+    padding: clamp(16px, 3vw, 28px);
+    padding-bottom: 22px;
+}
+.app-page > h5,
+.app-page > .d-flex > h5 {
+    color: var(--r-blue-dark);
+    letter-spacing: -.02em;
+}
+.card-custom {
+    border: 1px solid rgba(48,101,168,.10);
+    border-left-width: 5px;
+    box-shadow: 0 8px 26px rgba(30,68,117,.08);
+    overflow-wrap: anywhere;
+}
+.card-custom:hover { box-shadow: 0 12px 30px rgba(30,68,117,.12); }
+.btn, .form-control, .form-select, .input-group > .btn {
+    min-height: var(--touch-target);
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    border-radius: 12px;
+}
+.form-control, .form-select {
+    font-size: 16px; /* Evite le zoom automatique iOS */
+    padding: 12px 14px;
+}
+.form-label, label { line-height: 1.35; }
+.input-group { flex-wrap: nowrap; }
+.input-group > .form-control { min-width: 0; }
+.table-responsive {
+    border: 1px solid #e3eaf2;
+    border-radius: 14px;
+    background: white;
+    -webkit-overflow-scrolling: touch;
+}
+.table-responsive table { min-width: 620px; }
+.modal-dialog { margin: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); }
+.modal-content { max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+.modal-body { overflow-y: auto; overscroll-behavior: contain; }
+.nav-bottom {
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    min-height: 72px;
+    padding: 8px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 16px 42px rgba(23,63,112,.20);
+}
+.nav-item {
+    min-width: 0;
+    min-height: 56px;
+    padding: 7px 3px;
+    line-height: 1.1;
+}
+.nav-item i { font-size: 1.25rem; }
+.nav-item.active {
+    color: var(--r-blue-dark);
+    background: linear-gradient(180deg, rgba(48,101,168,.12), rgba(117,187,168,.10));
+}
+#reader { min-height: clamp(220px, 55vw, 360px) !important; }
+#page-home .row { --bs-gutter-x: .75rem; --bs-gutter-y: .75rem; }
+#page-home .row > div { cursor: pointer; }
+#page-home .card-custom {
+    min-height: 118px;
+    padding-inline: 10px !important;
+    border-left-width: 0;
+    border-top: 4px solid rgba(48,101,168,.22) !important;
+    border-radius: 18px;
+}
+#page-home .card-custom i { font-size: clamp(1.7rem, 6vw, 2.2rem); }
+#page-home .card-custom small {
+    display: block;
+    max-width: 100%;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+.info-banner { position: relative; z-index: 20; }
+.sgh-card { min-height: 82px; }
+.sgh-img { width: 58px; height: 58px; }
+#q-text { font-size: clamp(1rem, 4vw, 1.15rem) !important; }
+#q-box .btn { min-height: 52px; }
+
+@media (max-width: 575.98px) {
+    body { font-size: .96rem; }
+    .app-page { padding: 16px 12px 20px; }
+    .card-custom { padding: 16px; margin-bottom: 12px; border-radius: 16px; }
+    .nav-bottom { overflow: hidden; }
+    .nav-item { font-size: .56rem; }
+    .nav-item i { margin-bottom: 5px; }
+    .splash-logo { width: 104px; height: 104px; }
+    .app-title-reveal { font-size: 1.75rem; letter-spacing: 3px; }
+    .splash-subtitle-animated { font-size: .72rem; letter-spacing: 2px; padding-inline: 16px; }
+    .btn-enter-premium { min-height: 52px; padding: 13px 34px; }
+    #page-home > .card-custom:first-child { border-radius: 20px; padding: 18px; }
+    #page-home .card-custom { min-height: 112px; }
+    #page-home .row > .col-6 { display: flex; }
+    #page-home .row > .col-6 > .card-custom { width: 100%; }
+    .row.g-2 > [class*="col-6"] .form-select { height: 100%; }
+    #page-masques .row.g-2.mb-3 > .col-6,
+    #page-meteo .row.align-items-center > .col-6 { width: 100%; }
+    #page-meteo .row.align-items-center > .col-6:first-child {
+        border-right: 0 !important;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+    }
+    #page-meteo .row.align-items-center > .col-6:last-child { padding-left: 12px !important; }
+    .modal-header, .modal-body { padding: 18px; }
+    .modal-title { font-size: 1rem; }
+    .input-group > .btn { padding-inline: 13px !important; }
+}
+
+@media (max-width: 374px) {
+    #page-home .row > .col-6 { width: 100%; }
+    #page-home .card-custom { min-height: 96px; flex-direction: row; gap: 14px; justify-content: flex-start; }
+    #page-home .card-custom br { display: none; }
+    #page-home .card-custom i { margin-bottom: 0 !important; min-width: 40px; }
+    .nav-item { font-size: 0; }
+    .nav-item i { font-size: 1.25rem; margin-bottom: 0; }
+}
+
+@media (min-width: 768px) {
+    body { padding-bottom: 118px; }
+    #page-home .row > .col-6 { width: 25%; }
+    #page-home .card-custom { min-height: 140px; }
+    .nav-bottom { width: min(720px, calc(100% - 32px)); left: 50%; right: auto; transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+
+/* ===== RESTEV MOBILE PREMIUM V2 ===== */
+:root{
+ --r-blue:#1d5fa7;--r-blue-dark:#123d6a;--r-teal:#65bea9;--r-purple:#a9277f;
+ --r-yellow:#f2af24;--r-light:#f3f6fa;--ink:#152536;--muted:#66788a;
+ --surface:rgba(255,255,255,.92);--line:rgba(18,61,106,.09);
+ --shadow-card:0 10px 30px rgba(18,61,106,.09);--shadow-float:0 18px 50px rgba(18,61,106,.23);
+}
+html{background:#edf3f8}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f3f6fa;color:var(--ink);padding-bottom:calc(104px + env(safe-area-inset-bottom));}
+body:before{content:"";position:fixed;inset:0 0 auto;height:310px;background:linear-gradient(145deg,#123d6a 0%,#1d5fa7 58%,#65bea9 145%);z-index:-1;border-radius:0 0 34px 34px}
+.app-topbar{position:sticky;top:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;color:#fff;background:rgba(18,61,106,.86);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.12)}
+.app-brand{display:flex;align-items:center;gap:10px;min-width:0}.app-brand-logo{width:38px;height:38px;border-radius:12px;background:#fff;padding:4px;box-shadow:0 5px 16px rgba(0,0,0,.18)}
+.app-brand-copy{min-width:0;line-height:1.08}.app-brand-copy strong{display:block;font-size:.98rem;letter-spacing:-.02em}.app-brand-copy span{font-size:.68rem;color:rgba(255,255,255,.72);white-space:nowrap}
+.app-top-action{width:42px;height:42px;border:0;border-radius:14px;background:rgba(255,255,255,.13);color:#fff;font-size:1.05rem;display:grid;place-items:center}
+.info-banner{margin:0;background:#fff;color:#24527f;border:0;box-shadow:0 8px 26px rgba(12,46,80,.12);font-size:.72rem;height:32px;display:flex;align-items:center}
+.app-page{width:min(100%,1080px);padding:18px 14px 28px}.app-page>h5,.app-page>.d-flex>h5{color:var(--ink);font-size:1.22rem;letter-spacing:-.025em}
+#page-home{padding-top:16px}
+#page-home>.card-custom:first-child{position:relative;min-height:144px!important;padding:24px!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:26px!important;background:linear-gradient(135deg,rgba(18,61,106,.97),rgba(29,95,167,.94) 60%,rgba(101,190,169,.82))!important;box-shadow:0 20px 46px rgba(12,46,80,.28)!important;overflow:hidden;align-items:flex-start!important;justify-content:flex-end!important}
+#page-home>.card-custom:first-child:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-62px;top:-92px;border:36px solid rgba(255,255,255,.08)}
+#page-home>.card-custom:first-child:after{content:"Expert prévention";position:absolute;top:20px;left:22px;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+#page-home>.card-custom:first-child h5{font-size:1.55rem;letter-spacing:-.04em;margin-top:30px}
+#page-home>.card-custom:first-child p{font-size:.8rem!important}
+#page-home .row{--bs-gutter-x:12px;--bs-gutter-y:12px}
+#page-home .row>div{display:flex}
+#page-home .row>div>.card-custom{position:relative;width:100%;min-height:132px!important;padding:18px 12px!important;border:1px solid rgba(255,255,255,.75)!important;border-left:0!important;border-top:0!important;border-radius:22px!important;background:rgba(255,255,255,.93)!important;box-shadow:var(--shadow-card)!important;align-items:flex-start!important;justify-content:flex-end!important;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease!important}
+#page-home .row>div>.card-custom:after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.20),transparent 60%);pointer-events:none}
+#page-home .row>div>.card-custom i{position:absolute;left:15px;top:15px;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:1.35rem!important;background:color-mix(in srgb,currentColor 12%,white);margin:0!important}
+#page-home .row>div>.card-custom small{position:relative;z-index:2;text-align:left;width:100%;font-size:.74rem!important;line-height:1.22;letter-spacing:.01em}
+#page-home .row>div:active>.card-custom{transform:scale(.97)!important;box-shadow:0 5px 16px rgba(18,61,106,.08)!important}
+.card-custom{background:var(--surface);border:1px solid var(--line);border-left:0!important;border-radius:22px;padding:19px;box-shadow:var(--shadow-card);margin-bottom:14px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card-custom h6{letter-spacing:-.015em}.badge-service,.badge{border-radius:999px!important;padding:7px 10px}
+.btn{min-height:50px;border-radius:15px!important;font-weight:750;box-shadow:none}.btn-primary{background:linear-gradient(135deg,var(--r-blue),#174c84);box-shadow:0 8px 20px rgba(29,95,167,.22)}
+.btn-outline-secondary,.btn-outline-primary,.btn-outline-dark,.btn-outline-danger{background:#fff}
+.form-control,.form-select{min-height:52px;border-radius:15px!important;border:1px solid #dce5ee;background:#f8fafc;padding:12px 14px;font-size:16px}.form-control:focus,.form-select:focus{border-color:var(--r-teal);box-shadow:0 0 0 4px rgba(101,190,169,.16)}
+.input-group>.form-control{border-radius:15px 0 0 15px!important}.input-group>.btn{border-radius:0 15px 15px 0!important}
+.progress{height:8px!important;background:#e8eef4}.progress-bar{border-radius:999px;background:linear-gradient(90deg,var(--r-teal),var(--r-blue))!important}
+.sgh-card{min-height:92px;gap:14px}.sgh-img{width:60px;height:60px;border-radius:16px;border:1px solid #e7edf3;padding:6px}
+.modal-content{border-radius:24px!important}.modal-header{padding:18px 20px}.modal-body{padding:20px}.modal-footer{padding:16px 20px}
+.table-responsive{border-radius:18px;border:1px solid #e4ebf2;background:#fff}
+.nav-bottom{left:12px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));height:76px;padding:7px 6px;border-radius:24px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow-float);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.nav-item{position:relative;min-height:61px;border-radius:18px;padding:7px 2px;color:#718096;font-size:.57rem;gap:1px}.nav-item i{font-size:1.18rem;margin-bottom:3px}.nav-item.active{color:var(--r-blue);background:linear-gradient(180deg,rgba(29,95,167,.13),rgba(101,190,169,.09))}.nav-item.active:before{content:"";position:absolute;top:4px;width:22px;height:3px;background:var(--r-teal);border-radius:999px}
+#reader{border-radius:20px!important}.alert{border-radius:16px}.score-badge{background:linear-gradient(135deg,var(--r-blue),var(--r-teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+@media(max-width:374px){#page-home .row>div{width:50%}#page-home .row>div>.card-custom{min-height:126px!important;flex-direction:column!important}.nav-item{font-size:.52rem}.nav-item i{font-size:1.08rem}}
+@media(min-width:768px){body:before{height:360px}.app-topbar{padding-inline:max(24px,calc((100vw - 1080px)/2))}.nav-bottom{width:min(700px,calc(100% - 32px));left:50%;right:auto;transform:translateX(-50%)}#page-home .row>div{width:25%}}
+
+
+/* ===== PAGE DE GARDE RESTEV MOBILE V3 ===== */
+#splash{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  padding:calc(22px + env(safe-area-inset-top)) 18px calc(22px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 88% 10%,rgba(101,190,169,.38),transparent 25%),
+    radial-gradient(circle at 5% 85%,rgba(169,39,127,.23),transparent 29%),
+    linear-gradient(155deg,#0d2f53 0%,#15538e 53%,#247ca0 100%);
+  overflow:hidden;transition:opacity .45s ease,transform .45s ease,visibility .45s;
+}
+#splash:before{content:"";position:absolute;inset:0;background:none;mask-image:none;-webkit-mask-image:none;opacity:1}
+#splash:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-240px;bottom:-235px;border:70px solid rgba(255,255,255,.055);box-shadow:0 0 0 38px rgba(255,255,255,.025)}
+.splash-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(.2px)}
+.splash-orb.one{width:180px;height:180px;left:-88px;top:10%;background:rgba(101,190,169,.12);border:1px solid rgba(255,255,255,.1)}
+.splash-orb.two{width:80px;height:80px;right:7%;top:20%;background:rgba(242,175,36,.12);border:1px solid rgba(255,255,255,.10)}
+.splash-content{position:relative;z-index:2;width:min(100%,430px);display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff}
+.splash-kicker{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;margin-bottom:20px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.09);backdrop-filter:blur(12px);font-size:.65rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.9);animation:coverFade .55s ease .05s both}
+.splash-kicker i{color:#7ee0c8}
+.logo-wrapper{position:relative;margin:0 0 22px;transform:none;animation:coverLogo .7s cubic-bezier(.2,.8,.2,1) .12s both}
+.splash-logo{width:104px;height:104px;padding:10px;border-radius:28px;background:#fff;box-shadow:0 22px 55px rgba(5,30,55,.38),0 0 0 8px rgba(255,255,255,.08);position:relative;z-index:2}
+.logo-pulse-ring{display:none}.scan-line{display:none}
+.splash-brand{margin:0;font-size:clamp(2.15rem,11vw,3.35rem);font-weight:850;letter-spacing:-.055em;line-height:.98;animation:coverRise .6s ease .2s both}
+.splash-brand span{color:#7ee0c8}
+.splash-subtitle{margin:14px auto 0;max-width:320px;font-size:clamp(.95rem,4vw,1.08rem);line-height:1.55;color:rgba(255,255,255,.78);animation:coverRise .6s ease .28s both}
+.splash-features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin:28px 0 24px;animation:coverRise .6s ease .36s both}
+.splash-feature{min-width:0;padding:13px 6px 11px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.075);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.splash-feature i{display:block;margin-bottom:7px;font-size:1.05rem;color:#7ee0c8}.splash-feature:nth-child(2) i{color:#ffd26e}.splash-feature:nth-child(3) i{color:#f18acb}
+.splash-feature span{display:block;font-size:.62rem;font-weight:750;color:rgba(255,255,255,.84);line-height:1.2}
+.btn-enter-premium{position:relative;width:100%;min-height:58px;margin:0!important;padding:0 20px;border:0;border-radius:19px;color:#123d6a;background:#fff;box-shadow:0 18px 38px rgba(5,30,55,.28);font-size:.88rem;font-weight:850;letter-spacing:.02em;overflow:hidden;animation:coverRise .6s ease .42s both}
+.btn-enter-premium:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(101,190,169,.16),transparent 70%);transform:translateX(-100%);animation:coverShine 3.2s ease 1.2s infinite}
+.btn-enter-premium span{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;color:#123d6a}.btn-enter-premium span:after{content:"→";font-size:1.2rem;transition:transform .2s ease}.btn-enter-premium:active{transform:scale(.975)}.btn-enter-premium:active span:after{transform:translateX(4px)}
+.splash-version{margin-top:15px;font-size:.59rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.46);animation:coverFade .6s ease .5s both}
+@keyframes coverLogo{from{opacity:0;transform:translateY(16px) scale(.8) rotate(-5deg)}to{opacity:1;transform:none}}
+@keyframes coverRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes coverFade{from{opacity:0}to{opacity:1}}
+@keyframes coverShine{0%,55%{transform:translateX(-100%)}85%,100%{transform:translateX(100%)}}
+@media(max-height:680px){#splash{padding-block:14px}.splash-kicker{margin-bottom:12px}.splash-logo{width:82px;height:82px;border-radius:23px}.logo-wrapper{margin-bottom:16px}.splash-brand{font-size:2rem}.splash-subtitle{margin-top:9px;font-size:.85rem}.splash-features{margin:17px 0 16px}.splash-feature{padding:9px 4px}.btn-enter-premium{min-height:52px}.splash-version{margin-top:8px}}
+@media(min-width:700px){.splash-content{width:min(100%,470px)}.splash-logo{width:116px;height:116px}.splash-features{gap:12px}.splash-feature{padding:16px 8px}}
+@media(prefers-reduced-motion:reduce){.splash-kicker,.logo-wrapper,.splash-brand,.splash-subtitle,.splash-features,.btn-enter-premium,.splash-version{animation:none!important}.btn-enter-premium:before{display:none}}
+
+</style>
 </head>
 <body>
+  <header class="app-topbar" aria-label="En-tête de l’application">
+    <div class="app-brand">
+      <img class="app-brand-logo" src="logo_restev_carre.png" alt="RESTEV" onerror="this.style.display='none'">
+      <div class="app-brand-copy"><strong>RESTEV Prévention</strong><span>Votre assistant santé au travail</span></div>
+    </div>
+    <button type="button" class="app-top-action" onclick="nav('page-meteo')" aria-label="Ouvrir la vigilance météo"><i class="fa-solid fa-bell"></i></button>
+  </header>
 
-<div id="splash">
-    <div class="splash-content text-center text-white">
+
+<div id="splash" aria-label="Accueil RESTEV Prévention">
+    <div class="splash-orb one"></div>
+    <div class="splash-orb two"></div>
+    <div class="splash-content">
+        <div class="splash-kicker"><i class="fa-solid fa-shield-heart"></i> Santé & prévention au travail</div>
         <div class="logo-wrapper">
-            <div class="scan-line"></div>
-            <img src="logo_restev_carre.png" alt="Logo" class="splash-logo" onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
-            <div class="logo-pulse-ring"></div>
+            <img src="logo_restev_carre.png" alt="Logo RESTEV" class="splash-logo" onerror="this.src='https://placehold.co/140x140/ffffff/3065a8?text=RESTEV'">
         </div>
-        <h2 class="app-title-reveal">RESTEV 85</h2>
-        <p class="splash-subtitle-animated">Expert Prévention des Risques</p>
-        <div class="ecg-container-premium">
-            <svg viewBox="0 0 200 40">
-                <path class="ecg-line-premium" d="M0,20 L40,20 L48,5 L56,35 L64,20 L110,20 L118,5 L126,35 L134,20 L200,20" />
-            </svg>
+        <h1 class="splash-brand">RESTEV <span>85</span></h1>
+        <p class="splash-subtitle">Votre assistant prévention pour agir simplement, directement sur le terrain.</p>
+        <div class="splash-features" aria-label="Fonctionnalités principales">
+            <div class="splash-feature"><i class="fa-solid fa-qrcode"></i><span>Scanner les produits</span></div>
+            <div class="splash-feature"><i class="fa-solid fa-list-check"></i><span>Évaluer les risques</span></div>
+            <div class="splash-feature"><i class="fa-solid fa-graduation-cap"></i><span>Se sensibiliser</span></div>
         </div>
-        <button class="btn-enter-premium mt-4" onclick="Splash()">
-            <span>ENTRER</span>
+        <button type="button" class="btn-enter-premium" onclick="Splash()" aria-label="Accéder à l’application RESTEV">
+            <span>Accéder à l’application</span>
         </button>
+        <div class="splash-version">RESTEV • Application prévention • Version 2026.11.25.3</div>
     </div>
 </div>
 
@@ -460,7 +740,7 @@
         <div class="col-6" onclick="nav('page-pdp')">
     <div class="card-custom text-center py-3 mb-0" style="background-color: #fce4ec; border-left-color: #f48fb1;">
       <i class="fa-solid fa-hands-holding-child fa-2x mb-2" style="color: #d81b60;"></i><br>
-        <small class="fw-bold" style="font-size:0.75rem; color: #880e4f;">PRÉVENTION DÉSINSERTION PROFESSIONNEL</small>
+        <small class="fw-bold" style="font-size:0.75rem; color: #880e4f;">PRÉVENTION DÉSINSERTION PROFESSIONNELLE</small>
     </div>
 </div>
         <div class="col-6" onclick="nav('page-fds-guide')">
@@ -1166,16 +1446,17 @@
     </div>
 </div>
 
-<nav class="nav-bottom">
-    <button id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
-    <button id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
-    <button id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
-    <button id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
-    <button id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
+<nav class="nav-bottom" aria-label="Navigation principale">
+    <button type="button" id="nav-home" class="nav-item active" onclick="nav('page-home', this)"><i class="fa-solid fa-house"></i>ACCUEIL</button>
+    <button type="button" id="nav-quiz" class="nav-item" onclick="nav('page-quiz', this)"><i class="fa-solid fa-clipboard-check"></i>AUTO-DIAG</button>
+    <button type="button" id="nav-scan" class="nav-item" onclick="nav('page-scan', this)"><i class="fa-solid fa-plus"></i>AJOUTER</button>
+    <button type="button" id="nav-list" class="nav-item" onclick="nav('page-list', this)"><i class="fa-solid fa-list-check"></i>LISTE</button>
+    <button type="button" id="nav-centres" class="nav-item" onclick="nav('page-centres', this)"><i class="fa-solid fa-map-location-dot"></i>CENTRES</button>
 </nav>
 
 <script>
-const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
+const APP_VERSION = '2026.11.25.3';
+  const SUPABASE_URL = 'https://nklarbzamffhiwasxoph.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbGFyYnphbWZmaGl3YXN4b3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzI5MzQsImV4cCI6MjA5MzQwODkzNH0.Tjy3Z9Yf9FOn47yKqlqQNC9Xfmy_tMMLkfa4UUFdf6k'; 
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1651,7 +1932,7 @@ function renderAttestations(){
                     <small class="text-muted">${a.date}</small><br>
                     <small class="text-primary">${a.products} produit(s)</small>
                 </div>
-                <span class="badge bg-secondary text-white p-2" style="font-size:0.75rem;"><i class="fa-solid fa-file-pdf"></i> Génré</span>
+                <span class="badge bg-secondary text-white p-2" style="font-size:0.75rem;"><i class="fa-solid fa-file-pdf"></i> Généré</span>
             </div>
         </div>`).join('');
 }
